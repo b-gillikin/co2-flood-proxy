@@ -1,0 +1,12 @@
+data/raw/
+data/interim/
+data/processed/
+results/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+.env
+*.egg-info/
+~$*.docx
+
