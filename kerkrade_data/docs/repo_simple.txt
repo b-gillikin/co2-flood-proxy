@@ -1,0 +1,36 @@
+chapter-1-co2-flood-proxy/
+│
+├── README.md
+├── environment.yml
+├── requirements.txt
+├── setup.py
+├── data/
+│   ├── raw/              
+│   ├── interim/          
+│   ├── processed/        
+│   └── metadata/         
+├── configs/
+├── src/
+│   ├── features/
+│   ├── models/
+│   │   ├── base_model.py
+│   │   ├── zscore.py
+│   │   ├── isolation_forest.py
+│   │   ├── kalman.py
+│   │   └── sarimax.py
+│   ├── validation/
+│   │   ├── signature_injection.py
+│   │   ├── lead_time.py
+│   │   ├── ablation.py
+│   │   └── stability.py
+│   ├── evaluation/
+│   └── visualization/
+├── experiments/
+│   ├── run_zscore.py
+│   ├── run_isolation_forest.py
+│   ├── run_kalman.py
+│   ├── run_sarimax.py
+│   └── run_model_comparison.py
+├── results/
+├── paper/
+└── tests/

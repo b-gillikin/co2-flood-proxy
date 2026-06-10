@@ -1,0 +1,16 @@
+{
+    "v0": "Temperature",
+    "v1": "Humidity",
+    "v2": "Air Pressure",
+    "v3": "PM1",
+    "v4": "PM2_5",
+    "v5": "PM10",
+    "v6": "CO2",
+    "v7": "COS Range",
+    "v8": "CO2 ABC Status",
+    "v9": "ABC Ticks",
+    "v10": "ABC Counter",
+    "v255": "BME Status",
+    "v254": "ZH03B Status",
+    "v253": "ABC Status"
+  }  

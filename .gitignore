@@ -9,4 +9,12 @@ __pycache__/
 .env
 *.egg-info/
 ~$*.docx
-
+.matplotlib/
+kerkrade_data/.venv/
+kerkrade_data/.python_packages/
+kerkrade_data/build/
+kerkrade_data/logs/
+kerkrade_data/local.settings.json
+kerkrade_data/monthly_data/
+kerkrade_data/blynk_co2/streaming_data.csv
+kerkrade_data/blynk_co2/streaming_data.parquet

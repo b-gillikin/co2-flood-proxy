@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "API_KEYS": "key1,key2,key3",
+    "AZURE_STORAGE_CONNECTION_STRING": "<connection-string>",
+    "LOCATION_CONTAINER_MAP": "Kerkrade:kerkrada-weather-data;Liege:liege-weather-data;Maastricht:maastricht-weather-data;Aachen:aachen-weather-data;Cologne:cologne-weather-data",
+    "BLYNK_BASE_TOKEN": "<blynk-base-token>",
+    "AIR_QUALITY_CONTAINER": "air-quality-device-data-1",
+    "AIR_QUALITY_BLOB_PREFIX": "air_quality",
+    "HOURLY_DATA_CONTAINER": "kerkrada-weather-data",
+    "HOURLY_LOCATION": "Kerkrade",
+    "HOURLY_LOOKBACK_DAYS": "1"
+  }
+}

@@ -1,0 +1,42 @@
+location: __LOCATION__
+name: __JOB_NAME__
+resourceGroup: __RESOURCE_GROUP__
+type: Microsoft.App/jobs
+tags:
+  app: kerkrade-monthly-pull
+properties:
+  environmentId: /subscriptions/__SUBSCRIPTION_ID__/resourceGroups/__RESOURCE_GROUP__/providers/Microsoft.App/managedEnvironments/__CONTAINERAPPS_ENV__
+  configuration:
+    triggerType: Schedule
+    scheduleTriggerConfig:
+      cronExpression: "0 0 0,9,12,15,18,21 * * *"
+      parallelism: 1
+      replicaCompletionCount: 1
+    registries:
+      - server: __ACR_NAME__.azurecr.io
+        username: __ACR_USERNAME__
+        passwordSecretRef: acr-password
+    secrets:
+      - name: weather-api-keys
+        value: "__API_KEYS_COMMA_SEPARATED__"
+      - name: acr-password
+        value: "__ACR_PASSWORD__"
+  template:
+    containers:
+      - name: monthly-pull
+        image: __ACR_NAME__.azurecr.io/__IMAGE_NAME__:__IMAGE_TAG__
+        env:
+          - name: API_KEYS
+            secretRef: weather-api-keys
+          - name: SAVE_FOLDER
+            value: /monthly_data
+        resources:
+          cpu: 0.25
+          memory: 0.5Gi
+        volumeMounts:
+          - volumeName: monthlydata
+            mountPath: /monthly_data
+    volumes:
+      - name: monthlydata
+        storageType: AzureFile
+        storageName: monthlydata

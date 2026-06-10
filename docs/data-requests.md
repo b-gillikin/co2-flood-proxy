@@ -12,7 +12,6 @@ Purpose: Support the groundwater / mine-water integration described in the June 
 
 Likely contacts: Jean Hacking at Provincie Limburg and Rene Mols at Waterschap Limburg, following the route described in Viefhues 2022.
 
-Requested window: January 2025 to present, plus historical context if available.
+Requested window: Longest practical history available, with January 2025 to present required at minimum for synchronized modelling.
 
 Notes: Draft the request with explicit reference to Viefhues 2022 and ask for the same dataset extended to present.
-
