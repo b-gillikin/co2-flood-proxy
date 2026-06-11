@@ -323,5 +323,273 @@ def _safe_column_token(value):
 
 
 def load_knmi(*args, **kwargs):
-    """Load KNMI reference meteorological data."""
-    raise NotImplementedError("KNMI loader is not implemented yet.")
+    """Load cached KNMI reference meteorological files into an hourly frame.
+
+    The KNMI Data Platform is file-based. This loader intentionally keeps the
+    parsing side simple: it accepts cached CSV or JSON exports and normalizes
+    common KNMI column names into the chapter's UTC hourly convention. If a raw
+    NetCDF file is present, convert/export it to CSV first or add an xarray-based
+    parser later.
+    """
+    raw_dir = kwargs.pop("raw_dir", args[0] if args else "data/raw/knmi")
+    frequency = kwargs.pop("frequency", "h")
+    station = kwargs.pop("station", None)
+    start = kwargs.pop("start", None)
+    end = kwargs.pop("end", None)
+    if kwargs:
+        raise TypeError(f"Unexpected load_knmi arguments: {sorted(kwargs)}")
+
+    raw_path = Path(raw_dir)
+    files = sorted(
+        [
+            *raw_path.glob("*.csv"),
+            *raw_path.glob("*.json"),
+            *raw_path.glob("*.jsonl"),
+        ]
+    )
+    if not files:
+        netcdf_files = sorted([*raw_path.glob("*.nc"), *raw_path.glob("*.nc4")])
+        if netcdf_files:
+            raise ValueError(
+                "KNMI NetCDF files are present, but this lightweight loader "
+                "expects CSV/JSON exports. Convert the selected station-hour "
+                "records to CSV and rerun."
+            )
+        raise FileNotFoundError(f"No cached KNMI CSV/JSON files found in {raw_path}")
+
+    frames = []
+    for path in files:
+        frame = _read_table(path)
+        if frame.empty:
+            continue
+        frames.append(_normalize_knmi_frame(frame))
+
+    if not frames:
+        raise ValueError(f"KNMI files in {raw_path} did not contain usable rows")
+
+    out = pd.concat(frames, ignore_index=True)
+    if station is not None and "knmi_station" in out:
+        out = out.loc[out["knmi_station"].astype(str).isin({str(station)})]
+    out = out.dropna(subset=["timestamp_utc"]).drop_duplicates(
+        subset=["timestamp_utc", "knmi_station"],
+        keep="last",
+    )
+
+    if start is not None:
+        out = out.loc[out["timestamp_utc"] >= pd.Timestamp(start, tz="UTC")]
+    if end is not None:
+        out = out.loc[out["timestamp_utc"] <= pd.Timestamp(end, tz="UTC")]
+
+    numeric_columns = [
+        column
+        for column in out.columns
+        if column not in {"timestamp_utc", "knmi_station", "knmi_source_file"}
+    ]
+    out[numeric_columns] = out[numeric_columns].apply(pd.to_numeric, errors="coerce")
+
+    if frequency:
+        out = (
+            out.set_index("timestamp_utc")
+            .groupby("knmi_station")
+            .resample(frequency)[numeric_columns]
+            .mean()
+            .reset_index()
+        )
+
+    return out.sort_values(["knmi_station", "timestamp_utc"])
+
+
+def load_rivm(
+    raw_dir="data/raw/transfer/rivm",
+    frequency="h",
+    stations=None,
+    components=None,
+    wide=True,
+    start=None,
+    end=None,
+):
+    """Load cached RIVM/Luchtmeetnet measurements into UTC hourly data.
+
+    The public API returns JSON objects with ``station_number``, ``formula``,
+    ``value``, and ``timestamp_measured``. This loader accepts any cached JSON
+    payloads that contain those records and returns either a long measurement
+    table or a wide modelling frame.
+    """
+    raw_path = Path(raw_dir)
+    json_files = sorted(raw_path.glob("measurements*.json"))
+    csv_files = sorted([*raw_path.glob("portal_*.csv"), *raw_path.glob("20??_??_*.csv")])
+    files = [*json_files, *csv_files]
+    if not files:
+        raise FileNotFoundError(f"No cached RIVM measurement files found in {raw_path}")
+
+    rows = []
+    frames = []
+    for path in json_files:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        data = payload if isinstance(payload, list) else payload.get("data", [])
+        for row in data:
+            if {"station_number", "formula", "value", "timestamp_measured"} <= set(row):
+                rows.append(row)
+    if rows:
+        frame = pd.DataFrame(rows)
+        frames.append(
+            pd.DataFrame(
+                {
+                    "timestamp_utc": pd.to_datetime(
+                        frame["timestamp_measured"],
+                        utc=True,
+                    ),
+                    "station_number": frame["station_number"].astype(str),
+                    "formula": frame["formula"].astype(str).str.upper(),
+                    "value": pd.to_numeric(frame["value"], errors="coerce"),
+                }
+            )
+        )
+
+    for path in csv_files:
+        frame = pd.read_csv(path, sep=";", comment="#")
+        required = {"meetlocatie_id", "component", "begindatumtijd", "waarde"}
+        if not required <= set(frame.columns):
+            continue
+        frames.append(
+            pd.DataFrame(
+                {
+                    "timestamp_utc": pd.to_datetime(
+                        frame["begindatumtijd"],
+                        utc=True,
+                    ),
+                    "station_number": frame["meetlocatie_id"].astype(str),
+                    "formula": frame["component"].astype(str).str.upper(),
+                    "value": pd.to_numeric(frame["waarde"], errors="coerce"),
+                }
+            )
+        )
+
+    if not frames:
+        raise ValueError(f"RIVM files in {raw_path} did not contain measurement rows")
+
+    out = pd.concat(frames, ignore_index=True)
+    if stations is not None:
+        out = out.loc[out["station_number"].isin({str(station) for station in stations})]
+    if components is not None:
+        out = out.loc[out["formula"].isin({str(component).upper() for component in components})]
+    if start is not None:
+        out = out.loc[out["timestamp_utc"] >= pd.Timestamp(start, tz="UTC")]
+    if end is not None:
+        out = out.loc[out["timestamp_utc"] <= pd.Timestamp(end, tz="UTC")]
+
+    out = out.dropna(subset=["timestamp_utc", "value"])
+    if frequency:
+        out = (
+            out.set_index("timestamp_utc")
+            .groupby(["station_number", "formula"])["value"]
+            .resample(frequency)
+            .mean()
+            .rename("value")
+            .reset_index()
+        )
+
+    if not wide:
+        return out.sort_values(["station_number", "formula", "timestamp_utc"])
+
+    out["series"] = (
+        "rivm_"
+        + out["station_number"].map(_safe_column_token)
+        + "_"
+        + out["formula"].map(_safe_column_token)
+        + "_ugm3"
+    )
+    wide_frame = out.pivot_table(
+        index="timestamp_utc",
+        columns="series",
+        values="value",
+        aggfunc="mean",
+    )
+    return wide_frame.sort_index()
+
+
+def _read_table(path):
+    """Read one cached CSV/JSON table."""
+    if path.suffix.lower() == ".csv":
+        return pd.read_csv(path)
+    if path.suffix.lower() == ".jsonl":
+        return pd.read_json(path, lines=True)
+
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(payload, list):
+        data = payload
+    else:
+        data = payload.get("data", payload.get("records", []))
+    return pd.DataFrame(data)
+
+
+def _normalize_knmi_frame(frame):
+    """Normalize common KNMI station-observation columns."""
+    out = frame.copy()
+    out.columns = [str(column).strip() for column in out.columns]
+
+    timestamp_col = _first_existing(
+        out,
+        ["timestamp_utc", "timestamp", "datetime", "time", "valid_time", "date"],
+    )
+    if timestamp_col is not None:
+        out["timestamp_utc"] = pd.to_datetime(out[timestamp_col], utc=True, errors="coerce")
+    elif {"YYYYMMDD", "HH"} <= set(out.columns):
+        hour = pd.to_numeric(out["HH"], errors="coerce").fillna(1).astype(int)
+        base = pd.to_datetime(out["YYYYMMDD"].astype(str), format="%Y%m%d", errors="coerce")
+        out["timestamp_utc"] = (base + pd.to_timedelta(hour - 1, unit="h")).dt.tz_localize("UTC")
+    else:
+        raise ValueError("KNMI file is missing a recognizable timestamp column")
+
+    station_col = _first_existing(out, ["knmi_station", "station", "station_code", "STN"])
+    out["knmi_station"] = out[station_col].astype(str) if station_col else "unknown"
+
+    column_map = {
+        "P": "knmi_pressure_hpa",
+        "pressure": "knmi_pressure_hpa",
+        "pressure_hpa": "knmi_pressure_hpa",
+        "air_pressure": "knmi_pressure_hpa",
+        "T": "knmi_temperature_c",
+        "temp": "knmi_temperature_c",
+        "temperature": "knmi_temperature_c",
+        "temperature_c": "knmi_temperature_c",
+        "U": "knmi_relative_humidity_pct",
+        "humidity": "knmi_relative_humidity_pct",
+        "relative_humidity": "knmi_relative_humidity_pct",
+        "relative_humidity_pct": "knmi_relative_humidity_pct",
+        "RH": "knmi_precip_mm",
+        "precip": "knmi_precip_mm",
+        "precipitation": "knmi_precip_mm",
+        "precip_mm": "knmi_precip_mm",
+    }
+
+    keep = ["timestamp_utc", "knmi_station"]
+    for source, target in column_map.items():
+        if source in out:
+            out[target] = pd.to_numeric(out[source], errors="coerce")
+            keep.append(target)
+
+    for column in ["knmi_pressure_hpa", "knmi_temperature_c", "knmi_precip_mm"]:
+        if column in out:
+            out[column] = _auto_scale_knmi_units(out[column], column)
+
+    return out[list(dict.fromkeys(keep))]
+
+
+def _first_existing(frame, candidates):
+    """Return the first candidate column present in a frame."""
+    return next((column for column in candidates if column in frame.columns), None)
+
+
+def _auto_scale_knmi_units(series, column):
+    """Scale common KNMI tenths-units into ordinary chapter units."""
+    median = series.abs().median(skipna=True)
+    if pd.isna(median):
+        return series
+    if column == "knmi_pressure_hpa" and median > 2000:
+        return series / 10
+    if column == "knmi_temperature_c" and median > 80:
+        return series / 10
+    if column == "knmi_precip_mm" and median > 100:
+        return series / 10
+    return series

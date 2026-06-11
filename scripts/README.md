@@ -15,7 +15,11 @@ June ingestion scripts:
 - `01_eda.py` — Week 1 cleanup, build joined hourly analysis data and QC plots.
 - `02_barometric_baseline.py` — Week 2, compute pressure-tendency features, fit the pressure-only CO2 baseline, save residuals, and report Kill Check 1.
 - `03_eryilmaz_replication.py` — Week 3, reproduce Eryilmaz's two logistic-regression models and report Kill Check 2.
+- `04_signal_characterization.py` — Week 4, characterize the barometric residual with lagged correlations, exploratory random forests, and PCA.
+- `04_ingest_knmi.py` — Week 4, cache/load KNMI reference meteorology and compare it against Kerkrade Visual Crossing pressure/temp.
+- `04_ingest_rivm.py` — Week 4, cache/load starter RIVM/Luchtmeetnet transfer-site measurements. Use `--use-portal` when the live API is unavailable.
 
-Planned analysis scripts:
+Week 4 external data notes:
 
-- `04_signal_characterization.py`
+- KNMI live downloads require `KNMI_API_KEY`. Get it from the KNMI Developer Portal API Catalogue, then run `export KNMI_API_KEY="your-key"`.
+- RIVM/Luchtmeetnet is public and does not need a key; use fair-use pacing and cached raw payloads when the service is unavailable.

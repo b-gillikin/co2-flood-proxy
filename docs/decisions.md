@@ -101,3 +101,15 @@ Results: Model A AUROC = 0.986009 and Model B AUROC = 0.975709 on the same 643 c
 Reasoning: The outdoor-weather model performs nearly as well as the indoor-IoT environmental model on the same CO2 leak target, consistent with Eryilmaz's same-site feature-substitution finding. Because the current IoT window is short, this should be rerun unchanged after additional IoT data are added.
 
 Source: `scripts/03_eryilmaz_replication.py`; `results/eryilmaz/auroc.txt`; `data/processed/eryilmaz_replication_predictions.csv`; `chapter-prework/June 2026 - How-To.docx`.
+
+## 2026-06-11 — Week 4 exploratory signal characterization
+
+Decision: Treat the Week 4 residual-structure work as exploratory characterization rather than a confirmatory hydrological model.
+
+Scope: Use the Week 2 barometric residual as the response for lagged cross-correlations, random-forest feature-importance scans, and PCA. Use the existing soft-label hydrological columns as proxy targets/features only for early signal triage.
+
+Reasoning: The current IoT/residual window is still short, while the June Week 4 task asks for lags out to 14 days. The outputs are still useful for finding candidate timing, confounding channels, and transfer-site needs, but the chapter should not over-interpret these results until the added IoT data are incorporated.
+
+Reference data policy: Add KNMI reference meteorology and RIVM/Luchtmeetnet transfer-site ingestion as cached, reproducible starter lanes. KNMI live downloads require a KNMI Open Data API key via `KNMI_API_KEY`; RIVM/Luchtmeetnet is public and uses a fair-use policy. If the RIVM live API is unavailable, use official data-portal CSVs with `python scripts/04_ingest_rivm.py --use-portal`.
+
+Source: `scripts/04_signal_characterization.py`; `scripts/04_ingest_knmi.py`; `scripts/04_ingest_rivm.py`; `chapter-prework/June 2026 - How-To.docx`.
