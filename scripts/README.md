@@ -14,8 +14,8 @@ June ingestion scripts:
 - `03_build_event_catalogue.py` — Task 1.4, build discharge thresholds, sustained events, and hourly soft labels.
 - `01_eda.py` — Week 1 cleanup, build joined hourly analysis data and QC plots.
 - `02_barometric_baseline.py` — Week 2, compute pressure-tendency features, fit the pressure-only CO2 baseline, save residuals, and report Kill Check 1.
+- `03_eryilmaz_replication.py` — Week 3, reproduce Eryilmaz's two logistic-regression models and report Kill Check 2.
 
 Planned analysis scripts:
 
-- `03_eryilmaz_replication.py`
 - `04_signal_characterization.py`

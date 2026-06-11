@@ -83,3 +83,21 @@ Sensitivity: Ridge on the same IoT-pressure features produced R2 = 0.593321. The
 Reasoning: Pressure level and tendency explain a meaningful share of CO2 variance, but far less than the >0.95 redirect threshold. Residual variance remains large enough to support the next June tasks: Eryilmaz replication and residual hydrological-signal characterization.
 
 Source: `scripts/02_barometric_baseline.py`; `results/baseline/r2.txt`; `data/processed/co2-residual-barometric.csv`; `chapter-prework/June 2026 - How-To.docx`.
+
+## 2026-06-10 — Kill Check 2 Eryilmaz replication
+
+Decision: Treat the Eryilmaz public-weather substitution result as replicated on the current Kerkrade IoT window and proceed. Model B, using outdoor Visual Crossing weather features, is within 0.05 AUROC of Model A, using indoor IoT environmental features.
+
+Target: `iot_co2_ppm > 1000`.
+
+Model A features: `iot_temperature_c`, `iot_relative_humidity_pct`, `iot_air_pressure_hpa`, `delta_pressure_6h`.
+
+Model B features: `kerkrade_weather_temp_c`, `kerkrade_weather_relative_humidity_pct`, `kerkrade_weather_pressure_hpa`, `delta_pressure_6h`.
+
+Evaluation: Stratified random 5-fold cross-validation with `random_state=42`, using `StandardScaler` and `LogisticRegression(max_iter=1000, solver="liblinear")`. This random CV setup is used only for faithful Eryilmaz replication; later chapter models should use time-aware evaluation.
+
+Results: Model A AUROC = 0.986009 and Model B AUROC = 0.975709 on the same 643 complete-case hourly rows, with 62 positive CO2 events. AUROC gap = 0.010299.
+
+Reasoning: The outdoor-weather model performs nearly as well as the indoor-IoT environmental model on the same CO2 leak target, consistent with Eryilmaz's same-site feature-substitution finding. Because the current IoT window is short, this should be rerun unchanged after additional IoT data are added.
+
+Source: `scripts/03_eryilmaz_replication.py`; `results/eryilmaz/auroc.txt`; `data/processed/eryilmaz_replication_predictions.csv`; `chapter-prework/June 2026 - How-To.docx`.
