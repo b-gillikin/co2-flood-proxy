@@ -193,7 +193,7 @@ def main():
     maybe_download(args)
     try:
         knmi = write_knmi_hourly(args)
-    except FileNotFoundError as exc:
+    except (FileNotFoundError, ValueError) as exc:
         print(exc)
         print(
             "Next step: get a KNMI Open Data API key, export the selected "

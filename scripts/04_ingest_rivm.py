@@ -90,11 +90,19 @@ def station_text(row):
 def candidate_stations(stations, keywords):
     """Select transfer-site candidates by place-name keywords."""
     candidates = [
-        row
+        normalize_station_row(row)
         for row in stations
         if any(keyword.lower() in station_text(row) for keyword in keywords)
     ]
     return pd.DataFrame(candidates)
+
+
+def normalize_station_row(row):
+    """Use one station-id name for both API and portal-style rows."""
+    out = dict(row)
+    if "station_number" not in out and "number" in out:
+        out["station_number"] = out["number"]
+    return out
 
 
 def candidate_stations_from_metadata(path, keywords):

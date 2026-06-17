@@ -322,7 +322,13 @@ def _safe_column_token(value):
     ).strip("_")
 
 
-def load_knmi(*args, **kwargs):
+def load_knmi(
+    raw_dir="data/raw/knmi",
+    frequency="h",
+    station=None,
+    start=None,
+    end=None,
+):
     """Load cached KNMI reference meteorological files into an hourly frame.
 
     The KNMI Data Platform is file-based. This loader intentionally keeps the
@@ -331,14 +337,6 @@ def load_knmi(*args, **kwargs):
     NetCDF file is present, convert/export it to CSV first or add an xarray-based
     parser later.
     """
-    raw_dir = kwargs.pop("raw_dir", args[0] if args else "data/raw/knmi")
-    frequency = kwargs.pop("frequency", "h")
-    station = kwargs.pop("station", None)
-    start = kwargs.pop("start", None)
-    end = kwargs.pop("end", None)
-    if kwargs:
-        raise TypeError(f"Unexpected load_knmi arguments: {sorted(kwargs)}")
-
     raw_path = Path(raw_dir)
     files = sorted(
         [
@@ -410,10 +408,10 @@ def load_rivm(
 ):
     """Load cached RIVM/Luchtmeetnet measurements into UTC hourly data.
 
-    The public API returns JSON objects with ``station_number``, ``formula``,
-    ``value``, and ``timestamp_measured``. This loader accepts any cached JSON
-    payloads that contain those records and returns either a long measurement
-    table or a wide modelling frame.
+    The live API returns JSON rows with station, component, value, and measured
+    timestamp fields. The RIVM data portal provides semicolon CSV files with the
+    same information under Dutch column names. This loader accepts both cached
+    shapes and returns either a long measurement table or a wide modelling frame.
     """
     raw_path = Path(raw_dir)
     json_files = sorted(raw_path.glob("measurements*.json"))

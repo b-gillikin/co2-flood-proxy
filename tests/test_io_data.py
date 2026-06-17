@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import sys
 import unittest
+import importlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.io_data import load_knmi, load_rivm
+
+rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
 
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
@@ -19,7 +22,7 @@ class LoaderTests(unittest.TestCase):
     """Verify Week 4 loaders against tiny cached payloads."""
 
     def test_load_knmi_csv_sample(self):
-        frame = load_knmi(raw_dir=FIXTURES, frequency="h", station="380")
+        frame = load_knmi(FIXTURES, frequency="h", station="380")
 
         self.assertEqual(len(frame), 3)
         self.assertIn("knmi_temperature_c", frame.columns)
@@ -52,6 +55,14 @@ class LoaderTests(unittest.TestCase):
         self.assertEqual(len(frame), 2)
         self.assertIn("rivm_nl90002_pm10_ugm3", frame.columns)
         self.assertAlmostEqual(frame["rivm_nl90002_pm10_ugm3"].iloc[0], 12.5)
+
+    def test_rivm_api_station_number_is_normalized(self):
+        candidates = rivm_ingest.candidate_stations(
+            [{"number": "NL50010", "location": "Maastricht Philipsweg"}],
+            ["maastricht"],
+        )
+
+        self.assertEqual(candidates["station_number"].iloc[0], "NL50010")
 
 
 if __name__ == "__main__":
