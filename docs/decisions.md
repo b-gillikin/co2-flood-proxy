@@ -113,3 +113,27 @@ Reasoning: The current IoT/residual window is still short, while the June Week 4
 Reference data policy: Add KNMI reference meteorology and RIVM/Luchtmeetnet transfer-site ingestion as cached, reproducible starter lanes. KNMI live downloads require a KNMI Open Data API key via `KNMI_API_KEY`; RIVM/Luchtmeetnet is public and uses a fair-use policy. If the RIVM live API is unavailable, use official data-portal CSVs with `python scripts/04_ingest_rivm.py --use-portal`.
 
 Source: `scripts/04_signal_characterization.py`; `scripts/04_ingest_knmi.py`; `scripts/04_ingest_rivm.py`; `chapter-prework/June 2026 - How-To.docx`.
+
+## 2026-06-17 — July provisional modelling protocol
+
+Decision: Proceed with July as a pipeline-first modelling month, but treat all model outputs as provisional on the current 622-row barometric-residual window.
+
+Reasoning: The current Kerkrade IoT/residual overlap is long enough to build the SARIMAX/Kalman/Isolation Forest machinery, smoke-test anomaly agreement, and preregister transfer evaluation. It is not long enough for final chapter claims or the official 30-day train / 7-day evaluation scheme. The scripts should be rerun unchanged after more IoT and KNMI data arrive.
+
+Reference meteorology policy: Include `data/interim/knmi_hourly.csv` as optional exogenous reference meteorology when present. When KNMI is absent, use Visual Crossing plus IoT pressure level/tendency features and record that omission in model summaries.
+
+Source: `chapter-prework/July 2026 - How-To.docx`; `scripts/05_sarimax.py`; `scripts/06_kalman.py`; `scripts/07_isolation_forest.py`; `scripts/08_ensemble_agreement.py`; `scripts/09_synthetic_injection.py`; `scripts/10_evaluation.py`.
+
+## 2026-06-17 — July model implementation choices
+
+Decision: Save July detector outputs using reproducible script-first artifacts, with fallbacks in the current runtime where state-space packages are unavailable.
+
+SARIMAX first pass: Use the planned residual target, stationarity/transform decision logging, and compact order-search output. In the current runtime, `statsmodels` is not importable, so `scripts/05_sarimax.py` uses a documented AR-X Ridge fallback and writes `results/models/sarimax_order_search.csv`, `data/processed/sarimax-residuals.csv`, and `data/processed/sarimax-anomalies.csv`.
+
+Kalman innovations: Use the planned residual target and exogenous-regressor structure. In the current runtime, `statsmodels`, `filterpy`, and `pykalman` are not importable, so `scripts/06_kalman.py` uses an exogenous Ridge mean plus a scalar local-level Kalman filter with Q/R selected by a compact likelihood grid.
+
+Isolation Forest and ensemble: Use `IsolationForest(n_estimators=200, max_features=0.8, contamination=0.05, random_state=42)` as the official provisional flag, with 0.03/0.05/0.10 sensitivity outputs. Align SARIMAX, Kalman, and Isolation Forest flags by hourly UTC timestamp and summarize detector counts, all-three agreement, Jaccard, and Cohen kappa.
+
+Evaluation: Preregister transfer evaluation before transfer-site modelling outputs. The official 30-day train / 7-day evaluation is implemented as an insufficiency check until the record is long enough; the shorter 14-day train / 3-day smoke scheme is only for validating the pipeline. Kerkrade API is computed from Visual Crossing precipitation with `d=0.85` and `N=14 days`.
+
+Source: `docs/transfer-experiment-preregistration.md`; `scripts/10_evaluation.py`; `chapter-prework/July 2026 - How-To.docx`.

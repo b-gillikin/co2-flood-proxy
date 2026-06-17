@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.io_data import load_knmi, load_rivm
+from src.models.july import antecedent_precipitation_index
 
 rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
 
@@ -63,6 +64,24 @@ class LoaderTests(unittest.TestCase):
         )
 
         self.assertEqual(candidates["station_number"].iloc[0], "NL50010")
+
+
+class JulyModelHelperTests(unittest.TestCase):
+    """Verify small shared July modelling helpers."""
+
+    def test_api_uses_day_scaled_exponential_decay(self):
+        precip = [10.0, 0.0, 0.0, 0.0]
+        api = antecedent_precipitation_index(
+            precip,
+            days=2,
+            decay=0.85,
+            hours_per_day=2,
+        )
+
+        self.assertAlmostEqual(api.iloc[0], 0.0)
+        self.assertAlmostEqual(api.iloc[1], 8.5)
+        self.assertAlmostEqual(api.iloc[2], 8.5)
+        self.assertAlmostEqual(api.iloc[3], 7.225)
 
 
 if __name__ == "__main__":

@@ -23,3 +23,23 @@ Week 4 external data notes:
 
 - KNMI live downloads require `KNMI_API_KEY`. Get it from the KNMI Developer Portal API Catalogue, then run `export KNMI_API_KEY="your-key"`.
 - RIVM/Luchtmeetnet is public and does not need a key; use fair-use pacing and cached raw payloads when the service is unavailable.
+
+July provisional modelling scripts:
+
+- `05_sarimax.py` — Week 1, run the first SARIMAX-family residual model, stationarity/transform logging, order search, residuals, and anomaly flags.
+- `06_kalman.py` — Week 2, run local-level Kalman innovations on the barometric residual with exogenous regressors.
+- `07_isolation_forest.py` — Week 3, fit the official provisional Isolation Forest flag and 0.03/0.05/0.10 contamination sensitivity outputs.
+- `08_ensemble_agreement.py` — Week 3, align SARIMAX/Kalman/Isolation Forest anomaly flags and summarize detector agreement.
+- `09_synthetic_injection.py` — Week 3, run Gaussian-burst and CutAddPaste synthetic anomaly smoke tests.
+- `10_evaluation.py` — Week 4, write the official 30-day/7-day insufficiency check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
+
+Run order for July:
+
+```bash
+python scripts/05_sarimax.py
+python scripts/06_kalman.py
+python scripts/07_isolation_forest.py
+python scripts/08_ensemble_agreement.py
+python scripts/09_synthetic_injection.py
+python scripts/10_evaluation.py
+```
