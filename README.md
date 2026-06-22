@@ -83,6 +83,16 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    `docs/rivm-transfer-sources.md` for the RIVM transfer lane, and
    `docs/week4-signal-interpretation.md` for the current Week 4 readout.
 
+   KNMI historical backfill can run hourly while the laptop is awake:
+
+   ```bash
+   scripts/run_knmi_hourly_job.sh
+   ```
+
+   The `ops/com.briangillikin.chapter1-co2.knmi.plist` launchd job runs that
+   wrapper. By default it backfills station `06380` Maastricht Airport from
+   2020-01-01 to the current UTC time, in bounded hourly chunks.
+
    July provisional anomaly models:
 
    ```bash
@@ -97,6 +107,17 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    These July outputs are pipeline-first on the current short IoT/residual
    window. Rerun the same commands unchanged after more IoT and KNMI data are
    added.
+
+   August v1 transfer dry run and writing scaffold:
+
+   ```bash
+   python scripts/11_transfer_stress_test.py
+   ```
+
+   This trains Kerkrade detector-surrogate models and applies them to the
+   cached RIVM/Luchtmeetnet South Limburg lane using KNMI station `06380`
+   meteorology where available. The outputs are explicitly provisional and are
+   not official transfer interpretation.
 
 4. Write intermediate data to `data/interim/`, processed analysis products to `data/processed/`, and figures/tables/model artifacts to `results/`.
 
@@ -150,6 +171,18 @@ July provisional modelling outputs write:
 - `data/processed/api.csv`
 - `results/evaluation/*`
 
+August v1 transfer and writing outputs:
+
+- `results/models/*-transfer.pkl`
+- `data/processed/transfer-anomalies/*.csv`
+- `data/processed/events-transfer-*.csv`
+- `results/transfer/*`
+- `results/figures/figure_manifest.csv`
+- `docs/august-readiness.md`
+- `docs/figure-inventory.md`
+- `docs/methods-outline.md`
+- `docs/results-outline.md`
+
 ## Structure
 
 - `chapter-prework/`: scaffold documents, monthly how-to docs, bibliography, and source/corpus materials.
@@ -157,6 +190,7 @@ July provisional modelling outputs write:
 - `data/interim/`: cleaned and time-aligned data.
 - `data/processed/`: feature sets, residual series, event catalogues, anomaly scores, and evaluation outputs.
 - `scripts/`: numbered runnable analysis scripts.
+- `ops/`: local operational helpers such as launchd job definitions.
 - `src/`: reusable importable code used by the scripts.
 - `results/`: generated figures, tables, and model artifacts.
 - `docs/`: decisions log, data-request tracking, predecessor notes, and chapter-facing working notes.

@@ -7,11 +7,13 @@ import unittest
 import importlib
 from pathlib import Path
 
+import pandas as pd
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.io_data import load_knmi, load_rivm
-from src.models.july import antecedent_precipitation_index
+from src.models.july import antecedent_precipitation_index, available_exog
 
 rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
 
@@ -82,6 +84,24 @@ class JulyModelHelperTests(unittest.TestCase):
         self.assertAlmostEqual(api.iloc[1], 8.5)
         self.assertAlmostEqual(api.iloc[2], 8.5)
         self.assertAlmostEqual(api.iloc[3], 7.225)
+
+    def test_available_exog_filters_against_requested_target(self):
+        frame = pd.DataFrame(
+            {
+                "co2_residual_barometric_ppm": [None, None, None],
+                "iot_co2_ppm": [450.0, 460.0, 470.0],
+                "iot_air_pressure_hpa": [1001.0, 1002.0, 1003.0],
+            }
+        )
+
+        self.assertNotIn(
+            "iot_air_pressure_hpa",
+            available_exog(frame, min_non_missing=2),
+        )
+        self.assertIn(
+            "iot_air_pressure_hpa",
+            available_exog(frame, target_col="iot_co2_ppm", min_non_missing=2),
+        )
 
 
 if __name__ == "__main__":

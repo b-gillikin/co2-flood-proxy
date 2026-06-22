@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 import pickle
 import sys
@@ -153,8 +154,13 @@ def fit_fallback_arx(model_frame, target_col, feature_cols, d):
     return search, fits[best_key], best_key
 
 
-def fit_statsmodels_sarimax(model_frame, target_col, feature_cols, d):
-    """Fit the planned compact SARIMAX grid when statsmodels is installed."""
+def fit_statsmodels_sarimax(model_frame, target_col, feature_cols, d, include_weekly=False):
+    """Fit the compact SARIMAX grid when statsmodels is installed.
+
+    Daily seasonality is the default reproducible path. Weekly seasonality is
+    kept as an opt-in sensitivity because it can be slow on the current short
+    window and should not block routine pipeline checks.
+    """
     try:
         from statsmodels.tsa.statespace.sarimax import SARIMAX
     except ImportError:
@@ -164,10 +170,9 @@ def fit_statsmodels_sarimax(model_frame, target_col, feature_cols, d):
     x = model_frame[feature_cols].astype(float)
     rows = []
     fits = {}
-    seasonal_specs = [
-        ("daily", (1, 0, 1, 24)),
-        ("weekly_sensitivity", (1, 0, 1, 168)),
-    ]
+    seasonal_specs = [("daily", (1, 0, 1, 24))]
+    if include_weekly:
+        seasonal_specs.append(("weekly_sensitivity", (1, 0, 1, 168)))
 
     for p in range(3):
         for q in range(3):
@@ -263,7 +268,15 @@ def write_residual_plots(residuals):
     plt.close(fig)
 
 
-def write_summary(stationarity, transform, search, best_key, feature_cols, model_type):
+def write_summary(
+    stationarity,
+    transform,
+    search,
+    best_key,
+    feature_cols,
+    model_type,
+    include_weekly=False,
+):
     """Write the text summary used as the first-pass SARIMAX audit trail."""
     lines = [
         "July Week 1 SARIMAX First Pass",
@@ -292,11 +305,26 @@ def write_summary(stationarity, transform, search, best_key, feature_cols, model
     )
     if "fallback" in model_type:
         lines.append("Weekly seasonal SARIMAX sensitivity: skipped in fallback AR-X path.")
+    elif include_weekly:
+        lines.append("Weekly seasonal SARIMAX sensitivity: included by user request.")
+    else:
+        lines.append(
+            "Weekly seasonal SARIMAX sensitivity: skipped by default; rerun with "
+            "`--include-weekly-sensitivity` if needed."
+        )
     (RESULTS_DIR / "summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main():
     """Command-line entry point."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--include-weekly-sensitivity",
+        action="store_true",
+        help="Also fit the slow weekly seasonal SARIMAX sensitivity grid.",
+    )
+    args = parser.parse_args()
+
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
@@ -312,7 +340,13 @@ def main():
     d = int(next(row["difference_order"] for row in stationarity if row["series"] == TARGET_COL))
     transform = co2_transform_decision(frame[CO2_COL])
 
-    sarimax_fit = fit_statsmodels_sarimax(model_frame, TARGET_COL, feature_cols, d)
+    sarimax_fit = fit_statsmodels_sarimax(
+        model_frame,
+        TARGET_COL,
+        feature_cols,
+        d,
+        include_weekly=args.include_weekly_sensitivity,
+    )
     if sarimax_fit is None:
         search, fit, best_key = fit_fallback_arx(model_frame, TARGET_COL, feature_cols, d)
         model_type = (
@@ -362,7 +396,15 @@ def main():
         )
 
     write_residual_plots(residuals)
-    write_summary(stationarity, transform, search, best_key, feature_cols, model_type)
+    write_summary(
+        stationarity,
+        transform,
+        search,
+        best_key,
+        feature_cols,
+        model_type,
+        include_weekly=args.include_weekly_sensitivity,
+    )
 
     print(f"wrote {MODEL_PATH}")
     print(f"wrote {RESIDUAL_PATH} ({len(residuals)} rows)")

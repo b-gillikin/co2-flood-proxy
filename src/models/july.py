@@ -53,14 +53,28 @@ def load_signal_frame(path=SIGNAL_FRAME_PATH, knmi_path=KNMI_PATH):
     return frame
 
 
-def available_exog(frame):
-    """Return the July exogenous feature list present in a frame."""
-    return [column for column in EXOG_FEATURES if column in frame.columns]
+def available_exog(frame, target_col=TARGET_COL, min_non_missing=50):
+    """Return July exogenous features with enough usable rows.
+
+    KNMI backfill is incremental, so a sparse reference-met file can exist long
+    before it overlaps the Kerkrade residual window. Filtering by usable rows
+    keeps optional KNMI columns from collapsing complete-case model frames.
+    """
+    features = []
+    for column in EXOG_FEATURES:
+        if column not in frame.columns:
+            continue
+        usable = frame[column].notna()
+        if target_col in frame.columns:
+            usable = usable & frame[target_col].notna()
+        if int(usable.sum()) >= min_non_missing:
+            features.append(column)
+    return features
 
 
 def complete_model_frame(frame, target_col=TARGET_COL, feature_cols=None):
     """Return a complete-case target/exogenous modelling frame."""
-    feature_cols = list(feature_cols or available_exog(frame))
+    feature_cols = list(feature_cols or available_exog(frame, target_col=target_col))
     columns = [target_col, *feature_cols]
     return frame[columns].replace([np.inf, -np.inf], np.nan).dropna(), feature_cols
 

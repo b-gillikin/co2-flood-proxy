@@ -7,14 +7,16 @@ dependencies:
   - numpy
   - pandas
   - scipy
+  - xarray
+  - netcdf4
   - matplotlib
   - seaborn
   - statsmodels
   - scikit-learn
+  - requests
   - pyyaml
   - pip
   - pip:
       - filterpy
       - pykalman
       - ipython
-

@@ -331,11 +331,10 @@ def load_knmi(
 ):
     """Load cached KNMI reference meteorological files into an hourly frame.
 
-    The KNMI Data Platform is file-based. This loader intentionally keeps the
-    parsing side simple: it accepts cached CSV or JSON exports and normalizes
-    common KNMI column names into the chapter's UTC hourly convention. If a raw
-    NetCDF file is present, convert/export it to CSV first or add an xarray-based
-    parser later.
+    The KNMI Data Platform is file-based. This loader accepts cached CSV, JSON,
+    JSONL, or NetCDF files and normalizes common KNMI column names into the
+    chapter's UTC hourly convention. NetCDF parsing uses optional xarray/netCDF4
+    dependencies declared in ``environment.yml``.
     """
     raw_path = Path(raw_dir)
     files = sorted(
@@ -343,21 +342,19 @@ def load_knmi(
             *raw_path.glob("*.csv"),
             *raw_path.glob("*.json"),
             *raw_path.glob("*.jsonl"),
+            *raw_path.glob("*.nc"),
+            *raw_path.glob("*.nc4"),
         ]
     )
     if not files:
-        netcdf_files = sorted([*raw_path.glob("*.nc"), *raw_path.glob("*.nc4")])
-        if netcdf_files:
-            raise ValueError(
-                "KNMI NetCDF files are present, but this lightweight loader "
-                "expects CSV/JSON exports. Convert the selected station-hour "
-                "records to CSV and rerun."
-            )
         raise FileNotFoundError(f"No cached KNMI CSV/JSON files found in {raw_path}")
 
     frames = []
     for path in files:
-        frame = _read_table(path)
+        if path.suffix.lower() in {".nc", ".nc4"}:
+            frame = _read_knmi_netcdf(path)
+        else:
+            frame = _read_table(path)
         if frame.empty:
             continue
         frames.append(_normalize_knmi_frame(frame))
@@ -393,6 +390,7 @@ def load_knmi(
             .mean()
             .reset_index()
         )
+        out = out.dropna(subset=numeric_columns, how="all")
 
     return out.sort_values(["knmi_station", "timestamp_utc"])
 
@@ -521,6 +519,26 @@ def _read_table(path):
     return pd.DataFrame(data)
 
 
+def _read_knmi_netcdf(path):
+    """Read one KNMI NetCDF/HDF5 file into a flat observation table."""
+    try:
+        import xarray as xr
+    except ImportError as exc:
+        raise ValueError(
+            "KNMI NetCDF files are cached, but xarray/netCDF4 are not installed. "
+            "Run `conda env update -f environment.yml --prune` in the repo root, "
+            "then rerun `python scripts/04_ingest_knmi.py`."
+        ) from exc
+
+    dataset = xr.open_dataset(path)
+    try:
+        frame = dataset.to_dataframe().reset_index()
+    finally:
+        dataset.close()
+    frame["knmi_source_file"] = Path(path).name
+    return frame
+
+
 def _normalize_knmi_frame(frame):
     """Normalize common KNMI station-observation columns."""
     out = frame.copy()
@@ -539,32 +557,56 @@ def _normalize_knmi_frame(frame):
     else:
         raise ValueError("KNMI file is missing a recognizable timestamp column")
 
-    station_col = _first_existing(out, ["knmi_station", "station", "station_code", "STN"])
+    station_col = _first_existing(
+        out,
+        ["knmi_station", "station", "station_code", "station_id", "STN"],
+    )
     out["knmi_station"] = out[station_col].astype(str) if station_col else "unknown"
 
-    column_map = {
-        "P": "knmi_pressure_hpa",
-        "pressure": "knmi_pressure_hpa",
-        "pressure_hpa": "knmi_pressure_hpa",
-        "air_pressure": "knmi_pressure_hpa",
-        "T": "knmi_temperature_c",
-        "temp": "knmi_temperature_c",
-        "temperature": "knmi_temperature_c",
-        "temperature_c": "knmi_temperature_c",
-        "U": "knmi_relative_humidity_pct",
-        "humidity": "knmi_relative_humidity_pct",
-        "relative_humidity": "knmi_relative_humidity_pct",
-        "relative_humidity_pct": "knmi_relative_humidity_pct",
-        "RH": "knmi_precip_mm",
-        "precip": "knmi_precip_mm",
-        "precipitation": "knmi_precip_mm",
-        "precip_mm": "knmi_precip_mm",
+    target_columns = {
+        "knmi_pressure_hpa": [
+            "P",
+            "pp",
+            "qnh",
+            "p0",
+            "ps",
+            "pres",
+            "pressure",
+            "pressure_hpa",
+            "air_pressure",
+        ],
+        "knmi_temperature_c": [
+            "T",
+            "ta",
+            "t10",
+            "temp",
+            "temperature",
+            "temperature_c",
+        ],
+        "knmi_relative_humidity_pct": [
+            "U",
+            "rh",
+            "rh10",
+            "humidity",
+            "relative_humidity",
+            "relative_humidity_pct",
+        ],
+        "knmi_precip_mm": [
+            "RH",
+            "R1H",
+            "rr",
+            "precipitation_amount",
+            "precip",
+            "precipitation",
+            "precip_mm",
+        ],
     }
 
     keep = ["timestamp_utc", "knmi_station"]
-    for source, target in column_map.items():
-        if source in out:
-            out[target] = pd.to_numeric(out[source], errors="coerce")
+    for target, candidates in target_columns.items():
+        source_col = _first_knmi_value_column(out, candidates)
+        if source_col is not None:
+            out[target] = pd.to_numeric(out[source_col], errors="coerce")
             keep.append(target)
 
     for column in ["knmi_pressure_hpa", "knmi_temperature_c", "knmi_precip_mm"]:
@@ -576,7 +618,27 @@ def _normalize_knmi_frame(frame):
 
 def _first_existing(frame, candidates):
     """Return the first candidate column present in a frame."""
-    return next((column for column in candidates if column in frame.columns), None)
+    columns = {str(column).lower(): column for column in frame.columns}
+    for candidate in candidates:
+        if candidate in frame.columns:
+            return candidate
+        match = columns.get(str(candidate).lower())
+        if match is not None:
+            return match
+    return None
+
+
+def _first_knmi_value_column(frame, candidates):
+    """Return a KNMI value column, preserving case-sensitive code meanings."""
+    for candidate in candidates:
+        if candidate in frame.columns:
+            return candidate
+    lower_lookup = {str(column).lower(): column for column in frame.columns}
+    for candidate in candidates:
+        match = lower_lookup.get(str(candidate).lower())
+        if match is not None:
+            return match
+    return None
 
 
 def _auto_scale_knmi_units(series, column):

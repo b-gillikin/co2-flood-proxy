@@ -22,6 +22,7 @@ June ingestion scripts:
 Week 4 external data notes:
 
 - KNMI live downloads require `KNMI_API_KEY`. Get it from the KNMI Developer Portal API Catalogue, then run `export KNMI_API_KEY="your-key"`.
+- `run_knmi_hourly_job.sh` runs a bounded KNMI historical backfill and rebuilds the station-filtered Maastricht Airport `knmi_hourly.csv`. It is intended for the launchd job in `ops/com.briangillikin.chapter1-co2.knmi.plist`.
 - RIVM/Luchtmeetnet is public and does not need a key; use fair-use pacing and cached raw payloads when the service is unavailable.
 
 July provisional modelling scripts:
@@ -32,6 +33,7 @@ July provisional modelling scripts:
 - `08_ensemble_agreement.py` — Week 3, align SARIMAX/Kalman/Isolation Forest anomaly flags and summarize detector agreement.
 - `09_synthetic_injection.py` — Week 3, run Gaussian-burst and CutAddPaste synthetic anomaly smoke tests.
 - `10_evaluation.py` — Week 4, write the official 30-day/7-day insufficiency check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
+- `11_transfer_stress_test.py` — August v1, train Kerkrade detector-surrogate classifiers, run the cached RIVM/KNMI South Limburg transfer dry run, and write writing/figure scaffolding outputs.
 
 Run order for July:
 
@@ -43,3 +45,13 @@ python scripts/08_ensemble_agreement.py
 python scripts/09_synthetic_injection.py
 python scripts/10_evaluation.py
 ```
+
+August v1 dry run:
+
+```bash
+python scripts/11_transfer_stress_test.py
+```
+
+The August script is intentionally provisional. It reports feature availability,
+label fallbacks, and RIVM dry-run scores, but does not interpret transfer
+success or failure.

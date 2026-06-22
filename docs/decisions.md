@@ -137,3 +137,37 @@ Isolation Forest and ensemble: Use `IsolationForest(n_estimators=200, max_featur
 Evaluation: Preregister transfer evaluation before transfer-site modelling outputs. The official 30-day train / 7-day evaluation is implemented as an insufficiency check until the record is long enough; the shorter 14-day train / 3-day smoke scheme is only for validating the pipeline. Kerkrade API is computed from Visual Crossing precipitation with `d=0.85` and `N=14 days`.
 
 Source: `docs/transfer-experiment-preregistration.md`; `scripts/10_evaluation.py`; `chapter-prework/July 2026 - How-To.docx`.
+
+## 2026-06-21 — KNMI reference station and backfill policy
+
+Decision: Use KNMI station `06380` Maastricht Airport as the primary reference meteorology station for the Kerkrade chapter, with `06377` Ell and `06392` Horst reserved as possible sensitivity stations.
+
+Reasoning: The KNMI 10-minute in-situ product is delivered as timestamp-level NetCDF files containing many stations. Downloading only the Meuse/South Limburg station is not supported by the current file endpoint, but processing can and should narrow the normalized frame to Maastricht Airport. Keeping the raw NetCDF cache during development preserves reproducibility; cleanup can later extract compact station-hour files and archive or delete older raw files.
+
+Operational policy: `scripts/run_knmi_hourly_job.sh` and `ops/com.briangillikin.chapter1-co2.knmi.plist` run a bounded hourly backfill from 2020-01-01 to current UTC while the laptop is awake. The wrapper reads the API key from the shell or `~/.knmi_api_key`, requests at most 800 missing files per run by default, and rebuilds `data/interim/knmi_hourly.csv` for station `06380`.
+
+Source: `scripts/04_ingest_knmi.py`; `src/io_data.py`; `docs/knmi-sources.md`.
+
+## 2026-06-21 — August readiness boundary
+
+Decision: Begin August scaffolding work now, but do not interpret transfer results until the current preregistration, June/July pipeline, and KNMI scheduler state are committed and at least the selected transfer scope is explicit.
+
+Can start now: methods-section outline, figure inventory, transfer-evaluation script design, transfer-site acquisition planning, and KNMI backfill monitoring.
+
+Should wait: official transfer-stress-test interpretation, transfer baseline comparison claims, groundwater integration, and final discussion framing.
+
+Reasoning: The August plan depends on July detector outputs and transfer preregistration, both of which exist. However, the official July evaluation remains short-window/provisional, the KNMI backfill is still in progress, and transfer-site coverage is not yet at the planned three-site threshold.
+
+Source: `chapter-prework/August 2026 - How-To.docx`; `docs/august-readiness.md`; `docs/figure-inventory.md`.
+
+## 2026-06-21 — August v1 transfer dry-run scope
+
+Decision: Implement `scripts/11_transfer_stress_test.py` as a RIVM-only dry run and writing scaffold, not as official transfer interpretation.
+
+Scope: Train one balanced logistic-regression surrogate per July detector label from Kerkrade features. Apply those surrogates only to the currently cached South Limburg RIVM/Luchtmeetnet lane, joined with KNMI station `06380` Maastricht Airport where cached hours exist. Use no random k-fold CV. Report row counts, feature availability, label sources, and score outputs only.
+
+Current dry-run details: The deployable shared features are temperature, relative humidity, pressure, precipitation, PM10, NO2, and pressure deltas through 12 hours. PM2.5, O3, and the 24-hour pressure delta are recorded in feature availability but are not currently deployable across both RIVM sites. SARIMAX has zero official positives and Kalman has fewer than five official positives in the regenerated detector flags, so those transfer surrogates use the preregistered top-5-percent fallback label from extreme residual or innovation scores.
+
+Interpretation boundary: Do not read August v1 transfer probabilities as transfer success or failure. Official transfer interpretation waits until at least three transfer-site lanes are available or the dissertation scope is deliberately narrowed and documented.
+
+Source: `scripts/11_transfer_stress_test.py`; `results/transfer/transfer_training_summary.csv`; `results/transfer/feature_availability.csv`; `docs/transfer-experiment-preregistration.md`.
