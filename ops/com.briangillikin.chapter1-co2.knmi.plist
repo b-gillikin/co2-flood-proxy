@@ -10,7 +10,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>/Users/briangillikin/Desktop/chapter1-co2/scripts/run_knmi_hourly_job.sh</string>
+    <string>/bin/bash /Users/briangillikin/Desktop/chapter1-co2/scripts/run_knmi_hourly_job.sh</string>
   </array>
 
   <key>WorkingDirectory</key>

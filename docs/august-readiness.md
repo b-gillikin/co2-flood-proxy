@@ -23,7 +23,7 @@ the background and should improve the reference-meteorology lane over time.
 | SMAP and API baselines computed | Partial | API is computed in `data/processed/api.csv`; SMAP live acquisition is deferred. |
 | Transfer sites ingested | Partial | RIVM/Luchtmeetnet starter lane exists; currently not enough for the planned "at least 3" transfer-site set. |
 | Transfer experiment preregistered | Done | `docs/transfer-experiment-preregistration.md` exists. Commit it before interpreting transfer outputs. |
-| KNMI reference meteorology | In progress | Station `06380` Maastricht Airport is scheduled for 2020-present backfill via `launchd`. |
+| KNMI reference meteorology | In progress | The curated Dutch Meuse/Maas station set is scheduled for 2020-present backfill via `launchd`; `06380` remains the Kerkrade comparison station. |
 | August v1 dry-run script | Done, provisional | `scripts/11_transfer_stress_test.py` trains Kerkrade transfer surrogates and scores the cached RIVM lane when at least 24 aligned hours exist. |
 | Methods/results writing scaffolds | Done, draft | `docs/methods-outline.md`, `docs/results-outline.md`, and `results/figures/figure_manifest.csv` exist. |
 

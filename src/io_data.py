@@ -80,6 +80,21 @@ DISCHARGE_SOURCES = {
     },
 }
 
+KNMI_STATION_SETS = {
+    "maastricht": {
+        "06380": "Maastricht Airport",
+    },
+    "meuse": {
+        "06380": "Maastricht Airport",
+        "06377": "Ell",
+        "06392": "Horst",
+        "06370": "Eindhoven Airport",
+        "06375": "Volkel Airport",
+        "06350": "Gilze-Rijen Airport",
+        "06356": "Herwijnen",
+    },
+}
+
 
 def load_iot(
     raw_dir="data/raw/iot",
@@ -326,6 +341,8 @@ def load_knmi(
     raw_dir="data/raw/knmi",
     frequency="h",
     station=None,
+    stations=None,
+    station_set=None,
     start=None,
     end=None,
 ):
@@ -363,8 +380,13 @@ def load_knmi(
         raise ValueError(f"KNMI files in {raw_path} did not contain usable rows")
 
     out = pd.concat(frames, ignore_index=True)
-    if station is not None and "knmi_station" in out:
-        out = out.loc[out["knmi_station"].astype(str).isin({str(station)})]
+    station_filter = _knmi_station_filter(
+        station=station,
+        stations=stations,
+        station_set=station_set,
+    )
+    if station_filter is not None and "knmi_station" in out:
+        out = out.loc[out["knmi_station"].isin(station_filter)]
     out = out.dropna(subset=["timestamp_utc"]).drop_duplicates(
         subset=["timestamp_utc", "knmi_station"],
         keep="last",
@@ -393,6 +415,23 @@ def load_knmi(
         out = out.dropna(subset=numeric_columns, how="all")
 
     return out.sort_values(["knmi_station", "timestamp_utc"])
+
+
+def knmi_station_set_frame(station_set="meuse"):
+    """Return a small station table for a named KNMI station set."""
+    if station_set not in KNMI_STATION_SETS:
+        known = ", ".join(sorted(KNMI_STATION_SETS))
+        raise ValueError(f"Unknown KNMI station set {station_set!r}; choose one of {known}")
+    return pd.DataFrame(
+        [
+            {
+                "station_set": station_set,
+                "knmi_station": station,
+                "station_name": name,
+            }
+            for station, name in KNMI_STATION_SETS[station_set].items()
+        ]
+    )
 
 
 def load_rivm(
@@ -561,7 +600,11 @@ def _normalize_knmi_frame(frame):
         out,
         ["knmi_station", "station", "station_code", "station_id", "STN"],
     )
-    out["knmi_station"] = out[station_col].astype(str) if station_col else "unknown"
+    out["knmi_station"] = (
+        out[station_col].map(_normalize_knmi_station_code)
+        if station_col
+        else "unknown"
+    )
 
     target_columns = {
         "knmi_pressure_hpa": [
@@ -614,6 +657,52 @@ def _normalize_knmi_frame(frame):
             out[column] = _auto_scale_knmi_units(out[column], column)
 
     return out[list(dict.fromkeys(keep))]
+
+
+def _knmi_station_filter(station=None, stations=None, station_set=None):
+    """Resolve station arguments into normalized KNMI station IDs."""
+    selected = set()
+    if station_set and str(station_set).lower() not in {"none", "all"}:
+        selected.update(KNMI_STATION_SETS[str(station_set).lower()])
+
+    station_values = []
+    if station is not None:
+        station_values.extend(_split_station_values(station))
+    if stations is not None:
+        station_values.extend(_split_station_values(stations))
+
+    for value in station_values:
+        token = str(value).strip()
+        lower = token.lower()
+        if lower in KNMI_STATION_SETS:
+            selected.update(KNMI_STATION_SETS[lower])
+        elif lower not in {"", "none", "all"}:
+            selected.add(_normalize_knmi_station_code(token))
+
+    return selected or None
+
+
+def _split_station_values(values):
+    """Split station CLI/list values into tokens."""
+    if isinstance(values, (list, tuple, set)):
+        out = []
+        for value in values:
+            out.extend(_split_station_values(value))
+        return out
+    return [value.strip() for value in str(values).split(",")]
+
+
+def _normalize_knmi_station_code(value):
+    """Normalize KNMI station codes across 3-, 4-, and 5-digit forms."""
+    text = str(value).strip()
+    if text.endswith(".0"):
+        text = text[:-2]
+    digits = "".join(char for char in text if char.isdigit())
+    if len(digits) == 3:
+        return f"06{digits}"
+    if len(digits) == 4:
+        return digits.zfill(5)
+    return digits or text
 
 
 def _first_existing(frame, candidates):

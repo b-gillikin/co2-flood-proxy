@@ -148,6 +148,18 @@ Operational policy: `scripts/run_knmi_hourly_job.sh` and `ops/com.briangillikin.
 
 Source: `scripts/04_ingest_knmi.py`; `src/io_data.py`; `docs/knmi-sources.md`.
 
+## 2026-06-23 — KNMI Meuse/Maas station-set policy
+
+Decision: Keep normalized hourly KNMI data for a curated Dutch Meuse/Maas station set rather than only Maastricht Airport or the full KNMI station corpus.
+
+Station set: `06380` Maastricht Airport, `06377` Ell, `06392` Horst, `06370` Eindhoven Airport, `06375` Volkel Airport, `06350` Gilze-Rijen Airport, and `06356` Herwijnen.
+
+Reasoning: KNMI 10-minute NetCDF files contain all stations for each timestamp, so raw downloads remain file-level during acquisition. The normalized hourly output can still be narrowed to the stations most useful for Meuse/Maas catchment and corridor analysis. This preserves future basin-scale weather context with far less processed storage than retaining every KNMI station, while keeping `06380` as the primary Kerkrade comparison and transfer meteorology station.
+
+Operational policy: `scripts/04_ingest_knmi.py` defaults to `--station-set meuse` and writes `results/knmi/knmi_station_set.csv`. The launchd wrapper uses `KNMI_STATION_SET=meuse` by default. Use `--station-set maastricht` only when the old single-station extraction is needed.
+
+Source: `scripts/04_ingest_knmi.py`; `src/io_data.py`; `docs/knmi-sources.md`.
+
 ## 2026-06-21 — August readiness boundary
 
 Decision: Begin August scaffolding work now, but do not interpret transfer results until the current preregistration, June/July pipeline, and KNMI scheduler state are committed and at least the selected transfer scope is explicit.

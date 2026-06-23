@@ -14,7 +14,7 @@ os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 
 import pandas as pd
 
-from src.io_data import load_knmi
+from src.io_data import knmi_station_set_frame, load_knmi
 
 
 RAW_DIR = Path("data/raw/knmi")
@@ -25,11 +25,14 @@ ANALYSIS_PATH = INTERIM_DIR / "analysis_hourly.csv"
 OUTPUT_PATH = INTERIM_DIR / "knmi_hourly.csv"
 COMPARISON_PATH = RESULTS_DIR / "knmi_visualcrossing_comparison.csv"
 PLOT_PATH = RESULTS_DIR / "knmi_vs_visualcrossing_pressure_temp.png"
+STATION_SET_PATH = RESULTS_DIR / "knmi_station_set.csv"
 
 KDP_BASE_URL = "https://api.dataplatform.knmi.nl/open-data/v1"
 DEFAULT_DATASET = "10-minute-in-situ-meteorological-observations"
 DEFAULT_VERSION = "1.0"
 FILENAME_PREFIX = "KMDS__OPER_P___10M_OBS_L2"
+DEFAULT_STATION_SET = "meuse"
+DEFAULT_COMPARISON_STATION = "06380"
 
 
 def list_knmi_files(api_key, dataset, version, max_files):
@@ -174,6 +177,7 @@ def write_knmi_hourly(args):
         raw_dir=args.raw_dir,
         frequency="h",
         station=args.station,
+        station_set=args.station_set,
         start=args.start,
         end=args.end,
     )
@@ -183,8 +187,30 @@ def write_knmi_hourly(args):
     return frame
 
 
-def write_visual_crossing_comparison(knmi):
+def write_station_set(args):
+    """Document the active KNMI station set used for normalized output."""
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    if args.station_set and args.station_set.lower() not in {"none", "all"}:
+        station_set = knmi_station_set_frame(args.station_set)
+    else:
+        stations = [value.strip() for value in str(args.station or "").split(",") if value.strip()]
+        station_set = pd.DataFrame(
+            {
+                "station_set": "custom",
+                "knmi_station": stations,
+                "station_name": "",
+            }
+        )
+    station_set.to_csv(STATION_SET_PATH, index=False)
+    print(f"wrote {STATION_SET_PATH}")
+
+
+def write_visual_crossing_comparison(knmi, comparison_station):
     """Compare KNMI pressure/temp to the existing Kerkrade Visual Crossing frame."""
+    if "knmi_station" in knmi:
+        station_token = normalize_station_code(comparison_station)
+        knmi = knmi.loc[knmi["knmi_station"].astype(str) == station_token]
+
     analysis = pd.read_csv(ANALYSIS_PATH, parse_dates=["timestamp_utc"])
     comparison = analysis[
         [
@@ -261,6 +287,16 @@ def write_visual_crossing_comparison(knmi):
     print(f"wrote {PLOT_PATH}")
 
 
+def normalize_station_code(value):
+    """Normalize common KNMI station-code spellings for script arguments."""
+    digits = "".join(char for char in str(value).strip() if char.isdigit())
+    if len(digits) == 3:
+        return f"06{digits}"
+    if len(digits) == 4:
+        return digits.zfill(5)
+    return digits or str(value)
+
+
 def parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -281,7 +317,16 @@ def parse_args():
         help="Pause between KNMI API URL requests. Date-window downloads default to 3.7s.",
     )
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
-    parser.add_argument("--station")
+    parser.add_argument(
+        "--station-set",
+        default=DEFAULT_STATION_SET,
+        help="Named KNMI station set to keep; use 'none' with --station for custom IDs.",
+    )
+    parser.add_argument(
+        "--station",
+        help="Optional comma-separated KNMI station IDs or station-set names.",
+    )
+    parser.add_argument("--comparison-station", default=DEFAULT_COMPARISON_STATION)
     parser.add_argument("--start")
     parser.add_argument("--end")
     return parser.parse_args()
@@ -293,6 +338,7 @@ def main():
     maybe_download(args)
     try:
         knmi = write_knmi_hourly(args)
+        write_station_set(args)
     except (FileNotFoundError, ValueError) as exc:
         print(exc)
         if "xarray/netCDF4" in str(exc):
@@ -307,7 +353,7 @@ def main():
                 "without --skip-download once KNMI_API_KEY is set."
             )
         return
-    write_visual_crossing_comparison(knmi)
+    write_visual_crossing_comparison(knmi, args.comparison_station)
 
 
 if __name__ == "__main__":

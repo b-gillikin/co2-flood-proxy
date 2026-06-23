@@ -22,7 +22,7 @@ June ingestion scripts:
 Week 4 external data notes:
 
 - KNMI live downloads require `KNMI_API_KEY`. Get it from the KNMI Developer Portal API Catalogue, then run `export KNMI_API_KEY="your-key"`.
-- `run_knmi_hourly_job.sh` runs a bounded KNMI historical backfill and rebuilds the station-filtered Maastricht Airport `knmi_hourly.csv`. It is intended for the launchd job in `ops/com.briangillikin.chapter1-co2.knmi.plist`.
+- `run_knmi_hourly_job.sh` runs a bounded KNMI historical backfill and rebuilds the selected Meuse/Maas station-hour `knmi_hourly.csv`. It is intended for the launchd job in `ops/com.briangillikin.chapter1-co2.knmi.plist`.
 - RIVM/Luchtmeetnet is public and does not need a key; use fair-use pacing and cached raw payloads when the service is unavailable.
 
 July provisional modelling scripts:

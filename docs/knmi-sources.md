@@ -63,9 +63,10 @@ scripts/run_knmi_hourly_job.sh
 
 By default each hourly run backfills from `2020-01-01T00:00:00Z` through the
 current UTC time, requests at most 800 missing files, sleeps 4 seconds between
-KNMI URL requests, then rebuilds `data/interim/knmi_hourly.csv` for station
-`06380` Maastricht Airport. Logs are written under `logs/`, which is ignored by
-git. The script uses a lock directory so overlapping hourly runs exit quietly.
+KNMI URL requests, then rebuilds `data/interim/knmi_hourly.csv` for the curated
+Dutch Meuse/Maas station set. Logs are written under `logs/`, which is ignored
+by git. The script uses a lock directory so overlapping hourly runs exit
+quietly.
 
 Override the defaults for a shorter or slower run if needed:
 
@@ -73,6 +74,7 @@ Override the defaults for a shorter or slower run if needed:
 KNMI_START=2025-01-01T00:00:00Z \
 KNMI_MAX_DOWNLOADS=200 \
 KNMI_DOWNLOAD_SLEEP_SECONDS=4.0 \
+KNMI_STATION_SET=meuse \
 scripts/run_knmi_hourly_job.sh
 ```
 
@@ -94,6 +96,7 @@ Expected normalized output:
 
 ```text
 data/interim/knmi_hourly.csv
+results/knmi/knmi_station_set.csv
 results/knmi/knmi_visualcrossing_comparison.csv
 results/knmi/knmi_vs_visualcrossing_pressure_temp.png
 ```
@@ -102,9 +105,27 @@ The loader recognizes common KNMI-style CSV columns such as `YYYYMMDD`, `HH`,
 `STN`, `T`, `U`, `P`, and `RH`, and NetCDF variables such as `pp`, `ta`, `rh`,
 and `R1H`. Timestamps are converted to hourly UTC.
 
-## Station Priority
+## Station Policy
 
-Use station `06380` Maastricht Airport as the first reference station. This is
-the Maastricht-Beek KNMI station available in the 10-minute in-situ NetCDF
-product. Keep `06377` Ell and `06392` Horst as nearby sensitivity stations if
-the chapter later needs a station-choice robustness check.
+Keep the curated Dutch Meuse/Maas station set in the normalized hourly file so
+future basin/catchment analyses can use more than a single local reference
+station without retaining the full KNMI station corpus.
+
+Current `meuse` station set:
+
+| Station | Name | Role |
+| --- | --- | --- |
+| `06380` | Maastricht Airport | Primary Kerkrade/South Limburg reference and transfer meteorology station. |
+| `06377` | Ell | Limburg/Maas corridor sensitivity station. |
+| `06392` | Horst | North Limburg/Maas corridor station. |
+| `06370` | Eindhoven Airport | North Brabant catchment/corridor station. |
+| `06375` | Volkel Airport | North Brabant/Maas corridor station. |
+| `06350` | Gilze-Rijen Airport | Western North Brabant context station. |
+| `06356` | Herwijnen | Lower Maas/Rhine-Meuse delta context station. |
+
+`scripts/04_ingest_knmi.py` defaults to `--station-set meuse`. Use
+`--station-set maastricht` for the old single-station behavior, or
+`--station-set none --station 06380,06377` for a custom station list.
+
+The Visual Crossing comparison plot still uses `06380` by default because it is
+the closest KNMI reference station for Kerkrade.

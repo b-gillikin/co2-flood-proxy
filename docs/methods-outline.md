@@ -15,8 +15,9 @@ already in the repository. This is a writing aid, not final prose.
 - Wurm and Geul discharge sources produce hourly soft labels and event
   catalogues in `data/processed/hourly_soft_labels.csv` and
   `data/processed/event_catalogue.csv`.
-- KNMI station `06380` Maastricht Airport is the reference meteorology lane,
-  with historical backfill still running.
+- KNMI reference meteorology uses a curated Dutch Meuse/Maas station set, with
+  station `06380` Maastricht Airport retained as the primary Kerkrade
+  comparison station; historical backfill is still running.
 - RIVM/Luchtmeetnet stations `NL10136` and `NL10138` are the first transfer
   lane for the August v1 dry run.
 

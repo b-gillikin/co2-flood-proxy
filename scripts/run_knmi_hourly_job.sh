@@ -32,4 +32,5 @@ KNMI_DEFAULT_END="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
   --max-files "${KNMI_MAX_FILES:-0}" \
   --max-downloads "${KNMI_MAX_DOWNLOADS:-800}" \
   --download-sleep-seconds "${KNMI_DOWNLOAD_SLEEP_SECONDS:-4.0}" \
-  --station "${KNMI_STATION:-06380}"
+  --station-set "${KNMI_STATION_SET:-meuse}" \
+  --comparison-station "${KNMI_COMPARISON_STATION:-06380}"

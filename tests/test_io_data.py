@@ -28,10 +28,17 @@ class LoaderTests(unittest.TestCase):
         frame = load_knmi(FIXTURES, frequency="h", station="380")
 
         self.assertEqual(len(frame), 3)
+        self.assertEqual(frame["knmi_station"].iloc[0], "06380")
         self.assertIn("knmi_temperature_c", frame.columns)
         self.assertIn("knmi_pressure_hpa", frame.columns)
         self.assertAlmostEqual(frame["knmi_temperature_c"].iloc[0], 12.3)
         self.assertAlmostEqual(frame["knmi_pressure_hpa"].iloc[0], 1012.3)
+
+    def test_load_knmi_named_station_set(self):
+        frame = load_knmi(FIXTURES, frequency="h", station_set="meuse")
+
+        self.assertEqual(len(frame), 4)
+        self.assertEqual(set(frame["knmi_station"]), {"06377", "06380"})
 
     def test_load_rivm_json_sample(self):
         frame = load_rivm(

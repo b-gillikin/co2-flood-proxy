@@ -90,8 +90,8 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    ```
 
    The `ops/com.briangillikin.chapter1-co2.knmi.plist` launchd job runs that
-   wrapper. By default it backfills station `06380` Maastricht Airport from
-   2020-01-01 to the current UTC time, in bounded hourly chunks.
+   wrapper. By default it backfills the curated Dutch Meuse/Maas KNMI station
+   set from 2020-01-01 to the current UTC time, in bounded hourly chunks.
 
    July provisional anomaly models:
 
@@ -116,8 +116,9 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
 
    This trains Kerkrade detector-surrogate models and applies them to the
    cached RIVM/Luchtmeetnet South Limburg lane using KNMI station `06380`
-   meteorology where available. The outputs are explicitly provisional and are
-   not official transfer interpretation.
+   Maastricht Airport meteorology where available. The broader KNMI cache keeps
+   the selected Meuse/Maas station set for future basin analysis. The outputs
+   are explicitly provisional and are not official transfer interpretation.
 
 4. Write intermediate data to `data/interim/`, processed analysis products to `data/processed/`, and figures/tables/model artifacts to `results/`.
 
