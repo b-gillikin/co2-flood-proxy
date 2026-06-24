@@ -6,6 +6,7 @@ dependencies:
   - python=3.11
   - numpy
   - pandas
+  - pyarrow
   - scipy
   - xarray
   - netcdf4

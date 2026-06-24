@@ -11,10 +11,12 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "kerkrade_data"))
 
-from src.io_data import load_knmi, load_rivm
+from src.io_data import load_iot, load_iot_observations, load_knmi, load_rivm
 from src.models.july import antecedent_precipitation_index, available_exog
 
+knmi_backfill = importlib.import_module("knmi_backfill")
 rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
 
 
@@ -23,6 +25,33 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
 class LoaderTests(unittest.TestCase):
     """Verify Week 4 loaders against tiny cached payloads."""
+
+    def test_load_blynk_iot_export_sample(self):
+        observations = load_iot_observations(
+            raw_dir=FIXTURES / "missing_iot_raw",
+            blynk_export_dir=FIXTURES / "iot_exports",
+        )
+
+        self.assertEqual(len(observations), 2)
+        self.assertEqual(observations["iot_source"].iloc[0], "blynk_export")
+        self.assertEqual(observations["iot_device_name"].iloc[0], "Sample Basement")
+        self.assertEqual(observations["iot_device_id"].iloc[0], "12345")
+        self.assertEqual(
+            observations["timestamp"].iloc[0],
+            pd.Timestamp("2025-01-31 00:00:00Z"),
+        )
+
+        hourly = load_iot(
+            raw_dir=FIXTURES / "missing_iot_raw",
+            blynk_export_dir=FIXTURES / "iot_exports",
+            frequency="h",
+        )
+
+        self.assertEqual(len(hourly), 1)
+        self.assertAlmostEqual(hourly["iot_temperature_c"].iloc[0], 21.0)
+        self.assertAlmostEqual(hourly["iot_co2_ppm"].iloc[0], 460.0)
+        self.assertEqual(hourly["iot_observation_count"].iloc[0], 2)
+        self.assertEqual(hourly["iot_device_count"].iloc[0], 1)
 
     def test_load_knmi_csv_sample(self):
         frame = load_knmi(FIXTURES, frequency="h", station="380")
@@ -108,6 +137,55 @@ class JulyModelHelperTests(unittest.TestCase):
         self.assertIn(
             "iot_air_pressure_hpa",
             available_exog(frame, target_col="iot_co2_ppm", min_non_missing=2),
+        )
+
+
+class KnmiBackfillHelperTests(unittest.TestCase):
+    """Verify the Azure KNMI backfill cursor helpers."""
+
+    def test_knmi_filename_uses_utc_10_minute_boundary(self):
+        timestamp = knmi_backfill.floor_10_minutes(
+            knmi_backfill.parse_utc("2020-01-01T00:09:59Z")
+        )
+
+        self.assertEqual(timestamp.isoformat(), "2020-01-01T00:00:00+00:00")
+        self.assertEqual(
+            knmi_backfill.filename_for(timestamp),
+            "KMDS__OPER_P___10M_OBS_L2_202001010000.nc",
+        )
+
+    def test_knmi_blob_name_uses_raw_prefix(self):
+        self.assertEqual(
+            knmi_backfill.blob_name_for("file.nc", "raw/10-minute-in-situ"),
+            "raw/10-minute-in-situ/file.nc",
+        )
+
+    def test_knmi_station_list_is_zero_padded(self):
+        self.assertEqual(
+            knmi_backfill.parse_station_list("380,06377, 6392"),
+            ["06380", "06377", "06392"],
+        )
+
+    def test_knmi_slim_blob_name_is_monthly(self):
+        timestamp = knmi_backfill.parse_utc("2020-02-03T04:10:00Z")
+
+        self.assertEqual(
+            knmi_backfill.slim_blob_name_for(timestamp, "slim/10-minute-in-situ"),
+            "slim/10-minute-in-situ/year=2020/month=02/knmi_meuse_10min_2020_02.csv.gz",
+        )
+
+    def test_knmi_backward_cursor_helpers(self):
+        start = knmi_backfill.parse_utc("2020-01-01T00:00:00Z")
+        end = knmi_backfill.parse_utc("2020-01-01T01:09:00Z")
+        direction = knmi_backfill.normalize_direction("reverse")
+        cursor = knmi_backfill.initial_cursor(start, end, direction)
+
+        self.assertEqual(direction, "backward")
+        self.assertEqual(cursor.isoformat(), "2020-01-01T01:00:00+00:00")
+        self.assertTrue(knmi_backfill.cursor_in_bounds(cursor, start, end, direction))
+        self.assertEqual(
+            knmi_backfill.advance_cursor(cursor, direction).isoformat(),
+            "2020-01-01T00:50:00+00:00",
         )
 
 

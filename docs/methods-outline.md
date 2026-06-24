@@ -8,16 +8,17 @@ already in the repository. This is a writing aid, not final prose.
 ## Data Provenance and Alignment
 
 - Kerkrade low-cost IoT CO2, temperature, humidity, pressure, and particulate
-  measurements are sourced from Azure daily CSV blobs and normalized to hourly
-  UTC in `data/interim/iot_hourly.csv`.
+  measurements are sourced from Azure daily CSV blobs plus local Blynk exports,
+  then normalized to hourly UTC in `data/interim/iot_hourly.csv`.
 - Visual Crossing meteorology and air-quality fields are sourced from cached
   Azure weather blobs and normalized to hourly UTC in `data/interim/weather_hourly.csv`.
 - Wurm and Geul discharge sources produce hourly soft labels and event
   catalogues in `data/processed/hourly_soft_labels.csv` and
   `data/processed/event_catalogue.csv`.
-- KNMI reference meteorology uses a curated Dutch Meuse/Maas station set, with
-  station `06380` Maastricht Airport retained as the primary Kerkrade
-  comparison station; historical backfill is still running.
+- KNMI reference meteorology uses a curated Dutch Meuse/Maas station set. Azure
+  backfills compact station-slim monthly blobs from the present backward toward
+  2020, and `scripts/04_sync_knmi_azure.py` brings those blobs into local
+  `data/interim/knmi_hourly.csv` and `data/interim/knmi_hourly.parquet`.
 - RIVM/Luchtmeetnet stations `NL10136` and `NL10138` are the first transfer
   lane for the August v1 dry run.
 
@@ -27,7 +28,8 @@ already in the repository. This is a writing aid, not final prose.
 - Target: `iot_co2_ppm`.
 - Official formula: `CO2 ~ pressure + delta_pressure_1h + delta_pressure_3h
   + delta_pressure_6h + delta_pressure_12h + delta_pressure_24h`.
-- Official Week 2 value: linear IoT-pressure R2 = 0.593641.
+- Official Week 2 value after local Blynk export merge: linear IoT-pressure
+  R2 = 0.430628.
 - Output residual: `data/processed/co2-residual-barometric.csv`.
 
 ## Eryilmaz Replication
@@ -56,14 +58,15 @@ already in the repository. This is a writing aid, not final prose.
 - Ensemble agreement: `scripts/08_ensemble_agreement.py`.
 - Synthetic injection smoke tests: `scripts/09_synthetic_injection.py`.
 - Evaluation and API baseline: `scripts/10_evaluation.py`.
-- Current July detector outputs are provisional until more Kerkrade IoT and KNMI
-  data are available.
+- Current July detector outputs are provisional because the IoT record is gappy,
+  but the official 30-day train / 7-day evaluation windows are now runnable on
+  the merged frame.
 
 ## Evaluation Protocol
 
 - Official scheme: 30-day training window followed by 7-day evaluation window.
 - Current implementation writes an insufficiency check when the record is too
-  short.
+  short; after the Blynk export merge, the official scheme is ready.
 - Smoke windows validate the pipeline only and should not be written as final
   evaluation evidence.
 - Event-window tests compare anomaly rates in 72-hour antecedent windows against

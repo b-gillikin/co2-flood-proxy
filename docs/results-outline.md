@@ -78,7 +78,9 @@ Draft result paragraph:
 
 - Report detector availability, anomaly counts, and ensemble overlap as
   provisional pipeline diagnostics.
-- State that the official 30-day / 7-day evaluation window is not yet available.
+- State that the official 30-day / 7-day evaluation window is now runnable on
+  the merged IoT frame, while interpretation remains provisional because the
+  record is not yet continuous across a full annual cycle.
 
 ## API and External Reference Lanes
 

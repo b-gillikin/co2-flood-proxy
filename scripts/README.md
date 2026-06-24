@@ -1,6 +1,9 @@
 # Scripts
 
-Run scripts from the repository root. Each script should import reusable logic from `src/`.
+Run scripts from the repository root. Each script should import public data
+loaders from `src.io_data`; source-specific parser implementations live in
+`src/io_iot.py`, `src/io_weather.py`, `src/io_discharge.py`, `src/io_knmi.py`,
+and `src/io_rivm.py`.
 
 Routine refresh:
 
@@ -8,7 +11,7 @@ Routine refresh:
 
 June ingestion scripts:
 
-- `01_ingest_iot.py` — Task 1.1, sync Kerkrade IoT CSV blobs and build hourly IoT data.
+- `01_ingest_iot.py` — Task 1.1, sync Kerkrade IoT CSV blobs, merge local Blynk exports from `iot-device-data/` when present, and build hourly IoT data plus source/gap reports.
 - `02_ingest_weather.py` — Task 1.2, sync Visual Crossing weather blobs, catch up current Kerkrade weather directly from Visual Crossing, and build hourly weather data.
 - `01_ingest_discharge.py` — Task 1.3, sync public discharge sources and build hourly discharge data.
 - `03_build_event_catalogue.py` — Task 1.4, build discharge thresholds, sustained events, and hourly soft labels.
@@ -17,13 +20,34 @@ June ingestion scripts:
 - `03_eryilmaz_replication.py` — Week 3, reproduce Eryilmaz's two logistic-regression models and report Kill Check 2.
 - `04_signal_characterization.py` — Week 4, characterize the barometric residual with lagged correlations, exploratory random forests, and PCA.
 - `04_ingest_knmi.py` — Week 4, cache/load KNMI reference meteorology and compare it against Kerkrade Visual Crossing pressure/temp.
+- `04_sync_knmi_azure.py` — Week 4/Azure bridge, download Azure-collected KNMI station-slim blobs into local raw storage and rebuild the hourly KNMI table.
 - `04_ingest_rivm.py` — Week 4, cache/load starter RIVM/Luchtmeetnet transfer-site measurements. Use `--use-portal` when the live API is unavailable.
 
 Week 4 external data notes:
 
+- Local Blynk exports are treated as raw local data and are ignored by git.
+  Use `python scripts/01_ingest_iot.py --skip-download` to rebuild the merged
+  hourly IoT frame from Azure raw files plus `iot-device-data/`. Add
+  `--skip-exports` for an Azure-only rebuild.
 - KNMI live downloads require `KNMI_API_KEY`. Get it from the KNMI Developer Portal API Catalogue, then run `export KNMI_API_KEY="your-key"`.
+- For long KNMI historical backfills, deploy the Azure Timer Function from
+  `kerkrade_data/azure/deploy_knmi_function.sh`. The Azure collector keeps
+  broad variables for the selected Meuse/Maas stations as compact monthly gzip
+  CSV blobs and discards full raw NetCDF files by default.
+- Pull Azure-collected KNMI blobs back down with
+  `python scripts/04_sync_knmi_azure.py`. This writes local raw slim blobs under
+  `data/raw/knmi/azure_slim/` and rebuilds both `data/interim/knmi_hourly.csv`
+  and `data/interim/knmi_hourly.parquet`.
 - `run_knmi_hourly_job.sh` runs a bounded KNMI historical backfill and rebuilds the selected Meuse/Maas station-hour `knmi_hourly.csv`. It is intended for the launchd job in `ops/com.briangillikin.chapter1-co2.knmi.plist`.
 - RIVM/Luchtmeetnet is public and does not need a key; use fair-use pacing and cached raw payloads when the service is unavailable.
+
+Data format policy:
+
+- Keep raw/source files in source-native form unless storage is genuinely wasteful.
+- Prefer Parquet for larger normalized analysis tables because it preserves dtypes
+  and compresses well.
+- Keep CSV mirrors for small summaries, human inspection, and compatibility with
+  existing scripts.
 
 July provisional modelling scripts:
 

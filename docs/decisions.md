@@ -72,13 +72,13 @@ Source: `docs/weather-sources.md`; Azure weather container inspection on 2026-06
 
 ## 2026-06-10 — Kill Check 1 barometric baseline
 
-Decision: Proceed with the hydrological-signal framing after the Week 2 pressure-only baseline. The official linear IoT-pressure model R2 is 0.593641, below the June kill-check proceed threshold of 0.85.
+Decision: Proceed with the hydrological-signal framing after the Week 2 pressure-only baseline. After merging the local Blynk IoT exports, the official linear IoT-pressure model R2 is 0.430628, below the June kill-check proceed threshold of 0.85.
 
 Formula: `CO2 ~ pressure + delta_pressure_1h + delta_pressure_3h + delta_pressure_6h + delta_pressure_12h + delta_pressure_24h`.
 
-Analysis window: 2026-03-17 22:00 UTC to 2026-04-13 02:00 UTC after lag/dropna. Rows used: 622 from the 654-row Week 1 joined frame.
+Analysis window: 2025-02-01 15:00 UTC to 2026-04-13 02:00 UTC after lag/dropna. Rows used: 3719 from the 10491-row joined frame.
 
-Sensitivity: Ridge on the same IoT-pressure features produced R2 = 0.593321. The Kerkrade Visual Crossing pressure sensitivity produced linear R2 = 0.574862 and ridge R2 = 0.574719.
+Sensitivity: Ridge on the same IoT-pressure features produced R2 = 0.430315. The Kerkrade Visual Crossing pressure sensitivity produced linear R2 = 0.423368 and ridge R2 = 0.423217.
 
 Reasoning: Pressure level and tendency explain a meaningful share of CO2 variance, but far less than the >0.95 redirect threshold. Residual variance remains large enough to support the next June tasks: Eryilmaz replication and residual hydrological-signal characterization.
 
@@ -96,7 +96,9 @@ Model B features: `kerkrade_weather_temp_c`, `kerkrade_weather_relative_humidity
 
 Evaluation: Stratified random 5-fold cross-validation with `random_state=42`, using `StandardScaler` and `LogisticRegression(max_iter=1000, solver="liblinear")`. This random CV setup is used only for faithful Eryilmaz replication; later chapter models should use time-aware evaluation.
 
-Results: Model A AUROC = 0.986009 and Model B AUROC = 0.975709 on the same 643 complete-case hourly rows, with 62 positive CO2 events. AUROC gap = 0.010299.
+Results after merging local Blynk exports: Model A AUROC = 0.961009 and
+Model B AUROC = 0.921572 on the same 3776 complete-case hourly rows, with 408
+positive CO2 events. AUROC gap = 0.039438.
 
 Reasoning: The outdoor-weather model performs nearly as well as the indoor-IoT environmental model on the same CO2 leak target, consistent with Eryilmaz's same-site feature-substitution finding. Because the current IoT window is short, this should be rerun unchanged after additional IoT data are added.
 
@@ -116,9 +118,9 @@ Source: `scripts/04_signal_characterization.py`; `scripts/04_ingest_knmi.py`; `s
 
 ## 2026-06-17 — July provisional modelling protocol
 
-Decision: Proceed with July as a pipeline-first modelling month, but treat all model outputs as provisional on the current 622-row barometric-residual window.
+Decision: Proceed with July as a pipeline-first modelling month, but treat model interpretation as provisional on the current gappy 3719-row barometric-residual window.
 
-Reasoning: The current Kerkrade IoT/residual overlap is long enough to build the SARIMAX/Kalman/Isolation Forest machinery, smoke-test anomaly agreement, and preregister transfer evaluation. It is not long enough for final chapter claims or the official 30-day train / 7-day evaluation scheme. The scripts should be rerun unchanged after more IoT and KNMI data arrive.
+Reasoning: The merged Kerkrade IoT/residual overlap is now long enough to run the official 30-day train / 7-day evaluation machinery, smoke-test anomaly agreement, and preregister transfer evaluation. It is still not a continuous annual IoT record, so final chapter claims should wait for more IoT continuity and KNMI backfill. The scripts should be rerun unchanged after more IoT and KNMI data arrive.
 
 Reference meteorology policy: Include `data/interim/knmi_hourly.csv` as optional exogenous reference meteorology when present. When KNMI is absent, use Visual Crossing plus IoT pressure level/tendency features and record that omission in model summaries.
 
@@ -134,7 +136,7 @@ Kalman innovations: Use the planned residual target and exogenous-regressor stru
 
 Isolation Forest and ensemble: Use `IsolationForest(n_estimators=200, max_features=0.8, contamination=0.05, random_state=42)` as the official provisional flag, with 0.03/0.05/0.10 sensitivity outputs. Align SARIMAX, Kalman, and Isolation Forest flags by hourly UTC timestamp and summarize detector counts, all-three agreement, Jaccard, and Cohen kappa.
 
-Evaluation: Preregister transfer evaluation before transfer-site modelling outputs. The official 30-day train / 7-day evaluation is implemented as an insufficiency check until the record is long enough; the shorter 14-day train / 3-day smoke scheme is only for validating the pipeline. Kerkrade API is computed from Visual Crossing precipitation with `d=0.85` and `N=14 days`.
+Evaluation: Preregister transfer evaluation before transfer-site modelling outputs. The official 30-day train / 7-day evaluation is now runnable on the merged IoT frame, while the shorter 14-day train / 3-day smoke scheme remains only for validating the pipeline when needed. Kerkrade API is computed from Visual Crossing precipitation with `d=0.85` and `N=14 days`.
 
 Source: `docs/transfer-experiment-preregistration.md`; `scripts/10_evaluation.py`; `chapter-prework/July 2026 - How-To.docx`.
 
@@ -142,9 +144,9 @@ Source: `docs/transfer-experiment-preregistration.md`; `scripts/10_evaluation.py
 
 Decision: Use KNMI station `06380` Maastricht Airport as the primary reference meteorology station for the Kerkrade chapter, with `06377` Ell and `06392` Horst reserved as possible sensitivity stations.
 
-Reasoning: The KNMI 10-minute in-situ product is delivered as timestamp-level NetCDF files containing many stations. Downloading only the Meuse/South Limburg station is not supported by the current file endpoint, but processing can and should narrow the normalized frame to Maastricht Airport. Keeping the raw NetCDF cache during development preserves reproducibility; cleanup can later extract compact station-hour files and archive or delete older raw files.
+Reasoning: The KNMI 10-minute in-situ product is delivered as timestamp-level NetCDF files containing many stations. Downloading only the Meuse/South Limburg station is not supported by the current file endpoint, but processing can and should narrow the normalized frame.
 
-Operational policy: `scripts/run_knmi_hourly_job.sh` and `ops/com.briangillikin.chapter1-co2.knmi.plist` run a bounded hourly backfill from 2020-01-01 to current UTC while the laptop is awake. The wrapper reads the API key from the shell or `~/.knmi_api_key`, requests at most 800 missing files per run by default, and rebuilds `data/interim/knmi_hourly.csv` for station `06380`.
+Operational policy: This initial local launchd policy is superseded by the later Azure Timer Function policy below. The local wrapper remains as a fallback, but Azure now performs the long-running backfill and stores compact station-slim monthly blobs instead of retaining the raw all-station NetCDF corpus.
 
 Source: `scripts/04_ingest_knmi.py`; `src/io_data.py`; `docs/knmi-sources.md`.
 
@@ -156,9 +158,98 @@ Station set: `06380` Maastricht Airport, `06377` Ell, `06392` Horst, `06370` Ein
 
 Reasoning: KNMI 10-minute NetCDF files contain all stations for each timestamp, so raw downloads remain file-level during acquisition. The normalized hourly output can still be narrowed to the stations most useful for Meuse/Maas catchment and corridor analysis. This preserves future basin-scale weather context with far less processed storage than retaining every KNMI station, while keeping `06380` as the primary Kerkrade comparison and transfer meteorology station.
 
-Operational policy: `scripts/04_ingest_knmi.py` defaults to `--station-set meuse` and writes `results/knmi/knmi_station_set.csv`. The launchd wrapper uses `KNMI_STATION_SET=meuse` by default. Use `--station-set maastricht` only when the old single-station extraction is needed.
+Operational policy: `scripts/04_ingest_knmi.py` defaults to `--station-set meuse` and writes `results/knmi/knmi_station_set.csv`. The Azure KNMI function uses the same station set through `KNMI_STATIONS`. Use `--station-set maastricht` only when the old single-station extraction is needed.
 
 Source: `scripts/04_ingest_knmi.py`; `src/io_data.py`; `docs/knmi-sources.md`.
+
+## 2026-06-23 — Azure KNMI collector policy
+
+Decision: Move the long-running KNMI historical backfill from local launchd to
+an Azure Timer Function.
+
+Reasoning: The local collector is blocked by macOS unattended-script
+permissions and is tied to laptop wake state. The KNMI task is a resumable
+server-side ingestion problem: pull bounded batches of 10-minute NetCDF files,
+store raw files in blob storage, and track progress with a cursor blob.
+
+Operational policy: Deploy `kerkrade_data/knmi_backfill_timer` with
+`kerkrade_data/azure/deploy_knmi_function.sh`. The Azure function downloads
+each raw all-station NetCDF file as temporary input, extracts broad variables
+for the selected Meuse/Maas stations, appends/deduplicates monthly gzip CSV
+blobs under `knmi-data/slim/10-minute-in-situ/`, and writes progress to
+`knmi-data/state/knmi_backfill_state.json`. Full raw NetCDF persistence is off
+by default; use `KNMI_KEEP_RAW=true` only for short debugging windows.
+
+Source: `kerkrade_data/knmi_backfill.py`;
+`kerkrade_data/knmi_backfill_timer`; `docs/knmi-sources.md`.
+
+## 2026-06-24 — KNMI cloud-to-local and file-format policy
+
+Decision: Treat Azure Blob Storage as the long-running KNMI collection cache,
+then sync the compact station-slim monthly blobs into local `data/raw/knmi/`
+for reproducible modelling runs.
+
+Reasoning: The Azure function is the right place for slow unattended API
+collection, but the chapter analysis should remain runnable from the repository
+workspace. Keeping local copies of the station-slim blobs avoids repeated API
+calls and makes model reruns independent of Azure availability.
+
+Data-format policy: Use source-native or compact CSV.GZ files for raw/source
+caches, prefer Parquet for larger normalized analytical tables because it
+preserves dtypes and compresses well, and keep CSV mirrors for small summaries,
+human inspection, and existing script compatibility.
+
+Operational policy: `scripts/04_sync_knmi_azure.py` downloads Azure slim blobs
+to `data/raw/knmi/azure_slim/`, stores local copies of the Azure state JSON,
+and rebuilds `data/interim/knmi_hourly.csv` plus
+`data/interim/knmi_hourly.parquet`.
+
+Source: `scripts/04_sync_knmi_azure.py`; `scripts/04_ingest_knmi.py`;
+`src/io_data.py`; `src/io_knmi.py`; `docs/knmi-sources.md`.
+
+## 2026-06-24 — Source-family loader split
+
+Decision: Split the large shared data-loader file into source-family modules
+while keeping `src/io_data.py` as the stable import facade for scripts.
+
+Reasoning: The repo now has distinct IoT, weather, discharge, KNMI, and
+RIVM/Luchtmeetnet ingestion lanes. Keeping each parser in its own module makes
+the code easier to review and extend without forcing every script import to
+change at once.
+
+Operational policy: Source-specific logic lives in `src/io_iot.py`,
+`src/io_weather.py`, `src/io_discharge.py`, `src/io_knmi.py`, and
+`src/io_rivm.py`. Scripts should continue importing public loaders from
+`src.io_data` unless they have a source-specific reason to use the lower-level
+module directly.
+
+Source: `src/io_data.py`; `src/io_iot.py`; `src/io_weather.py`;
+`src/io_discharge.py`; `src/io_knmi.py`; `src/io_rivm.py`.
+
+## 2026-06-23 — Local Blynk IoT export merge policy
+
+Decision: Merge local Blynk device exports from `iot-device-data/` into the
+canonical hourly IoT frame, while keeping source/device coverage reports as
+first-class QC artifacts.
+
+Current merged source windows: Mantingh Basement 1 (`455022`) covers
+2025-01-31 00:00 to 2025-02-27 16:09 UTC, Mantingh Basement 2 (`455025`) covers
+2025-06-26 15:00 to 2025-10-08 13:00 UTC, and the Azure device stream covers
+2026-03-16 21:58 to 2026-04-13 02:36 UTC in the current local cache.
+
+Reasoning: The exports substantially extend the analysis-ready IoT window and
+can be aligned to the existing UTC hourly convention. They also introduce
+multiple device windows and two long no-data intervals, so downstream models
+should use the merged frame for pipeline completeness but interpret
+source-window effects cautiously.
+
+Operational policy: `scripts/01_ingest_iot.py --skip-download` merges Azure raw
+files plus `iot-device-data/` by default, writes `data/interim/iot_hourly.csv`,
+and writes `data/processed/iot_source_summary.csv` plus
+`data/processed/iot_coverage_gaps.csv`. Use `--skip-exports` only when an
+Azure-only rebuild is needed.
+
+Source: `scripts/01_ingest_iot.py`; `src/io_data.py`; `docs/iot-sources.md`.
 
 ## 2026-06-21 — August readiness boundary
 
@@ -168,7 +259,7 @@ Can start now: methods-section outline, figure inventory, transfer-evaluation sc
 
 Should wait: official transfer-stress-test interpretation, transfer baseline comparison claims, groundwater integration, and final discussion framing.
 
-Reasoning: The August plan depends on July detector outputs and transfer preregistration, both of which exist. However, the official July evaluation remains short-window/provisional, the KNMI backfill is still in progress, and transfer-site coverage is not yet at the planned three-site threshold.
+Reasoning: The August plan depends on July detector outputs and transfer preregistration, both of which exist. The official July evaluation windows are now runnable on the merged IoT frame, but interpretation remains provisional because the IoT record is gappy, the KNMI backfill is still in progress, and transfer-site coverage is not yet at the planned three-site threshold.
 
 Source: `chapter-prework/August 2026 - How-To.docx`; `docs/august-readiness.md`; `docs/figure-inventory.md`.
 
@@ -178,7 +269,7 @@ Decision: Implement `scripts/11_transfer_stress_test.py` as a RIVM-only dry run 
 
 Scope: Train one balanced logistic-regression surrogate per July detector label from Kerkrade features. Apply those surrogates only to the currently cached South Limburg RIVM/Luchtmeetnet lane, joined with KNMI station `06380` Maastricht Airport where cached hours exist. Use no random k-fold CV. Report row counts, feature availability, label sources, and score outputs only.
 
-Current dry-run details: The deployable shared features are temperature, relative humidity, pressure, precipitation, PM10, NO2, and pressure deltas through 12 hours. PM2.5, O3, and the 24-hour pressure delta are recorded in feature availability but are not currently deployable across both RIVM sites. SARIMAX has zero official positives and Kalman has fewer than five official positives in the regenerated detector flags, so those transfer surrogates use the preregistered top-5-percent fallback label from extreme residual or innovation scores.
+Current dry-run details: The deployable shared features are temperature, relative humidity, pressure, precipitation, PM10, NO2, and pressure deltas through 12 hours. PM2.5, O3, and the 24-hour pressure delta are recorded in feature availability but are not currently deployable across both RIVM sites. SARIMAX has zero official positives and therefore uses the preregistered top-5-percent fallback label from extreme residual scores. Kalman and Isolation Forest now use official detector flags after the merged-IoT rerun.
 
 Interpretation boundary: Do not read August v1 transfer probabilities as transfer success or failure. Official transfer interpretation waits until at least three transfer-site lanes are available or the dissertation scope is deliberately narrowed and documented.
 

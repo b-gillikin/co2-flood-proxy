@@ -72,6 +72,9 @@ Weak or redirect evidence:
 
 ## Current Limits
 
-The current Kerkrade residual window is about 622 hourly rows. July model outputs are pipeline-first and provisional. The official 30-day train / 7-day evaluation scheme is expected to remain insufficient until more IoT data are added.
+The current Kerkrade residual window is about 3719 hourly rows after merging
+local Blynk exports. July model outputs remain provisional because the record is
+gappy, but the official 30-day train / 7-day evaluation scheme is now runnable
+for pipeline evaluation.
 
 No transfer model results should be interpreted as chapter evidence until this preregistration is committed with the July pipeline code.

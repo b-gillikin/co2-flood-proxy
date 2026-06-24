@@ -23,6 +23,7 @@ RESULTS_DIR = Path("results/knmi")
 
 ANALYSIS_PATH = INTERIM_DIR / "analysis_hourly.csv"
 OUTPUT_PATH = INTERIM_DIR / "knmi_hourly.csv"
+OUTPUT_PARQUET_PATH = INTERIM_DIR / "knmi_hourly.parquet"
 COMPARISON_PATH = RESULTS_DIR / "knmi_visualcrossing_comparison.csv"
 PLOT_PATH = RESULTS_DIR / "knmi_vs_visualcrossing_pressure_temp.png"
 STATION_SET_PATH = RESULTS_DIR / "knmi_station_set.csv"
@@ -183,6 +184,11 @@ def write_knmi_hourly(args):
     )
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     frame.to_csv(OUTPUT_PATH, index=False)
+    try:
+        frame.to_parquet(OUTPUT_PARQUET_PATH, index=False)
+        print(f"wrote {OUTPUT_PARQUET_PATH} ({len(frame)} rows)")
+    except (ImportError, ValueError):
+        print("pyarrow/fastparquet is not installed; skipped KNMI Parquet mirror.")
     print(f"wrote {OUTPUT_PATH} ({len(frame)} rows)")
     return frame
 

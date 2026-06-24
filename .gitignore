@@ -3,6 +3,7 @@ data/interim/
 data/processed/
 results/
 logs/
+iot-device-data/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/

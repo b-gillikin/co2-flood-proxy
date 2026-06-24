@@ -11,6 +11,14 @@
     "AIR_QUALITY_BLOB_PREFIX": "air_quality",
     "HOURLY_DATA_CONTAINER": "kerkrada-weather-data",
     "HOURLY_LOCATION": "Kerkrade",
-    "HOURLY_LOOKBACK_DAYS": "1"
+    "HOURLY_LOOKBACK_DAYS": "1",
+    "KNMI_API_KEY": "<knmi-open-data-api-key>",
+    "KNMI_CONTAINER": "knmi-data",
+    "KNMI_START": "2020-01-01T00:00:00Z",
+    "KNMI_BACKFILL_DIRECTION": "backward",
+    "KNMI_STATIONS": "06380,06377,06392,06370,06375,06350,06356",
+    "KNMI_MAX_DOWNLOADS_PER_RUN": "10",
+    "KNMI_KEEP_RAW": "false",
+    "KNMI_BACKFILL_SCHEDULE": "0 */15 * * * *"
   }
 }
