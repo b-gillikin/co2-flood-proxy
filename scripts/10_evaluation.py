@@ -75,7 +75,7 @@ def evaluation_windows(timestamps, train_hours, eval_hours, label):
 
 
 def official_and_smoke_windows(flags):
-    """Write official insufficiency and provisional smoke-window definitions."""
+    """Write official readiness and provisional smoke-window definitions."""
     timestamps = pd.DatetimeIndex(flags["timestamp_utc"])
     n_hours = len(timestamps)
     official_needed = OFFICIAL_TRAIN_HOURS + OFFICIAL_EVAL_HOURS
@@ -247,7 +247,7 @@ def write_summary(window_status, windows, detector_rates, event_tests, api):
     lines = [
         "July Week 4 Evaluation and API Baseline",
         "",
-        "Status: provisional pipeline validation; current IoT/residual window is short.",
+        "Status: provisional pipeline validation; current IoT/residual record is gappy.",
         f"Official 30d train / 7d eval status: {window_status['official_scheme_status']}",
         f"Current detector-overlap hours: {window_status['n_hours']}",
         f"Required official hours: {window_status['official_needed_hours']}",

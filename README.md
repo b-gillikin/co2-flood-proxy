@@ -151,8 +151,10 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    use `python scripts/05_sarimax.py --full-grid` when you want the full p,q
    in 0..2 order search.
 
-   These July outputs are pipeline-first on the current short IoT/residual
-   window. Rerun the same commands unchanged after more IoT and KNMI data are
+   These July outputs are pipeline-first on the current gappy IoT/residual
+   record. The official 30-day train / 7-day evaluation windows are now
+   runnable, but interpretation remains provisional until IoT continuity and
+   KNMI coverage improve. Rerun the same commands unchanged after more data are
    added.
 
    August v1 transfer dry run and writing scaffold:
