@@ -56,7 +56,7 @@ July provisional modelling scripts:
 - `07_isolation_forest.py` — Week 3, fit the official provisional Isolation Forest flag and 0.03/0.05/0.10 contamination sensitivity outputs.
 - `08_ensemble_agreement.py` — Week 3, align SARIMAX/Kalman/Isolation Forest anomaly flags and summarize detector agreement.
 - `09_synthetic_injection.py` — Week 3, run Gaussian-burst and CutAddPaste synthetic anomaly smoke tests.
-- `10_evaluation.py` — Week 4, write the official 30-day/7-day insufficiency check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
+- `10_evaluation.py` — Week 4, write the official 30-day/7-day evaluation-window check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
 - `11_transfer_stress_test.py` — August v1, train Kerkrade detector-surrogate classifiers, run the cached RIVM/KNMI South Limburg transfer dry run, and write writing/figure scaffolding outputs.
 
 Run order for July:
@@ -69,6 +69,9 @@ python scripts/08_ensemble_agreement.py
 python scripts/09_synthetic_injection.py
 python scripts/10_evaluation.py
 ```
+
+`05_sarimax.py` uses a compact default SARIMAX search for routine reruns. Add
+`--full-grid` when you want the full p,q in 0..2 order search.
 
 August v1 dry run:
 

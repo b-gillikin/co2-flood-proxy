@@ -128,11 +128,11 @@ Source: `chapter-prework/July 2026 - How-To.docx`; `scripts/05_sarimax.py`; `scr
 
 ## 2026-06-17 — July model implementation choices
 
-Decision: Save July detector outputs using reproducible script-first artifacts, with fallbacks in the current runtime where state-space packages are unavailable.
+Decision: Save July detector outputs using reproducible script-first artifacts, using the planned `statsmodels` state-space paths when the `chapter1-co2` environment is active and documented fallbacks only when those packages are unavailable.
 
-SARIMAX first pass: Use the planned residual target, stationarity/transform decision logging, and compact order-search output. In the current runtime, `statsmodels` is not importable, so `scripts/05_sarimax.py` uses a documented AR-X Ridge fallback and writes `results/models/sarimax_order_search.csv`, `data/processed/sarimax-residuals.csv`, and `data/processed/sarimax-anomalies.csv`.
+SARIMAX first pass: Use the planned residual target, stationarity/transform decision logging, and compact default order-search output. With the active `chapter1-co2` environment, `scripts/05_sarimax.py` fits the `statsmodels` SARIMAX path and selects `(1,0,2)` with daily seasonality. The full p,q in 0..2 grid remains available with `--full-grid`; routine checks use the compact grid to avoid slow state-space refits.
 
-Kalman innovations: Use the planned residual target and exogenous-regressor structure. In the current runtime, `statsmodels`, `filterpy`, and `pykalman` are not importable, so `scripts/06_kalman.py` uses an exogenous Ridge mean plus a scalar local-level Kalman filter with Q/R selected by a compact likelihood grid.
+Kalman innovations: Use the planned residual target and exogenous-regressor structure. With the active `chapter1-co2` environment, `scripts/06_kalman.py` uses the `statsmodels` local-level state-space path with exogenous regressors; the simpler fallback remains available if state-space packages are missing.
 
 Isolation Forest and ensemble: Use `IsolationForest(n_estimators=200, max_features=0.8, contamination=0.05, random_state=42)` as the official provisional flag, with 0.03/0.05/0.10 sensitivity outputs. Align SARIMAX, Kalman, and Isolation Forest flags by hourly UTC timestamp and summarize detector counts, all-three agreement, Jaccard, and Cohen kappa.
 
@@ -269,7 +269,7 @@ Decision: Implement `scripts/11_transfer_stress_test.py` as a RIVM-only dry run 
 
 Scope: Train one balanced logistic-regression surrogate per July detector label from Kerkrade features. Apply those surrogates only to the currently cached South Limburg RIVM/Luchtmeetnet lane, joined with KNMI station `06380` Maastricht Airport where cached hours exist. Use no random k-fold CV. Report row counts, feature availability, label sources, and score outputs only.
 
-Current dry-run details: The deployable shared features are temperature, relative humidity, pressure, precipitation, PM10, NO2, and pressure deltas through 12 hours. PM2.5, O3, and the 24-hour pressure delta are recorded in feature availability but are not currently deployable across both RIVM sites. SARIMAX has zero official positives and therefore uses the preregistered top-5-percent fallback label from extreme residual scores. Kalman and Isolation Forest now use official detector flags after the merged-IoT rerun.
+Current dry-run details: The deployable shared features are temperature, relative humidity, pressure, precipitation, PM10, NO2, and pressure deltas through 12 hours. PM2.5, O3, and the 24-hour pressure delta are recorded in feature availability but are not currently deployable across both RIVM sites. After the corrected merged-IoT rerun, SARIMAX and Isolation Forest use official detector flags; Kalman has too few official positives and therefore uses the preregistered top-5-percent fallback label from extreme innovation scores.
 
 Interpretation boundary: Do not read August v1 transfer probabilities as transfer success or failure. Official transfer interpretation waits until at least three transfer-site lanes are available or the dissertation scope is deliberately narrowed and documented.
 

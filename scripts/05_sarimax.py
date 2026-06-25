@@ -154,7 +154,15 @@ def fit_fallback_arx(model_frame, target_col, feature_cols, d):
     return search, fits[best_key], best_key
 
 
-def fit_statsmodels_sarimax(model_frame, target_col, feature_cols, d, include_weekly=False):
+def fit_statsmodels_sarimax(
+    model_frame,
+    target_col,
+    feature_cols,
+    d,
+    include_weekly=False,
+    full_grid=False,
+    maxiter=80,
+):
     """Fit the compact SARIMAX grid when statsmodels is installed.
 
     Daily seasonality is the default reproducible path. Weekly seasonality is
@@ -174,58 +182,62 @@ def fit_statsmodels_sarimax(model_frame, target_col, feature_cols, d, include_we
     if include_weekly:
         seasonal_specs.append(("weekly_sensitivity", (1, 0, 1, 168)))
 
-    for p in range(3):
-        for q in range(3):
-            for seasonal_label, seasonal_order in seasonal_specs:
-                key = f"sarimax_p{p}_d{d}_q{q}_{seasonal_label}"
-                try:
-                    model = SARIMAX(
-                        y,
-                        exog=x,
-                        order=(p, d, q),
-                        seasonal_order=seasonal_order,
-                        enforce_stationarity=False,
-                        enforce_invertibility=False,
-                    )
-                    result = model.fit(disp=False, maxiter=200)
-                    fitted = pd.Series(result.fittedvalues, index=model_frame.index)
-                    residual = y - fitted
-                    rows.append(
-                        {
-                            "model_key": key,
-                            "model_type": "statsmodels_sarimax",
-                            "order": f"({p},{d},{q})",
-                            "seasonal_order": str(seasonal_order),
-                            "n_rows": len(residual.dropna()),
-                            "n_features": len(feature_cols),
-                            "aic": float(result.aic),
-                            "bic": float(result.bic),
-                            "rss": float((residual.dropna() ** 2).sum()),
-                            "fit_status": "ok",
-                        }
-                    )
-                    fits[key] = {
-                        "model": result,
-                        "predictors": feature_cols,
-                        "lagged": model_frame,
-                        "fitted": fitted,
-                        "residual": residual,
+    orders = (
+        [(p, q) for p in range(3) for q in range(3)]
+        if full_grid
+        else [(1, 0), (1, 1), (1, 2), (2, 0)]
+    )
+    for p, q in orders:
+        for seasonal_label, seasonal_order in seasonal_specs:
+            key = f"sarimax_p{p}_d{d}_q{q}_{seasonal_label}"
+            try:
+                model = SARIMAX(
+                    y,
+                    exog=x,
+                    order=(p, d, q),
+                    seasonal_order=seasonal_order,
+                    enforce_stationarity=False,
+                    enforce_invertibility=False,
+                )
+                result = model.fit(disp=False, maxiter=maxiter)
+                fitted = pd.Series(result.fittedvalues, index=model_frame.index)
+                residual = y - fitted
+                rows.append(
+                    {
+                        "model_key": key,
+                        "model_type": "statsmodels_sarimax",
+                        "order": f"({p},{d},{q})",
+                        "seasonal_order": str(seasonal_order),
+                        "n_rows": len(residual.dropna()),
+                        "n_features": len(feature_cols),
+                        "aic": float(result.aic),
+                        "bic": float(result.bic),
+                        "rss": float((residual.dropna() ** 2).sum()),
+                        "fit_status": "ok",
                     }
-                except Exception as exc:
-                    rows.append(
-                        {
-                            "model_key": key,
-                            "model_type": "statsmodels_sarimax",
-                            "order": f"({p},{d},{q})",
-                            "seasonal_order": str(seasonal_order),
-                            "n_rows": len(model_frame),
-                            "n_features": len(feature_cols),
-                            "aic": np.nan,
-                            "bic": np.nan,
-                            "rss": np.nan,
-                            "fit_status": f"failed: {type(exc).__name__}",
-                        }
-                    )
+                )
+                fits[key] = {
+                    "model": result,
+                    "predictors": feature_cols,
+                    "lagged": model_frame,
+                    "fitted": fitted,
+                    "residual": residual,
+                }
+            except Exception as exc:
+                rows.append(
+                    {
+                        "model_key": key,
+                        "model_type": "statsmodels_sarimax",
+                        "order": f"({p},{d},{q})",
+                        "seasonal_order": str(seasonal_order),
+                        "n_rows": len(model_frame),
+                        "n_features": len(feature_cols),
+                        "aic": np.nan,
+                        "bic": np.nan,
+                        "rss": np.nan,
+                        "fit_status": f"failed: {type(exc).__name__}",
+                    }
+                )
 
     search = pd.DataFrame(rows)
     ok = search[search["fit_status"] == "ok"].copy()
@@ -276,6 +288,7 @@ def write_summary(
     feature_cols,
     model_type,
     include_weekly=False,
+    full_grid=False,
 ):
     """Write the text summary used as the first-pass SARIMAX audit trail."""
     lines = [
@@ -305,9 +318,19 @@ def write_summary(
     )
     if "fallback" in model_type:
         lines.append("Weekly seasonal SARIMAX sensitivity: skipped in fallback AR-X path.")
+    elif full_grid:
+        lines.append("SARIMAX order search: full p,q in 0..2 grid.")
     elif include_weekly:
+        lines.append(
+            "SARIMAX order search: compact default grid; rerun with `--full-grid` "
+            "for p,q in 0..2."
+        )
         lines.append("Weekly seasonal SARIMAX sensitivity: included by user request.")
     else:
+        lines.append(
+            "SARIMAX order search: compact default grid; rerun with `--full-grid` "
+            "for p,q in 0..2."
+        )
         lines.append(
             "Weekly seasonal SARIMAX sensitivity: skipped by default; rerun with "
             "`--include-weekly-sensitivity` if needed."
@@ -322,6 +345,17 @@ def main():
         "--include-weekly-sensitivity",
         action="store_true",
         help="Also fit the slow weekly seasonal SARIMAX sensitivity grid.",
+    )
+    parser.add_argument(
+        "--full-grid",
+        action="store_true",
+        help="Fit the full p,q in 0..2 SARIMAX grid. Default uses a faster compact grid.",
+    )
+    parser.add_argument(
+        "--maxiter",
+        type=int,
+        default=80,
+        help="Maximum optimizer iterations per SARIMAX candidate.",
     )
     args = parser.parse_args()
 
@@ -346,6 +380,8 @@ def main():
         feature_cols,
         d,
         include_weekly=args.include_weekly_sensitivity,
+        full_grid=args.full_grid,
+        maxiter=args.maxiter,
     )
     if sarimax_fit is None:
         search, fit, best_key = fit_fallback_arx(model_frame, TARGET_COL, feature_cols, d)
@@ -404,6 +440,7 @@ def main():
         feature_cols,
         model_type,
         include_weekly=args.include_weekly_sensitivity,
+        full_grid=args.full_grid,
     )
 
     print(f"wrote {MODEL_PATH}")

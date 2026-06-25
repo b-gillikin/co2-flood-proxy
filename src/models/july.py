@@ -103,7 +103,7 @@ def standard_zscore(values):
 
 def anomaly_table(index, score, prefix, mad_threshold=3.5, z_threshold=3.0):
     """Build a standard anomaly flag table from a score series."""
-    score = pd.Series(score, index=index).astype(float)
+    score = pd.Series(np.asarray(score, dtype=float), index=index)
     robust_z = robust_zscore(score)
     z = standard_zscore(score)
     out = pd.DataFrame(

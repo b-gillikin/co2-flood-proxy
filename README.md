@@ -147,6 +147,10 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    python scripts/10_evaluation.py
    ```
 
+   `05_sarimax.py` uses a compact default SARIMAX search for routine reruns;
+   use `python scripts/05_sarimax.py --full-grid` when you want the full p,q
+   in 0..2 order search.
+
    These July outputs are pipeline-first on the current short IoT/residual
    window. Rerun the same commands unchanged after more IoT and KNMI data are
    added.
