@@ -61,12 +61,17 @@ HYDROLOGICAL_FEATURES = [
 
 
 def load_signal_frame():
-    """Join the Week 1 analysis frame to Week 2 residuals."""
+    """Join the Week 1 analysis frame to Week 2 residuals.
+
+    The analysis frame is a contiguous hourly grid, so a left join keeps that
+    grid intact. Lagged tendency features and the cross-correlation scan then
+    stay honest hourly lags instead of silently spanning coverage gaps.
+    """
     analysis = pd.read_csv(ANALYSIS_PATH, parse_dates=["timestamp_utc"])
     residual = pd.read_csv(RESIDUAL_PATH, parse_dates=["timestamp_utc"])
     residual = residual[["timestamp_utc", RESIDUAL_COL, "co2_fitted_barometric_ppm"]]
 
-    frame = analysis.merge(residual, on="timestamp_utc", how="inner")
+    frame = analysis.merge(residual, on="timestamp_utc", how="left")
     frame = frame.set_index("timestamp_utc").sort_index()
     return frame
 
@@ -243,7 +248,8 @@ def write_summary(frame, correlations, residual_importance, hydro_importance, ex
     lines = [
         "Week 4 Signal Characterization",
         "",
-        f"Rows in residual analysis frame: {len(frame)}",
+        f"Rows in hourly analysis grid: {len(frame)}",
+        f"Rows with barometric residual: {int(frame[RESIDUAL_COL].notna().sum())}",
         f"Analysis window: {frame.index.min()} to {frame.index.max()}",
         f"Cross-correlation lags: {min(LAGS_HOURS)}h to {max(LAGS_HOURS)}h",
         f"Minimum overlap for reported correlation: {MIN_OVERLAP} rows",

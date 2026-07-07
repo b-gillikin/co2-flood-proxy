@@ -17,6 +17,24 @@ TARGET_COL = "co2_residual_barometric_ppm"
 CO2_COL = "iot_co2_ppm"
 PRESSURE_COL = "iot_air_pressure_hpa"
 PRESSURE_LAGS = (1, 3, 6, 12, 24)
+REFERENCE_KNMI_STATION = "06380"
+
+IFOREST_BASE_FEATURES = [
+    CO2_COL,
+    TARGET_COL,
+    "iot_temperature_c",
+    "iot_relative_humidity_pct",
+    "iot_air_pressure_hpa",
+    "iot_pm2_5_ugm3",
+    "iot_pm10_ugm3",
+    "kerkrade_weather_temp_c",
+    "kerkrade_weather_relative_humidity_pct",
+    "kerkrade_weather_pressure_hpa",
+    "kerkrade_weather_precip_mm",
+    "kerkrade_weather_wind_speed_kph",
+    "kerkrade_weather_pm2_5_ugm3",
+    "kerkrade_weather_pm10_ugm3",
+]
 
 EXOG_FEATURES = [
     PRESSURE_COL,
@@ -36,13 +54,32 @@ EXOG_FEATURES = [
 ]
 
 
-def load_signal_frame(path=SIGNAL_FRAME_PATH, knmi_path=KNMI_PATH):
+def load_signal_frame(
+    path=SIGNAL_FRAME_PATH,
+    knmi_path=KNMI_PATH,
+    knmi_station=REFERENCE_KNMI_STATION,
+):
     """Load the Week 4 signal frame and add optional KNMI reference met data."""
     frame = pd.read_csv(path, parse_dates=["timestamp_utc"])
     frame = frame.set_index("timestamp_utc").sort_index()
 
+    # A full hourly grid keeps every lagged difference an honest hourly lag;
+    # rows added here are NaN-only and drop out of complete-case model frames.
+    full_index = pd.date_range(frame.index.min(), frame.index.max(), freq="h")
+    frame = frame.reindex(full_index)
+    frame.index.name = "timestamp_utc"
+
     if knmi_path is not None and Path(knmi_path).exists():
         knmi = pd.read_csv(knmi_path, parse_dates=["timestamp_utc"])
+        if knmi_station is not None and "knmi_station" in knmi.columns:
+            station = (
+                knmi["knmi_station"].astype(str).str.split(".").str[0].str.zfill(5)
+            )
+            selected = knmi.loc[station == str(knmi_station).zfill(5)]
+            # Fall back to the full cache only when the reference station has
+            # not been backfilled yet, so pressure stays single-elevation.
+            if not selected.empty:
+                knmi = selected
         numeric = knmi.select_dtypes(include=[np.number]).columns.tolist()
         knmi = knmi.groupby("timestamp_utc", as_index=True)[numeric].mean()
         frame = frame.join(knmi, how="left")
@@ -51,6 +88,24 @@ def load_signal_frame(path=SIGNAL_FRAME_PATH, knmi_path=KNMI_PATH):
         frame = pressure_deltas(frame, lags=PRESSURE_LAGS, pressure_col=PRESSURE_COL)
 
     return frame
+
+
+def contiguous_blocks(index, min_hours=1):
+    """Return (block_id, DatetimeIndex) runs of consecutive hourly timestamps.
+
+    Detector fits must not treat a coverage gap as a one-hour step, so callers
+    fit per block and skip fragments shorter than ``min_hours``.
+    """
+    index = pd.DatetimeIndex(index).sort_values()
+    if len(index) == 0:
+        return []
+    timestamps = pd.Series(index)
+    block_ids = (timestamps.diff() > pd.Timedelta(hours=1)).cumsum()
+    blocks = []
+    for block_id, chunk in timestamps.groupby(block_ids):
+        if len(chunk) >= min_hours:
+            blocks.append((int(block_id), pd.DatetimeIndex(chunk)))
+    return blocks
 
 
 def available_exog(frame, target_col=TARGET_COL, min_non_missing=50):
@@ -79,16 +134,22 @@ def complete_model_frame(frame, target_col=TARGET_COL, feature_cols=None):
     return frame[columns].replace([np.inf, -np.inf], np.nan).dropna(), feature_cols
 
 
-def robust_zscore(values):
-    """Median/MAD z-score with a standard-deviation fallback."""
+def robust_zscore(values, reference=None):
+    """Median/MAD z-score with a standard-deviation fallback.
+
+    When ``reference`` is given, the median/MAD come from the reference
+    sample (e.g. a training window) and are applied to ``values``, so
+    out-of-sample scoring involves no look-ahead.
+    """
     series = pd.Series(values).astype(float)
-    median = series.median()
-    mad = (series - median).abs().median()
+    ref = series if reference is None else pd.Series(reference).astype(float)
+    median = ref.median()
+    mad = (ref - median).abs().median()
     if pd.isna(mad) or mad == 0:
-        std = series.std(ddof=0)
+        std = ref.std(ddof=0)
         if pd.isna(std) or std == 0:
             return pd.Series(0.0, index=series.index)
-        return (series - series.mean()) / std
+        return (series - ref.mean()) / std
     return 0.6745 * (series - median) / mad
 
 
@@ -118,6 +179,45 @@ def anomaly_table(index, score, prefix, mad_threshold=3.5, z_threshold=3.0):
     )
     out[f"{prefix}_anomaly"] = out[f"{prefix}_anomaly_mad"]
     return out
+
+
+def fit_sarimax_fixed(y, x, order, seasonal_order, maxiter=80):
+    """Fit one SARIMAX with a fixed specification on a contiguous block."""
+    from statsmodels.tsa.statespace.sarimax import SARIMAX
+
+    model = SARIMAX(
+        pd.Series(y).astype(float),
+        exog=pd.DataFrame(x).astype(float),
+        order=order,
+        seasonal_order=seasonal_order,
+        enforce_stationarity=False,
+        enforce_invertibility=False,
+    )
+    return model.fit(disp=False, maxiter=maxiter)
+
+
+def fit_local_level(y, x, maxiter=300):
+    """Fit a local-level UnobservedComponents model on a contiguous block."""
+    from statsmodels.tsa.statespace.structural import UnobservedComponents
+
+    model = UnobservedComponents(
+        pd.Series(y).astype(float),
+        level="local level",
+        exog=pd.DataFrame(x).astype(float),
+    )
+    return model.fit(disp=False, maxiter=maxiter)
+
+
+def standardized_innovations(result, index, warmup=0):
+    """Per-timestep standardized one-step forecast errors from a fit result."""
+    series = pd.Series(
+        np.asarray(result.filter_results.standardized_forecasts_error[0]),
+        index=index,
+    )
+    warmup = max(int(warmup), int(result.loglikelihood_burn))
+    if warmup > 0:
+        series.iloc[:warmup] = np.nan
+    return series
 
 
 def autocorrelation(values, max_lag=48):

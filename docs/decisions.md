@@ -274,3 +274,33 @@ Current dry-run details: The deployable shared features are temperature, relativ
 Interpretation boundary: Do not read August v1 transfer probabilities as transfer success or failure. Official transfer interpretation waits until at least three transfer-site lanes are available or the dissertation scope is deliberately narrowed and documented.
 
 Source: `scripts/11_transfer_stress_test.py`; `results/transfer/transfer_training_summary.csv`; `results/transfer/feature_availability.csv`; `docs/transfer-experiment-preregistration.md`.
+
+## 2026-07-03 — IoT/weather capture outage root cause
+
+Decision: Record the production capture outage as a deployment defect, not a device failure, and leave the redeploy decision to the project owner.
+
+Finding: `air_quality_timer`, `hourly_pull_timer`, and `monthly_pull_timer` in `func-kerkrade-monthly-pull-bg` have failed on every invocation since the IoT record stops at 2026-04-13 02:36 UTC. Application Insights shows `ImportError: cryptography/_rust.abi3.so: invalid ELF header` — the deployed `.python_packages` contains macOS-built native wheels running on the Linux Functions host. The last captured rows show a healthy sensor (CO2 ~405 ppm, all status flags 1), so the basement device was fine at cutoff.
+
+Fix path (not executed): redeploy `func-kerkrade-monthly-pull-bg` with a remote build (`func azure functionapp publish func-kerkrade-monthly-pull-bg --build remote`) or Linux-built wheels. This app is separate from `func-kerkrade-knmi-backfill-bg`, which is healthy and must not be touched.
+
+Source: Application Insights traces (rg-kerkrade-prod); `data/raw/iot/air_quality_2026-04-13.csv`; blob listing of `air-quality-device-data-1`.
+
+## 2026-07-03 — Gap-honest features and per-block detector fits
+
+Decision: Never compute a lagged difference, autoregressive lag, or filter innovation across a coverage gap. The signal frame keeps the full hourly grid (left join in `04_signal_characterization.py`, hourly reindex in `src/models/july.py`), and SARIMAX/Kalman fits run per contiguous hourly block of at least 168/72 hours with initial warm-up hours masked.
+
+Alternatives considered: keep row-wise lags on the gappy frame (a "1-hour" delta could span the 160-day outage); interpolate across gaps (invents data); fit one model over concatenated blocks (seasonal and AR lags misalign at every boundary).
+
+Reasoning: The merged IoT record is three usable blocks (626h, 2471h, 606h) plus fragments. Order selection uses the longest block; the selected specification is refit per block. KNMI reference meteorology now joins as single-station `06380` data rather than a multi-station elevation-mixed average.
+
+Source: `src/models/july.py`; `scripts/04_signal_characterization.py`; `scripts/05_sarimax.py`; `scripts/06_kalman.py`.
+
+## 2026-07-03 — One official flag rule and time-aware evaluation
+
+Decision: All three detectors use the same official anomaly flag — |robust z| > 3.5 on the detector's native score (SARIMAX residual, per-timestep standardized Kalman innovation, Isolation Forest score). Contamination levels become score-quantile sensitivity columns. Evaluation windows are defined in calendar time with a minimum 70% observed-hour coverage in both spans, detectors are refit per rolling-origin window and scored out of sample with train-window thresholds, and event-window anomaly-rate tests run per deduplicated physical episode rather than per gauge/quantile catalogue row.
+
+Alternatives considered: keep per-detector flag rules (the Kalman global-3-sigma rule fired on 1 of 3,635 hours and made the ensemble effectively two detectors); keep row-position windows (a "30-day" window could span the 160-day outage); keep per-row event tests (one physical episode entered the sign-flip test up to nine times).
+
+Reasoning: The chapter's Section 5.2 commitment is time-aware splits applied uniformly across all three detectors; the in-sample full-record summaries are retained but labelled `in_sample_full_record` and are diagnostic only. Synthetic injection (`09`) now refits the actual pipeline detectors on injected series and writes a tsadams-style unsupervised selection ranking.
+
+Source: `scripts/07_isolation_forest.py`; `scripts/09_synthetic_injection.py`; `scripts/10_evaluation.py`; `src/eval.py`; `tests/test_eval.py`.

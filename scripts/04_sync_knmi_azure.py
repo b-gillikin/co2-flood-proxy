@@ -54,6 +54,9 @@ def sync_slim_blobs(args):
         args.auth_mode,
         "--overwrite",
         "true" if args.overwrite else "false",
+        # azure-cli's interactive progress reporter can crash on gzip blobs
+        # (upstream AssertionError); the sync is non-interactive anyway.
+        "--no-progress",
     ]
     run_command(command)
 
@@ -84,6 +87,7 @@ def download_state(args):
             args.auth_mode,
             "--overwrite",
             "true",
+            "--no-progress",
         ]
         run_command(command)
 
