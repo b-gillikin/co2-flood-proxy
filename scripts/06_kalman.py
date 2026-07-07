@@ -23,6 +23,7 @@ from src.models.july import (
     anomaly_table,
     available_exog,
     complete_model_frame,
+    contiguous_blocks,
     load_signal_frame,
 )
 
@@ -38,6 +39,12 @@ ANOMALY_PATH = PROCESSED_DIR / "kalman-anomalies.csv"
 RIDGE_ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)
 Q_SCALES = (0.001, 0.01, 0.05, 0.1, 0.5)
 R_SCALES = (0.25, 0.5, 1.0, 2.0)
+
+# Filters run inside contiguous hourly runs only, so an innovation is never a
+# one-step surprise computed across a multi-day outage. The first hours of
+# each run are masked while the filter is still absorbing its initial state.
+MIN_BLOCK_HOURS = 72
+WARMUP_HOURS = 3
 
 
 def fit_exogenous_mean(model_frame, target_col, feature_cols):
@@ -78,19 +85,23 @@ def local_level_filter(observed, q, r):
     return pd.DataFrame(rows)
 
 
-def tune_q_r(residualized):
-    """Choose Q/R by a compact likelihood grid."""
-    residualized = pd.Series(residualized).astype(float)
-    base_var = max(float(residualized.var(ddof=0)), 1e-6)
+def tune_q_r(residualized_blocks):
+    """Choose Q/R by a compact likelihood grid pooled over contiguous blocks."""
+    pooled = pd.concat([pd.Series(block).astype(float) for block in residualized_blocks])
+    base_var = max(float(pooled.var(ddof=0)), 1e-6)
     rows = []
     for q_scale in Q_SCALES:
         for r_scale in R_SCALES:
             q = base_var * q_scale
             r = base_var * r_scale
-            filtered = local_level_filter(residualized, q, r)
-            innovation = filtered["innovation"]
-            variance = filtered["innovation_variance"].clip(lower=1e-9)
-            nll = float(0.5 * (np.log(2 * np.pi * variance) + (innovation**2) / variance).sum())
+            nll = 0.0
+            for block in residualized_blocks:
+                filtered = local_level_filter(block, q, r)
+                innovation = filtered["innovation"]
+                variance = filtered["innovation_variance"].clip(lower=1e-9)
+                nll += float(
+                    0.5 * (np.log(2 * np.pi * variance) + (innovation**2) / variance).sum()
+                )
             rows.append(
                 {
                     "q_scale": q_scale,
@@ -106,42 +117,94 @@ def tune_q_r(residualized):
 
 
 def fit_statsmodels_local_level(model_frame, target_col, feature_cols):
-    """Fit the planned statsmodels local-level model when available."""
+    """Fit the planned statsmodels local-level model per contiguous block.
+
+    Innovations are standardized by their own per-timestep forecast-error
+    variance from the Kalman filter, not by one global standard deviation, so
+    the anomaly score matches the innovations-based detection framing.
+    """
     try:
         from statsmodels.tsa.statespace.structural import UnobservedComponents
     except ImportError:
         return None
 
-    y = model_frame[target_col].astype(float)
-    x = model_frame[feature_cols].astype(float)
-    try:
-        model = UnobservedComponents(y, level="local level", exog=x)
-        result = model.fit(disp=False, maxiter=300)
-    except Exception:
+    blocks = contiguous_blocks(model_frame.index, min_hours=MIN_BLOCK_HOURS)
+    if not blocks:
         return None
 
-    fitted = pd.Series(result.fittedvalues, index=model_frame.index)
-    innovation = y - fitted
-    scale = innovation.std(ddof=0)
-    if pd.isna(scale) or scale == 0:
-        standardized = pd.Series(0.0, index=model_frame.index)
-    else:
-        standardized = innovation / scale
+    outputs = []
+    per_block_status = []
+    representative = None
+    representative_hours = 0
+    for block_id, block_index in blocks:
+        y = model_frame.loc[block_index, target_col].astype(float)
+        x = model_frame.loc[block_index, feature_cols].astype(float)
+        try:
+            model = UnobservedComponents(y, level="local level", exog=x)
+            result = model.fit(disp=False, maxiter=300)
+        except Exception as exc:
+            per_block_status.append(
+                {
+                    "block_id": block_id,
+                    "block_start_utc": block_index.min(),
+                    "block_end_utc": block_index.max(),
+                    "block_hours": len(block_index),
+                    "warmup_hours_masked": np.nan,
+                    "fit_status": f"failed: {type(exc).__name__}",
+                }
+            )
+            continue
 
-    output = pd.DataFrame(
-        {
-            "timestamp_utc": model_frame.index,
-            "observed": y.to_numpy(),
-            "predicted": fitted.to_numpy(),
-            "exog_fitted": np.nan,
-            "predicted_state": np.nan,
-            "filtered_state": np.nan,
-            "innovation": innovation.to_numpy(),
-            "innovation_variance": scale**2,
-            "standardized_innovation": standardized.to_numpy(),
-        }
-    )
-    return result, output
+        filter_results = result.filter_results
+        fitted = pd.Series(np.asarray(result.fittedvalues), index=block_index)
+        innovation = pd.Series(
+            np.asarray(filter_results.forecasts_error[0]), index=block_index
+        )
+        innovation_variance = pd.Series(
+            np.asarray(filter_results.forecasts_error_cov[0, 0]), index=block_index
+        )
+        standardized = pd.Series(
+            np.asarray(filter_results.standardized_forecasts_error[0]),
+            index=block_index,
+        )
+        warmup = max(int(result.loglikelihood_burn), WARMUP_HOURS)
+        for series in (fitted, innovation, innovation_variance, standardized):
+            series.iloc[:warmup] = np.nan
+
+        outputs.append(
+            pd.DataFrame(
+                {
+                    "timestamp_utc": block_index,
+                    "block_id": block_id,
+                    "observed": y.to_numpy(),
+                    "predicted": fitted.to_numpy(),
+                    "exog_fitted": np.nan,
+                    "predicted_state": np.nan,
+                    "filtered_state": np.nan,
+                    "innovation": innovation.to_numpy(),
+                    "innovation_variance": innovation_variance.to_numpy(),
+                    "standardized_innovation": standardized.to_numpy(),
+                }
+            )
+        )
+        per_block_status.append(
+            {
+                "block_id": block_id,
+                "block_start_utc": block_index.min(),
+                "block_end_utc": block_index.max(),
+                "block_hours": len(block_index),
+                "warmup_hours_masked": warmup,
+                "fit_status": "ok",
+            }
+        )
+        if len(block_index) > representative_hours:
+            representative = result
+            representative_hours = len(block_index)
+
+    if not outputs:
+        return None
+    output = pd.concat(outputs, ignore_index=True).sort_values("timestamp_utc")
+    return representative, output, pd.DataFrame(per_block_status)
 
 
 def write_plots(output):
@@ -206,17 +269,43 @@ def main():
     if statsmodels_fit is None:
         mean_model, exog_fitted = fit_exogenous_mean(model_frame, TARGET_COL, feature_cols)
         residualized = model_frame[TARGET_COL] - exog_fitted
-        search, q, r = tune_q_r(residualized)
-        filtered = local_level_filter(residualized, q, r)
+        blocks = contiguous_blocks(model_frame.index, min_hours=MIN_BLOCK_HOURS)
+        residualized_blocks = [residualized.loc[block_index] for _, block_index in blocks]
+        search, q, r = tune_q_r(residualized_blocks)
 
-        output = filtered.copy()
+        parts = []
+        block_rows = []
+        for (block_id, block_index), block in zip(blocks, residualized_blocks):
+            filtered = local_level_filter(block, q, r)
+            filtered.loc[
+                : WARMUP_HOURS - 1,
+                ["innovation", "innovation_variance", "standardized_innovation"],
+            ] = np.nan
+            filtered["block_id"] = block_id
+            parts.append(filtered)
+            block_rows.append(
+                {
+                    "block_id": block_id,
+                    "block_start_utc": block_index.min(),
+                    "block_end_utc": block_index.max(),
+                    "block_hours": len(block_index),
+                    "warmup_hours_masked": WARMUP_HOURS,
+                    "fit_status": "ok",
+                }
+            )
+        block_status = pd.DataFrame(block_rows)
+
+        output = pd.concat(parts, ignore_index=True)
         output["timestamp_utc"] = pd.to_datetime(output["timestamp_utc"], utc=True)
         output = output.set_index("timestamp_utc")
         output["observed"] = model_frame.loc[output.index, TARGET_COL]
         output["exog_fitted"] = exog_fitted.loc[output.index]
         output["predicted"] = output["exog_fitted"] + output["predicted_state"]
         output = output.reset_index()
-        model_type = "exogenous Ridge mean + scalar local-level Kalman fallback"
+        model_type = (
+            "exogenous Ridge mean + scalar local-level Kalman fallback, "
+            "fit per contiguous block"
+        )
         model_payload = {
             "model_type": "ridge_exog_local_level",
             "target_col": TARGET_COL,
@@ -224,20 +313,27 @@ def main():
             "mean_model": mean_model,
             "q": q,
             "r": r,
+            "min_block_hours": MIN_BLOCK_HOURS,
         }
     else:
-        result, output = statsmodels_fit
+        result, output, block_status = statsmodels_fit
         search = None
         q = np.nan
         r = np.nan
-        model_type = "statsmodels local-level state-space model with exogenous regressors"
+        model_type = (
+            "statsmodels local-level state-space model with exogenous regressors, "
+            "fit per contiguous block"
+        )
         model_payload = {
             "model_type": "statsmodels_unobserved_components",
             "target_col": TARGET_COL,
             "feature_cols": feature_cols,
             "model": result,
+            "min_block_hours": MIN_BLOCK_HOURS,
         }
 
+    # The official flag is the shared robust-MAD rule from anomaly_table so all
+    # three detectors use one comparable flag definition in the ensemble.
     anomalies = anomaly_table(
         pd.DatetimeIndex(output["timestamp_utc"]),
         output["standardized_innovation"],
@@ -245,7 +341,7 @@ def main():
         mad_threshold=3.5,
         z_threshold=3.0,
     )
-    anomalies["kalman_anomaly"] = output["standardized_innovation"].abs().to_numpy() > 3
+    block_status.to_csv(RESULTS_DIR / "block_fit_status.csv", index=False)
 
     output.to_csv(INNOVATION_PATH, index=False)
     anomalies.to_csv(ANOMALY_PATH, index=False)

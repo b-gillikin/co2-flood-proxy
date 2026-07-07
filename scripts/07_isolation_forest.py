@@ -16,7 +16,12 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 
-from src.models.july import CO2_COL, TARGET_COL, load_signal_frame
+from src.models.july import (
+    CO2_COL,
+    IFOREST_BASE_FEATURES,
+    anomaly_table,
+    load_signal_frame,
+)
 
 
 PROCESSED_DIR = Path("data/processed")
@@ -27,42 +32,30 @@ MODEL_PATH = MODELS_DIR / "iforest.pkl"
 SCORES_PATH = PROCESSED_DIR / "iforest-scores.csv"
 ANOMALIES_PATH = PROCESSED_DIR / "iforest-anomalies.csv"
 
+# The anomaly score does not depend on the contamination setting, so one
+# forest is fit and contamination levels become score-quantile sensitivity
+# flags. The official flag is the shared robust-MAD rule used by all three
+# detectors; a fixed contamination would hard-code the reported anomaly rate.
 CONTAMINATIONS = (0.03, 0.05, 0.10)
-OFFICIAL_CONTAMINATION = 0.05
 RANDOM_STATE = 42
-
-
-BASE_FEATURES = [
-    CO2_COL,
-    TARGET_COL,
-    "iot_temperature_c",
-    "iot_relative_humidity_pct",
-    "iot_air_pressure_hpa",
-    "iot_pm2_5_ugm3",
-    "iot_pm10_ugm3",
-    "kerkrade_weather_temp_c",
-    "kerkrade_weather_relative_humidity_pct",
-    "kerkrade_weather_pressure_hpa",
-    "kerkrade_weather_precip_mm",
-    "kerkrade_weather_wind_speed_kph",
-    "kerkrade_weather_pm2_5_ugm3",
-    "kerkrade_weather_pm10_ugm3",
-]
 
 
 def feature_columns(frame):
     """Select complete-case multivariate Isolation Forest features."""
     delta_cols = [column for column in frame.columns if "_delta_" in column]
-    features = [column for column in [*BASE_FEATURES, *delta_cols] if column in frame.columns]
+    features = [
+        column
+        for column in [*IFOREST_BASE_FEATURES, *delta_cols]
+        if column in frame.columns
+    ]
     return list(dict.fromkeys(features))
 
 
-def fit_iforest(x, contamination):
-    """Fit one Isolation Forest model."""
+def fit_iforest(x):
+    """Fit the Isolation Forest used for scoring."""
     model = IsolationForest(
         n_estimators=200,
         max_features=0.8,
-        contamination=contamination,
         random_state=RANDOM_STATE,
         n_jobs=1,
     )
@@ -102,11 +95,12 @@ def write_summary(scores, feature_cols):
         "",
         "Status: provisional pipeline-first run.",
         f"Rows used: {len(scores)}",
-        f"Official contamination: {OFFICIAL_CONTAMINATION}",
+        "Official flag: robust-MAD rule on the anomaly score (|robust z| > 3.5),",
+        "matching the SARIMAX and Kalman official flags.",
         f"Official anomaly count: {int(scores['iforest_anomaly'].sum())}",
         f"Features used ({len(feature_cols)}): {', '.join(feature_cols)}",
         "",
-        "Sensitivity anomaly counts:",
+        "Contamination score-quantile sensitivity counts:",
     ]
     for contamination in CONTAMINATIONS:
         column = f"iforest_anomaly_{str(contamination).replace('.', 'p')}"
@@ -131,21 +125,29 @@ def main():
             CO2_COL: model_frame[CO2_COL].to_numpy(dtype=float),
         }
     )
-    models = {}
-    for contamination in CONTAMINATIONS:
-        model = fit_iforest(x, contamination)
-        token = str(contamination).replace(".", "p")
-        raw_score = -model.score_samples(x)
-        labels = model.predict(x) == -1
-        scores[f"iforest_score_{token}"] = raw_score
-        scores[f"iforest_anomaly_{token}"] = labels
-        models[contamination] = model
+    model = fit_iforest(x)
+    raw_score = -model.score_samples(x)
+    scores["iforest_score"] = raw_score
 
-    official_token = str(OFFICIAL_CONTAMINATION).replace(".", "p")
-    scores["iforest_score"] = scores[f"iforest_score_{official_token}"]
-    scores["iforest_anomaly"] = scores[f"iforest_anomaly_{official_token}"]
+    contamination_thresholds = {}
+    for contamination in CONTAMINATIONS:
+        token = str(contamination).replace(".", "p")
+        threshold = float(np.quantile(raw_score, 1 - contamination))
+        contamination_thresholds[contamination] = threshold
+        scores[f"iforest_anomaly_{token}"] = raw_score >= threshold
+
+    official = anomaly_table(
+        pd.DatetimeIndex(scores["timestamp_utc"]),
+        raw_score,
+        prefix="iforest",
+    )
+    scores["iforest_robust_z"] = official["iforest_robust_z"].to_numpy()
+    scores["iforest_anomaly"] = official["iforest_anomaly"].to_numpy()
+
     sensitivity_cols = [
-        column for column in scores.columns if column.startswith("iforest_anomaly_")
+        column
+        for column in scores.columns
+        if column.startswith("iforest_anomaly_")
     ]
     anomalies = scores[["timestamp_utc", "iforest_anomaly", *sensitivity_cols]]
 
@@ -156,8 +158,9 @@ def main():
             {
                 "model_type": "IsolationForest",
                 "features": features,
-                "official_contamination": OFFICIAL_CONTAMINATION,
-                "models": models,
+                "official_flag": "robust_mad_3p5_on_score",
+                "contamination_thresholds": contamination_thresholds,
+                "model": model,
             },
             handle,
         )

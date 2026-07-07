@@ -27,6 +27,7 @@ from src.models.july import (
     autocorrelation,
     available_exog,
     complete_model_frame,
+    contiguous_blocks,
     load_signal_frame,
 )
 
@@ -42,6 +43,12 @@ ANOMALY_PATH = PROCESSED_DIR / "sarimax-anomalies.csv"
 
 RANDOM_STATE = 42
 RIDGE_ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)
+
+# The IoT record arrives in contiguous runs separated by long outages. Every
+# fit happens inside one run so AR/seasonal lags stay honest hours; fragments
+# shorter than a week cannot support the daily seasonal terms and are skipped.
+MIN_BLOCK_HOURS = 168
+WARMUP_HOURS = 24
 
 
 def stationarity_tests(series, name):
@@ -99,15 +106,23 @@ def co2_transform_decision(series):
 
 
 def make_lagged_frame(model_frame, target_col, feature_cols, p, d):
-    """Build an AR-X design matrix for the statsmodels-free fallback."""
-    out = model_frame[[target_col, *feature_cols]].copy()
-    y = out[target_col].diff(d) if d else out[target_col]
-    out["model_target"] = y
-    for lag in range(1, p + 1):
-        out[f"target_lag_{lag}"] = y.shift(lag)
+    """Build a per-block AR-X design matrix for the statsmodels-free fallback."""
     predictors = [*feature_cols, *[f"target_lag_{lag}" for lag in range(1, p + 1)]]
-    out = out.dropna(subset=["model_target", *predictors])
-    return out, predictors
+    parts = []
+    for block_id, block_index in contiguous_blocks(
+        model_frame.index, min_hours=MIN_BLOCK_HOURS
+    ):
+        out = model_frame.loc[block_index, [target_col, *feature_cols]].copy()
+        y = out[target_col].diff(d) if d else out[target_col]
+        out["model_target"] = y
+        for lag in range(1, p + 1):
+            out[f"target_lag_{lag}"] = y.shift(lag)
+        out["block_id"] = block_id
+        parts.append(out)
+    if not parts:
+        return pd.DataFrame(columns=[target_col, *predictors, "model_target"]), predictors
+    combined = pd.concat(parts).dropna(subset=["model_target", *predictors])
+    return combined, predictors
 
 
 def fit_fallback_arx(model_frame, target_col, feature_cols, d):
@@ -168,16 +183,38 @@ def fit_statsmodels_sarimax(
     Daily seasonality is the default reproducible path. Weekly seasonality is
     kept as an opt-in sensitivity because it can be slow on the current short
     window and should not block routine pipeline checks.
+
+    Order selection runs on the longest contiguous hourly block so information
+    criteria are computed on an honest evenly-spaced series. The selected
+    specification is then refit on every qualifying block, and residuals are
+    concatenated with the first ``WARMUP_HOURS`` of each block masked so
+    filter initialization transients do not surface as anomalies.
     """
     try:
         from statsmodels.tsa.statespace.sarimax import SARIMAX
     except ImportError:
         return None
 
-    y = model_frame[target_col].astype(float)
-    x = model_frame[feature_cols].astype(float)
+    blocks = contiguous_blocks(model_frame.index, min_hours=MIN_BLOCK_HOURS)
+    if not blocks:
+        return None
+    selection_index = max(blocks, key=lambda item: len(item[1]))[1]
+
+    def fit_one(block_index, order, seasonal_order):
+        y = model_frame.loc[block_index, target_col].astype(float)
+        x = model_frame.loc[block_index, feature_cols].astype(float)
+        model = SARIMAX(
+            y,
+            exog=x,
+            order=order,
+            seasonal_order=seasonal_order,
+            enforce_stationarity=False,
+            enforce_invertibility=False,
+        )
+        return model.fit(disp=False, maxiter=maxiter), y
+
     rows = []
-    fits = {}
+    specs = {}
     seasonal_specs = [("daily", (1, 0, 1, 24))]
     if include_weekly:
         seasonal_specs.append(("weekly_sensitivity", (1, 0, 1, 168)))
@@ -190,18 +227,10 @@ def fit_statsmodels_sarimax(
     for p, q in orders:
         for seasonal_label, seasonal_order in seasonal_specs:
             key = f"sarimax_p{p}_d{d}_q{q}_{seasonal_label}"
+            specs[key] = ((p, d, q), seasonal_order)
             try:
-                model = SARIMAX(
-                    y,
-                    exog=x,
-                    order=(p, d, q),
-                    seasonal_order=seasonal_order,
-                    enforce_stationarity=False,
-                    enforce_invertibility=False,
-                )
-                result = model.fit(disp=False, maxiter=maxiter)
-                fitted = pd.Series(result.fittedvalues, index=model_frame.index)
-                residual = y - fitted
+                result, y = fit_one(selection_index, (p, d, q), seasonal_order)
+                residual = y - pd.Series(result.fittedvalues, index=selection_index)
                 rows.append(
                     {
                         "model_key": key,
@@ -209,6 +238,7 @@ def fit_statsmodels_sarimax(
                         "order": f"({p},{d},{q})",
                         "seasonal_order": str(seasonal_order),
                         "n_rows": len(residual.dropna()),
+                        "selection_block_hours": len(selection_index),
                         "n_features": len(feature_cols),
                         "aic": float(result.aic),
                         "bic": float(result.bic),
@@ -216,13 +246,6 @@ def fit_statsmodels_sarimax(
                         "fit_status": "ok",
                     }
                 )
-                fits[key] = {
-                    "model": result,
-                    "predictors": feature_cols,
-                    "lagged": model_frame,
-                    "fitted": fitted,
-                    "residual": residual,
-                }
             except Exception as exc:
                 rows.append(
                     {
@@ -230,7 +253,8 @@ def fit_statsmodels_sarimax(
                         "model_type": "statsmodels_sarimax",
                         "order": f"({p},{d},{q})",
                         "seasonal_order": str(seasonal_order),
-                        "n_rows": len(model_frame),
+                        "n_rows": len(selection_index),
+                        "selection_block_hours": len(selection_index),
                         "n_features": len(feature_cols),
                         "aic": np.nan,
                         "bic": np.nan,
@@ -246,7 +270,63 @@ def fit_statsmodels_sarimax(
     ok = ok.sort_values(["bic", "aic"]).reset_index(drop=True)
     search = pd.concat([ok, search[search["fit_status"] != "ok"]], ignore_index=True)
     best_key = ok.iloc[0]["model_key"]
-    return search, fits[best_key], best_key
+    best_order, best_seasonal = specs[best_key]
+
+    fitted_parts = []
+    block_id_parts = []
+    per_block_status = []
+    representative_result = None
+    for block_id, block_index in blocks:
+        try:
+            result, y = fit_one(block_index, best_order, best_seasonal)
+            fitted = pd.Series(result.fittedvalues, index=block_index)
+            warmup = max(int(result.loglikelihood_burn), WARMUP_HOURS)
+            fitted.iloc[:warmup] = np.nan
+            fitted_parts.append(fitted)
+            block_id_parts.append(pd.Series(block_id, index=block_index))
+            per_block_status.append(
+                {
+                    "block_id": block_id,
+                    "block_start_utc": block_index.min(),
+                    "block_end_utc": block_index.max(),
+                    "block_hours": len(block_index),
+                    "warmup_hours_masked": warmup,
+                    "fit_status": "ok",
+                }
+            )
+            if len(block_index) == len(selection_index):
+                representative_result = result
+        except Exception as exc:
+            per_block_status.append(
+                {
+                    "block_id": block_id,
+                    "block_start_utc": block_index.min(),
+                    "block_end_utc": block_index.max(),
+                    "block_hours": len(block_index),
+                    "warmup_hours_masked": np.nan,
+                    "fit_status": f"failed: {type(exc).__name__}",
+                }
+            )
+
+    if not fitted_parts:
+        return None
+    fitted_all = pd.concat(fitted_parts).sort_index()
+    block_ids = pd.concat(block_id_parts).sort_index()
+    used_frame = model_frame.loc[fitted_all.index]
+    residual_all = used_frame[target_col].astype(float) - fitted_all
+
+    fit = {
+        "model": representative_result,
+        "predictors": feature_cols,
+        "lagged": used_frame,
+        "fitted": fitted_all,
+        "residual": residual_all,
+        "block_ids": block_ids,
+        "per_block_status": pd.DataFrame(per_block_status),
+        "order": best_order,
+        "seasonal_order": best_seasonal,
+    }
+    return search, fit, best_key
 
 
 def write_residual_plots(residuals):
@@ -308,7 +388,8 @@ def write_summary(
         [
             "",
             f"CO2 transform decision: {transform['transform']} "
-            f"(skew={transform['original_skew']:.3f})",
+            f"(skew={transform['original_skew']:.3f}) — recorded as a diagnostic "
+            "only; the model is fit on the untransformed residual target.",
             "Selected provisional order: "
             f"{search.loc[search['model_key'] == best_key, 'order'].iloc[0]}",
             "Selected seasonal order: "
@@ -405,6 +486,12 @@ def main():
             "model_key": best_key,
         }
     )
+    if "block_ids" in fit:
+        residuals["block_id"] = fit["block_ids"].to_numpy()
+    elif "block_id" in lagged.columns:
+        residuals["block_id"] = lagged["block_id"].to_numpy()
+    if "per_block_status" in fit:
+        fit["per_block_status"].to_csv(RESULTS_DIR / "block_fit_status.csv", index=False)
     anomalies = anomaly_table(
         pd.DatetimeIndex(residuals["timestamp_utc"]),
         residuals["sarimax_residual"],
@@ -427,6 +514,9 @@ def main():
                 "difference_order": d,
                 "stationarity": stationarity,
                 "co2_transform": transform,
+                "order": fit.get("order"),
+                "seasonal_order": fit.get("seasonal_order"),
+                "min_block_hours": MIN_BLOCK_HOURS,
             },
             handle,
         )

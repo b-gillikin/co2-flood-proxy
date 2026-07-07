@@ -52,7 +52,11 @@ def sustained_exceedance_events(
     events = []
 
     for row in thresholds.itertuples(index=False):
-        series = discharge[row.source].dropna()
+        # Keep the full hourly grid: dropping missing hours first would let a
+        # "contiguous" exceedance silently bridge a coverage gap. A missing
+        # hour inside a real event now splits it, which is the conservative
+        # and time-honest reading.
+        series = discharge[row.source]
         above = series >= row.threshold_m3s
         group_id = above.ne(above.shift(fill_value=False)).cumsum()
 
@@ -101,6 +105,10 @@ def hourly_discharge_soft_labels(
     Levels are ordinal: 0 below p90, 1 at/above p90, 2 at/above p95, and 3
     at/above p99 by default. Soft-label columns divide those levels by the
     maximum level so downstream models can use a 0..1 proxy if helpful.
+
+    Hours with no discharge observation carry NaN labels: a gauge outage must
+    not read as calm conditions. Antecedent columns summarize the observed
+    hours in each window and are NaN only when the whole window is unobserved.
     """
     thresholds = discharge_thresholds(discharge, quantiles)
     labels = pd.DataFrame(index=discharge.index)
@@ -110,12 +118,13 @@ def hourly_discharge_soft_labels(
 
     for column in discharge_columns(discharge):
         source_thresholds = thresholds.loc[thresholds["source"] == column]
-        scores = pd.Series(0, index=discharge.index, dtype="int64")
+        scores = pd.Series(0.0, index=discharge.index)
         for row in source_thresholds.sort_values("quantile").itertuples(index=False):
             scores = scores.mask(
                 discharge[column] >= row.threshold_m3s,
                 quantile_scores[row.quantile],
             )
+        scores = scores.mask(discharge[column].isna())
 
         token = _source_token(column)
         labels[f"{token}_current_level"] = scores
@@ -163,6 +172,72 @@ def annotate_event_overlap(events, iot_index=None, weather_index=None):
             counts.append(int(mask.sum()))
         out[f"{name}_overlap_hours"] = counts
 
+    return out
+
+
+def deduplicate_event_episodes(events):
+    """Collapse overlapping gauge/quantile events into physical episodes.
+
+    The event catalogue deliberately keeps one row per gauge and threshold
+    quantile, so a single high-water episode can appear up to nine times.
+    Paired statistical tests must not treat those rows as independent; this
+    merges events whose [start, end] windows overlap or touch (across gauges
+    and quantiles) into one episode row.
+    """
+    required = ["start_timestamp_utc", "end_timestamp_utc"]
+    if events.empty:
+        return pd.DataFrame(
+            columns=[
+                "episode_id",
+                *required,
+                "duration_hours",
+                "n_source_events",
+                "n_sources",
+                "max_threshold_quantile",
+            ]
+        )
+
+    ordered = events.sort_values("start_timestamp_utc")
+    episodes = []
+    current = None
+
+    for row in ordered.itertuples(index=False):
+        if current is not None and row.start_timestamp_utc <= current["end_timestamp_utc"]:
+            current["end_timestamp_utc"] = max(
+                current["end_timestamp_utc"], row.end_timestamp_utc
+            )
+            current["sources"].add(row.source)
+            current["n_source_events"] += 1
+            current["max_threshold_quantile"] = max(
+                current["max_threshold_quantile"], row.threshold_quantile
+            )
+        else:
+            if current is not None:
+                episodes.append(current)
+            current = {
+                "start_timestamp_utc": row.start_timestamp_utc,
+                "end_timestamp_utc": row.end_timestamp_utc,
+                "sources": {row.source},
+                "n_source_events": 1,
+                "max_threshold_quantile": row.threshold_quantile,
+            }
+    episodes.append(current)
+
+    out = pd.DataFrame(
+        {
+            "episode_id": [f"episode_{idx + 1:03d}" for idx in range(len(episodes))],
+            "start_timestamp_utc": [episode["start_timestamp_utc"] for episode in episodes],
+            "end_timestamp_utc": [episode["end_timestamp_utc"] for episode in episodes],
+            "n_source_events": [episode["n_source_events"] for episode in episodes],
+            "n_sources": [len(episode["sources"]) for episode in episodes],
+            "max_threshold_quantile": [
+                episode["max_threshold_quantile"] for episode in episodes
+            ],
+        }
+    )
+    out["duration_hours"] = (
+        (out["end_timestamp_utc"] - out["start_timestamp_utc"]) / pd.Timedelta(hours=1)
+    ).astype(int) + 1
     return out
 
 
