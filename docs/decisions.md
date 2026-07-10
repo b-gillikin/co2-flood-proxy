@@ -304,3 +304,27 @@ Alternatives considered: keep per-detector flag rules (the Kalman global-3-sigma
 Reasoning: The chapter's Section 5.2 commitment is time-aware splits applied uniformly across all three detectors; the in-sample full-record summaries are retained but labelled `in_sample_full_record` and are diagnostic only. Synthetic injection (`09`) now refits the actual pipeline detectors on injected series and writes a tsadams-style unsupervised selection ranking.
 
 Source: `scripts/07_isolation_forest.py`; `scripts/09_synthetic_injection.py`; `scripts/10_evaluation.py`; `src/eval.py`; `tests/test_eval.py`.
+
+## 2026-07-09 — Capture restored: vendored-package redeploy
+
+Decision: Redeploy `func-kerkrade-monthly-pull-bg` (authorized by the project owner on 2026-07-09) with a source-only whitelist zip plus the repo's verified Linux-built `.python_packages`, excluding `knmi_backfill_timer/` so no second KNMI backfill runner could register in this app.
+
+Sequence: A first source-only deploy relied on remote build, but the app lacks `ENABLE_ORYX_BUILD` and Kudu skipped dependency installation (`ModuleNotFoundError: requests`). The second deploy vendored the repo's `.python_packages` (all 72 native libraries verified ELF x86-64, cp311, covering requirements.txt) and succeeded without any app-settings changes.
+
+Verified after deploy: `air_quality_timer` succeeding every minute with zero exceptions, `air_quality_2026-07-09.csv` being written to `air-quality-device-data-1`, function list unchanged at the original four functions. `func-kerkrade-knmi-backfill-bg` was never modified.
+
+Follow-ups: the IoT gap 2026-04-13 → 2026-07-09 is permanent unless Blynk device exports cover it (place any in `iot-device-data/`); Visual Crossing weather for the gap is recoverable via the monthly/hourly pull backfill. The deploy-script defect that caused the outage (`azure/deploy_function.sh` zips `.python_packages` built on the deploying machine) remains; prefer excluding `.python_packages` and enabling `ENABLE_ORYX_BUILD=true`, or only deploying from a Linux-wheel tree.
+
+Source: `results` of config-zip deploys on 2026-07-09; Application Insights (rg-kerkrade-prod); blob listing of `air-quality-device-data-1`.
+
+## 2026-07-09 — Distributed-lag test of the multi-week antecedent signal
+
+Decision: Before proposing any redesign around the Week 4 lag-scan result (residual–discharge coupling at ~10.6 days), test it with a pre-stated decision rule in `scripts/12_distributed_lag.py`: daily aggregation per block, exponentially weighted antecedent-precipitation timescale scan with same-day met controls and block fixed effects, confirmatory inference at a 10-day half-life (HAC + moving-block bootstrap), per-block sign replication, and a future-precipitation placebo.
+
+Outcome (2026-07-09 record): NOT SUPPORTED. Confirmatory coefficient positive but not significant (HAC p=0.31; bootstrap CI spans zero; 72 usable days). Decisive detail: the placebo failed in the damning direction — future precipitation "explains" the residual more strongly (t=-3.64) than past precipitation (t=1.02), the signature of shared low-frequency structure rather than a lagged causal signal. The Week 4 lag-scan correlation should be treated as an artifact of smooth-series cross-correlation until a longer record says otherwise.
+
+Interpretation boundary: this is failure to establish, not proof of absence — at a 10-day half-life only the 2,116-hour block contributes usable days (the shorter blocks cannot supply 30 days of API history by construction), so per-block replication was unachievable on this record and power is low. Rerun the same script unchanged as the restored capture extends the record, and again when Provincie Limburg groundwater data (a direct state predictor, unlike precipitation) is integrated.
+
+Consequence for design: the "retune the evaluation to the 10-day timescale" argument does not currently have evidence behind it. The detector-frame critique stands on its own merits, but no reframing should be proposed to the supervisor as data-driven; the binding constraint is record length.
+
+Source: `scripts/12_distributed_lag.py`; `results/distributed_lag/summary.txt`; `docs/week4-signal-interpretation.md`.
