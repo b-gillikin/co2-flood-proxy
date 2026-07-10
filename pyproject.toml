@@ -1,0 +1,24 @@
+[tool.ruff]
+# Numbered analysis scripts and the src package share one style.
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# Core correctness/style plus import sorting (I) and common bug patterns (B).
+select = ["E", "F", "W", "I", "B"]
+ignore = [
+    "E501",  # line length is enforced by the formatter, not the linter
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Scripts, tests, and the Azure package intentionally insert sys.path before
+# importing local modules, so module-level imports below that are expected.
+"scripts/*" = ["E402"]
+"tests/*" = ["E402"]
+"kerkrade_data/*" = ["E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.format]
+quote-style = "double"

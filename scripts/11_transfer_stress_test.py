@@ -27,7 +27,6 @@ from sklearn.preprocessing import StandardScaler
 
 from src.features import pressure_deltas
 
-
 PROCESSED_DIR = Path("data/processed")
 INTERIM_DIR = Path("data/interim")
 RESULTS_DIR = Path("results/transfer")
@@ -243,7 +242,9 @@ def fallback_scores(detector: str) -> pd.DataFrame:
     return pd.DataFrame({"timestamp_utc": frame["timestamp_utc"], "fallback_score": score})
 
 
-def detector_labels(detector: str, min_positives: int = 5) -> tuple[pd.DataFrame, dict[str, object]]:
+def detector_labels(
+    detector: str, min_positives: int = 5
+) -> tuple[pd.DataFrame, dict[str, object]]:
     """Build the official or fallback training label for one detector."""
     flags = read_timestamped(FLAGS_PATH)
     label_column = f"{detector}_anomaly"
@@ -457,7 +458,11 @@ def write_figure_manifest() -> None:
         ("example_data_window", "results/eda/co2_discharge_soft_labels.png", "draft"),
         ("barometric_fit", "results/baseline/co2_fit_residual.png", "draft"),
         ("eryilmaz_roc", "results/eryilmaz/roc_curves.png", "draft"),
-        ("residual_lag_heatmap", "results/signal/residual_cross_correlation_heatmap.png", "provisional"),
+        (
+            "residual_lag_heatmap",
+            "results/signal/residual_cross_correlation_heatmap.png",
+            "provisional",
+        ),
         ("sarimax_residuals", "results/sarimax/residual_timeseries.png", "provisional"),
         ("kalman_innovations", "results/kalman/innovations.png", "provisional"),
         ("iforest_scores", "results/iforest/iforest_scores.png", "provisional"),
@@ -530,8 +535,13 @@ def main() -> None:
     training_summary = pd.DataFrame(training_rows)
     if score_rows:
         score_summary = pd.DataFrame(score_rows)
-        scored = lambda value: int((value == "scored_provisional_dry_run").sum())
-        insufficient = lambda value: int((value != "scored_provisional_dry_run").sum())
+
+        def scored(value):
+            return int((value == "scored_provisional_dry_run").sum())
+
+        def insufficient(value):
+            return int((value != "scored_provisional_dry_run").sum())
+
         training_summary = training_summary.merge(
             score_summary.groupby("detector")
             .agg(
@@ -543,7 +553,9 @@ def main() -> None:
             how="left",
         )
 
-    training_summary["august_v1_status"] = "provisional_dry_run_not_official_transfer_interpretation"
+    training_summary["august_v1_status"] = (
+        "provisional_dry_run_not_official_transfer_interpretation"
+    )
     training_summary.to_csv(RESULTS_DIR / "transfer_training_summary.csv", index=False)
     availability.to_csv(RESULTS_DIR / "feature_availability.csv", index=False)
     baseline.to_csv(RESULTS_DIR / "baseline_availability.csv", index=False)

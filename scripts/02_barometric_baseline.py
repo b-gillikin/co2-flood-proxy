@@ -19,7 +19,6 @@ from sklearn.preprocessing import StandardScaler
 
 from src.features import pressure_deltas
 
-
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/baseline")
@@ -105,9 +104,7 @@ def write_residuals(primary_result):
     """Save observed CO2, pressure features, fitted CO2, and residuals."""
     frame = primary_result["model_frame"].copy()
     frame["co2_fitted_barometric_ppm"] = primary_result["linear_fit"]
-    frame["co2_residual_barometric_ppm"] = (
-        frame[CO2_COL] - frame["co2_fitted_barometric_ppm"]
-    )
+    frame["co2_residual_barometric_ppm"] = frame[CO2_COL] - frame["co2_fitted_barometric_ppm"]
     frame["barometric_pressure_source"] = primary_result["pressure_col"]
 
     keep_cols = [

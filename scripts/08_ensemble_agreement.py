@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import cohen_kappa_score
 
+from src.eval import combine_detector_flags
 
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/ensemble")
@@ -108,19 +109,8 @@ def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    frames = [
-        read_detector(name, path, column)
-        for name, (path, column) in DETECTORS.items()
-    ]
-    flags = frames[0]
-    for frame in frames[1:]:
-        flags = flags.merge(frame, on="timestamp_utc", how="inner")
-
-    detector_cols = [f"{name}_anomaly" for name in DETECTORS]
-    for column in detector_cols:
-        flags[column] = flags[column].astype(bool)
-    flags["detector_count"] = flags[detector_cols].sum(axis=1)
-    flags["all_three_anomaly"] = flags["detector_count"] == 3
+    frames = [read_detector(name, path, column) for name, (path, column) in DETECTORS.items()]
+    flags = combine_detector_flags(frames, DETECTORS)
 
     summary, pairwise = agreement_tables(flags)
     flags.to_csv(FLAGS_PATH, index=False)

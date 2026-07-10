@@ -14,7 +14,6 @@ os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/eda")
@@ -77,7 +76,7 @@ def plot_series(joined, columns, title, filename):
     if len(available) == 1:
         axes = [axes]
 
-    for axis, column in zip(axes, available):
+    for axis, column in zip(axes, available, strict=False):
         axis.plot(joined.index, joined[column], linewidth=1)
         axis.set_ylabel(column)
         axis.grid(True, alpha=0.25)
@@ -99,7 +98,7 @@ def write_plots(joined):
             "iot_co2_ppm",
             "iot_air_pressure_hpa",
             "kerkrade_weather_pressure_hpa",
-            "iot_observation_count",
+            "iot_co2_observation_count",
         ],
         "CO2, pressure, and IoT observation coverage",
         "co2_pressure_coverage.png",
@@ -140,7 +139,7 @@ def print_overview(joined):
         joined.index.max(),
         f"({len(joined)} hourly rows)",
     )
-    print("empty IoT hours:", int((joined["iot_observation_count"] == 0).sum()))
+    print("empty IoT hours:", int((joined["iot_co2_observation_count"] == 0).sum()))
     print("CO2 > 1000 ppm hours:", int((joined["iot_co2_ppm"] > 1000).sum()))
     if "any_current_level" in joined:
         print("current soft-label max level:", joined["any_current_level"].max())

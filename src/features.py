@@ -19,4 +19,3 @@ def pressure_deltas(df, lags=(1, 3, 6, 12, 24), pressure_col="pressure"):
     for lag in lags:
         out[f"delta_pressure_{lag}h"] = out[pressure_col].diff(lag)
     return out
-

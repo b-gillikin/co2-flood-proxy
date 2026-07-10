@@ -11,9 +11,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import pandas as pd
+import requests
 
 from src.io_data import load_rivm
-
 
 RAW_DIR = Path("data/raw/transfer/rivm")
 INTERIM_DIR = Path("data/interim")
@@ -31,8 +31,6 @@ DEFAULT_LOCATION_KEYWORDS = ("maastricht", "roermond", "heerlen")
 
 def get_json(url, params=None):
     """Request JSON from the public Luchtmeetnet API."""
-    import requests
-
     response = requests.get(url, params=params, timeout=60)
     response.raise_for_status()
     return response.json()
@@ -47,8 +45,6 @@ def cache_json(payload, path):
 
 def download_file(url, path):
     """Download one public RIVM data-portal file."""
-    import requests
-
     path.parent.mkdir(parents=True, exist_ok=True)
     response = requests.get(url, timeout=120)
     if response.status_code == 404:

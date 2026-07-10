@@ -31,7 +31,6 @@ from src.models.july import (
     load_signal_frame,
 )
 
-
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/sarimax")
 MODELS_DIR = Path("results/models")
@@ -109,9 +108,7 @@ def make_lagged_frame(model_frame, target_col, feature_cols, p, d):
     """Build a per-block AR-X design matrix for the statsmodels-free fallback."""
     predictors = [*feature_cols, *[f"target_lag_{lag}" for lag in range(1, p + 1)]]
     parts = []
-    for block_id, block_index in contiguous_blocks(
-        model_frame.index, min_hours=MIN_BLOCK_HOURS
-    ):
+    for block_id, block_index in contiguous_blocks(model_frame.index, min_hours=MIN_BLOCK_HOURS):
         out = model_frame.loc[block_index, [target_col, *feature_cols]].copy()
         y = out[target_col].diff(d) if d else out[target_col]
         out["model_target"] = y
@@ -403,14 +400,12 @@ def write_summary(
         lines.append("SARIMAX order search: full p,q in 0..2 grid.")
     elif include_weekly:
         lines.append(
-            "SARIMAX order search: compact default grid; rerun with `--full-grid` "
-            "for p,q in 0..2."
+            "SARIMAX order search: compact default grid; rerun with `--full-grid` for p,q in 0..2."
         )
         lines.append("Weekly seasonal SARIMAX sensitivity: included by user request.")
     else:
         lines.append(
-            "SARIMAX order search: compact default grid; rerun with `--full-grid` "
-            "for p,q in 0..2."
+            "SARIMAX order search: compact default grid; rerun with `--full-grid` for p,q in 0..2."
         )
         lines.append(
             "Weekly seasonal SARIMAX sensitivity: skipped by default; rerun with "
@@ -467,8 +462,7 @@ def main():
     if sarimax_fit is None:
         search, fit, best_key = fit_fallback_arx(model_frame, TARGET_COL, feature_cols, d)
         model_type = (
-            "fallback AR-X because statsmodels is not importable or no "
-            "SARIMAX grid fit converged"
+            "fallback AR-X because statsmodels is not importable or no SARIMAX grid fit converged"
         )
     else:
         search, fit, best_key = sarimax_fit

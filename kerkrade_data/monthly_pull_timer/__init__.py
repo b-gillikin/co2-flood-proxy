@@ -1,34 +1,33 @@
-import logging
-import os
-import shutil
+import csv
 import hashlib
 import json
-import csv
+import logging
+import os
 import re
+import shutil
+from datetime import date, datetime, timezone
 from pathlib import Path
-from datetime import datetime, timezone, date
 
 import azure.functions as func
-from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
+import monthly_pull
 from azure.communication.email import EmailClient
+from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient
 
-import monthly_pull
-
-SYNC_DIR = Path('/tmp/monthly_data_sync')
+SYNC_DIR = Path("/tmp/monthly_data_sync")
 DEFAULT_LOCATION_CONTAINER_PAIRS = [
-    ('Kerkrade', 'kerkrada-weather-data'),
-    ('Liege', 'liege-weather-data'),
-    ('Maastricht', 'maastricht-weather-data'),
-    ('Aachen', 'aachen-weather-data'),
-    ('Cologne', 'cologne-weather-data'),
+    ("Kerkrade", "kerkrada-weather-data"),
+    ("Liege", "liege-weather-data"),
+    ("Maastricht", "maastricht-weather-data"),
+    ("Aachen", "aachen-weather-data"),
+    ("Cologne", "cologne-weather-data"),
 ]
 
 
 def _get_blob_client():
-    conn_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING', '').strip()
+    conn_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING", "").strip()
     if not conn_str:
-        raise RuntimeError('AZURE_STORAGE_CONNECTION_STRING is required.')
+        raise RuntimeError("AZURE_STORAGE_CONNECTION_STRING is required.")
     return BlobServiceClient.from_connection_string(conn_str)
 
 
@@ -48,7 +47,7 @@ def _sync_down(container_name: str) -> None:
     for blob in container.list_blobs():
         destination = SYNC_DIR / blob.name
         destination.parent.mkdir(parents=True, exist_ok=True)
-        with open(destination, 'wb') as f:
+        with open(destination, "wb") as f:
             f.write(container.download_blob(blob.name).readall())
 
 
@@ -65,15 +64,15 @@ def _sync_up(container_name: str) -> list[str]:
     skipped = 0
     uploaded_blobs: list[str] = []
 
-    for file_path in SYNC_DIR.rglob('*'):
+    for file_path in SYNC_DIR.rglob("*"):
         if not file_path.is_file():
             continue
         blob_name = str(file_path.relative_to(SYNC_DIR))
         blob = container.get_blob_client(blob_name)
 
         local_hash = hashlib.md5()
-        with open(file_path, 'rb') as f:
-            for chunk in iter(lambda: f.read(1024 * 1024), b''):
+        with open(file_path, "rb") as f:
+            for chunk in iter(lambda: f.read(1024 * 1024), b""):
                 local_hash.update(chunk)
         local_digest = local_hash.digest()
 
@@ -90,7 +89,7 @@ def _sync_up(container_name: str) -> list[str]:
             skipped += 1
             continue
 
-        with open(file_path, 'rb') as data:
+        with open(file_path, "rb") as data:
             container.upload_blob(name=blob_name, data=data, overwrite=True)
         uploaded += 1
         uploaded_blobs.append(blob_name)
@@ -100,67 +99,65 @@ def _sync_up(container_name: str) -> list[str]:
 
 
 def _get_location_container_pairs() -> list[tuple[str, str]]:
-    raw = os.getenv('LOCATION_CONTAINER_MAP', '').strip()
+    raw = os.getenv("LOCATION_CONTAINER_MAP", "").strip()
     if not raw:
         return DEFAULT_LOCATION_CONTAINER_PAIRS
 
     pairs: list[tuple[str, str]] = []
-    for entry in raw.split(';'):
+    for entry in raw.split(";"):
         item = entry.strip()
         if not item:
             continue
-        if ':' not in item:
+        if ":" not in item:
             raise RuntimeError(
                 "Invalid LOCATION_CONTAINER_MAP format. Expected 'Location:container;Location2:container2'."
             )
-        location, container = item.split(':', 1)
+        location, container = item.split(":", 1)
         location = location.strip()
         container = container.strip()
         if location and container:
             pairs.append((location, container))
     if not pairs:
-        raise RuntimeError('LOCATION_CONTAINER_MAP resolved to an empty location/container list.')
+        raise RuntimeError("LOCATION_CONTAINER_MAP resolved to an empty location/container list.")
     return pairs
 
 
 def _months_remaining_in_sync_dir() -> int | None:
-    state_path = SYNC_DIR / '.backfill_state.json'
+    state_path = SYNC_DIR / ".backfill_state.json"
     if not state_path.exists():
         return None
     try:
-        with open(state_path, 'r') as f:
+        with open(state_path, "r") as f:
             state = json.load(f)
-        value = state.get('months_remaining')
+        value = state.get("months_remaining")
         return int(value) if value is not None else None
     except Exception as exc:
-        logging.warning('Failed reading .backfill_state.json: %s', exc)
+        logging.warning("Failed reading .backfill_state.json: %s", exc)
         return None
 
 
 def _send_upload_email(container_name: str, uploaded_blobs: list[str]) -> None:
-    conn = os.getenv('AZURE_COMMUNICATION_CONNECTION_STRING', '').strip()
-    sender = os.getenv('ALERT_SENDER', '').strip()
-    recipients_raw = os.getenv('ALERT_RECIPIENTS', '').strip()
+    conn = os.getenv("AZURE_COMMUNICATION_CONNECTION_STRING", "").strip()
+    sender = os.getenv("ALERT_SENDER", "").strip()
+    recipients_raw = os.getenv("ALERT_RECIPIENTS", "").strip()
     if not conn or not sender or not recipients_raw:
-        logging.info('Email settings missing; skipping upload notification.')
+        logging.info("Email settings missing; skipping upload notification.")
         return
 
-    recipients = [r.strip() for r in recipients_raw.split(',') if r.strip()]
+    recipients = [r.strip() for r in recipients_raw.split(",") if r.strip()]
     if not recipients:
         return
 
     preview = uploaded_blobs[:20]
     numbered = [f"{idx}. {name}" for idx, name in enumerate(preview, start=1)]
-    suffix = '' if len(uploaded_blobs) <= 20 else f"\n...and {len(uploaded_blobs) - 20} more"
+    suffix = "" if len(uploaded_blobs) <= 20 else f"\n...and {len(uploaded_blobs) - 20} more"
     iot_summary = _build_iot_summary()
     hourly_weather_summary = _build_hourly_weather_summary()
 
     body = (
         "### WEATHER DATA - HISTORICAL ###\n"
         f"Upload sync completed for container: {container_name}\n"
-        f"Uploaded/updated blobs: {len(uploaded_blobs)}\n\n"
-        + "\n".join(numbered)
-        + suffix
+        f"Uploaded/updated blobs: {len(uploaded_blobs)}\n\n" + "\n".join(numbered) + suffix
     )
     if hourly_weather_summary:
         body += f"\n\n{hourly_weather_summary}"
@@ -168,18 +165,18 @@ def _send_upload_email(container_name: str, uploaded_blobs: list[str]) -> None:
         body += f"\n\n{iot_summary}"
 
     message = {
-        'senderAddress': sender,
-        'content': {
-            'subject': f'{container_name} update ({len(uploaded_blobs)} files)',
-            'plainText': body,
+        "senderAddress": sender,
+        "content": {
+            "subject": f"{container_name} update ({len(uploaded_blobs)} files)",
+            "plainText": body,
         },
-        'recipients': {'to': [{'address': r} for r in recipients]},
+        "recipients": {"to": [{"address": r} for r in recipients]},
     }
 
     client = EmailClient.from_connection_string(conn)
     poller = client.begin_send(message)
     result = poller.result()
-    logging.info('Timer upload email sent. Message ID: %s', result.get('id'))
+    logging.info("Timer upload email sent. Message ID: %s", result.get("id"))
 
 
 def _safe_float(value):
@@ -195,34 +192,37 @@ def _blob_date_from_name(name: str, prefix: str) -> date | None:
     if not m:
         return None
     try:
-        return datetime.strptime(m.group(1), '%Y-%m-%d').date()
+        return datetime.strptime(m.group(1), "%Y-%m-%d").date()
     except ValueError:
         return None
 
 
 def _download_csv_rows(container, blob_name: str) -> list[dict[str, str]]:
-    data = container.download_blob(blob_name).readall().decode('utf-8', errors='replace')
+    data = container.download_blob(blob_name).readall().decode("utf-8", errors="replace")
     return list(csv.DictReader(data.splitlines()))
 
 
 def _build_iot_summary() -> str:
-    container_name = os.getenv('AIR_QUALITY_CONTAINER', 'air-quality-device-data-1').strip() or 'air-quality-device-data-1'
-    prefix = os.getenv('AIR_QUALITY_BLOB_PREFIX', 'air_quality').strip() or 'air_quality'
+    container_name = (
+        os.getenv("AIR_QUALITY_CONTAINER", "air-quality-device-data-1").strip()
+        or "air-quality-device-data-1"
+    )
+    prefix = os.getenv("AIR_QUALITY_BLOB_PREFIX", "air_quality").strip() or "air_quality"
 
     try:
         svc = _get_blob_client()
         container = svc.get_container_client(container_name)
         dated_blobs: list[tuple[date, str]] = []
-        for b in container.list_blobs(name_starts_with=f'{prefix}_'):
+        for b in container.list_blobs(name_starts_with=f"{prefix}_"):
             name = b.name
-            if not name.endswith('.csv'):
+            if not name.endswith(".csv"):
                 continue
             d = _blob_date_from_name(name, prefix)
             if d is not None:
                 dated_blobs.append((d, name))
 
         if not dated_blobs:
-            now_utc = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+            now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
             return (
                 "### AIR QUALITY DEVICE DATA ###\n"
                 f"Container: {container_name}\n"
@@ -244,13 +244,13 @@ def _build_iot_summary() -> str:
 
         full_day_candidates = [(d, n) for (d, n) in dated_blobs if d < today_utc]
         if full_day_candidates:
-            full_day_date, full_day_blob = full_day_candidates[-1]
+            _full_day_date, full_day_blob = full_day_candidates[-1]
         else:
-            full_day_date, full_day_blob = latest_blob_date, latest_blob_name
+            _full_day_date, full_day_blob = latest_blob_date, latest_blob_name
 
         full_day_rows = _download_csv_rows(container, full_day_blob)
         if not full_day_rows:
-            now_utc = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+            now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
             return (
                 "### AIR QUALITY DEVICE DATA ###\n"
                 f"Container: {container_name}\n"
@@ -263,16 +263,16 @@ def _build_iot_summary() -> str:
                 f"Summary generated (UTC): {now_utc}"
             )
 
-        temp_vals = [_safe_float(r.get('Temperature')) for r in full_day_rows]
+        temp_vals = [_safe_float(r.get("Temperature")) for r in full_day_rows]
         temp_vals = [v for v in temp_vals if v is not None]
-        co2_vals = [_safe_float(r.get('CO2')) for r in full_day_rows]
+        co2_vals = [_safe_float(r.get("CO2")) for r in full_day_rows]
         co2_vals = [v for v in co2_vals if v is not None]
 
-        now_utc = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
-        avg_temp = round(sum(temp_vals) / len(temp_vals), 2) if temp_vals else 'n/a'
-        avg_co2 = round(sum(co2_vals) / len(co2_vals), 2) if co2_vals else 'n/a'
-        latest_temp = latest_row.get('Temperature', 'n/a') if latest_row else 'n/a'
-        latest_co2 = latest_row.get('CO2', 'n/a') if latest_row else 'n/a'
+        now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        avg_temp = round(sum(temp_vals) / len(temp_vals), 2) if temp_vals else "n/a"
+        avg_co2 = round(sum(co2_vals) / len(co2_vals), 2) if co2_vals else "n/a"
+        latest_temp = latest_row.get("Temperature", "n/a") if latest_row else "n/a"
+        latest_co2 = latest_row.get("CO2", "n/a") if latest_row else "n/a"
 
         return (
             "### AIR QUALITY DEVICE DATA ###\n"
@@ -286,13 +286,16 @@ def _build_iot_summary() -> str:
             f"Summary generated (UTC): {now_utc}"
         )
     except Exception as exc:
-        logging.warning('Failed to build IoT summary: %s', exc)
+        logging.warning("Failed to build IoT summary: %s", exc)
         return "IoT summary unavailable (read/parse failed)."
 
 
 def _build_hourly_weather_summary() -> str:
-    container_name = os.getenv('HOURLY_DATA_CONTAINER', 'kerkrada-weather-data').strip() or 'kerkrada-weather-data'
-    location = os.getenv('HOURLY_LOCATION', 'Kerkrade').strip() or 'Kerkrade'
+    container_name = (
+        os.getenv("HOURLY_DATA_CONTAINER", "kerkrada-weather-data").strip()
+        or "kerkrada-weather-data"
+    )
+    location = os.getenv("HOURLY_LOCATION", "Kerkrade").strip() or "Kerkrade"
     today_utc = datetime.now(timezone.utc).date()
     month_blob = f"weather_{monthly_pull.safe_location_name(location)}_{today_utc:%Y-%m}.csv"
 
@@ -303,7 +306,7 @@ def _build_hourly_weather_summary() -> str:
         count_today = 0
         day_prefix = today_utc.isoformat()
         for r in rows:
-            dt = (r.get('datetime') or '').strip()
+            dt = (r.get("datetime") or "").strip()
             if dt.startswith(day_prefix):
                 count_today += 1
         return (
@@ -312,7 +315,7 @@ def _build_hourly_weather_summary() -> str:
             f"Number of Rows Uploaded: {count_today}"
         )
     except Exception as exc:
-        logging.warning('Failed to build hourly weather summary: %s', exc)
+        logging.warning("Failed to build hourly weather summary: %s", exc)
         return (
             "### WEATHER DATA - HOURLY ###\n"
             f"Container: {container_name}\n"
@@ -340,8 +343,8 @@ def main(timer: func.TimerRequest) -> None:
             )
             continue
 
-        os.environ['SAVE_FOLDER'] = str(SYNC_DIR)
-        os.environ['LOCATION'] = location
+        os.environ["SAVE_FOLDER"] = str(SYNC_DIR)
+        os.environ["LOCATION"] = location
         monthly_pull.main()
 
         uploaded_blobs = _sync_up(container)

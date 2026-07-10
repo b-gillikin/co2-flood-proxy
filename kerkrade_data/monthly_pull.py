@@ -1,10 +1,10 @@
-import os
-import json
-import time
-import urllib.request
-import urllib.error
-from datetime import date, datetime
 import calendar
+import json
+import os
+import time
+import urllib.error
+import urllib.request
+from datetime import date, datetime
 
 BASE_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
 DEFAULT_LOCATION = "Kerkrade"
@@ -12,7 +12,7 @@ UNIT_GROUP = "metric"
 CONTENT_TYPE = "csv"
 INCLUDE = "hours"
 ELEMENTS = "name,datetime,datetimeEpoch,tempmax,tempmin,temp,dew,humidity,cloudcover,visibility,precip,precipprob,precipcover,preciptype,snow,snowdepth,windspeed,windspeedmean,windgust,winddir,pressure,solarradiation,solarenergy,uvindex,sunrise,sunset,moonphase,conditions,aquius,aqieur,aqielement,pm1,pm2p5,pm10,so1,no2,o3,co,cape,cin,latitude,longitude,timezone,description,stations,source"
-MAX_DISTANCE = '25000'
+MAX_DISTANCE = "25000"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 YEARS_BACK = 10
 SLEEP_SECONDS_BETWEEN_CALLS = 1.0
@@ -31,11 +31,14 @@ def load_api_keys():
 def get_save_folder():
     return os.getenv("SAVE_FOLDER", os.path.join(SCRIPT_DIR, "monthly_data"))
 
+
 def get_location():
     return os.getenv("LOCATION", DEFAULT_LOCATION).strip() or DEFAULT_LOCATION
 
+
 def safe_location_name(loc):
     return loc.replace(",", "_").replace(" ", "")
+
 
 def month_start_end(year, month):
     last_day = calendar.monthrange(year, month)[1]
@@ -44,11 +47,13 @@ def month_start_end(year, month):
         date(year, month, last_day).isoformat(),
     )
 
+
 def prev_month(year, month):
     month -= 1
     if month == 0:
         return year - 1, 12
     return year, month
+
 
 def build_url(location, api_key, d1, d2):
     return (
@@ -61,11 +66,13 @@ def build_url(location, api_key, d1, d2):
         f"&maxDistance={MAX_DISTANCE}"
     )
 
+
 def read_http_error_body(e):
     try:
         return e.read().decode("utf-8", errors="replace")
     except Exception:
         return ""
+
 
 def load_state(path):
     if os.path.exists(path):
@@ -79,20 +86,25 @@ def load_state(path):
         "months_remaining": YEARS_BACK * 12,
     }
 
+
 def save_state(path, state):
     tmp = path + ".tmp"
     with open(tmp, "w") as f:
         json.dump(state, f, indent=2)
     os.replace(tmp, path)
 
+
 def month_file_path(folder, location, year, month):
     loc = safe_location_name(location)
     return os.path.join(folder, f"weather_{loc}_{year:04d}-{month:02d}.csv")
 
+
 def main():
     api_keys = load_api_keys()
     if not api_keys:
-        raise RuntimeError("No API keys configured. Set API_KEYS env var as comma-separated values.")
+        raise RuntimeError(
+            "No API keys configured. Set API_KEYS env var as comma-separated values."
+        )
 
     save_folder = get_save_folder()
     location = get_location()
@@ -103,7 +115,6 @@ def main():
     exhausted_keys = set()
 
     while state["months_remaining"] > 0 and len(exhausted_keys) < len(api_keys):
-
         y = state["next_year"]
         m = state["next_month"]
         out_path = month_file_path(save_folder, location, y, m)
@@ -123,7 +134,7 @@ def main():
             if idx in exhausted_keys:
                 continue
 
-            print(f"Trying {y:04d}-{m:02d} with key #{idx+1}")
+            print(f"Trying {y:04d}-{m:02d} with key #{idx + 1}")
             url = build_url(location, api_key, d1, d2)
 
             try:
@@ -135,7 +146,7 @@ def main():
                     f.write(csv_text)
                 os.replace(tmp_path, out_path)
 
-                print(f"SAVED {location} using key #{idx+1}")
+                print(f"SAVED {location} using key #{idx + 1}")
                 success = True
                 break
 
@@ -143,7 +154,7 @@ def main():
                 body = read_http_error_body(e)
 
                 if e.code == 429 and "daily cost" in body.lower():
-                    print(f"Key #{idx+1} exhausted for today.")
+                    print(f"Key #{idx + 1} exhausted for today.")
                     exhausted_keys.add(idx)
                     continue
 
@@ -164,6 +175,7 @@ def main():
 
     if state["months_remaining"] == 0:
         print(f"DONE: Full 10-year backfill complete for {location}.")
+
 
 if __name__ == "__main__":
     main()

@@ -23,7 +23,6 @@ from src.models.july import (
     load_signal_frame,
 )
 
-
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/iforest")
 MODELS_DIR = Path("results/models")
@@ -44,9 +43,7 @@ def feature_columns(frame):
     """Select complete-case multivariate Isolation Forest features."""
     delta_cols = [column for column in frame.columns if "_delta_" in column]
     features = [
-        column
-        for column in [*IFOREST_BASE_FEATURES, *delta_cols]
-        if column in frame.columns
+        column for column in [*IFOREST_BASE_FEATURES, *delta_cols] if column in frame.columns
     ]
     return list(dict.fromkeys(features))
 
@@ -145,9 +142,7 @@ def main():
     scores["iforest_anomaly"] = official["iforest_anomaly"].to_numpy()
 
     sensitivity_cols = [
-        column
-        for column in scores.columns
-        if column.startswith("iforest_anomaly_")
+        column for column in scores.columns if column.startswith("iforest_anomaly_")
     ]
     anomalies = scores[["timestamp_utc", "iforest_anomaly", *sensitivity_cols]]
 

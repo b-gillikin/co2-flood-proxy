@@ -8,7 +8,6 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-
 BASE_DIR = Path(__file__).resolve().parent
 PIN_MAPPING_PATH = BASE_DIR / "pin-mapping.json"
 CSV_PATH = BASE_DIR / "streaming_data.csv"

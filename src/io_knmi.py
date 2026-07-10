@@ -3,9 +3,31 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
+
+# KNMI hourly text-file codes are stored in tenths of a unit; the NetCDF 10-min
+# in-situ product uses SI names that are already scaled. Scale deterministically
+# by the matched source code instead of guessing from the sample median. Codes
+# absent here (e.g. lowercase SI names, humidity in whole percent) keep 1.0.
+KNMI_UNIT_FACTORS = {
+    "T": 0.1,  # 0.1 degC
+    "P": 0.1,  # 0.1 hPa
+    "RH": 0.1,  # 0.1 mm precipitation
+    "R1H": 0.1,  # 0.1 mm hourly precipitation
+}
+
+# Plausibility bounds used only to warn when a unit factor looks wrong.
+KNMI_VALID_RANGES = {
+    "knmi_temperature_c": (-40.0, 50.0),
+    "knmi_pressure_hpa": (870.0, 1085.0),
+    "knmi_relative_humidity_pct": (0.0, 100.0),
+    "knmi_precip_mm": (0.0, 200.0),
+}
 
 
 KNMI_STATION_SETS = {
@@ -51,9 +73,7 @@ def load_knmi(
         ]
     )
     files = [
-        path
-        for path in files
-        if path.parent == raw_path or path.name.lower().startswith("knmi")
+        path for path in files if path.parent == raw_path or path.name.lower().startswith("knmi")
     ]
     if not files:
         raise FileNotFoundError(f"No cached KNMI table or NetCDF files found in {raw_path}")
@@ -196,9 +216,7 @@ def _normalize_knmi_frame(frame):
         ["knmi_station", "station", "station_code", "station_id", "STN"],
     )
     out["knmi_station"] = (
-        out[station_col].map(_normalize_knmi_station_code)
-        if station_col
-        else "unknown"
+        out[station_col].map(_normalize_knmi_station_code) if station_col else "unknown"
     )
 
     target_columns = {
@@ -243,13 +261,16 @@ def _normalize_knmi_frame(frame):
     keep = ["timestamp_utc", "knmi_station"]
     for target, candidates in target_columns.items():
         source_col = _first_knmi_value_column(out, candidates)
-        if source_col is not None:
-            out[target] = pd.to_numeric(out[source_col], errors="coerce")
-            keep.append(target)
-
-    for column in ["knmi_pressure_hpa", "knmi_temperature_c", "knmi_precip_mm"]:
-        if column in out:
-            out[column] = _auto_scale_knmi_units(out[column], column)
+        if source_col is None:
+            continue
+        values = pd.to_numeric(out[source_col], errors="coerce")
+        values = values * KNMI_UNIT_FACTORS.get(source_col, 1.0)
+        if target == "knmi_precip_mm":
+            # KNMI encodes a trace amount (<0.05 mm) as -1; map it to 0.
+            values = values.mask(values < 0, 0.0)
+        _validate_knmi_range(values, target, source_col)
+        out[target] = values
+        keep.append(target)
 
     return out[list(dict.fromkeys(keep))]
 
@@ -325,15 +346,27 @@ def _first_knmi_value_column(frame, candidates):
     return None
 
 
-def _auto_scale_knmi_units(series, column):
-    """Scale common KNMI tenths-units into ordinary chapter units."""
-    median = series.abs().median(skipna=True)
-    if pd.isna(median):
-        return series
-    if column == "knmi_pressure_hpa" and median > 2000:
-        return series / 10
-    if column == "knmi_temperature_c" and median > 80:
-        return series / 10
-    if column == "knmi_precip_mm" and median > 100:
-        return series / 10
-    return series
+def _validate_knmi_range(series, target, source_col):
+    """Warn when scaled KNMI values fall outside physically plausible bounds.
+
+    This is a backstop for a wrong unit factor: a magnitude error surfaces as a
+    loud log warning rather than a silent 10x error in the modelling exog.
+    """
+    bounds = KNMI_VALID_RANGES.get(target)
+    if bounds is None:
+        return
+    low, high = bounds
+    finite = pd.Series(series).dropna()
+    if finite.empty:
+        return
+    out_of_range = float(((finite < low) | (finite > high)).mean())
+    if out_of_range > 0:
+        logger.warning(
+            "KNMI %s (from %r): %.1f%% of values outside plausible range "
+            "[%s, %s]; check the unit factor.",
+            target,
+            source_col,
+            100 * out_of_range,
+            low,
+            high,
+        )

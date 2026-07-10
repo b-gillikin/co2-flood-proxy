@@ -7,6 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.textutils import safe_token
+
 
 def load_rivm(
     raw_dir="data/raw/transfer/rivm",
@@ -102,9 +104,9 @@ def load_rivm(
 
     out["series"] = (
         "rivm_"
-        + out["station_number"].map(_safe_column_token)
+        + out["station_number"].map(safe_token)
         + "_"
-        + out["formula"].map(_safe_column_token)
+        + out["formula"].map(safe_token)
         + "_ugm3"
     )
     wide_frame = out.pivot_table(
@@ -114,10 +116,3 @@ def load_rivm(
         aggfunc="mean",
     )
     return wide_frame.sort_index()
-
-
-def _safe_column_token(value):
-    """Make a stable lowercase token for RIVM wide-column names."""
-    return "".join(
-        char.lower() if char.isalnum() else "_" for char in str(value)
-    ).strip("_")

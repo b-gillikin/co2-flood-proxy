@@ -27,7 +27,6 @@ from src.models.july import (
     load_signal_frame,
 )
 
-
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/kalman")
 MODELS_DIR = Path("results/models")
@@ -157,9 +156,7 @@ def fit_statsmodels_local_level(model_frame, target_col, feature_cols):
 
         filter_results = result.filter_results
         fitted = pd.Series(np.asarray(result.fittedvalues), index=block_index)
-        innovation = pd.Series(
-            np.asarray(filter_results.forecasts_error[0]), index=block_index
-        )
+        innovation = pd.Series(np.asarray(filter_results.forecasts_error[0]), index=block_index)
         innovation_variance = pd.Series(
             np.asarray(filter_results.forecasts_error_cov[0, 0]), index=block_index
         )
@@ -275,7 +272,7 @@ def main():
 
         parts = []
         block_rows = []
-        for (block_id, block_index), block in zip(blocks, residualized_blocks):
+        for (block_id, block_index), block in zip(blocks, residualized_blocks, strict=False):
             filtered = local_level_filter(block, q, r)
             filtered.loc[
                 : WARMUP_HOURS - 1,
@@ -303,8 +300,7 @@ def main():
         output["predicted"] = output["exog_fitted"] + output["predicted_state"]
         output = output.reset_index()
         model_type = (
-            "exogenous Ridge mean + scalar local-level Kalman fallback, "
-            "fit per contiguous block"
+            "exogenous Ridge mean + scalar local-level Kalman fallback, fit per contiguous block"
         )
         model_payload = {
             "model_type": "ridge_exog_local_level",

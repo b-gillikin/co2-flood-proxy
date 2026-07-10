@@ -8,7 +8,6 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-
 IOT_COLUMN_MAP = {
     "Temperature": "iot_temperature_c",
     "Humidity": "iot_relative_humidity_pct",
@@ -65,22 +64,20 @@ def load_iot(
     if end is not None:
         out = out.loc[out.index <= pd.Timestamp(end, tz="UTC")]
 
-    sensor_columns = [
-        column
-        for column in out.columns
-        if column not in IOT_METADATA_COLUMNS
-    ]
+    sensor_columns = [column for column in out.columns if column not in IOT_METADATA_COLUMNS]
 
     if frequency:
+        # Counts are keyed on CO2, the primary channel, so the name is explicit:
+        # an hour with live BME/PM readings but a dead CO2 sensor is not counted.
         observation_count = out["iot_co2_ppm"].resample(frequency).count()
         device_count = out["iot_device_id"].resample(frequency).nunique()
         source_count = out["iot_source"].resample(frequency).nunique()
         out = out.resample(frequency)[sensor_columns].mean()
-        out["iot_observation_count"] = observation_count.rename("iot_observation_count")
+        out["iot_co2_observation_count"] = observation_count.rename("iot_co2_observation_count")
         out["iot_device_count"] = device_count.rename("iot_device_count")
         out["iot_source_count"] = source_count.rename("iot_source_count")
     else:
-        out["iot_observation_count"] = out["iot_co2_ppm"].notna().astype(int)
+        out["iot_co2_observation_count"] = out["iot_co2_ppm"].notna().astype(int)
         out["iot_device_count"] = out["iot_device_id"].notna().astype(int)
         out["iot_source_count"] = out["iot_source"].notna().astype(int)
 
@@ -113,11 +110,7 @@ def load_iot_observations(
         status_columns = [column for column in out.columns if "status" in column]
         out = out.drop(columns=status_columns)
 
-    sensor_columns = [
-        column
-        for column in out.columns
-        if column not in IOT_METADATA_COLUMNS
-    ]
+    sensor_columns = [column for column in out.columns if column not in IOT_METADATA_COLUMNS]
     out[sensor_columns] = out[sensor_columns].apply(pd.to_numeric, errors="coerce")
     out["iot_device_id"] = out["iot_device_id"].fillna("unknown").astype(str)
     out["iot_device_name"] = out["iot_device_name"].fillna("unknown").astype(str)
@@ -126,9 +119,7 @@ def load_iot_observations(
         errors="coerce",
     ).fillna(0)
 
-    out = out.sort_values(
-        ["iot_device_id", "timestamp", "iot_source_row_count", "iot_source_file"]
-    )
+    out = out.sort_values(["iot_device_id", "timestamp", "iot_source_row_count", "iot_source_file"])
     out = out.drop_duplicates(subset=["iot_device_id", "timestamp"], keep="last")
     return out.sort_values("timestamp").reset_index(drop=True)
 
@@ -192,8 +183,12 @@ def _read_blynk_metadata(path):
 
 
 def _device_id_from_export_path(path):
-    """Extract the Blynk numeric device ID from an export folder name."""
-    for part in str(path).replace("-", "_").split("_"):
+    """Extract the Blynk numeric device ID from an export folder name.
+
+    Only the folder name is scanned, not the full path, so a numeric ancestor
+    directory (a date, a project id) cannot be mistaken for the device id.
+    """
+    for part in Path(path).name.replace("-", "_").split("_"):
         if part.isdigit() and len(part) >= 5:
             return part
     return "unknown"

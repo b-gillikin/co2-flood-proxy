@@ -20,7 +20,6 @@ from sklearn.preprocessing import StandardScaler
 
 from src.features import pressure_deltas
 
-
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/eryilmaz")
@@ -132,9 +131,7 @@ def fit_cv_predictions(replication_frame, spec):
             x.iloc[test_idx]
         )[:, 1]
 
-    predictions["predicted_class"] = (
-        predictions["predicted_probability"] >= 0.5
-    ).astype("int64")
+    predictions["predicted_class"] = (predictions["predicted_probability"] >= 0.5).astype("int64")
 
     auc = roc_auc_score(
         predictions["co2_leak_event"],

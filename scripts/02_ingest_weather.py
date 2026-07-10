@@ -7,8 +7,8 @@ import calendar
 import json
 import subprocess
 import sys
-import urllib.parse
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -19,7 +19,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.io_data import load_weather
-
 
 DEFAULT_ACCOUNT = "stkerkradeprod01bg"
 DEFAULT_CONTAINERS = [

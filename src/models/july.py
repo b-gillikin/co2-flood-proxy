@@ -9,7 +9,6 @@ import pandas as pd
 
 from src.features import pressure_deltas
 
-
 SIGNAL_FRAME_PATH = Path("data/processed/signal_characterization_frame.csv")
 KNMI_PATH = Path("data/interim/knmi_hourly.csv")
 
@@ -72,9 +71,7 @@ def load_signal_frame(
     if knmi_path is not None and Path(knmi_path).exists():
         knmi = pd.read_csv(knmi_path, parse_dates=["timestamp_utc"])
         if knmi_station is not None and "knmi_station" in knmi.columns:
-            station = (
-                knmi["knmi_station"].astype(str).str.split(".").str[0].str.zfill(5)
-            )
+            station = knmi["knmi_station"].astype(str).str.split(".").str[0].str.zfill(5)
             selected = knmi.loc[station == str(knmi_station).zfill(5)]
             # Fall back to the full cache only when the reference station has
             # not been backfilled yet, so pressure stays single-elevation.

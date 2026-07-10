@@ -18,7 +18,6 @@ from src.eval import (
     sustained_exceedance_events,
 )
 
-
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
 

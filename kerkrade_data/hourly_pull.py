@@ -7,7 +7,6 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-
 BASE_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
 DEFAULT_LOCATION = "Kerkrade"
 UNIT_GROUP = "metric"
@@ -158,7 +157,9 @@ def write_csv_rows(path: str, fieldnames: list[str], rows: list[dict[str, str]])
     os.replace(tmp_path, path)
 
 
-def fetch_hourly_rows(location: str, api_key: str, lookback_days: int) -> tuple[list[str], list[dict[str, str]]]:
+def fetch_hourly_rows(
+    location: str, api_key: str, lookback_days: int
+) -> tuple[list[str], list[dict[str, str]]]:
     today = date.today()
     start_date = today - timedelta(days=lookback_days)
     url = build_url(location, api_key, start_date, today)
@@ -180,7 +181,9 @@ def fetch_hourly_rows(location: str, api_key: str, lookback_days: int) -> tuple[
     # Visual Crossing includes forecast rows for future hours in the current day.
     # Keep only the single latest observed row so each run appends one hour at a time.
     tz_name = os.getenv("HOURLY_TIMEZONE", DEFAULT_TIMEZONE).strip() or DEFAULT_TIMEZONE
-    now_local_hour = datetime.now(ZoneInfo(tz_name)).replace(minute=0, second=0, microsecond=0, tzinfo=None)
+    now_local_hour = datetime.now(ZoneInfo(tz_name)).replace(
+        minute=0, second=0, microsecond=0, tzinfo=None
+    )
     now_epoch = int(datetime.now(timezone.utc).timestamp())
     observed_rows: list[dict[str, str]] = []
     dropped_future = 0
@@ -220,10 +223,14 @@ def fetch_hourly_rows(location: str, api_key: str, lookback_days: int) -> tuple[
     return fieldnames, [latest_row]
 
 
-def merge_into_month_file(path: str, incoming_fieldnames: list[str], incoming_rows: list[dict[str, str]]) -> None:
+def merge_into_month_file(
+    path: str, incoming_fieldnames: list[str], incoming_rows: list[dict[str, str]]
+) -> None:
     existing_fieldnames, existing_rows = read_csv_rows(path)
     tz_name = os.getenv("HOURLY_TIMEZONE", DEFAULT_TIMEZONE).strip() or DEFAULT_TIMEZONE
-    now_local_hour = datetime.now(ZoneInfo(tz_name)).replace(minute=0, second=0, microsecond=0, tzinfo=None)
+    now_local_hour = datetime.now(ZoneInfo(tz_name)).replace(
+        minute=0, second=0, microsecond=0, tzinfo=None
+    )
     existing_rows = [r for r in existing_rows if not _is_future_row(r, now_local_hour)]
     fieldnames = incoming_fieldnames or existing_fieldnames
     if not fieldnames:
@@ -237,7 +244,9 @@ def merge_into_month_file(path: str, incoming_fieldnames: list[str], incoming_ro
 
     merged_rows = sorted(merged_by_key.values(), key=row_sort_key)
     write_csv_rows(path, fieldnames, merged_rows)
-    print(f"UPDATED {os.path.basename(path)} (+{len(incoming_rows)} rows, total={len(merged_rows)})")
+    print(
+        f"UPDATED {os.path.basename(path)} (+{len(incoming_rows)} rows, total={len(merged_rows)})"
+    )
 
 
 def main() -> None:

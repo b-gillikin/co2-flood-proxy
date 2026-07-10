@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import importlib
 import sys
 import unittest
-import importlib
 from pathlib import Path
 
 import pandas as pd
@@ -14,6 +14,8 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "kerkrade_data"))
 
 from src.io_data import load_iot, load_iot_observations, load_knmi, load_rivm
+from src.io_iot import _device_id_from_export_path
+from src.io_knmi import _normalize_knmi_frame
 from src.models.july import antecedent_precipitation_index, available_exog
 
 knmi_backfill = importlib.import_module("knmi_backfill")
@@ -50,7 +52,7 @@ class LoaderTests(unittest.TestCase):
         self.assertEqual(len(hourly), 1)
         self.assertAlmostEqual(hourly["iot_temperature_c"].iloc[0], 21.0)
         self.assertAlmostEqual(hourly["iot_co2_ppm"].iloc[0], 460.0)
-        self.assertEqual(hourly["iot_observation_count"].iloc[0], 2)
+        self.assertEqual(hourly["iot_co2_observation_count"].iloc[0], 2)
         self.assertEqual(hourly["iot_device_count"].iloc[0], 1)
 
     def test_load_knmi_csv_sample(self):
@@ -104,6 +106,49 @@ class LoaderTests(unittest.TestCase):
         self.assertEqual(candidates["station_number"].iloc[0], "NL50010")
 
 
+class KnmiUnitTests(unittest.TestCase):
+    """KNMI tenths-unit codes scale deterministically and warn when off."""
+
+    def _tenths_frame(self, temp_tenths):
+        # Real KNMI hourly rows carry both U (humidity, whole %) and RH
+        # (precipitation, 0.1 mm); include U so RH is sourced as precip.
+        return pd.DataFrame(
+            {
+                "STN": [380, 380],
+                "timestamp": ["2025-01-01T00:00:00Z", "2025-01-01T01:00:00Z"],
+                "T": temp_tenths,
+                "P": [10123, 10125],
+                "U": [80, 82],
+                "RH": [-1, 5],
+            }
+        )
+
+    def test_tenths_codes_are_scaled(self):
+        out = _normalize_knmi_frame(self._tenths_frame([123, 50]))
+
+        self.assertAlmostEqual(out["knmi_temperature_c"].iloc[0], 12.3)
+        self.assertAlmostEqual(out["knmi_pressure_hpa"].iloc[0], 1012.3)
+        # Humidity code U is whole percent (factor 1.0), not tenths.
+        self.assertAlmostEqual(out["knmi_relative_humidity_pct"].iloc[0], 80.0)
+        # KNMI trace sentinel -1 (0.1 mm units) maps to 0; 5 -> 0.5 mm.
+        self.assertAlmostEqual(out["knmi_precip_mm"].iloc[0], 0.0)
+        self.assertAlmostEqual(out["knmi_precip_mm"].iloc[1], 0.5)
+
+    def test_out_of_range_values_warn(self):
+        # 600 tenths -> 60 C, outside the plausible [-40, 50] range.
+        with self.assertLogs("src.io_knmi", level="WARNING") as captured:
+            _normalize_knmi_frame(self._tenths_frame([600, 50]))
+        self.assertTrue(any("knmi_temperature_c" in message for message in captured.output))
+
+
+class DeviceIdTests(unittest.TestCase):
+    """Blynk device id comes from the folder name, not the whole path."""
+
+    def test_numeric_ancestor_is_ignored(self):
+        path = Path("/data/2025010112/export/device_67890_basement")
+        self.assertEqual(_device_id_from_export_path(path), "67890")
+
+
 class JulyModelHelperTests(unittest.TestCase):
     """Verify small shared July modelling helpers."""
 
@@ -144,9 +189,7 @@ class KnmiBackfillHelperTests(unittest.TestCase):
     """Verify the Azure KNMI backfill cursor helpers."""
 
     def test_knmi_filename_uses_utc_10_minute_boundary(self):
-        timestamp = knmi_backfill.floor_10_minutes(
-            knmi_backfill.parse_utc("2020-01-01T00:09:59Z")
-        )
+        timestamp = knmi_backfill.floor_10_minutes(knmi_backfill.parse_utc("2020-01-01T00:09:59Z"))
 
         self.assertEqual(timestamp.isoformat(), "2020-01-01T00:00:00+00:00")
         self.assertEqual(

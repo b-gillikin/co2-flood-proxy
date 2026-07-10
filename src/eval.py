@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import pandas as pd
 
+from src.textutils import source_token
+
 
 def discharge_columns(discharge):
     """Return the discharge value columns in a wide hourly frame."""
@@ -88,7 +90,7 @@ def sustained_exceedance_events(
         0,
         "event_id",
         [
-            f"evt_{idx + 1:04d}_{_source_token(row.source)}_p{int(row.threshold_quantile * 100)}"
+            f"evt_{idx + 1:04d}_{_discharge_token(row.source)}_p{int(row.threshold_quantile * 100)}"
             for idx, row in event_frame.iterrows()
         ],
     )
@@ -110,6 +112,8 @@ def hourly_discharge_soft_labels(
     not read as calm conditions. Antecedent columns summarize the observed
     hours in each window and are NaN only when the whole window is unobserved.
     """
+    _assert_gapless_hourly(discharge.index)
+
     thresholds = discharge_thresholds(discharge, quantiles)
     labels = pd.DataFrame(index=discharge.index)
 
@@ -126,13 +130,14 @@ def hourly_discharge_soft_labels(
             )
         scores = scores.mask(discharge[column].isna())
 
-        token = _source_token(column)
+        token = _discharge_token(column)
         labels[f"{token}_current_level"] = scores
         labels[f"{token}_current_soft_label"] = scores / max_score
 
         for window in antecedent_windows:
-            # The frame is hourly by construction, so a 72-row rolling window is
-            # the 72-hour antecedent maximum used in the June plan.
+            # The index is a gapless hourly grid (asserted above), so a
+            # ``window``-row positional window is exactly the ``window``-hour
+            # antecedent maximum used in the June plan.
             antecedent = scores.rolling(window=window, min_periods=1).max()
             labels[f"{token}_antecedent_{window}h_level"] = antecedent
             labels[f"{token}_antecedent_{window}h_soft_label"] = antecedent / max_score
@@ -145,9 +150,7 @@ def hourly_discharge_soft_labels(
 
     for window in antecedent_windows:
         columns = [
-            column
-            for column in level_columns
-            if column.endswith(f"_antecedent_{window}h_level")
+            column for column in level_columns if column.endswith(f"_antecedent_{window}h_level")
         ]
         labels[f"any_antecedent_{window}h_level"] = labels[columns].max(axis=1)
         labels[f"any_antecedent_{window}h_soft_label"] = (
@@ -203,9 +206,7 @@ def deduplicate_event_episodes(events):
 
     for row in ordered.itertuples(index=False):
         if current is not None and row.start_timestamp_utc <= current["end_timestamp_utc"]:
-            current["end_timestamp_utc"] = max(
-                current["end_timestamp_utc"], row.end_timestamp_utc
-            )
+            current["end_timestamp_utc"] = max(current["end_timestamp_utc"], row.end_timestamp_utc)
             current["sources"].add(row.source)
             current["n_source_events"] += 1
             current["max_threshold_quantile"] = max(
@@ -230,15 +231,97 @@ def deduplicate_event_episodes(events):
             "end_timestamp_utc": [episode["end_timestamp_utc"] for episode in episodes],
             "n_source_events": [episode["n_source_events"] for episode in episodes],
             "n_sources": [len(episode["sources"]) for episode in episodes],
-            "max_threshold_quantile": [
-                episode["max_threshold_quantile"] for episode in episodes
-            ],
+            "max_threshold_quantile": [episode["max_threshold_quantile"] for episode in episodes],
         }
     )
     out["duration_hours"] = (
         (out["end_timestamp_utc"] - out["start_timestamp_utc"]) / pd.Timedelta(hours=1)
     ).astype(int) + 1
     return out
+
+
+def combine_detector_flags(frames, detector_names):
+    """Union per-detector flag frames onto one hourly grid.
+
+    An hour a detector never scored (its complete-case rows differ) reads as
+    "did not fire" rather than dropping the hour, so the ensemble record is the
+    union of detector coverage instead of the intersection. ``detector_count``
+    and ``all_three_anomaly`` are computed on that union.
+    """
+    detector_names = list(detector_names)
+    flags = frames[0]
+    for frame in frames[1:]:
+        flags = flags.merge(frame, on="timestamp_utc", how="outer")
+    flags = flags.sort_values("timestamp_utc").reset_index(drop=True)
+
+    detector_cols = [f"{name}_anomaly" for name in detector_names]
+    for column in detector_cols:
+        # After the outer merge, an unscored hour is NaN; treat only an explicit
+        # True as firing (eq avoids the object-dtype fillna downcast warning).
+        flags[column] = flags[column].eq(True)
+    flags["detector_count"] = flags[detector_cols].sum(axis=1)
+    flags["all_three_anomaly"] = flags["detector_count"] == len(detector_names)
+    return flags
+
+
+def time_based_windows(
+    timestamps, train_hours, eval_hours, label, min_coverage, observed_index=None
+):
+    """Build calendar-time rolling-origin windows with coverage checks.
+
+    ``timestamps`` defines the calendar grid the window starts step across, so a
+    window can fall entirely inside an outage and still be enumerated. Coverage
+    is measured against ``observed_index`` — the hours the target is actually
+    present — so an outage can never masquerade as training data. Windows below
+    ``min_coverage`` in either span are recorded but marked unusable.
+    ``observed_index`` defaults to ``timestamps`` for callers that pass only
+    observed hours.
+    """
+    timestamps = pd.DatetimeIndex(timestamps).sort_values()
+    if observed_index is None:
+        observed_hours = timestamps
+    else:
+        observed_hours = pd.DatetimeIndex(observed_index).sort_values().unique()
+    observed = pd.Series(True, index=observed_hours)
+    rows = []
+    if timestamps.empty:
+        return pd.DataFrame(rows)
+
+    step = pd.Timedelta(hours=eval_hours)
+    train_span = pd.Timedelta(hours=train_hours)
+    eval_span = pd.Timedelta(hours=eval_hours)
+    start = timestamps.min()
+    last_start = timestamps.max() - train_span - eval_span + pd.Timedelta(hours=1)
+
+    window_id = 0
+    while start <= last_start:
+        train_end = start + train_span
+        eval_end = train_end + eval_span
+        train_observed = int(observed.loc[start : train_end - pd.Timedelta(hours=1)].sum())
+        eval_observed = int(observed.loc[train_end : eval_end - pd.Timedelta(hours=1)].sum())
+        train_coverage = train_observed / train_hours
+        eval_coverage = eval_observed / eval_hours
+        usable = train_coverage >= min_coverage and eval_coverage >= min_coverage
+        rows.append(
+            {
+                "scheme": label,
+                "window_id": f"{label}_{window_id:03d}",
+                "train_hours": train_hours,
+                "eval_hours": eval_hours,
+                "train_start_utc": start,
+                "train_end_utc": train_end - pd.Timedelta(hours=1),
+                "eval_start_utc": train_end,
+                "eval_end_utc": eval_end - pd.Timedelta(hours=1),
+                "train_observed_hours": train_observed,
+                "eval_observed_hours": eval_observed,
+                "train_coverage": train_coverage,
+                "eval_coverage": eval_coverage,
+                "status": "ok" if usable else "insufficient_coverage",
+            }
+        )
+        window_id += 1
+        start = start + step
+    return pd.DataFrame(rows)
 
 
 def _summarize_exceedance_event(
@@ -264,15 +347,12 @@ def _summarize_exceedance_event(
         "peak_timestamp_utc": peak_timestamp,
         "peak_discharge_m3s": event_values.loc[peak_timestamp],
         "mean_discharge_m3s": event_values.mean(),
-        "area_above_threshold_m3s_hours": (event_values - threshold)
-        .clip(lower=0)
-        .sum(),
+        "area_above_threshold_m3s_hours": (event_values - threshold).clip(lower=0).sum(),
     }
 
     for window in antecedent_windows:
         prior = series.loc[
-            (series.index >= start - pd.Timedelta(hours=window))
-            & (series.index < start)
+            (series.index >= start - pd.Timedelta(hours=window)) & (series.index < start)
         ]
         event[f"antecedent_{window}h_max_m3s"] = prior.max()
         event[f"antecedent_{window}h_mean_m3s"] = prior.mean()
@@ -280,8 +360,25 @@ def _summarize_exceedance_event(
     return event
 
 
-def _source_token(value):
+def _discharge_token(value):
     """Turn a discharge column name into a compact output-column prefix."""
-    token = str(value)
-    token = token.removeprefix("discharge_").removesuffix("_m3s")
-    return "".join(char.lower() if char.isalnum() else "_" for char in token).strip("_")
+    return source_token(value, strip_prefix="discharge_", strip_suffix="_m3s")
+
+
+def _assert_gapless_hourly(index):
+    """Guard that positional rolling windows equal their intended hour spans.
+
+    The antecedent soft labels use positional rolling windows, which only equal
+    an N-hour lookback when the index is a strictly increasing, gapless hourly
+    grid (as produced by the resampled discharge loader). Fail loudly rather
+    than silently mislabel if a caller passes an irregular index.
+    """
+    index = pd.DatetimeIndex(index)
+    if len(index) <= 1:
+        return
+    steps = index.to_series().diff().dropna().unique()
+    if list(steps) != [pd.Timedelta(hours=1)]:
+        raise ValueError(
+            "hourly_discharge_soft_labels expects a gapless hourly index; "
+            "resample the discharge frame to hourly frequency first."
+        )

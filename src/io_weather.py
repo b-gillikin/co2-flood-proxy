@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+from src.textutils import safe_token
 
 WEATHER_COLUMN_MAP = {
     "temp": "weather_temp_c",
@@ -101,9 +102,7 @@ def load_weather(
         raise FileNotFoundError(f"No weather CSV files matched locations={locations}")
 
     out = pd.concat(frames, ignore_index=True)
-    out = out.dropna(subset=["timestamp"]).sort_values(
-        ["weather_location", "timestamp"]
-    )
+    out = out.dropna(subset=["timestamp"]).sort_values(["weather_location", "timestamp"])
     out = out.drop_duplicates(subset=["weather_location", "timestamp"], keep="last")
 
     if start is not None:
@@ -131,17 +130,10 @@ def load_weather(
 
     wide_frames = []
     for location, location_frame in out.groupby("weather_location"):
-        prefix = _safe_column_token(location)
+        prefix = safe_token(location)
         location_wide = location_frame.set_index("timestamp")[numeric_columns].add_prefix(
             f"{prefix}_"
         )
         wide_frames.append(location_wide)
 
     return pd.concat(wide_frames, axis=1).sort_index()
-
-
-def _safe_column_token(value):
-    """Make a stable lowercase token for location-prefixed columns."""
-    return "".join(
-        char.lower() if char.isalnum() else "_" for char in str(value)
-    ).strip("_")

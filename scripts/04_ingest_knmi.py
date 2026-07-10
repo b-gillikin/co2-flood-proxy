@@ -16,7 +16,6 @@ import pandas as pd
 
 from src.io_data import knmi_station_set_frame, load_knmi
 
-
 RAW_DIR = Path("data/raw/knmi")
 INTERIM_DIR = Path("data/interim")
 RESULTS_DIR = Path("results/knmi")
@@ -104,8 +103,7 @@ def filename_window(start, end, max_files):
         inclusive="both",
     )
     filenames = [
-        f"{FILENAME_PREFIX}_{timestamp.strftime('%Y%m%d%H%M')}.nc"
-        for timestamp in timestamps
+        f"{FILENAME_PREFIX}_{timestamp.strftime('%Y%m%d%H%M')}.nc" for timestamp in timestamps
     ]
     return filenames[:max_files] if max_files else filenames
 
@@ -127,9 +125,7 @@ def maybe_download(args):
             raise ValueError("KNMI date-window downloads require both --start and --end")
         expected_filenames = filename_window(args.start, args.end, args.max_files)
         missing_filenames = [
-            filename
-            for filename in expected_filenames
-            if not (args.raw_dir / filename).exists()
+            filename for filename in expected_filenames if not (args.raw_dir / filename).exists()
         ]
         filenames = missing_filenames
         if args.max_downloads is not None:
@@ -226,9 +222,7 @@ def write_visual_crossing_comparison(knmi, comparison_station):
         ]
     ].merge(knmi, on="timestamp_utc", how="inner")
     comparison_cols = [
-        column
-        for column in ["knmi_pressure_hpa", "knmi_temperature_c"]
-        if column in comparison
+        column for column in ["knmi_pressure_hpa", "knmi_temperature_c"] if column in comparison
     ]
     if comparison_cols:
         comparison = comparison.dropna(subset=comparison_cols, how="all")

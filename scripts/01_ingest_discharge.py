@@ -14,7 +14,6 @@ sys.path.insert(0, str(ROOT))
 
 from src.io_data import load_discharge
 
-
 RAW_DIR = Path("data/raw/discharge")
 INTERIM_DIR = Path("data/interim")
 

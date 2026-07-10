@@ -13,9 +13,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.eval import (
+    combine_detector_flags,
     deduplicate_event_episodes,
     hourly_discharge_soft_labels,
     sustained_exceedance_events,
+    time_based_windows,
 )
 from src.models.july import anomaly_table, contiguous_blocks, robust_zscore
 
@@ -84,7 +86,12 @@ class EpisodeDeduplicationTests(unittest.TestCase):
         start = pd.Timestamp("2025-06-01 00:00", tz="UTC")
         events = pd.DataFrame(
             {
-                "source": ["discharge_a_m3s", "discharge_a_m3s", "discharge_b_m3s", "discharge_a_m3s"],
+                "source": [
+                    "discharge_a_m3s",
+                    "discharge_a_m3s",
+                    "discharge_b_m3s",
+                    "discharge_a_m3s",
+                ],
                 "threshold_quantile": [0.90, 0.95, 0.90, 0.90],
                 "start_timestamp_utc": [
                     start,
@@ -142,6 +149,70 @@ class AnomalyScoreTests(unittest.TestCase):
 
         filtered = contiguous_blocks(early.append(late), min_hours=8)
         self.assertEqual([len(index) for _, index in filtered], [12])
+
+
+class EnsembleUnionTests(unittest.TestCase):
+    """Detectors with disjoint coverage union rather than intersect."""
+
+    def _detector_frame(self, name, hours, values):
+        index = pd.date_range("2025-01-01", periods=4, freq="h", tz="UTC")
+        return pd.DataFrame(
+            {
+                "timestamp_utc": index[list(hours)],
+                f"{name}_anomaly": values,
+            }
+        )
+
+    def test_missing_detector_rows_fill_false(self):
+        frames = [
+            self._detector_frame("sarimax", (0, 1), [True, False]),
+            self._detector_frame("kalman", (1, 2), [True, True]),
+            self._detector_frame("iforest", (2, 3), [False, True]),
+        ]
+        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
+
+        # Union of the three disjoint coverages is four hours, not the empty
+        # intersection an inner join would produce.
+        self.assertEqual(len(flags), 4)
+        second_hour = flags.iloc[1]
+        self.assertFalse(bool(second_hour["sarimax_anomaly"]))
+        self.assertTrue(bool(second_hour["kalman_anomaly"]))
+        self.assertFalse(bool(second_hour["iforest_anomaly"]))
+        self.assertEqual(int(second_hour["detector_count"]), 1)
+        self.assertFalse(bool(flags["all_three_anomaly"].any()))
+
+
+class WindowCoverageTests(unittest.TestCase):
+    """Coverage is scored against observed hours, not the calendar grid."""
+
+    def test_outage_window_is_insufficient(self):
+        record_index = pd.date_range("2025-01-01", periods=96, freq="h", tz="UTC")
+        observed_index = record_index[24:]  # first 24h are an IoT outage
+
+        windows = time_based_windows(
+            record_index,
+            train_hours=24,
+            eval_hours=24,
+            label="t",
+            min_coverage=0.7,
+            observed_index=observed_index,
+        )
+
+        # The window whose training span sits in the outage is enumerated but
+        # unusable; a later fully observed window is ok.
+        self.assertEqual(windows.iloc[0]["status"], "insufficient_coverage")
+        self.assertTrue((windows["status"] == "ok").any())
+
+    def test_full_coverage_defaults_to_observed(self):
+        record_index = pd.date_range("2025-01-01", periods=96, freq="h", tz="UTC")
+        windows = time_based_windows(
+            record_index,
+            train_hours=24,
+            eval_hours=24,
+            label="t",
+            min_coverage=0.7,
+        )
+        self.assertTrue((windows["status"] == "ok").all())
 
 
 if __name__ == "__main__":

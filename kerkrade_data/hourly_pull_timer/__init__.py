@@ -5,9 +5,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 import azure.functions as func
-
 import hourly_pull
-
 
 SYNC_DIR = Path("/tmp/hourly_data_sync")
 DEFAULT_CONTAINER = "kerkrada-weather-data"

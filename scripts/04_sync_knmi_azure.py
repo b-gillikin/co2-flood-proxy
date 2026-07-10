@@ -13,7 +13,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 DEFAULT_ACCOUNT = "stknmikerkradebg01"
 DEFAULT_CONTAINER = "knmi-data"
 DEFAULT_PREFIX = "slim/10-minute-in-situ"

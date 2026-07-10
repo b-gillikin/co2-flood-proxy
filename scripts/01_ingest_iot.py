@@ -15,7 +15,6 @@ import pandas as pd
 
 from src.io_data import load_iot, load_iot_observations
 
-
 DEFAULT_ACCOUNT = "stkerkradeprod01bg"
 DEFAULT_CONTAINER = "air-quality-device-data-1"
 DEFAULT_PREFIX = "air_quality"
@@ -121,10 +120,7 @@ def update_raw(account_name, container_name, prefix, full_refresh=False):
             download_blob(account_name, container_name, blob_name, target)
             downloaded += 1
 
-    print(
-        f"checked {len(blobs)} IoT blobs in {container_name}; "
-        f"downloaded/updated {downloaded}"
-    )
+    print(f"checked {len(blobs)} IoT blobs in {container_name}; downloaded/updated {downloaded}")
 
 
 def source_summary(observations):
@@ -154,7 +150,7 @@ def coverage_gaps(iot):
     """Find gaps between non-empty hourly IoT CO2 observations."""
     observed = iot.loc[iot["iot_co2_ppm"].notna()].index.sort_values()
     rows = []
-    for previous, current in zip(observed[:-1], observed[1:]):
+    for previous, current in zip(observed[:-1], observed[1:], strict=False):
         gap_hours = int((current - previous) / pd.Timedelta(hours=1)) - 1
         if gap_hours > 0:
             rows.append(

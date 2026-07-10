@@ -7,7 +7,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 DISCHARGE_SOURCES = {
     "wurm_rimburg": {
         "filename": "wver_wurm_rimburg_discharge.json",

@@ -18,7 +18,6 @@ from sklearn.inspection import permutation_importance
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/signal")

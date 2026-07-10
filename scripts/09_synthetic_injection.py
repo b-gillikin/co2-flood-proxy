@@ -38,7 +38,6 @@ from src.models.july import (
     standardized_innovations,
 )
 
-
 RESULTS_DIR = Path("results/synthetic_injection")
 SARIMAX_MODEL_PATH = Path("results/models/sarimax.pkl")
 
@@ -136,9 +135,7 @@ def iforest_flags(frame, injected):
     out = frame.copy()
     out[TARGET_COL] = injected
     features = [
-        column
-        for column in out.columns
-        if column in set(IFOREST_FEATURES) or "_delta_" in column
+        column for column in out.columns if column in set(IFOREST_FEATURES) or "_delta_" in column
     ]
     features = list(dict.fromkeys(features))
     model_frame = out[features].replace([np.inf, -np.inf], np.nan).dropna()

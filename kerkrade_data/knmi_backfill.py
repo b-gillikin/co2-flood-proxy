@@ -24,7 +24,6 @@ from pathlib import Path
 
 import requests
 
-
 KDP_BASE_URL = "https://api.dataplatform.knmi.nl/open-data/v1"
 DEFAULT_DATASET = "10-minute-in-situ-meteorological-observations"
 DEFAULT_VERSION = "1.0"
@@ -249,16 +248,15 @@ def upload_monthly_slim_frames(container, frames: list, slim_prefix: str) -> tup
     written_blobs = 0
     written_rows = 0
 
-    for period, group in batch.groupby(batch["timestamp_utc"].dt.to_period("M")):
+    for _period, group in batch.groupby(batch["timestamp_utc"].dt.to_period("M")):
         ts = group["timestamp_utc"].iloc[0].to_pydatetime()
         blob_name = slim_blob_name_for(ts, slim_prefix)
         existing = read_existing_slim_blob(container, blob_name)
         combined = pd.concat([existing, group], ignore_index=True)
         combined["timestamp_utc"] = pd.to_datetime(combined["timestamp_utc"], utc=True)
-        combined = (
-            combined.drop_duplicates(["timestamp_utc", "knmi_station"], keep="last")
-            .sort_values(["timestamp_utc", "knmi_station"])
-        )
+        combined = combined.drop_duplicates(
+            ["timestamp_utc", "knmi_station"], keep="last"
+        ).sort_values(["timestamp_utc", "knmi_station"])
         payload = frame_to_gzip_csv(combined)
         container.upload_blob(
             blob_name,
@@ -298,15 +296,11 @@ def run_backfill_once() -> dict:
     dataset = os.getenv("KNMI_DATASET", DEFAULT_DATASET).strip() or DEFAULT_DATASET
     version = os.getenv("KNMI_VERSION", DEFAULT_VERSION).strip() or DEFAULT_VERSION
     raw_prefix = os.getenv("KNMI_RAW_PREFIX", DEFAULT_RAW_PREFIX).strip() or DEFAULT_RAW_PREFIX
-    slim_prefix = (
-        os.getenv("KNMI_SLIM_PREFIX", DEFAULT_SLIM_PREFIX).strip() or DEFAULT_SLIM_PREFIX
-    )
+    slim_prefix = os.getenv("KNMI_SLIM_PREFIX", DEFAULT_SLIM_PREFIX).strip() or DEFAULT_SLIM_PREFIX
     state_blob = os.getenv("KNMI_STATE_BLOB", DEFAULT_STATE_BLOB).strip() or DEFAULT_STATE_BLOB
     stations = parse_station_list(os.getenv("KNMI_STATIONS", DEFAULT_STATIONS))
     start = parse_utc(os.getenv("KNMI_START", "2020-01-01T00:00:00Z"))
-    end = floor_10_minutes(
-        parse_utc(os.getenv("KNMI_END"), default=datetime.now(timezone.utc))
-    )
+    end = floor_10_minutes(parse_utc(os.getenv("KNMI_END"), default=datetime.now(timezone.utc)))
     direction = normalize_direction(os.getenv("KNMI_BACKFILL_DIRECTION", DEFAULT_DIRECTION))
     max_downloads = int(os.getenv("KNMI_MAX_DOWNLOADS_PER_RUN", "10"))
     sleep_seconds = float(os.getenv("KNMI_DOWNLOAD_SLEEP_SECONDS", "0.0"))
@@ -336,7 +330,9 @@ def run_backfill_once() -> dict:
     }
 
     if not cursor_in_bounds(cursor, start, end, direction):
-        state["complete_through_utc"] = end.isoformat() if direction == "forward" else start.isoformat()
+        state["complete_through_utc"] = (
+            end.isoformat() if direction == "forward" else start.isoformat()
+        )
         save_state(container, state_blob, state)
         summary["complete"] = True
         return summary
@@ -369,9 +365,7 @@ def run_backfill_once() -> dict:
                         blob.upload_blob(
                             content,
                             overwrite=False,
-                            content_settings=ContentSettings(
-                                content_type="application/x-netcdf"
-                            ),
+                            content_settings=ContentSettings(content_type="application/x-netcdf"),
                         )
                         summary["raw_uploaded"] += 1
 
@@ -403,7 +397,9 @@ def run_backfill_once() -> dict:
     state["attempted_files"] = int(state.get("attempted_files", 0)) + summary["planned"]
     state["downloaded_files"] = int(state.get("downloaded_files", 0)) + summary["downloaded"]
     state["raw_uploaded_files"] = int(state.get("raw_uploaded_files", 0)) + summary["raw_uploaded"]
-    state["slim_rows_extracted"] = int(state.get("slim_rows_extracted", 0)) + summary["slim_rows_extracted"]
+    state["slim_rows_extracted"] = (
+        int(state.get("slim_rows_extracted", 0)) + summary["slim_rows_extracted"]
+    )
     state["not_found_files"] = int(state.get("not_found_files", 0)) + summary["not_found"]
     state["failed_files"] = int(state.get("failed_files", 0)) + summary["failed"]
     state["last_run_summary"] = summary

@@ -26,7 +26,6 @@ entries = [
     #     "year": "2024", "volume": "10", "number": "2", "pages": "100--110",
     #     "doi": "10.xxxx/yyyyy"
     # }, "1.1 Section name"),
-
     # Example book
     # ("Author2020Book",  "book", {
     #     "author": "Author, A.",
@@ -35,7 +34,6 @@ entries = [
     #     "year": "2020",
     #     "isbn": "978-0-123-45678-9"
     # }, "Section name"),
-
     # Example thesis
     # ("Predecessor2022",  "mastersthesis", {
     #     "author": "Last, First",
@@ -52,10 +50,30 @@ def fmt_entry(citekey, etype, fields, section):
     lines = [f"@{etype}{{{citekey},"]
     fields = dict(fields)
     fields["keywords"] = section
-    keys_order = ["author", "title", "journal", "booktitle", "editor", "publisher",
-                  "school", "institution", "address", "series", "edition",
-                  "volume", "number", "pages", "year", "month",
-                  "doi", "url", "isbn", "note", "howpublished", "keywords"]
+    keys_order = [
+        "author",
+        "title",
+        "journal",
+        "booktitle",
+        "editor",
+        "publisher",
+        "school",
+        "institution",
+        "address",
+        "series",
+        "edition",
+        "volume",
+        "number",
+        "pages",
+        "year",
+        "month",
+        "doi",
+        "url",
+        "isbn",
+        "note",
+        "howpublished",
+        "keywords",
+    ]
     for k in keys_order:
         if k in fields:
             v = fields[k]

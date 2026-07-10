@@ -16,6 +16,7 @@ dependencies:
   - scikit-learn
   - requests
   - pyyaml
+  - ruff
   - pip
   - pip:
       - filterpy

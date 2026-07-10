@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 
-from src.eval import deduplicate_event_episodes
+from src.eval import deduplicate_event_episodes, time_based_windows
 from src.models.july import (
     IFOREST_BASE_FEATURES,
     TARGET_COL,
@@ -38,7 +38,6 @@ from src.models.july import (
     robust_zscore,
     standardized_innovations,
 )
-
 
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/evaluation")
@@ -69,6 +68,9 @@ DETECTORS = ("sarimax", "kalman", "iforest")
 DEFAULT_ORDER = (1, 0, 2)
 DEFAULT_SEASONAL_ORDER = (1, 0, 1, 24)
 
+# Coverage is measured against hours where the primary IoT channel is observed.
+OBSERVED_TARGET_COL = "iot_co2_ppm"
+
 
 def read_timestamped(path):
     """Read a CSV with normalized UTC timestamps."""
@@ -89,58 +91,6 @@ def selected_sarimax_spec():
         if order and seasonal_order:
             return tuple(order), tuple(seasonal_order)
     return DEFAULT_ORDER, DEFAULT_SEASONAL_ORDER
-
-
-def time_based_windows(timestamps, train_hours, eval_hours, label, min_coverage):
-    """Build calendar-time rolling-origin windows with coverage checks.
-
-    Coverage is the share of expected hourly stamps actually observed inside
-    each span; windows below ``min_coverage`` in either span are recorded but
-    marked unusable, so an outage can never masquerade as training data.
-    """
-    timestamps = pd.DatetimeIndex(timestamps).sort_values()
-    observed = pd.Series(True, index=timestamps)
-    rows = []
-    if timestamps.empty:
-        return pd.DataFrame(rows)
-
-    step = pd.Timedelta(hours=eval_hours)
-    train_span = pd.Timedelta(hours=train_hours)
-    eval_span = pd.Timedelta(hours=eval_hours)
-    start = timestamps.min()
-    last_start = timestamps.max() - train_span - eval_span + pd.Timedelta(hours=1)
-
-    window_id = 0
-    while start <= last_start:
-        train_end = start + train_span
-        eval_end = train_end + eval_span
-        train_observed = int(observed.loc[start : train_end - pd.Timedelta(hours=1)].sum())
-        eval_observed = int(
-            observed.loc[train_end : eval_end - pd.Timedelta(hours=1)].sum()
-        )
-        train_coverage = train_observed / train_hours
-        eval_coverage = eval_observed / eval_hours
-        usable = train_coverage >= min_coverage and eval_coverage >= min_coverage
-        rows.append(
-            {
-                "scheme": label,
-                "window_id": f"{label}_{window_id:03d}",
-                "train_hours": train_hours,
-                "eval_hours": eval_hours,
-                "train_start_utc": start,
-                "train_end_utc": train_end - pd.Timedelta(hours=1),
-                "eval_start_utc": train_end,
-                "eval_end_utc": eval_end - pd.Timedelta(hours=1),
-                "train_observed_hours": train_observed,
-                "eval_observed_hours": eval_observed,
-                "train_coverage": train_coverage,
-                "eval_coverage": eval_coverage,
-                "status": "ok" if usable else "insufficient_coverage",
-            }
-        )
-        window_id += 1
-        start = start + step
-    return pd.DataFrame(rows)
 
 
 def hourly_window_frame(frame, feature_cols, start, end):
@@ -196,41 +146,29 @@ def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_orde
             try:
                 if detector == "sarimax":
                     result = fit_sarimax_fixed(y_train, x_train, order, seasonal_order)
-                    residual_train = y_train - pd.Series(
-                        result.fittedvalues, index=y_train.index
-                    )
+                    residual_train = y_train - pd.Series(result.fittedvalues, index=y_train.index)
                     extended = result.extend(y_eval, exog=x_eval)
-                    residual_eval = y_eval - pd.Series(
-                        extended.fittedvalues, index=y_eval.index
-                    )
+                    residual_eval = y_eval - pd.Series(extended.fittedvalues, index=y_eval.index)
                     z = robust_zscore(residual_eval, reference=residual_train.dropna())
                     flags = z.abs() > MAD_THRESHOLD
                 elif detector == "kalman":
                     result = fit_local_level(y_train, x_train)
-                    innovations_train = standardized_innovations(
-                        result, y_train.index, warmup=3
-                    )
+                    innovations_train = standardized_innovations(result, y_train.index, warmup=3)
                     extended = result.extend(y_eval, exog=x_eval)
                     innovations_eval = pd.Series(
-                        np.asarray(
-                            extended.filter_results.standardized_forecasts_error[0]
-                        ),
+                        np.asarray(extended.filter_results.standardized_forecasts_error[0]),
                         index=y_eval.index,
                     )
-                    z = robust_zscore(
-                        innovations_eval, reference=innovations_train.dropna()
-                    )
+                    z = robust_zscore(innovations_eval, reference=innovations_train.dropna())
                     flags = z.abs() > MAD_THRESHOLD
                 else:
                     train_rows = (
-                        frame.loc[window.train_start_utc : window.train_end_utc,
-                                  iforest_features]
+                        frame.loc[window.train_start_utc : window.train_end_utc, iforest_features]
                         .replace([np.inf, -np.inf], np.nan)
                         .dropna()
                     )
                     eval_rows = (
-                        frame.loc[window.eval_start_utc : window.eval_end_utc,
-                                  iforest_features]
+                        frame.loc[window.eval_start_utc : window.eval_end_utc, iforest_features]
                         .replace([np.inf, -np.inf], np.nan)
                         .dropna()
                     )
@@ -245,15 +183,17 @@ def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_orde
                     score_train = pd.Series(
                         -model.score_samples(train_rows), index=train_rows.index
                     )
-                    score_eval = pd.Series(
-                        -model.score_samples(eval_rows), index=eval_rows.index
-                    )
+                    score_eval = pd.Series(-model.score_samples(eval_rows), index=eval_rows.index)
                     z = robust_zscore(score_eval, reference=score_train)
                     flags = pd.Series(False, index=y_eval.index)
                     flags.loc[score_eval.index] = (z.abs() > MAD_THRESHOLD).to_numpy()
             except Exception as exc:
                 status = f"failed: {type(exc).__name__}"
 
+            # SARIMAX/Kalman score every grid hour, so mask out hours where the
+            # target is unobserved (no real observation to flag). Isolation
+            # Forest already scores only its complete-case rows, so it needs no
+            # extra masking.
             flags = flags & y_eval.notna() if detector != "iforest" else flags
             eval_flags[f"{detector}_anomaly"] = flags.fillna(False).to_numpy()
             summary_rows.append(
@@ -349,9 +289,7 @@ def event_window_tests(flags, episodes, basis):
             event_window_start = event_start - pd.Timedelta(hours=72)
             control_start = event_start - pd.Timedelta(hours=144)
             event_rate, event_n = window_rate(flags, column, event_window_start, event_start)
-            control_rate, control_n = window_rate(
-                flags, column, control_start, event_window_start
-            )
+            control_rate, control_n = window_rate(flags, column, control_start, event_window_start)
             if event_n >= 6 and control_n >= 6:
                 used_events += 1
                 diffs.append(event_rate - control_rate)
@@ -464,22 +402,29 @@ def main():
     for detector in DETECTORS:
         flags[f"{detector}_anomaly"] = flags[f"{detector}_anomaly"].astype(bool)
 
-    timestamps = pd.DatetimeIndex(flags["timestamp_utc"])
+    # Windows step across the analysis record's full calendar grid, but coverage
+    # is scored against the hours the IoT target is actually observed, so a
+    # detector's own coverage gaps can never inflate or deflate window coverage.
+    analysis = read_timestamped(ANALYSIS_PATH)
+    record_index = pd.DatetimeIndex(analysis["timestamp_utc"])
+    observed_index = record_index[analysis[OBSERVED_TARGET_COL].notna().to_numpy()]
     windows = pd.concat(
         [
             time_based_windows(
-                timestamps,
+                record_index,
                 OFFICIAL_TRAIN_HOURS,
                 OFFICIAL_EVAL_HOURS,
                 "official_30d_train_7d_eval",
                 args.min_coverage,
+                observed_index=observed_index,
             ),
             time_based_windows(
-                timestamps,
+                record_index,
                 SMOKE_TRAIN_HOURS,
                 SMOKE_EVAL_HOURS,
                 "provisional_14d_train_3d_eval",
                 args.min_coverage,
+                observed_index=observed_index,
             ),
         ],
         ignore_index=True,
@@ -503,9 +448,7 @@ def main():
         feature_cols = available_exog(frame)
         model_frame, feature_cols = complete_model_frame(frame, TARGET_COL, feature_cols)
         order, seasonal_order = selected_sarimax_spec()
-        official_windows = windows.loc[
-            windows["scheme"] == "official_30d_train_7d_eval"
-        ]
+        official_windows = windows.loc[windows["scheme"] == "official_30d_train_7d_eval"]
         rolling_flags, rolling_summary = rolling_origin_evaluation(
             frame.loc[model_frame.index.min() : model_frame.index.max()],
             feature_cols,
@@ -520,9 +463,7 @@ def main():
                 [detector_rates, detector_summary(observed, basis="rolling_origin_oos")],
                 ignore_index=True,
             )
-            event_tests.append(
-                event_window_tests(observed, episodes, basis="rolling_origin_oos")
-            )
+            event_tests.append(event_window_tests(observed, episodes, basis="rolling_origin_oos"))
         if not rolling_summary.empty:
             rolling_summary.to_csv(ROLLING_SUMMARY_PATH, index=False)
 
@@ -536,10 +477,7 @@ def main():
     write_summary(windows, rolling_summary, detector_rates, event_tests, episodes, api)
 
     usable_official = int(
-        (
-            (windows["scheme"] == "official_30d_train_7d_eval")
-            & (windows["status"] == "ok")
-        ).sum()
+        ((windows["scheme"] == "official_30d_train_7d_eval") & (windows["status"] == "ok")).sum()
     )
     print(f"wrote {API_PATH} ({len(api)} rows)")
     print(f"wrote {WINDOWS_PATH} ({len(windows)} rows)")
