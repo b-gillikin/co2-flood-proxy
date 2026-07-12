@@ -53,6 +53,12 @@ What this script does:
 4. Sets app settings (API keys, storage connection string).
 5. Zip-deploys function code.
 
+The deployment zip explicitly excludes local `.python_packages` and the
+separate `knmi_backfill_timer` function. Azure remote build is enabled so Linux
+dependencies are built on the Function host rather than copied from the
+deploying workstation. The packaging step fails before deployment if either
+unsafe path enters the zip.
+
 ## Monthly Cost Estimate (US East)
 
 Given your workload (about 24 runs/day, runtime under 1 second):

@@ -150,6 +150,19 @@ def robust_zscore(values, reference=None):
     return 0.6745 * (series - median) / mad
 
 
+def fitted_model_status(result):
+    """Return a stable status for a fitted statsmodels result.
+
+    Statsmodels commonly reports optimizer non-convergence as a warning rather
+    than an exception. Chapter outputs must preserve that distinction instead
+    of labelling every returned result ``ok``.
+    """
+    mle_retvals = getattr(result, "mle_retvals", None)
+    if isinstance(mle_retvals, dict) and mle_retvals.get("converged") is False:
+        return "non_converged"
+    return "ok"
+
+
 def standard_zscore(values):
     """Mean/std z-score with zero-variance protection."""
     series = pd.Series(values).astype(float)

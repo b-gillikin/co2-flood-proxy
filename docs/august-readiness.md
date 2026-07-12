@@ -2,6 +2,11 @@
 
 Date: 2026-06-21
 
+> Historical planning snapshot. This document is superseded by
+> `docs/chapter-readiness-plan.md`, which makes transfer secondary, sets the
+> September 8 / October 6 data-freeze gates, and records the direct-state
+> analysis required for chapter completion.
+
 Source plan: `chapter-prework/August 2026 - How-To.docx`.
 
 ## Current Position

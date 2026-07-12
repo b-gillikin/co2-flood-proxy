@@ -28,6 +28,7 @@ from src.models.july import (
     available_exog,
     complete_model_frame,
     contiguous_blocks,
+    fitted_model_status,
     load_signal_frame,
 )
 
@@ -228,6 +229,7 @@ def fit_statsmodels_sarimax(
             try:
                 result, y = fit_one(selection_index, (p, d, q), seasonal_order)
                 residual = y - pd.Series(result.fittedvalues, index=selection_index)
+                fit_status = fitted_model_status(result)
                 rows.append(
                     {
                         "model_key": key,
@@ -240,7 +242,7 @@ def fit_statsmodels_sarimax(
                         "aic": float(result.aic),
                         "bic": float(result.bic),
                         "rss": float((residual.dropna() ** 2).sum()),
-                        "fit_status": "ok",
+                        "fit_status": fit_status,
                     }
                 )
             except Exception as exc:
@@ -276,6 +278,19 @@ def fit_statsmodels_sarimax(
     for block_id, block_index in blocks:
         try:
             result, y = fit_one(block_index, best_order, best_seasonal)
+            fit_status = fitted_model_status(result)
+            if fit_status != "ok":
+                per_block_status.append(
+                    {
+                        "block_id": block_id,
+                        "block_start_utc": block_index.min(),
+                        "block_end_utc": block_index.max(),
+                        "block_hours": len(block_index),
+                        "warmup_hours_masked": np.nan,
+                        "fit_status": fit_status,
+                    }
+                )
+                continue
             fitted = pd.Series(result.fittedvalues, index=block_index)
             warmup = max(int(result.loglikelihood_burn), WARMUP_HOURS)
             fitted.iloc[:warmup] = np.nan

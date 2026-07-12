@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import importlib
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -19,7 +21,9 @@ from src.eval import (
     sustained_exceedance_events,
     time_based_windows,
 )
-from src.models.july import anomaly_table, contiguous_blocks, robust_zscore
+from src.models.july import anomaly_table, contiguous_blocks, fitted_model_status, robust_zscore
+
+evaluation_script = importlib.import_module("scripts.10_evaluation")
 
 
 def ascending_discharge(with_gap=False):
@@ -163,7 +167,7 @@ class EnsembleUnionTests(unittest.TestCase):
             }
         )
 
-    def test_missing_detector_rows_fill_false(self):
+    def test_missing_detector_rows_are_unscored_not_normal(self):
         frames = [
             self._detector_frame("sarimax", (0, 1), [True, False]),
             self._detector_frame("kalman", (1, 2), [True, True]),
@@ -178,8 +182,52 @@ class EnsembleUnionTests(unittest.TestCase):
         self.assertFalse(bool(second_hour["sarimax_anomaly"]))
         self.assertTrue(bool(second_hour["kalman_anomaly"]))
         self.assertFalse(bool(second_hour["iforest_anomaly"]))
+        self.assertTrue(bool(second_hour["sarimax_scored"]))
+        self.assertTrue(bool(second_hour["kalman_scored"]))
+        self.assertFalse(bool(second_hour["iforest_scored"]))
         self.assertEqual(int(second_hour["detector_count"]), 1)
+        self.assertEqual(int(second_hour["scored_detector_count"]), 2)
+        self.assertFalse(bool(second_hour["all_detectors_scored"]))
         self.assertFalse(bool(flags["all_three_anomaly"].any()))
+
+    def test_any_detector_summary_counts_only_common_coverage(self):
+        frames = [
+            self._detector_frame("sarimax", (0, 1), [True, False]),
+            self._detector_frame("kalman", (0, 1, 2), [False, False, True]),
+            self._detector_frame("iforest", (0, 1, 2, 3), [False, True, False, True]),
+        ]
+        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
+        summary = evaluation_script.detector_summary(flags, basis="test")
+        any_detector = summary.loc[summary["detector"].eq("any_detector")].iloc[0]
+        self.assertEqual(int(any_detector["n_hours"]), 2)
+
+
+class ModelFitStatusTests(unittest.TestCase):
+    """Warning-only optimizer failures must stay visible in outputs."""
+
+    class Result:
+        def __init__(self, converged):
+            self.mle_retvals = {"converged": converged}
+
+    def test_non_converged_result_is_not_ok(self):
+        self.assertEqual(fitted_model_status(self.Result(False)), "non_converged")
+
+    def test_converged_result_is_ok(self):
+        self.assertEqual(fitted_model_status(self.Result(True)), "ok")
+
+
+class RollingArtifactLifecycleTests(unittest.TestCase):
+    """Skipped/replacement runs cannot leave valid-looking older outputs."""
+
+    def test_invalidate_rolling_outputs_removes_existing_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            paths = [Path(directory) / "flags.csv", Path(directory) / "summary.csv"]
+            for path in paths:
+                path.write_text("stale\n", encoding="utf-8")
+
+            evaluation_script.invalidate_rolling_outputs(paths)
+
+            self.assertTrue(all(not path.exists() for path in paths))
 
 
 class WindowCoverageTests(unittest.TestCase):

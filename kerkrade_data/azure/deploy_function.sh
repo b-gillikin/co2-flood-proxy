@@ -76,6 +76,8 @@ az functionapp config appsettings set \
     "MONTHLY_DATA_CONTAINER=$MONTHLY_DATA_CONTAINER" \
     "LOCATION_CONTAINER_MAP=$LOCATION_CONTAINER_MAP" \
     "AzureWebJobsStorage=$STORAGE_CONN" \
+    "SCM_DO_BUILD_DURING_DEPLOYMENT=true" \
+    "ENABLE_ORYX_BUILD=true" \
     "WEBSITE_RUN_FROM_PACKAGE=1"
 
 mkdir -p build
@@ -88,7 +90,9 @@ root = Path('.')
 out = Path('build/functionapp.zip')
 exclude_prefixes = {
     '.venv/',
+    '.python_packages/',
     '__pycache__/',
+    'knmi_backfill_timer/',
     'monthly_data/',
     'logs/',
     'azure/',
@@ -106,6 +110,14 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as zf:
         if p.name in exclude_names or rel.endswith('.pyc'):
             continue
         zf.write(p, rel)
+
+with zipfile.ZipFile(out) as zf:
+    unsafe = [
+        name for name in zf.namelist()
+        if name.startswith('.python_packages/') or name.startswith('knmi_backfill_timer/')
+    ]
+    if unsafe:
+        raise RuntimeError(f'Unsafe files entered the deployment package: {unsafe[:5]}')
 PY
 
 az functionapp deployment source config-zip \

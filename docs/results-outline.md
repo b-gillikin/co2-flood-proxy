@@ -6,6 +6,10 @@ Purpose: organize result paragraphs around current reproducible artifacts.
 Transfer sections are placeholders until the transfer scope is complete enough
 for interpretation.
 
+Every final number must come from the frozen snapshot identified by
+`results/run_manifest.json`. Until then, this file supplies paragraph and
+caption slots rather than final numeric prose.
+
 ## Data Coverage and QC
 
 Current artifacts:
@@ -81,6 +85,45 @@ Draft result paragraph:
 - State that the official 30-day / 7-day evaluation window is now runnable on
   the merged IoT frame, while interpretation remains provisional because the
   record is not yet continuous across a full annual cycle.
+- Report convergence status and scored coverage before anomaly rates.
+- Calculate cross-detector agreement only on common scored hours.
+
+## Direct Groundwater/Mine-Water Result
+
+Current status: waiting on data.
+
+Required final paragraph:
+
+- Identify the locked primary state series and justify it from provenance and
+  physical relevance rather than observed association.
+- Report paired daily observations, contributing blocks, standardized
+  coefficient, HAC p-value, bootstrap interval, per-block signs, and the
+  future-water placebo.
+- State which claim-decision row in `docs/chapter-readiness-plan.md` the result
+  supports.
+
+Required figure/table slots:
+
+- aligned daily residual and primary state series with coverage gaps visible;
+- coefficient/uncertainty and placebo comparison;
+- primary plus FDR-controlled sensitivity table.
+
+## Distributed-Lag Boundary Result
+
+Current artifacts:
+
+- `results/distributed_lag/summary.txt`
+- `results/distributed_lag/timescale_scan.csv`
+- `results/distributed_lag/timescale_scan.png`
+
+Required result paragraph:
+
+- Retain the current `NOT SUPPORTED` outcome unless the unchanged frozen rerun
+  changes it.
+- Report the 10-day coefficient, HAC p-value, bootstrap interval, usable blocks,
+  and future-precipitation placebo.
+- Explain that the earlier 10.6-day cross-correlation is shared low-frequency
+  structure on the current record, not established antecedent signal.
 
 ## API and External Reference Lanes
 
@@ -113,6 +156,8 @@ Draft result paragraph:
 - Report only that the dry-run machinery trains three Kerkrade surrogates,
   writes RIVM site scores where enough aligned rows exist, and records feature
   gaps for later official transfer work.
+- Keep transfer secondary/appendix-level unless it becomes interpretable; its
+  coverage cannot block chapter completion.
 
 ## Figures and Tables
 

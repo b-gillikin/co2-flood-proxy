@@ -1,16 +1,18 @@
 # Week 4 Signal Interpretation
 
-Status: exploratory. The current residual window has 3719 hourly rows from
+Status: exploratory screening followed by a `NOT SUPPORTED` distributed-lag
+test. The current residual window has 3719 hourly rows from
 2025-02-01 15:00 UTC to 2026-04-13 02:00 UTC after merging local Blynk exports.
-The 14-day lag scan is more stable than the first pass, but the IoT record is
-still gappy enough that this remains characterization rather than confirmation.
+The earlier 14-day lag scan generated a candidate timescale, but the locked
+follow-up does not establish an antecedent-wetness signal on this record.
 
 ## What Looks Interesting
 
-- The strongest lagged correlations now link the barometric CO2 residual to
-  Geul Hommerich discharge at roughly 10.6 days of feature lead time. The top
-  current run is around `r = 0.246`, much weaker than the short-window first
-  pass.
+- The exploratory scan linked the residual to Geul Hommerich discharge at
+  roughly 10.6 days of feature lead time, but this is not a finding. At the
+  locked 10-day precipitation half-life, the coefficient was not significant,
+  the bootstrap interval crossed zero, and the future-rain placebo was stronger
+  than the antecedent term.
 - Residual random-forest importance is led by indoor relative humidity, Geul
   Hommerich discharge, 24-hour indoor-temperature tendency, indoor temperature,
   and 24-hour outdoor-humidity tendency.
@@ -21,8 +23,8 @@ still gappy enough that this remains characterization rather than confirmation.
 
 ## What To Be Careful About
 
-- The high-lag discharge correlations are weaker after adding IoT coverage, so
-  they should be treated as candidate timing structure rather than a finding.
+- Treat the high-lag discharge correlations as shared low-frequency structure
+  unless the unchanged frozen rerun passes every decision criterion.
 - Random forests here are descriptive. They are fit on the same rows they
   explain, so the feature rankings should guide follow-up plots and models, not
   serve as evidence by themselves.
@@ -36,5 +38,6 @@ still gappy enough that this remains characterization rather than confirmation.
   source-specific structure to the residual.
 - Use RIVM/Luchtmeetnet transfer data as a broader-air-quality comparison, not
   as a direct CO2 substitute.
-- Before Week 5 confirmatory modelling, make one focused plot around the top
-  lag windows: residual, discharge, humidity, wind speed, and soft-label state.
+- Rerun `scripts/12_distributed_lag.py` unchanged on the frozen snapshot.
+- Prioritize the locked direct groundwater/mine-water test when those data
+  arrive; precipitation is an indirect state proxy.

@@ -34,10 +34,12 @@ from src.models.july import (
     complete_model_frame,
     fit_local_level,
     fit_sarimax_fixed,
+    fitted_model_status,
     load_signal_frame,
     robust_zscore,
     standardized_innovations,
 )
+from src.provenance import run_context
 
 PROCESSED_DIR = Path("data/processed")
 RESULTS_DIR = Path("results/evaluation")
@@ -112,7 +114,15 @@ def hourly_window_frame(frame, feature_cols, start, end):
     return y, x
 
 
-def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_order):
+def rolling_origin_evaluation(
+    frame,
+    feature_cols,
+    windows,
+    order,
+    seasonal_order,
+    run_id="unknown",
+    data_cutoff_utc=None,
+):
     """Refit each detector per usable window and score its eval span OOS."""
     usable = windows.loc[windows["status"] == "ok"]
     flag_parts = []
@@ -136,23 +146,30 @@ def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_orde
             frame, feature_cols, window.eval_start_utc, window.eval_end_utc
         )
         eval_flags = pd.DataFrame({"timestamp_utc": y_eval.index})
+        eval_flags["run_id"] = run_id
+        eval_flags["data_cutoff_utc"] = data_cutoff_utc
         eval_flags["window_id"] = window.window_id
         eval_flags["scheme"] = window.scheme
         eval_flags["target_observed"] = y_eval.notna().to_numpy()
 
         for detector in DETECTORS:
             status = "ok"
+            detail = ""
             flags = pd.Series(False, index=y_eval.index)
+            scored = pd.Series(False, index=y_eval.index)
             try:
                 if detector == "sarimax":
                     result = fit_sarimax_fixed(y_train, x_train, order, seasonal_order)
+                    status = fitted_model_status(result)
                     residual_train = y_train - pd.Series(result.fittedvalues, index=y_train.index)
                     extended = result.extend(y_eval, exog=x_eval)
                     residual_eval = y_eval - pd.Series(extended.fittedvalues, index=y_eval.index)
                     z = robust_zscore(residual_eval, reference=residual_train.dropna())
                     flags = z.abs() > MAD_THRESHOLD
+                    scored = y_eval.notna() & z.notna()
                 elif detector == "kalman":
                     result = fit_local_level(y_train, x_train)
+                    status = fitted_model_status(result)
                     innovations_train = standardized_innovations(result, y_train.index, warmup=3)
                     extended = result.extend(y_eval, exog=x_eval)
                     innovations_eval = pd.Series(
@@ -161,6 +178,7 @@ def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_orde
                     )
                     z = robust_zscore(innovations_eval, reference=innovations_train.dropna())
                     flags = z.abs() > MAD_THRESHOLD
+                    scored = y_eval.notna() & z.notna()
                 else:
                     train_rows = (
                         frame.loc[window.train_start_utc : window.train_end_utc, iforest_features]
@@ -173,38 +191,52 @@ def rolling_origin_evaluation(frame, feature_cols, windows, order, seasonal_orde
                         .dropna()
                     )
                     if len(train_rows) < 48 or eval_rows.empty:
-                        raise ValueError("insufficient complete-case rows")
-                    model = IsolationForest(
-                        n_estimators=200,
-                        max_features=0.8,
-                        random_state=42,
-                        n_jobs=1,
-                    ).fit(train_rows)
-                    score_train = pd.Series(
-                        -model.score_samples(train_rows), index=train_rows.index
-                    )
-                    score_eval = pd.Series(-model.score_samples(eval_rows), index=eval_rows.index)
-                    z = robust_zscore(score_eval, reference=score_train)
-                    flags = pd.Series(False, index=y_eval.index)
-                    flags.loc[score_eval.index] = (z.abs() > MAD_THRESHOLD).to_numpy()
+                        status = "insufficient_data"
+                        detail = "fewer than 48 training rows or no evaluation rows"
+                        model = None
+                    else:
+                        model = IsolationForest(
+                            n_estimators=200,
+                            max_features=0.8,
+                            random_state=42,
+                            n_jobs=1,
+                        ).fit(train_rows)
+                    if model is not None:
+                        score_train = pd.Series(
+                            -model.score_samples(train_rows), index=train_rows.index
+                        )
+                        score_eval = pd.Series(
+                            -model.score_samples(eval_rows), index=eval_rows.index
+                        )
+                        z = robust_zscore(score_eval, reference=score_train)
+                        flags.loc[score_eval.index] = (z.abs() > MAD_THRESHOLD).to_numpy()
+                        scored.loc[score_eval.index] = True
             except Exception as exc:
-                status = f"failed: {type(exc).__name__}"
+                status = "failed"
+                detail = type(exc).__name__
 
-            # SARIMAX/Kalman score every grid hour, so mask out hours where the
-            # target is unobserved (no real observation to flag). Isolation
-            # Forest already scores only its complete-case rows, so it needs no
-            # extra masking.
-            flags = flags & y_eval.notna() if detector != "iforest" else flags
+            # Non-converged or failed fits remain visible in the summary but do
+            # not silently contribute valid-looking anomaly flags.
+            if status != "ok":
+                scored[:] = False
+            flags = flags & scored
+            eval_flags[f"{detector}_fit_status"] = status
+            eval_flags[f"{detector}_scored"] = scored.to_numpy()
             eval_flags[f"{detector}_anomaly"] = flags.fillna(False).to_numpy()
             summary_rows.append(
                 {
+                    "run_id": run_id,
+                    "data_cutoff_utc": data_cutoff_utc,
                     "window_id": window.window_id,
                     "scheme": window.scheme,
                     "detector": detector,
                     "eval_start_utc": window.eval_start_utc,
                     "eval_end_utc": window.eval_end_utc,
                     "eval_observed_hours": int(y_eval.notna().sum()),
+                    "eval_scored_hours": int(scored.sum()),
                     "anomaly_hours": int(eval_flags[f"{detector}_anomaly"].sum()),
+                    "fit_status": status,
+                    "fit_detail": detail,
                     "status": status,
                 }
             )
@@ -221,22 +253,36 @@ def detector_summary(flags, basis):
     detector_cols = [f"{name}_anomaly" for name in DETECTORS]
     for detector in DETECTORS:
         column = f"{detector}_anomaly"
+        scored_column = f"{detector}_scored"
+        scored = (
+            flags[scored_column].astype(bool)
+            if scored_column in flags
+            else pd.Series(True, index=flags.index)
+        )
+        values = flags.loc[scored, column]
         rows.append(
             {
                 "flag_basis": basis,
                 "detector": detector,
-                "n_hours": len(flags),
-                "anomaly_hours": int(flags[column].sum()),
-                "anomaly_rate": float(flags[column].mean()) if len(flags) else np.nan,
+                "n_hours": len(values),
+                "anomaly_hours": int(values.sum()),
+                "anomaly_rate": float(values.mean()) if len(values) else np.nan,
             }
         )
-    if len(flags):
-        any_detector = flags[detector_cols].sum(axis=1) > 0
+    scored_cols = [f"{name}_scored" for name in DETECTORS]
+    common = (
+        flags[scored_cols].astype(bool).all(axis=1)
+        if all(column in flags for column in scored_cols)
+        else pd.Series(True, index=flags.index)
+    )
+    common_flags = flags.loc[common]
+    if len(common_flags):
+        any_detector = common_flags[detector_cols].sum(axis=1) > 0
         rows.append(
             {
                 "flag_basis": basis,
                 "detector": "any_detector",
-                "n_hours": len(flags),
+                "n_hours": len(common_flags),
                 "anomaly_hours": int(any_detector.sum()),
                 "anomaly_rate": float(any_detector.mean()),
             }
@@ -282,14 +328,22 @@ def event_window_tests(flags, episodes, basis):
     rows = []
     for detector in DETECTORS:
         column = f"{detector}_anomaly"
+        scored_column = f"{detector}_scored"
+        detector_flags = (
+            flags.loc[flags[scored_column].astype(bool)] if scored_column in flags else flags
+        )
         diffs = []
         used_events = 0
         for episode in episodes.itertuples(index=False):
             event_start = episode.start_timestamp_utc
             event_window_start = event_start - pd.Timedelta(hours=72)
             control_start = event_start - pd.Timedelta(hours=144)
-            event_rate, event_n = window_rate(flags, column, event_window_start, event_start)
-            control_rate, control_n = window_rate(flags, column, control_start, event_window_start)
+            event_rate, event_n = window_rate(
+                detector_flags, column, event_window_start, event_start
+            )
+            control_rate, control_n = window_rate(
+                detector_flags, column, control_start, event_window_start
+            )
             if event_n >= 6 and control_n >= 6:
                 used_events += 1
                 diffs.append(event_rate - control_rate)
@@ -340,14 +394,28 @@ def write_summary(
     event_tests,
     episodes,
     api,
+    context,
 ):
     """Write a compact evaluation readout."""
     official = windows.loc[windows["scheme"].str.startswith("official")]
     smoke = windows.loc[windows["scheme"].str.startswith("provisional")]
     official_ok = int((official["status"] == "ok").sum()) if not official.empty else 0
     smoke_ok = int((smoke["status"] == "ok").sum()) if not smoke.empty else 0
+    rolling_readout = (
+        rolling_summary.groupby(["detector", "fit_status"])["anomaly_hours"]
+        .agg(["count", "sum"])
+        .rename(columns={"count": "windows", "sum": "anomaly_hours"})
+        .to_string()
+        if not rolling_summary.empty
+        else "  not run (no usable windows or --skip-rolling)"
+    )
     lines = [
         "July Week 4 Evaluation and API Baseline",
+        "",
+        f"Run ID: {context['run_id']}",
+        f"Data cutoff UTC: {context['data_cutoff_utc']}",
+        f"Git commit: {context['git_commit']}",
+        f"Git worktree dirty: {context['git_dirty']}",
         "",
         "Status: provisional; the IoT record is blocky and the capture outage",
         "since 2026-04-13 truncates the record.",
@@ -358,11 +426,7 @@ def write_summary(
         f"Smoke 14d/3d windows: {len(smoke)} defined, {smoke_ok} usable",
         "",
         "Rolling-origin out-of-sample evaluation (official windows):",
-        (
-            rolling_summary.groupby("detector")["anomaly_hours"].sum().to_string()
-            if not rolling_summary.empty
-            else "  not run (no usable windows or --skip-rolling)"
-        ),
+        rolling_readout,
         "",
         "Detector anomaly rates:",
         detector_rates.to_string(index=False),
@@ -377,6 +441,13 @@ def write_summary(
         "API definition: hourly Visual Crossing precipitation, d=0.85, N=14 days.",
     ]
     SUMMARY_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def invalidate_rolling_outputs(paths=None):
+    """Remove run-scoped rolling artifacts before a skipped or replacement run."""
+    paths = paths or (ROLLING_FLAGS_PATH, ROLLING_SUMMARY_PATH)
+    for path in paths:
+        Path(path).unlink(missing_ok=True)
 
 
 def main():
@@ -406,6 +477,7 @@ def main():
     # is scored against the hours the IoT target is actually observed, so a
     # detector's own coverage gaps can never inflate or deflate window coverage.
     analysis = read_timestamped(ANALYSIS_PATH)
+    context = run_context(analysis["timestamp_utc"].max())
     record_index = pd.DatetimeIndex(analysis["timestamp_utc"])
     observed_index = record_index[analysis[OBSERVED_TARGET_COL].notna().to_numpy()]
     windows = pd.concat(
@@ -443,6 +515,9 @@ def main():
 
     rolling_flags = pd.DataFrame()
     rolling_summary = pd.DataFrame()
+    # Every invocation owns these artifacts. Removing them before a skipped or
+    # empty run prevents an older, incompatible evaluation from looking current.
+    invalidate_rolling_outputs()
     if not args.skip_rolling:
         frame = load_signal_frame()
         feature_cols = available_exog(frame)
@@ -455,6 +530,8 @@ def main():
             official_windows,
             order,
             seasonal_order,
+            run_id=context["run_id"],
+            data_cutoff_utc=context["data_cutoff_utc"],
         )
         if not rolling_flags.empty:
             rolling_flags.to_csv(ROLLING_FLAGS_PATH, index=False)
@@ -474,7 +551,15 @@ def main():
     detector_rates.to_csv(DETECTOR_SUMMARY_PATH, index=False)
     event_tests.to_csv(EVENT_TESTS_PATH, index=False)
     episodes.to_csv(EPISODES_PATH, index=False)
-    write_summary(windows, rolling_summary, detector_rates, event_tests, episodes, api)
+    write_summary(
+        windows,
+        rolling_summary,
+        detector_rates,
+        event_tests,
+        episodes,
+        api,
+        context,
+    )
 
     usable_official = int(
         ((windows["scheme"] == "official_30d_train_7d_eval") & (windows["status"] == "ok")).sum()

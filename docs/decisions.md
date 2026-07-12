@@ -328,3 +328,24 @@ Interpretation boundary: this is failure to establish, not proof of absence — 
 Consequence for design: the "retune the evaluation to the 10-day timescale" argument does not currently have evidence behind it. The detector-frame critique stands on its own merits, but no reframing should be proposed to the supervisor as data-driven; the binding constraint is record length.
 
 Source: `scripts/12_distributed_lag.py`; `results/distributed_lag/summary.txt`; `docs/week4-signal-interpretation.md`.
+
+## 2026-07-12 — Chapter-readiness, freeze, and transfer scope
+
+Decision: Use `docs/chapter-readiness-plan.md` as the canonical record for
+chapter completion. Target a frozen analysis snapshot on 2026-09-08 after at
+least 60 post-restoration IoT days, with 2026-10-06 as the only contingency
+freeze. Cross-site transfer is secondary and cannot block the chapter.
+
+Primary claim rule: Ask neutrally whether the pressure-separated CO2 residual
+contains information about directly measured groundwater/mine-water state.
+Allow supported, site-specific/data-limited, or null/boundary conclusions. Do
+not use causal language until the locked direct-state analysis passes its HAC,
+bootstrap, block-replication, and future-water-placebo criteria.
+
+Operational rule: Weekly refreshes update coverage/QC only. Final scientific
+interpretation occurs once against an immutable snapshot and is recorded in
+`results/run_manifest.json` with code, environment, input, command, and output
+provenance.
+
+Source: `docs/chapter-readiness-plan.md`; repository end-to-end review on
+2026-07-12.

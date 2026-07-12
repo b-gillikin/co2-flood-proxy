@@ -33,6 +33,7 @@ from src.models.july import (
     contiguous_blocks,
     fit_local_level,
     fit_sarimax_fixed,
+    fitted_model_status,
     load_signal_frame,
     robust_zscore,
     standardized_innovations,
@@ -116,18 +117,24 @@ def injection_templates(series):
 def sarimax_flags(injected, exog, order, seasonal_order):
     """Refit the selected SARIMAX spec on the injected series and flag."""
     result = fit_sarimax_fixed(injected, exog, order, seasonal_order)
+    status = fitted_model_status(result)
+    if status != "ok":
+        return pd.Series(False, index=injected.index), status
     fitted = pd.Series(result.fittedvalues, index=injected.index)
     residual = injected - fitted
     warmup = max(int(result.loglikelihood_burn), WARMUP_HOURS)
     residual.iloc[:warmup] = np.nan
-    return robust_zscore(residual).abs() > MAD_THRESHOLD
+    return robust_zscore(residual).abs() > MAD_THRESHOLD, status
 
 
 def kalman_flags(injected, exog):
     """Refit the local-level model on the injected series and flag."""
     result = fit_local_level(injected, exog)
+    status = fitted_model_status(result)
+    if status != "ok":
+        return pd.Series(False, index=injected.index), status
     standardized = standardized_innovations(result, injected.index, warmup=3)
-    return robust_zscore(standardized).abs() > MAD_THRESHOLD
+    return robust_zscore(standardized).abs() > MAD_THRESHOLD, status
 
 
 def iforest_flags(frame, injected):
@@ -148,7 +155,7 @@ def iforest_flags(frame, injected):
     score = pd.Series(-model.score_samples(model_frame), index=model_frame.index)
     flags = pd.Series(False, index=out.index)
     flags.loc[model_frame.index] = (robust_zscore(score).abs() > MAD_THRESHOLD).to_numpy()
-    return flags
+    return flags, "ok"
 
 
 def run_detectors(frame, injected, order, seasonal_order, feature_cols):
@@ -162,11 +169,10 @@ def run_detectors(frame, injected, order, seasonal_order, feature_cols):
         ("iforest", lambda: iforest_flags(frame, injected)),
     ):
         try:
-            flags[detector] = runner()
-            statuses[detector] = "ok"
-        except Exception as exc:
+            flags[detector], statuses[detector] = runner()
+        except Exception:
             flags[detector] = pd.Series(False, index=injected.index)
-            statuses[detector] = f"failed: {type(exc).__name__}"
+            statuses[detector] = "failed"
     return flags, statuses
 
 
@@ -193,22 +199,36 @@ def write_plot(injected, mask, flags, template):
 
 def model_selection_table(detection):
     """Rank detectors by synthetic-injection recovery (tsadams-style)."""
-    grouped = detection.groupby("detector").agg(
+    scored = detection.assign(fit_ok=detection["detector_status"].eq("ok"))
+    grouped = scored.groupby("detector").agg(
         templates_run=("template", "count"),
         templates_detected=("event_detected", "sum"),
         mean_detection_rate=("detection_rate", "mean"),
         mean_false_flag_rate=("false_flag_rate", "mean"),
+        templates_with_ok_fit=("fit_ok", "sum"),
     )
-    grouped["selection_score"] = (
+    raw_score = (
         grouped["templates_detected"]
         + grouped["mean_detection_rate"]
         - grouped["mean_false_flag_rate"]
     )
-    grouped = grouped.sort_values("selection_score", ascending=False).reset_index()
-    grouped["selection_rank"] = range(1, len(grouped) + 1)
+    grouped["eligible_for_selection"] = grouped["templates_with_ok_fit"].eq(
+        grouped["templates_run"]
+    )
+    grouped["selection_score"] = raw_score.where(grouped["eligible_for_selection"])
+    grouped["selection_status"] = np.where(
+        grouped["eligible_for_selection"], "eligible", "excluded_non_ok_fit"
+    )
+    grouped = grouped.sort_values(
+        ["eligible_for_selection", "selection_score"], ascending=[False, False]
+    ).reset_index()
+    grouped["selection_rank"] = pd.Series(pd.NA, index=grouped.index, dtype="Int64")
+    eligible = grouped["eligible_for_selection"]
+    grouped.loc[eligible, "selection_rank"] = range(1, int(eligible.sum()) + 1)
     grouped["selection_basis"] = (
         "synthetic-injection surrogate metric; unsupervised model selection "
-        "in the absence of labelled anomalies (provisional)"
+        "in the absence of labelled anomalies; all template fits must be ok "
+        "to receive a rank (provisional)"
     )
     return grouped
 

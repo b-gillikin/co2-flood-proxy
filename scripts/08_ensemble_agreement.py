@@ -28,6 +28,7 @@ ANALYSIS_PATH = Path("data/interim/analysis_hourly.csv")
 FLAGS_PATH = PROCESSED_DIR / "ensemble_anomaly_flags.csv"
 PAIRWISE_PATH = RESULTS_DIR / "pairwise_agreement.csv"
 SUMMARY_PATH = RESULTS_DIR / "agreement_summary.csv"
+COVERAGE_PATH = RESULTS_DIR / "coverage_summary.csv"
 
 DETECTORS = {
     "sarimax": (SARIMAX_PATH, "sarimax_anomaly"),
@@ -53,29 +54,63 @@ def jaccard(a, b):
 
 
 def agreement_tables(flags):
-    """Compute count and pairwise detector agreement tables."""
+    """Compute common-coverage counts and pairwise detector agreement."""
     detector_cols = [f"{name}_anomaly" for name in DETECTORS]
+    common = flags.loc[flags["all_detectors_scored"]]
     summary = (
-        flags["detector_count"]
+        common["detector_count"]
         .value_counts()
         .rename_axis("detectors_firing")
         .reset_index(name="n_hours")
         .sort_values("detectors_firing")
     )
-    summary["share_hours"] = summary["n_hours"] / len(flags)
+    summary["share_hours"] = summary["n_hours"] / len(common) if len(common) else float("nan")
+    summary.insert(0, "coverage_basis", "all_detectors_scored")
 
     rows = []
     for left, right in combinations(detector_cols, 2):
+        left_name = left.removesuffix("_anomaly")
+        right_name = right.removesuffix("_anomaly")
+        mask = flags[f"{left_name}_scored"] & flags[f"{right_name}_scored"]
+        pair = flags.loc[mask]
+        kappa = cohen_kappa_score(pair[left], pair[right]) if len(pair) else float("nan")
         rows.append(
             {
-                "detector_a": left.removesuffix("_anomaly"),
-                "detector_b": right.removesuffix("_anomaly"),
-                "jaccard": jaccard(flags[left], flags[right]),
-                "cohen_kappa": cohen_kappa_score(flags[left], flags[right]),
-                "both_anomaly_hours": int((flags[left] & flags[right]).sum()),
+                "detector_a": left_name,
+                "detector_b": right_name,
+                "common_scored_hours": len(pair),
+                "jaccard": jaccard(pair[left], pair[right]),
+                "cohen_kappa": kappa,
+                "both_anomaly_hours": int((pair[left] & pair[right]).sum()),
             }
         )
     return summary, pd.DataFrame(rows)
+
+
+def coverage_table(flags):
+    """Summarize score availability without treating gaps as normal hours."""
+    rows = []
+    for detector in DETECTORS:
+        scored = flags[f"{detector}_scored"]
+        rows.append(
+            {
+                "detector": detector,
+                "union_hours": len(flags),
+                "scored_hours": int(scored.sum()),
+                "scored_share": float(scored.mean()) if len(flags) else float("nan"),
+            }
+        )
+    rows.append(
+        {
+            "detector": "all_detectors_common",
+            "union_hours": len(flags),
+            "scored_hours": int(flags["all_detectors_scored"].sum()),
+            "scored_share": float(flags["all_detectors_scored"].mean())
+            if len(flags)
+            else float("nan"),
+        }
+    )
+    return pd.DataFrame(rows)
 
 
 def write_plot(flags):
@@ -113,14 +148,17 @@ def main():
     flags = combine_detector_flags(frames, DETECTORS)
 
     summary, pairwise = agreement_tables(flags)
+    coverage = coverage_table(flags)
     flags.to_csv(FLAGS_PATH, index=False)
     summary.to_csv(SUMMARY_PATH, index=False)
     pairwise.to_csv(PAIRWISE_PATH, index=False)
+    coverage.to_csv(COVERAGE_PATH, index=False)
     write_plot(flags)
 
     print(f"wrote {FLAGS_PATH} ({len(flags)} rows)")
     print(f"wrote {SUMMARY_PATH}")
     print(f"wrote {PAIRWISE_PATH}")
+    print(f"wrote {COVERAGE_PATH}")
     print(f"all-three anomaly hours: {int(flags['all_three_anomaly'].sum())}")
 
 

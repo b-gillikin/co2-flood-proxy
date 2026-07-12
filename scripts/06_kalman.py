@@ -24,6 +24,7 @@ from src.models.july import (
     available_exog,
     complete_model_frame,
     contiguous_blocks,
+    fitted_model_status,
     load_signal_frame,
 )
 
@@ -150,6 +151,20 @@ def fit_statsmodels_local_level(model_frame, target_col, feature_cols):
                     "block_hours": len(block_index),
                     "warmup_hours_masked": np.nan,
                     "fit_status": f"failed: {type(exc).__name__}",
+                }
+            )
+            continue
+
+        fit_status = fitted_model_status(result)
+        if fit_status != "ok":
+            per_block_status.append(
+                {
+                    "block_id": block_id,
+                    "block_start_utc": block_index.min(),
+                    "block_end_utc": block_index.max(),
+                    "block_hours": len(block_index),
+                    "warmup_hours_masked": np.nan,
+                    "fit_status": fit_status,
                 }
             )
             continue

@@ -5,6 +5,11 @@ Date: 2026-06-21
 Purpose: scaffold the chapter methods section around the reproducible scripts
 already in the repository. This is a writing aid, not final prose.
 
+Canonical completion and freeze criteria live in
+`docs/chapter-readiness-plan.md`. The chapter asks whether pressure-separated
+CO2 observations contain reproducible information about directly measured
+antecedent hydrological state; it does not assume that relationship exists.
+
 ## Data Provenance and Alignment
 
 - Kerkrade low-cost IoT CO2, temperature, humidity, pressure, and particulate
@@ -71,6 +76,35 @@ already in the repository. This is a writing aid, not final prose.
   evaluation evidence.
 - Event-window tests compare anomaly rates in 72-hour antecedent windows against
   preceding 72-hour control windows.
+- Rolling outputs carry a deterministic run ID, data cutoff, fit status, and
+  scored-hour count. Warning-only non-converged fits are not treated as valid
+  detector results.
+- Ensemble agreement is calculated on common scored coverage. Unscored hours
+  remain explicitly unavailable rather than being counted as non-anomalies.
+
+## Direct Groundwater/Mine-Water Test
+
+- Select the primary state series before modelling using the hierarchy in the
+  readiness plan.
+- Aggregate the pressure-separated residual and state series to UTC days with at
+  least 18 observed IoT hours.
+- Fit the locked daily residual model with KNMI temperature, humidity, pressure,
+  and block fixed effects.
+- Use HAC standard errors with a 14-day maximum lag and a 28-day moving-block
+  bootstrap.
+- Require p < 0.05, a bootstrap interval excluding zero, same-sign replication
+  in at least two blocks, and a null future-water placebo.
+- Treat 1/3/7/14-day lags, water-level changes, and alternative wells as
+  FDR-controlled sensitivities.
+
+## Distributed-Lag Boundary Test
+
+- Script: `scripts/12_distributed_lag.py`.
+- The current precipitation-based 10-day result is `NOT SUPPORTED`: the primary
+  coefficient is not significant, its bootstrap interval includes zero, block
+  replication is unavailable, and the future-rain placebo fails.
+- Rerun the unchanged rule on the frozen snapshot. Do not use the exploratory
+  Week 4 lag peak as evidence independently of this test.
 
 ## Transfer Preregistration and August v1
 
@@ -85,7 +119,7 @@ already in the repository. This is a writing aid, not final prose.
 
 ## Deferred Inputs
 
-- Groundwater remains pending until requested data arrive and are documented in
-  `docs/data-requests.md`.
+- Groundwater/mine-water collection is in process. Integration waits for source
+  provenance and the locked normalization/selection rules.
 - SMAP live acquisition remains deferred.
 - IRCEL-CELINE and LANUV NRW remain discovery-first transfer lanes.

@@ -35,7 +35,6 @@ import statsmodels.api as sm
 
 from src.models.july import TARGET_COL, contiguous_blocks, load_signal_frame
 
-
 RESULTS_DIR = Path("results/distributed_lag")
 
 MIN_BLOCK_HOURS = 168
@@ -116,10 +115,7 @@ def weighted_api(precip, half_life_days, direction="lag"):
     weights = np.exp(-np.log(2) * np.arange(1, max_k + 1) / half_life_days)
     weights = weights / weights.sum()
     shifted = pd.concat(
-        {
-            k: precip.shift(k if direction == "lag" else -k)
-            for k in range(1, max_k + 1)
-        },
+        {k: precip.shift(k if direction == "lag" else -k) for k in range(1, max_k + 1)},
         axis=1,
     )
     return shifted.mul(weights, axis=1).sum(axis=1, min_count=max_k)
@@ -146,22 +142,25 @@ def scan_row(daily, half_life, direction, source):
     """One timescale-scan fit summarized as a table row."""
     api_col = f"api_{source}"
     scan_frame = daily.copy()
-    scan_frame[api_col] = (
-        scan_frame.groupby("block_id")[f"{source}_mm"]
-        .transform(lambda s: weighted_api(s, half_life, direction))
+    scan_frame[api_col] = scan_frame.groupby("block_id")[f"{source}_mm"].transform(
+        lambda s: weighted_api(s, half_life, direction)
     )
     result, model_frame = fit_pooled(scan_frame, api_col)
-    return {
-        "source": source,
-        "direction": direction,
-        "half_life_days": half_life,
-        "n_days": int(result.nobs),
-        "coef_ppm_per_mm_day": float(result.params[api_col]),
-        "hac_se": float(result.bse[api_col]),
-        "t": float(result.tvalues[api_col]),
-        "p": float(result.pvalues[api_col]),
-        "r2": float(result.rsquared),
-    }, scan_frame, api_col
+    return (
+        {
+            "source": source,
+            "direction": direction,
+            "half_life_days": half_life,
+            "n_days": int(result.nobs),
+            "coef_ppm_per_mm_day": float(result.params[api_col]),
+            "hac_se": float(result.bse[api_col]),
+            "t": float(result.tvalues[api_col]),
+            "p": float(result.pvalues[api_col]),
+            "r2": float(result.rsquared),
+        },
+        scan_frame,
+        api_col,
+    )
 
 
 def per_block_fits(scan_frame, api_col):
@@ -224,9 +223,7 @@ def moving_block_bootstrap(scan_frame, api_col):
             )
         else:
             dummies = pd.DataFrame(index=sample.index)
-        x = sm.add_constant(
-            pd.concat([sample[[api_col, *CONTROL_COLS]], dummies], axis=1)
-        )
+        x = sm.add_constant(pd.concat([sample[[api_col, *CONTROL_COLS]], dummies], axis=1))
         try:
             coefs.append(float(sm.OLS(sample["residual_ppm"], x).fit().params[api_col]))
         except Exception:
@@ -246,13 +243,12 @@ def lag_bin_fits(daily, value_col, label, statistic):
     for low, high in LAG_BINS:
         column = f"{label}_lag_{low}_{high}d"
         lags = pd.concat(
-            {
-                k: frame.groupby("block_id")[value_col].shift(k)
-                for k in range(low, high + 1)
-            },
+            {k: frame.groupby("block_id")[value_col].shift(k) for k in range(low, high + 1)},
             axis=1,
         )
-        frame[column] = lags.sum(axis=1, min_count=high - low + 1) if statistic == "sum" else lags.mean(axis=1)
+        frame[column] = (
+            lags.sum(axis=1, min_count=high - low + 1) if statistic == "sum" else lags.mean(axis=1)
+        )
         frame.loc[lags.isna().any(axis=1), column] = np.nan
         bin_cols.append(column)
 
@@ -261,12 +257,8 @@ def lag_bin_fits(daily, value_col, label, statistic):
         return pd.DataFrame(
             [{"predictor": label, "status": "insufficient_days", "n_days": len(model_frame)}]
         )
-    dummies = pd.get_dummies(
-        model_frame["block_id"], prefix="block", drop_first=True, dtype=float
-    )
-    x = sm.add_constant(
-        pd.concat([model_frame[[*bin_cols, *CONTROL_COLS]], dummies], axis=1)
-    )
+    dummies = pd.get_dummies(model_frame["block_id"], prefix="block", drop_first=True, dtype=float)
+    x = sm.add_constant(pd.concat([model_frame[[*bin_cols, *CONTROL_COLS]], dummies], axis=1))
     result = sm.OLS(model_frame["residual_ppm"], x).fit(
         cov_type="HAC", cov_kwds={"maxlags": HAC_MAXLAGS}
     )
@@ -294,9 +286,7 @@ def write_scan_plot(scan):
         ("lag", axes[0], "Antecedent precipitation (lags)"),
         ("lead", axes[1], "Placebo: future precipitation (leads)"),
     ):
-        subset = scan.loc[
-            (scan["direction"] == direction) & (scan["source"] == PRIMARY_PRECIP)
-        ]
+        subset = scan.loc[(scan["direction"] == direction) & (scan["source"] == PRIMARY_PRECIP)]
         axis.errorbar(
             subset["half_life_days"],
             subset["coef_ppm_per_mm_day"],
@@ -305,9 +295,7 @@ def write_scan_plot(scan):
             linewidth=1,
         )
         axis.axhline(0, color="black", linewidth=0.8, alpha=0.6)
-        axis.axvline(
-            CONFIRMATORY_HALF_LIFE_DAYS, color="tab:red", linestyle="--", alpha=0.5
-        )
+        axis.axvline(CONFIRMATORY_HALF_LIFE_DAYS, color="tab:red", linestyle="--", alpha=0.5)
         axis.set_ylabel("ppm per weighted mm/day")
         axis.set_title(title)
         axis.grid(True, alpha=0.25)
@@ -319,22 +307,23 @@ def write_scan_plot(scan):
 
 def evaluate_decision(scan, confirmatory, bootstrap, blocks, placebo):
     """Apply the pre-stated decision rule and return per-criterion results."""
-    lag_scan = scan.loc[
-        (scan["direction"] == "lag") & (scan["source"] == PRIMARY_PRECIP)
-    ]
+    lag_scan = scan.loc[(scan["direction"] == "lag") & (scan["source"] == PRIMARY_PRECIP)]
     peak = lag_scan.loc[lag_scan["t"].abs().idxmax()]
     usable = blocks.loc[blocks["status"] == "ok"]
     sign_agreement = (
-        int((np.sign(usable["coef_ppm_per_mm_day"]) == np.sign(confirmatory["coef_ppm_per_mm_day"])).sum())
+        int(
+            (
+                np.sign(usable["coef_ppm_per_mm_day"])
+                == np.sign(confirmatory["coef_ppm_per_mm_day"])
+            ).sum()
+        )
         if not usable.empty
         else 0
     )
     criteria = {
         "1_peak_half_life_ge_3d": bool(peak["half_life_days"] >= 3),
         "2_pooled_hac_p_lt_0p05_at_10d": bool(confirmatory["p"] < 0.05),
-        "3_bootstrap_ci_excludes_zero": bool(
-            bootstrap["ci_low"] > 0 or bootstrap["ci_high"] < 0
-        ),
+        "3_bootstrap_ci_excludes_zero": bool(bootstrap["ci_low"] > 0 or bootstrap["ci_high"] < 0),
         "4_same_sign_in_ge_2_blocks": bool(sign_agreement >= 2),
         "5_placebo_null_at_10d": bool(abs(placebo["t"]) < 2),
     }

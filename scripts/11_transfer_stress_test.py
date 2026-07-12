@@ -248,7 +248,13 @@ def detector_labels(
     """Build the official or fallback training label for one detector."""
     flags = read_timestamped(FLAGS_PATH)
     label_column = f"{detector}_anomaly"
-    labels = flags[["timestamp_utc", label_column]].copy()
+    scored_column = f"{detector}_scored"
+    label_columns = ["timestamp_utc", label_column]
+    if scored_column in flags.columns:
+        label_columns.append(scored_column)
+    labels = flags[label_columns].copy()
+    if scored_column in labels.columns:
+        labels = labels.loc[labels[scored_column].astype(bool)].drop(columns=[scored_column])
     labels[label_column] = labels[label_column].astype(bool)
     official_positive_count = int(labels[label_column].sum())
 

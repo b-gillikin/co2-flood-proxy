@@ -58,6 +58,9 @@ July provisional modelling scripts:
 - `09_synthetic_injection.py` — Week 3, run Gaussian-burst and CutAddPaste synthetic anomaly smoke tests.
 - `10_evaluation.py` — Week 4, write the official 30-day/7-day evaluation-window check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
 - `11_transfer_stress_test.py` — August v1, train Kerkrade detector-surrogate classifiers, run the cached RIVM/KNMI South Limburg transfer dry run, and write writing/figure scaffolding outputs.
+- `12_distributed_lag.py` — locked precipitation/discharge distributed-lag boundary test with HAC inference, moving-block bootstrap, block replication, and future-rain placebo.
+- `13_write_run_manifest.py` — write the run ID, data cutoff, git commit, environment versions, commands, input coverage/hashes, and output hashes for the current snapshot.
+- `14_weekly_readiness.py` — compute IoT/KNMI/groundwater/window coverage and optionally append a dated row to the canonical readiness plan without duplicating that date.
 
 Run order for July:
 
@@ -68,6 +71,8 @@ python scripts/07_isolation_forest.py
 python scripts/08_ensemble_agreement.py
 python scripts/09_synthetic_injection.py
 python scripts/10_evaluation.py
+python scripts/12_distributed_lag.py
+python scripts/13_write_run_manifest.py
 ```
 
 `05_sarimax.py` uses a compact default SARIMAX search for routine reruns. Add
@@ -82,3 +87,14 @@ python scripts/11_transfer_stress_test.py
 The August script is intentionally provisional. It reports feature availability,
 label fallbacks, and RIVM dry-run scores, but does not interpret transfer
 success or failure.
+
+Transfer is secondary under `docs/chapter-readiness-plan.md` and cannot block
+chapter completion. On the frozen snapshot, run the transfer dry run after the
+core Kerkrade/direct-state analyses and before the final manifest only when
+shared-feature coverage is adequate.
+
+Weekly collection monitoring should not rerun the scientific interpretation:
+
+```bash
+python scripts/14_weekly_readiness.py --append-plan
+```

@@ -1,14 +1,18 @@
 # Chapter 1 CO2
 
-Working repository for the dissertation chapter on antecedent-state signal in low-cost IoT data at the Kerkrade post-mining calibration site.
+Working repository for the dissertation chapter testing antecedent-state signal in low-cost IoT data at the Kerkrade post-mining calibration site.
 
-**Working claim**: Low-cost IoT air-quality and weather streams at the Kerkrade calibration site carry a decomposable signal about antecedent hydrological state, after atmospheric pressure effects are characterized and separated.
+**Research question**: After atmospheric-pressure effects are separated, do low-cost CO2 observations at the Kerkrade post-mining site contain reproducible information about directly measured antecedent hydrological state?
+
+The current evidence supports a pressure-separable residual and a reproducible analysis pipeline, but it does not yet establish the hydrological mechanism. The chapter permits a supported, site-specific/data-limited, or null/boundary outcome depending on the frozen direct-state analysis.
 
 **Methodological frame**: Ensemble time-series anomaly detection and signal decomposition, using pressure-tendency regression, SARIMAX residuals, Kalman innovations, Isolation Forest scores, and transfer-site stress tests.
 
 **Empirical window**: Primary synchronized analysis uses the Kerkrade IoT/weather/discharge overlap, currently expected to begin in January 2025. Where longer discharge, groundwater, weather, or transfer-site records are available, pull the longer history for context, event thresholds, seasonality checks, and baseline characterization.
 
 **Predecessor work**: Viefhues 2022 and Eryilmaz 2025, as summarized in `chapter-prework/Lit-scaffold - chapter draft.docx` and operationalized in `chapter-prework/June 2026 - How-To.docx`.
+
+**Readiness plan**: `docs/chapter-readiness-plan.md` is the canonical record for work that can proceed now, incoming-data gates, the September/October freeze decision, final analysis, and remaining chapter sections. Cross-site transfer is secondary and cannot block chapter completion.
 
 ## How to Reproduce
 
@@ -145,6 +149,7 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    python scripts/08_ensemble_agreement.py
    python scripts/09_synthetic_injection.py
    python scripts/10_evaluation.py
+   python scripts/12_distributed_lag.py
    ```
 
    `05_sarimax.py` uses a compact default SARIMAX search for routine reruns;
@@ -156,6 +161,10 @@ Working repository for the dissertation chapter on antecedent-state signal in lo
    runnable, but interpretation remains provisional until IoT continuity and
    KNMI coverage improve. Rerun the same commands unchanged after more data are
    added.
+
+   `12_distributed_lag.py` is the locked precipitation/discharge boundary test.
+   Its current 10-day antecedent-wetness outcome is `NOT SUPPORTED`; retain the
+   unchanged decision rule for the frozen-data rerun.
 
    August v1 transfer dry run and writing scaffold:
 
@@ -235,6 +244,12 @@ August v1 transfer and writing outputs:
 - `docs/figure-inventory.md`
 - `docs/methods-outline.md`
 - `docs/results-outline.md`
+
+Frozen-run provenance and boundary-test outputs:
+
+- `results/distributed_lag/summary.txt`
+- `results/distributed_lag/timescale_scan.csv`
+- `results/run_manifest.json`
 
 ## Structure
 

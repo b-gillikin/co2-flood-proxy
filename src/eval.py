@@ -243,24 +243,35 @@ def deduplicate_event_episodes(events):
 def combine_detector_flags(frames, detector_names):
     """Union per-detector flag frames onto one hourly grid.
 
-    An hour a detector never scored (its complete-case rows differ) reads as
-    "did not fire" rather than dropping the hour, so the ensemble record is the
-    union of detector coverage instead of the intersection. ``detector_count``
-    and ``all_three_anomaly`` are computed on that union.
+    The union retains a ``<detector>_scored`` indicator so an unavailable score
+    is never confused with a scored non-anomaly. Agreement summaries can then
+    restrict themselves to explicit common coverage.
     """
     detector_names = list(detector_names)
-    flags = frames[0]
-    for frame in frames[1:]:
+    prepared = []
+    for name, frame in zip(detector_names, frames, strict=True):
+        part = frame.copy()
+        part[f"{name}_scored"] = True
+        prepared.append(part)
+
+    flags = prepared[0]
+    for frame in prepared[1:]:
         flags = flags.merge(frame, on="timestamp_utc", how="outer")
     flags = flags.sort_values("timestamp_utc").reset_index(drop=True)
 
     detector_cols = [f"{name}_anomaly" for name in detector_names]
-    for column in detector_cols:
+    scored_cols = [f"{name}_scored" for name in detector_names]
+    for column, scored_column in zip(detector_cols, scored_cols, strict=True):
         # After the outer merge, an unscored hour is NaN; treat only an explicit
-        # True as firing (eq avoids the object-dtype fillna downcast warning).
+        # True as firing while preserving a separate availability indicator.
+        flags[scored_column] = flags[scored_column].eq(True)
         flags[column] = flags[column].eq(True)
     flags["detector_count"] = flags[detector_cols].sum(axis=1)
-    flags["all_three_anomaly"] = flags["detector_count"] == len(detector_names)
+    flags["scored_detector_count"] = flags[scored_cols].sum(axis=1)
+    flags["all_detectors_scored"] = flags["scored_detector_count"] == len(detector_names)
+    flags["all_three_anomaly"] = flags["all_detectors_scored"] & (
+        flags["detector_count"] == len(detector_names)
+    )
     return flags
 
 

@@ -1,4 +1,5 @@
 .venv/
+.python_packages/
 __pycache__/
 monthly_data/
 logs/
@@ -6,6 +7,7 @@ azure/
 build/
 docs/
 legacy/
+knmi_backfill_timer/
 blynk_co2/streaming_data.csv
 blynk_co2/streaming_data.parquet
 .DS_Store
