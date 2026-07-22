@@ -14,10 +14,12 @@
     "HOURLY_LOOKBACK_DAYS": "1",
     "KNMI_API_KEY": "<knmi-open-data-api-key>",
     "KNMI_CONTAINER": "knmi-data",
-    "KNMI_START": "2020-01-01T00:00:00Z",
-    "KNMI_BACKFILL_DIRECTION": "backward",
+    "KNMI_START": "2026-06-24T12:00:00Z",
+    "KNMI_BACKFILL_DIRECTION": "forward",
+    "KNMI_STATE_BLOB": "state/knmi_forward_state.json",
+    "KNMI_AVAILABILITY_LAG_MINUTES": "180",
     "KNMI_STATIONS": "06380,06377,06392,06370,06375,06350,06356",
-    "KNMI_MAX_DOWNLOADS_PER_RUN": "10",
+    "KNMI_MAX_DOWNLOADS_PER_RUN": "200",
     "KNMI_KEEP_RAW": "false",
     "KNMI_BACKFILL_SCHEDULE": "0 */15 * * * *"
   }

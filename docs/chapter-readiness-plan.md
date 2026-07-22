@@ -1,6 +1,6 @@
 # Chapter Readiness Plan
 
-Status date: 2026-07-12
+Status date: 2026-07-22
 
 Preferred data freeze: 2026-09-08
 
@@ -94,7 +94,7 @@ monitoring.
 | Source | Status | Readiness gate | First action on receipt |
 | --- | --- | --- | --- |
 | Post-restoration Kerkrade IoT | `waiting on data` | At least 60 days from 2026-07-09 with at least 90% hourly CO2 coverage | Sync raw blobs, rebuild hourly data, and update the gap report |
-| KNMI station 06380 | `waiting on data` | At least 90% coverage across the post-restoration IoT block | Sync Azure slim blobs and rebuild hourly CSV/Parquet |
+| KNMI station 06380 | `in progress` | At least 90% coverage across the post-restoration IoT block | Forward Azure collection reached its three-hour publication edge on 2026-07-22; sync slim blobs and rebuild hourly CSV/Parquet |
 | Groundwater/mine-water | `waiting on data` | At least 60 paired daily observations across at least two blocks of 15 or more days | Preserve source files, write provenance, normalize without long-gap interpolation |
 | Discharge/weather context | `in progress` | Covers the frozen IoT period and event catalogue | Refresh cached sources and rebuild labels/QC |
 | Transfer sites | `secondary` | Shared-feature coverage sufficient for an honest dry run | Refresh only after core Kerkrade analysis is ready |
@@ -120,16 +120,28 @@ threshold.
 | Refresh date | IoT latest UTC | CO2 observed share | Longest block hours | Post-restoration block days | KNMI 06380 overlap | Groundwater paired days | Usable windows | Notes |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | 2026-07-12 | 2026-04-13 02:00 | 36.2% of the current full grid | 2495 | 0 locally synced | Pending refresh | 0 | 11 defined as usable on the current grid | Baseline before weekly post-restoration syncs |
+| 2026-07-21 | 2026-07-21T20:00:00+00:00 | 31.7% | 2495 | 12.1 | 0.0% | 0 | 11 | Full refresh and provisional pipeline rerun; forward KNMI collection restored after this coverage calculation |
 <!-- weekly-log-rows -->
 
 ## Current Implementation Checkpoint
 
-The 2026-07-12 current-data rehearsal is an engineering check, not the chapter
-freeze. Ruff, format checking, all 40 unit/integration tests, and the deployment
+The 2026-07-21 current-data rehearsal is an engineering check, not the chapter
+freeze. Ruff, format checking, all 46 unit/integration tests, and the deployment
 shell syntax check pass. `results/run_manifest.json` records run
-`20260413T020000Z-ccb1e23`, the 2026-04-13 data cutoff, six hashed inputs, 75
+`20260721T200000Z-0480f3f`, the 2026-07-21 data cutoff, six hashed inputs, 75
 hashed outputs, runtime versions, and `git_dirty: true` so this rehearsal cannot
 be mistaken for an immutable snapshot.
+
+The live Azure configuration was reconciled on 2026-07-22. The primary Function
+App contains the minute-level IoT, hourly weather, hourly historical-weather,
+and once-daily summary-email timers. The email timer runs at 21:05 UTC; no
+storage-account Event Grid subscriptions remain for per-blob email. The KNMI
+app runs forward every 15 minutes from the 2026-06-24 handoff, uses
+`state/knmi_forward_state.json`, and stays 180 minutes behind the publication
+edge. The 02:30 UTC run reached that edge with its next cursor at 2026-07-21
+23:40 UTC after 3,958 successful downloads and zero failures. Live collection
+is current under the publication-lag rule; the subsequent local slim-blob sync
+remains part of the next data refresh.
 
 The convergence gate materially changes the provisional model readout. Across
 11 usable official rolling windows, Isolation Forest has 1,848 scored hours;

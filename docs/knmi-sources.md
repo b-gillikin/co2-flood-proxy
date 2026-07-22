@@ -51,6 +51,11 @@ then discards the raw all-station file. It stores a cursor blob so each run
 resumes from the next missing timestamp. Raw NetCDF persistence is off by
 default and should only be enabled temporarily with `KNMI_KEEP_RAW=true`.
 
+Historical and forward collection use separate state blobs. The historical
+archive is complete; production now defaults to forward collection from the
+2026-06-24 handoff with a publication lag so the cursor does not advance past
+files that KNMI has not published yet.
+
 Deploy from `kerkrade_data/` with Azure CLI credentials:
 
 ```bash
@@ -65,12 +70,14 @@ export KNMI_API_KEY="<knmi-open-data-api-key>"
 bash azure/deploy_knmi_function.sh
 ```
 
-Useful optional settings:
+Production forward-maintenance settings:
 
 ```bash
 export KNMI_CONTAINER="knmi-data"
-export KNMI_START="2020-01-01T00:00:00Z"
-export KNMI_BACKFILL_DIRECTION="backward"
+export KNMI_START="2026-06-24T12:00:00Z"
+export KNMI_BACKFILL_DIRECTION="forward"
+export KNMI_STATE_BLOB="state/knmi_forward_state.json"
+export KNMI_AVAILABILITY_LAG_MINUTES="180"
 export KNMI_STATIONS="06380,06377,06392,06370,06375,06350,06356"
 export KNMI_MAX_DOWNLOADS_PER_RUN="200"
 export KNMI_KEEP_RAW="false"
@@ -82,6 +89,7 @@ Blob layout:
 ```text
 knmi-data/slim/10-minute-in-situ/year=2020/month=01/knmi_meuse_10min_2020_01.csv.gz
 knmi-data/state/knmi_backfill_state.json
+knmi-data/state/knmi_forward_state.json
 ```
 
 Monitor with:
@@ -104,9 +112,18 @@ Meuse/Maas stations and broad KNMI variables. Do not keep the full all-station
 raw NetCDF archive in Azure unless debugging requires a short temporary raw
 sample.
 
-Backfill policy: run backward from the current UTC 10-minute file toward
-`KNMI_START` so recent KNMI coverage becomes available for chapter modelling
-before the older historical archive finishes.
+Historical-backfill policy: when deliberately rebuilding the archive, run
+backward toward `KNMI_START=2020-01-01T00:00:00Z` with
+`KNMI_STATE_BLOB=state/knmi_backfill_state.json`. Do not use the production
+forward state blob for a historical rebuild.
+
+Forward-maintenance policy: use `KNMI_BACKFILL_DIRECTION=forward`, the
+2026-06-24 continuation boundary, and
+`KNMI_STATE_BLOB=state/knmi_forward_state.json`. The default 180-minute
+availability lag keeps the cursor behind the live publication edge. Monthly
+slim blobs are appended and deduplicated by timestamp and station. These are
+also the deployment-script defaults, so a routine redeploy preserves forward
+collection.
 
 ## Azure-to-Local Sync
 

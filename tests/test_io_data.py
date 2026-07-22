@@ -231,6 +231,33 @@ class KnmiBackfillHelperTests(unittest.TestCase):
             "2020-01-01T00:50:00+00:00",
         )
 
+    def test_knmi_forward_uses_an_independent_state_blob(self):
+        self.assertEqual(
+            knmi_backfill.default_state_blob("forward"),
+            "state/knmi_forward_state.json",
+        )
+        self.assertEqual(
+            knmi_backfill.default_state_blob("backward"),
+            "state/knmi_backfill_state.json",
+        )
+
+    def test_knmi_forward_end_respects_publication_lag(self):
+        now = knmi_backfill.parse_utc("2026-07-21T20:09:00Z")
+
+        end = knmi_backfill.availability_end(now, "forward", 180)
+
+        self.assertEqual(end.isoformat(), "2026-07-21T17:09:00+00:00")
+        self.assertEqual(
+            knmi_backfill.availability_end(now, "backward", 180),
+            now,
+        )
+
+    def test_knmi_publication_lag_cannot_be_negative(self):
+        now = knmi_backfill.parse_utc("2026-07-21T20:00:00Z")
+
+        with self.assertRaisesRegex(ValueError, "must be non-negative"):
+            knmi_backfill.availability_end(now, "forward", -1)
+
 
 if __name__ == "__main__":
     unittest.main()

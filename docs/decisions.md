@@ -349,3 +349,49 @@ provenance.
 
 Source: `docs/chapter-readiness-plan.md`; repository end-to-end review on
 2026-07-12.
+
+## 2026-07-13 — Replace per-blob alerts with one daily summary
+
+Decision: Keep the minute-level IoT and hourly weather collection schedules,
+but remove all weather/IoT blob-created emails. Send one consolidated IoT and
+weather status email daily at 21:05 UTC instead.
+
+Implementation: Remove the Event Grid subscription and the
+`blob_created_email_alert` function, remove upload-triggered email from the
+historical weather timer, and deploy `daily_summary_email_timer`. The production
+deployment must use `--build-remote true`; a raw source-package deployment does
+not install `requests` or the Azure SDK dependencies on Linux.
+
+Verification: The live Event Grid subscription list is empty; the Function App
+contains the daily summary timer at `0 5 21 * * *` and no blob email trigger;
+the remote build completed successfully; post-build IoT timer executions and
+blob appends succeeded with no new exceptions.
+
+Source: `kerkrade_data/daily_summary_email_timer/`;
+`kerkrade_data/azure/deploy_function.sh`; Application Insights and live Azure
+Function/Event Grid inventories on 2026-07-13.
+
+## 2026-07-21 — Separate forward KNMI maintenance from historical backfill
+
+Decision: Preserve the completed backward cursor and continue KNMI collection
+from the June 24 archive edge with a separate forward state blob. Keep the
+forward cursor three hours behind current UTC so KNMI publication latency does
+not become a permanent apparent gap.
+
+Implementation: Forward collection uses
+`state/knmi_forward_state.json`, while the immutable historical completion
+record remains in `state/knmi_backfill_state.json`. Monthly station-slim blobs
+are appended and deduplicated by UTC timestamp and station.
+
+Deployment safety: The KNMI deployment script, local settings example, and
+deployment documentation default to the production forward handoff, forward
+state blob, 180-minute publication lag, and 200-file batch. Historical mode now
+requires explicit overrides.
+
+Verification: On 2026-07-22 the live Function App reported direction
+`forward`, state `state/knmi_forward_state.json`, a 180-minute lag, a
+15-minute schedule, and no failed downloads in the active catch-up.
+
+Source: `kerkrade_data/knmi_backfill.py`;
+`kerkrade_data/azure/deploy_knmi_function.sh`; live Azure KNMI state and blob
+inventory on 2026-07-22.

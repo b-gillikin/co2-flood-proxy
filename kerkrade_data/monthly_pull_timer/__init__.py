@@ -10,7 +10,6 @@ from pathlib import Path
 
 import azure.functions as func
 import monthly_pull
-from azure.communication.email import EmailClient
 from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient
 
@@ -134,49 +133,6 @@ def _months_remaining_in_sync_dir() -> int | None:
     except Exception as exc:
         logging.warning("Failed reading .backfill_state.json: %s", exc)
         return None
-
-
-def _send_upload_email(container_name: str, uploaded_blobs: list[str]) -> None:
-    conn = os.getenv("AZURE_COMMUNICATION_CONNECTION_STRING", "").strip()
-    sender = os.getenv("ALERT_SENDER", "").strip()
-    recipients_raw = os.getenv("ALERT_RECIPIENTS", "").strip()
-    if not conn or not sender or not recipients_raw:
-        logging.info("Email settings missing; skipping upload notification.")
-        return
-
-    recipients = [r.strip() for r in recipients_raw.split(",") if r.strip()]
-    if not recipients:
-        return
-
-    preview = uploaded_blobs[:20]
-    numbered = [f"{idx}. {name}" for idx, name in enumerate(preview, start=1)]
-    suffix = "" if len(uploaded_blobs) <= 20 else f"\n...and {len(uploaded_blobs) - 20} more"
-    iot_summary = _build_iot_summary()
-    hourly_weather_summary = _build_hourly_weather_summary()
-
-    body = (
-        "### WEATHER DATA - HISTORICAL ###\n"
-        f"Upload sync completed for container: {container_name}\n"
-        f"Uploaded/updated blobs: {len(uploaded_blobs)}\n\n" + "\n".join(numbered) + suffix
-    )
-    if hourly_weather_summary:
-        body += f"\n\n{hourly_weather_summary}"
-    if iot_summary:
-        body += f"\n\n{iot_summary}"
-
-    message = {
-        "senderAddress": sender,
-        "content": {
-            "subject": f"{container_name} update ({len(uploaded_blobs)} files)",
-            "plainText": body,
-        },
-        "recipients": {"to": [{"address": r} for r in recipients]},
-    }
-
-    client = EmailClient.from_connection_string(conn)
-    poller = client.begin_send(message)
-    result = poller.result()
-    logging.info("Timer upload email sent. Message ID: %s", result.get("id"))
 
 
 def _safe_float(value):
@@ -348,12 +304,12 @@ def main(timer: func.TimerRequest) -> None:
         monthly_pull.main()
 
         uploaded_blobs = _sync_up(container)
-        if uploaded_blobs:
-            _send_upload_email(container, uploaded_blobs)
         logging.info(
-            "Run complete for location '%s'. Data synced to blob container '%s'.",
+            "Run complete for location '%s'. Data synced to blob container '%s' "
+            "(%s uploaded/updated blobs).",
             location,
             container,
+            len(uploaded_blobs),
         )
         return
 

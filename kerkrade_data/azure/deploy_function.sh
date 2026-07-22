@@ -123,7 +123,28 @@ PY
 az functionapp deployment source config-zip \
   --resource-group "$RESOURCE_GROUP" \
   --name "$FUNCTION_APP" \
-  --src build/functionapp.zip
+  --src build/functionapp.zip \
+  --build-remote true \
+  --timeout 600
+
+# Per-blob notification subscriptions predate the daily summary timer. Remove
+# either historical name without touching the storage or data-pull functions.
+STORAGE_RESOURCE_ID=$(az storage account show \
+  --name "$STORAGE_ACCOUNT" \
+  --resource-group "$RESOURCE_GROUP" \
+  --query id -o tsv)
+for EVENT_SUBSCRIPTION in \
+  es-monthly-data-blobcreated-email \
+  es-kerkrada-weather-data-blobcreated-email; do
+  if az eventgrid event-subscription show \
+    --name "$EVENT_SUBSCRIPTION" \
+    --source-resource-id "$STORAGE_RESOURCE_ID" >/dev/null 2>&1; then
+    az eventgrid event-subscription delete \
+      --name "$EVENT_SUBSCRIPTION" \
+      --source-resource-id "$STORAGE_RESOURCE_ID"
+    echo "Removed legacy per-blob email subscription: $EVENT_SUBSCRIPTION"
+  fi
+done
 
 az functionapp function list \
   --resource-group "$RESOURCE_GROUP" \
@@ -131,4 +152,4 @@ az functionapp function list \
   --query '[].name' -o tsv
 
 echo "Deployment complete."
-echo "Timer schedule is UTC: 00:00, 09:00, 12:00, 15:00, 18:00, 21:00"
+echo "Daily summary email schedule is UTC: 21:05"

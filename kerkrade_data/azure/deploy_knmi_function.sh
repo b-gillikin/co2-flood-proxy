@@ -5,10 +5,12 @@ set -euo pipefail
 # SUBSCRIPTION_ID, RESOURCE_GROUP, LOCATION, STORAGE_ACCOUNT, FUNCTION_APP, KNMI_API_KEY
 # Optional env vars:
 # KNMI_CONTAINER (default: knmi-data)
-# KNMI_START (default: 2020-01-01T00:00:00Z)
-# KNMI_BACKFILL_DIRECTION (default: backward)
+# KNMI_START (default: 2026-06-24T12:00:00Z production handoff)
+# KNMI_BACKFILL_DIRECTION (default: forward)
+# KNMI_STATE_BLOB (direction-specific default)
+# KNMI_AVAILABILITY_LAG_MINUTES (default: 180 for forward collection)
 # KNMI_STATIONS (default: selected Meuse/Maas stations)
-# KNMI_MAX_DOWNLOADS_PER_RUN (default: 10)
+# KNMI_MAX_DOWNLOADS_PER_RUN (default: 200)
 # KNMI_KEEP_RAW (default: false)
 # KNMI_BACKFILL_SCHEDULE (default: every 15 minutes)
 # PYTHON_VERSION (default: 3.11)
@@ -21,10 +23,18 @@ set -euo pipefail
 : "${KNMI_API_KEY:?Missing KNMI_API_KEY}"
 
 KNMI_CONTAINER="${KNMI_CONTAINER:-knmi-data}"
-KNMI_START="${KNMI_START:-2020-01-01T00:00:00Z}"
-KNMI_BACKFILL_DIRECTION="${KNMI_BACKFILL_DIRECTION:-backward}"
+KNMI_START="${KNMI_START:-2026-06-24T12:00:00Z}"
+KNMI_BACKFILL_DIRECTION="${KNMI_BACKFILL_DIRECTION:-forward}"
+if [[ -z "${KNMI_STATE_BLOB:-}" ]]; then
+  if [[ "$KNMI_BACKFILL_DIRECTION" == "forward" ]]; then
+    KNMI_STATE_BLOB="state/knmi_forward_state.json"
+  else
+    KNMI_STATE_BLOB="state/knmi_backfill_state.json"
+  fi
+fi
+KNMI_AVAILABILITY_LAG_MINUTES="${KNMI_AVAILABILITY_LAG_MINUTES:-180}"
 KNMI_STATIONS="${KNMI_STATIONS:-06380,06377,06392,06370,06375,06350,06356}"
-KNMI_MAX_DOWNLOADS_PER_RUN="${KNMI_MAX_DOWNLOADS_PER_RUN:-10}"
+KNMI_MAX_DOWNLOADS_PER_RUN="${KNMI_MAX_DOWNLOADS_PER_RUN:-200}"
 KNMI_DOWNLOAD_SLEEP_SECONDS="${KNMI_DOWNLOAD_SLEEP_SECONDS:-0.0}"
 KNMI_KEEP_RAW="${KNMI_KEEP_RAW:-false}"
 KNMI_BACKFILL_SCHEDULE="${KNMI_BACKFILL_SCHEDULE:-0 */15 * * * *}"
@@ -94,6 +104,8 @@ az functionapp config appsettings set \
     "KNMI_CONTAINER=$KNMI_CONTAINER" \
     "KNMI_START=$KNMI_START" \
     "KNMI_BACKFILL_DIRECTION=$KNMI_BACKFILL_DIRECTION" \
+    "KNMI_STATE_BLOB=$KNMI_STATE_BLOB" \
+    "KNMI_AVAILABILITY_LAG_MINUTES=$KNMI_AVAILABILITY_LAG_MINUTES" \
     "KNMI_STATIONS=$KNMI_STATIONS" \
     "KNMI_MAX_DOWNLOADS_PER_RUN=$KNMI_MAX_DOWNLOADS_PER_RUN" \
     "KNMI_DOWNLOAD_SLEEP_SECONDS=$KNMI_DOWNLOAD_SLEEP_SECONDS" \
@@ -156,5 +168,8 @@ az functionapp function list \
 
 echo "KNMI deployment complete."
 echo "Timer schedule is UTC: $KNMI_BACKFILL_SCHEDULE"
-echo "State blob: $KNMI_CONTAINER/state/knmi_backfill_state.json"
+echo "Direction: $KNMI_BACKFILL_DIRECTION"
+echo "Start boundary: $KNMI_START"
+echo "State blob: $KNMI_CONTAINER/$KNMI_STATE_BLOB"
+echo "Availability lag: $KNMI_AVAILABILITY_LAG_MINUTES minutes"
 echo "Raw files:  $KNMI_CONTAINER/raw/10-minute-in-situ/"

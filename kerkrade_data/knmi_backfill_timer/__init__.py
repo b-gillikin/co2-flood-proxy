@@ -1,4 +1,4 @@
-"""Azure Timer trigger for the KNMI historical raw-file backfill."""
+"""Azure Timer trigger for KNMI historical or forward collection."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ import azure.functions as func
 
 
 def main(timer: func.TimerRequest, diagnostic: func.Out[str]) -> None:
-    """Run one bounded KNMI backfill batch and always write a diagnostic marker."""
+    """Run one bounded KNMI collection batch and write a diagnostic marker."""
     payload = {
         "status": "started",
         "started_at_utc": datetime.now(timezone.utc).isoformat(),

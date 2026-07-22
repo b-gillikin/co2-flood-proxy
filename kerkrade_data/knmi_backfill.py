@@ -32,8 +32,10 @@ DEFAULT_CONTAINER = "knmi-data"
 DEFAULT_RAW_PREFIX = "raw/10-minute-in-situ"
 DEFAULT_SLIM_PREFIX = "slim/10-minute-in-situ"
 DEFAULT_STATE_BLOB = "state/knmi_backfill_state.json"
+DEFAULT_FORWARD_STATE_BLOB = "state/knmi_forward_state.json"
 DEFAULT_STATIONS = "06380,06377,06392,06370,06375,06350,06356"
 DEFAULT_DIRECTION = "forward"
+DEFAULT_AVAILABILITY_LAG_MINUTES = 180
 
 
 def parse_utc(value: str | None, default: datetime | None = None) -> datetime:
@@ -117,6 +119,22 @@ def advance_cursor(cursor: datetime, direction: str) -> datetime:
     """Move the cursor by one KNMI 10-minute file interval."""
     step = -10 if direction == "backward" else 10
     return cursor + timedelta(minutes=step)
+
+
+def default_state_blob(direction: str) -> str:
+    """Keep historical-backfill and forward-maintenance cursors independent."""
+    if normalize_direction(direction) == "forward":
+        return DEFAULT_FORWARD_STATE_BLOB
+    return DEFAULT_STATE_BLOB
+
+
+def availability_end(now: datetime, direction: str, lag_minutes: float) -> datetime:
+    """Return a safe collection end, allowing time for new KNMI files to publish."""
+    if lag_minutes < 0:
+        raise ValueError("KNMI_AVAILABILITY_LAG_MINUTES must be non-negative")
+    if normalize_direction(direction) == "forward":
+        return now - timedelta(minutes=lag_minutes)
+    return now
 
 
 def new_state(start: datetime, end: datetime, direction: str) -> dict:
@@ -297,11 +315,15 @@ def run_backfill_once() -> dict:
     version = os.getenv("KNMI_VERSION", DEFAULT_VERSION).strip() or DEFAULT_VERSION
     raw_prefix = os.getenv("KNMI_RAW_PREFIX", DEFAULT_RAW_PREFIX).strip() or DEFAULT_RAW_PREFIX
     slim_prefix = os.getenv("KNMI_SLIM_PREFIX", DEFAULT_SLIM_PREFIX).strip() or DEFAULT_SLIM_PREFIX
-    state_blob = os.getenv("KNMI_STATE_BLOB", DEFAULT_STATE_BLOB).strip() or DEFAULT_STATE_BLOB
     stations = parse_station_list(os.getenv("KNMI_STATIONS", DEFAULT_STATIONS))
     start = parse_utc(os.getenv("KNMI_START", "2020-01-01T00:00:00Z"))
-    end = floor_10_minutes(parse_utc(os.getenv("KNMI_END"), default=datetime.now(timezone.utc)))
     direction = normalize_direction(os.getenv("KNMI_BACKFILL_DIRECTION", DEFAULT_DIRECTION))
+    state_blob = os.getenv("KNMI_STATE_BLOB", "").strip() or default_state_blob(direction)
+    availability_lag_minutes = float(
+        os.getenv("KNMI_AVAILABILITY_LAG_MINUTES", str(DEFAULT_AVAILABILITY_LAG_MINUTES))
+    )
+    requested_end = parse_utc(os.getenv("KNMI_END"), default=datetime.now(timezone.utc))
+    end = floor_10_minutes(availability_end(requested_end, direction, availability_lag_minutes))
     max_downloads = int(os.getenv("KNMI_MAX_DOWNLOADS_PER_RUN", "10"))
     sleep_seconds = float(os.getenv("KNMI_DOWNLOAD_SLEEP_SECONDS", "0.0"))
 
@@ -323,6 +345,7 @@ def run_backfill_once() -> dict:
         "slim_blobs_written": 0,
         "slim_rows_in_written_blobs": 0,
         "direction": direction,
+        "availability_lag_minutes": availability_lag_minutes,
         "stations": ",".join(stations),
         "start_cursor_utc": cursor.isoformat(),
         "start_limit_utc": start.isoformat(),
