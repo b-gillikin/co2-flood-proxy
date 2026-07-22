@@ -57,6 +57,9 @@ analysis passes its locked criteria.
 - [x] `done` Generate `results/run_manifest.json` with run ID, data
   cutoff, git commit, environment versions, commands, input hashes/coverage, and
   output hashes.
+- [x] `done` Use one versioned detector specification for full-record,
+  synthetic-injection, and rolling-origin fits; persist the actual family,
+  controls, optimizer diagnostics, and fit status.
 
 ### Stable chapter writing: July 13-August 15
 
@@ -126,7 +129,7 @@ threshold.
 ## Current Implementation Checkpoint
 
 The 2026-07-21 current-data rehearsal is an engineering check, not the chapter
-freeze. Ruff, format checking, all 46 unit/integration tests, and the deployment
+freeze. Ruff, format checking, all 52 unit/integration tests, and the deployment
 shell syntax check pass. `results/run_manifest.json` records run
 `20260721T200000Z-0480f3f`, the 2026-07-21 data cutoff, six hashed inputs, 75
 hashed outputs, runtime versions, and `git_dirty: true` so this rehearsal cannot
@@ -143,13 +146,19 @@ edge. The 02:30 UTC run reached that edge with its next cursor at 2026-07-21
 is current under the publication-lag rule; the subsequent local slim-blob sync
 remains part of the next data refresh.
 
-The convergence gate materially changes the provisional model readout. Across
-11 usable official rolling windows, Isolation Forest has 1,848 scored hours;
-SARIMAX and Kalman are `non_converged` in all windows and have zero valid scored
-hours. The in-sample ensemble has 758 hours of common three-detector coverage.
-Synthetic-injection output ranks Isolation Forest only; the two non-converged
-detectors remain visible but unranked. The distributed-lag rerun remains `NOT
-SUPPORTED` under the unchanged five-part decision rule.
+The 2026-07-22 detector-coherence rehearsal supersedes the earlier
+non-convergence readout but is still provisional. SARIMAX and the local-level
+model now use the pressure-separated residual with standardized IoT temperature
+and relative humidity controls only. The selected full-record families are a
+converged SARIMAX `(1,0,2) x (1,0,1,24)` and a converged jointly estimated
+local-level state-space model; all four qualifying blocks report `ok`. Across
+11 usable official rolling windows, SARIMAX, local-level state space, and
+Isolation Forest each have 1,848 scored hours with 11 `ok` fits. Synthetic
+injection refits those exact families and provisionally ranks local-level first,
+SARIMAX second, and Isolation Forest third. These ignored run artifacts must be
+reproduced after the Batch 1 commit and ultimately on the frozen snapshot. The
+distributed-lag rerun remains `NOT SUPPORTED` under the unchanged five-part
+decision rule.
 
 The remaining work is data- and manuscript-gated: weekly IoT/KNMI refreshes,
 groundwater/mine-water receipt and normalization, the freeze-gate decision, the

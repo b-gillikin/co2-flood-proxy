@@ -395,3 +395,33 @@ Verification: On 2026-07-22 the live Function App reported direction
 Source: `kerkrade_data/knmi_backfill.py`;
 `kerkrade_data/azure/deploy_knmi_function.sh`; live Azure KNMI state and blob
 inventory on 2026-07-22.
+
+## 2026-07-22 — One detector contract and pressure-safe state-space controls
+
+Decision: Full-record fitting, synthetic injection, and rolling-origin
+evaluation must use the same versioned detector family and fit/score
+implementation. Persist the actual family and reject older family-ambiguous
+model artifacts. A non-converged state-space fit may fall back only to an
+explicitly named `arx` or `ridge_local_level` family.
+
+Feature policy: SARIMAX/AR-X and local-level models use the already
+pressure-separated CO2 residual with standardized IoT temperature and relative
+humidity controls. They do not reintroduce pressure level, pressure tendency,
+or a second weather source. Isolation Forest retains its multivariate feature
+contract.
+
+Selection policy: Test a small nonseasonal SARIMAX grid first and consider
+daily seasonality only after a base fit converges. Record optimizer convergence,
+warnings, iterations, likelihood, information criteria, features, and family
+for selection and every block/window fit.
+
+Provisional outcome: On the 2026-07-21 local snapshot, the selected families are
+SARIMAX `(1,0,2) x (1,0,1,24)` and jointly estimated local-level state space.
+Both are `ok` in all four full-record blocks and all 11 official rolling
+windows; each rolling detector scores 1,848 hours. Synthetic injection refits
+the same saved families rather than hard-wired approximations.
+
+Source: `src/detectors.py`; `scripts/05_sarimax.py`;
+`scripts/06_kalman.py`; `scripts/07_isolation_forest.py`;
+`scripts/09_synthetic_injection.py`; `scripts/10_evaluation.py`;
+`tests/test_detectors.py`.

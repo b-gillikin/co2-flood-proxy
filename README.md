@@ -152,9 +152,18 @@ The current evidence supports a pressure-separable residual and a reproducible a
    python scripts/12_distributed_lag.py
    ```
 
-   `05_sarimax.py` uses a compact default SARIMAX search for routine reruns;
-   use `python scripts/05_sarimax.py --full-grid` when you want the full p,q
-   in 0..2 order search.
+   `05_sarimax.py` uses a compact nonseasonal SARIMAX search, then tests daily
+   seasonality only after a base fit converges. Use
+   `python scripts/05_sarimax.py --full-grid` for the full p,q in 0..2 search.
+   SARIMAX and the local-level model use only standardized IoT temperature and
+   relative humidity controls; pressure is not reintroduced after pressure
+   separation. If a state-space optimizer does not converge, the saved family
+   is named explicitly as `arx` or `ridge_local_level`.
+
+   Full-record fitting, synthetic injection, and rolling-origin evaluation all
+   use the versioned specification in `src/detectors.py`. Scripts 09 and 10
+   reject legacy model pickles rather than silently substituting a different
+   family or feature set.
 
    These July outputs are pipeline-first on the current gappy IoT/residual
    record. The official 30-day train / 7-day evaluation windows are now

@@ -23,21 +23,18 @@ os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import IsolationForest
 
+from src.detectors import (
+    fit_detector,
+    flag_scores,
+    load_detector_spec,
+    score_detector,
+)
 from src.eval import deduplicate_event_episodes, time_based_windows
 from src.models.july import (
-    IFOREST_BASE_FEATURES,
     TARGET_COL,
     antecedent_precipitation_index,
-    available_exog,
-    complete_model_frame,
-    fit_local_level,
-    fit_sarimax_fixed,
-    fitted_model_status,
     load_signal_frame,
-    robust_zscore,
-    standardized_innovations,
 )
 from src.provenance import run_context
 
@@ -48,7 +45,11 @@ ANALYSIS_PATH = Path("data/interim/analysis_hourly.csv")
 FLAGS_PATH = PROCESSED_DIR / "ensemble_anomaly_flags.csv"
 EVENTS_PATH = PROCESSED_DIR / "event_catalogue.csv"
 API_PATH = PROCESSED_DIR / "api.csv"
-SARIMAX_MODEL_PATH = Path("results/models/sarimax.pkl")
+MODEL_PATHS = {
+    "sarimax": Path("results/models/sarimax.pkl"),
+    "kalman": Path("results/models/kalman.pkl"),
+    "iforest": Path("results/models/iforest.pkl"),
+}
 
 WINDOWS_PATH = RESULTS_DIR / "evaluation_windows.csv"
 DETECTOR_SUMMARY_PATH = RESULTS_DIR / "provisional_detector_summary.csv"
@@ -63,12 +64,9 @@ OFFICIAL_EVAL_HOURS = 7 * 24
 SMOKE_TRAIN_HOURS = 14 * 24
 SMOKE_EVAL_HOURS = 3 * 24
 MIN_WINDOW_COVERAGE = 0.7
-MAD_THRESHOLD = 3.5
 EXOG_INTERPOLATION_LIMIT_HOURS = 6
 
 DETECTORS = ("sarimax", "kalman", "iforest")
-DEFAULT_ORDER = (1, 0, 2)
-DEFAULT_SEASONAL_ORDER = (1, 0, 1, 24)
 
 # Coverage is measured against hours where the primary IoT channel is observed.
 OBSERVED_TARGET_COL = "iot_co2_ppm"
@@ -81,18 +79,9 @@ def read_timestamped(path):
     return frame.sort_values("timestamp_utc")
 
 
-def selected_sarimax_spec():
-    """Read the order selected by 05_sarimax.py, with a safe default."""
-    if SARIMAX_MODEL_PATH.exists():
-        import pickle
-
-        with SARIMAX_MODEL_PATH.open("rb") as handle:
-            payload = pickle.load(handle)
-        order = payload.get("order")
-        seasonal_order = payload.get("seasonal_order")
-        if order and seasonal_order:
-            return tuple(order), tuple(seasonal_order)
-    return DEFAULT_ORDER, DEFAULT_SEASONAL_ORDER
+def load_pipeline_specs():
+    """Load the exact full-record family for every rolling detector."""
+    return {detector: load_detector_spec(path, detector) for detector, path in MODEL_PATHS.items()}
 
 
 def hourly_window_frame(frame, feature_cols, start, end):
@@ -116,111 +105,78 @@ def hourly_window_frame(frame, feature_cols, start, end):
 
 def rolling_origin_evaluation(
     frame,
-    feature_cols,
+    specs,
     windows,
-    order,
-    seasonal_order,
     run_id="unknown",
     data_cutoff_utc=None,
 ):
-    """Refit each detector per usable window and score its eval span OOS."""
+    """Refit each persisted detector family and score its evaluation span."""
     usable = windows.loc[windows["status"] == "ok"]
     flag_parts = []
     summary_rows = []
 
-    iforest_features = [
-        column
-        for column in [
-            *IFOREST_BASE_FEATURES,
-            *[c for c in frame.columns if "_delta_" in c],
-        ]
-        if column in frame.columns
-    ]
-    iforest_features = list(dict.fromkeys(iforest_features))
-
     for window in usable.itertuples(index=False):
-        y_train, x_train = hourly_window_frame(
-            frame, feature_cols, window.train_start_utc, window.train_end_utc
-        )
-        y_eval, x_eval = hourly_window_frame(
-            frame, feature_cols, window.eval_start_utc, window.eval_end_utc
-        )
-        eval_flags = pd.DataFrame({"timestamp_utc": y_eval.index})
+        eval_index = pd.date_range(window.eval_start_utc, window.eval_end_utc, freq="h")
+        observed_eval = frame[TARGET_COL].reindex(eval_index)
+        eval_flags = pd.DataFrame({"timestamp_utc": eval_index})
         eval_flags["run_id"] = run_id
         eval_flags["data_cutoff_utc"] = data_cutoff_utc
         eval_flags["window_id"] = window.window_id
         eval_flags["scheme"] = window.scheme
-        eval_flags["target_observed"] = y_eval.notna().to_numpy()
+        eval_flags["target_observed"] = observed_eval.notna().to_numpy()
 
         for detector in DETECTORS:
-            status = "ok"
+            spec = specs[detector]
+            status = "failed"
             detail = ""
-            flags = pd.Series(False, index=y_eval.index)
-            scored = pd.Series(False, index=y_eval.index)
+            fit_diagnostics = {}
+            flags = pd.Series(False, index=eval_index)
+            scored = pd.Series(False, index=eval_index)
             try:
-                if detector == "sarimax":
-                    result = fit_sarimax_fixed(y_train, x_train, order, seasonal_order)
-                    status = fitted_model_status(result)
-                    residual_train = y_train - pd.Series(result.fittedvalues, index=y_train.index)
-                    extended = result.extend(y_eval, exog=x_eval)
-                    residual_eval = y_eval - pd.Series(extended.fittedvalues, index=y_eval.index)
-                    z = robust_zscore(residual_eval, reference=residual_train.dropna())
-                    flags = z.abs() > MAD_THRESHOLD
-                    scored = y_eval.notna() & z.notna()
-                elif detector == "kalman":
-                    result = fit_local_level(y_train, x_train)
-                    status = fitted_model_status(result)
-                    innovations_train = standardized_innovations(result, y_train.index, warmup=3)
-                    extended = result.extend(y_eval, exog=x_eval)
-                    innovations_eval = pd.Series(
-                        np.asarray(extended.filter_results.standardized_forecasts_error[0]),
-                        index=y_eval.index,
+                if spec.family == "isolation_forest":
+                    train_index = pd.date_range(
+                        window.train_start_utc,
+                        window.train_end_utc,
+                        freq="h",
                     )
-                    z = robust_zscore(innovations_eval, reference=innovations_train.dropna())
-                    flags = z.abs() > MAD_THRESHOLD
-                    scored = y_eval.notna() & z.notna()
+                    x_train = frame.reindex(train_index).reindex(columns=list(spec.features))
+                    x_eval = frame.reindex(eval_index).reindex(columns=list(spec.features))
+                    y_eval = observed_eval
+                    fit = fit_detector(spec, x=x_train)
                 else:
-                    train_rows = (
-                        frame.loc[window.train_start_utc : window.train_end_utc, iforest_features]
-                        .replace([np.inf, -np.inf], np.nan)
-                        .dropna()
+                    y_train, x_train = hourly_window_frame(
+                        frame,
+                        list(spec.features),
+                        window.train_start_utc,
+                        window.train_end_utc,
                     )
-                    eval_rows = (
-                        frame.loc[window.eval_start_utc : window.eval_end_utc, iforest_features]
-                        .replace([np.inf, -np.inf], np.nan)
-                        .dropna()
+                    y_eval, x_eval = hourly_window_frame(
+                        frame,
+                        list(spec.features),
+                        window.eval_start_utc,
+                        window.eval_end_utc,
                     )
-                    if len(train_rows) < 48 or eval_rows.empty:
-                        status = "insufficient_data"
-                        detail = "fewer than 48 training rows or no evaluation rows"
-                        model = None
-                    else:
-                        model = IsolationForest(
-                            n_estimators=200,
-                            max_features=0.8,
-                            random_state=42,
-                            n_jobs=1,
-                        ).fit(train_rows)
-                    if model is not None:
-                        score_train = pd.Series(
-                            -model.score_samples(train_rows), index=train_rows.index
-                        )
-                        score_eval = pd.Series(
-                            -model.score_samples(eval_rows), index=eval_rows.index
-                        )
-                        z = robust_zscore(score_eval, reference=score_train)
-                        flags.loc[score_eval.index] = (z.abs() > MAD_THRESHOLD).to_numpy()
-                        scored.loc[score_eval.index] = True
+                    fit = fit_detector(spec, y=y_train, x=x_train)
+                status = fit.status
+                detail = fit.detail
+                fit_diagnostics = fit.diagnostics
+                if status == "ok":
+                    detector_score = score_detector(fit, y=y_eval, x=x_eval)
+                    fitted_flags, fitted_scored, _ = flag_scores(
+                        detector_score.score,
+                        reference=fit.train_score,
+                    )
+                    flags.loc[fitted_flags.index] = fitted_flags.to_numpy()
+                    scored.loc[fitted_scored.index] = fitted_scored.to_numpy()
             except Exception as exc:
                 status = "failed"
-                detail = type(exc).__name__
+                detail = f"{type(exc).__name__}: {exc}"
 
-            # Non-converged or failed fits remain visible in the summary but do
-            # not silently contribute valid-looking anomaly flags.
             if status != "ok":
                 scored[:] = False
             flags = flags & scored
             eval_flags[f"{detector}_fit_status"] = status
+            eval_flags[f"{detector}_model_family"] = spec.family
             eval_flags[f"{detector}_scored"] = scored.to_numpy()
             eval_flags[f"{detector}_anomaly"] = flags.fillna(False).to_numpy()
             summary_rows.append(
@@ -232,11 +188,16 @@ def rolling_origin_evaluation(
                     "detector": detector,
                     "eval_start_utc": window.eval_start_utc,
                     "eval_end_utc": window.eval_end_utc,
-                    "eval_observed_hours": int(y_eval.notna().sum()),
+                    "eval_observed_hours": int(observed_eval.notna().sum()),
                     "eval_scored_hours": int(scored.sum()),
                     "anomaly_hours": int(eval_flags[f"{detector}_anomaly"].sum()),
+                    "model_family": spec.family,
+                    "features": "|".join(spec.features),
                     "fit_status": status,
                     "fit_detail": detail,
+                    "fit_converged": fit_diagnostics.get("converged"),
+                    "fit_iterations": fit_diagnostics.get("iterations"),
+                    "fit_warnings": fit_diagnostics.get("warning_messages", ""),
                     "status": status,
                 }
             )
@@ -520,16 +481,12 @@ def main():
     invalidate_rolling_outputs()
     if not args.skip_rolling:
         frame = load_signal_frame()
-        feature_cols = available_exog(frame)
-        model_frame, feature_cols = complete_model_frame(frame, TARGET_COL, feature_cols)
-        order, seasonal_order = selected_sarimax_spec()
+        specs = load_pipeline_specs()
         official_windows = windows.loc[windows["scheme"] == "official_30d_train_7d_eval"]
         rolling_flags, rolling_summary = rolling_origin_evaluation(
-            frame.loc[model_frame.index.min() : model_frame.index.max()],
-            feature_cols,
+            frame,
+            specs,
             official_windows,
-            order,
-            seasonal_order,
             run_id=context["run_id"],
             data_cutoff_utc=context["data_cutoff_utc"],
         )

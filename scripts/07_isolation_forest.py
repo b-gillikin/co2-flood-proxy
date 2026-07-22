@@ -14,11 +14,16 @@ os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import IsolationForest
 
+from src.detectors import (
+    DetectorSpec,
+    fit_detector,
+    iforest_features,
+    model_payload,
+    score_detector,
+)
 from src.models.july import (
     CO2_COL,
-    IFOREST_BASE_FEATURES,
     anomaly_table,
     load_signal_frame,
 )
@@ -36,28 +41,24 @@ ANOMALIES_PATH = PROCESSED_DIR / "iforest-anomalies.csv"
 # flags. The official flag is the shared robust-MAD rule used by all three
 # detectors; a fixed contamination would hard-code the reported anomaly rate.
 CONTAMINATIONS = (0.03, 0.05, 0.10)
-RANDOM_STATE = 42
 
 
 def feature_columns(frame):
-    """Select complete-case multivariate Isolation Forest features."""
-    delta_cols = [column for column in frame.columns if "_delta_" in column]
-    features = [
-        column for column in [*IFOREST_BASE_FEATURES, *delta_cols] if column in frame.columns
-    ]
-    return list(dict.fromkeys(features))
+    """Return the shared Isolation Forest feature contract."""
+    return iforest_features(frame)
 
 
 def fit_iforest(x):
-    """Fit the Isolation Forest used for scoring."""
-    model = IsolationForest(
-        n_estimators=200,
-        max_features=0.8,
-        random_state=RANDOM_STATE,
-        n_jobs=1,
+    """Fit the shared Isolation Forest and return its sklearn model."""
+    spec = DetectorSpec(
+        detector="iforest",
+        family="isolation_forest",
+        features=tuple(x.columns),
     )
-    model.fit(x)
-    return model
+    fit = fit_detector(spec, x=x)
+    if fit.status != "ok":
+        raise RuntimeError(f"Isolation Forest fit status: {fit.status}: {fit.detail}")
+    return fit.model
 
 
 def write_plot(scores):
@@ -122,8 +123,15 @@ def main():
             CO2_COL: model_frame[CO2_COL].to_numpy(dtype=float),
         }
     )
-    model = fit_iforest(x)
-    raw_score = -model.score_samples(x)
+    spec = DetectorSpec(
+        detector="iforest",
+        family="isolation_forest",
+        features=tuple(features),
+    )
+    fit = fit_detector(spec, x=x)
+    if fit.status != "ok":
+        raise RuntimeError(f"Isolation Forest fit status: {fit.status}: {fit.detail}")
+    raw_score = score_detector(fit, in_sample=True).score.to_numpy()
     scores["iforest_score"] = raw_score
 
     contamination_thresholds = {}
@@ -150,13 +158,14 @@ def main():
     anomalies.to_csv(ANOMALIES_PATH, index=False)
     with MODEL_PATH.open("wb") as handle:
         pickle.dump(
-            {
-                "model_type": "IsolationForest",
-                "features": features,
-                "official_flag": "robust_mad_3p5_on_score",
-                "contamination_thresholds": contamination_thresholds,
-                "model": model,
-            },
+            model_payload(
+                spec,
+                fit,
+                fitted_detector=fit,
+                features=features,
+                official_flag="robust_mad_3p5_on_score",
+                contamination_thresholds=contamination_thresholds,
+            ),
             handle,
         )
 

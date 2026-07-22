@@ -13,11 +13,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from src.detectors import local_level_filter, make_lagged_frame
 from src.eval import combine_detector_flags, time_based_windows
 from src.models.july import TARGET_COL
 
-sarimax = importlib.import_module("scripts.05_sarimax")
-kalman = importlib.import_module("scripts.06_kalman")
 iforest = importlib.import_module("scripts.07_isolation_forest")
 ensemble = importlib.import_module("scripts.08_ensemble_agreement")
 injection = importlib.import_module("scripts.09_synthetic_injection")
@@ -49,7 +48,7 @@ class OfflinePipelineIntegrationTests(unittest.TestCase):
         frame = signal_fixture()
 
         # 05: lag construction keeps honest hourly predictors.
-        lagged, predictors = sarimax.make_lagged_frame(
+        lagged, predictors = make_lagged_frame(
             frame,
             TARGET_COL,
             ["iot_air_pressure_hpa"],
@@ -60,7 +59,7 @@ class OfflinePipelineIntegrationTests(unittest.TestCase):
         self.assertIn("target_lag_1", predictors)
 
         # 06: fallback local-level filter returns one innovation per hour.
-        filtered = kalman.local_level_filter(frame[TARGET_COL].iloc[:72], q=1.0, r=4.0)
+        filtered = local_level_filter(frame[TARGET_COL].iloc[:72], q=1.0, r=4.0)
         self.assertEqual(len(filtered), 72)
         self.assertTrue(np.isfinite(filtered["standardized_innovation"]).all())
 
