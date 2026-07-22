@@ -146,8 +146,9 @@ The current evidence supports a pressure-separable residual and a reproducible a
    python scripts/15_run_analysis_pipeline.py
    ```
 
-   This command runs the actual 05-12 entry points in order, including the
-   secondary transfer dry run, and writes `results/run_manifest.json`. Before
+   This command runs each core model entry point as a separate process, adds
+   available direct state, keeps secondary transfer last, and writes
+   `results/run_manifest.json`. Before
    every step it removes that step's prior artifacts, so a failed or skipped
    replacement cannot leave a stale output looking current. For the final
    immutable snapshot, commit the code first and add `--freeze`; frozen mode
@@ -155,6 +156,9 @@ The current evidence supports a pressure-separable residual and a reproducible a
    unrecorded outputs, failed commands, and non-converged models.
    If shared-feature coverage is inadequate, add `--skip-transfer`; transfer is
    secondary and this omission does not invalidate the core frozen run.
+   Normalized groundwater data activate `scripts/16_direct_state.py`
+   automatically. A frozen run refuses to omit that central analysis silently;
+   use `--direct-state omit` only for the prespecified data-limited outcome.
 
    `05_sarimax.py` uses a compact nonseasonal SARIMAX search, then tests daily
    seasonality only after a base fit converges. Use
@@ -284,6 +288,6 @@ Frozen-run provenance and boundary-test outputs:
 - `src/`: reusable importable code used by the scripts. `src/io_data.py` is the
   stable loader facade; source-family implementations live in `src/io_iot.py`,
   `src/io_weather.py`, `src/io_discharge.py`, `src/io_knmi.py`, and
-  `src/io_rivm.py`.
+  `src/io_rivm.py`, and `src/io_groundwater.py`.
 - `results/`: generated figures, tables, and model artifacts.
 - `docs/`: decisions log, data-request tracking, predecessor notes, and chapter-facing working notes.

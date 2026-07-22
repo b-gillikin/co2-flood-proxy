@@ -451,3 +451,26 @@ they have no coverage in the restored material block. The ensemble contains
 Source: `src/models/july.py`; `src/detectors.py`; `src/eval.py`;
 `scripts/07_isolation_forest.py`; `scripts/08_ensemble_agreement.py`;
 `tests/test_io_data.py`; `tests/test_eval.py`.
+
+## 2026-07-22 — Direct-state implementation before data receipt
+
+Decision: Implement the locked groundwater/mine-water normalization and model
+before provider data arrive, while keeping every fixture outcome explicitly
+non-evidentiary.
+
+Normalization policy: Preserve source-native files; require provider,
+measurement, unit, datum, tier, site relationship, orientation, and operational
+notes; aggregate observed usable values to UTC days without interpolation; and
+retain both the native value and a sign-oriented hydrologic level.
+
+Selection policy: Choose tier 1 connected shaft/mine-water series before tier 2
+nearby groundwater series, then maximize overlap with eligible IoT days. Do not
+select using coefficient size, p-value, or model fit.
+
+Inference policy: Use the prespecified same-day controlled model, HAC lag 14,
+28-day moving-block bootstrap, two-block sign replication, and a seven-day
+future-water placebo. Treat lags, daily change, and alternative series as one
+Benjamini-Hochberg-corrected sensitivity family.
+
+Source: `docs/chapter-readiness-plan.md`; `docs/groundwater-data-contract.md`;
+`src/io_groundwater.py`; `src/direct_state.py`; `scripts/16_direct_state.py`.

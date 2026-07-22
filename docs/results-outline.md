@@ -90,7 +90,16 @@ Draft result paragraph:
 
 ## Direct Groundwater/Mine-Water Result
 
-Current status: waiting on data.
+Current status: analysis implementation complete; field result waiting on data.
+
+Current implementation artifacts after a run:
+
+- `results/direct_state/summary.json`
+- `results/direct_state/decision.csv`
+- `results/direct_state/selection.csv`
+- `results/direct_state/per_block.csv`
+- `results/direct_state/sensitivities.csv`
+- `results/direct_state/aligned_daily_state.png`
 
 Required final paragraph:
 

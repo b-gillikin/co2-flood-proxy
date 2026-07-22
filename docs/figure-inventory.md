@@ -24,7 +24,7 @@ chapter visuals tied to reproducible repo outputs.
 | Isolation Forest scores | `results/iforest/iforest_scores.png` | Provisional. |
 | Cross-detector agreement | `results/ensemble/all_three_agreement.png`, `results/ensemble/pairwise_agreement.csv` | Provisional. |
 | Synthetic injection diagnostics | `results/synthetic_injection/gaussian_burst.png`, `results/synthetic_injection/cut_add_paste.png` | Pipeline validation. |
-| Direct groundwater/mine-water result | Not built | Required after source receipt and frozen analysis. |
+| Direct groundwater/mine-water result | `results/direct_state/aligned_daily_state.png` after execution | Plot machinery ready; field figure waits for source receipt and frozen analysis. |
 | Distributed-lag boundary test | `results/distributed_lag/timescale_scan.png`, `results/distributed_lag/summary.txt` | Current outcome: not supported; frozen rerun required. |
 | KNMI vs Visual Crossing | `results/knmi/knmi_vs_visualcrossing_pressure_temp.png` | Draft; improves as KNMI backfill grows. |
 | Transfer-site dry run | `results/transfer/*-scores.png` | Secondary provisional dry run; not evidence yet. |

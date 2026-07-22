@@ -3,7 +3,7 @@
 Run scripts from the repository root. Each script should import public data
 loaders from `src.io_data`; source-specific parser implementations live in
 `src/io_iot.py`, `src/io_weather.py`, `src/io_discharge.py`, `src/io_knmi.py`,
-and `src/io_rivm.py`.
+`src/io_rivm.py`, and `src/io_groundwater.py`.
 
 Routine refresh:
 
@@ -22,6 +22,7 @@ June ingestion scripts:
 - `04_ingest_knmi.py` — Week 4, cache/load KNMI reference meteorology and compare it against Kerkrade Visual Crossing pressure/temp.
 - `04_sync_knmi_azure.py` — Week 4/Azure bridge, download Azure-collected KNMI station-slim blobs into local raw storage and rebuild the hourly KNMI table.
 - `04_ingest_rivm.py` — Week 4, cache/load starter RIVM/Luchtmeetnet transfer-site measurements. Use `--use-portal` when the live API is unavailable.
+- `05_ingest_groundwater.py` — validate delivered direct-state metadata and normalize source readings to observed UTC series-days without interpolation.
 
 Week 4 external data notes:
 
@@ -61,7 +62,8 @@ July provisional modelling scripts:
 - `12_distributed_lag.py` — locked precipitation/discharge distributed-lag boundary test with HAC inference, moving-block bootstrap, block replication, and future-rain placebo.
 - `13_write_run_manifest.py` — inspect or freeze-validate an existing schema-v2 manifest; it refuses legacy manifests that only list intended commands.
 - `14_weekly_readiness.py` — compute IoT/KNMI/groundwater/window coverage and optionally append a dated row to the canonical readiness plan without duplicating that date.
-- `15_run_analysis_pipeline.py` — execute the actual scripts 05-12 offline, invalidate their owned outputs before each step, record an execution ledger, and write the schema-v2 snapshot manifest.
+- `15_run_analysis_pipeline.py` — execute core modelling, available direct state, and optional transfer offline; invalidate step-owned outputs; record an execution ledger; and write the schema-v2 snapshot manifest.
+- `16_direct_state.py` — run the locked groundwater/mine-water primary model, HAC and moving-block uncertainty, block replication, future-water placebo, and FDR sensitivities.
 
 Verified offline run order for July/August modelling:
 
@@ -70,13 +72,18 @@ python scripts/15_run_analysis_pipeline.py
 ```
 
 The runner invokes scripts 05, 06, 07, 08, 09, 10, 11, and 12 as separate
-Python processes. Use `--skip-rolling` only for a development rehearsal. After
+Python processes and automatically adds script 16 when both normalized
+groundwater files are present. Use `--skip-rolling` only for a development rehearsal. After
 the data freeze and a clean code commit, use `--freeze`; the command refuses a
 dirty or unknown Git state and validates input snapshot IDs, successful command
 records, recreated output hashes, and model convergence. The compatibility
 check is `python scripts/13_write_run_manifest.py --freeze`. When shared-feature
 coverage is inadequate, add `--skip-transfer`; this omits only secondary script
 11 and cannot block the core chapter run.
+
+For a frozen run, missing direct-state data is an error unless
+`--direct-state omit` is supplied explicitly for the prespecified data-limited
+outcome. Use `--direct-state required` during receipt/analysis checks.
 
 `05_sarimax.py` uses a compact default SARIMAX search for routine reruns. Add
 `--full-grid` when you want the full p,q in 0..2 order search.

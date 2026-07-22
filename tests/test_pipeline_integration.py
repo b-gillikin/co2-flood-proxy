@@ -1,7 +1,8 @@
-"""Fixture-driven execution of the actual analysis scripts 05 through 12."""
+"""Fixture-driven execution of actual core and direct-state entry points."""
 
 from __future__ import annotations
 
+import importlib
 import sys
 import tempfile
 import unittest
@@ -15,6 +16,8 @@ sys.path.insert(0, str(ROOT))
 
 from src.pipeline import chapter_steps, execute_pipeline
 from src.provenance import build_snapshot_id, write_run_manifest
+
+pipeline_cli = importlib.import_module("scripts.15_run_analysis_pipeline")
 
 
 def write_pipeline_fixture(workspace, periods=1500):
@@ -112,6 +115,33 @@ def write_pipeline_fixture(workspace, periods=1500):
         }
     )
     soft.to_csv(workspace / "data/processed/hourly_soft_labels.csv", index=False)
+    water = pd.DataFrame(
+        {
+            "date_utc": index.floor("D").unique(),
+            "series_id": "fixture_mine_level",
+            "water_level_value": np.sin(np.arange(index.floor("D").nunique()) / 5),
+            "hydrologic_level": np.sin(np.arange(index.floor("D").nunique()) / 5),
+            "source_observations": 1,
+            "usable_observations": 1,
+        }
+    )
+    water.to_csv(workspace / "data/interim/groundwater_daily.csv", index=False)
+    metadata = pd.DataFrame(
+        [
+            {
+                "series_id": "fixture_mine_level",
+                "provider": "fixture",
+                "measurement_name": "mine water level",
+                "unit": "m",
+                "datum": "fixture datum",
+                "source_tier": 1,
+                "site_relationship": "direct fixture connection",
+                "higher_value_means_higher_water": True,
+                "operational_notes": "deterministic offline fixture",
+            }
+        ]
+    )
+    metadata.to_csv(workspace / "data/interim/groundwater_series.csv", index=False)
     raw = workspace / "data/raw/fixture/source.csv"
     signal.iloc[:48].to_csv(raw, index=False)
     return raw
@@ -127,6 +157,8 @@ def run_fixture(workspace):
         Path(workspace) / "data/processed/signal_characterization_frame.csv",
         Path(workspace) / "data/processed/event_catalogue.csv",
         Path(workspace) / "data/processed/hourly_soft_labels.csv",
+        Path(workspace) / "data/interim/groundwater_daily.csv",
+        Path(workspace) / "data/interim/groundwater_series.csv",
     ]
     cutoff = pd.Timestamp("2026-03-04T11:00:00Z")
     execution = execute_pipeline(
@@ -136,6 +168,7 @@ def run_fixture(workspace):
         normalized,
         cutoff,
         fixture=True,
+        include_direct_state=True,
     )
     output_paths = [
         Path(workspace) / record["path"]
@@ -179,13 +212,44 @@ class OfflinePipelineIntegrationTests(unittest.TestCase):
                     fixture=True,
                 )
 
+    def test_fixture_profile_cannot_be_frozen(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            raw = workspace / "raw.csv"
+            normalized = workspace / "normalized.csv"
+            raw.write_text("value\n1\n", encoding="utf-8")
+            normalized.write_text("timestamp_utc,value\n2026-01-01T00:00:00Z,1\n", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "fixture/skip mode"):
+                execute_pipeline(
+                    workspace,
+                    ROOT,
+                    [raw],
+                    [normalized],
+                    pd.Timestamp("2026-01-01T00:00:00Z"),
+                    fixture=True,
+                    frozen=True,
+                )
+
     def test_transfer_can_be_omitted_without_changing_core_order(self):
         steps = chapter_steps(skip_transfer=True)
         names = [step.name for step in steps]
         self.assertNotIn("11_transfer_stress_test", names)
         self.assertEqual(names[-1], "12_distributed_lag")
 
-    def test_scripts_05_through_12_repeat_with_matching_hashes(self):
+    def test_frozen_run_cannot_silently_omit_direct_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(RuntimeError, "explicit --direct-state omit"):
+                pipeline_cli.direct_state_scope(Path(directory), "auto", frozen=True)
+
+            include, paths = pipeline_cli.direct_state_scope(
+                Path(directory),
+                "omit",
+                frozen=True,
+            )
+            self.assertFalse(include)
+            self.assertEqual(paths, [])
+
+    def test_actual_analysis_entrypoints_repeat_with_matching_hashes(self):
         with (
             tempfile.TemporaryDirectory() as first_dir,
             tempfile.TemporaryDirectory() as second_dir,
@@ -200,8 +264,9 @@ class OfflinePipelineIntegrationTests(unittest.TestCase):
                 "08_ensemble_agreement",
                 "09_synthetic_injection",
                 "10_evaluation",
-                "11_transfer_stress_test",
+                "16_direct_state",
                 "12_distributed_lag",
+                "11_transfer_stress_test",
             ]
             self.assertEqual([item["step"] for item in first["commands"]], expected_steps)
             self.assertTrue(all(item["returncode"] == 0 for item in first["commands"]))

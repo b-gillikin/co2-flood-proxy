@@ -157,6 +157,19 @@ class ProvenanceTests(unittest.TestCase):
             ]
             self.assert_frozen_refused(manifest, root, "labeled ok without convergence")
 
+    def test_frozen_manifest_requires_explicit_direct_state_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = self.valid_frozen_manifest(root)
+            manifest["frozen"] = True
+            self.assert_frozen_refused(manifest, root, "explicit direct-state scope")
+
+            manifest["analysis_scope"] = {
+                "direct_state": "explicit_data_limited_omission",
+                "rolling_origin": "included",
+            }
+            self.assertTrue(validate_frozen_run(manifest, root=root))
+
 
 if __name__ == "__main__":
     unittest.main()

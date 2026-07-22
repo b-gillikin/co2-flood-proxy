@@ -70,6 +70,10 @@ analysis passes its locked criteria.
 - [x] `done` Gate optional features on accumulated joint and material-block
   coverage, write a selected/rejected feature audit, and retain detector-native
   scored indicators through common-coverage ensemble agreement.
+- [x] `done` Implement the locked direct-state lane before data receipt:
+  metadata validation, gap-honest daily normalization, tier/overlap selection,
+  HAC inference, 28-day moving-block bootstrap, block-sign replication,
+  seven-day future-water placebo, and FDR-controlled sensitivities.
 
 ### Stable chapter writing: July 13-August 15
 
@@ -108,7 +112,7 @@ monitoring.
 | --- | --- | --- | --- |
 | Post-restoration Kerkrade IoT | `waiting on data` | At least 60 days from 2026-07-09 with at least 90% hourly CO2 coverage | Sync raw blobs, rebuild hourly data, and update the gap report |
 | KNMI station 06380 | `in progress` | At least 90% coverage across the post-restoration IoT block | Forward Azure collection reached its three-hour publication edge on 2026-07-22; sync slim blobs and rebuild hourly CSV/Parquet |
-| Groundwater/mine-water | `waiting on data` | At least 60 paired daily observations across at least two blocks of 15 or more days | Preserve source files, write provenance, normalize without long-gap interpolation |
+| Groundwater/mine-water | `waiting on data` | At least 60 paired daily observations across at least two blocks of 15 or more days | Follow `docs/groundwater-data-contract.md`; preserve source files, validate metadata, and normalize without interpolation |
 | Discharge/weather context | `in progress` | Covers the frozen IoT period and event catalogue | Refresh cached sources and rebuild labels/QC |
 | Transfer sites | `secondary` | Shared-feature coverage sufficient for an honest dry run | Refresh only after core Kerkrade analysis is ready |
 
@@ -192,6 +196,16 @@ fabricating a list of intended commands. The runner's `--skip-transfer` option
 keeps inadequate secondary transfer coverage from blocking the core run. This proves the machinery, but it does
 not satisfy the still-pending requirement for two clean runs on the final
 frozen field-data snapshot.
+
+The 2026-07-22 Batch 4 implementation makes the direct-state specification
+executable without claiming a field result. It validates provider metadata,
+orients depth/elevation series consistently, preserves missing dates, locks the
+primary-series hierarchy before outcome modelling, and writes the primary,
+bootstrap, block, placebo, decision, and FDR-sensitivity artifacts. A strong
+synthetic two-block fixture reaches the supported branch and a short fixture is
+forced to `inconclusive_because_of_coverage`. The real analysis remains
+`waiting on data`. Ruff and format checks pass, and all 73 Python 3.11 tests
+pass, including two isolated end-to-end runs with matching scientific hashes.
 
 The remaining work is data- and manuscript-gated: weekly IoT/KNMI refreshes,
 groundwater/mine-water receipt and normalization, the freeze-gate decision, the
@@ -285,7 +299,7 @@ Do not combine tables, figures, or summaries from different snapshots.
 | Pressure decomposition | `ready after freeze` | Reproducible baseline and current R2 | Frozen-data rerun | Specification, uncertainty, and final frozen result reported |
 | Eryilmaz replication | `ready after freeze` | Procedural replication pipeline | Frozen-data rerun | Random-CV limitation and frozen AUROC results reported |
 | Detector methods | `in progress` | Three detector scripts and provisional outputs | Convergence/coverage hardening | Specifications and failure states are explicit |
-| Direct-state analysis | `waiting on data` | Locked method in this document | Groundwater/mine-water receipt and overlap | Primary criteria evaluated without post-hoc changes |
+| Direct-state analysis | `waiting on data` | Locked method and tested executable script | Groundwater/mine-water receipt and overlap | Primary criteria evaluated without post-hoc changes on the frozen snapshot |
 | Distributed-lag boundary result | `ready after freeze` | Current outcome `NOT SUPPORTED` | Frozen-data rerun | Unchanged decision rule and placebo result reported |
 | Transfer | `secondary` | Two-site provisional dry run | Shared-feature coverage | Included only as appendix/secondary evidence and never blocks completion |
 | Results | `waiting on data` | Outline and provisional artifacts | Frozen run | Every number and figure traces to one run manifest |

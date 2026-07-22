@@ -1,4 +1,4 @@
-"""Offline execution ledger for the chapter's scripts 05 through 12."""
+"""Offline execution ledger for core modelling plus optional direct state."""
 
 from __future__ import annotations
 
@@ -31,8 +31,14 @@ class PipelineStep:
     output_targets: tuple[str, ...]
 
 
-def chapter_steps(*, fixture=False, skip_rolling=False, skip_transfer=False):
-    """Return the locked scripts 05-12 sequence."""
+def chapter_steps(
+    *,
+    fixture=False,
+    skip_rolling=False,
+    skip_transfer=False,
+    include_direct_state=False,
+):
+    """Return the locked core sequence plus requested optional lanes."""
     quick_maxiter = ("--maxiter", "0") if fixture else ()
     rolling = ("--skip-rolling",) if skip_rolling or fixture else ()
     bootstrap = ("--bootstrap-replicates", "50") if fixture else ()
@@ -96,9 +102,18 @@ def chapter_steps(*, fixture=False, skip_rolling=False, skip_transfer=False):
             ("results/distributed_lag",),
         ),
     ]
-    if not skip_transfer:
+    if include_direct_state:
         steps.insert(
             -1,
+            PipelineStep(
+                "16_direct_state",
+                "scripts/16_direct_state.py",
+                ("--bootstrap-replicates", "50") if fixture else (),
+                ("results/direct_state",),
+            ),
+        )
+    if not skip_transfer:
+        steps.append(
             PipelineStep(
                 "11_transfer_stress_test",
                 "scripts/11_transfer_stress_test.py",
@@ -113,7 +128,7 @@ def chapter_steps(*, fixture=False, skip_rolling=False, skip_transfer=False):
                     "data/processed/events-transfer-heerlen_looierstraat_nl10136.csv",
                     "data/processed/events-transfer-heerlen_jamboreepad_nl10138.csv",
                 ),
-            ),
+            )
         )
     return tuple(steps)
 
@@ -150,6 +165,7 @@ def execute_pipeline(
     fixture=False,
     skip_rolling=False,
     skip_transfer=False,
+    include_direct_state=False,
     frozen=False,
     python_executable=None,
 ):
@@ -177,6 +193,10 @@ def execute_pipeline(
     ]
     if not normalized_inputs:
         raise FileNotFoundError("No normalized input files were found for the snapshot")
+    if frozen and (skip_rolling or fixture):
+        raise RuntimeError(
+            "Frozen run refused before execution: fixture/skip mode omits rolling evaluation"
+        )
     if frozen and git_is_dirty(repo_root) is not False:
         raise RuntimeError("Frozen run refused before execution: Git worktree is not clean")
 
@@ -200,6 +220,7 @@ def execute_pipeline(
         fixture=fixture,
         skip_rolling=skip_rolling,
         skip_transfer=skip_transfer,
+        include_direct_state=include_direct_state,
     ):
         invalidate_outputs(workspace, step.output_targets)
         command = [python_executable, str(repo_root / step.script), *step.arguments]

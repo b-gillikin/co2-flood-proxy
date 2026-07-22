@@ -235,6 +235,7 @@ def write_run_manifest(
     model_paths=(),
     frozen=False,
     git_root=None,
+    analysis_scope=None,
 ):
     """Write a manifest that can prove one coherent chapter-analysis run."""
     normalized_input_paths = (
@@ -254,6 +255,7 @@ def write_run_manifest(
         "manifest_schema_version": 2,
         **context,
         "frozen": bool(frozen),
+        "analysis_scope": analysis_scope or {},
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "runtime_versions": runtime_versions(),
         "git_dirty_diff_sha256": git_dirty_diff_hash(git_root),
@@ -283,6 +285,13 @@ def frozen_run_errors(manifest, root=ROOT):
         errors.append("Git worktree is dirty or its state is unknown")
     if manifest.get("git_dirty_diff_sha256") is not None:
         errors.append("Dirty-diff hash is present")
+    if manifest.get("frozen"):
+        scope = manifest.get("analysis_scope", {})
+        direct_state = scope.get("direct_state")
+        if direct_state not in {"included", "explicit_data_limited_omission"}:
+            errors.append("Frozen manifest lacks an explicit direct-state scope")
+        if scope.get("rolling_origin") != "included":
+            errors.append("Frozen manifest omits rolling-origin evaluation")
     inputs = manifest.get("inputs", [])
     missing_inputs = []
     changed_inputs = []

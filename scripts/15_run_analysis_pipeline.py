@@ -1,4 +1,4 @@
-"""Run scripts 05-12 offline and write a verifiable run manifest."""
+"""Run core modelling and available direct-state analysis with a verifiable manifest."""
 
 from __future__ import annotations
 
@@ -27,6 +27,10 @@ MODEL_PATHS = (
     "results/models/kalman.pkl",
     "results/models/iforest.pkl",
 )
+GROUNDWATER_INPUTS = (
+    "data/interim/groundwater_daily.csv",
+    "data/interim/groundwater_series.csv",
+)
 
 
 def analysis_cutoff(workspace):
@@ -34,6 +38,23 @@ def analysis_cutoff(workspace):
     path = Path(workspace) / "data/interim/analysis_hourly.csv"
     timestamps = pd.read_csv(path, usecols=["timestamp_utc"])["timestamp_utc"]
     return pd.to_datetime(timestamps, utc=True).max()
+
+
+def direct_state_scope(workspace, mode, frozen=False):
+    """Resolve the direct-state lane without silently weakening a frozen run."""
+    paths = [Path(workspace) / path for path in GROUNDWATER_INPUTS]
+    present = [path.is_file() for path in paths]
+    if any(present) and not all(present):
+        raise FileNotFoundError("Direct-state inputs are incomplete: " + ", ".join(map(str, paths)))
+    if mode == "required" and not all(present):
+        raise FileNotFoundError("Direct-state mode is required but normalized inputs are missing")
+    if frozen and mode == "auto" and not all(present):
+        raise RuntimeError(
+            "Frozen run requires direct-state data or explicit --direct-state omit "
+            "for the prespecified data-limited outcome"
+        )
+    include = all(present) and mode != "omit"
+    return include, paths if include else []
 
 
 def main():
@@ -56,6 +77,12 @@ def main():
         action="store_true",
         help="Omit secondary script 11 when shared-feature coverage is inadequate.",
     )
+    parser.add_argument(
+        "--direct-state",
+        choices=("auto", "required", "omit"),
+        default="auto",
+        help="Auto-run normalized water data, require it, or explicitly freeze data-limited.",
+    )
     parser.add_argument("--freeze", action="store_true", help="Require all immutable-run gates.")
     args = parser.parse_args()
 
@@ -64,6 +91,12 @@ def main():
     normalized_candidates = args.normalized_input or [
         workspace / path for path in DEFAULT_NORMALIZED_INPUTS
     ]
+    include_direct_state, groundwater_inputs = direct_state_scope(
+        workspace,
+        args.direct_state,
+        frozen=args.freeze,
+    )
+    normalized_candidates.extend(groundwater_inputs)
     cutoff = analysis_cutoff(workspace)
     execution = execute_pipeline(
         workspace,
@@ -74,6 +107,7 @@ def main():
         fixture=args.fixture,
         skip_rolling=args.skip_rolling,
         skip_transfer=args.skip_transfer,
+        include_direct_state=include_direct_state,
         frozen=args.freeze,
         python_executable=args.python,
     )
@@ -95,6 +129,15 @@ def main():
         model_paths=[workspace / path for path in MODEL_PATHS],
         frozen=args.freeze,
         git_root=ROOT,
+        analysis_scope={
+            "direct_state": (
+                "included" if include_direct_state else "explicit_data_limited_omission"
+            ),
+            "rolling_origin": (
+                "omitted_development_only" if args.skip_rolling or args.fixture else "included"
+            ),
+            "transfer": "omitted_secondary" if args.skip_transfer else "included_secondary",
+        },
     )
     if args.freeze:
         validate_frozen_run(manifest, root=workspace)

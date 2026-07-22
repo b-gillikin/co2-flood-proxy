@@ -84,6 +84,11 @@ antecedent hydrological state; it does not assume that relationship exists.
 
 ## Direct Groundwater/Mine-Water Test
 
+- Data receipt and normalization follow `docs/groundwater-data-contract.md`.
+- Source-native files are immutable. Daily normalization averages only observed,
+  usable readings and never interpolates missing dates.
+- Source values are retained while an oriented `hydrologic_level` makes larger
+  values consistently mean higher water, including depth-below-surface series.
 - Select the primary state series before modelling using the hierarchy in the
   readiness plan.
 - Aggregate the pressure-separated residual and state series to UTC days with at
@@ -96,6 +101,8 @@ antecedent hydrological state; it does not assume that relationship exists.
   in at least two blocks, and a null future-water placebo.
 - Treat 1/3/7/14-day lags, water-level changes, and alternative wells as
   FDR-controlled sensitivities.
+- The future-water placebo uses a locked seven-day lead. The executable method
+  is `scripts/16_direct_state.py`; fixture outcomes validate software only.
 
 ## Distributed-Lag Boundary Test
 
