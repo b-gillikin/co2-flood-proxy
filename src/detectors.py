@@ -19,7 +19,12 @@ from sklearn.linear_model import RidgeCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from src.models.july import IFOREST_BASE_FEATURES, fitted_model_status
+from src.models.july import (
+    IFOREST_BASE_FEATURES,
+    IFOREST_REQUIRED_FEATURES,
+    fitted_model_status,
+    select_features_by_joint_coverage,
+)
 
 DETECTOR_SCHEMA_VERSION = 2
 MAD_THRESHOLD = 3.5
@@ -109,11 +114,40 @@ def assert_pressure_safe(features) -> None:
         )
 
 
-def iforest_features(frame: pd.DataFrame) -> list[str]:
-    """Return the shared Isolation Forest feature contract."""
+def iforest_features(frame: pd.DataFrame, return_audit=False):
+    """Return IF features that preserve required coverage and recent blocks."""
+    target = IFOREST_REQUIRED_FEATURES[0]
     deltas = [column for column in frame.columns if "_delta_" in column]
-    selected = [column for column in [*IFOREST_BASE_FEATURES, *deltas] if column in frame.columns]
-    return list(dict.fromkeys(selected))
+    optional = [
+        column
+        for column in [*IFOREST_BASE_FEATURES, *deltas]
+        if column not in IFOREST_REQUIRED_FEATURES
+    ]
+    selected, audit = select_features_by_joint_coverage(
+        frame,
+        target_col=target,
+        required=IFOREST_REQUIRED_FEATURES[1:],
+        optional=optional,
+    )
+    target_index = frame.index[frame[target].notna()]
+    target_row = pd.DataFrame(
+        [
+            {
+                "feature": target,
+                "role": "required",
+                "status": "selected",
+                "reason": "detector_target",
+                "target_overlap_rows": len(target_index),
+                "joint_rows_after": len(target_index),
+                "joint_share_of_required": 1.0,
+                "minimum_material_block_share": 1.0,
+                "latest_joint_timestamp_utc": (target_index.max() if len(target_index) else pd.NaT),
+            }
+        ]
+    )
+    features = [target, *selected]
+    audit = pd.concat([target_row, audit], ignore_index=True)
+    return (features, audit) if return_audit else features
 
 
 def model_payload(spec: DetectorSpec, fit: FittedDetector, **extra) -> dict:

@@ -60,6 +60,9 @@ analysis passes its locked criteria.
 - [x] `done` Use one versioned detector specification for full-record,
   synthetic-injection, and rolling-origin fits; persist the actual family,
   controls, optimizer diagnostics, and fit status.
+- [x] `done` Gate optional features on accumulated joint and material-block
+  coverage, write a selected/rejected feature audit, and retain detector-native
+  scored indicators through common-coverage ensemble agreement.
 
 ### Stable chapter writing: July 13-August 15
 
@@ -129,7 +132,7 @@ threshold.
 ## Current Implementation Checkpoint
 
 The 2026-07-21 current-data rehearsal is an engineering check, not the chapter
-freeze. Ruff, format checking, all 52 unit/integration tests, and the deployment
+freeze. Ruff, format checking, all 57 unit/integration tests, and the deployment
 shell syntax check pass. `results/run_manifest.json` records run
 `20260721T200000Z-0480f3f`, the 2026-07-21 data cutoff, six hashed inputs, 75
 hashed outputs, runtime versions, and `git_dirty: true` so this rehearsal cannot
@@ -159,6 +162,17 @@ SARIMAX second, and Isolation Forest third. These ignored run artifacts must be
 reproduced after the Batch 1 commit and ultimately on the frozen snapshot. The
 distributed-lag rerun remains `NOT SUPPORTED` under the unchanged five-part
 decision rule.
+
+The 2026-07-22 Batch 2 rehearsal retains the restored July block while removing
+optional features that would erase material blocks. Isolation Forest selects 41
+of 69 audited inputs, scores 3,893 hours rather than the previous 3,729, and
+retains 244 scored post-July-9 rows through 2026-07-21 20:00 UTC. Sparse local
+KNMI candidates are rejected because their coverage is 0% in the restored
+material block even though their historical target overlap is about 92%.
+Detector-native coverage yields 3,862 SARIMAX, 3,958 local-level, and 3,893
+Isolation Forest scored hours. The ensemble now labels 3,772 hours
+`common`, 213 `partial`, and one `unscored`; only common hours may be
+called normal or used for agreement.
 
 The remaining work is data- and manuscript-gated: weekly IoT/KNMI refreshes,
 groundwater/mine-water receipt and normalization, the freeze-gate decision, the

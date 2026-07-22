@@ -165,6 +165,14 @@ The current evidence supports a pressure-separable residual and a reproducible a
    reject legacy model pickles rather than silently substituting a different
    family or feature set.
 
+   Optional features are admitted by accumulated complete-case coverage in
+   `src/models/july.py`: they must preserve at least 90% of the required rows
+   overall and within every material contiguous block. Each detector writes
+   `results/<detector>/feature_coverage.csv` where applicable. Detector anomaly
+   files carry native `<detector>_scored` columns; ensemble output distinguishes
+   `unscored`, `partial`, and `common` coverage and computes agreement only
+   on common scored hours.
+
    These July outputs are pipeline-first on the current gappy IoT/residual
    record. The official 30-day train / 7-day evaluation windows are now
    runnable, but interpretation remains provisional until IoT continuity and

@@ -38,15 +38,20 @@ DETECTORS = {
 
 
 def read_detector(name, path, column):
-    """Read one detector's official anomaly flag."""
+    """Read one detector's flag plus its native score-coverage indicator."""
     frame = pd.read_csv(path, parse_dates=["timestamp_utc"])
-    return frame[["timestamp_utc", column]].rename(columns={column: f"{name}_anomaly"})
+    scored = f"{name}_scored"
+    if scored not in frame.columns:
+        raise ValueError(f"{path} lacks {scored}; rerun the detector before the ensemble")
+    return frame[["timestamp_utc", scored, column]].rename(columns={column: f"{name}_anomaly"})
 
 
 def jaccard(a, b):
     """Binary Jaccard agreement for anomaly flags."""
     a = pd.Series(a).astype(bool)
     b = pd.Series(b).astype(bool)
+    if len(a) == 0:
+        return float("nan")
     union = (a | b).sum()
     if union == 0:
         return 1.0
@@ -97,6 +102,9 @@ def coverage_table(flags):
                 "detector": detector,
                 "union_hours": len(flags),
                 "scored_hours": int(scored.sum()),
+                "unscored_hours": int((~scored).sum()),
+                "normal_scored_hours": int((scored & ~flags[f"{detector}_anomaly"]).sum()),
+                "anomaly_scored_hours": int((scored & flags[f"{detector}_anomaly"]).sum()),
                 "scored_share": float(scored.mean()) if len(flags) else float("nan"),
             }
         )
@@ -105,6 +113,9 @@ def coverage_table(flags):
             "detector": "all_detectors_common",
             "union_hours": len(flags),
             "scored_hours": int(flags["all_detectors_scored"].sum()),
+            "unscored_hours": int((~flags["all_detectors_scored"]).sum()),
+            "normal_scored_hours": int(flags["all_detectors_normal"].sum()),
+            "anomaly_scored_hours": int(flags["any_detector_anomaly"].sum()),
             "scored_share": float(flags["all_detectors_scored"].mean())
             if len(flags)
             else float("nan"),

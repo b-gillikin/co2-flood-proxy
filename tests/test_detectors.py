@@ -17,6 +17,7 @@ from src.detectors import (
     _statsmodels_status,
     assert_pressure_safe,
     fit_detector,
+    iforest_features,
     load_detector_spec,
     model_payload,
     score_detector,
@@ -83,6 +84,16 @@ class DetectorContractTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "cannot reintroduce pressure"):
             assert_pressure_safe(["iot_air_pressure_hpa"])
+
+    def test_iforest_audit_keeps_residual_as_required_input(self):
+        frame = detector_fixture()
+
+        features, audit = iforest_features(frame, return_audit=True)
+
+        self.assertIn(TARGET_COL, features)
+        target = audit.set_index("feature").loc[TARGET_COL]
+        self.assertEqual(target["status"], "selected")
+        self.assertEqual(target["reason"], "detector_target")
 
     def test_arx_fit_and_future_score_keep_the_same_family(self):
         frame = detector_fixture()

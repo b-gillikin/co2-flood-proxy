@@ -145,6 +145,14 @@ class AnomalyScoreTests(unittest.TestCase):
         self.assertAlmostEqual(float(z.iloc[0]), 0.0)
         self.assertAlmostEqual(float(z.iloc[1]), 0.6745 * 10.0, places=6)
 
+    def test_anomaly_table_marks_nan_warmup_as_unscored(self):
+        index = pd.date_range("2025-01-01", periods=3, freq="h", tz="UTC")
+        table = anomaly_table(index, [np.nan, 0.0, 10.0], prefix="test")
+
+        self.assertFalse(bool(table.iloc[0]["test_scored"]))
+        self.assertFalse(bool(table.iloc[0]["test_anomaly"]))
+        self.assertTrue(bool(table.iloc[1]["test_scored"]))
+
     def test_contiguous_blocks_split_and_filter(self):
         early = pd.date_range("2025-01-01 00:00", periods=6, freq="h", tz="UTC")
         late = pd.date_range("2025-01-02 00:00", periods=12, freq="h", tz="UTC")
@@ -158,12 +166,14 @@ class AnomalyScoreTests(unittest.TestCase):
 class EnsembleUnionTests(unittest.TestCase):
     """Detectors with disjoint coverage union rather than intersect."""
 
-    def _detector_frame(self, name, hours, values):
+    def _detector_frame(self, name, hours, values, scored=None):
         index = pd.date_range("2025-01-01", periods=4, freq="h", tz="UTC")
+        scored = [True] * len(values) if scored is None else scored
         return pd.DataFrame(
             {
                 "timestamp_utc": index[list(hours)],
                 f"{name}_anomaly": values,
+                f"{name}_scored": scored,
             }
         )
 
@@ -189,6 +199,23 @@ class EnsembleUnionTests(unittest.TestCase):
         self.assertEqual(int(second_hour["scored_detector_count"]), 2)
         self.assertFalse(bool(second_hour["all_detectors_scored"]))
         self.assertFalse(bool(flags["all_three_anomaly"].any()))
+        self.assertEqual(second_hour["coverage_status"], "partial")
+
+    def test_present_but_unscored_flag_is_not_a_normal_or_anomaly(self):
+        frames = [
+            self._detector_frame("sarimax", (0,), [True], scored=[False]),
+            self._detector_frame("kalman", (0,), [False]),
+            self._detector_frame("iforest", (0,), [False]),
+        ]
+
+        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
+        hour = flags.iloc[0]
+
+        self.assertFalse(bool(hour["sarimax_anomaly"]))
+        self.assertFalse(bool(hour["sarimax_scored"]))
+        self.assertFalse(bool(hour["all_detectors_normal"]))
+        self.assertFalse(bool(hour["any_detector_anomaly"]))
+        self.assertEqual(hour["coverage_status"], "partial")
 
     def test_any_detector_summary_counts_only_common_coverage(self):
         frames = [

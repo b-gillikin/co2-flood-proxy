@@ -16,7 +16,11 @@ sys.path.insert(0, str(ROOT / "kerkrade_data"))
 from src.io_data import load_iot, load_iot_observations, load_knmi, load_rivm
 from src.io_iot import _device_id_from_export_path
 from src.io_knmi import _normalize_knmi_frame
-from src.models.july import antecedent_precipitation_index, available_exog
+from src.models.july import (
+    antecedent_precipitation_index,
+    available_exog,
+    select_features_by_joint_coverage,
+)
 
 knmi_backfill = importlib.import_module("knmi_backfill")
 rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
@@ -183,6 +187,58 @@ class JulyModelHelperTests(unittest.TestCase):
             "iot_air_pressure_hpa",
             available_exog(frame, target_col="iot_co2_ppm", min_non_missing=2),
         )
+
+    def test_optional_feature_cannot_erase_a_material_recent_block(self):
+        early = pd.date_range("2026-01-01", periods=216, freq="h", tz="UTC")
+        recent = pd.date_range("2026-07-09", periods=24, freq="h", tz="UTC")
+        index = early.append(recent)
+        frame = pd.DataFrame(
+            {
+                "target": 1.0,
+                "required": 2.0,
+                "optional_historical_only": [3.0] * len(early) + [None] * len(recent),
+            },
+            index=index,
+        )
+
+        selected, audit = select_features_by_joint_coverage(
+            frame,
+            target_col="target",
+            required=["required"],
+            optional=["optional_historical_only"],
+            min_non_missing=20,
+        )
+
+        self.assertEqual(selected, ["required"])
+        row = audit.set_index("feature").loc["optional_historical_only"]
+        self.assertEqual(row["reason"], "material_block_coverage_below_threshold")
+        self.assertEqual(float(row["minimum_material_block_share"]), 0.0)
+
+    def test_optional_features_are_gated_on_accumulated_joint_coverage(self):
+        index = pd.date_range("2026-01-01", periods=100, freq="h", tz="UTC")
+        frame = pd.DataFrame(
+            {
+                "target": 1.0,
+                "required": 2.0,
+                "optional_a": [None] * 5 + [1.0] * 95,
+                "optional_b": [1.0] * 95 + [None] * 5,
+                "optional_c": [1.0] * 5 + [None] * 5 + [1.0] * 90,
+            },
+            index=index,
+        )
+
+        selected, audit = select_features_by_joint_coverage(
+            frame,
+            target_col="target",
+            required=["required"],
+            optional=["optional_a", "optional_b", "optional_c"],
+            min_non_missing=20,
+            min_block_share=0.0,
+        )
+
+        self.assertEqual(selected, ["required", "optional_a", "optional_b"])
+        rejected = audit.set_index("feature").loc["optional_c"]
+        self.assertEqual(rejected["reason"], "joint_coverage_below_threshold")
 
 
 class KnmiBackfillHelperTests(unittest.TestCase):

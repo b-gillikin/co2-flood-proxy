@@ -250,8 +250,20 @@ def combine_detector_flags(frames, detector_names):
     detector_names = list(detector_names)
     prepared = []
     for name, frame in zip(detector_names, frames, strict=True):
-        part = frame.copy()
-        part[f"{name}_scored"] = True
+        anomaly_column = f"{name}_anomaly"
+        scored_column = f"{name}_scored"
+        missing = [
+            column
+            for column in ("timestamp_utc", anomaly_column, scored_column)
+            if column not in frame.columns
+        ]
+        if missing:
+            raise ValueError(
+                f"{name} detector frame lacks explicit coverage columns: {', '.join(missing)}"
+            )
+        part = frame[["timestamp_utc", anomaly_column, scored_column]].copy()
+        part[scored_column] = part[scored_column].eq(True)
+        part[anomaly_column] = part[anomaly_column].eq(True) & part[scored_column]
         prepared.append(part)
 
     flags = prepared[0]
@@ -269,6 +281,12 @@ def combine_detector_flags(frames, detector_names):
     flags["detector_count"] = flags[detector_cols].sum(axis=1)
     flags["scored_detector_count"] = flags[scored_cols].sum(axis=1)
     flags["all_detectors_scored"] = flags["scored_detector_count"] == len(detector_names)
+    flags["partially_scored"] = flags["scored_detector_count"].between(1, len(detector_names) - 1)
+    flags["coverage_status"] = "partial"
+    flags.loc[flags["scored_detector_count"].eq(0), "coverage_status"] = "unscored"
+    flags.loc[flags["all_detectors_scored"], "coverage_status"] = "common"
+    flags["all_detectors_normal"] = flags["all_detectors_scored"] & flags["detector_count"].eq(0)
+    flags["any_detector_anomaly"] = flags["all_detectors_scored"] & flags["detector_count"].gt(0)
     flags["all_three_anomaly"] = flags["all_detectors_scored"] & (
         flags["detector_count"] == len(detector_names)
     )

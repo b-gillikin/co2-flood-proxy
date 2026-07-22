@@ -34,6 +34,12 @@ IFOREST_BASE_FEATURES = [
     "kerkrade_weather_pm2_5_ugm3",
     "kerkrade_weather_pm10_ugm3",
 ]
+IFOREST_REQUIRED_FEATURES = [
+    TARGET_COL,
+    CO2_COL,
+    "iot_temperature_c",
+    "iot_relative_humidity_pct",
+]
 
 EXOG_FEATURES = [
     PRESSURE_COL,
@@ -105,28 +111,172 @@ def contiguous_blocks(index, min_hours=1):
     return blocks
 
 
-def available_exog(frame, target_col=TARGET_COL, min_non_missing=50):
-    """Return July exogenous features with enough usable rows.
+def _coverage_blocks(index, min_block_hours):
+    """Return material contiguous blocks, or one generic-index block."""
+    index = pd.Index(index)
+    if not isinstance(index, pd.DatetimeIndex):
+        return [index] if len(index) >= min_block_hours else []
+    return [block for _, block in contiguous_blocks(index, min_hours=min_block_hours)]
 
-    KNMI backfill is incremental, so a sparse reference-met file can exist long
-    before it overlaps the Kerkrade residual window. Filtering by usable rows
-    keeps optional KNMI columns from collapsing complete-case model frames.
+
+def select_features_by_joint_coverage(
+    frame,
+    target_col=TARGET_COL,
+    required=(),
+    optional=(),
+    min_non_missing=50,
+    min_joint_share=0.90,
+    min_block_share=0.90,
+    min_block_hours=24,
+):
+    """Select optional features without erasing required-data coverage blocks.
+
+    Optional features are considered in priority order. A feature is retained
+    only if the complete-case frame accumulated so far preserves both the
+    overall required-data share and every material contiguous block.
     """
-    features = []
-    for column in EXOG_FEATURES:
-        if column not in frame.columns:
+    if target_col not in frame.columns:
+        raise KeyError(f"Missing target column: {target_col}")
+    data = frame.replace([np.inf, -np.inf], np.nan)
+    required = list(dict.fromkeys(required))
+    optional = [column for column in dict.fromkeys(optional) if column not in required]
+    missing_required = [column for column in required if column not in data.columns]
+    if missing_required:
+        raise KeyError("Missing required features: " + ", ".join(missing_required))
+
+    required_mask = data[target_col].notna()
+    for column in required:
+        required_mask &= data[column].notna()
+    required_index = data.index[required_mask]
+    required_rows = int(required_mask.sum())
+    if required_rows < min_non_missing:
+        raise ValueError(
+            f"Required target/features have {required_rows} rows; need {min_non_missing}"
+        )
+    blocks = _coverage_blocks(required_index, min_block_hours)
+    if not blocks:
+        blocks = [required_index]
+
+    selected = required.copy()
+    current_mask = required_mask.copy()
+    audit_rows = []
+    for column in required:
+        audit_rows.append(
+            {
+                "feature": column,
+                "role": "required",
+                "status": "selected",
+                "reason": "required_feature",
+                "target_overlap_rows": int((data[target_col].notna() & data[column].notna()).sum()),
+                "joint_rows_after": required_rows,
+                "joint_share_of_required": 1.0,
+                "minimum_material_block_share": 1.0,
+                "latest_joint_timestamp_utc": (
+                    required_index.max() if len(required_index) else pd.NaT
+                ),
+            }
+        )
+
+    for column in optional:
+        if column not in data.columns:
+            audit_rows.append(
+                {
+                    "feature": column,
+                    "role": "optional",
+                    "status": "rejected",
+                    "reason": "missing_column",
+                    "target_overlap_rows": 0,
+                    "joint_rows_after": int(current_mask.sum()),
+                    "joint_share_of_required": float(current_mask.sum() / required_rows),
+                    "minimum_material_block_share": 0.0,
+                    "latest_joint_timestamp_utc": pd.NaT,
+                }
+            )
             continue
-        usable = frame[column].notna()
-        if target_col in frame.columns:
-            usable = usable & frame[target_col].notna()
-        if int(usable.sum()) >= min_non_missing:
-            features.append(column)
-    return features
+
+        target_overlap = data[target_col].notna() & data[column].notna()
+        proposed_mask = current_mask & data[column].notna()
+        joint_rows = int(proposed_mask.sum())
+        joint_share = joint_rows / required_rows
+        block_shares = [
+            float(proposed_mask.reindex(block, fill_value=False).mean()) for block in blocks
+        ]
+        minimum_block_share = min(block_shares) if block_shares else 0.0
+        if int(target_overlap.sum()) < min_non_missing:
+            status = "rejected"
+            reason = "insufficient_target_overlap"
+        elif joint_share < min_joint_share:
+            status = "rejected"
+            reason = "joint_coverage_below_threshold"
+        elif minimum_block_share < min_block_share:
+            status = "rejected"
+            reason = "material_block_coverage_below_threshold"
+        else:
+            status = "selected"
+            reason = "coverage_gate_passed"
+            selected.append(column)
+            current_mask = proposed_mask
+        joint_index = data.index[proposed_mask]
+        audit_rows.append(
+            {
+                "feature": column,
+                "role": "optional",
+                "status": status,
+                "reason": reason,
+                "target_overlap_rows": int(target_overlap.sum()),
+                "joint_rows_after": joint_rows,
+                "joint_share_of_required": joint_share,
+                "minimum_material_block_share": minimum_block_share,
+                "latest_joint_timestamp_utc": (joint_index.max() if len(joint_index) else pd.NaT),
+            }
+        )
+    return selected, pd.DataFrame(audit_rows)
+
+
+def available_exog(
+    frame,
+    target_col=TARGET_COL,
+    min_non_missing=50,
+    return_audit=False,
+):
+    """Return optional exogenous features that preserve joint block coverage."""
+    target_rows = int(frame[target_col].notna().sum()) if target_col in frame else 0
+    if target_rows < min_non_missing:
+        audit = pd.DataFrame(
+            [
+                {
+                    "feature": column,
+                    "role": "optional",
+                    "status": "rejected",
+                    "reason": "insufficient_target_coverage",
+                    "target_overlap_rows": (
+                        int((frame[target_col].notna() & frame[column].notna()).sum())
+                        if target_col in frame and column in frame
+                        else 0
+                    ),
+                    "joint_rows_after": target_rows,
+                    "joint_share_of_required": np.nan,
+                    "minimum_material_block_share": np.nan,
+                    "latest_joint_timestamp_utc": pd.NaT,
+                }
+                for column in EXOG_FEATURES
+            ]
+        )
+        return ([], audit) if return_audit else []
+    features, audit = select_features_by_joint_coverage(
+        frame,
+        target_col=target_col,
+        optional=EXOG_FEATURES,
+        min_non_missing=min_non_missing,
+    )
+    return (features, audit) if return_audit else features
 
 
 def complete_model_frame(frame, target_col=TARGET_COL, feature_cols=None):
     """Return a complete-case target/exogenous modelling frame."""
-    feature_cols = list(feature_cols or available_exog(frame, target_col=target_col))
+    if feature_cols is None:
+        feature_cols = available_exog(frame, target_col=target_col)
+    feature_cols = list(feature_cols)
     columns = [target_col, *feature_cols]
     return frame[columns].replace([np.inf, -np.inf], np.nan).dropna(), feature_cols
 
@@ -177,14 +327,17 @@ def anomaly_table(index, score, prefix, mad_threshold=3.5, z_threshold=3.0):
     score = pd.Series(np.asarray(score, dtype=float), index=index)
     robust_z = robust_zscore(score)
     z = standard_zscore(score)
+    scored = score.notna() & robust_z.notna()
     out = pd.DataFrame(
         {
             "timestamp_utc": index,
             f"{prefix}_score": score.to_numpy(),
             f"{prefix}_robust_z": robust_z.to_numpy(),
             f"{prefix}_z": z.to_numpy(),
-            f"{prefix}_anomaly_mad": robust_z.abs().to_numpy() > mad_threshold,
-            f"{prefix}_anomaly_3sigma": z.abs().to_numpy() > z_threshold,
+            f"{prefix}_scored": scored.to_numpy(),
+            f"{prefix}_anomaly_mad": (robust_z.abs() > mad_threshold).to_numpy()
+            & scored.to_numpy(),
+            f"{prefix}_anomaly_3sigma": (z.abs() > z_threshold).to_numpy() & scored.to_numpy(),
         }
     )
     out[f"{prefix}_anomaly"] = out[f"{prefix}_anomaly_mad"]

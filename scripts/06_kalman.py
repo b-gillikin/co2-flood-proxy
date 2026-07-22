@@ -27,6 +27,7 @@ from src.models.july import (
     complete_model_frame,
     contiguous_blocks,
     load_signal_frame,
+    select_features_by_joint_coverage,
 )
 
 PROCESSED_DIR = Path("data/processed")
@@ -148,7 +149,13 @@ def main():
 
     frame = load_signal_frame()
     feature_cols = state_space_features(frame)
+    feature_cols, feature_audit = select_features_by_joint_coverage(
+        frame,
+        target_col=TARGET_COL,
+        required=feature_cols,
+    )
     model_frame, feature_cols = complete_model_frame(frame, TARGET_COL, feature_cols)
+    feature_audit.to_csv(RESULTS_DIR / "feature_coverage.csv", index=False)
     blocks = contiguous_blocks(model_frame.index, min_hours=MIN_BLOCK_HOURS)
     if not blocks:
         raise RuntimeError("No contiguous block is long enough for local-level selection")

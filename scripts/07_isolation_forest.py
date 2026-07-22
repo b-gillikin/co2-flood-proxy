@@ -113,7 +113,7 @@ def main():
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
     frame = load_signal_frame()
-    features = feature_columns(frame)
+    features, feature_audit = iforest_features(frame, return_audit=True)
     model_frame = frame[features].replace([np.inf, -np.inf], np.nan).dropna()
     x = model_frame[features]
 
@@ -147,13 +147,15 @@ def main():
         prefix="iforest",
     )
     scores["iforest_robust_z"] = official["iforest_robust_z"].to_numpy()
+    scores["iforest_scored"] = official["iforest_scored"].to_numpy()
     scores["iforest_anomaly"] = official["iforest_anomaly"].to_numpy()
 
     sensitivity_cols = [
         column for column in scores.columns if column.startswith("iforest_anomaly_")
     ]
-    anomalies = scores[["timestamp_utc", "iforest_anomaly", *sensitivity_cols]]
+    anomalies = scores[["timestamp_utc", "iforest_scored", "iforest_anomaly", *sensitivity_cols]]
 
+    feature_audit.to_csv(RESULTS_DIR / "feature_coverage.csv", index=False)
     scores.to_csv(SCORES_PATH, index=False)
     anomalies.to_csv(ANOMALIES_PATH, index=False)
     with MODEL_PATH.open("wb") as handle:

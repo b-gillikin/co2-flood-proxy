@@ -74,6 +74,7 @@ class OfflinePipelineIntegrationTests(unittest.TestCase):
                 pd.DataFrame(
                     {
                         "timestamp_utc": frame.index[start : start + 20],
+                        f"{name}_scored": [True] * 20,
                         f"{name}_anomaly": [False] * 19 + [True],
                     }
                 )

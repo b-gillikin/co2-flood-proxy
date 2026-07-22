@@ -425,3 +425,29 @@ Source: `src/detectors.py`; `scripts/05_sarimax.py`;
 `scripts/06_kalman.py`; `scripts/07_isolation_forest.py`;
 `scripts/09_synthetic_injection.py`; `scripts/10_evaluation.py`;
 `tests/test_detectors.py`.
+
+## 2026-07-22 — Optional features cannot delete material coverage blocks
+
+Decision: Separate required detector inputs from optional inputs. Consider
+optional features in priority order and retain one only when the accumulated
+complete-case frame preserves at least 90% of required rows overall and at
+least 90% inside every required-data block of 24 hours or longer. Write the
+feature, role, decision, reason, overlap, joint coverage, minimum block
+coverage, and latest covered timestamp to a feature audit.
+
+Score-coverage policy: Every detector anomaly artifact must carry its native
+`<detector>_scored` indicator. Ensemble construction rejects artifacts without
+that indicator, masks any anomaly on an unscored row, and labels each union hour
+as `unscored`, `partial`, or `common`. A row is normal only when every
+detector was scored and none fired; agreement statistics use common or explicit
+pairwise coverage.
+
+Provisional outcome: Isolation Forest retains 41 of 69 audited inputs and
+scores 3,893 hours, including 244 post-July-9 hours through 2026-07-21 20:00
+UTC. The four locally available KNMI candidate columns are rejected because
+they have no coverage in the restored material block. The ensemble contains
+3,772 common-coverage hours, 213 partial hours, and one wholly unscored hour.
+
+Source: `src/models/july.py`; `src/detectors.py`; `src/eval.py`;
+`scripts/07_isolation_forest.py`; `scripts/08_ensemble_agreement.py`;
+`tests/test_io_data.py`; `tests/test_eval.py`.
