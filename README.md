@@ -143,14 +143,18 @@ The current evidence supports a pressure-separable residual and a reproducible a
    July provisional anomaly models:
 
    ```bash
-   python scripts/05_sarimax.py
-   python scripts/06_kalman.py
-   python scripts/07_isolation_forest.py
-   python scripts/08_ensemble_agreement.py
-   python scripts/09_synthetic_injection.py
-   python scripts/10_evaluation.py
-   python scripts/12_distributed_lag.py
+   python scripts/15_run_analysis_pipeline.py
    ```
+
+   This command runs the actual 05-12 entry points in order, including the
+   secondary transfer dry run, and writes `results/run_manifest.json`. Before
+   every step it removes that step's prior artifacts, so a failed or skipped
+   replacement cannot leave a stale output looking current. For the final
+   immutable snapshot, commit the code first and add `--freeze`; frozen mode
+   refuses dirty code, missing or changed inputs, mixed snapshot IDs,
+   unrecorded outputs, failed commands, and non-converged models.
+   If shared-feature coverage is inadequate, add `--skip-transfer`; transfer is
+   secondary and this omission does not invalidate the core frozen run.
 
    `05_sarimax.py` uses a compact nonseasonal SARIMAX search, then tests daily
    seasonality only after a base fit converges. Use
@@ -267,6 +271,7 @@ Frozen-run provenance and boundary-test outputs:
 - `results/distributed_lag/summary.txt`
 - `results/distributed_lag/timescale_scan.csv`
 - `results/run_manifest.json`
+- `results/run_logs/*.log`
 
 ## Structure
 

@@ -20,6 +20,7 @@ the summary, so the outcome cannot be reinterpreted after the fact.
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -197,13 +198,13 @@ def per_block_fits(scan_frame, api_col):
     return pd.DataFrame(rows)
 
 
-def moving_block_bootstrap(scan_frame, api_col):
+def moving_block_bootstrap(scan_frame, api_col, replicates=BOOTSTRAP_REPLICATES):
     """Percentile CI for the confirmatory API coefficient."""
     rng = np.random.default_rng(RANDOM_STATE)
     base = scan_frame.dropna(subset=["residual_ppm", api_col, *CONTROL_COLS])
     block_arrays = [group for _, group in base.groupby("block_id")]
     coefs = []
-    for _ in range(BOOTSTRAP_REPLICATES):
+    for _ in range(replicates):
         parts = []
         for group in block_arrays:
             n = len(group)
@@ -332,6 +333,15 @@ def evaluate_decision(scan, confirmatory, bootstrap, blocks, placebo):
 
 def main():
     """Command-line entry point."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--bootstrap-replicates",
+        type=int,
+        default=BOOTSTRAP_REPLICATES,
+        help="Moving-block bootstrap replicates (locked default: 2000).",
+    )
+    args = parser.parse_args()
+
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     daily = daily_block_frame()
@@ -370,7 +380,11 @@ def main():
 
     blocks = per_block_fits(confirmatory_frame, confirmatory_col)
     blocks.to_csv(RESULTS_DIR / "per_block.csv", index=False)
-    bootstrap = moving_block_bootstrap(confirmatory_frame, confirmatory_col)
+    bootstrap = moving_block_bootstrap(
+        confirmatory_frame,
+        confirmatory_col,
+        replicates=args.bootstrap_replicates,
+    )
 
     bins = pd.concat(
         [

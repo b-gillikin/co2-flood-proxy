@@ -59,26 +59,29 @@ July provisional modelling scripts:
 - `10_evaluation.py` — Week 4, write the official 30-day/7-day evaluation-window check, provisional smoke-window summaries, event-window tests, and Kerkrade API baseline.
 - `11_transfer_stress_test.py` — August v1, train Kerkrade detector-surrogate classifiers, run the cached RIVM/KNMI South Limburg transfer dry run, and write writing/figure scaffolding outputs.
 - `12_distributed_lag.py` — locked precipitation/discharge distributed-lag boundary test with HAC inference, moving-block bootstrap, block replication, and future-rain placebo.
-- `13_write_run_manifest.py` — write the run ID, data cutoff, git commit, environment versions, commands, input coverage/hashes, and output hashes for the current snapshot.
+- `13_write_run_manifest.py` — inspect or freeze-validate an existing schema-v2 manifest; it refuses legacy manifests that only list intended commands.
 - `14_weekly_readiness.py` — compute IoT/KNMI/groundwater/window coverage and optionally append a dated row to the canonical readiness plan without duplicating that date.
+- `15_run_analysis_pipeline.py` — execute the actual scripts 05-12 offline, invalidate their owned outputs before each step, record an execution ledger, and write the schema-v2 snapshot manifest.
 
-Run order for July:
+Verified offline run order for July/August modelling:
 
 ```bash
-python scripts/05_sarimax.py
-python scripts/06_kalman.py
-python scripts/07_isolation_forest.py
-python scripts/08_ensemble_agreement.py
-python scripts/09_synthetic_injection.py
-python scripts/10_evaluation.py
-python scripts/12_distributed_lag.py
-python scripts/13_write_run_manifest.py
+python scripts/15_run_analysis_pipeline.py
 ```
+
+The runner invokes scripts 05, 06, 07, 08, 09, 10, 11, and 12 as separate
+Python processes. Use `--skip-rolling` only for a development rehearsal. After
+the data freeze and a clean code commit, use `--freeze`; the command refuses a
+dirty or unknown Git state and validates input snapshot IDs, successful command
+records, recreated output hashes, and model convergence. The compatibility
+check is `python scripts/13_write_run_manifest.py --freeze`. When shared-feature
+coverage is inadequate, add `--skip-transfer`; this omits only secondary script
+11 and cannot block the core chapter run.
 
 `05_sarimax.py` uses a compact default SARIMAX search for routine reruns. Add
 `--full-grid` when you want the full p,q in 0..2 order search.
 
-August v1 dry run:
+Standalone August v1 dry run:
 
 ```bash
 python scripts/11_transfer_stress_test.py

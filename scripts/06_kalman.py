@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 import pickle
 import sys
@@ -143,6 +144,10 @@ def write_summary(search, spec, output):
 
 def main():
     """Command-line entry point."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--maxiter", type=int, default=300)
+    args = parser.parse_args()
+
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
@@ -164,6 +169,7 @@ def main():
         model_frame.loc[selection_index, TARGET_COL],
         model_frame.loc[selection_index, feature_cols],
         feature_cols,
+        maxiter=args.maxiter,
     )
     output, block_status, representative = fit_selected_blocks(
         model_frame,

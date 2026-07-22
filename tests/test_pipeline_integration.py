@@ -1,9 +1,9 @@
-"""Offline fixture integration across provisional analysis scripts 05-12."""
+"""Fixture-driven execution of the actual analysis scripts 05 through 12."""
 
 from __future__ import annotations
 
-import importlib
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,124 +13,206 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.detectors import local_level_filter, make_lagged_frame
-from src.eval import combine_detector_flags, time_based_windows
-from src.models.july import TARGET_COL
-
-iforest = importlib.import_module("scripts.07_isolation_forest")
-ensemble = importlib.import_module("scripts.08_ensemble_agreement")
-injection = importlib.import_module("scripts.09_synthetic_injection")
-evaluation = importlib.import_module("scripts.10_evaluation")
-transfer = importlib.import_module("scripts.11_transfer_stress_test")
-distributed_lag = importlib.import_module("scripts.12_distributed_lag")
+from src.pipeline import chapter_steps, execute_pipeline
+from src.provenance import build_snapshot_id, write_run_manifest
 
 
-def signal_fixture(periods=240):
-    """Deterministic hourly signal fixture with the shared model columns."""
+def write_pipeline_fixture(workspace, periods=1500):
+    """Write a deterministic, service-free hourly snapshot for every script."""
+    workspace = Path(workspace)
+    for directory in ("data/raw/fixture", "data/interim", "data/processed", "results"):
+        (workspace / directory).mkdir(parents=True, exist_ok=True)
+
     index = pd.date_range("2026-01-01", periods=periods, freq="h", tz="UTC")
     phase = np.arange(periods, dtype=float)
-    return pd.DataFrame(
+    pressure = 1012 + 4 * np.sin(phase / 37) + 0.5 * np.cos(phase / 9)
+    temperature = 13 + 6 * np.sin(phase * 2 * np.pi / (24 * 30))
+    humidity = 68 + 12 * np.cos(phase * 2 * np.pi / (24 * 14))
+    precip = np.where((phase.astype(int) % 113) < 8, 0.8, 0.0)
+    residual = (
+        7 * np.sin(phase / 11) + 3 * np.cos(phase / 31) + 0.04 * temperature - 0.03 * humidity
+    )
+    co2 = 520 + residual + 1.7 * (pressure - pressure.mean())
+
+    signal = pd.DataFrame(
         {
-            TARGET_COL: 10 * np.sin(phase / 12) + phase / 100,
-            "iot_co2_ppm": 500 + 20 * np.sin(phase / 24),
-            "iot_air_pressure_hpa": 1010 + np.cos(phase / 18),
-            "iot_temperature_c": 18 + np.sin(phase / 24),
-            "iot_relative_humidity_pct": 60 + np.cos(phase / 24),
-        },
-        index=index,
+            "timestamp_utc": index,
+            "co2_residual_barometric_ppm": residual,
+            "iot_co2_ppm": co2,
+            "iot_air_pressure_hpa": pressure,
+            "iot_temperature_c": temperature,
+            "iot_relative_humidity_pct": humidity,
+            "iot_pm2_5_ugm3": 8 + 0.4 * np.sin(phase / 17),
+            "iot_pm10_ugm3": 13 + 0.8 * np.cos(phase / 19),
+            "kerkrade_weather_temp_c": temperature + 0.2,
+            "kerkrade_weather_relative_humidity_pct": humidity - 1,
+            "kerkrade_weather_pressure_hpa": pressure + 0.3,
+            "kerkrade_weather_precip_mm": precip,
+            "kerkrade_weather_wind_speed_kph": 9 + 2 * np.sin(phase / 23),
+            "kerkrade_weather_cloud_cover_pct": 45 + 20 * np.cos(phase / 29),
+            "kerkrade_weather_pm2_5_ugm3": 7 + 0.3 * np.sin(phase / 21),
+            "kerkrade_weather_pm10_ugm3": 12 + 0.5 * np.cos(phase / 25),
+            "kerkrade_weather_no2_ugm3": 18 + np.sin(phase / 15),
+            "kerkrade_weather_o3_ugm3": 35 + np.cos(phase / 16),
+            "discharge_geul_hommerich_m3s": 2 + 0.02 * phase / 24 + precip,
+        }
+    )
+    signal.to_csv(workspace / "data/processed/signal_characterization_frame.csv", index=False)
+
+    analysis = signal[
+        [
+            "timestamp_utc",
+            "iot_co2_ppm",
+            "kerkrade_weather_precip_mm",
+            "discharge_geul_hommerich_m3s",
+        ]
+    ]
+    analysis.to_csv(workspace / "data/interim/analysis_hourly.csv", index=False)
+
+    knmi = pd.DataFrame(
+        {
+            "knmi_station": "06380",
+            "timestamp_utc": index,
+            "knmi_pressure_hpa": pressure + 0.1,
+            "knmi_temperature_c": temperature,
+            "knmi_relative_humidity_pct": humidity,
+            "knmi_precip_mm": precip,
+        }
+    )
+    knmi.to_csv(workspace / "data/interim/knmi_hourly.csv", index=False)
+
+    rivm = pd.DataFrame(
+        {
+            "timestamp_utc": index,
+            "rivm_nl10136_no2_ugm3": 20 + np.sin(phase / 13),
+            "rivm_nl10136_pm10_ugm3": 14 + np.cos(phase / 17),
+            "rivm_nl10138_no2_ugm3": 19 + np.cos(phase / 14),
+            "rivm_nl10138_o3_ugm3": 37 + np.sin(phase / 18),
+            "rivm_nl10138_pm10_ugm3": 15 + np.sin(phase / 16),
+        }
+    )
+    rivm.to_csv(workspace / "data/interim/rivm_hourly.csv", index=False)
+
+    events = pd.DataFrame(
+        {
+            "event_id": ["fixture_1", "fixture_2"],
+            "source": ["fixture_gauge", "fixture_gauge"],
+            "threshold_quantile": [0.9, 0.95],
+            "start_timestamp_utc": [index[600], index[1100]],
+            "end_timestamp_utc": [index[612], index[1115]],
+            "peak_timestamp_utc": [index[606], index[1107]],
+        }
+    )
+    events.to_csv(workspace / "data/processed/event_catalogue.csv", index=False)
+    soft = pd.DataFrame(
+        {
+            "timestamp_utc": index,
+            "any_current_level": ((phase % 400) < 12).astype(float),
+            "any_current_soft_label": ((phase % 400) < 12).astype(float) / 3,
+        }
+    )
+    soft.to_csv(workspace / "data/processed/hourly_soft_labels.csv", index=False)
+    raw = workspace / "data/raw/fixture/source.csv"
+    signal.iloc[:48].to_csv(raw, index=False)
+    return raw
+
+
+def run_fixture(workspace):
+    """Execute the actual scripts and write their development manifest."""
+    raw = write_pipeline_fixture(workspace)
+    normalized = [
+        Path(workspace) / "data/interim/analysis_hourly.csv",
+        Path(workspace) / "data/interim/knmi_hourly.csv",
+        Path(workspace) / "data/interim/rivm_hourly.csv",
+        Path(workspace) / "data/processed/signal_characterization_frame.csv",
+        Path(workspace) / "data/processed/event_catalogue.csv",
+        Path(workspace) / "data/processed/hourly_soft_labels.csv",
+    ]
+    cutoff = pd.Timestamp("2026-03-04T11:00:00Z")
+    execution = execute_pipeline(
+        workspace,
+        ROOT,
+        [raw],
+        normalized,
+        cutoff,
+        fixture=True,
+    )
+    output_paths = [
+        Path(workspace) / record["path"]
+        for command in execution["ledger"]
+        for record in command["outputs"]
+    ]
+    return write_run_manifest(
+        Path(workspace) / "results/run_manifest.json",
+        normalized,
+        output_paths,
+        [],
+        cutoff,
+        root=Path(workspace),
+        raw_input_paths=[raw],
+        normalized_input_paths=normalized,
+        execution_ledger=execution["ledger"],
+        snapshot_id=execution["snapshot_id"],
+        model_paths=[
+            Path(workspace) / f"results/models/{detector}.pkl"
+            for detector in ("sarimax", "kalman", "iforest")
+        ],
+        git_root=ROOT,
     )
 
 
 class OfflinePipelineIntegrationTests(unittest.TestCase):
-    """Exercise one substantive offline contract from every script 05-12."""
+    """Prove actual entry-point execution and deterministic scientific outputs."""
 
-    def test_scripts_05_through_12_share_one_offline_fixture(self):
-        frame = signal_fixture()
-
-        # 05: lag construction keeps honest hourly predictors.
-        lagged, predictors = make_lagged_frame(
-            frame,
-            TARGET_COL,
-            ["iot_air_pressure_hpa"],
-            p=1,
-            d=0,
-        )
-        self.assertFalse(lagged.empty)
-        self.assertIn("target_lag_1", predictors)
-
-        # 06: fallback local-level filter returns one innovation per hour.
-        filtered = local_level_filter(frame[TARGET_COL].iloc[:72], q=1.0, r=4.0)
-        self.assertEqual(len(filtered), 72)
-        self.assertTrue(np.isfinite(filtered["standardized_innovation"]).all())
-
-        # 07: the multivariate detector fits without external services.
-        model = iforest.fit_iforest(frame[[TARGET_COL, "iot_co2_ppm"]])
-        self.assertEqual(len(model.score_samples(frame[[TARGET_COL, "iot_co2_ppm"]])), len(frame))
-
-        # 08: common-coverage agreement is distinct from the union.
-        detector_frames = []
-        for name, start in (("sarimax", 0), ("kalman", 1), ("iforest", 2)):
-            detector_frames.append(
-                pd.DataFrame(
-                    {
-                        "timestamp_utc": frame.index[start : start + 20],
-                        f"{name}_scored": [True] * 20,
-                        f"{name}_anomaly": [False] * 19 + [True],
-                    }
+    def test_pipeline_refuses_missing_required_input_before_execution(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            raw = workspace / "raw.csv"
+            raw.write_text("value\n1\n", encoding="utf-8")
+            with self.assertRaisesRegex(FileNotFoundError, "Missing required normalized inputs"):
+                execute_pipeline(
+                    workspace,
+                    ROOT,
+                    [raw],
+                    [workspace / "missing.csv"],
+                    pd.Timestamp("2026-01-01T00:00:00Z"),
+                    fixture=True,
                 )
+
+    def test_transfer_can_be_omitted_without_changing_core_order(self):
+        steps = chapter_steps(skip_transfer=True)
+        names = [step.name for step in steps]
+        self.assertNotIn("11_transfer_stress_test", names)
+        self.assertEqual(names[-1], "12_distributed_lag")
+
+    def test_scripts_05_through_12_repeat_with_matching_hashes(self):
+        with (
+            tempfile.TemporaryDirectory() as first_dir,
+            tempfile.TemporaryDirectory() as second_dir,
+        ):
+            first = run_fixture(Path(first_dir))
+            second = run_fixture(Path(second_dir))
+
+            expected_steps = [
+                "05_sarimax",
+                "06_kalman",
+                "07_isolation_forest",
+                "08_ensemble_agreement",
+                "09_synthetic_injection",
+                "10_evaluation",
+                "11_transfer_stress_test",
+                "12_distributed_lag",
+            ]
+            self.assertEqual([item["step"] for item in first["commands"]], expected_steps)
+            self.assertTrue(all(item["returncode"] == 0 for item in first["commands"]))
+            self.assertTrue(all(item["outputs"] for item in first["commands"]))
+            self.assertEqual(first["snapshot_id"], build_snapshot_id(first["inputs"]))
+            self.assertEqual(first["snapshot_id"], second["snapshot_id"])
+            self.assertEqual(first["scientific_output_sha256"], second["scientific_output_sha256"])
+            self.assertEqual(
+                [(item["detector"], item["fit_status"]) for item in first["models"]],
+                [("sarimax", "ok"), ("kalman", "ok"), ("iforest", "ok")],
             )
-        flags = combine_detector_flags(detector_frames, ("sarimax", "kalman", "iforest"))
-        agreement, pairwise = ensemble.agreement_tables(flags)
-        self.assertEqual(int(agreement["n_hours"].sum()), 18)
-        self.assertTrue((pairwise["common_scored_hours"] > 0).all())
-
-        # 09: all locked injection templates produce explicit windows.
-        templates = injection.injection_templates(frame[TARGET_COL])
-        self.assertEqual(set(templates), {"gaussian_burst", "cut_add_paste", "level_shift"})
-        self.assertTrue(all(mask.any() for _, mask in templates.values()))
-        detection = pd.DataFrame(
-            {
-                "template": ["a", "b", "a", "b"],
-                "detector": ["valid", "valid", "invalid", "invalid"],
-                "detector_status": ["ok", "ok", "ok", "non_converged"],
-                "event_detected": [True, False, True, False],
-                "detection_rate": [1.0, 0.0, 1.0, 0.0],
-                "false_flag_rate": [0.1, 0.1, 0.0, 0.0],
-            }
-        )
-        selection = injection.model_selection_table(detection).set_index("detector")
-        self.assertEqual(int(selection.loc["valid", "selection_rank"]), 1)
-        self.assertTrue(pd.isna(selection.loc["invalid", "selection_rank"]))
-        self.assertEqual(selection.loc["invalid", "selection_status"], "excluded_non_ok_fit")
-
-        # 10: official-style calendar windows carry explicit coverage status.
-        windows = time_based_windows(
-            frame.index,
-            train_hours=120,
-            eval_hours=24,
-            label="offline",
-            min_coverage=0.7,
-        )
-        self.assertTrue((windows["status"] == "ok").all())
-        rate_summary = evaluation.detector_summary(flags, basis="offline_fixture")
-        self.assertIn("n_hours", rate_summary.columns)
-
-        # 11: feature availability/deployability is evaluated locally.
-        transfer_frame = pd.DataFrame({column: np.ones(60) for column in transfer.TRANSFER_SCHEMA})
-        availability = transfer.feature_availability(
-            transfer_frame,
-            {site: transfer_frame.copy() for site in transfer.TRANSFER_SITES},
-        )
-        selected = transfer.deployable_features(availability, min_transfer_hours=24)
-        self.assertEqual(selected, transfer.TRANSFER_SCHEMA)
-
-        # 12: antecedent and placebo transforms remain distinct and gap-honest.
-        precip = pd.Series(
-            np.arange(60, dtype=float), index=pd.date_range("2026-01-01", periods=60, freq="D")
-        )
-        antecedent = distributed_lag.weighted_api(precip, half_life_days=3, direction="lag")
-        placebo = distributed_lag.weighted_api(precip, half_life_days=3, direction="lead")
-        self.assertFalse(antecedent.equals(placebo))
 
 
 if __name__ == "__main__":

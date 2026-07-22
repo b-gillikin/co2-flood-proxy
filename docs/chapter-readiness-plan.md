@@ -52,11 +52,18 @@ analysis passes its locked criteria.
   deployment package.
 - [x] `done` Add `scripts/12_distributed_lag.py` to the documented frozen
   run order and make the tracked Python tree pass Ruff.
-- [x] `done` Add a fixture-driven offline integration check for scripts
-  05-12.
-- [x] `done` Generate `results/run_manifest.json` with run ID, data
-  cutoff, git commit, environment versions, commands, input hashes/coverage, and
-  output hashes.
+- [x] `done` Add a fixture-driven offline integration check that runs the
+  actual CLI entry points for scripts 05-12 without external services and
+  repeats the run in a second isolated workspace.
+- [x] `done` Generate schema-v2 `results/run_manifest.json` with an immutable
+  snapshot ID; separate raw and normalized input hashes/coverage; git commit,
+  dirty state, and dirty-diff hash; actual commands and exit states; runtime
+  versions; model family/convergence; recreated output hashes; and one
+  aggregate scientific-output hash.
+- [x] `done` Add frozen-run refusal gates for dirty or unknown Git state,
+  missing/changed inputs, mixed snapshot IDs, failed commands, stale outputs
+  not recreated by the current run, and models labeled valid without explicit
+  convergence.
 - [x] `done` Use one versioned detector specification for full-record,
   synthetic-injection, and rolling-origin fits; persist the actual family,
   controls, optimizer diagnostics, and fit status.
@@ -132,7 +139,7 @@ threshold.
 ## Current Implementation Checkpoint
 
 The 2026-07-21 current-data rehearsal is an engineering check, not the chapter
-freeze. Ruff, format checking, all 57 unit/integration tests, and the deployment
+freeze. Before Batch 3, Ruff, format checking, all 57 unit/integration tests, and the deployment
 shell syntax check pass. `results/run_manifest.json` records run
 `20260721T200000Z-0480f3f`, the 2026-07-21 data cutoff, six hashed inputs, 75
 hashed outputs, runtime versions, and `git_dirty: true` so this rehearsal cannot
@@ -173,6 +180,18 @@ Detector-native coverage yields 3,862 SARIMAX, 3,958 local-level, and 3,893
 Isolation Forest scored hours. The ensemble now labels 3,772 hours
 `common`, 213 `partial`, and one `unscored`; only common hours may be
 called normal or used for agreement.
+
+The 2026-07-21 Batch 3 integration gate executes scripts 05-12 through their
+actual command-line entry points against a deterministic, service-free fixture.
+Two isolated runs receive the same input snapshot ID and the same aggregate
+scientific-output hash. Ruff and format checks pass, and the Python 3.11 suite
+contains 66 passing tests. `scripts/15_run_analysis_pipeline.py` now owns the
+verified sequence and invalidates step-owned outputs before execution;
+`scripts/13_write_run_manifest.py` validates the resulting ledger instead of
+fabricating a list of intended commands. The runner's `--skip-transfer` option
+keeps inadequate secondary transfer coverage from blocking the core run. This proves the machinery, but it does
+not satisfy the still-pending requirement for two clean runs on the final
+frozen field-data snapshot.
 
 The remaining work is data- and manuscript-gated: weekly IoT/KNMI refreshes,
 groundwater/mine-water receipt and normalization, the freeze-gate decision, the
