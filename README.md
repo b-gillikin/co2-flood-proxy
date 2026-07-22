@@ -14,6 +14,18 @@ The current evidence supports a pressure-separable residual and a reproducible a
 
 **Readiness plan**: `docs/chapter-readiness-plan.md` is the canonical record for work that can proceed now, incoming-data gates, the September/October freeze decision, final analysis, and remaining chapter sections. Cross-site transfer is secondary and cannot block chapter completion.
 
+**Chapter draft**: `chapter/chapter-draft.md` contains the stable pre-freeze prose,
+explicit frozen-result fields, and the four prespecified claim branches.
+`docs/chapter-writing-register.md` records what is stable and what must be completed
+from the immutable snapshot. Check the working draft with:
+
+```bash
+python scripts/17_check_chapter_draft.py
+```
+
+After resolving every frozen field and retaining one claim branch, add
+`--require-final`; failure is a manuscript release blocker.
+
 ## How to Reproduce
 
 1. Create the environment:
@@ -280,6 +292,8 @@ Frozen-run provenance and boundary-test outputs:
 ## Structure
 
 - `chapter-prework/`: scaffold documents, monthly how-to docs, bibliography, and source/corpus materials.
+- `chapter/`: canonical Markdown chapter draft with machine-checkable frozen fields
+  and claim branches.
 - `data/raw/`: source-format raw downloads, refreshed by ingestion scripts.
 - `data/interim/`: cleaned and time-aligned data.
 - `data/processed/`: feature sets, residual series, event catalogues, anomaly scores, and evaluation outputs.

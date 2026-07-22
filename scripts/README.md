@@ -64,6 +64,9 @@ July provisional modelling scripts:
 - `14_weekly_readiness.py` — compute IoT/KNMI/groundwater/window coverage and optionally append a dated row to the canonical readiness plan without duplicating that date.
 - `15_run_analysis_pipeline.py` — execute core modelling, available direct state, and optional transfer offline; invalidate step-owned outputs; record an execution ledger; and write the schema-v2 snapshot manifest.
 - `16_direct_state.py` — run the locked groundwater/mine-water primary model, HAC and moving-block uncertainty, block replication, future-water placebo, and FDR sensitivities.
+- `17_check_chapter_draft.py` — validate required chapter sections, citation keys,
+  frozen-result fields, and prespecified claim branches; use `--require-final` as the
+  final manuscript gate.
 
 Verified offline run order for July/August modelling:
 

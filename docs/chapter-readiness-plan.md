@@ -77,17 +77,17 @@ analysis passes its locked criteria.
 
 ### Stable chapter writing: July 13-August 15
 
-- [ ] `in progress` Draft the introduction around the neutral research question.
-- [ ] `in progress` Finalize site and predecessor context, distinguishing prior
+- [x] `done` Draft the introduction around the neutral research question.
+- [x] `done` Draft site and predecessor context, distinguishing prior
   2021 evidence from the current analysis period.
-- [ ] `in progress` Finalize source provenance, UTC normalization, gap handling,
+- [x] `done` Draft source provenance, UTC normalization, gap handling,
   and coverage rules.
-- [ ] `in progress` Draft pressure decomposition and the Eryilmaz procedural
+- [x] `done` Draft pressure decomposition and the Eryilmaz procedural
   replication, including the random-CV limitation.
-- [ ] `in progress` Draft detector specifications and the time-aware evaluation
+- [x] `done` Draft detector specifications and the time-aware evaluation
   protocol.
-- [ ] `in progress` Draft uncertainty and claim-boundary language.
-- [ ] `in progress` Add results-section placeholders and caption drafts without
+- [x] `done` Draft uncertainty and claim-boundary language.
+- [x] `done` Add results-section placeholders and caption drafts without
   treating provisional numbers as final.
 - [x] `done` Preserve the distributed-lag null result as an explicit boundary
   result.
@@ -207,6 +207,17 @@ forced to `inconclusive_because_of_coverage`. The real analysis remains
 `waiting on data`. Ruff and format checks pass, and all 73 Python 3.11 tests
 pass, including two isolated end-to-end runs with matching scientific hashes.
 
+The 2026-07-22 Batch 5 writing pass turns the stable material into a continuous,
+citation-backed Markdown chapter draft. It keeps 53 reportable values as explicit
+`FROZEN` fields, retains all four prespecified claim branches until the direct-state
+decision, and includes full stable prose for the introduction, context, provenance,
+methods, uncertainty, and limitations. `scripts/17_check_chapter_draft.py` verifies
+required sections, bibliography keys, claim boundaries, and overclaim language; its
+final mode rejects every unresolved field and any draft that has not selected exactly
+one branch. Ruff and format checks pass, and all 77 Python 3.11 tests pass. Results,
+discussion selection, conclusion values, figures, and Word rendering remain
+freeze-dependent.
+
 The remaining work is data- and manuscript-gated: weekly IoT/KNMI refreshes,
 groundwater/mine-water receipt and normalization, the freeze-gate decision, the
 locked direct-state analysis, two clean-snapshot reproducibility runs, full
@@ -293,18 +304,18 @@ Do not combine tables, figures, or summaries from different snapshots.
 
 | Section | Status | Current evidence | Remaining blocker | Completion criterion |
 | --- | --- | --- | --- | --- |
-| Introduction and research question | `in progress` | Literature scaffold and neutral question | Claim wording still needs synchronization | Full prose uses the neutral question and permits all four decision-table outcomes |
-| Site and predecessor context | `in progress` | Viefhues/Eryilmaz notes and source corpus | Separate prior-event evidence from current-period evidence | Site mechanism and inherited evidence are cited without treating them as current confirmation |
-| Data and provenance | `in progress` | IoT, weather, discharge, KNMI, and RIVM source notes | Groundwater metadata and final coverage | Every reported source has provider, units, time basis, coverage, and QC |
+| Introduction and research question | `done` | Full stable draft uses the neutral question and permits all four outcomes | Final copy edit | Wording remains synchronized with the selected frozen claim |
+| Site and predecessor context | `done` | Full draft separates Viefhues/Eryilmaz evidence and current analysis | Confirm provider-dependent site details | Inherited evidence remains cited without being treated as current confirmation |
+| Data and provenance | `in progress` | Full rules prose plus IoT, weather, discharge, KNMI, RIVM, and groundwater contracts | Groundwater metadata and frozen coverage | Every reported source has provider, units, time basis, coverage, and QC |
 | Pressure decomposition | `ready after freeze` | Reproducible baseline and current R2 | Frozen-data rerun | Specification, uncertainty, and final frozen result reported |
 | Eryilmaz replication | `ready after freeze` | Procedural replication pipeline | Frozen-data rerun | Random-CV limitation and frozen AUROC results reported |
-| Detector methods | `in progress` | Three detector scripts and provisional outputs | Convergence/coverage hardening | Specifications and failure states are explicit |
+| Detector methods | `done` | Full prose matches the versioned detector, convergence, scoring, and rolling contracts | Final specification-table cross-check | Specifications and failure states remain synchronized with the frozen run |
 | Direct-state analysis | `waiting on data` | Locked method and tested executable script | Groundwater/mine-water receipt and overlap | Primary criteria evaluated without post-hoc changes on the frozen snapshot |
 | Distributed-lag boundary result | `ready after freeze` | Current outcome `NOT SUPPORTED` | Frozen-data rerun | Unchanged decision rule and placebo result reported |
 | Transfer | `secondary` | Two-site provisional dry run | Shared-feature coverage | Included only as appendix/secondary evidence and never blocks completion |
-| Results | `waiting on data` | Outline and provisional artifacts | Frozen run | Every number and figure traces to one run manifest |
-| Discussion and limitations | `waiting on data` | Claim boundaries recorded | Final claim selection | Addresses null and site-specific alternatives without causal overreach |
-| Conclusion | `waiting on data` | Decision table | Final claim selection | Restates only evidence that passed the frozen analysis |
+| Results | `waiting on data` | Full shell with 53 named frozen fields | Frozen run | Every resolved value and figure traces to one run manifest |
+| Discussion and limitations | `ready after freeze` | Full limitations plus four bounded claim branches | Final claim selection | Exactly one branch remains, without causal overreach |
+| Conclusion | `ready after freeze` | Full shell tied to direct-state outcome | Final values and claim selection | Restates only evidence that passed the frozen analysis |
 
 ## Required Main-Text Artifacts
 

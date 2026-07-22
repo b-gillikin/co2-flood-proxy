@@ -474,3 +474,22 @@ Benjamini-Hochberg-corrected sensitivity family.
 
 Source: `docs/chapter-readiness-plan.md`; `docs/groundwater-data-contract.md`;
 `src/io_groundwater.py`; `src/direct_state.py`; `scripts/16_direct_state.py`.
+
+## 2026-07-22 — Stable prose before frozen numbers
+
+Decision: Maintain one canonical Markdown chapter draft containing all prose that is
+stable before the data freeze. Represent every reportable result as an explicit
+`FROZEN` field; do not copy provisional rehearsal values into final-result sentences.
+
+Claim policy: Keep all four prespecified discussion branches in the working draft.
+After the immutable run, the machine-readable direct-state outcome selects exactly
+one branch. Proxy, anomaly, precipitation, or transfer results cannot promote the
+primary claim.
+
+Release gate: Check required sections, bibliography keys, overclaim language, frozen
+fields, and branch count in code. A working draft must retain all four branches and
+expose unresolved fields. A final draft must contain no unresolved fields and exactly
+one recognized branch.
+
+Source: `chapter/chapter-draft.md`; `docs/chapter-writing-register.md`;
+`src/chapter.py`; `scripts/17_check_chapter_draft.py`; `tests/test_chapter.py`.
