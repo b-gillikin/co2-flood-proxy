@@ -1,4 +1,4 @@
-"""Download/update and normalize Visual Crossing weather blobs for Task 1.2."""
+"""Download/update and normalize Visual Crossing weather blobs."""
 
 from __future__ import annotations
 
@@ -288,7 +288,7 @@ def update_kerkrade_direct_api(
     """Direct-refresh Kerkrade months that matter for the current analysis.
 
     Blob storage is the durable source, but it may lag the current month or the
-    exact IoT overlap. This catch-up step keeps Week 1/2 analysis frames filled.
+    exact IoT overlap. This catch-up step keeps the analysis frame filled.
     """
     today = date.today()
     current_year_month = (today.year, today.month)

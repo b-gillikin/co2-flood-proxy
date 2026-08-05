@@ -17,6 +17,7 @@ dependencies:
   - requests
   - pyyaml
   - ruff
+  - pytest
   - pip
   - pip:
       - filterpy

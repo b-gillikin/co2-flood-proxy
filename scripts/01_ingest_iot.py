@@ -1,4 +1,4 @@
-"""Download/update and normalize the Kerkrade IoT stream for Task 1.1."""
+"""Download/update and normalize the Kerkrade IoT sensor stream."""
 
 from __future__ import annotations
 

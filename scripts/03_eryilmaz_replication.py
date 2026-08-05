@@ -1,4 +1,9 @@
-"""Week 3 Eryilmaz logistic-regression replication and Kill Check 2."""
+"""Reproduce the Eryilmaz logistic-regression comparison as inherited procedure.
+
+Random folds are part of the procedure being reproduced, not evidence of
+out-of-sample performance; they mix neighbouring hours in an autocorrelated
+series. Reported as replication metrics only.
+"""
 
 from __future__ import annotations
 
@@ -58,7 +63,7 @@ MODEL_SPECS = {
 
 
 def load_analysis_frame(path=INPUT_PATH):
-    """Load the joined Week 1 hourly analysis frame."""
+    """Load the joined hourly analysis frame."""
     frame = pd.read_csv(path, parse_dates=["timestamp_utc"])
     return frame.set_index("timestamp_utc").sort_index()
 
@@ -161,7 +166,7 @@ def run_model(replication_frame, model_key, spec):
 
 
 def kill_check_status(auroc_a, auroc_b):
-    """Apply the June Week 3 replication criterion."""
+    """Apply the inherited replication criterion."""
     gap = auroc_a - auroc_b
     if gap <= 0.05:
         return "replicates / proceed"
@@ -177,7 +182,7 @@ def write_predictions(all_predictions):
 
 
 def write_metrics(summaries):
-    """Write AUROC report and Kill Check 2 status."""
+    """Write the replication AUROC report."""
     by_model = {row["model"]: row for row in summaries}
     auroc_a = by_model["A_indoor_iot"]["auroc"]
     auroc_b = by_model["B_outdoor_weather"]["auroc"]
@@ -185,7 +190,7 @@ def write_metrics(summaries):
     status = kill_check_status(auroc_a, auroc_b)
 
     lines = [
-        "Week 3 Eryilmaz Replication",
+        "Eryilmaz Replication",
         "",
         f"Target: {TARGET_COL} > {TARGET_THRESHOLD_PPM} ppm",
         f"CV: Stratified random {N_SPLITS}-fold, random_state={RANDOM_STATE}",
@@ -207,7 +212,7 @@ def write_metrics(summaries):
     lines.extend(
         [
             f"AUROC gap (A - B): {gap:.6f}",
-            f"Kill Check 2 status: {status}",
+            f"Replication check: {status}",
             "Decision rule: Model B replicates if it is within 0.05 AUROC of Model A.",
             "Note: random 5-fold CV is used here only for faithful Eryilmaz replication; later chapter models should use time-aware evaluation.",
         ]
@@ -263,7 +268,7 @@ def main():
     auroc_a = by_model["A_indoor_iot"]["auroc"]
     auroc_b = by_model["B_outdoor_weather"]["auroc"]
     print(
-        "Kill Check 2:",
+        "Replication check:",
         kill_check_status(auroc_a, auroc_b),
         f"(A AUROC={auroc_a:.6f}; B AUROC={auroc_b:.6f}; gap={auroc_a - auroc_b:.6f})",
     )

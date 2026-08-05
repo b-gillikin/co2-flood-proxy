@@ -1,4 +1,4 @@
-"""Week 1 EDA/QC pass for IoT, weather, discharge, and soft labels."""
+"""Join sources into the hourly analysis frame and run coverage QC plots."""
 
 from __future__ import annotations
 
@@ -53,7 +53,7 @@ def write_summary(joined):
 
 
 def save_joined(joined):
-    """Save the analysis-ready hourly frame for Week 2+ scripts."""
+    """Save the analysis-ready hourly frame used by every downstream script."""
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     target = INTERIM_DIR / "analysis_hourly.csv"
     joined.to_csv(target, index_label="timestamp_utc")
@@ -91,7 +91,7 @@ def plot_series(joined, columns, title, filename):
 
 
 def write_plots(joined):
-    """Write the three Week 1 QC plots."""
+    """Write the three coverage QC plots."""
     plot_series(
         joined,
         [

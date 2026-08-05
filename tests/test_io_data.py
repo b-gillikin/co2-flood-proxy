@@ -13,24 +13,23 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "kerkrade_data"))
 
-from src.io_data import load_iot, load_iot_observations, load_knmi, load_rivm
+from src.features import antecedent_precipitation_index
+from src.io_data import load_iot, load_iot_observations, load_knmi
 from src.io_iot import _device_id_from_export_path
 from src.io_knmi import _normalize_knmi_frame
-from src.models.july import (
-    antecedent_precipitation_index,
+from src.models.signal_frame import (
     available_exog,
     select_features_by_joint_coverage,
 )
 
 knmi_backfill = importlib.import_module("knmi_backfill")
-rivm_ingest = importlib.import_module("scripts.04_ingest_rivm")
 
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
 
 class LoaderTests(unittest.TestCase):
-    """Verify Week 4 loaders against tiny cached payloads."""
+    """Verify source loaders against tiny cached payloads."""
 
     def test_load_blynk_iot_export_sample(self):
         observations = load_iot_observations(
@@ -74,40 +73,6 @@ class LoaderTests(unittest.TestCase):
 
         self.assertEqual(len(frame), 4)
         self.assertEqual(set(frame["knmi_station"]), {"06377", "06380"})
-
-    def test_load_rivm_json_sample(self):
-        frame = load_rivm(
-            FIXTURES / "rivm",
-            frequency="h",
-            stations=["NL90001"],
-            components=["PM10", "PM25"],
-        )
-
-        self.assertEqual(len(frame), 1)
-        self.assertIn("rivm_nl90001_pm10_ugm3", frame.columns)
-        self.assertIn("rivm_nl90001_pm25_ugm3", frame.columns)
-        self.assertAlmostEqual(frame["rivm_nl90001_pm10_ugm3"].iloc[0], 17.5)
-        self.assertAlmostEqual(frame["rivm_nl90001_pm25_ugm3"].iloc[0], 8.25)
-
-    def test_load_rivm_portal_csv_sample(self):
-        frame = load_rivm(
-            FIXTURES / "rivm",
-            frequency="h",
-            stations=["NL90002"],
-            components=["PM10"],
-        )
-
-        self.assertEqual(len(frame), 2)
-        self.assertIn("rivm_nl90002_pm10_ugm3", frame.columns)
-        self.assertAlmostEqual(frame["rivm_nl90002_pm10_ugm3"].iloc[0], 12.5)
-
-    def test_rivm_api_station_number_is_normalized(self):
-        candidates = rivm_ingest.candidate_stations(
-            [{"number": "NL50010", "location": "Maastricht Philipsweg"}],
-            ["maastricht"],
-        )
-
-        self.assertEqual(candidates["station_number"].iloc[0], "NL50010")
 
 
 class KnmiUnitTests(unittest.TestCase):
@@ -154,7 +119,7 @@ class DeviceIdTests(unittest.TestCase):
 
 
 class JulyModelHelperTests(unittest.TestCase):
-    """Verify small shared July modelling helpers."""
+    """Verify the small shared modelling helpers."""
 
     def test_api_uses_day_scaled_exponential_decay(self):
         precip = [10.0, 0.0, 0.0, 0.0]

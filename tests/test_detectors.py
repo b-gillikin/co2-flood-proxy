@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib
 import pickle
 import tempfile
 import unittest
@@ -17,16 +16,12 @@ from src.detectors import (
     _statsmodels_status,
     assert_pressure_safe,
     fit_detector,
-    iforest_features,
     load_detector_spec,
     model_payload,
     score_detector,
     state_space_features,
 )
-from src.models.july import TARGET_COL
-
-evaluation = importlib.import_module("scripts.10_evaluation")
-injection = importlib.import_module("scripts.09_synthetic_injection")
+from src.models.signal_frame import TARGET_COL
 
 
 def detector_fixture(periods=264):
@@ -84,16 +79,6 @@ class DetectorContractTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "cannot reintroduce pressure"):
             assert_pressure_safe(["iot_air_pressure_hpa"])
-
-    def test_iforest_audit_keeps_residual_as_required_input(self):
-        frame = detector_fixture()
-
-        features, audit = iforest_features(frame, return_audit=True)
-
-        self.assertIn(TARGET_COL, features)
-        target = audit.set_index("feature").loc[TARGET_COL]
-        self.assertEqual(target["status"], "selected")
-        self.assertEqual(target["reason"], "detector_target")
 
     def test_arx_fit_and_future_score_keep_the_same_family(self):
         frame = detector_fixture()
@@ -154,47 +139,6 @@ class DetectorContractTests(unittest.TestCase):
         caught = [SimpleNamespace(category=ConvergenceWarning)]
 
         self.assertEqual(_statsmodels_status(result, caught), "non_converged")
-
-    def test_synthetic_and_rolling_paths_report_persisted_families(self):
-        frame = detector_fixture()
-        specs = detector_specs()
-        injected = frame[TARGET_COL].copy()
-        injected.iloc[100:112] += 20
-
-        _, details = injection.run_detectors(frame, injected, specs)
-
-        self.assertEqual(
-            {name: detail["model_family"] for name, detail in details.items()},
-            {name: spec.family for name, spec in specs.items()},
-        )
-        self.assertTrue(all(detail["status"] == "ok" for detail in details.values()))
-
-        windows = pd.DataFrame(
-            [
-                {
-                    "window_id": "fixture",
-                    "scheme": "fixture",
-                    "status": "ok",
-                    "train_start_utc": frame.index[0],
-                    "train_end_utc": frame.index[167],
-                    "eval_start_utc": frame.index[168],
-                    "eval_end_utc": frame.index[191],
-                }
-            ]
-        )
-        flags, summary = evaluation.rolling_origin_evaluation(
-            frame,
-            specs,
-            windows,
-            run_id="fixture",
-            data_cutoff_utc=frame.index.max(),
-        )
-
-        families = summary.set_index("detector")["model_family"].to_dict()
-        self.assertEqual(families, {name: spec.family for name, spec in specs.items()})
-        self.assertTrue((summary["fit_status"] == "ok").all())
-        self.assertTrue((summary["eval_scored_hours"] > 0).all())
-        self.assertIn("sarimax_model_family", flags.columns)
 
 
 if __name__ == "__main__":

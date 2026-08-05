@@ -1,4 +1,4 @@
-"""Download/update and normalize Wurm/Geul discharge data for Task 1.3."""
+"""Download/update and normalize Wurm and Geul tributary discharge gauges."""
 
 from __future__ import annotations
 

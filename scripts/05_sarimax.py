@@ -24,7 +24,7 @@ from src.detectors import (
     select_sarimax_spec,
     state_space_features,
 )
-from src.models.july import (
+from src.models.signal_frame import (
     CO2_COL,
     TARGET_COL,
     anomaly_table,

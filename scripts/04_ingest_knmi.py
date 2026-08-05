@@ -1,4 +1,4 @@
-"""Week 4 KNMI reference meteorology starter ingestion."""
+"""Ingest and normalize KNMI reference meteorology to the hourly UTC grid."""
 
 from __future__ import annotations
 

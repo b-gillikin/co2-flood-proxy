@@ -1,4 +1,8 @@
-"""Week 4 exploratory characterization of the barometric CO2 residual."""
+"""Exploratory characterization of the barometric CO2 residual.
+
+Screening only. Nothing here is confirmatory; it exists to assemble the
+signal frame and to show what structure the residual carries.
+"""
 
 from __future__ import annotations
 
@@ -60,7 +64,7 @@ HYDROLOGICAL_FEATURES = [
 
 
 def load_signal_frame():
-    """Join the Week 1 analysis frame to Week 2 residuals.
+    """Join the hourly analysis frame to the barometric residuals.
 
     The analysis frame is a contiguous hourly grid, so a left join keeps that
     grid intact. Lagged tendency features and the cross-correlation scan then
@@ -242,10 +246,10 @@ def write_pca_plot(scores):
 
 
 def write_summary(frame, correlations, residual_importance, hydro_importance, explained):
-    """Write a short text summary for the Week 4 exploratory pass."""
+    """Write a short text summary of the exploratory pass."""
     top_corr = top_cross_correlations(correlations).head(10)
     lines = [
-        "Week 4 Signal Characterization",
+        "Signal Characterization",
         "",
         f"Rows in hourly analysis grid: {len(frame)}",
         f"Rows with barometric residual: {int(frame[RESIDUAL_COL].notna().sum())}",
@@ -334,7 +338,7 @@ def main():
     write_pca_plot(scores)
     write_summary(frame, correlations, residual_importance, hydro_importance, explained)
 
-    print(f"Week 4 signal frame rows: {len(frame)}")
+    print(f"signal frame rows: {len(frame)}")
     print(f"Analysis window: {frame.index.min()} to {frame.index.max()}")
     print(f"Features scanned for cross-correlation: {len(corr_cols)}")
     print(f"wrote {RESULTS_DIR}")

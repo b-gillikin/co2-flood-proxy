@@ -14,20 +14,15 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import IsolationForest
 from sklearn.linear_model import RidgeCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from src.models.july import (
-    IFOREST_BASE_FEATURES,
-    IFOREST_REQUIRED_FEATURES,
+from src.models.signal_frame import (
     fitted_model_status,
-    select_features_by_joint_coverage,
 )
 
 DETECTOR_SCHEMA_VERSION = 2
-MAD_THRESHOLD = 3.5
 RANDOM_STATE = 42
 RIDGE_ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)
 Q_SCALES = (0.001, 0.01, 0.05, 0.1, 0.5)
@@ -112,42 +107,6 @@ def assert_pressure_safe(features) -> None:
             "Pressure-separated residual models cannot reintroduce pressure features: "
             + ", ".join(unsafe)
         )
-
-
-def iforest_features(frame: pd.DataFrame, return_audit=False):
-    """Return IF features that preserve required coverage and recent blocks."""
-    target = IFOREST_REQUIRED_FEATURES[0]
-    deltas = [column for column in frame.columns if "_delta_" in column]
-    optional = [
-        column
-        for column in [*IFOREST_BASE_FEATURES, *deltas]
-        if column not in IFOREST_REQUIRED_FEATURES
-    ]
-    selected, audit = select_features_by_joint_coverage(
-        frame,
-        target_col=target,
-        required=IFOREST_REQUIRED_FEATURES[1:],
-        optional=optional,
-    )
-    target_index = frame.index[frame[target].notna()]
-    target_row = pd.DataFrame(
-        [
-            {
-                "feature": target,
-                "role": "required",
-                "status": "selected",
-                "reason": "detector_target",
-                "target_overlap_rows": len(target_index),
-                "joint_rows_after": len(target_index),
-                "joint_share_of_required": 1.0,
-                "minimum_material_block_share": 1.0,
-                "latest_joint_timestamp_utc": (target_index.max() if len(target_index) else pd.NaT),
-            }
-        ]
-    )
-    features = [target, *selected]
-    audit = pd.concat([target_row, audit], ignore_index=True)
-    return (features, audit) if return_audit else features
 
 
 def model_payload(spec: DetectorSpec, fit: FittedDetector, **extra) -> dict:
@@ -290,29 +249,6 @@ def _arx_design(y: pd.Series, x: pd.DataFrame, p: int, d: int) -> pd.DataFrame:
     for lag in range(1, p + 1):
         design[f"target_lag_{lag}"] = target.shift(lag)
     return design.replace([np.inf, -np.inf], np.nan)
-
-
-def make_lagged_frame(
-    model_frame,
-    target_col,
-    feature_cols,
-    p,
-    d,
-    min_block_hours=168,
-):
-    """Build a gap-honest AR-X design frame for compatibility and tests."""
-    from src.models.july import contiguous_blocks
-
-    predictors = [*feature_cols, *[f"target_lag_{lag}" for lag in range(1, p + 1)]]
-    parts = []
-    for block_id, index in contiguous_blocks(model_frame.index, min_hours=min_block_hours):
-        block = model_frame.loc[index, [target_col, *feature_cols]]
-        design = _arx_design(block[target_col], block[feature_cols], p, d)
-        design["block_id"] = block_id
-        parts.append(design)
-    if not parts:
-        return pd.DataFrame(columns=[*feature_cols, "model_target", *predictors]), predictors
-    return pd.concat(parts).dropna(subset=["model_target", *predictors]), predictors
 
 
 def _fit_arx(spec: DetectorSpec, y, x) -> FittedDetector:
@@ -524,26 +460,6 @@ def _fit_ridge_local_level(spec: DetectorSpec, y, x) -> FittedDetector:
     )
 
 
-def _fit_iforest(spec: DetectorSpec, x) -> FittedDetector:
-    x = _frame(x, spec.features).dropna()
-    if len(x) < 48:
-        return _insufficient(spec, "Isolation Forest requires 48 complete training rows")
-    model = IsolationForest(
-        n_estimators=200,
-        max_features=0.8,
-        random_state=RANDOM_STATE,
-        n_jobs=1,
-    ).fit(x)
-    score = pd.Series(-model.score_samples(x), index=x.index)
-    return FittedDetector(
-        spec=spec,
-        status="ok",
-        model=model,
-        train_score=score,
-        diagnostics={"converged": True, "n_rows": len(x), "n_features": x.shape[1]},
-    )
-
-
 def fit_detector(spec: DetectorSpec, y=None, x=None) -> FittedDetector:
     """Fit one specified family without silently substituting another."""
     try:
@@ -555,8 +471,6 @@ def fit_detector(spec: DetectorSpec, y=None, x=None) -> FittedDetector:
             return _fit_local_level(spec, y, x)
         if spec.family == "ridge_local_level":
             return _fit_ridge_local_level(spec, y, x)
-        if spec.family == "isolation_forest":
-            return _fit_iforest(spec, x)
         raise ValueError(f"Unknown detector family: {spec.family}")
     except Exception as exc:
         return _failed(spec, exc)
@@ -784,33 +698,4 @@ def score_detector(
         prediction = exogenous_prediction + filtered["predicted_state"]
         return DetectorScore(filtered["standardized_innovation"], prediction)
 
-    if fit.spec.family == "isolation_forest":
-        valid = ~x.isna().any(axis=1)
-        score = pd.Series(np.nan, index=x.index)
-        score.loc[valid] = -fit.model.score_samples(x.loc[valid])
-        return DetectorScore(score, pd.Series(np.nan, index=x.index))
-
     raise ValueError(f"Unknown detector family: {fit.spec.family}")
-
-
-def robust_zscore(values, reference=None):
-    """Median/MAD z-score with a standard-deviation fallback."""
-    series = pd.Series(values).astype(float)
-    ref = series if reference is None else pd.Series(reference).dropna().astype(float)
-    median = ref.median()
-    mad = (ref - median).abs().median()
-    if pd.isna(mad) or mad == 0:
-        std = ref.std(ddof=0)
-        if pd.isna(std) or std == 0:
-            return pd.Series(0.0, index=series.index)
-        return (series - ref.mean()) / std
-    return 0.6745 * (series - median) / mad
-
-
-def flag_scores(score, reference=None, threshold=MAD_THRESHOLD):
-    """Return anomaly flags, score coverage, and robust z-scores."""
-    score = pd.Series(score).astype(float)
-    z = robust_zscore(score, reference=reference)
-    scored = score.notna() & z.notna()
-    flags = (z.abs() > threshold) & scored
-    return flags, scored, z

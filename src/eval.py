@@ -160,8 +160,18 @@ def hourly_discharge_soft_labels(
     return labels
 
 
-def annotate_event_overlap(events, iot_index=None, weather_index=None):
-    """Add simple overlap counts with available IoT/weather hourly indexes."""
+def annotate_event_overlap(events, iot_index=None, weather_index=None, pre_event_hours=72):
+    """Add overlap counts against available IoT/weather hourly indexes.
+
+    Callers must pass indexes of *observed* hours, not the full hourly grid.
+    Passing a grid index credits coverage during outages: on the 2026-07 build
+    that inflated the count of events with IoT overlap from 49 to 175, because
+    every hour of the 2025-10 to 2026-03 sensor gap was counted as present.
+
+    ``pre_event_hours`` additionally counts observed hours in the lead-in
+    window before each event starts. Precursor analysis needs coverage before
+    onset, which coverage during the event does not imply.
+    """
     out = events.copy()
     if out.empty:
         return out
@@ -169,11 +179,16 @@ def annotate_event_overlap(events, iot_index=None, weather_index=None):
     for name, index in (("iot", iot_index), ("weather", weather_index)):
         if index is None:
             continue
-        counts = []
+        during = []
+        before = []
         for row in out.itertuples(index=False):
-            mask = (index >= row.start_timestamp_utc) & (index <= row.end_timestamp_utc)
-            counts.append(int(mask.sum()))
-        out[f"{name}_overlap_hours"] = counts
+            start = row.start_timestamp_utc
+            mask = (index >= start) & (index <= row.end_timestamp_utc)
+            during.append(int(mask.sum()))
+            lead = index >= start - pd.Timedelta(hours=pre_event_hours)
+            before.append(int((lead & (index < start)).sum()))
+        out[f"{name}_overlap_hours"] = during
+        out[f"{name}_pre_event_hours"] = before
 
     return out
 

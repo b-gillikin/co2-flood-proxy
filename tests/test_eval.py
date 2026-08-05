@@ -1,10 +1,8 @@
-"""Offline checks for discharge-label evaluation and July anomaly helpers."""
+"""Offline checks for discharge labels, event catalogue, and shared model helpers."""
 
 from __future__ import annotations
 
-import importlib
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -15,15 +13,17 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.eval import (
-    combine_detector_flags,
+    annotate_event_overlap,
     deduplicate_event_episodes,
     hourly_discharge_soft_labels,
     sustained_exceedance_events,
-    time_based_windows,
 )
-from src.models.july import anomaly_table, contiguous_blocks, fitted_model_status, robust_zscore
-
-evaluation_script = importlib.import_module("scripts.10_evaluation")
+from src.models.signal_frame import (
+    anomaly_table,
+    contiguous_blocks,
+    fitted_model_status,
+    robust_zscore,
+)
 
 
 def ascending_discharge(with_gap=False):
@@ -163,72 +163,6 @@ class AnomalyScoreTests(unittest.TestCase):
         self.assertEqual([len(index) for _, index in filtered], [12])
 
 
-class EnsembleUnionTests(unittest.TestCase):
-    """Detectors with disjoint coverage union rather than intersect."""
-
-    def _detector_frame(self, name, hours, values, scored=None):
-        index = pd.date_range("2025-01-01", periods=4, freq="h", tz="UTC")
-        scored = [True] * len(values) if scored is None else scored
-        return pd.DataFrame(
-            {
-                "timestamp_utc": index[list(hours)],
-                f"{name}_anomaly": values,
-                f"{name}_scored": scored,
-            }
-        )
-
-    def test_missing_detector_rows_are_unscored_not_normal(self):
-        frames = [
-            self._detector_frame("sarimax", (0, 1), [True, False]),
-            self._detector_frame("kalman", (1, 2), [True, True]),
-            self._detector_frame("iforest", (2, 3), [False, True]),
-        ]
-        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
-
-        # Union of the three disjoint coverages is four hours, not the empty
-        # intersection an inner join would produce.
-        self.assertEqual(len(flags), 4)
-        second_hour = flags.iloc[1]
-        self.assertFalse(bool(second_hour["sarimax_anomaly"]))
-        self.assertTrue(bool(second_hour["kalman_anomaly"]))
-        self.assertFalse(bool(second_hour["iforest_anomaly"]))
-        self.assertTrue(bool(second_hour["sarimax_scored"]))
-        self.assertTrue(bool(second_hour["kalman_scored"]))
-        self.assertFalse(bool(second_hour["iforest_scored"]))
-        self.assertEqual(int(second_hour["detector_count"]), 1)
-        self.assertEqual(int(second_hour["scored_detector_count"]), 2)
-        self.assertFalse(bool(second_hour["all_detectors_scored"]))
-        self.assertFalse(bool(flags["all_three_anomaly"].any()))
-        self.assertEqual(second_hour["coverage_status"], "partial")
-
-    def test_present_but_unscored_flag_is_not_a_normal_or_anomaly(self):
-        frames = [
-            self._detector_frame("sarimax", (0,), [True], scored=[False]),
-            self._detector_frame("kalman", (0,), [False]),
-            self._detector_frame("iforest", (0,), [False]),
-        ]
-
-        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
-        hour = flags.iloc[0]
-
-        self.assertFalse(bool(hour["sarimax_anomaly"]))
-        self.assertFalse(bool(hour["sarimax_scored"]))
-        self.assertFalse(bool(hour["all_detectors_normal"]))
-        self.assertFalse(bool(hour["any_detector_anomaly"]))
-        self.assertEqual(hour["coverage_status"], "partial")
-
-    def test_any_detector_summary_counts_only_common_coverage(self):
-        frames = [
-            self._detector_frame("sarimax", (0, 1), [True, False]),
-            self._detector_frame("kalman", (0, 1, 2), [False, False, True]),
-            self._detector_frame("iforest", (0, 1, 2, 3), [False, True, False, True]),
-        ]
-        flags = combine_detector_flags(frames, ("sarimax", "kalman", "iforest"))
-        summary = evaluation_script.detector_summary(flags, basis="test")
-        any_detector = summary.loc[summary["detector"].eq("any_detector")].iloc[0]
-        self.assertEqual(int(any_detector["n_hours"]), 2)
-
-
 class ModelFitStatusTests(unittest.TestCase):
     """Warning-only optimizer failures must stay visible in outputs."""
 
@@ -243,51 +177,58 @@ class ModelFitStatusTests(unittest.TestCase):
         self.assertEqual(fitted_model_status(self.Result(True)), "ok")
 
 
-class RollingArtifactLifecycleTests(unittest.TestCase):
-    """Skipped/replacement runs cannot leave valid-looking older outputs."""
+class EventOverlapTests(unittest.TestCase):
+    """Overlap must count observed hours, never positions on the hourly grid.
 
-    def test_invalidate_rolling_outputs_removes_existing_files(self):
-        with tempfile.TemporaryDirectory() as directory:
-            paths = [Path(directory) / "flags.csv", Path(directory) / "summary.csv"]
-            for path in paths:
-                path.write_text("stale\n", encoding="utf-8")
+    Passing a full grid index credited coverage during a sensor outage and
+    inflated the count of events with IoT overlap from 49 to 175 in the
+    2026-07 build.
+    """
 
-            evaluation_script.invalidate_rolling_outputs(paths)
-
-            self.assertTrue(all(not path.exists() for path in paths))
-
-
-class WindowCoverageTests(unittest.TestCase):
-    """Coverage is scored against observed hours, not the calendar grid."""
-
-    def test_outage_window_is_insufficient(self):
-        record_index = pd.date_range("2025-01-01", periods=96, freq="h", tz="UTC")
-        observed_index = record_index[24:]  # first 24h are an IoT outage
-
-        windows = time_based_windows(
-            record_index,
-            train_hours=24,
-            eval_hours=24,
-            label="t",
-            min_coverage=0.7,
-            observed_index=observed_index,
+    def event_frame(self):
+        return pd.DataFrame(
+            {
+                "event_id": ["evt_1"],
+                "start_timestamp_utc": [pd.Timestamp("2025-06-10 00:00", tz="UTC")],
+                "end_timestamp_utc": [pd.Timestamp("2025-06-10 05:00", tz="UTC")],
+            }
         )
 
-        # The window whose training span sits in the outage is enumerated but
-        # unusable; a later fully observed window is ok.
-        self.assertEqual(windows.iloc[0]["status"], "insufficient_coverage")
-        self.assertTrue((windows["status"] == "ok").any())
+    def test_grid_index_overstates_overlap(self):
+        """A gap-free grid reports full coverage even when nothing was observed."""
+        grid = pd.date_range("2025-06-01", "2025-06-20", freq="h", tz="UTC")
+        annotated = annotate_event_overlap(self.event_frame(), iot_index=grid)
+        self.assertEqual(int(annotated.loc[0, "iot_overlap_hours"]), 6)
 
-    def test_full_coverage_defaults_to_observed(self):
-        record_index = pd.date_range("2025-01-01", periods=96, freq="h", tz="UTC")
-        windows = time_based_windows(
-            record_index,
-            train_hours=24,
-            eval_hours=24,
-            label="t",
-            min_coverage=0.7,
+    def test_observed_index_reports_real_coverage(self):
+        """Removing the event window from the index drops overlap to zero."""
+        grid = pd.date_range("2025-06-01", "2025-06-20", freq="h", tz="UTC")
+        observed = grid[
+            (grid < pd.Timestamp("2025-06-10 00:00", tz="UTC"))
+            | (grid > pd.Timestamp("2025-06-10 05:00", tz="UTC"))
+        ]
+        annotated = annotate_event_overlap(self.event_frame(), iot_index=observed)
+        self.assertEqual(int(annotated.loc[0, "iot_overlap_hours"]), 0)
+
+    def test_pre_event_hours_counted_separately(self):
+        """Coverage during an event does not imply coverage before onset."""
+        onset = pd.Timestamp("2025-06-10 00:00", tz="UTC")
+        during_only = pd.date_range(onset, onset + pd.Timedelta(hours=5), freq="h")
+        annotated = annotate_event_overlap(
+            self.event_frame(), iot_index=during_only, pre_event_hours=72
         )
-        self.assertTrue((windows["status"] == "ok").all())
+        self.assertEqual(int(annotated.loc[0, "iot_overlap_hours"]), 6)
+        self.assertEqual(int(annotated.loc[0, "iot_pre_event_hours"]), 0)
+
+        with_lead = pd.date_range(onset - pd.Timedelta(hours=10), onset, freq="h")
+        annotated = annotate_event_overlap(
+            self.event_frame(), iot_index=with_lead, pre_event_hours=72
+        )
+        self.assertEqual(int(annotated.loc[0, "iot_pre_event_hours"]), 10)
+
+    def test_empty_events_frame_returns_unchanged(self):
+        annotated = annotate_event_overlap(pd.DataFrame(), iot_index=pd.DatetimeIndex([]))
+        self.assertTrue(annotated.empty)
 
 
 if __name__ == "__main__":

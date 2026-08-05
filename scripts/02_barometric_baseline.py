@@ -1,4 +1,8 @@
-"""Week 2 barometric baseline and Kill Check 1."""
+"""Fit the pressure-only CO2 baseline and write the barometric residual.
+
+The residual this produces is the chapter's central instrument: it is the
+part of indoor CO2 not attributable to the locked barometric specification.
+"""
 
 from __future__ import annotations
 
@@ -36,7 +40,7 @@ RIDGE_ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)
 
 
 def load_analysis_frame(path=INPUT_PATH):
-    """Load the joined Week 1 hourly frame."""
+    """Load the joined hourly analysis frame."""
     frame = pd.read_csv(path, parse_dates=["timestamp_utc"])
     return frame.set_index("timestamp_utc").sort_index()
 
@@ -56,7 +60,11 @@ def build_model_frame(frame, pressure_col):
 
 
 def kill_check_status(r2):
-    """Translate the official R2 into the June kill-check decision."""
+    """Translate the pressure-only R2 into a proceed/pause decision.
+
+    A very high R2 would mean pressure explains nearly all CO2 variance,
+    leaving no residual worth analysing.
+    """
     if r2 <= 0.85:
         return "proceed"
     if r2 <= 0.95:
@@ -121,7 +129,7 @@ def write_residuals(primary_result):
 
 
 def write_metrics(primary_result, weather_result, total_rows):
-    """Write the Week 2 metric report used for the kill-check decision."""
+    """Write the barometric-baseline metric report."""
     formula = (
         "CO2 ~ pressure + delta_pressure_1h + delta_pressure_3h + "
         "delta_pressure_6h + delta_pressure_12h + delta_pressure_24h"
@@ -129,7 +137,7 @@ def write_metrics(primary_result, weather_result, total_rows):
     status = kill_check_status(primary_result["linear_r2"])
 
     lines = [
-        "Week 2 Barometric Baseline",
+        "Barometric Baseline",
         "",
         f"Formula: {formula}",
         f"Official pressure source: {primary_result['pressure_col']}",
@@ -148,7 +156,7 @@ def write_metrics(primary_result, weather_result, total_rows):
         f"  Ridge R2: {weather_result['ridge_r2']:.6f}",
         f"  Ridge alpha: {weather_result['ridge_alpha']}",
         "",
-        f"Kill Check 1 status: {status}",
+        f"Residual-headroom check: {status}",
         "Decision rule: R2 <= 0.85 proceed; 0.85 < R2 <= 0.95 proceed with caution; R2 > 0.95 pause/redirect.",
     ]
 
@@ -204,7 +212,7 @@ def main():
     write_plot(primary)
 
     print(
-        "Kill Check 1:",
+        "Residual-headroom check:",
         kill_check_status(primary["linear_r2"]),
         f"(official linear R2={primary['linear_r2']:.6f})",
     )

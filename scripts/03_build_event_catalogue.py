@@ -1,4 +1,4 @@
-"""Build the Task 1.4 discharge-based soft-label event catalogue."""
+"""Build the discharge-based high-flow event catalogue and soft labels."""
 
 from __future__ import annotations
 
@@ -56,20 +56,28 @@ def write_outputs(args):
         antecedent_windows=args.antecedent_windows,
     )
 
+    # Overlap must be counted against observed hours, never the hourly grid.
+    # The grid spans sensor outages, so using it credits coverage that does not
+    # exist; see annotate_event_overlap.
     iot_index = None
     iot_path = INTERIM_DIR / "iot_hourly.csv"
     if iot_path.exists():
-        iot_index = load_hourly_csv(iot_path).index
+        iot_frame = load_hourly_csv(iot_path)
+        if args.iot_column not in iot_frame:
+            raise ValueError(f"IoT frame lacks coverage column {args.iot_column}")
+        iot_index = iot_frame.index[iot_frame[args.iot_column].notna()]
 
     weather_index = None
     weather_path = INTERIM_DIR / "weather_hourly.csv"
     if weather_path.exists():
-        weather_index = load_hourly_csv(weather_path).index
+        weather_frame = load_hourly_csv(weather_path)
+        weather_index = weather_frame.index[weather_frame.notna().any(axis=1)]
 
     events = annotate_event_overlap(
         events,
         iot_index=iot_index,
         weather_index=weather_index,
+        pre_event_hours=args.pre_event_hours,
     )
 
     thresholds_target = PROCESSED_DIR / "discharge_thresholds.csv"
@@ -113,6 +121,17 @@ def parse_args():
         default=6,
         type=int,
         help="minimum contiguous exceedance duration for event catalogue rows",
+    )
+    parser.add_argument(
+        "--iot-column",
+        default="iot_co2_ppm",
+        help="IoT column whose observed hours define real coverage",
+    )
+    parser.add_argument(
+        "--pre-event-hours",
+        default=72,
+        type=int,
+        help="lead-in window used to count observed hours before event onset",
     )
     return parser.parse_args()
 

@@ -1,4 +1,10 @@
-"""Small modelling helpers for the July provisional anomaly scripts."""
+"""Signal-frame assembly and shared modelling helpers.
+
+Loads the hourly analysis frame with its KNMI reference meteorology, defines
+the contiguous-block rules that keep coverage gaps from being modelled as
+one-hour steps, and provides the small fitting and scoring helpers shared by
+the analysis scripts.
+"""
 
 from __future__ import annotations
 
@@ -17,29 +23,6 @@ CO2_COL = "iot_co2_ppm"
 PRESSURE_COL = "iot_air_pressure_hpa"
 PRESSURE_LAGS = (1, 3, 6, 12, 24)
 REFERENCE_KNMI_STATION = "06380"
-
-IFOREST_BASE_FEATURES = [
-    CO2_COL,
-    TARGET_COL,
-    "iot_temperature_c",
-    "iot_relative_humidity_pct",
-    "iot_air_pressure_hpa",
-    "iot_pm2_5_ugm3",
-    "iot_pm10_ugm3",
-    "kerkrade_weather_temp_c",
-    "kerkrade_weather_relative_humidity_pct",
-    "kerkrade_weather_pressure_hpa",
-    "kerkrade_weather_precip_mm",
-    "kerkrade_weather_wind_speed_kph",
-    "kerkrade_weather_pm2_5_ugm3",
-    "kerkrade_weather_pm10_ugm3",
-]
-IFOREST_REQUIRED_FEATURES = [
-    TARGET_COL,
-    CO2_COL,
-    "iot_temperature_c",
-    "iot_relative_humidity_pct",
-]
 
 EXOG_FEATURES = [
     PRESSURE_COL,
@@ -64,7 +47,7 @@ def load_signal_frame(
     knmi_path=KNMI_PATH,
     knmi_station=REFERENCE_KNMI_STATION,
 ):
-    """Load the Week 4 signal frame and add optional KNMI reference met data."""
+    """Load the signal frame and join KNMI reference meteorology."""
     frame = pd.read_csv(path, parse_dates=["timestamp_utc"])
     frame = frame.set_index("timestamp_utc").sort_index()
 
@@ -400,18 +383,3 @@ def autocorrelation(values, max_lag=48):
             corr = float((left * right).sum() / denom)
         rows.append({"lag": lag, "acf": corr})
     return pd.DataFrame(rows)
-
-
-def antecedent_precipitation_index(precip, days=14, decay=0.85, hours_per_day=24):
-    """Compute hourly antecedent rain with day-scaled exponential decay.
-
-    The July plan specifies d=0.85 and N=14 days. Each lagged hour receives
-    the weight for its lagged day: 0.85 for the previous 24 hours, 0.85**2 for
-    the next 24 hours back, and so on through day 14.
-    """
-    precip = pd.Series(precip).fillna(0).astype(float)
-    api = pd.Series(0.0, index=precip.index)
-    for lag_hour in range(1, days * hours_per_day + 1):
-        lag_day = int(np.ceil(lag_hour / hours_per_day))
-        api = api + (decay**lag_day) * precip.shift(lag_hour).fillna(0)
-    return api

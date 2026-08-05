@@ -1,6 +1,6 @@
 """Distributed-lag test of the multi-week antecedent-wetness signal.
 
-The Week 4 lag scan suggested the barometric CO2 residual co-moves with
+An exploratory lag scan suggested the barometric CO2 residual co-moves with
 antecedent hydrology at roughly a ten-day lead. This script tests that
 suggestion with regression machinery honest to the record's block structure:
 
@@ -9,7 +9,7 @@ suggestion with regression machinery honest to the record's block structure:
   exponentially weighted antecedent-precipitation index across a grid of
   half-lives, with same-day meteorology and block fixed effects as controls.
 - Confirmatory inference at the pre-stated half-life of 10 days (from the
-  Week 4 scan), with HAC standard errors and a moving-block bootstrap.
+  exploratory scan), with HAC standard errors and a moving-block bootstrap.
 - Placebo: the same scan on *future* precipitation (leads), which must show
   nothing if the lagged structure is real.
 - Secondary: binned distributed lags for precipitation and discharge.
@@ -34,7 +34,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-from src.models.july import TARGET_COL, contiguous_blocks, load_signal_frame
+from src.models.signal_frame import TARGET_COL, contiguous_blocks, load_signal_frame
 
 RESULTS_DIR = Path("results/distributed_lag")
 

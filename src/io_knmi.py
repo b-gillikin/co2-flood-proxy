@@ -17,8 +17,12 @@ logger = logging.getLogger(__name__)
 KNMI_UNIT_FACTORS = {
     "T": 0.1,  # 0.1 degC
     "P": 0.1,  # 0.1 hPa
-    "RH": 0.1,  # 0.1 mm precipitation
-    "R1H": 0.1,  # 0.1 mm hourly precipitation
+    "RH": 0.1,  # 0.1 mm precipitation, in the daily/hourly klimatologie exports
+    # R1H carries NO factor. In the 10-minute in-situ product ingested here it
+    # is already in mm. Applying 0.1 to it understated precipitation tenfold:
+    # station 06380 reported 111 mm for 2024 against a true 1110 mm. Any result
+    # computed on knmi_precip_mm before 2026-08-05 is invalid; see
+    # docs/decisions.md.
 }
 
 # Plausibility bounds used only to warn when a unit factor looks wrong.
@@ -117,6 +121,14 @@ def load_knmi(
     out[numeric_columns] = out[numeric_columns].apply(pd.to_numeric, errors="coerce")
 
     if frequency:
+        # ``mean`` is correct here even for precipitation, which is unusual and
+        # worth stating. R1H is a *running one-hour accumulation* reported every
+        # ten minutes, so the six records inside an hour are overlapping totals
+        # for the same quantity. Averaging them recovers the hourly total;
+        # summing them multiplies it by six. Verified for station 06380 in 2024:
+        # mean gives 1110.5 mm and taking only the :00 record gives 1110.1 mm,
+        # against 1054 mm at Maastricht and 1153 mm at Kerkrade from the
+        # independent Visual Crossing series, while summing gives 6659.1 mm.
         out = (
             out.set_index("timestamp_utc")
             .groupby("knmi_station")
