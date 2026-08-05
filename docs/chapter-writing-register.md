@@ -1,5 +1,10 @@
 # Chapter Writing Register
 
+> **Superseded 2026-08-05.** This register tracks `chapter/chapter-draft.md`,
+> which is machine-generated scaffolding rather than an author draft, and the
+> four-branch claim machinery it describes is withdrawn. See
+> `docs/chapter-direction.md`.
+
 Status date: 2026-07-22
 
 Canonical prose draft: `chapter/chapter-draft.md`

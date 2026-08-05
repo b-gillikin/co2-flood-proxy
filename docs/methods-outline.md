@@ -1,5 +1,12 @@
 # Methods Outline
 
+> **Superseded 2026-08-05.** Written against the previous research question.
+> The ensemble anomaly-detection methods outlined here (SARIMAX/Kalman/Isolation
+> Forest detectors, cross-detector agreement, synthetic injection,
+> rolling-origin detector evaluation) are retired. Pressure decomposition,
+> local-level state-space modelling, and gap-honest coverage accounting carry
+> forward. See `docs/chapter-direction.md`.
+
 Date: 2026-06-21
 
 Purpose: scaffold the chapter methods section around the reproducible scripts

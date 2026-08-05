@@ -1,9 +1,31 @@
 ---
 title: "Pressure, Hydrological State, and Low-Cost CO2 Observations at a Post-Mining Site"
-status: "Working draft: stable prose with frozen-result fields"
+status: "SUPERSEDED 2026-08-05 — generated scaffolding, not an author draft"
 bibliography: ../chapter-prework/chapter-references.bib
 link-citations: true
 ---
+
+> **This is not a chapter draft. Do not build on it.**
+>
+> This file is machine-generated scaffolding written against a research question
+> the chapter no longer asks. It is retained only as a record of what was
+> scaffolded, and because tracing which criteria were invented is easier with the
+> original text present.
+>
+> Its prespecified criteria were not chosen by the author, and two were
+> defective. The future-water placebo omitted the contemporaneous term, so with
+> an autocorrelated exposure it would have rejected a true association. The
+> block-replication criterion could not be satisfied by an unbroken record,
+> because blocks break at any gap over one hour. Both were nonetheless
+> implemented in `src/direct_state.py` with passing tests, which gave invented
+> thresholds the appearance of decisions.
+>
+> The current direction is in `docs/chapter-direction.md`. The chapter now asks
+> whether the CO2 excursion Viefhues (2022) attributed to the July 2021 flood
+> was hydrological or barometric.
+>
+> The `{{FROZEN:...}}` fields below were never resolved and never will be under
+> this framing.
 
 # Introduction
 

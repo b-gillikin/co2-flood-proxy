@@ -1,5 +1,10 @@
 # Transfer Experiment Preregistration
 
+> **Withdrawn 2026-08-05.** The cross-site transfer lane is dropped. It was
+> always secondary and could not block completion; under the reframed question
+> it has no role. Retained as a record of what was preregistered. See
+> `docs/chapter-direction.md`.
+
 Date: 2026-06-17
 
 ## Purpose

@@ -1,18 +1,30 @@
 # Chapter Readiness Plan
 
+> **Superseded 2026-08-05.** The research question, claim structure, freeze
+> dates, and locked decision criteria in this document no longer apply. See
+> `docs/chapter-direction.md`.
+>
+> Retained because the data-collection history, coverage log, and Azure/KNMI
+> infrastructure record remain accurate and useful. Read the sections below as a
+> record of what was collected and when, not as a plan to execute.
+>
+> Specifically withdrawn: the freeze dates, the 60-paired-day gate, the
+> two-block sign criterion, the seven-day future-water placebo, the four-branch
+> claim structure, and the ensemble anomaly-detection programme. Two of these
+> were defective as written; see `docs/decisions.md` (2026-08-05).
+
 Status date: 2026-07-22
 
-Preferred data freeze: 2026-09-08
+Preferred data freeze: 2026-09-08 *(withdrawn)*
 
-Single contingency freeze: 2026-10-06
+Single contingency freeze: 2026-10-06 *(withdrawn)*
 
 Status vocabulary: `done`, `in progress`, `waiting on data`, `ready after freeze`,
 `secondary`, `blocked`
 
-This is the canonical record for moving the Kerkrade CO2 analysis from a
+This was the canonical record for moving the Kerkrade CO2 analysis from a
 working research pipeline to a dissertation-ready chapter. The earlier
-`docs/august-readiness.md` is retained as a historical planning snapshot but is
-superseded by this document.
+`docs/august-readiness.md` is retained as a historical planning snapshot.
 
 ## Research Question and Claim Boundaries
 

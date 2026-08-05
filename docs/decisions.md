@@ -493,3 +493,141 @@ one recognized branch.
 
 Source: `chapter/chapter-draft.md`; `docs/chapter-writing-register.md`;
 `src/chapter.py`; `scripts/17_check_chapter_draft.py`; `tests/test_chapter.py`.
+
+## 2026-08-05 — Groundwater obtained from public BRO service
+
+Decision: Source groundwater from the Dutch Basisregistratie Ondergrond (BRO)
+public REST service rather than waiting on a provider delivery. Retain three
+Gemeente Heerlen wells (GMW000000013210, GMW000000013172, GMW000000013161),
+6-hourly, 2021-01-01 to 2025-08-27, at 2.85-3.60 km from the site.
+
+Alternatives considered: Continue waiting on a provider response before any
+groundwater work; use only the closest wells regardless of whether they publish
+level series.
+
+Reasoning: The data required no registration or certificate and was available
+throughout the period the repository recorded it as `waiting on data`. A 5 km
+well search returned 26 wells; only these three carry usable series. The full
+2021-2025 record was retained rather than the overlap slices, because the long
+record is what makes barometric efficiency estimable and what quantifies how
+unrepresentative the IoT overlap windows are.
+
+Consequence: These are shallow phreatic wells, not mine water. Closer
+provincial wells and the mijnwatermeetnet have been requested separately.
+
+Source: `scripts/05a_fetch_bro_groundwater.py`; `data/raw/groundwater/`;
+`docs/groundwater-data-contract.md`.
+
+## 2026-08-05 — Barometric correction of the exposure is mandatory
+
+Decision: Barometrically correct water level before using it as an exposure,
+using per-well efficiency estimated from 6-hourly first differences over the
+full record.
+
+Reasoning: Estimated barometric efficiency is 0.20-0.34, so raw water level
+carries a substantial pressure component. Within the Feb 2025 IoT window, water
+level and barometric pressure correlate at -0.74 to -0.75; an association with
+a pressure-separated CO2 residual there would have been largely artifact.
+Correction removes this in the Jun-Aug 2025 window entirely and in Feb 2025 for
+one well only. Including pressure as a linear control on the outcome, as the
+previous design did, is not equivalent and is weaker.
+
+Source: `scripts/05b_barometric_efficiency.py`;
+`results/groundwater/barometric_efficiency.txt`.
+
+## 2026-08-05 — Chapter redirected to the July 2021 reanalysis
+
+Decision: Reframe the chapter around whether the CO2 excursion Viefhues (2022)
+attributed to the July 2021 flood was hydrological or barometric. Withdraw the
+previous antecedent-hydrological-state framing, the four-branch claim
+machinery, the 60-paired-day gate, the two-block sign criterion, the seven-day
+future-water placebo, and the ensemble anomaly-detection programme.
+
+Alternatives considered: Continue the 2025-2026 confirmatory design; reframe
+around barometric physics without the predecessor reanalysis; wait for
+additional IoT accumulation.
+
+Reasoning: The previous question required a flood, and the current IoT record
+begins 2025-01-31 with no flood in it. The single clean overlap block provides
+62 days across 0.20 m of water-level variation, 7-12% of the range those wells
+span. Separately, the withdrawn criteria were scaffolding artifacts rather than
+author decisions, and two were defective: the placebo omitted the
+contemporaneous term and would have rejected a true association, and the block
+criterion could not be satisfied by an unbroken record. The prior rule
+excluding the predecessor period also ruled out the analysis the chapter now
+intends; it is withdrawn, since testing whether a predecessor inference
+survives a control the predecessor did not apply is not circular.
+
+Blocking dependency: the Viefhues IoT record, 2020-08-25 to 2021-09-01, is not
+held. Groundwater already in the repository would overlap it by roughly 243
+days including the flood.
+
+Source: `docs/chapter-direction.md`; `docs/predecessor-notes.md`;
+`docs/data-requests.md`.
+
+## 2026-08-05 — KNMI precipitation unit factor corrected
+
+Decision: Remove the 0.1 unit factor applied to the KNMI `R1H` column. In the
+10-minute in-situ product ingested here R1H is already in mm.
+
+Reasoning: Station 06380 reported 111 mm for 2024 against a true 1110 mm.
+Verified against the independent Visual Crossing series (Maastricht 1054 mm,
+Kerkrade 1153 mm) and by summing only the top-of-hour R1H records (1110.1 mm).
+
+Rejected alternative: summing rather than averaging when resampling. R1H is a
+running one-hour accumulation reported every ten minutes, so the six records in
+an hour are overlapping totals for the same quantity; averaging recovers the
+hourly total and summing sextuples it to 6659 mm. The existing `mean` is
+correct and is now documented as deliberate.
+
+Consequence: the distributed-lag rerun rescaled every coefficient by ten
+(confirmatory 130.6 to 13.1 ppm per mm/day) but left every t statistic, p value
+and criterion unchanged, because scaling a regressor is scale-invariant for
+inference. The `NOT SUPPORTED` outcome stands and was never a units artifact.
+The correction matters for physical interpretability and for any analysis using
+absolute rainfall, such as the precursor comparator.
+
+Source: `src/io_knmi.py`; `results/distributed_lag/summary.txt`.
+
+## 2026-08-05 — No precursor skill in indoor CO2
+
+Decision: Record that indoor CO2 shows no usable precursor skill for tributary
+high-flow events over the available record.
+
+Evidence: 19 independent episodes, 3,492 scored hours (445 pre-event, 3,047
+quiet), hours inside events excluded, 24-hour lead window. AUROC by predictor:
+72-hour rainfall 0.835, 24-hour rainfall 0.794, pressure level 0.250 (inverted,
+so informative), 24-hour pressure change 0.470, raw CO2 0.523, pressure-
+separated CO2 residual 0.409 at 24 h and 0.405 at 72 h. The CO2 residual departs
+from 0.5 in the wrong direction, being lower before events, and is far weaker
+than rainfall. The three episodes with no pre-onset pressure fall show no
+positive residual excursion (z of -0.58, -0.16, -0.13).
+
+Caveat: bootstrap intervals were computed by resampling hours, which are
+autocorrelated, so the stated intervals are too narrow. The ranking and the
+size of the gap between rainfall and CO2 are robust to this; marginal claims
+about whether 0.41 differs from 0.5 are not.
+
+Consequence: the early-warning premise is not supported at this site. The
+chapter reports a bounded negative result with a quantified comparator rather
+than an inconclusive one.
+
+Source: `scripts/18_precursor_skill.py`;
+`results/precursor/precursor_skill.txt`.
+
+## 2026-08-05 — 2026 sensor coverage is one outage, not intermittency
+
+Decision: Correct the characterization of the 2026 Azure device record. Its
+30.7% coverage is not flaky sampling.
+
+Evidence: only three gaps exceed one hour across the whole deployment: 2 h, 3 h,
+and one outage of 87.7 days from 2026-04-13 02:00 to 2026-07-09 18:00. Observed
+hours are flat across the diurnal cycle (38-40 per hour of day). March coverage
+was 93.8%; coverage since restoration on 2026-07-09 is 100%.
+
+Consequence: no intermittency to diagnose. This also identifies what
+"post-restoration" meant in the superseded readiness plan: the device returning
+on 2026-07-09 after that outage. The action is uptime monitoring, not sampling
+repair.
+
+Source: `data/interim/iot_hourly.csv`; `data/processed/iot_coverage_gaps.csv`.

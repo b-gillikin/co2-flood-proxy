@@ -1,30 +1,64 @@
 # Chapter 1 CO2
 
-Working repository for the dissertation chapter testing antecedent-state signal in low-cost IoT data at the Kerkrade post-mining calibration site.
+Working repository for the dissertation chapter on barometric and hydrological
+controls of indoor CO2 at the Kerkrade post-mining site.
 
-**Research question**: After atmospheric-pressure effects are separated, do low-cost CO2 observations at the Kerkrade post-mining site contain reproducible information about directly measured antecedent hydrological state?
+**Research question**: Does low-cost indoor CO2 at a post-mining site carry
+precursor information about high-flow events in Maas tributaries, beyond what
+barometric pressure and rainfall already provide?
 
-The current evidence supports a pressure-separable residual and a reproducible analysis pipeline, but it does not yet establish the hydrological mechanism. The chapter permits a supported, site-specific/data-limited, or null/boundary outcome depending on the frozen direct-state analysis.
+**Current answer**: No. Across 19 independent high-flow episodes and 3,492
+scored hours, no CO2 predictor separates pre-event from quiet hours (AUROC 0.41
+to 0.52, every interval spanning 0.5), while 72-hour rainfall reaches 0.835 and
+pressure level 0.250. The sensor detects approaching weather, not approaching
+water. Reported as a bounded negative: the design could resolve a strong
+precursor but not a modest one.
 
-**Methodological frame**: Ensemble time-series anomaly detection and signal decomposition, using pressure-tendency regression, SARIMAX residuals, Kalman innovations, Isolation Forest scores, and transfer-site stress tests.
+**Direction**: `docs/chapter-direction.md` is the canonical statement of the
+chapter's question, required data, retained methods, and open questions as of
+2026-08-05. It supersedes the research question and claim structure in
+`docs/chapter-readiness-plan.md` and `chapter/chapter-draft.md`.
 
-**Empirical window**: Primary synchronized analysis uses the Kerkrade IoT/weather/discharge overlap, currently expected to begin in January 2025. Where longer discharge, groundwater, weather, or transfer-site records are available, pull the longer history for context, event thresholds, seasonality checks, and baseline characterization.
+**Methodological frame**: Barometric decomposition and response-function
+estimation. Indoor CO2 is modelled as a barometrically pumped signal; the
+question is what remains after that response is characterized, and whether the
+response itself varies with subsurface water state.
+
+**Empirical window**: The chapter targets the Viefhues IoT record
+(2020-08-25 to 2021-09-01), which contains the July 2021 flood. **That record is
+not yet held and its acquisition is the blocking action.** Groundwater at
+6-hourly resolution from 2021-01-01 is already in the repository and would
+overlap it by roughly 243 days. The locally collected 2025-2026 IoT record
+(2025-01-31 onward) contains no flood and provides 62 clean paired days against
+groundwater; it remains useful for barometric characterization.
 
 **Predecessor work**: Viefhues 2022 and Eryilmaz 2025, as summarized in `chapter-prework/Lit-scaffold - chapter draft.docx` and operationalized in `chapter-prework/June 2026 - How-To.docx`.
 
-**Readiness plan**: `docs/chapter-readiness-plan.md` is the canonical record for work that can proceed now, incoming-data gates, the September/October freeze decision, final analysis, and remaining chapter sections. Cross-site transfer is secondary and cannot block chapter completion.
+**Readiness plan**: `docs/chapter-readiness-plan.md` records the data-collection
+and infrastructure history. Its research question, freeze dates, and locked
+decision criteria are superseded by `docs/chapter-direction.md`.
 
-**Chapter draft**: `chapter/chapter-draft.md` contains the stable pre-freeze prose,
-explicit frozen-result fields, and the four prespecified claim branches.
-`docs/chapter-writing-register.md` records what is stable and what must be completed
-from the immutable snapshot. Check the working draft with:
+**Chapter draft**: `chapter/chapter-draft.md` is *not* a draft. It is generated
+scaffolding written against the previous framing, retained only as a record of
+what was scaffolded. Do not build on it. Its prespecified criteria were not
+chosen by the author and two of them were defective; see
+`docs/chapter-direction.md` for what was withdrawn and why.
+
+**Groundwater**: obtained from the public BRO / DINOloket service, no
+registration required. Three wells 2.85-3.60 km from the site, 6-hourly,
+2021-01-01 to 2025-08-27. Re-fetch with:
 
 ```bash
-python scripts/17_check_chapter_draft.py
+python scripts/05a_fetch_bro_groundwater.py
 ```
 
-After resolving every frozen field and retaining one claim branch, add
-`--require-final`; failure is a manuscript release blocker.
+Estimated well barometric efficiency is 0.20-0.34, indicating semi-confined
+conditions. Water level must be barometrically corrected before use as an
+exposure:
+
+```bash
+python scripts/05b_barometric_efficiency.py
+```
 
 ## How to Reproduce
 

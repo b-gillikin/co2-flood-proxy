@@ -1,13 +1,34 @@
 # Groundwater and Mine-Water Data Contract
 
-Status date: 2026-07-22
+Status date: 2026-08-05
 
-Status: analysis machinery ready; provider data still `waiting on data`.
+Status: **partially satisfied.** Three tier-2 series received from the public
+BRO service on 2026-08-05 and normalized through this contract without
+modification. Tier-1 mine-water data still outstanding; requested from Provincie
+Limburg, see `docs/data-requests.md`.
 
-This contract is the handoff between source receipt and the locked direct-state
-analysis. Delivered files must first be preserved unchanged under
-`data/raw/groundwater/`; normalization must never overwrite those files or fill
-unobserved dates.
+In hand: GMW000000013210, GMW000000013172, GMW000000013161 — shallow phreatic
+wells 2.85-3.60 km from the site, nominal 6-hourly, 2021-01-01 to 2025-08-27.
+Source-native XML under `data/raw/groundwater/bro/`; readings and metadata in
+the schema below.
+
+Two amendments in light of what arrived:
+
+- **Screen depths are unavailable** for these wells, and `datum` is NAP with
+  `constructionStandard` recorded as `onbekend`. The contract's requirement to
+  resolve `unknown` only after provider follow-up is now an open item rather
+  than a satisfied one.
+- **Barometric correction is mandatory before use.** Estimated well barometric
+  efficiency is 0.20-0.34, so raw level carries a pressure component. See
+  `docs/decisions.md` (2026-08-05) and `scripts/05b_barometric_efficiency.py`.
+
+The locked direct-state analysis this contract originally fed is withdrawn; see
+`docs/chapter-direction.md`. The receipt, metadata and normalization
+requirements below remain in force and are unchanged.
+
+This contract is the handoff between source receipt and analysis. Delivered
+files must first be preserved unchanged under `data/raw/groundwater/`;
+normalization must never overwrite those files or fill unobserved dates.
 
 ## Required Metadata
 

@@ -1,5 +1,11 @@
 # Results Outline
 
+> **Superseded 2026-08-05.** Organized around the previous claim structure and
+> its four discussion branches. The coverage, barometric-baseline and
+> replication sections remain broadly reusable; the detector, ensemble,
+> synthetic-injection and transfer sections are retired. See
+> `docs/chapter-direction.md`.
+
 Date: 2026-06-21
 
 Purpose: organize result paragraphs around current reproducible artifacts.
