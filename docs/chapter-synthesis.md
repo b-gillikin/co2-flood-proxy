@@ -216,7 +216,8 @@ large at every distance; at long *h* it decays toward climatology and the gap
 collapses for reasons unrelated to the donor. **The headline is therefore a
 function of *h*.** Choosing *h* after seeing which value gives an interpretable
 answer is the same error this repository has already caught three times. Fix the
-horizon set in `docs/transfer-experiment-preregistration.md` first.
+horizon set in `docs/chapter-scope-and-preregistration.md` §II.3 first — it is
+fixed there at h in {6, 12, 24}, headline 12.
 
 **(b) Pre-commit to the interval.** A cluster bootstrap over 24 wildly unequal
 storms is not a precision instrument. Report per-storm skill as the primary

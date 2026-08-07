@@ -1,43 +1,40 @@
-# Chapter 1 — Tributary Regionalisation from a Deeply Instrumented Donor
+# Chapter 1 — Donor Transfer Across Maas Tributaries
 
-**Research question**: If one tributary catchment is instrumented deeply, how far
-does that knowledge transfer to others, and what governs the decay?
+**Research question**: Given a gauged tributary catchment, how much of what you
+would learn from instrumenting it can you get instead from a neighbouring gauge —
+and how far does that reach?
 
-This is donor-catchment regionalisation. The **Worm at Rimburg** is the donor: it
-holds the CO2 sensor and the groundwater wells, and is mid-range on every
-response characteristic. It ranks **18th of 42 on centrality**, not 2nd of 17 —
-that earlier claim was computed on a retired metric over a
-structure-contaminated set and is withdrawn. The donor stands on its
-instrumentation, which is the only criterion no other gauge can meet. The
-**Geul** provides within-catchment validation through a three-gauge
-upstream-to-downstream chain.
+Measured as a **substitution gap in AUROC** against the 0.05 threshold inherited
+from Eryilmaz (2025), on **Waterschap Limburg's own published Fase alarm
+thresholds**, over the Limburg Maas tributary network. The **Worm at Rimburg** is
+the worked case.
 
-The Kerkrade sensor work is the substitution argument's **limiting case**, not a
-second study: indoor CO2 carries no precursor skill (AUROC 0.46 against 0.872 for
-72-hour rainfall), so one instrument in the stack has no marginal value over
-rainfall a forecaster already holds. That is a methods-and-negative-result
-section, not a spine.
+## Where to read
 
-**`docs/chapter-synthesis.md` is canonical** for the idea, the design and the
-data. `docs/chapter-direction.md` carries framing detail and the directions not
-taken; both supersede `docs/chapter-readiness-plan.md` and
-`chapter/chapter-draft.md`.
+| Document | Role |
+| --- | --- |
+| **`docs/chapter-synthesis.md`** | **Canonical.** Idea, design, data. Every figure quoted from an artifact in `results/`. Start here. |
+| `docs/chapter-scope-and-preregistration.md` | Scope proposal + the binding pre-registration. Take to the supervisor. |
+| `docs/analysis-inventory.md` | Every analysis the chapter has run, and why each passes or fails |
+| `docs/HANDOFF.md` | Session state only |
+| `docs/decisions.md`, `docs/scope-decisions.md` | Audit trail and live decisions |
+| `docs/predecessor-notes.md` | Viefhues (2022) and Eryilmaz (2025) in detail |
+| `archive/README.md` | What was retired, and why |
 
-> **Numbers in this README are provisional pending the fixes in
-> `docs/chapter-review-2026-08-06.md`.** In particular the distance-decay result
-> is being recomputed on the null-calibrated metric, which the repo's own scope
-> decision mandates and the published figure did not use.
+## Status, stated plainly
 
-## The progression
+**The chapter has no positive result about Maas tributaries yet.** What stands is
+inherited, negative, or descriptive:
 
-Each step widens the scope of substitution, which is what makes this an arc
-rather than three separate studies:
+- Public weather substitutes for indoor sensing — gap **−0.012** within fold
+- Indoor CO2 carries no precursor skill — **0.46** against rainfall's **0.872**
+- Response similarity decays with distance — **−0.311**, 9.7% of variance, net of
+  a measured procedural floor
+- Donor reach varies from **−0.58 to +0.21** depending on which catchment you
+  stand on
 
-| | Question | Substitution across |
-| --- | --- | --- |
-| Viefhues (2022) | Does a deeply instrumented site carry hydrological signal? | — |
-| Eryilmaz (2025) | Can public weather substitute for local instrumentation? | data source |
-| This chapter | Can knowledge from one instrumented catchment substitute for instrumentation elsewhere? | **space** |
+**The central test — what a donor gauge buys against a receiver's own — is not
+built.** It is gated on a supervisor conversation, not on data or code.
 
 ## Data
 
@@ -45,20 +42,22 @@ All primary sources are public and need no key.
 
 | Source | Extent | Access |
 | --- | --- | --- |
-| Waterschap Limburg discharge | 2024-08-06 →, hourly, 59 gauges available (17 pulled) | public OData |
+| Waterschap Limburg discharge | 2024-08 → 2026-08, hourly, 59 locations → **38 after filtering** | public OData |
+| Waterschap Limburg water level | same window, **272 natural locations**, unused | same endpoint |
+| LANUK NRW discharge | 1950 → 2026, 42 German gauges | open licence |
+| RWS Maas main stem | 2000 → 2026, 10-min | CC0 |
+| DWD precipitation | 1995 → 2026, 34 stations | open licence |
 | KNMI meteorology, 7 stations | 2020 →, hourly | Azure-collected slim blobs |
-| BRO groundwater, 3 wells | 2021-01-01 → 2025-08-27, 6-hourly | public REST |
-| Visual Crossing weather | 2016 →, 4 locations | Azure blobs |
-| Kerkrade IoT CO2 | 2025-01-31 →, one house | Azure blobs + Blynk exports |
+| Kerkrade IoT CO2 | 2025 → 2026, one house, **31% complete** | Azure blobs + Blynk exports |
 
-Two things worth knowing. The Waterschap archive is a **rolling ~2-year window**,
-so longer history needs a direct request to Waterschap Limburg, WVER, or GRDC.
-And it is **not limited to the Netherlands** — German Lanuv gauges on the Roer and
-Worm and Rijkswaterstaat Maas gauges come through the same interface.
+The Waterschap archive is a **rolling ~2-year window**; longer history needs a
+direct request, tracked in `docs/data-requests.md`. It is **not limited to the
+Netherlands** — German and Rijkswaterstaat gauges come through the same interface.
 
-## How to reproduce
+**The binding constraint:** Fase 1 fires a median of **3 times per gauge** over the
+record, and 11 of 37 gauges never reach it. No method repairs that.
 
-Create the environment:
+## Reproduce
 
 ```bash
 conda env create -f environment.yml
@@ -72,54 +71,30 @@ Refresh sources and rebuild the joined hourly frame, event catalogue and QC:
 python scripts/update_data.py --skip-download
 ```
 
-Fetch the gauge inventory and candidate discharge series:
+Then the analysis scripts in any order; `scripts/README.md` lists them by role.
+Note `23_catchment_similarity.py` takes ~12 minutes.
 
-```bash
-python scripts/22_ingest_waterschap_gauges.py
-```
-
-Fetch and characterise groundwater. Water level is itself barometric and must be
-corrected before use as an exposure:
-
-```bash
-python scripts/05a_fetch_bro_groundwater.py
-python scripts/05b_barometric_efficiency.py
-```
-
-Then the analysis scripts, in any order. `scripts/README.md` lists them by role.
-
-KNMI defaults to `data/raw/knmi`, which holds NetCDF requiring xarray. To rebuild
-from the slim CSVs alone:
-
-```bash
-python scripts/04_ingest_knmi.py --skip-download --raw-dir data/raw/knmi/azure_slim
-```
+Tests: use `pytest tests/` (84 pass). A bare `pytest` collects `archive/tests/`
+and fails.
 
 ## Conventions
 
 - Hourly UTC throughout; local times resolved at ingestion, never later.
 - Coverage gaps are never interpolated, and **a row on the hourly grid is not an
   observation**. Anything counting coverage counts observed values.
-- Contiguous blocks break at any gap over one hour, so a block is a run with no
-  missing hours rather than a date range.
+- Contiguous blocks break at any gap over one hour.
+- **One currency: the AUROC gap.** An analysis needing a new currency to express
+  its result is out of scope by definition.
+- **Never pool a score across groups** fitted on different data.
+- No interpretive sentence containing a number is written into a generated
+  artifact as a string literal.
 - `data/raw/` and `results/` are gitignored; every input is re-fetchable by script.
 
 ## Layout
 
 | Path | Contents |
 | --- | --- |
-| `scripts/` | Numbered runnable steps; see `scripts/README.md` |
-| `src/` | Shared loaders, feature builders, evaluation helpers |
-| `docs/` | Direction, decisions log, data requests, source notes |
-| `archive/` | Code retired 2026-08-06; see `archive/README.md` |
-| `chapter/` | Generated scaffolding, **not** an author draft |
-
-## Status
-
-Analysis on the Kerkrade donor characterisation is complete; findings and their
-caveats are in `docs/chapter-direction.md` and `docs/decisions.md`. The
-regionalisation analysis is the current work.
-
-One withdrawn result worth flagging: the barometric response function used 49
-correlated lags under plain OLS and rings, so the "instantaneous response" claim
-is an artifact and should not be cited pending regularisation.
+| `scripts/` | 16 numbered runnable steps; see `scripts/README.md` |
+| `src/` | Shared loaders, feature builders, the substitution harness |
+| `docs/` | Canonical synthesis, pre-registration, decisions, source notes, reviews |
+| `archive/` | Code and documents retired 2026-08-05 → 07; see `archive/README.md` |

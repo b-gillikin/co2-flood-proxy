@@ -86,6 +86,28 @@ foot of `results/regionalisation/similarity_summary.txt` for exactly that pass.
 
 ## 2. Temporal grain — DECIDED: hourly, event-conditioned
 
+> ### CURRENT NUMBERS, 2026-08-07 — read this before anything below
+>
+> The decision in this section stands. **Every figure below it is superseded.**
+> The lag maximum was being taken on `|r|` and the signed value returned, which
+> made the time-shifted null mean-zero and inert; it is now taken on signed `r`.
+> See `chapter-synthesis.md` §3.3 and `chapter-review-2026-08-07-third-pass.md` §1.
+>
+> | | superseded | **current** |
+> | --- | ---: | ---: |
+> | median time-shifted null | +0.016 | **+0.152** |
+> | **co-response net of the null** | +0.243 | **+0.106** |
+> | **decay with distance, calibrated** | −0.249 | **−0.311** |
+> | variance explained | 6.2% | **9.7%** |
+> | raw decay, for comparison | −0.264 | −0.340 |
+>
+> **59% of the raw co-response is procedural**, not the "roughly a third" the
+> 2026-08-06 correction below concluded. That correction had the right mechanism
+> and the wrong magnitude, because the instrument measuring it was broken.
+>
+> Everything from "The apparent problem" down is kept as the record of how the
+> number was arrived at, and must not be quoted.
+
 **Decision.** Keep the hourly grid. The chapter is about events *and* about
 prediction, so what happens before and after an event is part of the subject and
 must not be averaged away.
@@ -162,10 +184,12 @@ subset — dissolves at 92% coverage. Point (c) — that the null itself carried
 distance signal, implying surviving seasonality — also dissolves: −0.052 is not
 distinguishable from zero, so the earlier −0.097 was noise rather than leakage.
 
-**Headline, on the metric this document mandates: −0.249, Mantel p = 0.001,
-6.2% of variance, on 38 gauges and 644 pairs.**
+**Headline as it stood on 2026-08-06: −0.249, Mantel p = 0.001, 6.2% of variance,
+on 38 gauges and 644 pairs. SUPERSEDED — see the block at the head of this
+section. Current: −0.311, p < 0.0001, 9.7%.**
 
-**Report the paired difference, not the raw median.**
+**Report the paired difference, not the raw median.** That rule stands and is the
+only part of this correction that survived intact.
 
 **Implementation note.** Response similarity must be computed on event-window
 hours at best lag, never on the full series at zero lag, and always against the

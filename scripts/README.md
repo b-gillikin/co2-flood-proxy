@@ -5,7 +5,7 @@ be run on its own; the numbering is dependency order, not a schedule.
 
 Retired scripts moved to `archive/scripts/` on 2026-08-05 and again on
 2026-08-06. See `archive/README.md` for what each did and
-`docs/chapter-direction.md` for the reframing.
+`docs/analysis-inventory.md` for what was cut and why.
 
 ## Data collection
 
@@ -63,8 +63,8 @@ downstream consumes `co2_residual_barometric_ppm`.
 reads — one row per gauge, one row per pair. Three things in it are corrections
 to numbers that had already been written down, and its docstring says which.
 
-**Inference rule for anything built on the pair table:** 42 gauges give 861
-pairs, and each gauge appears in 41 of them. Pairs are not independent
+**Inference rule for anything built on the pair table:** 38 gauges give 703
+pairs, and each gauge appears in 37 of them. Pairs are not independent
 observations. Use permutation over gauge labels, never a Pearson p-value on the
 pair list.
 

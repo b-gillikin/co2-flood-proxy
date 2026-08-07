@@ -37,8 +37,9 @@ could use for siting. Reporting it as siting advice overclaims, invites a
 literature the chapter does not engage, and is the same overreach that produced
 the correlation-length and sign-flip withdrawals.
 
-**Still to strip:** `scope-decisions.md` §3 (whole "Monitoring network design"
-block), `chapter-direction.md` lines ~175 and ~216.
+**Done 2026-08-07:** `scope-decisions.md` §3 carries a dated withdrawal block,
+and `chapter-direction.md` — which restated the framing in two places — was
+archived as a duplicate canonical document. See `archive/README.md`.
 
 ---
 
@@ -316,11 +317,19 @@ The inventory (`data/interim/waterschap_locations.csv`, 634 rows) resolves this.
 42 natural, 38 after the coverage floor. "All of them" buys at most a handful
 more.
 
-**On the level side you are using none of 390.** Of those, 143 sit on 26 of the
-28 tributaries already analysed; the rest are tributaries with no representation
-at all. Level locations carry their own Fase thresholds in metres NAP (Geul,
-Cottessen: 120.78 / 121.28), so the same externally-defined binary is available
-there.
+**On the level side you are using none of 390.** Applying the same structure-name
+filter leaves **272 natural stations across 125 water bodies**, of which **124 sit
+on 92 water bodies with no discharge gauge at all**. Level locations carry their
+own Fase thresholds in metres NAP (Geul, Cottessen: 120.78 / 121.28), so the same
+externally-defined binary is available there.
+
+> **Probed 2026-08-07, and the hoped-for win does not happen.** Twelve stations:
+> history is served (12 of 12), coverage is *better* than discharge (median 100%),
+> but Fase-1 events are **~3× scarcer** (median 1 per station against 3) and every
+> station spans the **same rolling 2024-08 → 2026-08 window**. Level buys spatial
+> coverage, not temporal power. An earlier version of this section implied the
+> network "grows roughly tenfold" without checking whether the events grew with
+> it; they do not. Full result in `chapter-scope-and-preregistration.md` §7.
 
 Because the target is binary, water level's incomparability across gauges — each
 has its own datum and channel geometry — **stops mattering**: nothing is compared

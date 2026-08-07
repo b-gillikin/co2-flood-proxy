@@ -13,7 +13,7 @@ numbers produced different ways and settling specifications after seeing which
 one reads better; a pre-registration is the standing defence against it.
 
 Supersedes `docs/transfer-experiment-preregistration.md` (withdrawn 2026-08-06,
-and about the retired anomaly-detection lane).
+about the retired anomaly-detection lane; archived 2026-08-07).
 
 ---
 

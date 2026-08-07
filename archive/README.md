@@ -158,3 +158,51 @@ normalizes the BRO data the chapter still uses.
 Validated `chapter/chapter-draft.md` against the four-branch claim structure and
 its frozen-field tokens. Both the draft and the claim machinery are superseded;
 the draft is retained only as a record of what was scaffolded.
+
+---
+
+# Retired 2026-08-07 — documents
+
+Twelve documents archived when the analysis was cut (`docs/analysis-inventory.md`)
+and `docs/chapter-synthesis.md` was rewritten as the single canonical document.
+
+## Self-declared superseded, and still being read as current
+
+`august-readiness.md`, `chapter-readiness-plan.md`, `chapter-writing-register.md`,
+`methods-outline.md`, `results-outline.md`, `transfer-experiment-preregistration.md`,
+`chapter/chapter-draft.md`
+
+Each carried a banner saying so. Three review passes noted that a reader who
+opens one without checking the banner mistakes it for current, and the draft's
+own header says not to build on it. Their value is in git history, not on disk.
+`transfer-experiment-preregistration.md` is additionally superseded by
+`docs/chapter-scope-and-preregistration.md`.
+
+## Documents whose lane was cut
+
+`groundwater-data-contract.md` — the groundwater lane went the same day.
+`rivm-transfer-sources.md` — RIVM existed only for the cross-site transfer
+analysis, retired 2026-08-05.
+`week4-signal-interpretation.md` — interprets `04_signal_characterization.py`,
+archived as the drift engine.
+`figure-inventory.md` — 20 figures from the retired anomaly-detection programme.
+The figure set is being built from scratch; this one would only mislead.
+
+## The duplicate canonical document
+
+`chapter-direction.md`
+
+The harder call. It was not stale in the ordinary sense — its status date was
+current and its numbers had been partly corrected. It was archived because every
+one of its thirteen headings is now covered by `chapter-synthesis.md`, and two
+sections still argued from the **monitoring-network-design** framing the author
+withdrew on 2026-08-07 and from the **signature space** cut the same day.
+
+A second document restating the canonical one is how the numbers drifted in the
+first place: three review passes found `chapter-synthesis.md`, `chapter-direction.md`
+and `scope-decisions.md` disagreeing about the same headline. One canonical
+document, corrected in place, removes the mechanism rather than the symptom.
+
+Its unique content survives elsewhere: the lineage in `docs/predecessor-notes.md`,
+the decision record in `docs/decisions.md`, and the directions not taken in the
+three review documents.
