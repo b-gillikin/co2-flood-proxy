@@ -219,6 +219,32 @@ class BestLagTests(unittest.TestCase):
             peaks.append(abs(r))
         self.assertGreater(np.median(peaks), 0.02)
 
+    def test_selection_bias_is_positive_so_the_null_can_measure_it(self):
+        """The lag maximum must be taken on signed r, not |r|.
+
+        Selecting on |r| and returning the signed value gives a near-symmetric
+        sign on unrelated series, so the time-shifted null averages to roughly
+        zero and subtracts almost nothing — while the bias it exists to remove
+        sits in the magnitude. Measured on the real pair table before the fix:
+        median null +0.016 against median |null| +0.036, 35% of nulls negative,
+        and 37% of pairs where the "correction" made the statistic larger.
+
+        On unrelated series the peak must come out reliably positive, because
+        that positive value is exactly the procedural floor the null reports.
+        """
+        rng = np.random.default_rng(11)
+        index = pd.date_range("2024-01-01", periods=1200, freq="h", tz="UTC")
+        peaks = []
+        for seed in range(20):
+            local = np.random.default_rng(seed)
+            a = pd.Series(np.cumsum(local.normal(0, 1, 1200)), index=index)
+            b = pd.Series(np.cumsum(rng.normal(0, 1, 1200)), index=index)
+            r, _, _ = sim.best_lag_corr(a, b, pd.Series(True, index=index))
+            peaks.append(r)
+        peaks = np.array(peaks)
+        self.assertTrue((peaks > 0).all(), "a signed maximum over lags cannot be negative")
+        self.assertGreater(np.median(peaks), 0.02)
+
 
 class MantelTests(unittest.TestCase):
     """Pairs from N gauges are not N-choose-2 independent observations."""

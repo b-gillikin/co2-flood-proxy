@@ -189,7 +189,9 @@ def signatures(series):
         "cv": float(flow.std() / flow.mean()),
         # Normalised by the flow over the hours that actually contributed a
         # difference, so a gappy gauge is not flattered by a shorter numerator.
-        "flashiness": float(deltas.sum() / flow[deltas.notna().reindex(flow.index, fill_value=False)].sum())
+        "flashiness": float(
+            deltas.sum() / flow[deltas.notna().reindex(flow.index, fill_value=False)].sum()
+        )
         if deltas.notna().any()
         else np.nan,
         # q10/q50 is a flow-duration ratio, not a filtered baseflow index in the
@@ -207,6 +209,21 @@ def best_lag_corr(a, b, mask, rng=None, subsample=None):
     The lag search is a maximum over 2*MAX_LAG+1 candidates and therefore biased
     upward on its own; ``main`` calibrates that bias with a time-shifted null run
     through this same function, at a matched sample size.
+
+    **The maximum is taken on signed r, not |r|, and that choice is what makes
+    the calibration work.** Until 2026-08-07 it selected on ``abs(r)`` and
+    returned the signed value. Under the null there is no true correlation, so
+    that picks the largest *magnitude* noise excursion with a near-symmetric
+    sign: 249 of 703 nulls came out negative and the median null was +0.016,
+    while the median |null| was +0.036. The bias being corrected for lives in
+    the magnitude, so subtracting a signed mean that sits near zero removed
+    almost none of it — and for 37% of pairs it made the "corrected" statistic
+    *larger* than the raw one, which is not a bias correction.
+
+    Selecting on signed r is also the physically right rule: two catchments
+    responding to the same weather should be positively correlated at the lag
+    that aligns their response times. Anti-correlation at some lag is noise, not
+    a shorter route between them.
     """
     index = mask[mask].index
     if subsample is not None and len(index) > subsample:
@@ -222,7 +239,7 @@ def best_lag_corr(a, b, mask, rng=None, subsample=None):
         if joined["a"].std() == 0 or joined["b"].std() == 0:
             continue
         r = float(np.corrcoef(joined["a"], joined["b"])[0, 1])
-        if np.isnan(best_r) or abs(r) > abs(best_r):
+        if np.isnan(best_r) or r > best_r:
             best_r, best_lag = r, lag
     return best_r, best_lag, len(index)
 
@@ -399,8 +416,7 @@ def main():
         f"Structure filter: {'DISABLED' if args.keep_structures else f'excluded {len(excluded)}'}"
     )
     lines.append(
-        f"Coverage floor: {MIN_COVERAGE:.0%} of the hourly grid; "
-        f"excluded {len(below_floor)} gauges"
+        f"Coverage floor: {MIN_COVERAGE:.0%} of the hourly grid; excluded {len(below_floor)} gauges"
     )
     for name, cov in sorted(below_floor.values(), key=lambda kv: kv[1]):
         lines.append(f"    {cov:5.0%}  {name}")
@@ -452,11 +468,12 @@ def main():
         statistic, p_paired = wilcoxon(paired["response_corr"], paired["response_corr_null"])
         lines.append(f"    Wilcoxon signed-rank       p = {p_paired:.3g}")
     lines.append("")
+    share = paired["response_corr_null"].median() / paired["response_corr"].median()
     lines.append(
         "The null runs the identical procedure on time-shifted series, so it carries\n"
-        "the same lag-selection and tail-conditioning bias but no shared weather. Roughly\n"
-        "a third of the raw median is that bias; the paired difference is the part\n"
-        "attributable to catchments actually co-responding. Quote the difference, not the\n"
+        "the same lag-selection and tail-conditioning bias but no shared weather. "
+        f"{share:.0%} of the\nraw median is that bias; the paired difference is the part "
+        "attributable to catchments\nactually co-responding. Quote the difference, not the "
         "raw median.\n\n"
         "The null resolves for only some pairs, because time-shifting destroys the\n"
         "co-occurrence of high-flow hours that the mask requires. The paired comparison\n"
@@ -493,9 +510,11 @@ def main():
         f"{raw_valid} pairs"
     )
     lines.append(
-        "  The two agree because the null is averaged over many draws. With a single\n"
-        "  draw per pair they differed by a factor of two, and the calibrated value was\n"
-        "  an attenuated lower bound rather than an estimate."
+        f"  The calibrated and raw metrics differ by {abs(observed - raw_observed):.3f}. Both are\n"
+        "  reported because the calibration is now doing work: until 2026-08-07 the lag\n"
+        "  maximum was taken on |r| and returned signed, so the null came out near zero\n"
+        "  and subtracted almost nothing. Selecting on signed r makes the procedural\n"
+        "  floor measurable, and it is large."
     )
     lines.append("")
     for label, subset in (

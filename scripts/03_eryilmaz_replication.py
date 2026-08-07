@@ -289,9 +289,9 @@ def write_metrics(summaries, all_predictions, blocked_predictions):
             "-" * 70,
             "Both blocks below score WITHIN fold and average. Each fold is a separate",
             "fit, so pooling its probabilities into one ranking measures calibration",
-            "drift between fits as if it were skill. The pooled figure is printed only",
-            "for contrast; on (b) it reads -0.088 against a within-fold -0.012, and that",
-            "gap between them is the artifact, not a result.",
+            "drift between fits as if it were skill. The pooled figure is printed for",
+            "contrast only; where it diverges from the within-fold figure, that",
+            "divergence is the artifact, not a result.",
             "",
             "-" * 70,
             "(a) Random folds — the inherited Eryilmaz procedure.",
@@ -304,12 +304,12 @@ def write_metrics(summaries, all_predictions, blocked_predictions):
             "",
             substitution_block(blocked_predictions),
             "",
-            "The two agree at +0.012 and -0.012, both far inside Eryilmaz's 0.05. The",
-            "substitution conclusion does not depend on the evaluation scheme, which is",
-            "a stronger claim than either block alone. Note also that forward chaining",
-            "scores HIGHER within fold (A 0.900 vs 0.886), so there is no measurable",
-            "random-fold leakage penalty here; an earlier reading of 0.141 was the",
-            "pooling artifact above.",
+            # Computed, never asserted. An earlier version stated the comparison
+            # as literal prose ("the two agree at +0.012 and -0.012"), which was
+            # true on the run that wrote it and would silently go false on the
+            # next data refresh — a number compared against a number that is not
+            # produced at all.
+            scheme_comparison(all_predictions, blocked_predictions),
         ]
     )
 
@@ -318,23 +318,22 @@ def write_metrics(summaries, all_predictions, blocked_predictions):
     print(f"wrote {METRICS_PATH}")
 
 
-def substitution_block(all_predictions, label="scores"):
-    """Score two prediction frames through the shared substitution harness.
+def paired_result(all_predictions):
+    """Run the two model frames through the shared harness, grouped by CV fold.
 
-    Scores are grouped by CV fold. Each fold is a separate fit, so its
-    probabilities are only comparable within the fold; pooling them ranks one
-    model's scores against another's and is sensitive to calibration drift.
-    That pooling is what produced the withdrawn -0.088 sign flip.
+    Each fold is a separate fit, so its probabilities are only comparable within
+    the fold; pooling them ranks one model's scores against another's and is
+    sensitive to calibration drift. That pooling produced the withdrawn -0.088.
     """
     import numpy as np
 
     frames = {p["model_label"].iloc[0]: p.sort_index() for p in all_predictions}
     labels = list(frames)
     if len(labels) < 2:
-        return "  (substitution test unavailable: fewer than two models)"
+        return None
     a, b = frames[labels[0]], frames[labels[1]]
     joined = a.join(b, lsuffix="_a", rsuffix="_b", how="inner")
-    result = substitution_test(
+    return substitution_test(
         joined["predicted_probability_a"],
         joined["predicted_probability_b"],
         joined["co2_leak_event_a"],
@@ -343,7 +342,42 @@ def substitution_block(all_predictions, label="scores"):
         groups=joined["cv_fold_a"] if "cv_fold_a" in joined else None,
         rng=np.random.default_rng(RANDOM_STATE),
     )
+
+
+def substitution_block(all_predictions, label="scores"):
+    """Render one substitution test as the block that goes into the report."""
+    result = paired_result(all_predictions)
+    if result is None:
+        return "  (substitution test unavailable: fewer than two models)"
     return format_result(result)
+
+
+def scheme_comparison(random_predictions, blocked_predictions):
+    """Compare the two evaluation schemes from their values, never as prose.
+
+    Every figure here is interpolated from the results computed in this run, so
+    the paragraph cannot drift away from the blocks above it on a data refresh.
+    """
+    random_result = paired_result(random_predictions)
+    blocked = paired_result(blocked_predictions)
+    if random_result is None or blocked is None:
+        return ""
+    agree = max(abs(random_result.gap), abs(blocked.gap)) <= blocked.threshold
+    lines = [
+        "Comparing the two schemes, all figures computed above:",
+        f"  within-fold gap: random folds {random_result.gap:+.3f}, "
+        f"forward chaining {blocked.gap:+.3f}",
+        f"  both {'are' if agree else 'are NOT'} inside Eryilmaz's "
+        f"{blocked.threshold:.2f} threshold, so the substitution conclusion "
+        f"{'does not depend' if agree else 'DEPENDS'} on the evaluation scheme",
+        f"  forward chaining pooled {blocked.pooled_gap:+.3f} against within-fold "
+        f"{blocked.gap:+.3f}: a {abs(blocked.pooled_gap - blocked.gap):.3f} pooling artifact",
+        f"  Model A within fold: {random_result.auroc_a:.3f} random against "
+        f"{blocked.auroc_a:.3f} forward-chaining — "
+        f"{'no measurable' if blocked.auroc_a >= random_result.auroc_a else 'a'} "
+        f"random-fold leakage penalty",
+    ]
+    return "\n".join(lines)
 
 
 def write_roc_plot(all_predictions):
