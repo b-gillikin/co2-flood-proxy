@@ -1,100 +1,74 @@
-# Chapter 1 — Donor Transfer Across Maas Tributaries
+# Pre-High-Water Signal Recurrence and Spatial Transferability
 
-**Research question**: Given a gauged tributary catchment, how much of what you
-would learn from instrumenting it can you get instead from a neighbouring gauge —
-and how far does that reach?
+Prospective research question:
 
-Measured as a **substitution gap in AUROC** against the 0.05 threshold inherited
-from Eryilmaz (2025), on **Waterschap Limburg's own published Fase alarm
-thresholds**, over the Limburg Maas tributary network. The **Worm at Rimburg** is
-the worked case.
+> Across Limburg tributaries, which public hydrometeorological signals recur
+> during the 72 hours before independently defined high-water onset, and do
+> those signals remain detectable at unseen watercourses and periods? At
+> Kerkrade, does pressure-adjusted CO2 recur as a local manifestation of that
+> regional state?
 
-## Where to read
+Status: **data-gated; no new chapter result exists**. The current repository
+does not contain the original 2020–2021 IoT package, the contracted long
+tributary record, catchment-average RADOLAN series or a frozen long-record
+public-weather assignment. The prospective protocol therefore remains unlocked
+and the outcome analysis has not been run.
 
-| Document | Role |
+## Read first
+
+| document | role |
 | --- | --- |
-| **`docs/chapter-synthesis.md`** | **Canonical.** Idea, design, data. Every figure quoted from an artifact in `results/`. Start here. |
-| `docs/chapter-scope-and-preregistration.md` | Scope proposal + the binding pre-registration. Take to the supervisor. |
-| `docs/analysis-inventory.md` | Every analysis the chapter has run, and why each passes or fails |
-| `docs/HANDOFF.md` | Session state only |
-| `docs/decisions.md`, `docs/scope-decisions.md` | Audit trail and live decisions |
-| `docs/predecessor-notes.md` | Viefhues (2022) and Eryilmaz (2025) in detail |
-| `archive/README.md` | What was retired, and why |
+| `docs/chapter-synthesis.md` | canonical question, contribution, design and current status |
+| `docs/chapter-scope-and-preregistration.md` | draft estimator protocol; lock only after gates and supervisor approval |
+| `docs/analysis-inventory.md` | prospective, secondary and stopped analyses |
+| `docs/data-requests.md` | exact blockers and delivery contracts |
+| `docs/predecessor-notes.md` | Viefhues and Eryilmaz source notes |
+| `docs/HANDOFF.md` | session state only |
 
-## Status, stated plainly
+The intended sequence is Viefhues MSc -> Eryilmaz paper -> this chapter:
+single-event observation -> same-site public-signal explanation -> recurrence
+and spatial transfer.
 
-**The chapter has no positive result about Maas tributaries yet.** What stands is
-inherited, negative, or descriptive:
-
-- Public weather substitutes for indoor sensing — gap **−0.012** within fold
-- Indoor CO2 carries no precursor skill — **0.46** against rainfall's **0.872**
-- Response similarity decays with distance — **−0.311**, 9.7% of variance, net of
-  a measured procedural floor
-- Donor reach varies from **−0.58 to +0.21** depending on which catchment you
-  stand on
-
-**The central test — what a donor gauge buys against a receiver's own — is not
-built.** It is gated on a supervisor conversation, not on data or code.
-
-## Data
-
-All primary sources are public and need no key.
-
-| Source | Extent | Access |
-| --- | --- | --- |
-| Waterschap Limburg discharge | 2024-08 → 2026-08, hourly, 59 locations → **38 after filtering** | public OData |
-| Waterschap Limburg water level | same window, **272 natural locations**, unused | same endpoint |
-| LANUK NRW discharge | 1950 → 2026, 42 German gauges | open licence |
-| RWS Maas main stem | 2000 → 2026, 10-min | CC0 |
-| DWD precipitation | 1995 → 2026, 34 stations | open licence |
-| KNMI meteorology, 7 stations | 2020 →, hourly | Azure-collected slim blobs |
-| Kerkrade IoT CO2 | 2025 → 2026, one house, **31% complete** | Azure blobs + Blynk exports |
-
-The Waterschap archive is a **rolling ~2-year window**; longer history needs a
-direct request, tracked in `docs/data-requests.md`. It is **not limited to the
-Netherlands** — German and Rijkswaterstaat gauges come through the same interface.
-
-**The binding constraint:** Fase 1 fires a median of **3 times per gauge** over the
-record, and 11 of 37 gauges never reach it. No method repairs that.
-
-## Reproduce
+## Audit the hard gates
 
 ```bash
 conda env create -f environment.yml
 conda activate chapter1-co2
-export MPLCONFIGDIR="$PWD/.matplotlib"
+python scripts/31_event_study_gates.py --report-only
 ```
 
-Refresh sources and rebuild the joined hourly frame, event catalogue and QC:
+`--report-only` writes `results/event_study/gate_audit.{csv,md}` while allowing
+the known failure. Omit it for the binding gate: a failed audit exits nonzero.
+Do not point the audit at the rolling two-year files.
+
+## Existing predecessor check
 
 ```bash
 python scripts/update_data.py --skip-download
+python scripts/03_eryilmaz_replication.py
 ```
 
-Then the analysis scripts in any order; `scripts/README.md` lists them by role.
-Note `23_catchment_similarity.py` takes ~12 minutes.
+This re-evaluates Eryilmaz's same-site indoor-versus-public comparison on the
+later sensor era. It is predecessor context, not the chapter's transfer method.
+`update_data.py` refreshes only Kerkrade IoT/weather and their QC frame; network
+source pulls are separate because their public rolling records do not pass the
+chapter gate.
 
-Tests: use `pytest tests/` (84 pass). A bare `pytest` collects `archive/tests/`
-and fails.
+## Verify
+
+```bash
+python -m pytest -q
+ruff check .
+ruff format --check .
+```
 
 ## Conventions
 
-- Hourly UTC throughout; local times resolved at ingestion, never later.
-- Coverage gaps are never interpolated, and **a row on the hourly grid is not an
-  observation**. Anything counting coverage counts observed values.
-- Contiguous blocks break at any gap over one hour.
-- **One currency: the AUROC gap.** An analysis needing a new currency to express
-  its result is out of scope by definition.
-- **Never pool a score across groups** fitted on different data.
-- No interpretive sentence containing a number is written into a generated
-  artifact as a string literal.
-- `data/raw/` and `results/` are gitignored; every input is re-fetchable by script.
-
-## Layout
-
-| Path | Contents |
-| --- | --- |
-| `scripts/` | 16 numbered runnable steps; see `scripts/README.md` |
-| `src/` | Shared loaders, feature builders, the substitution harness |
-| `docs/` | Canonical synthesis, pre-registration, decisions, source notes, reviews |
-| `archive/` | Code and documents retired 2026-08-05 → 07; see `archive/README.md` |
+- Hourly UTC; missing hours remain missing and crossings never bridge gaps.
+- One pre-declared representative per natural watercourse.
+- RADOLAN catchment averages are primary; point rainfall is sensitivity only.
+- Receiver flow defines high-water onset and is not a candidate signal.
+- Thresholds, scaling and pressure adjustment exclude held-out periods.
+- Derive held-out signal directions from other watercourses and periods only.
+- Aggregate events within watercourse before describing the network.
+- No operational, causal, FEWS or monitoring-placement claim.

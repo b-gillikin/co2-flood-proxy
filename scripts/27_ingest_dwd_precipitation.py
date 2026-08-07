@@ -1,24 +1,13 @@
-"""Fetch DWD hourly station precipitation for the Limburg-NRW border region.
-
-The chapter's meteorological similarity axis is currently unusable: seven KNMI
-synoptic stations, of which only 06380 Maastricht is regionally relevant, so
-every southern gauge snaps to the same station and the axis degenerates to two
-values (`docs/scope-decisions.md` section 4).
+"""Fetch DWD hourly station precipitation for a point-rainfall sensitivity.
 
 DWD publishes hourly station precipitation as open data with no key and no
 registration, and there are roughly ninety stations inside the study box:
 
     https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/
 
-That is an order of magnitude more density than the KNMI synoptic network, and
-it is also a hard requirement now rather than an improvement: `25_ingest_lanuk_nrw.py`
-added 42 German gauges running back to 1950, and they cannot enter a transfer
-experiment without matching German rainfall.
-
-**Why this matters for the chapter's central claim.** Two catchments that
-co-respond may simply have been rained on by the same storm. Separating genuine
-donor transfer from shared forcing needs a rainfall-only baseline, and that
-baseline needs rainfall resolved at something finer than the catchment spacing.
+The chapter's primary exposure is hourly 1-km RADOLAN rainfall averaged over
+verified catchment polygons. These station series do not satisfy that gate;
+they are retained to check whether conclusions depend on the radar exposure.
 
 Each station is published in two parts, both fetched here: a `_hist` archive
 ending at some past date, and an `_akt` archive covering roughly the last
@@ -30,9 +19,7 @@ separated with padded fields, latin-1, `MESS_DATUM` as `YYYYMMDDHH` in UTC,
 precipitation in `R1` as mm, and **-999 for missing**, which must be blanked
 rather than summed.
 
-Not radar. If station density proves too coarse for catchments of 27-77 km2,
-DWD RADOLAN (1 km, hourly, 2005-present) is the next step and needs catchment
-polygons plus a geospatial stack.
+Do not substitute this output for `radolan_catchment_hourly.csv`.
 """
 
 from __future__ import annotations

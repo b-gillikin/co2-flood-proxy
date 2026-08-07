@@ -1,4 +1,8 @@
-"""Bring available chapter data sources up to date."""
+"""Refresh the later-era Kerkrade context data and its QC frame.
+
+Network sources are intentionally separate commands: none of the public rolling
+files satisfies the prospective event study's hard data gate.
+"""
 
 from __future__ import annotations
 
@@ -23,8 +27,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--skip-iot", action="store_true")
     parser.add_argument("--skip-weather", action="store_true")
-    parser.add_argument("--skip-discharge", action="store_true")
-    parser.add_argument("--skip-events", action="store_true")
     parser.add_argument("--skip-eda", action="store_true")
     parser.add_argument(
         "--skip-download",
@@ -52,13 +54,6 @@ def main():
         run("01_ingest_iot.py", source_args)
     if not args.skip_weather:
         run("02_ingest_weather.py", source_args)
-    if not args.skip_discharge:
-        # Also writes data/interim/discharge_hourly.csv, the three-column
-        # projection the CO2 lane reads. It replaced 01_ingest_discharge.py on
-        # 2026-08-06; two ingests over one endpoint had drifted apart.
-        run("22_ingest_waterschap_gauges.py", ["--all-discharge"])
-    if not args.skip_events:
-        run("03_build_event_catalogue.py")
     if not args.skip_eda:
         run("01_eda.py")
 

@@ -1,5 +1,10 @@
 # Decisions Log
 
+> Historical audit log. Entries before the 2026-08-07 held-out-watercourse
+> reset describe designs and claims that may now be superseded, including the
+> project-chosen 0.05 margin. Current decisions live in `scope-decisions.md` and
+> the locked analysis protocol.
+
 ## 2026-06-06 — Initial chapter framing
 
 Decision: Set up this repository around the working claim that the Kerkrade low-cost IoT stream carries a decomposable antecedent-hydrological-state signal once barometric effects are explicitly characterized and separated.
@@ -822,3 +827,106 @@ basins question. Open with the supervisor.
 
 Source: `docs/scope-decisions.md`; `scripts/22_ingest_waterschap_gauges.py`;
 `scripts/24_fetch_estreams_attributes.py`.
+
+## 2026-08-07 — Reset to pre-high-water recurrence and spatial transfer
+
+Decision: replace the short-record hourly donor model as the chapter headline
+with a prospective, data-gated event study of which fixed public signals recur
+before high-water onset and transfer to an unseen watercourse and period.
+
+Reasoning: the held-out hourly model was a legitimate robustness analysis but
+not the chapter that follows most directly from Viefhues and Eryilmaz. Viefhues
+observed the July 2021 Kerkrade response; Eryilmaz showed that public weather
+explained much same-site CO2 information; the next defensible question is which
+regional public components recur across events and places, and whether the CO2
+residual itself recurs locally. This design can yield a substantive null without
+turning the chapter into model exploration or an operational warning claim.
+
+Locked choices: spatial transfer is primary; event contrasts and an event-window
+classifier are co-primary; long-record p99 is the high-water definition; July
+2021 is a required interval-censored anchor; groundwater is secondary; the
+2024–2026 hourly model is robustness evidence only. Alert, false-alarm, FEWS,
+causal and monitoring-placement readings are excluded.
+
+Hard stop: do not finalise or run the prospective outcome analysis unless the
+original 2020–2021 IoT package, a qualifying 10-watercourse/10-year discharge
+cohort, Worm or a documented Kerkrade pair, catchment-average RADOLAN rainfall
+and gauge QA pass the executable audit. The protocol remains unlocked until the
+supervisor approves the question. The audit fails on the current repository;
+this failure must not be resolved by reverting to the rolling two-year record.
+
+Source: `docs/chapter-synthesis.md`,
+`docs/chapter-scope-and-preregistration.md`,
+`scripts/31_event_study_gates.py`.
+
+## 2026-08-07 — Drop classification; make signal contrasts the whole chapter
+
+Decision: remove both the planned event-window classifier and the 2024–2026
+hourly transfer classifier from the live chapter. The sole analysis is now the
+event-minus-quiet contrast for each fixed signal, reported as recurrence across
+events/watercourses and then under crossed watercourse/time holdout.
+
+Reasoning: classification introduced a second estimand—predictive
+discrimination—and risked turning the chapter back into model comparison. The
+substantive question is simpler: which signals recur before high water, and do
+their direction and magnitude travel? A held-out contrast directly answers
+that question without thresholds, fitted outcome models or operational
+interpretation.
+
+Transfer rule fixed before outcome inspection: for each held
+watercourse-by-time-block and signal, exclude that watercourse and time block,
+take the median contrast within each remaining watercourse, and use the median
+of those watercourse medians as the expected direction/magnitude. Compare this
+with the held-out median contrast. Report both values, signs, concordance,
+magnitude difference and event counts without a success threshold.
+
+Consequence: the hourly classifier code and its classifier-specific tests were
+removed from the live tree. Eryilmaz's logistic analysis remains predecessor
+context; it is not the method inherited by this chapter.
+
+Source: `docs/chapter-synthesis.md`,
+`docs/chapter-scope-and-preregistration.md`, `src/event_study.py`.
+
+## 2026-08-07 — Remove the orphaned short-record precursor lane
+
+Decision: delete the later-record precursor script, three-gauge soft-label
+catalogue, full-period CO2 barometric baseline and their generic evaluation and
+feature helpers from the live tree. Retain only the compact Eryilmaz
+re-evaluation as predecessor context.
+
+Reasoning: the precursor script read
+`data/processed/signal_characterization_frame.csv`, but the exploratory script
+that created that file had already been retired. The result was therefore not
+regenerable from the active code. It also answered hourly discrimination rather
+than the chapter's event-minus-quiet recurrence question. The three-gauge
+catalogue and full-period baseline existed only to feed that lane and conflicted
+with the prospective fold-specific thresholds and quiet-only, sensor-era
+pressure adjustment.
+
+Consequence: `update_data.py` now refreshes only later-era Kerkrade IoT/weather
+and their QC frame. Waterschap, LANUK, RWS and DWD pulls remain explicit source
+reconnaissance commands. Historical results remain in this log and Git history,
+not as a robustness arm.
+
+## 2026-08-07 — Complete the feasibility contracts before lock
+
+Decision: add long public weather and its watercourse assignment to the hard
+gate; require gauge coordinates, explicit July 2021 onset bounds and
+non-overlapping provenance records for both Kerkrade sensor eras.
+
+Reasoning: temperature, humidity and pressure were fixed primary signals but
+had no long-record input contract. The held Visual Crossing points sit on an
+approximately ten-year boundary and KNMI currently begins in 2020; neither had
+been assigned prospectively to the future watercourse cohort. Likewise, a
+distance-only donor rule cannot be reproduced without coordinates, the censored
+anchor cannot be drawn without interval bounds, and pressure baselines cannot
+be separated by era without timestamped era metadata. These were design holes,
+not implementation details.
+
+Consequence: the gate now expects nine contracted files, including a tidy
+watercourse-weather table and provenance table, and checks ten common years
+across discharge, RADOLAN and public weather. The weather source/assignment is a
+supervisor decision to make before lock; it may not be chosen from event
+performance. It also requires at least three later exact-onset Kerkrade-pair
+events with complete primary-window CO2 and pressure. Fewer events cannot be
+reported as a null recurrence result.

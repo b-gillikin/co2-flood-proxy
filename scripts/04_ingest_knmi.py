@@ -14,7 +14,7 @@ os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".matplotlib"))
 
 import pandas as pd
 
-from src.io_data import knmi_station_set_frame, load_knmi
+from src.io_knmi import knmi_station_set_frame, load_knmi
 
 RAW_DIR = Path("data/raw/knmi")
 INTERIM_DIR = Path("data/interim")

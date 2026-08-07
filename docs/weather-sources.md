@@ -2,8 +2,9 @@
 
 ## Azure source
 
-Task 1.2 currently uses the Visual Crossing weather CSVs already collected into
-Azure Blob Storage, rather than calling the Visual Crossing API directly.
+The later-era Kerkrade context uses Visual Crossing weather CSVs already
+collected into Azure Blob Storage, rather than calling the Visual Crossing API
+directly.
 
 - Subscription: Azure for Students
 - Resource group: `rg-kerkrade-prod`
@@ -31,6 +32,10 @@ weather blob container.
 - Raw monthly CSVs: `data/raw/weather/<container>/weather_<Location>_YYYY-MM.csv`
 - Long hourly output: `data/interim/weather_hourly_long.csv`
 - Wide hourly output: `data/interim/weather_hourly.csv`
+
+These point series are not automatically the prospective event-study weather
+input. That analysis requires a pre-outcome assignment with 10 common years for
+every primary watercourse; see `data-requests.md`.
 
 Run all available refreshes with:
 

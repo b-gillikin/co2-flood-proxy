@@ -1,29 +1,20 @@
-# Discharge Sources
+# Discharge Source Status
 
-Task 1.3 uses three public discharge gauges:
+This note preserves the distinction between source reconnaissance and the
+prospective chapter input. The binding delivery contract is in
+`data-requests.md`.
 
-| Source | Gauge | Variable | Raw file | Notes |
-| --- | --- | --- | --- | --- |
-| WVER | Wurm, Rimburg NL | Abfluss, m3/s | `data/raw/discharge/wver_wurm_rimburg_discharge.json` | WVER chart JSON, Windows-1252 encoded. Current payload starts 2025-04-23. |
-| Waterstand Limburg | Geul, Hommerich (`10.Q.30`, ID `233`) | Afvoer, m3/s | `data/raw/discharge/waterstandlimburg_geul_hommerich_discharge.json` | Public OData-style measurements endpoint. |
-| Waterstand Limburg | Geul, Meerssen (`10.Q.36`, ID `1394`) | Afvoer, m3/s | `data/raw/discharge/waterstandlimburg_geul_meerssen_discharge.json` | Public OData-style measurements endpoint. |
+| live ingest | source role | limitation |
+| --- | --- | --- |
+| `22_ingest_waterschap_gauges.py` | public Waterschap inventory and rolling discharge reconnaissance | roughly 2024–2026; cannot pass the 10-year gate |
+| `25_ingest_lanuk_nrw.py` | long German gauge reconnaissance and possible Wurm/Rur inputs | does not by itself provide the Limburg tributary cohort |
+| `26_ingest_rws_maas.py` | Maas main-stem source validation | main stem is outside the primary tributary population |
 
-The normalized hourly file is `data/interim/discharge_hourly.csv`, produced by:
+The retired three-gauge WVER/Waterschap ingest and soft-label catalogue no
+longer have a downstream reader. Their code and results remain in Git history
+and the decisions log. No live script writes `data/interim/discharge_hourly.csv`.
 
-```bash
-python scripts/01_ingest_discharge.py
-```
-
-For routine updates, use the top-level data refresh command:
-
-```bash
-python scripts/update_data.py
-```
-
-Update behavior:
-
-- WVER Rimburg is refreshed by replacing the compact public JSON payload.
-- Waterstand Limburg Geul gauges are incrementally appended from the latest local timestamp.
-- `data/interim/discharge_hourly.csv` is rebuilt after every update.
-
-Raw and interim data are intentionally gitignored. Record major source decisions in `docs/decisions.md`.
+The eventual analytical input is
+`data/interim/event_study_discharge_hourly.csv`, built only after the requested
+historical files and their metadata have been inspected. Do not rename a
+rolling public export to satisfy that contract.

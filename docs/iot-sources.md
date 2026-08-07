@@ -38,10 +38,11 @@ Blynk export timestamps are local Europe/Amsterdam civil time in the CSVs. The
 loader converts them to UTC before hourly aggregation. Duplicate rows within a
 device/timestamp are resolved by preferring the more detailed source file.
 
-Interpretation caveat: the merged hourly IoT frame is now the right input for
-pipeline work, but it is not one uninterrupted single-device record. Source,
-device, and coverage-gap reports should travel with any chapter-level
-interpretation.
+Interpretation caveat: the merged hourly IoT frame is the input for the retained
+Eryilmaz context check, but it is not one uninterrupted single-device record and
+does not contain July 2021. Source, device, and coverage-gap reports should
+travel with any interpretation. The event study additionally requires
+`kerkrade_iot_eras.csv`; see `data-requests.md`.
 
 ## Local outputs
 

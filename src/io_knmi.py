@@ -362,7 +362,7 @@ def _validate_knmi_range(series, target, source_col):
     """Warn when scaled KNMI values fall outside physically plausible bounds.
 
     This is a backstop for a wrong unit factor: a magnitude error surfaces as a
-    loud log warning rather than a silent 10x error in the modelling exog.
+    loud log warning rather than a silent 10x error in the analysis covariate.
     """
     bounds = KNMI_VALID_RANGES.get(target)
     if bounds is None:

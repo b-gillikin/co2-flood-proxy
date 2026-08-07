@@ -13,14 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "kerkrade_data"))
 
-from src.features import antecedent_precipitation_index
-from src.io_data import load_iot, load_iot_observations, load_knmi
-from src.io_iot import _device_id_from_export_path
-from src.io_knmi import _normalize_knmi_frame
-from src.models.signal_frame import (
-    available_exog,
-    select_features_by_joint_coverage,
-)
+from src.io_iot import _device_id_from_export_path, load_iot, load_iot_observations
+from src.io_knmi import _normalize_knmi_frame, load_knmi
+from src.io_weather import safe_token
 
 knmi_backfill = importlib.import_module("knmi_backfill")
 
@@ -118,92 +113,9 @@ class DeviceIdTests(unittest.TestCase):
         self.assertEqual(_device_id_from_export_path(path), "67890")
 
 
-class JulyModelHelperTests(unittest.TestCase):
-    """Verify the small shared modelling helpers."""
-
-    def test_api_uses_day_scaled_exponential_decay(self):
-        precip = [10.0, 0.0, 0.0, 0.0]
-        api = antecedent_precipitation_index(
-            precip,
-            days=2,
-            decay=0.85,
-            hours_per_day=2,
-        )
-
-        self.assertAlmostEqual(api.iloc[0], 0.0)
-        self.assertAlmostEqual(api.iloc[1], 8.5)
-        self.assertAlmostEqual(api.iloc[2], 8.5)
-        self.assertAlmostEqual(api.iloc[3], 7.225)
-
-    def test_available_exog_filters_against_requested_target(self):
-        frame = pd.DataFrame(
-            {
-                "co2_residual_barometric_ppm": [None, None, None],
-                "iot_co2_ppm": [450.0, 460.0, 470.0],
-                "iot_air_pressure_hpa": [1001.0, 1002.0, 1003.0],
-            }
-        )
-
-        self.assertNotIn(
-            "iot_air_pressure_hpa",
-            available_exog(frame, min_non_missing=2),
-        )
-        self.assertIn(
-            "iot_air_pressure_hpa",
-            available_exog(frame, target_col="iot_co2_ppm", min_non_missing=2),
-        )
-
-    def test_optional_feature_cannot_erase_a_material_recent_block(self):
-        early = pd.date_range("2026-01-01", periods=216, freq="h", tz="UTC")
-        recent = pd.date_range("2026-07-09", periods=24, freq="h", tz="UTC")
-        index = early.append(recent)
-        frame = pd.DataFrame(
-            {
-                "target": 1.0,
-                "required": 2.0,
-                "optional_historical_only": [3.0] * len(early) + [None] * len(recent),
-            },
-            index=index,
-        )
-
-        selected, audit = select_features_by_joint_coverage(
-            frame,
-            target_col="target",
-            required=["required"],
-            optional=["optional_historical_only"],
-            min_non_missing=20,
-        )
-
-        self.assertEqual(selected, ["required"])
-        row = audit.set_index("feature").loc["optional_historical_only"]
-        self.assertEqual(row["reason"], "material_block_coverage_below_threshold")
-        self.assertEqual(float(row["minimum_material_block_share"]), 0.0)
-
-    def test_optional_features_are_gated_on_accumulated_joint_coverage(self):
-        index = pd.date_range("2026-01-01", periods=100, freq="h", tz="UTC")
-        frame = pd.DataFrame(
-            {
-                "target": 1.0,
-                "required": 2.0,
-                "optional_a": [None] * 5 + [1.0] * 95,
-                "optional_b": [1.0] * 95 + [None] * 5,
-                "optional_c": [1.0] * 5 + [None] * 5 + [1.0] * 90,
-            },
-            index=index,
-        )
-
-        selected, audit = select_features_by_joint_coverage(
-            frame,
-            target_col="target",
-            required=["required"],
-            optional=["optional_a", "optional_b", "optional_c"],
-            min_non_missing=20,
-            min_block_share=0.0,
-        )
-
-        self.assertEqual(selected, ["required", "optional_a", "optional_b"])
-        rejected = audit.set_index("feature").loc["optional_c"]
-        self.assertEqual(rejected["reason"], "joint_coverage_below_threshold")
+class WeatherNameTests(unittest.TestCase):
+    def test_location_prefix_collapses_repeated_separators(self):
+        self.assertEqual(safe_token("Maastricht / Aachen"), "maastricht_aachen")
 
 
 class KnmiBackfillHelperTests(unittest.TestCase):

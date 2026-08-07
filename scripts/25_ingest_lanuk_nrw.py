@@ -1,14 +1,13 @@
-"""Fetch the LANUK NRW verified discharge archive for the Rur and Niers catchments.
+"""Fetch long, verified LANUK NRW discharge records near Limburg.
 
 North Rhine-Westphalia publishes its full verified discharge archive as open
 data, no key and no registration, under Datenlizenz Deutschland Zero 2.0:
 
     https://www.opengeodata.nrw.de/produkte/umwelt_klima/wasser/oberflaechengewaesser/hydro/q/
 
-This matters because the Waterschap Limburg endpoint the chapter has been using
-is a rolling two-year window, and two years contains no event approaching July
-2021. The NRW archive is **15-minute resolution back to 1950** and covers the
-German half of the study area, including the Wurm — the donor catchment.
+This matters because the public Waterschap Limburg endpoint is a rolling
+two-year window. The NRW archive contains 15-minute records extending back to
+1950 for parts of the German study region, including the Wurm.
 
 Two catchments are pulled by default:
 
@@ -20,15 +19,19 @@ Two catchments are pulled by default:
 Together about 114 MB of zipped CSV, cached under ``data/raw/discharge/lanuk/``.
 
 **Worm at Rimburg is not here.** It is the Dutch border gauge operated by WVER,
-and its public feed is a rolling 10-day window. Herzogenrath 2 sits immediately
-upstream and Randerath downstream, so the Wurm is covered either way.
+whose public feed is only a rolling window. Any LANUK replacement for Rimburg
+must be justified as the Kerkrade hydrological pair before outcome inspection.
 
 **Gauges failed during the 2021 flood.** Randerath's record stops on
 2021-07-01 and Herzogenrath 2 has no July 2021 values. That is survivorship in
 the gauge network, not a fetch error, and the coverage report prints it rather
 than hiding it.
 
-Format quirks, all confirmed against the files rather than assumed: semicolon
+This source is reconnaissance, not automatic admission to the primary cohort.
+The event-study gate still requires one pre-declared gauge per natural
+watercourse, a ten-watercourse common record and complete gauge QA.
+
+Format quirks, confirmed against the files: semicolon
 separated, **UTF-8** encoded despite looking latin-1 at a glance, ``NA`` for
 missing, and timestamps carrying mixed UTC offsets across the DST boundary.
 Reading them as latin-1 silently mangles the station names that become the

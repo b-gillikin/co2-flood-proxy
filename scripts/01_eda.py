@@ -1,4 +1,4 @@
-"""Join sources into the hourly analysis frame and run coverage QC plots."""
+"""Join later-era Kerkrade IoT and weather for QC and Eryilmaz context."""
 
 from __future__ import annotations
 
@@ -26,20 +26,13 @@ def load_hourly(path):
 
 
 def build_joined_frame():
-    """Join IoT, Kerkrade weather, discharge, and soft labels on the IoT window."""
+    """Join the two same-site sources on the observed IoT window."""
     iot = load_hourly(INTERIM_DIR / "iot_hourly.csv")
     weather = load_hourly(INTERIM_DIR / "weather_hourly.csv")
-    discharge = load_hourly(INTERIM_DIR / "discharge_hourly.csv")
-    labels = load_hourly(PROCESSED_DIR / "hourly_soft_labels.csv")
-
     kerkrade_weather = weather[
         [column for column in weather.columns if column.startswith("kerkrade_")]
     ]
-
-    joined = iot.join(kerkrade_weather, how="left")
-    joined = joined.join(discharge, how="left")
-    joined = joined.join(labels, how="left")
-    return joined
+    return iot.join(kerkrade_weather, how="left")
 
 
 def write_summary(joined):
@@ -53,7 +46,7 @@ def write_summary(joined):
 
 
 def save_joined(joined):
-    """Save the analysis-ready hourly frame used by every downstream script."""
+    """Save the same-site frame used by the Eryilmaz re-evaluation."""
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     target = INTERIM_DIR / "analysis_hourly.csv"
     joined.to_csv(target, index_label="timestamp_utc")
@@ -91,7 +84,7 @@ def plot_series(joined, columns, title, filename):
 
 
 def write_plots(joined):
-    """Write the three coverage QC plots."""
+    """Write compact coverage and covariate QC plots."""
     plot_series(
         joined,
         [
@@ -115,23 +108,10 @@ def write_plots(joined):
         "CO2, temperature, and humidity",
         "co2_temperature_humidity.png",
     )
-    plot_series(
-        joined,
-        [
-            "iot_co2_ppm",
-            "discharge_wurm_rimburg_m3s",
-            "discharge_geul_hommerich_m3s",
-            "discharge_geul_meerssen_m3s",
-            "any_current_soft_label",
-            "any_antecedent_72h_soft_label",
-        ],
-        "CO2, discharge, and soft labels",
-        "co2_discharge_soft_labels.png",
-    )
 
 
 def print_overview(joined):
-    """Print the headline QC facts that matter before modelling."""
+    """Print the headline QC facts for the retained context analysis."""
     print(
         "analysis window:",
         joined.index.min(),
@@ -141,10 +121,6 @@ def print_overview(joined):
     )
     print("empty IoT hours:", int((joined["iot_co2_observation_count"] == 0).sum()))
     print("CO2 > 1000 ppm hours:", int((joined["iot_co2_ppm"] > 1000).sum()))
-    if "any_current_level" in joined:
-        print("current soft-label max level:", joined["any_current_level"].max())
-    if "any_antecedent_72h_level" in joined:
-        print("72h antecedent max level:", joined["any_antecedent_72h_level"].max())
 
 
 def parse_args():

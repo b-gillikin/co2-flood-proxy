@@ -1,9 +1,7 @@
 """Fetch the Waterschap Limburg gauge inventory and selected discharge series.
 
-Waterschap Limburg publishes 634 monitoring locations through a public OData
-endpoint with no key or registration: 390 water level, 185 groundwater, and 59
-discharge. The chapter previously used three of the discharge gauges, which was a
-configuration choice rather than a data limit.
+Waterschap Limburg publishes water-level, groundwater and discharge locations
+through a public OData endpoint with no key or registration.
 
     https://www.waterstandlimburg.nl/api/Location
     https://www.waterstandlimburg.nl/api/Location({id})/Measurements
@@ -19,7 +17,7 @@ Two things worth knowing before relying on this source:
   cross-border and main-stem comparisons are available from the same endpoint.
 
 The inventory is always refreshed; series are fetched only for the gauges named
-in ``--stations`` or, by default, the donor-selection candidate set.
+in ``--stations`` or, by default, the source-reconnaissance candidate set.
 """
 
 from __future__ import annotations
@@ -38,15 +36,10 @@ BASE = "https://www.waterstandlimburg.nl/api"
 RAW_DIR = Path("data/raw/discharge/waterschap")
 INVENTORY_PATH = Path("data/interim/waterschap_locations.csv")
 SERIES_PATH = Path("data/interim/waterschap_discharge_hourly.csv")
-# The CO2 lane still reads a three-column file under the older names. It is now
-# a projection of the series above, not a separate pull. See
-# write_legacy_projection().
-LEGACY_SERIES_PATH = Path("data/interim/discharge_hourly.csv")
 
-# Candidate donors and their comparators: every tributary carrying more than one
-# discharge gauge, plus the gauges nearest the Kerkrade site. Multi-gauge rivers
-# matter because they allow routing to be validated within a catchment before any
-# transfer between catchments is attempted.
+# Reconnaissance set: tributaries carrying multiple discharge gauges plus those
+# nearest Kerkrade. Multiple gauges help expose routing and source-quality
+# problems before one representative per watercourse is fixed.
 CANDIDATE_STATIONS = {
     232: "geul_cottessen",
     233: "geul_hommerich",
@@ -208,40 +201,6 @@ def main():
     SERIES_PATH.parent.mkdir(parents=True, exist_ok=True)
     combined.to_csv(SERIES_PATH, index_label="timestamp_utc")
     print(f"\nwrote {SERIES_PATH} ({len(combined)} hours, {combined.shape[1]} gauges)")
-    write_legacy_projection(combined)
-
-
-def write_legacy_projection(combined):
-    """Write the three-gauge `discharge_hourly.csv` the CO2 lane still reads.
-
-    `01_eda.py` and `03_build_event_catalogue.py` consume three named columns,
-    and until 2026-08-06 those came from a separate ingest
-    (`scripts/01_ingest_discharge.py`) that hit the same Waterschap endpoint
-    with different handling. Two pipelines over one source is how the zero
-    sentinel came to be fixed in one of them and not the other.
-
-    This makes the legacy file a projection of the corrected series rather than
-    an independent pull. The records agree at r = 1.00000 on their overlap, and
-    this version is a strict superset: Wurm at Rimburg gains 7,684 hours,
-    because the old path took it from the WVER feed, which is a rolling ten-day
-    window rather than an archive.
-    """
-    mapping = {
-        "worm_rimburg": "discharge_wurm_rimburg_m3s",
-        "geul_hommerich": "discharge_geul_hommerich_m3s",
-        "geul_meerssen": "discharge_geul_meerssen_m3s",
-    }
-    available = {src: dst for src, dst in mapping.items() if src in combined.columns}
-    if not available:
-        print(f"  legacy projection skipped: none of {list(mapping)} were fetched")
-        return
-    if len(available) < len(mapping):
-        missing = sorted(set(mapping) - set(available))
-        print(f"  legacy projection incomplete, missing {missing} — run without --stations")
-    legacy = combined[list(available)].rename(columns=available)
-    LEGACY_SERIES_PATH.parent.mkdir(parents=True, exist_ok=True)
-    legacy.to_csv(LEGACY_SERIES_PATH, index_label="timestamp_utc")
-    print(f"wrote {LEGACY_SERIES_PATH} ({legacy.shape[1]} gauges, projection of the above)")
 
 
 if __name__ == "__main__":

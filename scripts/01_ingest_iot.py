@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 
 import pandas as pd
 
-from src.io_data import load_iot, load_iot_observations
+from src.io_iot import load_iot, load_iot_observations
 
 DEFAULT_ACCOUNT = "stkerkradeprod01bg"
 DEFAULT_CONTAINER = "air-quality-device-data-1"

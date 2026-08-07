@@ -17,7 +17,12 @@ Viefhues (2022) establishes the flood-linked CO2 mechanism at the Kerkrade house
 
 Eryilmaz (2025) establishes the feature-substitution premise on a normal-period window: basement CO2 leak events can be predicted using outdoor weather-station variables nearly as well as using indoor IoT variables. Its strongest inheritance for this chapter is not "CO2 ablation" or transfer. It is same-site feature substitution: external meteorological features predict the same indoor basement CO2 target at nearly the same AUROC as indoor features.
 
-This chapter should not merely rerun either predecessor. The step beyond is to use the longer 2025-present stream to characterize the continuous multivariate signal, explicitly decompose barometric and hydrological contributions, build soft hydrological labels from current discharge data, and test whether any learned signal travels beyond the single Kerkrade calibration site.
+This chapter should not merely rerun either predecessor. The step beyond is to
+ask which fixed public hydrometeorological signals recur before independently
+defined high-water events and whether their direction and magnitude remain
+visible at an unseen watercourse and period. Kerkrade then tests whether the
+pressure-adjusted indoor response recurs as a local manifestation of that wider
+state.
 
 ## Viefhues 2022
 
@@ -190,14 +195,17 @@ Flood classification:
 
 ### What This Chapter Must Do Differently
 
-- Do not treat the July 2021 event as the analyzed event if the current empirical window is Jan 2025-present; use 2021 as predecessor/motivation.
-- Do not simply classify before/during/after one known flood. Build a soft event catalogue from discharge in the new window.
-- Do not rely on random k-fold or ordinary cross-validation for time-series claims; use time-aware splits for chapter models.
-- Do not let pressure dominate the story without explicit decomposition. First ask how much CO2 variance pressure level/tendency explains.
-- Do not claim flood prediction unless labels and evaluation support it. The chapter is better framed as signal characterization and hydrological antecedent-state detection.
-- Do not overstate generalization from a single calibration site. Any transfer test should be framed as a stress test, not universal portability.
-- Revisit feature importance with modern, time-aware, leakage-aware methods; Random Forest impurity importance alone is not enough.
-- Treat precipitation/discharge carefully: Viefhues' model underweighted them despite hydrological expectation, probably because of event sparsity.
+- Treat July 2021 as an interval-censored anchor, not an exact-onset pooled
+  event.
+- Define recurrent events from adjacent observed hours of long-record receiver
+  discharge, not before/during/after labels around one known flood.
+- Keep held periods out of thresholds, scaling and reference contrasts.
+- Adjust CO2 for pressure on quiet hours separately within documented sensor
+  eras.
+- Make no prediction, causal or universal-portability claim from a single site
+  or from Random Forest importance.
+- Report null and heterogeneous recurrence without searching new lags or model
+  families.
 
 ## Eryilmaz 2025
 
@@ -305,20 +313,23 @@ Prediction:
 ### What This Chapter Inherits
 
 - The external-weather substitution premise: public weather variables can capture most of the predictive signal for basement CO2 leak events at the Kerkrade calibration site.
-- Six-hour pressure change is a crucial feature and should be explicitly replicated.
-- The 1000 ppm leak-event threshold and hourly alignment conventions are inherited.
-- Visual Crossing is needed for faithful replication of Eryilmaz's setup.
-- Eryilmaz's result is an important empirical reason to ask what the non-CO2 weather/environmental signal is actually carrying.
+- Six-hour pressure change and hourly alignment belong in the faithful same-site
+  predecessor check.
+- The 1000 ppm threshold and Visual Crossing variables are confined to that
+  predecessor check; they do not define this chapter's high-water events.
+- Eryilmaz's result motivates asking which public weather components recur and
+  travel, but does not establish that they will.
 
 ### What This Chapter Must Do Differently
 
-- Replicate Eryilmaz faithfully first, using the same target definition and a comparable weather-feature model, before treating the result as a premise.
-- Keep the random 5-fold setup confined to the replication exercise; chapter models should use time-aware evaluation.
+- Keep Eryilmaz's random five-fold setup confined to the predecessor check.
 - Do not describe Eryilmaz as proving transfer. It proves same-site feature substitution.
 - Do not say Eryilmaz "removed CO2" as a feature in a transfer model. The CO2 target remains the same basement CO2 event.
-- Extend from binary CO2 leak prediction to continuous signal characterization and anomaly detection.
-- Test whether the signal structure has any useful relationship to hydrological soft labels, not merely whether weather predicts CO2 > 1000 ppm.
-- If transfer sites lack CO2 targets, make the transfer experiment explicit as a stress test with local hydrological labels, not a direct repeat of Eryilmaz.
+- Define high-water events independently from long-record receiver discharge.
+- Compare fixed pre-event signals with matched quiet times; do not build another
+  outcome classifier or anomaly detector.
+- Treat July 2021 as a censored anchor and test CO2 recurrence only at later
+  exact-onset Kerkrade events.
 
 ## Joint Implications for This Chapter
 
@@ -334,22 +345,24 @@ Prediction:
 
 - That the 2025-present window contains a comparable hydrological event.
 - That residual CO2 signal remains after pressure level and tendency are decomposed.
-- That the weather/IoT signal transfers beyond Kerkrade.
+- That any public or indoor signal recurs across high-water events.
 - That public weather alone can identify antecedent hydrological state at other Maas-basin sites.
 - That Random Forest feature importance from one event can serve as a defensible causal explanation.
 
-### Immediate PW-1 / June Follow-Through
+### Current Follow-Through
 
-- Re-check the IoT data for ABC autocalibration artifacts and baseline shifts.
-- Keep hourly alignment as the first common resolution.
-- Use Visual Crossing for the Eryilmaz replication, but pull KNMI as the reference met source for chapter inference.
-- Build discharge-based soft labels for Worm/Wurm and Geul events in the 2025-present window.
-- Replicate Eryilmaz's two logistic models on the new data window:
-  - Model A: indoor temp, humidity, pressure, 6-hour pressure change.
-  - Model B: outdoor weather temp, humidity, pressure, 6-hour pressure change.
-- Record a decisions-log entry that random 5-fold CV is used only for faithful predecessor replication, not for the chapter's own time-series evaluation.
-- Run the pressure-decomposition kill check before committing to the hydrological-signal claim.
+- Recover the original IoT record and its calibration/ABC history.
+- Obtain the long tributary discharge cohort and independently document the
+  July 2021 onset interval.
+- Fix catchment-average RADOLAN rainfall and a long-record public-weather source
+  and watercourse assignment before outcome inspection.
+- Run the hard-gate audit and obtain supervisor approval before locking the
+  contrast protocol.
 
 ### Framing Sentence for the Chapter
 
-Viefhues establishes that the Kerkrade mine-gas signal responds to the July 2021 flood and that hydrological variables matter; Eryilmaz establishes that public weather features can substitute for indoor environmental features in predicting same-site CO2 leak events during a non-flood window. This chapter takes those findings as calibration-site premises and asks the next question: after pressure effects are explicitly separated, does the remaining multivariate signal contain usable antecedent-hydrological-state information, and does any part of that signal survive a transfer stress test beyond Kerkrade?
+Viefhues documents a Kerkrade indoor response around the July 2021 flood;
+Eryilmaz shows that public weather carries much of the same-site information in
+a non-flood period; this chapter asks which public signals actually recur before
+independently defined high water and remain detectable at unseen watercourses
+and periods, and whether pressure-adjusted CO2 recurs locally.

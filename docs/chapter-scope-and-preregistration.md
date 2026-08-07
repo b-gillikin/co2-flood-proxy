@@ -1,460 +1,236 @@
-# Chapter Scope and Pre-Registration
+# Prospective Event-Study Protocol
 
-Date: 2026-08-07. Written to be taken to the supervisor.
+Version: **draft 0.2, not locked** (2026-08-07).
 
-**Two documents in one.** Part I is a scoping proposal — what the chapter is,
-why the lineage supports it, and what gets built. Part II is a **binding
-pre-registration**: the design fixed in advance, before the analysis runs.
+This protocol becomes locked only after (a) every hard data gate passes and (b)
+the supervisor approves the research question. No new event-study outcome table
+may be inspected before the version, input hashes and lock timestamp are added
+to §12. This is a repository protocol, not an externally registered study.
 
-Part II is binding in the ordinary sense. Anything in it may be changed, but a
-change made *after* seeing a result must be recorded here with its date and its
-reason. That record is the point. This project's named failure mode is comparing
-numbers produced different ways and settling specifications after seeing which
-one reads better; a pre-registration is the standing defence against it.
+## 1. Question and estimands
 
-Supersedes `docs/transfer-experiment-preregistration.md` (withdrawn 2026-08-06,
-about the retired anomaly-detection lane; archived 2026-08-07).
+> Across Limburg tributaries, which public hydrometeorological signals recur
+> during the 72 hours before independently defined high-water onset, and do
+> those signals remain detectable at unseen watercourses and periods? At
+> Kerkrade, does pressure-adjusted CO2 recur as a local manifestation of that
+> regional state?
 
----
+The sole estimand is the event-minus-matched-control contrast for each fixed
+signal. Recurrence is its distribution across watercourses; transfer is whether
+the direction and magnitude learned from other watercourses and periods remain
+visible in the held-out watercourse-period.
 
-# PART I — SCOPE
+Spatial transfer is primary. July 2021 is a required censored anchor, not a
+pooled event with an invented onset.
 
-## 1. The two constraints
+## 2. Hard gates and input contracts
 
-1. The sequence must be **Viefhues (2022) MSc → Eryilmaz (2025) → this chapter.**
-2. The chapter must have a **transferability component.**
+Run:
 
-Everything below is the narrowest design satisfying both.
+```bash
+python scripts/31_event_study_gates.py
+```
 
-## 2. The lineage, and the bridge this chapter uses
+The audit must pass without `--report-only`. Required files are:
 
-Viefhues and Eryilmaz are both about **a house in Kerkrade and indoor CO2**.
-Neither is about Maas tributaries. Any chapter on tributary transfer has to build
-a bridge, and the bridge determines whether the chapter reads as one argument or
-as three studies stapled together.
-
-**The bridge previously used** — "substitution at widening scope: data source,
-then variable, then space" — is elegant, but `docs/analysis-inventory.md` records
-that it was invented after the fact to retro-fit a spine onto lanes that already
-existed. A reader can reach that conclusion unaided, and three of its rungs are
-about a house.
-
-**The bridge this document proposes** is the same lineage read as a *progressive
-devaluation of the exotic instrument*:
-
-| | Claim | What it establishes |
-| --- | --- | --- |
-| **Viefhues (2022)** | A deeply instrumented site carries hydrological signal | The premise: deep instrumentation is worth something |
-| **Eryilmaz (2025)** | Free public weather substitutes for that instrumentation, within 0.05 AUROC | The cheap substitute matches the expensive instrument, *in place* |
-| **This chapter** | Does the instrumented site carry signal about *other* places — and if so, carried by what? | Substitution **across space**, and the answer is the ordinary gauge, not the exotic sensor |
-
-Three properties recommend it.
-
-**Nothing is retro-fitted.** Each step is the natural next question given the one
-before. Viefhues asks whether the instrument works; Eryilmaz asks whether it is
-necessary; this chapter asks whether it reaches.
-
-**The CO2 negative result becomes load-bearing.** Indoor CO2 scores AUROC 0.46
-for high-flow onset against rainfall's 0.872. Under the ladder framing that is an
-embarrassment reported in one paragraph. Under this framing it is the pivot: the
-lineage's own instrument does not transfer, which is precisely what motivates
-asking what does.
-
-**What is inherited is a method, not a result.** Eryilmaz supplies a falsifiable
-substitution criterion with a threshold this chapter did not choose. That is a
-real inheritance, and it does not require a reader to accept that indoor air
-quality and catchment hydrology are one question.
-
-## 3. What the chapter is
-
-> Given a gauged tributary catchment, how much of what you would learn from
-> instrumenting it can you get instead from a neighbouring gauge — and how far
-> does that reach?
-
-Measured as a **substitution gap in AUROC** against Eryilmaz's inherited 0.05
-threshold, on the water authority's own published alarm thresholds, over the
-Limburg Maas tributary network.
-
-## 4. What the chapter is not
-
-- **Not a monitoring-network-design chapter.** Withdrawn by the author on
-  2026-08-07 and it stays withdrawn. A measurement of donor reach is an *input*
-  someone else could use for siting. It appears as siting advice nowhere in the
-  results. See §11 for where it does appear.
-- **Not prediction in ungauged basins.** Every receiver has a gauge — that is
-  what makes the ceiling *measured* rather than assumed.
-- **Not a CO2 chapter.** Two pages: the inherited method, and the negative that
-  motivates the pivot.
-- **Not a mechanism chapter.** Viefhues established the instrumentation story.
-  This chapter cites him rather than re-establishing it with three more
-  instruments.
-
-## 5. The one design decision that matters most
-
-**All pairs as the estimate; the Worm at Rimburg as the worked case.**
-
-The Worm is the donor because it holds the CO2 sensor and the groundwater wells.
-The chapter's own finding is that the sensor carries no hydrological signal. So
-the stated justification for the donor choice is instrumentation the chapter has
-measured and found irrelevant, and what actually makes Rimburg a donor is a
-discharge gauge that 37 other catchments also have. It sits at the **69th
-percentile of transferability** (11th of 36), not mid-pack.
-
-Running the substitution test over **all ordered (donor, receiver) pairs** fixes
-this. It:
-
-- removes a "why the Worm?" question that currently has no good answer;
-- turns the per-donor spread — decay ranging **−0.58 to +0.21** across donors —
-  from a robustness check into the finding;
-- multiplies the inferential sample;
-- and lets Rimburg be *located in a distribution* rather than asserted to be
-  typical.
-
-The Worm keeps its own section. It is the one catchment where the chapter can say
-what the instrumentation actually is, and it carries the lineage. But it is the
-worked example, not the design.
-
-## 6. Sequencing
-
-| | Step | Why here |
-| --- | --- | --- |
-| 0 | **Supervisor conversation** (§12) | The answer does not depend on any result below, and asking afterwards costs a rebuild |
-| 1 | **Water-level feasibility check** (§7) | Determines the size of the analysis set, and therefore the power of everything after it |
-| 2 | **Finalise Part II** against the resulting set | Pre-registration must be fixed before the first substitution run |
-| 3 | Build the substitution harness run | The chapter |
-| 4 | Reach model | The transferability component |
-| 5 | Worked case, figures, limits | Writing |
-
-## 7. The water-level check — RUN 2026-08-07
-
-This was step 1 and it is complete. **The answer changes what it was expected to
-change, in the opposite direction.**
-
-`data/interim/waterschap_locations.csv` holds **390 WaterLevel locations**
-carrying published Fase 1/2/3 thresholds in metres NAP. Applying the same
-structure-name filter used for discharge leaves **272 natural stations across 125
-water bodies**, of which **124 sit on 92 water bodies with no discharge gauge at
-all**. Discharge gives 59 locations, 38 surviving filtering.
-
-Because the target is **binary**, level's usual problem disappears: each location
-has its own datum and channel geometry, but nothing is ever compared except *is
-this location above its own published threshold*.
-
-Twelve stations probed against the same endpoint:
-
-| | check | result |
-| --- | --- | --- |
-| 1 | historical series served? | **Yes** — 12 of 12 returned records |
-| 2 | coverage comparable to discharge? | **Better** — median **100%** against 89–100% |
-| 3 | Fase-1 exceedance as sparse as discharge? | **Worse** — median **1** event per station against 3; **5 of 12 never reach it** |
-
-**And the finding that was not one of the three questions: every probed station
-spans 2024-08 → 2026-08.** The level network sits behind the same rolling
-two-year window. Going wide on level extends the record by nothing.
-
-**Consequence, replacing what this section previously predicted.** The expectation
-was that the analysis set would exceed 100 and the power problem would ease
-materially. It does not. The trade is **spatial coverage, not temporal power**:
-roughly six times the receivers, about a third as many events each, and 92
-tributaries currently invisible to the chapter.
-
-That is worth having for §II.7 — more receivers means more pairs and more
-short-range distance bins, which is the constraint that leaves the reach model
-weakest — and worth nothing for events per catchment. **§8 stands unchanged and
-is still the binding constraint.**
-
-Two implementation caveats. Sampling rates vary across level stations (10-min,
-15-min and hourly all appear in a sample of twelve), so a common grid is needed.
-And level is a stage, not a flux: sound for a binary threshold crossing, wrong for
-anything requiring a rate.
-
-**Decision this now forces (§12, new question 4):** ingest the level network for
-spatial coverage, or stay on 38 discharge gauges and accept a thinner reach model?
-The power argument for level has gone; the coverage argument has not.
-
-## 8. The binding constraint, stated once
-
-On the **37** analysis gauges carrying a usable Fase 1 — the 38 less Niers,
-excluded by §II.1 clause 5 — Fase 1 fires a **median of 3 times per gauge** over
-the two-year record. **11 of 37 never reach it.** **42% of all Fase-1 events fall
-in January 2025.** Fase 2 is reached by **13 of 37**, Fase 3 by **4 of 37**,
-giving 21 and 4 events respectively across the whole network.
-
-(Counts quoted elsewhere as "14 gauges" for Fase 2 come from the wider 56-gauge
-probe in `results/events/fase_summary.txt`, which includes managed structures and
-sub-floor gauges. Use the 37-gauge figures for anything inferential.)
-
-No method repairs this. It has two consequences that shape the whole design:
-
-- **The chapter is cross-sectional, not time-series.** The inferential unit is
-  the *pair*, not the catchment. The claim is about the population of tributary
-  pairs, not about forecasting any single catchment. Weaker, and it is what the
-  data supports.
-- **The long-record request is the chapter's most valuable open item** — not
-  because more data would change a method finding, but because the target the
-  authority actually uses fires three times in the window.
-
-## 9. What never gets built
-
-Explicitly, so it cannot return: barometric response function, tidal/earth-tide
-response, groundwater characterisation (three wells), the catchment signature
-space (`flashiness`, `low_flow_ratio`, `recession_constant`, `winter_summer_ratio`,
-`signature_distance`), EStreams static attributes, spatial correlation length,
-and the entire retired anomaly-detection programme.
-
-That is roughly 2,000 lines and the six lanes `analysis-inventory.md` identifies
-as the drift mechanism. Each produced a defensible result about *what an
-instrument is doing*. None answers whether the Worm transfers.
-
-## 10. Chapter shape
-
-1. Lineage and the question
-2. The inherited method, and the CO2 negative that motivates the pivot — **two
-   pages, both**
-3. Data, and why the event definition must be external
-4. The substitution test across all pairs — **the chapter**
-5. What governs reach
-6. The Worm at Rimburg as the worked case, located in the distribution
-7. Limits: two years, three events, and what a longer record would change
-
-## 11. Where the institutional relevance goes
-
-Maastricht requires a **valorisation addendum**. That is where the siting
-implication belongs, and it is the only place it belongs.
-
-The results measure *the information value of one gauge to its neighbours*,
-expressed in skill. The addendum may say that someone allocating a monitoring
-budget could use this as an input. It may not say where to put a gauge, and the
-results section may not gesture at it. Designed in this way it costs a paragraph
-in the introduction and a section at the end; bolted on afterwards it is the
-overreach that was withdrawn on 2026-08-07.
-
-## 12. Three questions for the supervisor
-
-1. **Is the Kerkrade lane two pages, or a third of the chapter?** This design
-   treats it as method-provenance plus a motivating negative. If a substantive
-   CO2 contribution is expected, that is a conflict — the CO2 signal has now been
-   measured and it does not carry (AUROC 0.46 against rainfall 0.872).
-2. **Is the all-pairs design acceptable, with the Worm as worked case?** It is
-   more defensible and more robust, but it changes the chapter's title framing
-   from *the Worm's reach* to *donor reach, measured here*.
-3. **Who is likely to sit on the assessment committee?** If it is staffed from
-   UNU-MERIT's own disciplines, the hydrological content is difficult to assess
-   and the socio-economic contribution is thin. Better known now than at
-   submission.
-4. **Ingest the water-level network, or stay on 38 discharge gauges?** Raised by
-   the §7 probe. Level adds ~272 natural stations across 125 water bodies, 124 of
-   them on tributaries with no discharge gauge — but events per station are ~3×
-   scarcer and the record is the same two years. It buys a better reach model and
-   no additional power. It is a week of ingest and QC, and it is optional.
-
----
-
-# PART II — PRE-REGISTRATION (BINDING)
-
-Fixed **before** the analysis runs. Any change after a result is seen must be
-appended to §II.11 with date and reason.
-
-## II.1 Analysis set
-
-**Inclusion rule**, applied in this order:
-
-1. Location type serves a discharge or water-level series over 2024-08 → 2026-08.
-2. Not a managed structure — excluded by name (`stuw`, `duiker`, `inlaat`,
-   `verdeelwerk`, `kanaal`, `sloot`, `gemaal`, `dijk`) or by sustained negative
-   flow (>1% of observations). **The name filter requires a manual map pass
-   before use**; it is a heuristic and is recorded as one.
-3. Observes ≥ **80%** of the hourly grid.
-4. Carries a published `Fase1Value`.
-5. **Excluded** if above Fase 1 for more than **5%** of its record. This is a
-   mis-thresholding rule, not a hazard rule. Niers at Kessel (25.2%) is the only
-   known offender and is named in the output.
-
-Final n is set by §7 and recorded here before the first run.
-
-**Pair counting, stated explicitly because §5 and this clause disagreed.** The
-design in §5 is over **ordered** (donor, receiver) pairs: substitution is
-directional — what the Worm buys a receiver is not what that receiver buys the
-Worm — and Model B contains only the donor. On 38 discharge gauges that is
-**1,406 ordered pairs**, not the 703 unordered pairs used by the *symmetric*
-pairwise statistics in §II.7 (distance, response correlation, scale ratio).
-
-Both numbers are correct for their own object and neither substitutes for the
-other. The substitution gap is estimated on 1,406 ordered pairs; the reach model
-regresses a symmetric pair statistic on 703.
-
-## II.2 Target
-
-**Primary.** The receiver crosses its **published Fase 1** within *h* hours.
-
-- Binary, one row per (receiver, hour).
-- Scored only on hours where the receiver is **below** Fase 1 — a crossing, never
-  a continuation.
-- **Secondary, pre-specified:** the same target restricted to hours where the
-  receiver is also below its **own p90**. This is the early-warning case as
-  opposed to the nowcasting case, and it is the arm that matters operationally.
-  Both are reported regardless of whether they agree.
-
-**Power check.** The entire analysis is repeated with the target set at the
-receiver's **own p99** (452 events against 115). Agreement across the two shows
-the headline is not an artifact of a thin target; disagreement is itself the
-finding. **Both are reported regardless of outcome.**
-
-## II.3 Horizons
-
-**h ∈ {6, 12, 24} hours. Headline h = 12.**
-
-Fixed now, and here is the reason, so that it cannot be re-chosen later. The
-target is a threshold on Model A's own series, so at h = 1–3 Model A is a
-near-oracle by construction and the gap is large at every distance for reasons
-that have nothing to do with transfer. Beyond ~24 h the horizon exceeds the
-response time of 27–77 km² flashy catchments; median best lag between gauge pairs
-is 5 h. All three horizons are reported.
-
-## II.4 Models
-
-| | Contents |
+| file | minimum contract |
 | --- | --- |
-| **A — local instrument** | The receiver's own series: current value as a fraction of its Fase 1, and first differences at 1, 3 and 6 h |
-| **B — the substitute** | The **donor's** series only, same four features, shifted by the pair's measured best lag. **Contains nothing from the receiver** |
-| **C — the control** | Rainfall alone: nearest station 24 h and 72 h totals. Pre-specified as an arm, not an addition |
+| `data/interim/viefhues_iot.csv` | `timestamp_utc`, `sensor_era`, `iot_co2_ppm`, `iot_air_pressure_hpa`; covers 2020-08-25–2021-09-01 and includes both signals around July 2021 |
+| `data/interim/iot_hourly.csv` | retained later-era CO2 and pressure; generated by `01_ingest_iot.py` |
+| `data/interim/kerkrade_iot_eras.csv` | non-overlapping era bounds plus device, calibration, ABC-processing and source-resolution fields for both sensor periods |
+| `data/interim/event_study_discharge_hourly.csv` | unique regular hourly UTC index plus one column per primary gauge |
+| `data/interim/event_study_gauges.csv` | gauge/watercourse identity, coordinates, cohort/QA flags, July 2021 status and censored bounds; optional documented Kerkrade-pair flag |
+| `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average column per primary watercourse |
+| `data/interim/event_study_catchments.gpkg` | polygons used for the RADOLAN spatial average |
+| `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC table of temperature, relative humidity and pressure for each primary watercourse |
+| `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
 
-Estimator: `StandardScaler` + `LogisticRegression`, as inherited. Model
-complexity is bounded by sample size deliberately — 24 storms does not justify
-anything larger, and it would put the chapter against FloodHub on its own terrain
-with a thousandth of the data.
+The primary cohort must contain at least 10 natural tributary watercourses, 10
+common years across discharge, RADOLAN and public weather, 20 full-record p99
+episodes per watercourse, 40 regional storms and Worm/Wurm or a documented
+hydrological pair. That pair must have at least three later exact p99 onsets
+with all 72 pre-onset hourly CO2 and pressure values observed; otherwise CO2
+recurrence is not estimable. Rating curve, coordinates, timezone, unit,
+zero-sentinel, public-weather assignment and July 2021 status/bounds must be
+complete. Gate counts use the full eligible record for feasibility only; fold
+outcomes use the rules below.
 
-## II.5 Validation
+For the executable gate, 10 years means at least 3,650 days between the
+inclusive first and last common hourly endpoints. Missing values remain visible
+on that grid and event-count gates still have to pass.
 
-**Leave-one-storm-out.** A network storm is a cluster of Fase-1 onsets with
-starts within 48 h. On the current 38-gauge set that is **24 storms**, of which
-10 involve ≥3 gauges and 6 involve ≥5.
+If any hard gate fails, stop. Do not use the rolling 2024–2026 Waterschap file
+as a substitute. Groundwater is not a gate.
 
-Storms, not catchments, are held out — holding out catchments leaves shared
-forcing in the training set.
+## 3. Population and time axis
 
-`groups` = storm is passed to `substitution_test` in every call. **Scores are
-never pooled across storms.**
+Use one pre-declared representative gauge for each natural tributary
+watercourse. Exclude main stems, canals, managed structures, reversing or
+controlled flow series and gauges without documented QA. Selection cannot use
+event contrasts.
 
-## II.6 Estimand and inference
+All analytical series use a complete hourly UTC grid. Missing observations
+remain missing. Do not interpolate discharge, bridge a missing hour when
+identifying a crossing, or turn a missing RADOLAN code into zero.
 
-**Estimand.** g = AUROC_A − AUROC_B, computed within storm and averaged.
-Reported as a function of donor–receiver distance.
+## 4. Episodes and regional storms
 
-**Reporting, fixed now:**
+For each crossed validation fold, estimate the receiver's p99 and p95 from its
+observations outside the held time block. The receiver series is used only to
+define its outcome and contamination periods; receiver flow is not a candidate
+signal.
 
-- **Every** per-storm gap is reported, never only the mean. Two of the largest
-  storms are both in January 2025; the folds are of very unequal weight.
-- The **sign count** ("A better in k of n storms") is primary evidence.
-- The interval is a **t-interval on the storm-level gaps at df = n − 1**, labelled
-  as such. **Not** a percentile cluster bootstrap. With fewer than ~30 clusters a
-  percentile bootstrap has severe undercoverage, and the artifact currently
-  reports `[+0.009, +0.015]` from 5 folds, which reads as precision and is the
-  spread of a mean of five numbers.
+A primary episode starts when discharge moves from at or below p99 to above p99
+on adjacent observed hours. Merge re-crossings whose onsets are at most 72
+hours apart. Across watercourses, sort episode onsets and place consecutive
+onsets at most 72 hours apart in the same regional storm. This single-linkage
+rule is fixed and its possible chain length will be reported.
 
-  **This is a code change, not just a reporting convention.**
-  `src.substitution.substitution_test` currently returns a percentile cluster
-  bootstrap over groups (`_interval` on resampled group means). Implementing this
-  clause means returning the t-interval on `group_gaps` when `groups` is
-  supplied, and it must be done **before** the first rung-3 run rather than
-  applied to its output afterwards.
+Exact crisis-plan Fase crossings at the named leading gauges are a sparse
+sensitivity. Inventory thresholds at other points are not treated as
+equivalent.
 
-**Decision rule.** Inherited from Eryilmaz: **B substitutes for A if g ≤ 0.05.**
-One-sided — a substitute that beats the instrument has plainly substituted.
+The primary precursor window is -72 to -1 hours. Sensitivity windows are -24 to
+-1 and -168 to -1. The event timestamp itself is excluded from signal summaries.
 
-## II.7 The reach model — the transferability component
+## 5. Matched quiet references
 
-Pair-level gap regressed on **distance**, plus exactly two further covariates,
-**fixed now and not extendable**:
+For each event, candidate reference times are hours on the same receiver,
+calendar month and UTC hour. Candidates require every primary public signal and
+must be more than seven days from any receiver p95 exceedance and any regional
+storm onset.
 
-1. `same_river` — an upstream/downstream relation on one watercourse
-2. `|log10(scale ratio)|` — magnitude only
+Rank eligible candidates deterministically by absolute distance from the event
+time, then timestamp; take the first five. Exclude an event with fewer than
+three. The selected timestamps are saved before signal contrasts are computed.
 
-No signature space. No static attributes. `analysis-inventory.md` names a
-multi-covariate regression on signature distance as "item 17 coming back through
-the window," and this clause exists to keep it out.
+Control values cannot cross the temporal holdout. For a held-out event, controls
+must lie in the same held time block; for a reference event, controls must lie
+outside that block. Thus no reference event or control summary reads a held-time
+observation.
 
-Inference on pairwise statistics is by **Mantel permutation over gauge labels**,
-5,000 permutations. Pairs are not independent — each gauge appears in n − 1 of
-them and a Pearson p-value on the pair list is wrong by orders of magnitude.
+Each fixed rolling signal is evaluated at the end of the precursor window
+(`onset - 1 hour`) and at the matched reference hour. Event-time trajectories
+remain descriptive figure data and do not create additional tested lags.
 
-## II.8 Lag selection — IMPLEMENTED AND RUN 2026-08-07
+## 6. Fixed signals
 
-The lag between a pair is selected on **signed** correlation, not absolute
-correlation, and the **identical rule** is applied to the real and null arms.
+Public spatial signals:
 
-This corrected a defect in `23_catchment_similarity.py`, which selected on
-`abs(r)` and returned signed `r`. Under a time-shifted null that yields a signed
-expectation of ≈ 0 (median +0.016 against a median |null| of +0.036, with 249 of
-703 pairs negative), so the null subtracted almost nothing — and for 37% of pairs
-the "correction" made the statistic *larger* than the raw value. See
-`chapter-review-2026-08-07-third-pass.md` §1.
+- catchment-average RADOLAN rainfall totals over 24 and 72 hours;
+- public temperature and relative-humidity means over 24 hours;
+- pressure level and six-hour pressure change;
+- nearest other-watercourse flow divided by its reference-period p99 and its
+  12-hour change on that scale.
 
-**Outcome, measured. The clause predicted the calibrated decay would weaken. It
-strengthened.**
+Donor selection uses geographic distance only and excludes every gauge on the
+receiver watercourse. Ties are broken by stable gauge identifier. The receiver's
+flow is used only to define its event.
 
-| | before | after |
-| --- | ---: | ---: |
-| median time-shifted null — the procedural floor | +0.016 | **+0.152** |
-| co-response net of the null | +0.243 | **+0.106** |
-| decay with distance, calibrated | −0.249 | **−0.311** |
-| variance explained | 6.2% | **9.7%** |
+The source and spatial assignment for temperature, humidity and pressure are
+chosen and documented before the protocol lock. The held Visual Crossing and
+KNMI tables are source candidates/context, not an automatic assignment to the
+primary watercourses.
 
-The correction now bites as intended — **59% of the raw co-response is
-procedural**, and the chapter has a measured answer to *"you searched 25 lags and
-conditioned on both tails."* The decay moved the other way because the **raw**
-metric changed too: under `abs()` selection a distant, unrelated pair could be
-assigned a large *negative* correlation, meaningless as a similarity and diluting
-the distance relationship.
+Kerkrade-only signals are raw CO2, pressure-adjusted CO2 and available
+groundwater level/change. CO2 contrasts use the median hourly value over each
+specified precursor window and require every hour in that window; public
+rolling signals use their `-1 hour` values.
+Groundwater reporting is secondary mechanism evidence.
 
-**The pre-acceptance stands and was not needed.** Recording that a pre-registered
-expectation was wrong, rather than quietly restating it, is the point of Part II.
-Logged in §II.11.
+## 7. Pressure adjustment
 
-## II.9 Pre-committed readings
+Fit separate linear pressure baselines in the documented 2020–2021 and
+2025–2026 sensor eras. Features are pressure level and 1/3/6/12/24-hour pressure
+changes. Fit only on complete quiet calibration hours and require at least 100.
+Apply the era model to all complete hours, then subtract the quiet-calibration
+median and divide by its MAD within that era. Save the feature table, calibration
+mask, coefficients and residual series.
 
-Written before the answer is known, so that no outcome can be presented as more
-than it is.
+A seasonal/diurnal baseline is sensitivity-only. Do not choose between
+baselines from event performance.
 
-| Outcome | What the chapter says |
-| --- | --- |
-| g ≤ 0.05 at **all** distances in the network | A donor gauge substitutes for a receiver's own gauge throughout this region. Proximity is not the design variable. **Publishable** |
-| g > 0.05 at **all** distances | A donor gauge does not substitute anywhere at this grain. Local gauging is not replaceable here. **Publishable** |
-| g crosses 0.05 within the network span | Report the crossing distance **with its interval** |
-| The interval on the crossing distance exceeds the network span | **"Not identified by this network."** Report it as such, and do not rest on a point estimate |
-| Fewer than 10 storms yield scoreable folds for the median pair | The design is underpowered. Report that, not a gap |
-| Model C ≈ Model B | The donor adds nothing over knowing the weather. **A real result, and the chapter reports it** |
+## 8. Event contrasts: recurrence
 
-## II.10 No-search commitments
+For event `e`, signal `s` and each valid control `c`, calculate the fixed signal
+summary. The contrast is:
 
-1. Horizons are §II.3. They are not re-chosen after seeing which is
-   interpretable.
-2. Reach covariates are §II.7. Not extended, not swapped.
-3. **One currency: the AUROC gap.** No correlation length, no KGE, no signature
-   distance, no second Mantel coefficient on a different statistic. An analysis
-   requiring a new currency to express its result is out of scope by definition.
-4. Both target definitions (§II.2) are run and both reported, whatever they show.
-5. No post-hoc subsetting of pairs, gauges or storms. Exclusions are §II.1 and
-   are applied before any score is computed.
-6. Every artifact states the coverage of every axis it uses **inside the
-   artifact**, not in prose elsewhere. Three defects in this repository survived
-   because coverage was recorded somewhere and never in the number.
-7. No interpretive sentence containing a numeric value is written into a
-   generated artifact as a string literal. Values are interpolated from the
-   result object or the sentence lives in the docs.
+`event summary(e, s) - median control summary(e, c, s)`.
 
-## II.11 Amendments
+Before the contrast, express public and Kerkrade summaries relative to the
+quiet-period median and MAD estimated outside the held time block. Do not use
+test-period values to define a threshold or scale.
 
-Any deviation from Part II, with date and reason.
+Report every event-level contrast. Aggregate event contrasts to one median per
+watercourse before describing the network distribution. For each signal report
+the watercourse median, IQR and sign count. Resample entire regional storms,
+recompute watercourse and network summaries, and report percentile intervals;
+do not resample event rows independently.
 
-| Date | Clause | Change | Reason |
-| --- | --- | --- | --- |
-| 2026-08-07 | §II.8 | **Prediction falsified, rule unchanged.** The clause predicted the calibrated decay would weaken under signed lag selection. It strengthened: −0.249 → −0.311, variance 6.2% → 9.7%. The co-response did fall as intended, +0.243 → +0.106. | The raw metric changed as well as the null. Under `abs()` selection an unrelated distant pair could be assigned a large negative correlation, which diluted the distance relationship. The rule stands; only the expectation was wrong. Logged rather than restated. |
-| 2026-08-07 | §7 | **Conclusion replaced.** The section predicted the level network would take the analysis set past 100 and ease the power problem. Probe result: history is served and coverage is better, but events are ~3× scarcer per station and the record is the same rolling two-year window. | Measured, 12 stations. Level buys spatial coverage, not temporal power. §8 remains the binding constraint. Adds a new supervisor question (§12.4). |
-| 2026-08-07 | §II.1 | **Clarified, not changed.** Ordered vs unordered pair counts made explicit: 1,406 ordered pairs for the substitution gap, 703 unordered for the symmetric reach statistics. | §5 specified ordered pairs while §II.1 recorded 703 unordered. Neither number was wrong; the document did not say which applied where. |
-| 2026-08-07 | §II.6 | **Flagged as unimplemented.** The t-interval requires changing `substitution_test`, which currently returns a percentile cluster bootstrap. | Recorded so the clause is not mistaken for current behaviour. Must land before the first rung-3 run. |
+## 9. Held-out signal transfer
 
-**Nothing in Part II has been changed after seeing a result it governs.** The
-§II.8 entry records a wrong prediction, not a revised rule; the §7 entry records a
-completed feasibility check, which Part I explicitly sequenced *before* Part II
-was to be finalised.
+Cross two exclusions: one entire receiver watercourse and one of five
+contiguous equal-duration time blocks. For each held watercourse-by-block fold
+and signal:
+
+1. remove every event from the held receiver and every event in the held time
+   block from the reference set;
+2. take the median contrast within each remaining watercourse;
+3. define the expected contrast as the median of those watercourse medians;
+4. take the median contrast among events in the held receiver-by-block
+   intersection;
+5. report the expected and held-out contrasts, their signs, sign concordance,
+   magnitude difference, number of reference watercourses and event counts.
+
+If the reference median is exactly zero, its direction is undefined and sign
+concordance is missing. A held-out zero is non-concordant with a defined
+direction. Do not impose a success proportion or magnitude threshold.
+
+Aggregate fold results within receiver watercourse before describing the
+network. Report sign-concordance counts and the distribution of magnitude
+differences for every signal. This is descriptive external validation of a
+contrast, not prediction or classification.
+
+## 10. July 2021 and Kerkrade recurrence
+
+Plot CO2, pressure, catchment rainfall and available groundwater for July 2021.
+Represent high-water timing as an interval when gauge evidence is damaged or
+uncertain. Quantify observed trajectories and missingness, but do not impute a
+peak or include the episode in any calculation requiring exact onset.
+
+Estimate raw and adjusted CO2 contrasts only for later exact-onset Kerkrade
+events. Compare direction and magnitude with the observed 2021 trajectory. A
+nonrecurring residual is a planned substantive conclusion, not grounds to alter
+the pressure baseline.
+
+## 11. Outputs and tests
+
+Required tidy tables: `events.csv`, `controls.csv`, `signal_contrasts.csv`,
+`watercourse_contrasts.csv`, `heldout_signal_transfer.csv` and
+`watercourse_transfer_summary.csv`.
+
+Required figures: censored July 2021 trajectory, public-signal event-time
+profiles, watercourse contrast forests and held-out signal direction/magnitude.
+
+Before execution, tests must cover adjacent-hour p99 crossings, episode/storm
+clustering, censored exclusion, control contamination, reference-only thresholds
+and scaling, crossed holdout exclusion, RADOLAN missing/spatial handling,
+sensor-era pressure residuals, and synthetic positive, null and heterogeneous
+signal-transfer cases.
+
+## 12. Lock and amendments
+
+Current state: **unlocked because the data gates fail and supervisor approval is
+not recorded**.
+
+At lock, record:
+
+- supervisor approval date;
+- gate-audit path and hash;
+- hashes of all analytical inputs;
+- Git commit;
+- protocol lock timestamp;
+- any resolution of ambiguity made before outcome inspection.
+
+After lock, append amendments here with date, change, reason and whether any new
+outcome table had been viewed. Never rewrite the prior entry.

@@ -7,8 +7,6 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from src.textutils import safe_token
-
 WEATHER_COLUMN_MAP = {
     "temp": "weather_temp_c",
     "dew": "weather_dewpoint_c",
@@ -39,6 +37,12 @@ WEATHER_COLUMN_MAP = {
 }
 
 
+def safe_token(value):
+    """Convert a free-form location name to a stable column prefix."""
+    characters = [char.lower() if char.isalnum() else "_" for char in str(value)]
+    return "_".join(part for part in "".join(characters).split("_") if part)
+
+
 def load_weather(
     raw_dir="data/raw/weather",
     frequency="h",
@@ -52,8 +56,8 @@ def load_weather(
 
     Stored Visual Crossing CSVs use local civil timestamps without an offset.
     The configured timezone is applied before conversion to UTC. Use
-    ``wide=False`` for one row per location-hour or ``wide=True`` for the
-    modelling shape with location-prefixed columns.
+    ``wide=False`` for one row per location-hour or ``wide=True`` for the joined
+    analysis shape with location-prefixed columns.
     """
     raw_path = Path(raw_dir)
     csv_paths = sorted(raw_path.glob("*/*.csv"))

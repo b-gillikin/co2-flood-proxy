@@ -153,54 +153,6 @@ The Parquet file is the preferred local analysis table because it is typed and
 compressed. The CSV mirror remains useful for quick inspection and compatibility
 with existing scripts.
 
-## Local Fallback
-
-For a short unattended catch-up while the laptop is awake, the bounded launchd
-job is still available. Store the API key outside the repo:
-
-```bash
-printf '%s' "$KNMI_API_KEY" > ~/.knmi_api_key
-chmod 600 ~/.knmi_api_key
-```
-
-Install the launchd job:
-
-```bash
-mkdir -p ~/Library/LaunchAgents
-cp ops/com.briangillikin.chapter1-co2.knmi.plist ~/Library/LaunchAgents/
-launchctl bootstrap "gui/$(id -u)" ~/Library/LaunchAgents/com.briangillikin.chapter1-co2.knmi.plist
-launchctl kickstart -k "gui/$(id -u)/com.briangillikin.chapter1-co2.knmi"
-```
-
-The wrapper runs:
-
-```bash
-scripts/run_knmi_hourly_job.sh
-```
-
-By default each hourly run backfills from `2020-01-01T00:00:00Z` through the
-current UTC time, requests at most 800 missing files, sleeps 4 seconds between
-KNMI URL requests, then rebuilds `data/interim/knmi_hourly.csv` for the curated
-Dutch Meuse/Maas station set. Logs are written under `logs/`, which is ignored
-by git. The script uses a lock directory so overlapping hourly runs exit
-quietly.
-
-Override the defaults for a shorter or slower run if needed:
-
-```bash
-KNMI_START=2025-01-01T00:00:00Z \
-KNMI_MAX_DOWNLOADS=200 \
-KNMI_DOWNLOAD_SLEEP_SECONDS=4.0 \
-KNMI_STATION_SET=meuse \
-scripts/run_knmi_hourly_job.sh
-```
-
-Stop the job with:
-
-```bash
-launchctl bootout "gui/$(id -u)" ~/Library/LaunchAgents/com.briangillikin.chapter1-co2.knmi.plist
-```
-
 ## Local Landing Zone
 
 The loader accepts cached CSV, CSV.GZ, Parquet, JSON, JSONL, or KNMI NetCDF
@@ -234,7 +186,7 @@ Current `meuse` station set:
 
 | Station | Name | Role |
 | --- | --- | --- |
-| `06380` | Maastricht Airport | Primary Kerkrade/South Limburg reference and transfer meteorology station. |
+| `06380` | Maastricht Airport | Primary Kerkrade/South Limburg reference station. |
 | `06377` | Ell | Limburg/Maas corridor sensitivity station. |
 | `06392` | Horst | North Limburg/Maas corridor station. |
 | `06370` | Eindhoven Airport | North Brabant catchment/corridor station. |

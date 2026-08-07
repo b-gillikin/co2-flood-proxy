@@ -1,158 +1,141 @@
 # Session Handoff
 
-Written 2026-08-07. **Read `docs/chapter-synthesis.md` first** — it is canonical
-for the idea, design and data, and every figure in it is quoted from an artifact
-produced by the code in the tree. Then `docs/chapter-scope-and-preregistration.md`
-for what gets built and the binding design, and `docs/analysis-inventory.md` for
-what was cut and why.
+Written 2026-08-07. Session state only; do not copy numbers from here into a
+manuscript.
 
-This file is session state only. It was 498 lines and is now 150; a handoff that
-restates the canonical document is how the numbers drifted apart three times.
+Read in this order:
 
----
+1. `chapter-synthesis.md` — canonical question, contribution, design and state.
+2. `chapter-scope-and-preregistration.md` — prospective estimator protocol.
+3. `analysis-inventory.md` — prospective, contextual and stopped work.
+4. `data-requests.md` — blockers and exact delivery contracts.
 
-## Where the chapter stands
+## Current chapter
 
-**It has no positive result about Maas tributaries yet.** What stands is
-inherited (Eryilmaz), negative (CO2), or descriptive (distance decay). **Rung 3 —
-what a donor gauge buys against a receiver's own — is unbuilt, and it is the
-chapter.**
+> Which fixed public hydrometeorological signals recur before independently
+> defined high-water onset, and do their direction and magnitude transfer to
+> unseen Limburg watercourses and periods? At Kerkrade, does
+> pressure-adjusted CO2 recur as a local manifestation of that regional state?
 
-Everything it needs now exists: the target (published Fase thresholds), the
-harness (`substitution_test` with `groups`), the storm structure (24 network
-storms), and a binding pre-registration.
+The sequence is Viefhues single-event observation -> Eryilmaz same-site public
+explanation -> recurrence and spatial transfer. July 2021 is a required
+interval-censored anchor.
 
----
+There is one prospective analysis and no outcome classifier: compare each
+fixed pre-event signal with matched quiet times, aggregate event contrasts
+within watercourse, learn the reference contrast outside one watercourse and
+one period, and compare it with the hidden events. The only fitted equation is
+the quiet-period, sensor-era-specific pressure adjustment for Kerkrade CO2.
 
-## This session, in one table
+SARIMAX, Kalman filters, anomaly detection, operational alerts and model-family
+search remain out of scope.
 
-| | |
-| --- | --- |
-| Scripts | 26 → **16** |
-| Docs | 27 → **16** |
-| Tests | 84 pass, ruff clean |
-| Commits | 3. Working tree clean. **Was 49 dirty paths across three review cycles** |
+## Cleanup completed
 
-**The commit blocker was not the expired token.** A stale zero-byte
-`.git/index.lock` dated 2026-08-06 23:46 had been failing every write since. The
-token is real but separate and only affects `push`.
+- Deleted the unreproducible later-record precursor script. Its input-producing
+  exploratory script had already been retired.
+- Deleted the three-gauge soft-label catalogue, full-period CO2 baseline and
+  their generic evaluation/feature/facade modules and tests.
+- Removed the rolling-discharge projection from the Waterschap ingest. The
+  rolling network remains source reconnaissance only.
+- Simplified `update_data.py` and `01_eda.py` to later-era Kerkrade IoT/weather
+  QC plus the Eryilmaz context frame.
+- Retained `03_eryilmaz_replication.py` as the only completed analytical script;
+  it ran successfully after the cleanup.
+- Removed unused RIVM fixtures, stale generated repository maps, a dead shared
+  fetching module, unused name helpers and the broken local KNMI launchd path.
+- Reduced `environment.yml` to dependencies used by the live root analysis.
+- Aligned the README, source notes, inventory, scope, protocol and append-only
+  decision history with the contrast-only chapter.
 
-### Four things changed a number
+The active analytical code is now `src/event_study.py`, the gate audit, the
+small Eryilmaz context script and direct source ingests. The cloud collection
+service under `kerkrade_data/` remains operational infrastructure, not chapter
+analysis. Retired code remains explicitly isolated under `archive/` or in Git
+history.
 
-1. **Cross-fold AUROC pooling** (`substitution_test`). Probabilities from
-   separately fitted models are not one ranking. The Eryilmaz "sign flip" of
-   −0.088 was this artifact; within fold the gap is **−0.012** and the two
-   evaluation schemes agree. There is **no measurable leakage penalty** — the
-   0.141 was the same artifact. Guarded by `GroupedScoringTests`.
-2. **Inert null calibration** (`23_`). The lag maximum was taken on `|r|` and the
-   signed value returned, so the null averaged +0.016 against a median |null| of
-   +0.036 — it was converging to no correction. Now signed. Co-response
-   **+0.243 → +0.106** (59% of the raw is procedural); decay **−0.249 → −0.311**,
-   variance **6.2% → 9.7%**. The decay *strengthened*, which the third-pass review
-   did not predict, because the raw metric changed too.
-3. **The Fase target built** (`29_fase_events.py`). Waterschap Limburg's published
-   Geel/Oranje/Rood triggers, verified against the statutory flood plan. They were
-   on disk the whole time.
-4. **Ten analyses cut**, ~2,000 lines, plus twelve stale documents archived.
+## Feasibility corrections found in the pass
 
----
+Two missing contracts would otherwise have allowed post-outcome choices:
 
-## Do next, in order
+1. Temperature, humidity and pressure had no long-record input or prospective
+   watercourse assignment. The gate now requires a tidy 10-year weather table
+   plus one documented source/assignment row per watercourse. The source and
+   rule still need supervisor agreement.
+2. The Kerkrade recurrence question had no minimum usable later-event sample.
+   The gate now requires at least three exact pair-gauge p99 onsets with every
+   CO2 and pressure hour observed from -72 to -1. Fewer events are absence of
+   recurrence evidence, not a null result.
 
-1. **Supervisor**, before rung 3. Four questions in
-   `chapter-scope-and-preregistration.md` §12. None depends on rung 3's answer and
-   asking afterwards costs a rebuild. The live one is **§12.2**: all-pairs design
-   with the Worm as worked case, which changes the framing from *the Worm's reach*
-   to *donor reach, measured here*.
-2. **Finalise Part II §II.1** — the analysis set. Blocked only on §12.4 (ingest
-   the level network or stay on 38 gauges). The recommendation is to finalise on
-   38 and treat level as a stated extension: it buys a better reach model and no
-   additional events.
-3. **t-interval in `substitution_test`** (§II.6). It currently returns a percentile
-   cluster bootstrap, which undercovers badly below ~30 clusters. Must land
-   *before* the first rung-3 run, not be applied to its output.
-4. **Build rung 3.** Horizons pre-registered at h ∈ {6, 12, 24}, headline 12.
-5. **Bibliography.** 101 entries, nothing on regionalisation or donor transfer,
-   ~20 dead anomaly-detection entries. Flagged in three review passes, depends on
-   nothing.
-6. **Figures from scratch**, and the manual map pass on the 15 excluded structures.
+Gauge coordinates, non-overlapping metadata for both IoT sensor periods and
+explicit July 2021 onset bounds are also now required because the distance-only
+donor rule, era-specific adjustment and censored anchor cannot be reproduced
+without them.
 
-**Not worth doing:** the mechanism decomposition is ~20 lines and the third-pass
-review argues against building it at all (§5a) — but the repo's own standard is
-that every number needs a regenerating script, and this is the chapter's only
-direct evidence for its own mechanism. Unresolved; my read is build it.
+## Gate state
 
----
+Run:
 
-## Open decisions, all yours
+```bash
+python scripts/31_event_study_gates.py --report-only
+```
 
-| | Decision |
-| --- | --- |
-| 1 | Framing and likely examiners, with the supervisor |
-| 2 | **All-pairs with the Worm as worked case** — recommended, not adopted. The donor's justification (CO2 sensor, groundwater wells) no longer stands on anything: the sensor was measured worthless and the groundwater lane is archived |
-| 3 | Ingest the level network, or stay on 38 gauges |
-| 4 | Whether the chapter is planned as a negative-results chapter now rather than discovered as one |
+There are nine contracted inputs. The held later IoT file passes its file gate;
+the other eight are absent:
 
----
+- `data/interim/viefhues_iot.csv`
+- `data/interim/kerkrade_iot_eras.csv`
+- `data/interim/event_study_discharge_hourly.csv`
+- `data/interim/event_study_gauges.csv`
+- `data/interim/radolan_catchment_hourly.csv`
+- `data/interim/event_study_catchments.gpkg`
+- `data/interim/event_study_weather_hourly.csv`
+- `data/interim/event_study_weather_sources.csv`
 
-## Do NOT claim
+The detailed downstream gate branches cannot run until all files exist. The
+rolling Waterschap file, held point rainfall and current city-weather table may
+not be renamed into these contracts.
 
-- **The Eryilmaz sign flip (−0.088), or any leakage arithmetic.** Pooling artifact.
-- **Co-response +0.243, or decay −0.249 / 6.2%.** Superseded by the null fix.
-- **Any cross-variable correlation-length comparison.** The analysis is cut; the
-  point estimates were produced by two different estimators and the ordering
-  reversed depending on which one you matched on.
-- **Rimburg as "mid-range."** True of its signatures, false of its transfer
-  behaviour — 69th percentile, 11th of 36.
-- **That indoor CO2 is autocorrelated "through occupancy and ventilation."**
-  Refuted: pressure-only scores 0.872, hour-of-day 0.554.
-- **That the level network eases the power problem.** Measured; it does not.
-- Anything from `archive/`.
+## Next steps, in order
 
----
+1. Take the exact question, contrast-only estimand, strict gates and planned
+   null readings to the supervisor. Also settle the long public-weather source
+   and watercourse-assignment rule.
+2. In parallel, request the original Viefhues IoT package and full historical
+   Waterschap tributary data using `data-requests.md`; complete the current
+   sensor-era calibration/ABC record.
+3. Inspect the delivered native discharge/QA files, choose one representative
+   per natural watercourse without viewing contrasts, and establish the
+   Kerkrade pair plus July 2021 lower/upper onset bounds.
+4. Only after the cohort is fixed, build and visually verify catchment polygons,
+   RADOLAN averages and the chosen public-weather assignment.
+5. Populate all nine contracts and run the binding gate without
+   `--report-only`. If any gate fails, return to the supervisor rather than
+   lowering it.
+6. If it passes, record input hashes, supervisor approval, Git commit and lock
+   draft 0.2 before inspecting outcomes.
+7. Then implement one transparent script:
+   `load -> check -> events/controls -> contrasts -> storm uncertainty -> tidy tables -> four figures`.
+   Add the remaining RADOLAN spatial/no-data tests against the real format.
 
-## Environment
+Do not implement the outcome script or a guessed RADOLAN parser while the files
+are absent. Do not revive the hourly classifier or add time-series model
+families to compensate for a failed gate.
 
-- **Interpreter:** `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`.
-  The shell default is 3.9; the repo needs 3.11+.
-- **`pytest` at the repo root fails** on `archive/tests/`. Use `pytest tests/`
-  (84 pass). One-line fix still unapplied: `[tool.pytest.ini_options]`,
-  `testpaths = ["tests"]`.
-- `23_catchment_similarity.py` takes **~12 minutes** (703 pairs × ~24 null draws).
-  Background it.
-- The real repo is `~/Desktop/floods/chapter1-co2`. `~/Desktop/chapter1-co2` is a
-  near-empty decoy a failed `cd` lands you in.
-- Grep for `spec_from_file_location` before moving scripts — path-based imports are
-  invisible to ruff and to the tests, and broke `21_` once.
-- `data/raw/discharge/rws/` is ~2.1 GB of cached JSON, gitignored and deletable.
+## Verification
 
----
+Named environment:
+`/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
-## The failure mode, named — it has now recurred four times
+- `python -m pytest -q`: **41 passed**
+- `ruff check .`: passed
+- `ruff format --check .`: 59 files formatted
+- all live CLI `--help` imports: passed
+- Azure shell syntax checks: passed
+- context refresh and Eryilmaz re-evaluation: ran successfully
+- `git diff --check`: passed
+- gate audit: expected **FAIL**; later IoT file present, eight contracts absent
 
-**Comparing a number against another number produced a different way.**
-
-1. Mantel on the raw metric while the docs mandated the calibrated one.
-2. Random-fold point estimates placed beside blocked-fold ones.
-3. AUROC pooled across folds fitted on different data.
-4. Rainfall and discharge correlation lengths computed with different estimators.
-
-Plus its limiting case, caught this session: **a number compared against a number
-that is not computed at all** — interpretive sentences hard-coded into generated
-artifacts. `chapter-scope-and-preregistration.md` §II.10.7 now forbids it, and
-both `03_` and `23_` interpolate those figures from the result object.
-
-**Before any two numbers go in one table, check the same estimator produced both.**
-
-## What is worth keeping
-
-- Every claim tested before being written down. Three of four novelty claims died
-  that way and were recorded as failures.
-- The zero-sentinel discovery, found by cross-validating one gauge against an
-  independent publisher of the same instrument.
-- Comments that name a specific past bug — `NO_PRESSURE_DROP_HPA`, the station-id
-  coordinate join, the coverage floor naming its excluded gauges *with* their
-  coverage. Worth more than the essays around them.
-- Four external review passes read as evidence rather than accepted wholesale.
-  The third pass found the inert null; its predicted direction was wrong and that
-  is recorded in the pre-registration rather than quietly fixed.
+The worktree is intentionally uncommitted and also contains pre-existing edits
+from the prior sessions, including the bibliography update. Preserve it as one
+coherent chapter reset.
