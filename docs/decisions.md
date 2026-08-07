@@ -494,7 +494,7 @@ one recognized branch.
 Source: `chapter/chapter-draft.md`; `docs/chapter-writing-register.md`;
 `src/chapter.py`; `scripts/17_check_chapter_draft.py`; `tests/test_chapter.py`.
 
-## 2026-08-05 — Groundwater obtained from public BRO service
+## 2026-08-06 — Groundwater obtained from public BRO service
 
 Decision: Source groundwater from the Dutch Basisregistratie Ondergrond (BRO)
 public REST service rather than waiting on a provider delivery. Retain three
@@ -518,7 +518,7 @@ provincial wells and the mijnwatermeetnet have been requested separately.
 Source: `scripts/05a_fetch_bro_groundwater.py`; `data/raw/groundwater/`;
 `docs/groundwater-data-contract.md`.
 
-## 2026-08-05 — Barometric correction of the exposure is mandatory
+## 2026-08-06 — Barometric correction of the exposure is mandatory
 
 Decision: Barometrically correct water level before using it as an exposure,
 using per-well efficiency estimated from 6-hourly first differences over the
@@ -535,7 +535,7 @@ previous design did, is not equivalent and is weaker.
 Source: `scripts/05b_barometric_efficiency.py`;
 `results/groundwater/barometric_efficiency.txt`.
 
-## 2026-08-05 — Chapter redirected to the July 2021 reanalysis
+## 2026-08-06 — Chapter redirected to the July 2021 reanalysis
 
 Decision: Reframe the chapter around whether the CO2 excursion Viefhues (2022)
 attributed to the July 2021 flood was hydrological or barometric. Withdraw the
@@ -565,7 +565,7 @@ days including the flood.
 Source: `docs/chapter-direction.md`; `docs/predecessor-notes.md`;
 `docs/data-requests.md`.
 
-## 2026-08-05 — KNMI precipitation unit factor corrected
+## 2026-08-06 — KNMI precipitation unit factor corrected
 
 Decision: Remove the 0.1 unit factor applied to the KNMI `R1H` column. In the
 10-minute in-situ product ingested here R1H is already in mm.
@@ -589,7 +589,7 @@ absolute rainfall, such as the precursor comparator.
 
 Source: `src/io_knmi.py`; `results/distributed_lag/summary.txt`.
 
-## 2026-08-05 — No precursor skill in indoor CO2
+## 2026-08-06 — No precursor skill in indoor CO2
 
 Decision: Record that indoor CO2 shows no usable precursor skill for tributary
 high-flow events over the available record.
@@ -615,7 +615,7 @@ than an inconclusive one.
 Source: `scripts/18_precursor_skill.py`;
 `results/precursor/precursor_skill.txt`.
 
-## 2026-08-05 — 2026 sensor coverage is one outage, not intermittency
+## 2026-08-06 — 2026 sensor coverage is one outage, not intermittency
 
 Decision: Correct the characterization of the 2026 Azure device record. Its
 30.7% coverage is not flaky sampling.
@@ -631,3 +631,194 @@ on 2026-07-09 after that outage. The action is uptime monitoring, not sampling
 repair.
 
 Source: `data/interim/iot_hourly.csv`; `data/processed/iot_coverage_gaps.csv`.
+
+## 2026-08-06 — Barometric response is instantaneous; sensor reads the building
+
+Decision: Record what the CO2 sensor is coupled to, from the barometric response
+function and a semidiurnal contamination check.
+
+Evidence: regression deconvolution per contiguous block puts the peak response at
+lag 0-1 h with 63% complete inside the hour, total -9 to -40 ppm/hPa. A response
+concentrated at zero lag indicates a shallow, well-connected air-filled void
+rather than diffusion through a thick unsaturated column.
+
+The semidiurnal probe failed and the failure is the useful part. It assumed
+little indoor behaviour is semidiurnal, which is false for a residence with
+morning and evening occupancy. Observed 12-hour CO2 amplitude is four to eight
+times what the response function predicts (55.6, 32.3 and 76.5 ppm against
+predictions near 8-10) and survives subtraction of the fitted pressure model
+(11.4, 23.2, 8.0 ppm). A barometric signal could not do that.
+
+Consequence: the non-barometric variance of this record is dominated by the
+building, not the subsurface. The script is retained for the contamination check,
+with its docstring rewritten to lead with the failure.
+
+Source: `scripts/19_barometric_response.py`; `scripts/20_tidal_response.py`;
+`results/barometric_response/`.
+
+## 2026-08-06 — Forward bound: the mechanism was below detection throughout
+
+Decision: Bound the water-driven gain change physically rather than only
+testing for it statistically.
+
+Model: rising water shrinks the connected void, so d(gain)/gain is approximately
+dh/H for vertical extent H. One assumed parameter, reported as a sensitivity.
+
+Evidence: for the 0.20 m rise available, predicted change is 20% at H = 1 m and
+1% at H = 21 m. The windowed gain estimates carry an SD of 19.5 ppm/hPa; in
+absolute terms the predicted effect is 0.03-8 ppm/hPa against that scatter.
+Detection would require a void no deeper than 0.09 m.
+
+Consequence: the chapter reports a bounded negative rather than an
+uninterpretable null, and the seasonal-coverage limitation is defused, since more
+winters cannot recover a signal an order of magnitude beneath the floor. Run
+backwards the bound specifies a capable study: metres of water movement, as in
+decadal mine-water recovery, or an exogenous manipulation such as documented
+pumping.
+
+Caveat: the script also prints scatter relative to the median gain (232%), which
+is inflated because the median sits near zero. Quote the absolute comparison.
+
+Source: `scripts/21_forward_gain_model.py`;
+`results/barometric_response/forward_gain_bound.txt`.
+
+## 2026-08-06 — Analysis closed
+
+Decision: Stop adding methods. The analysis is complete for what this data can
+support; what remains is figures and writing.
+
+Reasoning: six independent lines converge on the same answer, and the forward
+bound explains why additional methods would not change it. Two candidates were
+considered and dropped: a Gaussian-process varying-coefficient model and an
+interaction distributed-lag model, both of which test whether gain varies with
+water level. The forward bound answers that more directly, and the block
+bootstrap already provides the honest-uncertainty framing the former was wanted
+for.
+
+Open externally: the provincial reply on closer wells, the mine-water network,
+and pumping schedules; and the Viefhues 2020-2021 IoT record.
+
+Source: `docs/chapter-direction.md`.
+
+## 2026-08-06 — Correction: the noise floor is not fixed, and more data helps
+
+Decision: Withdraw the claim, recorded earlier the same day, that the
+water-driven gain change sat about two orders of magnitude below detection.
+
+Error: the comparison was made against the scatter of two-week windows and
+treated that scatter as a fixed property of the site. It is not. Sweeping window
+length gives SDs of 21.7 ppm/hPa at two weeks, 5.69 at four, 4.58 at six and 3.84
+at eight, falling faster than 1/sqrt(n). That is estimation noise, which more
+data reduces, not real variability in the underlying gain.
+
+Corrected position: at eight-week windows the noise is 3.84 ppm/hPa on a gain of
+5.35, and the predicted effect reaches 0.28x the noise for the thinnest plausible
+void and 0.01x for the deepest. The effect is at or below detection, not a
+hundredfold beneath it.
+
+The conclusion survives for three reasons that are properties of the design
+rather than of the sample size. The effect scales with how far the water moves,
+so more years of 20 cm swings enlarge the data without enlarging the signal.
+Longer windows buy precision and cost windows: at eight weeks there are four,
+spanning 0.20 m, which is too little variation to correlate against. And the best
+case is marginal rather than clean.
+
+Consequence for the chapter: the seasonal-coverage limitation is only partly
+defused. It is fair to say more of the same data would not settle the question;
+it is not fair to say the effect was invisible by two orders of magnitude. What
+would settle it is metres of water movement, or direct occupancy measurement to
+cut the floor structurally.
+
+Source: `scripts/21_forward_gain_model.py`, rewritten to sweep window length;
+`results/barometric_response/forward_gain_bound.txt`.
+
+## 2026-08-06 — Reframed as donor-catchment regionalisation
+
+Decision: Reframe the chapter around donor-catchment transfer. Characterise one
+tributary deeply, transfer to others, and measure how transfer skill decays with
+similarity.
+
+Alternatives considered: a symmetric transfer matrix fitting and testing at every
+gauge; continuing the early-warning framing; continuing with the Kerkrade site
+alone.
+
+Reasoning: the early-warning framing could not compete with the Dutch operational
+system and was too broad. The site-alone framing produced a defensible negative
+that was too thin to carry a chapter, because it rested on one house and 19
+summer episodes. The donor framing keeps the supervisor's Viefhues to Eryilmaz
+progression as a genuine arc -- each step widens the scope of substitution, from
+data source to space -- and makes the deep Kerkrade instrumentation load-bearing
+as donor characterisation rather than an aside.
+
+The symmetric matrix was rejected because it treats every catchment as equally
+known, wasting the Kerkrade instrumentation, and because it makes shared regional
+forcing a confound rather than an explanatory variable. Retained as the natural
+robustness check if the result proves sensitive to donor choice.
+
+Donor selection evidence: 17 candidate gauges pulled, all 91-100% coverage over
+2024-08-06 to 2026-08-06, so coverage does not discriminate. Worm at Rimburg
+selected on centrality (0.203, second of 17), mid-range response characteristics,
+a downstream partner at Randerath, and holding the CO2 sensor and BRO wells. Geul
+selected as validation catchment for its three-gauge chain; routing Hommerich to
+Meerssen measured at +4 h.
+
+Source: `docs/chapter-direction.md`; `scripts/22_ingest_waterschap_gauges.py`;
+`data/interim/waterschap_discharge_hourly.csv`.
+
+## 2026-08-06 — Waterschap Limburg as the discharge source
+
+Decision: Use the Waterschap Limburg public OData endpoint as the primary
+discharge source, replacing the three-gauge configuration.
+
+Evidence: the endpoint publishes 634 locations with no key -- 390 water level,
+185 groundwater, 59 discharge. The previous three-gauge limit was a configuration
+choice. Coverage is not confined to the Netherlands: German Lanuv gauges on the
+Roer and Worm and Rijkswaterstaat gauges on the Maas are republished through the
+same interface, giving cross-border and main-stem comparison for free.
+
+Limit: the archive is a rolling window with earliest record 2024-08-06, so two
+years and two winters. Longer history requires a direct request to Waterschap
+Limburg, WVER, or GRDC. Groundwater from this source is 11.4 km from the site
+against 2.85 km for the BRO wells, so BRO remains the groundwater source.
+
+Source: `scripts/22_ingest_waterschap_gauges.py`;
+`data/interim/waterschap_locations.csv`.
+
+## 2026-08-06 — Gauge filter, temporal grain, and EStreams attributes
+
+Decision: exclude managed structures from the gauge set; keep the hourly grain
+with event conditioning; acquire EStreams static attributes.
+
+Structures. Canals, dikes, weirs, culverts, inlets, distribution works, ditches
+and pumping stations are excluded by name, along with any gauge carrying
+sustained negative flow. A weir gauge measures a controlled release rather than a
+catchment response. This takes 57 fetched gauges to 41 natural stream gauges
+across 30 distinct rivers. Including structures had pushed the baseflow index
+negative and flashiness to 0.780, both impossible for a natural catchment, which
+is how the problem surfaced.
+
+Temporal grain. Hourly is retained. The apparent case for daily aggregation --
+median cross-river correlation of +0.025 on hourly first differences -- was an
+artifact of two choices rather than of the grain: averaging over long quiet
+periods, and forcing zero lag between catchments with different response times.
+Conditioning on hours where both gauges exceed their own 90th percentile, and
+allowing lags to plus or minus 12 hours, lifts the median to +0.243 with 773
+qualifying hours per pair. Response similarity must therefore be computed on
+event-window hours at best lag; the full-series zero-lag figure is the wrong
+number.
+
+EStreams. Static catchment attributes for 17,130 European catchments were
+obtained without the 10 GB download: Zenodo honours HTTP range requests, so the
+script reads the zip central directory from the tail and pulls only the seven
+attribute tables. Matching to Waterschap gauges is bimodal -- 18 of 44 natural
+gauges match at essentially zero distance, and beyond about 2 km the matches are
+spurious nearest-neighbours. A 1 km tolerance is correct; wider tolerances are an
+artifact of unbounded nearest-neighbour matching.
+
+Provisional: gauged catchments only, with the ungauged framing set aside because
+it is heavily worked by the global LSTM streamflow literature. This makes the
+chapter a monitoring-network-design question rather than a prediction-in-ungauged-
+basins question. Open with the supervisor.
+
+Source: `docs/scope-decisions.md`; `scripts/22_ingest_waterschap_gauges.py`;
+`scripts/24_fetch_estreams_attributes.py`.

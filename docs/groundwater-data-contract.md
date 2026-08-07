@@ -1,9 +1,9 @@
 # Groundwater and Mine-Water Data Contract
 
-Status date: 2026-08-05
+Status date: 2026-08-06
 
 Status: **partially satisfied.** Three tier-2 series received from the public
-BRO service on 2026-08-05 and normalized through this contract without
+BRO service on 2026-08-06 and normalized through this contract without
 modification. Tier-1 mine-water data still outstanding; requested from Provincie
 Limburg, see `docs/data-requests.md`.
 
@@ -20,7 +20,7 @@ Two amendments in light of what arrived:
   than a satisfied one.
 - **Barometric correction is mandatory before use.** Estimated well barometric
   efficiency is 0.20-0.34, so raw level carries a pressure component. See
-  `docs/decisions.md` (2026-08-05) and `scripts/05b_barometric_efficiency.py`.
+  `docs/decisions.md` (2026-08-06) and `scripts/05b_barometric_efficiency.py`.
 
 The locked direct-state analysis this contract originally fed is withdrawn; see
 `docs/chapter-direction.md`. The receipt, metadata and normalization

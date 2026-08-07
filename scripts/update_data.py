@@ -53,7 +53,10 @@ def main():
     if not args.skip_weather:
         run("02_ingest_weather.py", source_args)
     if not args.skip_discharge:
-        run("01_ingest_discharge.py", source_args)
+        # Also writes data/interim/discharge_hourly.csv, the three-column
+        # projection the CO2 lane reads. It replaced 01_ingest_discharge.py on
+        # 2026-08-06; two ingests over one endpoint had drifted apart.
+        run("22_ingest_waterschap_gauges.py", ["--all-discharge"])
     if not args.skip_events:
         run("03_build_event_catalogue.py")
     if not args.skip_eda:

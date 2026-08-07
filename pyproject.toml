@@ -2,6 +2,9 @@
 # Numbered analysis scripts and the src package share one style.
 line-length = 100
 target-version = "py311"
+# Retired code is kept for the record, not maintained. Linting it would only
+# produce noise about a style that no longer has to hold.
+extend-exclude = ["archive"]
 
 [tool.ruff.lint]
 # Core correctness/style plus import sorting (I) and common bug patterns (B).

@@ -1,12 +1,108 @@
 # Archive
 
-Code retired on 2026-08-05 when the chapter was reframed. Kept because it ran,
+Code retired in two rounds — 2026-08-05 when the chapter was reframed, and
+2026-08-06 when the reframe was carried through the tree. Kept because it ran,
 produced results that are cited in the decisions log, and may be worth reading
 if a later chapter revisits any of these questions. Nothing here is imported by
 live code, and none of it is expected to run against the current data layout.
+`archive` is excluded from ruff for the same reason.
 
-See `docs/chapter-direction.md` for the reframing and `docs/decisions.md`
-(2026-08-05) for why each piece was withdrawn.
+`archive/results/` holds the outputs of retired code. They are kept as a record
+of what was run, not as findings; none should be cited.
+
+See `docs/chapter-direction.md` for the reframing and `docs/decisions.md` for
+why each piece was withdrawn.
+
+---
+
+# Retired 2026-08-06
+
+## Duplicate discharge ingest
+
+`scripts/01_ingest_discharge.py`, `src/io_discharge.py`
+
+A second pull against the same Waterschap endpoint as
+`scripts/22_ingest_waterschap_gauges.py`, covering three of the same gauges and
+writing `data/interim/discharge_hourly.csv` for the CO2 lane.
+
+**Retired because two pipelines over one source had drifted apart.** The zero
+sentinel fix landed in `22_` and not here, so the same gauge carried different
+values depending on which file a script happened to read. That is the failure
+mode duplication produces, and no test would have caught it.
+
+`22_` now writes `discharge_hourly.csv` itself as a three-column projection.
+The records agreed at r = 1.00000 on their overlap and the projection is a
+strict superset — Wurm at Rimburg gains 7,684 hours, because this path took it
+from the WVER feed, a rolling ten-day window rather than an archive.
+
+Downstream consequence, verified rather than assumed: the longer record shifts
+the event thresholds, so `18_precursor_skill.py` moved from 19 episodes to 20
+and rainfall AUROC from 0.835 to 0.872. **The conclusion is unchanged** — every
+CO2 predictor still spans 0.5.
+
+## State-space detectors
+
+`scripts/05_sarimax.py`, `scripts/06_kalman.py`, `src/detectors.py`,
+`tests/test_detectors.py`, `results/sarimax/`, `results/kalman/`,
+`results/models/`
+
+The SARIMAX and Kalman residual detectors, and the 701-line detector library
+they shared. Retired with the rest of the anomaly-detection lane below; these
+two survived the first round only because they were imported from a different
+module. `src/detectors.py` had no reader outside these two scripts and their
+test.
+
+## Distributed-lag antecedent-wetness test
+
+`scripts/12_distributed_lag.py`, `results/distributed_lag/`
+
+Tested whether the barometric CO2 residual co-moves with antecedent
+precipitation at a multi-week lead. The preregistered rule returned
+`NOT SUPPORTED`: the primary coefficient was not significant, the bootstrap
+interval included zero, block replication was unavailable, and the future-rain
+placebo failed. The result stands as a null and is recorded; the machinery
+belongs to the retired CO2-as-hydrological-proxy framing.
+
+## Weekly readiness reporting
+
+`scripts/14_weekly_readiness.py`, `tests/test_weekly_readiness.py`,
+`results/readiness/`, `results/evaluation/`
+
+Project tracking rather than analysis. It read
+`results/evaluation/evaluation_windows.csv`, written by the already-retired
+`scripts/10_evaluation.py`, so it had no live input left.
+
+## Barometric response function — RESTORED, only the outputs stay archived
+
+`results/barometric_response/{barometric_response.txt, impulse_response.csv,
+windowed_response.csv}`
+
+`scripts/19_barometric_response.py` was archived here on 2026-08-06 and **moved
+back to `scripts/` the same day.** Archiving it silently broke
+`scripts/21_forward_gain_model.py`, which loads it by path
+(`spec_from_file_location`) and whose detectability bound is a live result. The
+breakage was invisible to the test suite and to ruff; it surfaced only on
+running the script.
+
+The distinction that matters, now recorded in that script's own docstring: the
+response **shape** is withdrawn — 49 correlated lags under plain OLS, and it
+rings — but the response **sum** is not. Script 21 uses only
+`cumsum(impulse)[-1]`, a static gain, which is far better conditioned than any
+individual coefficient. Its bound is unaffected.
+
+The three output files above stay archived, because they report the shape.
+
+Anyone quoting the shape needs regularisation first — ridge, or a constrained
+lag form. The barometric *efficiency* estimate (0.20-0.34) is a separate and
+sound result from `scripts/05b_barometric_efficiency.py` and is unaffected.
+
+**Lesson for future archiving passes:** grep for `spec_from_file_location` and
+path-based imports before moving a script. Import graphs built from `import`
+statements alone will not see them.
+
+---
+
+# Retired 2026-08-05
 
 ## Ensemble anomaly detection
 

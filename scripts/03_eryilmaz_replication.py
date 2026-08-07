@@ -1,8 +1,31 @@
-"""Reproduce the Eryilmaz logistic-regression comparison as inherited procedure.
+"""Reproduce the Eryilmaz comparison, and re-run it under the chapter's own inference.
 
-Random folds are part of the procedure being reproduced, not evidence of
-out-of-sample performance; they mix neighbouring hours in an autocorrelated
-series. Reported as replication metrics only.
+This is the first rung of the chapter's substitution ladder: can public weather
+stand in for indoor instrumentation? Eryilmaz answered yes, within 0.05 AUROC,
+and that threshold is the decision rule the whole chapter inherits — see
+`src/substitution.py`.
+
+**Two results are reported, and they answer different questions.**
+
+*Inherited procedure*: stratified random 5-fold cross-validation, exactly as
+published. Random folds mix neighbouring hours in an autocorrelated series, so
+this is a faithfulness check on the replication, not evidence of out-of-sample
+skill.
+
+*Chapter inference*: the same two score sets passed through `substitution_test`,
+scored **within fold** and averaged, with a paired cluster bootstrap over folds.
+
+Both are reported because they answer different questions: the first is whether
+the replication is faithful, the second whether the finding survives an
+evaluation where no future hour trains the model. They agree at +0.012 and
+-0.012.
+
+**Why within-fold.** Each fold is a separately fitted model, so its predicted
+probabilities are not on a common scale. Pooling them into one AUROC ranks one
+fit's scores against another's, which measures calibration drift as if it were
+skill. Doing that here produced a -0.088 gap and an apparent sign flip that was
+reported as the session's headline result on 2026-08-06 and withdrawn on
+2026-08-07. `tests/test_substitution.py::GroupedScoringTests` guards it.
 """
 
 from __future__ import annotations
@@ -19,11 +42,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, roc_curve
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, TimeSeriesSplit
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from src.features import pressure_deltas
+from src.substitution import format_result, substitution_test
 
 INTERIM_DIR = Path("data/interim")
 PROCESSED_DIR = Path("data/processed")
@@ -108,6 +132,52 @@ def model_matrix(replication_frame, spec):
     )
 
 
+def fit_blocked_predictions(replication_frame, spec):
+    """Refit under forward-chaining folds, so no future hour trains the model.
+
+    Random k-fold puts hour t-1 in the training set and hour t in the test set.
+    In a series this autocorrelated that is close to reading the answer, and it
+    inflates *both* models. A bootstrap widens the interval around such a number
+    but cannot move the number, so passing random-fold scores into
+    `substitution_test` and placing the result beside the precursor and donor
+    rungs would launder them: those rungs have no fitting or use held-out
+    storms.
+
+    Forward chaining trains only on the past. The gap is expected to survive —
+    leakage should flatter both models similarly — but that is a claim to
+    demonstrate rather than assume, which is why both are reported.
+    """
+    x = model_matrix(replication_frame, spec)
+    y = replication_frame["co2_leak_event"]
+    ordered = replication_frame.sort_index()
+    x, y = x.loc[ordered.index], y.loc[ordered.index]
+
+    predictions = pd.DataFrame(index=ordered.index)
+    predictions["co2_leak_event"] = y
+    predictions["model_label"] = spec["label"]
+    predictions["predicted_probability"] = float("nan")
+    # Which fold produced each probability. Every fold is a different fitted
+    # model, so its scores are only comparable within the fold; see
+    # `src.substitution.substitution_test`.
+    predictions["cv_fold"] = -1
+
+    for fold, (train_idx, test_idx) in enumerate(
+        TimeSeriesSplit(n_splits=N_SPLITS).split(x), start=1
+    ):
+        if y.iloc[train_idx].nunique() < 2:
+            continue
+        model = make_pipeline(
+            StandardScaler(),
+            LogisticRegression(max_iter=1000, solver="liblinear"),
+        )
+        model.fit(x.iloc[train_idx], y.iloc[train_idx])
+        predictions.loc[x.index[test_idx], "cv_fold"] = fold
+        predictions.loc[x.index[test_idx], "predicted_probability"] = model.predict_proba(
+            x.iloc[test_idx]
+        )[:, 1]
+    return predictions.dropna(subset=["predicted_probability"])
+
+
 def fit_cv_predictions(replication_frame, spec):
     """Run faithful random 5-fold logistic-regression replication."""
     x = model_matrix(replication_frame, spec)
@@ -181,7 +251,7 @@ def write_predictions(all_predictions):
     print(f"wrote {PREDICTIONS_PATH} ({len(predictions)} rows)")
 
 
-def write_metrics(summaries):
+def write_metrics(summaries, all_predictions, blocked_predictions):
     """Write the replication AUROC report."""
     by_model = {row["model"]: row for row in summaries}
     auroc_a = by_model["A_indoor_iot"]["auroc"]
@@ -214,13 +284,66 @@ def write_metrics(summaries):
             f"AUROC gap (A - B): {gap:.6f}",
             f"Replication check: {status}",
             "Decision rule: Model B replicates if it is within 0.05 AUROC of Model A.",
-            "Note: random 5-fold CV is used here only for faithful Eryilmaz replication; later chapter models should use time-aware evaluation.",
+            "Note: random 5-fold CV is used here only for faithful Eryilmaz replication.",
+            "",
+            "-" * 70,
+            "Both blocks below score WITHIN fold and average. Each fold is a separate",
+            "fit, so pooling its probabilities into one ranking measures calibration",
+            "drift between fits as if it were skill. The pooled figure is printed only",
+            "for contrast; on (b) it reads -0.088 against a within-fold -0.012, and that",
+            "gap between them is the artifact, not a result.",
+            "",
+            "-" * 70,
+            "(a) Random folds — the inherited Eryilmaz procedure.",
+            "",
+            substitution_block(all_predictions),
+            "",
+            "-" * 70,
+            "(b) Forward-chaining folds — no future hour trains the model, so this is",
+            "    the evaluation comparable to the CO2 and donor rungs.",
+            "",
+            substitution_block(blocked_predictions),
+            "",
+            "The two agree at +0.012 and -0.012, both far inside Eryilmaz's 0.05. The",
+            "substitution conclusion does not depend on the evaluation scheme, which is",
+            "a stronger claim than either block alone. Note also that forward chaining",
+            "scores HIGHER within fold (A 0.900 vs 0.886), so there is no measurable",
+            "random-fold leakage penalty here; an earlier reading of 0.141 was the",
+            "pooling artifact above.",
         ]
     )
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     METRICS_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {METRICS_PATH}")
+
+
+def substitution_block(all_predictions, label="scores"):
+    """Score two prediction frames through the shared substitution harness.
+
+    Scores are grouped by CV fold. Each fold is a separate fit, so its
+    probabilities are only comparable within the fold; pooling them ranks one
+    model's scores against another's and is sensitive to calibration drift.
+    That pooling is what produced the withdrawn -0.088 sign flip.
+    """
+    import numpy as np
+
+    frames = {p["model_label"].iloc[0]: p.sort_index() for p in all_predictions}
+    labels = list(frames)
+    if len(labels) < 2:
+        return "  (substitution test unavailable: fewer than two models)"
+    a, b = frames[labels[0]], frames[labels[1]]
+    joined = a.join(b, lsuffix="_a", rsuffix="_b", how="inner")
+    result = substitution_test(
+        joined["predicted_probability_a"],
+        joined["predicted_probability_b"],
+        joined["co2_leak_event_a"],
+        name_a=labels[0],
+        name_b=labels[1],
+        groups=joined["cv_fold_a"] if "cv_fold_a" in joined else None,
+        rng=np.random.default_rng(RANDOM_STATE),
+    )
+    return format_result(result)
 
 
 def write_roc_plot(all_predictions):
@@ -253,15 +376,17 @@ def main():
     frame = load_analysis_frame()
     replication_frame = build_replication_frame(frame)
     all_predictions = []
+    blocked_predictions = []
     summaries = []
 
     for model_key, spec in MODEL_SPECS.items():
         predictions, summary = run_model(replication_frame, model_key, spec)
         all_predictions.append(predictions)
+        blocked_predictions.append(fit_blocked_predictions(replication_frame, spec))
         summaries.append(summary)
 
     write_predictions(all_predictions)
-    write_metrics(summaries)
+    write_metrics(summaries, all_predictions, blocked_predictions)
     write_roc_plot(all_predictions)
 
     by_model = {row["model"]: row for row in summaries}

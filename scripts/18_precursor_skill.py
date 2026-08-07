@@ -21,7 +21,7 @@ Two design points carry the argument:
 2. **Hours inside events are excluded.** Detecting a flood while it happens is
    not a precursor. Only pre-onset and quiet hours are scored.
 
-Episodes 7, 17 and 18 had no pre-onset pressure fall. They are reported
+Episodes with no pre-onset pressure fall are selected by rule. They are reported
 separately because they are the only cases where a CO2 signature could not be
 barometric in origin.
 """
@@ -44,7 +44,14 @@ from src.models.signal_frame import CO2_COL, TARGET_COL, load_signal_frame
 EVENTS_PATH = Path("data/processed/event_catalogue.csv")
 OUTPUT_DIR = Path("results/precursor")
 LEAD_HOURS = 24
-NO_PRESSURE_DROP_EPISODES = (7, 17, 18)
+# Episodes whose 24 h pre-onset window contains no meaningful pressure fall, so
+# any CO2 excursion in them cannot be barometric. Selected by rule, not by hand.
+#
+# These were previously three hard-coded POSITIONAL indices (7, 17, 18) into a
+# catalogue that is rebuilt on every data refresh. The catalogue has since grown
+# from 19 episodes to 20, so those positions silently pointed at different
+# storms than the ones originally chosen. A derived criterion cannot drift.
+NO_PRESSURE_DROP_HPA = 2.0
 
 # Hourly observations are strongly autocorrelated, so resampling them
 # independently would understate uncertainty badly. Blocks of one week preserve
@@ -169,18 +176,27 @@ def main():
         )
 
     lines.append("")
-    lines.append("Episodes with no pre-onset pressure fall (barometrically clean):")
+    lines.append(
+        f"Episodes with no pre-onset pressure fall (< {NO_PRESSURE_DROP_HPA:.0f} hPa over "
+        f"{LEAD_HOURS} h, so barometrically clean):"
+    )
     lines.append(f"  {'episode':22} {'resid 24h':>10} {'quiet mean':>11} {'z':>7}")
     quiet = scored.loc[scored["y"].eq(0), "co2_residual_24h"]
     baseline_mean, baseline_sd = quiet.mean(), quiet.std()
-    for number in NO_PRESSURE_DROP_EPISODES:
-        if number > len(catalogue):
-            continue
-        onset = catalogue.loc[number - 1, "start_timestamp_utc"]
+    for position, row in enumerate(catalogue.itertuples(), start=1):
+        onset = row.start_timestamp_utc
         window = features.loc[onset - pd.Timedelta(hours=LEAD_HOURS) : onset]
         if window.empty or window["co2_residual_24h"].isna().all():
-            lines.append(f"  episode {number:<14} no coverage")
             continue
+        # Barometrically clean: pressure did not fall materially before onset.
+        # Absence of the column is a programming error, not a reason to skip the
+        # filter — a silent skip would report every episode as clean.
+        if "pressure_level" not in window:
+            raise KeyError("pressure_level missing; cannot identify clean episodes")
+        fall = window["pressure_level"].iloc[0] - window["pressure_level"].min()
+        if not (pd.notna(fall) and fall < NO_PRESSURE_DROP_HPA):
+            continue
+        number = position
         value = window["co2_residual_24h"].mean()
         z = (value - baseline_mean) / baseline_sd if baseline_sd else np.nan
         lines.append(

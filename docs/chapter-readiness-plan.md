@@ -1,6 +1,6 @@
 # Chapter Readiness Plan
 
-> **Superseded 2026-08-05.** The research question, claim structure, freeze
+> **Superseded 2026-08-06.** The research question, claim structure, freeze
 > dates, and locked decision criteria in this document no longer apply. See
 > `docs/chapter-direction.md`.
 >
@@ -11,7 +11,7 @@
 > Specifically withdrawn: the freeze dates, the 60-paired-day gate, the
 > two-block sign criterion, the seven-day future-water placebo, the four-branch
 > claim structure, and the ensemble anomaly-detection programme. Two of these
-> were defective as written; see `docs/decisions.md` (2026-08-05).
+> were defective as written; see `docs/decisions.md` (2026-08-06).
 
 Status date: 2026-07-22
 

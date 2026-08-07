@@ -17,7 +17,7 @@ the three owning bronhouders identified four dossiers on those wells, of which
 three carry a usable time series. The fourth (GLD000000097270 on
 GMW000000009914) holds four measurements across three years and is excluded.
 
-Note on coverage: as of the 2026-08-05 pull these series end 2025-08-26/28 under
+Note on coverage: as of the 2026-08-06 pull these series end 2025-08-26/28 under
 both ``filtered=JA`` and ``filtered=NEE``, so the stop is real rather than a
 validation filter. Whether it reflects a submission delay is an open provider
 question -- see ``docs/data-requests.md``.
@@ -124,7 +124,7 @@ def build_metadata(readings):
                     "Shallow/phreatic groundwater, not a connected mine-water shaft. "
                     "Screen top/bottom absent from BRO; constructionStandard 'onbekend'. "
                     f"Record {series['timestamp'].min():%Y-%m-%d} to {series['timestamp'].max():%Y-%m-%d}; "
-                    "nominal 6-hourly sampling; no 2026 data published as of 2026-08-05."
+                    "nominal 6-hourly sampling; no 2026 data published as of 2026-08-06."
                 ),
             }
         )

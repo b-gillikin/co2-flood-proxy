@@ -1,6 +1,6 @@
 # Results Outline
 
-> **Superseded 2026-08-05.** Organized around the previous claim structure and
+> **Superseded 2026-08-06.** Organized around the previous claim structure and
 > its four discussion branches. The coverage, barometric-baseline and
 > replication sections remain broadly reusable; the detector, ensemble,
 > synthetic-injection and transfer sections are retired. See
