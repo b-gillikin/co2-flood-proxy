@@ -14,10 +14,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.event_study import cluster_regional_storms, episode_onsets, episode_table
 
-FILES = {
-    "original IoT": Path("data/interim/viefhues_iot.csv"),
-    "later IoT": Path("data/interim/iot_hourly.csv"),
-    "IoT sensor-era metadata": Path("data/interim/kerkrade_iot_eras.csv"),
+CORE_FILES = {
     "long discharge": Path("data/interim/event_study_discharge_hourly.csv"),
     "gauge metadata": Path("data/interim/event_study_gauges.csv"),
     "RADOLAN catchment rainfall": Path("data/interim/radolan_catchment_hourly.csv"),
@@ -25,11 +22,18 @@ FILES = {
     "long public weather": Path("data/interim/event_study_weather_hourly.csv"),
     "public weather provenance": Path("data/interim/event_study_weather_sources.csv"),
 }
+KERKRADE_FILES = {
+    "original IoT": Path("data/interim/viefhues_iot.csv"),
+    "later IoT": Path("data/interim/iot_hourly.csv"),
+    "IoT sensor-era metadata": Path("data/interim/kerkrade_iot_eras.csv"),
+}
 OUTPUT_DIR = Path("results/event_study")
 JULY_2021_ANCHOR = pd.Timestamp("2021-07-15", tz="UTC")
 MIN_OVERALL_COVERAGE = 0.80
 MIN_ANNUAL_COVERAGE = 0.70
-MIN_DONOR_EVENT_AVAILABILITY = 0.80
+MIN_SPATIAL_OVERALL_AVAILABILITY = 0.80
+MIN_SPATIAL_STRATUM_AVAILABILITY = 0.70
+EARTH_RADIUS_KM = 6371.0088
 QA_COLUMNS = [
     "rating_curve_verified",
     "timezone_verified",
@@ -39,12 +43,13 @@ QA_COLUMNS = [
 ]
 
 
-def add(rows, name, passed, observed, required):
+def add(rows, name, passed, observed, required, component="core", status=None):
     """Append one readable gate result."""
     rows.append(
         {
+            "component": component,
             "gate": name,
-            "status": "PASS" if passed else "FAIL",
+            "status": status or ("PASS" if passed else "FAIL"),
             "observed": str(observed),
             "requirement": required,
         }
@@ -135,11 +140,11 @@ def episode_feasibility(frame, start, end):
     return counts, chains, pd.DataFrame(event_rows, columns=["gauge", "onset_utc"])
 
 
-def nearest_donor_map(gauges):
-    """Choose one other-watercourse donor by great-circle distance only."""
+def spatial_pair_table(gauges):
+    """List every ordered receiver-donor pair and its great-circle distance."""
     coordinates = gauges.set_index("gauge")[["latitude", "longitude"]].astype(float)
     radians = np.radians(coordinates)
-    donors = {}
+    rows = []
     for receiver, point in radians.iterrows():
         latitude = radians.latitude - point.latitude
         longitude = radians.longitude - point.longitude
@@ -147,23 +152,39 @@ def nearest_donor_map(gauges):
             np.sin(latitude / 2) ** 2
             + np.cos(point.latitude) * np.cos(radians.latitude) * np.sin(longitude / 2) ** 2
         )
-        distance = 2 * np.arcsin(np.sqrt(a.clip(0, 1)))
-        distance.loc[receiver] = np.inf
-        choices = pd.DataFrame(
+        distance = 2 * EARTH_RADIUS_KM * np.arcsin(np.sqrt(a.clip(0, 1)))
+        rows.extend(
             {
-                "gauge": distance.index.astype(str).to_numpy(),
-                "distance": distance.to_numpy(),
+                "receiver_gauge": str(receiver),
+                "donor_gauge": str(donor),
+                "distance_km": float(distance.loc[donor]),
             }
+            for donor in distance.index
+            if donor != receiver
         )
-        donors[receiver] = choices.sort_values(["distance", "gauge"]).gauge.iloc[0]
-    return donors
+    columns = ["receiver_gauge", "donor_gauge", "distance_km", "distance_stratum"]
+    if not rows:
+        return pd.DataFrame(columns=columns)
+    pairs = pd.DataFrame(rows).sort_values(["receiver_gauge", "distance_km", "donor_gauge"])
+    lower, upper = pairs.distance_km.quantile([1 / 3, 2 / 3])
+    if lower < upper:
+        pairs["distance_stratum"] = pd.cut(
+            pairs.distance_km,
+            bins=[-np.inf, lower, upper, np.inf],
+            labels=["near", "middle", "far"],
+            include_lowest=True,
+        ).astype("string")
+    else:
+        pairs["distance_stratum"] = pd.NA
+    return pairs.reset_index(drop=True)[columns]
 
 
-def donor_event_availability(discharge, events, gauges):
-    """Check the fixed donor level and gap-honest 12-hour change at each event."""
-    donors = nearest_donor_map(gauges)
+def spatial_event_availability(discharge, events, gauges):
+    """Check every donor's level/change window at every receiver event."""
+    pairs = spatial_pair_table(gauges)
     rows = []
-    for receiver, donor in donors.items():
+    for pair in pairs.itertuples(index=False):
+        receiver, donor = pair.receiver_gauge, pair.donor_gauge
         onsets = events.loc[events.gauge.eq(receiver), "onset_utc"]
         complete = 0
         for onset in onsets:
@@ -177,12 +198,33 @@ def donor_event_availability(discharge, events, gauges):
             {
                 "receiver_gauge": receiver,
                 "donor_gauge": donor,
+                "distance_km": pair.distance_km,
+                "distance_stratum": pair.distance_stratum,
                 "n_receiver_events": len(onsets),
                 "n_donor_complete": complete,
                 "availability": complete / len(onsets) if len(onsets) else 0.0,
             }
         )
     return pd.DataFrame(rows)
+
+
+def spatial_availability_summary(availability):
+    """Return weighted all-pair availability overall, by receiver and by distance."""
+    if availability.empty:
+        return 0.0, pd.DataFrame(), pd.DataFrame()
+
+    def aggregate(columns):
+        grouped = availability.groupby(columns, observed=True)[
+            ["n_receiver_events", "n_donor_complete"]
+        ].sum()
+        grouped["availability"] = grouped.n_donor_complete / grouped.n_receiver_events.replace(
+            0, np.nan
+        )
+        return grouped.reset_index()
+
+    total_events = availability.n_receiver_events.sum()
+    overall = availability.n_donor_complete.sum() / total_events if total_events else 0.0
+    return overall, aggregate(["receiver_gauge"]), aggregate(["distance_stratum"])
 
 
 def validate_catchments(path, watercourses):
@@ -266,29 +308,36 @@ def complete_precursor_events(onsets, frame, columns, hours=72):
     return count
 
 
-def audit():
-    """Return one tidy gate table; never substitute the rolling two-year files."""
+def audit_kerkrade_inputs():
+    """Audit the optional CO2 case without affecting the regional chapter gate."""
     rows = []
-    for name, path in FILES.items():
-        add(rows, f"File: {name}", path.exists(), path, "file exists")
-
-    # Detailed checks are meaningful only after every contracted input exists.
-    if not all(path.exists() for path in FILES.values()):
-        return pd.DataFrame(rows)
-
-    iot = pd.read_csv(FILES["original IoT"])
+    iot = pd.read_csv(KERKRADE_FILES["original IoT"])
     iot_columns = {"timestamp_utc", "sensor_era", "iot_co2_ppm", "iot_air_pressure_hpa"}
     iot_schema = iot_columns.issubset(iot)
-    add(rows, "Original IoT schema", iot_schema, sorted(iot), sorted(iot_columns))
+    add(
+        rows,
+        "Original IoT schema",
+        iot_schema,
+        sorted(iot),
+        sorted(iot_columns),
+        component="kerkrade_case",
+    )
     if not iot_schema:
-        return pd.DataFrame(rows)
+        return rows, None
 
     iot["timestamp_utc"] = pd.to_datetime(iot.timestamp_utc, utc=True, errors="coerce")
     start, end = iot.timestamp_utc.min(), iot.timestamp_utc.max()
     span_ok = start <= pd.Timestamp("2020-08-25", tz="UTC") and end >= pd.Timestamp(
         "2021-09-01", tz="UTC"
     )
-    add(rows, "Original IoT span", span_ok, f"{start} to {end}", "2020-08-25 to 2021-09-01")
+    add(
+        rows,
+        "Original IoT span",
+        span_ok,
+        f"{start} to {end}",
+        "2020-08-25 to 2021-09-01",
+        component="kerkrade_case",
+    )
     anchor = iot[iot.timestamp_utc.between("2021-06-29", "2021-07-19 23:59:59")]
     counts = anchor[["iot_co2_ppm", "iot_air_pressure_hpa"]].notna().sum()
     add(
@@ -297,32 +346,41 @@ def audit():
         counts.gt(0).all(),
         counts.to_dict(),
         "CO2 and pressure both observed",
+        component="kerkrade_case",
     )
 
-    later_iot, later_axis = read_hourly(FILES["later IoT"])
-    later_columns = {"timestamp_utc", "iot_co2_ppm", "iot_air_pressure_hpa"}
-    later_signal_columns = later_columns - {"timestamp_utc"}
-    later_schema = later_signal_columns.issubset(later_iot)
+    later_iot, later_axis = read_hourly(KERKRADE_FILES["later IoT"])
+    later_columns = {"iot_co2_ppm", "iot_air_pressure_hpa"}
+    later_schema = later_columns.issubset(later_iot)
     add(
         rows,
         "Later IoT schema",
         later_schema,
         sorted(later_iot),
-        sorted(later_signal_columns),
+        sorted(later_columns),
+        component="kerkrade_case",
     )
-    add(rows, "Later IoT time axis", later_axis, "hourly table", "regular hourly UTC")
+    add(
+        rows,
+        "Later IoT time axis",
+        later_axis,
+        "hourly table",
+        "regular hourly UTC",
+        component="kerkrade_case",
+    )
     if not later_schema or not later_axis:
-        return pd.DataFrame(rows)
-    later_counts = later_iot[["iot_co2_ppm", "iot_air_pressure_hpa"]].notna().sum()
+        return rows, None
+    later_counts = later_iot[list(later_columns)].notna().sum()
     add(
         rows,
         "Later IoT signals",
         later_counts.gt(0).all(),
         later_counts.to_dict(),
         "CO2 and pressure both observed",
+        component="kerkrade_case",
     )
 
-    iot_meta = pd.read_csv(FILES["IoT sensor-era metadata"])
+    iot_meta = pd.read_csv(KERKRADE_FILES["IoT sensor-era metadata"])
     meta_columns = {
         "sensor_era",
         "era_start_utc",
@@ -340,7 +398,7 @@ def audit():
             iot_meta[list(meta_columns)]
             .fillna("")
             .astype(str)
-            .apply(lambda x: x.str.strip().ne(""))
+            .apply(lambda values: values.str.strip().ne(""))
         )
         .all()
         .all()
@@ -376,9 +434,40 @@ def audit():
         meta_complete and era_assignment,
         sorted(iot_meta),
         "both sensor periods assigned once; device, calibration, ABC and resolution complete",
+        component="kerkrade_case",
     )
+    case_ready = all(row["status"] == "PASS" for row in rows)
+    return rows, later_iot if case_ready else None
 
-    gauges = pd.read_csv(FILES["gauge metadata"])
+
+def audit():
+    """Return one tidy gate table; never substitute the rolling two-year files."""
+    rows = []
+    for name, path in CORE_FILES.items():
+        add(rows, f"File: {name}", path.exists(), path, "file exists")
+    for name, path in KERKRADE_FILES.items():
+        exists = path.exists()
+        add(
+            rows,
+            f"File: {name}",
+            exists,
+            path,
+            "file exists for the optional Kerkrade case",
+            component="kerkrade_case",
+            status="PASS" if exists else "NOT AVAILABLE",
+        )
+
+    later_iot = None
+    if all(path.exists() for path in KERKRADE_FILES.values()):
+        case_rows, later_iot = audit_kerkrade_inputs()
+        rows.extend(case_rows)
+
+    # Missing case-study files do not block the regional chapter. Missing core
+    # files do, and downstream checks cannot be evaluated without them.
+    if not all(path.exists() for path in CORE_FILES.values()):
+        return pd.DataFrame(rows)
+
+    gauges = pd.read_csv(CORE_FILES["gauge metadata"])
     gauge_columns = {
         "gauge",
         "watercourse",
@@ -387,8 +476,6 @@ def audit():
         "include_primary",
         "natural_tributary",
         "july_2021_status",
-        "july_2021_onset_lower_utc",
-        "july_2021_onset_upper_utc",
         *QA_COLUMNS,
     }
     gauge_schema = gauge_columns.issubset(gauges)
@@ -419,36 +506,6 @@ def audit():
     )
     add(rows, "Gauge coordinates", coordinate_ok, coordinates.notna().sum().to_dict(), "all valid")
 
-    worm = primary.watercourse.str.contains("worm|wurm", case=False, na=False)
-    paired = (
-        as_bool(primary.kerkrade_pair)
-        if "kerkrade_pair" in primary
-        else pd.Series(False, index=primary.index)
-    )
-    rationale = (
-        primary.pairing_rationale.fillna("").str.strip().ne("")
-        if "pairing_rationale" in primary
-        else pd.Series(False, index=primary.index)
-    )
-    valid_pair = worm | (paired & rationale)
-    add(
-        rows,
-        "Kerkrade hydrological pair",
-        valid_pair.any(),
-        primary.loc[valid_pair, "watercourse"].tolist(),
-        "Worm/Wurm or flagged pair with rationale",
-    )
-    pair_rows = primary.loc[valid_pair]
-    lower = pd.to_datetime(pair_rows.july_2021_onset_lower_utc, utc=True, errors="coerce")
-    upper = pd.to_datetime(pair_rows.july_2021_onset_upper_utc, utc=True, errors="coerce")
-    interval_ok = ((lower.notna()) & (upper.notna()) & lower.le(upper)).any()
-    add(
-        rows,
-        "July 2021 censored onset interval",
-        interval_ok,
-        int(((lower.notna()) & (upper.notna()) & lower.le(upper)).sum()),
-        ">=1 valid interval for the Kerkrade pair",
-    )
     qa_ok = not primary.empty and primary[QA_COLUMNS].apply(as_bool).all().all()
     july_ok = not primary.empty and primary.july_2021_status.fillna("").str.strip().ne("").all()
     add(rows, "Gauge QA", qa_ok, primary[QA_COLUMNS].apply(as_bool).sum().to_dict(), "all true")
@@ -460,7 +517,7 @@ def audit():
         "all documented",
     )
 
-    discharge, discharge_axis = read_hourly(FILES["long discharge"])
+    discharge, discharge_axis = read_hourly(CORE_FILES["long discharge"])
     gauge_names = primary.gauge.astype(str).tolist()
     discharge_columns = set(gauge_names).issubset(discharge)
     add(
@@ -493,7 +550,7 @@ def audit():
         return pd.DataFrame(rows)
 
     catchments_ok, catchments_observed = validate_catchments(
-        FILES["catchment polygons"], primary.watercourse.astype(str)
+        CORE_FILES["catchment polygons"], primary.watercourse.astype(str)
     )
     add(
         rows,
@@ -503,7 +560,7 @@ def audit():
         "one unique, valid, non-empty projected polygon per primary watercourse",
     )
 
-    radolan, radolan_axis = read_hourly(FILES["RADOLAN catchment rainfall"])
+    radolan, radolan_axis = read_hourly(CORE_FILES["RADOLAN catchment rainfall"])
     watercourses = primary.watercourse.astype(str).unique().tolist()
     radolan_columns = set(watercourses).issubset(radolan)
     add(
@@ -533,7 +590,7 @@ def audit():
     if pd.isna(radolan_start) or pd.isna(radolan_end):
         return pd.DataFrame(rows)
 
-    weather, weather_axis, weather_columns = read_long_weather(FILES["long public weather"])
+    weather, weather_axis, weather_columns = read_long_weather(CORE_FILES["long public weather"])
     add(
         rows,
         "Public weather schema",
@@ -555,7 +612,7 @@ def audit():
         len(watercourses),
     )
 
-    weather_sources = pd.read_csv(FILES["public weather provenance"])
+    weather_sources = pd.read_csv(CORE_FILES["public weather provenance"])
     source_columns = {
         "watercourse",
         "source_id",
@@ -698,42 +755,118 @@ def audit():
         n_storms,
         ">=40 within the joint analysis span",
     )
-    donor_availability = donor_event_availability(
+    spatial_availability = spatial_event_availability(
         discharge.loc[joint_start:joint_end, gauge_names], event_rows, primary
     )
-    donor_ok = (
-        not donor_availability.empty
-        and donor_availability.availability.ge(MIN_DONOR_EVENT_AVAILABILITY).all()
+    distance_strata = set(spatial_availability.distance_stratum.dropna())
+    distance_support_ok = (
+        not spatial_availability.empty
+        and spatial_availability.distance_km.gt(0).all()
+        and distance_strata == {"near", "middle", "far"}
     )
     add(
         rows,
-        "Nearest-donor event availability",
-        donor_ok,
-        donor_availability.round({"availability": 3}).to_dict(orient="records"),
-        f">={MIN_DONOR_EVENT_AVAILABILITY:.0%} of receiver events have donor level and "
-        "a complete -13 to -1 h donor window",
+        "Spatial distance support",
+        distance_support_ok,
+        {
+            "ordered_pairs": len(spatial_availability),
+            "unique_distances": spatial_availability.distance_km.nunique(),
+            "distance_strata": sorted(distance_strata),
+        },
+        "all ordered receiver-donor pairs have positive distances and populate near/middle/far strata",
+    )
+    overall, by_receiver, by_stratum = spatial_availability_summary(spatial_availability)
+    spatial_availability_ok = (
+        distance_support_ok
+        and overall >= MIN_SPATIAL_OVERALL_AVAILABILITY
+        and not by_receiver.empty
+        and by_receiver.availability.ge(MIN_SPATIAL_STRATUM_AVAILABILITY).all()
+        and not by_stratum.empty
+        and by_stratum.availability.ge(MIN_SPATIAL_STRATUM_AVAILABILITY).all()
+    )
+    add(
+        rows,
+        "All-donor event availability",
+        spatial_availability_ok,
+        {
+            "overall": round(overall, 3),
+            "by_receiver": by_receiver.round({"availability": 3}).to_dict(orient="records"),
+            "by_distance_stratum": by_stratum.round({"availability": 3}).to_dict(orient="records"),
+        },
+        f">={MIN_SPATIAL_OVERALL_AVAILABILITY:.0%} overall and >="
+        f"{MIN_SPATIAL_STRATUM_AVAILABILITY:.0%} within every receiver and distance stratum "
+        "for complete -13 to -1 h donor windows",
     )
 
-    later_event_counts = {}
-    for pair_gauge in pair_rows.gauge.astype(str):
-        pair_onsets = episode_onsets(
-            discharge[pair_gauge],
-            discharge[pair_gauge].quantile(0.99),
-            merge_hours=72,
+    if later_iot is not None:
+        case_metadata = {
+            "july_2021_onset_lower_utc",
+            "july_2021_onset_upper_utc",
+        }
+        case_schema = case_metadata.issubset(primary)
+        add(
+            rows,
+            "Kerkrade gauge metadata",
+            case_schema,
+            sorted(primary),
+            sorted(case_metadata),
+            component="kerkrade_case",
         )
-        later_event_counts[pair_gauge] = complete_precursor_events(
-            pair_onsets,
-            later_iot,
-            ["iot_co2_ppm", "iot_air_pressure_hpa"],
-        )
-    complete_later_events = max(later_event_counts.values(), default=0)
-    add(
-        rows,
-        "Later exact-onset Kerkrade events",
-        complete_later_events >= 3,
-        later_event_counts,
-        ">=3 events at one valid pair gauge with complete -72 to -1 h CO2 and pressure",
-    )
+        if case_schema:
+            worm = primary.watercourse.str.contains("worm|wurm", case=False, na=False)
+            paired = (
+                as_bool(primary.kerkrade_pair)
+                if "kerkrade_pair" in primary
+                else pd.Series(False, index=primary.index)
+            )
+            rationale = (
+                primary.pairing_rationale.fillna("").str.strip().ne("")
+                if "pairing_rationale" in primary
+                else pd.Series(False, index=primary.index)
+            )
+            valid_pair = worm | (paired & rationale)
+            pair_rows = primary.loc[valid_pair]
+            add(
+                rows,
+                "Kerkrade hydrological pair",
+                valid_pair.any(),
+                pair_rows.watercourse.tolist(),
+                "Worm/Wurm or flagged pair with rationale",
+                component="kerkrade_case",
+            )
+            lower = pd.to_datetime(pair_rows.july_2021_onset_lower_utc, utc=True, errors="coerce")
+            upper = pd.to_datetime(pair_rows.july_2021_onset_upper_utc, utc=True, errors="coerce")
+            interval_ok = ((lower.notna()) & (upper.notna()) & lower.le(upper)).any()
+            add(
+                rows,
+                "July 2021 censored onset interval",
+                interval_ok,
+                int(((lower.notna()) & (upper.notna()) & lower.le(upper)).sum()),
+                ">=1 independently supported interval for the Kerkrade pair",
+                component="kerkrade_case",
+            )
+
+            later_event_counts = {}
+            for pair_gauge in pair_rows.gauge.astype(str):
+                pair_onsets = episode_onsets(
+                    discharge[pair_gauge],
+                    discharge[pair_gauge].quantile(0.99),
+                    merge_hours=72,
+                )
+                later_event_counts[pair_gauge] = complete_precursor_events(
+                    pair_onsets,
+                    later_iot,
+                    ["iot_co2_ppm", "iot_air_pressure_hpa"],
+                )
+            complete_later_events = max(later_event_counts.values(), default=0)
+            add(
+                rows,
+                "Later exact-onset Kerkrade events",
+                complete_later_events >= 3,
+                later_event_counts,
+                ">=3 events at one valid pair gauge with complete -72 to -1 h CO2 and pressure",
+                component="kerkrade_case",
+            )
     return pd.DataFrame(rows)
 
 
@@ -741,35 +874,60 @@ def write_report(table):
     """Write the audit without adding a table-rendering dependency."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     table.to_csv(OUTPUT_DIR / "gate_audit.csv", index=False)
-    columns = ["gate", "status", "observed", "requirement"]
-    markdown = ["| " + " | ".join(columns) + " |", "| --- | --- | --- | --- |"]
+    columns = ["component", "gate", "status", "observed", "requirement"]
+    markdown = [
+        "| " + " | ".join(columns) + " |",
+        "| --- | --- | --- | --- | --- |",
+    ]
     for row in table[columns].itertuples(index=False, name=None):
         cells = [str(value).replace("|", "\\|").replace("\n", " ") for value in row]
         markdown.append("| " + " | ".join(cells) + " |")
-    passed = table.status.eq("PASS").all()
+    core = table[table.component.eq("core")]
+    case = table[table.component.eq("kerkrade_case")]
+    core_passed = not core.empty and core.status.eq("PASS").all()
+    case_detailed = case[~case.gate.str.startswith("File:")]
+    required_case_gates = {
+        "IoT provenance",
+        "Kerkrade hydrological pair",
+        "July 2021 censored onset interval",
+        "Later exact-onset Kerkrade events",
+    }
+    case_gates = set(case.gate)
+    if case.status.eq("NOT AVAILABLE").any():
+        case_status = "NOT AVAILABLE"
+    elif case_detailed.empty:
+        case_status = "NOT EVALUATED"
+    elif required_case_gates.issubset(case_gates) and case.status.eq("PASS").all():
+        case_status = "AVAILABLE"
+    else:
+        case_status = "INCOMPLETE"
     report = [
         "# Event-study data-gate audit",
         "",
-        f"Overall: **{'PASS' if passed else 'FAIL'}**",
+        f"Core regional chapter: **{'PASS' if core_passed else 'FAIL'}**",
+        f"Conditional Kerkrade CO2 case: **{case_status}**",
         "",
-        "This is a feasibility audit, not a chapter result.",
+        "The Kerkrade case does not affect the core pass/fail result. This is a "
+        "feasibility audit, not a chapter result.",
         "",
         *markdown,
         "",
     ]
     (OUTPUT_DIR / "gate_audit.md").write_text("\n".join(report), encoding="utf-8")
-    return passed
+    return core_passed
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--report-only", action="store_true", help="return zero when gates fail")
+    parser.add_argument(
+        "--report-only", action="store_true", help="return zero when the core gates fail"
+    )
     args = parser.parse_args()
     table = audit()
     passed = write_report(table)
     print(table.to_string(index=False))
     if not passed and not args.report_only:
-        raise SystemExit("Hard data gates failed; do not run the event study")
+        raise SystemExit("Core data gates failed; do not run the regional event study")
 
 
 if __name__ == "__main__":

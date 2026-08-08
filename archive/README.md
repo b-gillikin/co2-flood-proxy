@@ -28,3 +28,8 @@ writer and are not prospective event-study results.
 The reasons and numerical history are preserved in `docs/decisions.md`. The
 live design is `docs/chapter-synthesis.md`; the live file inventory is
 `docs/analysis-inventory.md`. Ruff intentionally excludes this directory.
+
+The five dated peer-review passes from 2026-08-06 through 2026-08-08 are under
+`archive/docs/reviews/`. They informed the live reset but are not competing
+chapter specifications. Their criticisms and resulting decisions remain
+traceable in the append-only decisions log.

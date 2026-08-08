@@ -1,28 +1,38 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-08. These are hard inputs for the prospective event study, not
-optional extensions to the current hourly analysis.
+Status: 2026-08-08. Core network deliveries are binding for the regional event
+study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 
 ## Current gate state
 
-| gate | required delivery | current state |
-| --- | --- | --- |
-| original Kerkrade IoT | Aug 2020–Sep 2021 CO2 and pressure plus device/calibration/ABC metadata | absent; not yet requested |
-| sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
-| tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 and held LANUK does not pass |
-| Kerkrade pair | Worm/Wurm or documented hydrological pair in the long cohort | not established in a qualifying common record |
-| later Kerkrade recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap; a qualifying pair series is still needed |
-| catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
-| public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | source/assignment not selected |
-| gauge QA | coordinates, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status/bounds | incomplete |
+| component | gate | required delivery | current state |
+| --- | --- | --- | --- |
+| Kerkrade case | original IoT | Aug 2020–Sep 2021 CO2 and pressure plus device/calibration/ABC metadata | package has a cleaned Aug 2020–Sep 2021 table, raw May–Sep 2021 basement files and ABC code; contract not normalised or audited |
+| Kerkrade case | sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
+| core | tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 and held LANUK does not pass |
+| Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
+| Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
+| core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
+| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | source/assignment not selected |
+| core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
-audit. If these inputs do not pass, the chapter returns to the supervisor. The
-rolling record is not a permissible fallback.
+audit. Core failure returns the chapter to the supervisor; Kerkrade-case failure
+removes that case only. The rolling record is not a permissible core fallback.
 
-## 1. Original Viefhues IoT package — blocking
+## 1. Original Viefhues IoT package — conditional Kerkrade case
 
-Status: **not yet requested; first priority**.
+Status: **source package delivered locally; audit and metadata follow-up pending**.
+
+The delivered folder contains the thesis, presentation, analysis code, a
+cleaned hourly table spanning 2020-08-25 to 2021-09-24, and raw Kerkrade CSVs
+including a basement record dated 2021-05-15 to 2021-09-24. The code identifies
+K4 as the non-ABC basement sensor and documents historical ABC adjustments, but
+the provenance of the cleaned pre-May record still needs reconstruction. The
+folder is kept out of Git because it is a 63 MB external source package
+containing raw data and binaries. Presence is not a passed gate: timestamps,
+device identity, calibration, ABC processing, aggregation and missingness still
+need to be checked against the contract below.
 
 Request from Jan-Philipp Viefhues, sustainably.io and/or the Maastricht thesis
 data holder:
@@ -37,9 +47,10 @@ data holder:
   supplied values were already processed;
 - missing-data and aggregation rules used in the thesis.
 
-Why blocking: July 2021 is 3.5 years before the earliest currently held local
-IoT observation (2025-01-31). Without the original record the proposed
-Kerkrade anchor and recurrence comparison do not exist.
+Why still important: July 2021 is 3.5 years before the later local IoT record.
+Until the delivered source is normalised and its provenance resolved, this
+chapter cannot claim a reproduced Viefhues trajectory or compare it with later
+CO2 events. The regional recurrence/spatial-extent analysis can still proceed.
 
 On receipt, produce:
 
@@ -52,10 +63,10 @@ On receipt, produce:
   `source_resolution`.
 
 Do not assume that the 2021 and 2025–2026 instruments are the same sensor era.
-The existing later hourly IoT file remains a gate input. After the long
-Kerkrade-pair series arrives, it must overlap at least three exact p99 onsets
-with all 72 pre-onset CO2 and pressure hours observed. Fewer events cannot
-support a recurrence conclusion.
+The existing later hourly IoT file remains a conditional-case input. After the
+long Kerkrade-pair series arrives, it must overlap at least three exact p99
+onsets with all 72 pre-onset CO2 and pressure hours observed. Fewer events
+cannot support a recurrence conclusion, but do not block the core chapter.
 
 ## 2. Long Limburg tributary discharge — blocking
 
@@ -142,6 +153,8 @@ Deliver:
   `spatial_assignment`, `timezone_verified` and `units_verified`.
 
 The files must provide 10 years common to the discharge and RADOLAN cohort.
+The assignment must support values at every receiver and donor watercourse;
+spatial contrasts use all eligible pairs rather than a nearest-site subset.
 
 ## 4. RADOLAN catchment rainfall — blocking
 
@@ -176,14 +189,15 @@ EStreams boundaries may be a starting point but must be visually and
 hydrologically checked. The existing combined KNMI/DWD point series remains a
 sensitivity only. ERA5-Land (~9 km) and retired REGNIE are not substitutes.
 
-## 5. July 2021 gauge evidence — blocking documentation
+## 5. July 2021 gauge evidence — core status, conditional local bounds
 
 The Deltares rapid assessment reports missing/damaged Geul peaks and warns that
 surviving flood discharge observations may be unreliable. Independently, some
 LANUK gauges stop before the flood. Therefore July 2021 is interval-censored,
 not missing at random.
 
-For the Kerkrade pair, request or extract:
+Every core gauge needs a documented July 2021 status. For the conditional
+Kerkrade case, request or extract:
 
 - last reliable pre-failure observation;
 - first reliable post-failure observation;
@@ -215,8 +229,9 @@ evidence.
 For every delivered dataset, preserve the raw file, licence and request
 correspondence; record a checksum; inspect units/timezone/sentinels before
 aggregation; and update this file plus the append-only `decisions.md`. Passing
-the executable gate still requires supervisor approval before the protocol is
-locked.
+the **core** executable gate still requires supervisor approval before the
+protocol is locked. Kerkrade materials may be added only if their separate case
+gate passes before that case's outcomes are inspected.
 
 Ready-to-personalise messages are in `external-request-drafts.md`. They have
 not been sent by this repository work.

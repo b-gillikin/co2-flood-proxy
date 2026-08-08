@@ -46,6 +46,63 @@ def test_hourly_contract_rejects_an_omitted_hour(tmp_path):
     assert not valid
 
 
+def test_missing_kerkrade_files_do_not_change_the_core_result(tmp_path, monkeypatch):
+    table = pd.DataFrame(
+        [
+            {
+                "component": "core",
+                "gate": "core input",
+                "status": "PASS",
+                "observed": "present",
+                "requirement": "present",
+            },
+            {
+                "component": "kerkrade_case",
+                "gate": "File: original IoT",
+                "status": "NOT AVAILABLE",
+                "observed": "missing",
+                "requirement": "optional case file",
+            },
+        ]
+    )
+    monkeypatch.setattr(GATES, "OUTPUT_DIR", tmp_path)
+
+    core_passed = GATES.write_report(table)
+    report = (tmp_path / "gate_audit.md").read_text()
+
+    assert core_passed
+    assert "Core regional chapter: **PASS**" in report
+    assert "Conditional Kerkrade CO2 case: **NOT AVAILABLE**" in report
+
+
+def test_case_is_incomplete_until_hydrological_gates_are_present(tmp_path, monkeypatch):
+    table = pd.DataFrame(
+        [
+            {
+                "component": "core",
+                "gate": "core input",
+                "status": "FAIL",
+                "observed": "missing",
+                "requirement": "present",
+            },
+            {
+                "component": "kerkrade_case",
+                "gate": "IoT provenance",
+                "status": "PASS",
+                "observed": "documented",
+                "requirement": "documented",
+            },
+        ]
+    )
+    monkeypatch.setattr(GATES, "OUTPUT_DIR", tmp_path)
+
+    core_passed = GATES.write_report(table)
+    report = (tmp_path / "gate_audit.md").read_text()
+
+    assert not core_passed
+    assert "Conditional Kerkrade CO2 case: **INCOMPLETE**" in report
+
+
 def test_common_span_counts_the_inclusive_last_hour():
     index = pd.date_range("2005-01-01", "2014-12-31 23:00", freq="h", tz="UTC")
     frame = pd.DataFrame({"A": 1.0, "B": 2.0}, index=index)
@@ -86,26 +143,70 @@ def test_episode_feasibility_excludes_crossings_outside_joint_period():
     assert events.onset_utc.tolist() == [index[250]]
 
 
-def test_nearest_donor_availability_requires_complete_12_hour_change():
+def test_spatial_pair_table_contains_every_ordered_pair():
+    gauges = pd.DataFrame(
+        {
+            "gauge": ["A", "B", "C"],
+            "latitude": [50.0, 50.1, 50.4],
+            "longitude": [6.0, 6.1, 6.5],
+        }
+    )
+
+    pairs = GATES.spatial_pair_table(gauges)
+
+    assert len(pairs) == 6
+    assert not (pairs.receiver_gauge == pairs.donor_gauge).any()
+    assert set(pairs.distance_stratum) == {"near", "middle", "far"}
+    ab = pairs[pairs.receiver_gauge.eq("A") & pairs.donor_gauge.eq("B")].iloc[0]
+    ba = pairs[pairs.receiver_gauge.eq("B") & pairs.donor_gauge.eq("A")].iloc[0]
+    assert ab.distance_km == pytest.approx(ba.distance_km)
+
+
+def test_all_donor_availability_requires_complete_12_hour_change():
     index = pd.date_range("2025-01-01", periods=100, freq="h", tz="UTC")
-    discharge = pd.DataFrame({"A": 1.0, "B": 2.0}, index=index)
+    discharge = pd.DataFrame({"A": 1.0, "B": 2.0, "C": 3.0}, index=index)
     discharge.loc[index[75], "B"] = np.nan
     events = pd.DataFrame({"gauge": ["A", "A"], "onset_utc": [index[50], index[80]]})
     gauges = pd.DataFrame(
         {
-            "gauge": ["A", "B"],
-            "latitude": [50.0, 50.1],
-            "longitude": [6.0, 6.1],
+            "gauge": ["A", "B", "C"],
+            "latitude": [50.0, 50.1, 50.4],
+            "longitude": [6.0, 6.1, 6.5],
         }
     )
 
-    availability = GATES.donor_event_availability(discharge, events, gauges)
-    receiver = availability[availability.receiver_gauge.eq("A")].iloc[0]
+    availability = GATES.spatial_event_availability(discharge, events, gauges)
+    ab = availability[availability.receiver_gauge.eq("A") & availability.donor_gauge.eq("B")].iloc[
+        0
+    ]
+    ac = availability[availability.receiver_gauge.eq("A") & availability.donor_gauge.eq("C")].iloc[
+        0
+    ]
 
-    assert receiver.donor_gauge == "B"
-    assert receiver.n_receiver_events == 2
-    assert receiver.n_donor_complete == 1
-    assert receiver.availability == 0.5
+    assert ab.n_receiver_events == 2
+    assert ab.n_donor_complete == 1
+    assert ab.availability == 0.5
+    assert ac.n_donor_complete == 2
+    assert ac.availability == 1.0
+
+
+def test_spatial_availability_summary_weights_pair_event_rows():
+    availability = pd.DataFrame(
+        {
+            "receiver_gauge": ["A", "A", "B"],
+            "distance_stratum": ["near", "far", "near"],
+            "n_receiver_events": [10, 10, 2],
+            "n_donor_complete": [10, 0, 2],
+        }
+    )
+
+    overall, by_receiver, by_stratum = GATES.spatial_availability_summary(availability)
+
+    assert overall == pytest.approx(12 / 22)
+    receiver_a = by_receiver[by_receiver.receiver_gauge.eq("A")].iloc[0]
+    assert receiver_a.availability == 0.5
+    near = by_stratum[by_stratum.distance_stratum.eq("near")].iloc[0]
+    assert near.availability == 1.0
 
 
 def test_public_weather_requires_a_regular_grid_for_each_watercourse(tmp_path):

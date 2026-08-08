@@ -35,7 +35,9 @@ weather blob container.
 
 These point series are not automatically the prospective event-study weather
 input. That analysis requires a pre-outcome assignment with 10 common years for
-every primary watercourse; see `data-requests.md`.
+every primary watercourse. The spatial-extent estimand evaluates all eligible
+receiver-donor pairs, so every included donor must have the same documented
+weather assignment; see `data-requests.md`.
 
 Run all available refreshes with:
 

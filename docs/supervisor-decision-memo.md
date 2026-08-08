@@ -7,26 +7,35 @@ This memo asks for design approval before the protocol is locked.
 
 > Across Limburg tributaries, which fixed public hydrometeorological signals
 > recur during the 72 hours before independently defined high-water onset, and
-> do their direction and magnitude remain visible at an unseen watercourse and
-> period? At Kerkrade, does pressure-adjusted CO2 recur as a local manifestation
-> of that regional state?
+> how does their event-minus-quiet magnitude change with distance from the
+> affected watercourse? If the source data support a Kerkrade case, does
+> pressure-adjusted CO2 recur there as a local manifestation of that regional
+> state?
 
 The sequence is Viefhues's July 2021 single-site observation -> Eryilmaz's
-same-site public-weather explanation -> this chapter's recurrence and spatial
-transfer test. The sole primary analysis is an event-minus-matched-quiet
-contrast. There is no classifier, warning-system evaluation or model-family
-search.
+same-site public-weather explanation -> this chapter's recurrence and spatial-
+extent test. Local and all-donor event-minus-matched-quiet contrasts feed one
+prespecified distance model per signal. There is no classifier, warning-system
+evaluation or model-family search. The regional chapter does not depend on the
+conditional Kerkrade case.
 
 ## Decisions requested
 
-### 1. Does the held-out contrast satisfy the transferability requirement?
+### 1. Does spatial extent satisfy the transferability requirement?
 
-**Recommendation: yes.** The design hides one whole receiver watercourse and
-one time period, learns the usual signal direction/magnitude from the remaining
-watercourses and periods, and evaluates whether it is present in the hidden
-intersection. This is external validation of a descriptive signal. It does not
-measure distance decay, geographic reach or performance at an ungauged basin;
-the manuscript will say so explicitly.
+**Decision requested:** approve transferability as the distance relationship in
+all-donor event contrasts. For each receiver event, the analysis measures the
+same fixed signal at every other eligible watercourse at the event and matched
+quiet times. One mixed-effects model per signal estimates the change in
+contrast with `log(1 + distance_km)`, allowing receiver, donor and
+regional-storm random intercepts.
+
+The curve is reported at empirical distance quartiles and validated at
+receiver-period intersections excluded from fitting; the held watercourse is
+absent from training as both receiver and donor. This directly estimates
+spatial extent within the observed network. It does not identify physical
+propagation, a hard geographic reach, gauge substitution or an ungauged-basin
+effect.
 
 ### 2. What is the study population?
 
@@ -50,8 +59,10 @@ approved.
 
 **Draft recommendation:** at least 80% observed hourly cells overall and 70% in
 every calendar year for every primary discharge, RADOLAN and public-weather
-series over the joint study period, plus complete donor level/change inputs for
-at least 80% of each receiver's events. The joint period must contain July 2021.
+series over the joint study period. Complete donor level/change windows must
+cover at least 80% of all receiver-event/donor combinations and 70% within
+every receiver and empirical distance third. The joint period must contain
+July 2021.
 This prevents endpoint span and events from a few dense years from masquerading
 as a ten-year record. A draft LANUK request asks whether its irregular
 timestamps are true missing hours or a valid compressed/hold-forward series;
@@ -60,10 +71,10 @@ the rule should be confirmed after the reply but before signal outcomes.
 ### 4. How much evidence is required in a held-out fold?
 
 **Draft recommendation:** retain every planned receiver-by-five-block row, but
-mark a fold eligible only with at least three held-out event contrasts for that
-signal and a nonempty reference set. Require at least three eligible blocks
-within a receiver before making a receiver-level transfer statement. Report all
-empty and sparse folds. This is an evidence floor, not a success threshold.
+mark a fold eligible only with at least three receiver events and at least one
+complete pair contrast in every empirical distance third. Report all empty and
+sparse folds. This is an evidence floor for validating magnitude, not a success
+or reach threshold.
 
 ### 5. Which long public-weather source and spatial rule should be fixed?
 
@@ -83,21 +94,28 @@ be substantive, not based on which source gives stronger event contrasts.
 Official product description:
 <https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview>.
 
-### 6. Is July 2021 supportable as the Kerkrade anchor?
+### 6. Should the Kerkrade CO2 analysis be conditional?
 
-**Recommendation: retain it only as interval-censored and require independent
-evidence for the interval.** Archive termination or a multi-year data gap does
-not itself bound onset. The original Viefhues IoT record, gauge damage/reliability
-documentation and any defensible water-level or hydraulic evidence must supply
-the lower and upper bounds. Without those, the anchor can be contextual prose
-but cannot meet the current figure contract.
+**Recommendation: yes.** A Viefhues source package has now been delivered
+locally, including a cleaned hourly 2020–2021 table, raw 2021 IoT files and ABC
+processing code, but it is not yet a passed analytical input. Require the
+regional record to contain July 2021 and show only observed
+public/hydrological trajectories in the core figure. Add the Viefhues
+reanalysis and later CO2 recurrence only if the original IoT,
+sensor-era provenance, valid hydrological pair, independently supported local
+onset interval and at least three later complete event windows pass their
+separate gate. Archive termination or a multi-year gap does not itself bound
+onset. If the case gate fails, cite Viefhues as motivation and make no new CO2
+claim; do not stop the regional chapter.
 
 ## Pre-agreed readings
 
-The lockable protocol now states how positive, null and heterogeneous rainfall,
-public-weather, neighbouring-flow and CO2 results will be read. A null CO2
-residual means the 2021 indoor response may have been event-, sensor- or
-building-specific; it does not trigger a new pressure baseline. Weak or
+The lockable protocol now states how local decay, a broad regional footprint,
+no spatial coherence and storm-specific heterogeneity will be read for
+rainfall, public weather and donor flow. If the conditional case is available,
+a null CO2 residual means the 2021 indoor response may have
+been event-, sensor- or building-specific; it does not trigger a new pressure
+baseline. An unavailable case is missing evidence, not a null. Weak or
 heterogeneous public signals remain a substantive finding under the fixed
 design.
 
@@ -107,9 +125,10 @@ Record the meeting date and decisions here or in meeting notes, then copy the
 resolved choices into protocol §13 before lock:
 
 - [ ] question and contribution approved;
-- [ ] held-out contrast accepted as transferability;
+- [ ] all-donor distance gradient accepted as spatial transferability;
 - [ ] population approved;
 - [ ] density rule approved;
 - [ ] fold-occupancy rule approved;
 - [ ] public-weather source and assignment approved;
-- [ ] July 2021 evidence requirement approved.
+- [ ] regional July 2021 treatment approved;
+- [ ] conditional Kerkrade-case rule approved.

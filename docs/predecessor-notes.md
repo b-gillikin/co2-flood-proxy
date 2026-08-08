@@ -19,8 +19,8 @@ Eryilmaz (2025) establishes the feature-substitution premise on a normal-period 
 
 This chapter should not merely rerun either predecessor. The step beyond is to
 ask which fixed public hydrometeorological signals recur before independently
-defined high-water events and whether their direction and magnitude remain
-visible at an unseen watercourse and period. Kerkrade then tests whether the
+defined high-water events and how their event-minus-quiet magnitude changes
+with distance across other watercourses. Kerkrade then tests whether the
 pressure-adjusted indoor response recurs as a local manifestation of that wider
 state.
 
@@ -318,7 +318,8 @@ Prediction:
 - The 1000 ppm threshold and Visual Crossing variables are confined to that
   predecessor check; they do not define this chapter's high-water events.
 - Eryilmaz's result motivates asking which public weather components recur and
-  travel, but does not establish that they will.
+  over what spatial extent their event contrast remains detectable, but does
+  not establish that they will.
 
 ### What This Chapter Must Do Differently
 
@@ -328,8 +329,8 @@ Prediction:
 - Define high-water events independently from long-record receiver discharge.
 - Compare fixed pre-event signals with matched quiet times; do not build another
   outcome classifier or anomaly detector.
-- Treat July 2021 as a censored anchor and test CO2 recurrence only at later
-  exact-onset Kerkrade events.
+- Keep July 2021 in the regional record. Reanalyse its CO2 trajectory and test
+  later recurrence only if the separate Kerkrade data/evidence gate passes.
 
 ## Joint Implications for This Chapter
 
@@ -351,7 +352,9 @@ Prediction:
 
 ### Current Follow-Through
 
-- Recover the original IoT record and its calibration/ABC history.
+- Audit the delivered original IoT package and resolve its calibration/ABC
+  history for the conditional Kerkrade case; inadequacy does not block the
+  regional chapter.
 - Obtain the long tributary discharge cohort and independently document the
   July 2021 onset interval.
 - Fix catchment-average RADOLAN rainfall and a long-record public-weather source
@@ -364,5 +367,6 @@ Prediction:
 Viefhues documents a Kerkrade indoor response around the July 2021 flood;
 Eryilmaz shows that public weather carries much of the same-site information in
 a non-flood period; this chapter asks which public signals actually recur before
-independently defined high water and remain detectable at unseen watercourses
-and periods, and whether pressure-adjusted CO2 recurs locally.
+independently defined high water and how their event contrast changes with
+distance across other watercourses, and—if the source data support the case—whether
+pressure-adjusted CO2 recurs locally.

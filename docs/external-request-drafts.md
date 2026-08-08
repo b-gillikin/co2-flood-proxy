@@ -1,12 +1,14 @@
 # External Request Drafts
 
-Status: prepared 2026-08-08; **not sent**. Replace bracketed text, attach the
-UNU-MERIT affiliation/signature and preserve each sent message and reply with
-the raw delivery.
+Status: prepared 2026-08-08. The Viefhues package has since been delivered
+locally, so §1 is now a metadata follow-up if the package itself does not answer
+the questions. The Waterschap and LANUK drafts are **not sent**. Replace
+bracketed text, attach the UNU-MERIT affiliation/signature and preserve each
+sent message and reply with the raw delivery.
 
-## 1. Jan-Philipp Viefhues / thesis data holder
+## 1. Jan-Philipp Viefhues / thesis data holder — metadata follow-up
 
-**Subject:** Request for original Kerkrade IoT data used in the 2022 thesis
+**Subject:** Follow-up on Kerkrade IoT data used in the 2022 thesis
 
 Dear Jan-Philipp,
 
@@ -16,11 +18,9 @@ asks whether the indoor CO2 response observed around July 2021 recurs during
 later independently defined high-water episodes, while separating it from
 public hydrometeorological conditions.
 
-Could you share, or direct me to the holder of, the original Kerkrade IoT data
-covering approximately 25 August 2020 through 1 September 2021? The essential
-variables are indoor CO2 and air pressure. Temperature, relative humidity and
-other recorded channels would also be useful if they are part of the same
-export.
+I now have a copy of the thesis data/code package, including the 2021 Kerkrade
+CSV files. Before using them, could you confirm or direct me to documentation
+for the following points?
 
 To reproduce the 2021 record responsibly, I would also need whatever is
 available on:
@@ -33,10 +33,10 @@ available on:
 - missing-value, duplicate and hourly-aggregation rules used in the thesis;
 - any data-use or citation conditions.
 
-Raw minute-level data are preferred, but a documented hourly export would be
-valuable if the native files are no longer available. I will preserve the
-original delivery, document all transformations and will not treat the 2021
-high-water onset as exact where the gauge evidence is uncertain.
+If the delivered CSVs are not the complete source-native export, the missing
+portion or a documented hourly export would also be valuable. I will preserve
+the original delivery, document all transformations and will not treat the
+2021 high-water onset as exact where the gauge evidence is uncertain.
 
 Thank you,
 

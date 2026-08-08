@@ -38,11 +38,27 @@ Blynk export timestamps are local Europe/Amsterdam civil time in the CSVs. The
 loader converts them to UTC before hourly aggregation. Duplicate rows within a
 device/timestamp are resolved by preferring the more detailed source file.
 
-Interpretation caveat: the merged hourly IoT frame is the input for the retained
-Eryilmaz context check, but it is not one uninterrupted single-device record and
-does not contain July 2021. Source, device, and coverage-gap reports should
-travel with any interpretation. The event study additionally requires
-`kerkrade_iot_eras.csv`; see `data-requests.md`.
+Interpretation caveat: the merged later-era hourly IoT frame is the input for
+the retained Eryilmaz context check, but it is not one uninterrupted
+single-device record and does not contain July 2021. Source, device and
+coverage-gap reports should travel with any interpretation.
+
+## Delivered Viefhues package
+
+A separate 63 MB thesis package is now held locally at
+`Jan Philip Viefhues Thesis Presentation Data and Code/`. It includes the
+thesis, presentation, historical analysis code, a cleaned hourly flood table
+spanning 2020-08-25 to 2021-09-24 and raw Kerkrade CSVs including a basement
+record dated 2021-05-15 to 2021-09-24. The code identifies K4 as the non-ABC
+basement sensor and contains the historical ABC-adjustment procedure, but the
+cleaned pre-May record's provenance still needs reconstruction. The folder is
+ignored by Git as external raw material.
+
+This delivery has not yet been normalised into `viefhues_iot.csv` or audited for
+timezone, device identity, calibration, ABC processing, duplicates,
+aggregation and missingness. It therefore changes the request state, not the
+case-gate result. The event study still requires `kerkrade_iot_eras.csv`; see
+`data-requests.md`.
 
 ## Local outputs
 

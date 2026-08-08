@@ -1,20 +1,22 @@
 # Analysis Inventory — Prospective Event Study
 
-Status: 2026-08-08. There is no new event-study result. The repository is
-stopped at the hard data gate.
+Status: 2026-08-08. There is no new event-study result. The regional chapter is
+stopped at its core data gate; the separate Kerkrade gate reports not available
+because the delivered source package has not been normalised.
 
 ## Prospective chapter components
 
 | component | role | current state |
 | --- | --- | --- |
-| Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> transfer test | ready; source notes retained |
-| `31_event_study_gates.py` | audits the non-negotiable data requirements | implemented; current audit fails |
+| Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | ready; source notes retained |
+| `31_event_study_gates.py` | audits the binding regional core, spatial support and conditional Kerkrade case separately | implemented; core fails, case source not yet normalised |
 | `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
 | `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
 | long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
-| matched event contrasts | sole analysis of recurrence and held-out signal transfer | not run or fully implemented |
-| July 2021 Kerkrade anchor | censored trajectory and later-event CO2 recurrence | not run; original IoT gate fails |
-| later Kerkrade recurrence sample | distinguishes a null from no usable recurrence data | not evaluable until pair discharge arrives |
+| matched local contrasts | establishes which fixed signals recur before receiver high water | not run or fully implemented |
+| all-donor spatial contrasts | estimates how each signal's event contrast changes with receiver-donor distance | gate support partly implemented; outcome estimator not implemented or run |
+| July 2021 regional anchor | observed regional trajectory inside the common study period | not run; core inputs fail |
+| conditional Kerkrade case | Viefhues trajectory and later pressure-adjusted CO2 recurrence | gate reports not available; source package delivered locally but normalisation, era metadata, pair, bounds and later-event support remain incomplete |
 | RADOLAN catchment rainfall | principal rainfall exposure | not built; radar/polygon gate fails |
 | long public-weather assignment | temperature, humidity and pressure for each watercourse | source/rule not selected; gate fails |
 
@@ -43,7 +45,9 @@ artifacts, not chapter findings. The tracked interpretation is
 
 ## Stopped
 
-- symmetric all-pairs/Mantel and catchment-signature analyses;
+- symmetric all-pairs prediction matrices, Mantel tests and
+  catchment-signature analyses; the retained all-donor table serves one fixed
+  spatial-gradient estimand instead;
 - best-lag search, correlation radii and monitoring-location inference;
 - Fase thresholds outside exact crisis-plan leading gauges;
 - water-level expansion as a substitute for discharge history;

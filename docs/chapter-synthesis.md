@@ -8,12 +8,13 @@ canonical description of the proposed chapter. Estimator details belong in
 ## 1. Research question
 
 > Across Limburg tributaries, which public hydrometeorological signals recur
-> during the 72 hours before independently defined high-water onset, and do
-> those signals remain detectable at unseen watercourses and periods? At
-> Kerkrade, does pressure-adjusted CO2 recur as a local manifestation of that
-> regional state?
+> during the 72 hours before independently defined high-water onset, and how
+> does their event-minus-quiet signal change with distance from the affected
+> watercourse? If the source data support a Kerkrade case, does
+> pressure-adjusted CO2 recur there as a local manifestation of that regional
+> state?
 
-This is an event-recurrence and transferability chapter. It is not an early
+This is an event-recurrence and spatial-extent chapter. It is not an early
 warning system, a flood predictor or a search for an unusual model.
 
 ## 2. Intellectual sequence
@@ -24,34 +25,39 @@ warning system, a flood predictor or a search for an unusual model.
 2. **Eryilmaz (2025)** found that public outdoor weather reproduced much of the
    information in indoor variables for predicting high indoor CO2 at the same
    site outside the flood period. That is same-site feature substitution, not
-   spatial transfer.
+   spatial extent.
 3. **This chapter** asks which components recur before independently defined
-   high-water episodes and survive transfer to a new watercourse and a new time
-   period. It separates regional public signal from event-, sensor- and
-   building-specific response.
+   high-water episodes and measures how far their spatial coherence extends
+   across other watercourses. It separates regional public signal from event-,
+   sensor- and building-specific response.
 
 The sequence is cumulative: event observation -> public-signal explanation ->
-out-of-place and out-of-time recurrence test.
+recurrence and spatial-extent test.
 
 ## 3. Intended contribution
 
-The chapter has one analysis: **event-minus-quiet signal contrasts**. It first
-asks which fixed signals recur across independently defined high-water episodes.
-It then asks whether the direction and magnitude learned from other
-watercourses and periods remain visible in a held-out watercourse-period. No
-outcome classifier is fitted.
+The chapter has two linked estimands built from the same
+**event-minus-matched-quiet contrasts**. First, local contrasts establish which
+fixed signals recur at the affected watercourse. Second, all-donor contrasts
+measure the same signals at every other eligible watercourse at those event and
+control times, then estimate how contrast magnitude changes with geographic
+distance. No outcome classifier is fitted.
 
-Statistically, this is a matched event study with robust median/MAD contrasts
-and blocked external validation. In plain terms: compare each event with similar
-quiet times, summarize within watercourse, learn the usual signal from the other
-watercourses and periods, and check whether it appears in the hidden one. The
-only fitted equation is the Kerkrade pressure baseline used to adjust CO2.
+Statistically, this is a matched event study plus one prespecified spatial
+gradient per signal. In plain terms: compare each event with similar quiet
+times; then ask whether rain, weather or flow at other watercourses shows the
+same event-related departure, and whether that departure weakens with distance.
+Receiver, donor and regional-storm random intercepts account for repeated
+observations.
+The distance curve is checked at receiver-period intersections excluded from
+fitting. The only other fitted equation, if the Kerkrade case is available, is
+the pressure baseline used to adjust CO2.
 
-July 2021 is a required, interval-censored Kerkrade anchor. It is described but
-excluded from calculations that require an exact local high-water onset. Later
-exact-onset Kerkrade events test whether pressure-adjusted CO2 recurs. A null is
-substantive: it would distinguish portable hydrometeorological state from a
-building-specific 2021 response.
+July 2021 must lie within the regional study period and is described without an
+invented local peak or onset. The Viefhues IoT reanalysis and later-event CO2
+recurrence test are a conditional Kerkrade case. If its data gate fails, the
+published observation still motivates the chapter but no new CO2 result is
+claimed and the regional analysis proceeds.
 
 ## 4. Fixed study design
 
@@ -68,48 +74,65 @@ than three valid controls are excluded.
 
 Fixed public signals are catchment-average RADOLAN rainfall over 24 and 72
 hours; 24-hour temperature and relative-humidity means; pressure level and
-six-hour change; and the nearest other-watercourse flow relative to its
-reference-period p99 plus its 12-hour change. Receiver flow defines the outcome
-and is not analysed as a candidate signal.
+six-hour change; and flow relative to the donor's reference-period p99 plus its
+12-hour change. Receiver flow defines the outcome and is never a signal for its
+own event. Spatial contrasts use every other eligible watercourse; no donor is
+selected from its outcome or apparent fit.
 
-Kerkrade adds raw CO2, pressure-adjusted CO2 and, where available, groundwater
-level/change. Pressure baselines are fitted separately for the documented
-2020–2021 and 2025–2026 sensor eras, on quiet calibration hours only, using
-pressure level and 1/3/6/12/24-hour changes. Residuals are standardised within
-era against quiet calibration hours. Seasonal/diurnal adjustment is a sensitivity.
+If its separate gate passes, Kerkrade adds raw CO2, pressure-adjusted CO2 and,
+where available, groundwater level/change. Pressure baselines are fitted
+separately for the documented 2020–2021 and 2025–2026 sensor eras, on quiet
+calibration hours only, using pressure level and 1/3/6/12/24-hour changes.
+Residuals are standardised within era against quiet calibration hours.
+Seasonal/diurnal adjustment is a sensitivity.
 
-Validation holds out one entire receiver watercourse and one of five contiguous
-time blocks. For each signal, its expected direction is the median of the other
-watercourses' median contrasts outside the held period. The observed held-out
-contrast, its direction, magnitude difference and event counts are reported.
-Fold summaries are aggregated within watercourse before the network is
-described. There is no predictive score or arbitrary transfer threshold.
+For each signal, one fixed model relates the contrast to
+`log(1 + distance_km)`, with receiver, donor and regional-storm random
+intercepts.
+Uncertainty resamples complete regional storms. Results are predicted at the
+empirical distance quartiles; the observed distance range, rather than an
+invented cutoff, defines the scope of inference. Validation holds out one
+receiver watercourse and one of five time blocks, fits on the remainder and
+reports fixed-effect prediction error in the hidden intersection. The held
+watercourse enters training neither as receiver nor donor. There is no
+predictive score, nearest-donor rule or arbitrary definition of maximum reach.
 
-## 5. Hard feasibility gates
+## 5. Feasibility gates
 
-The design is not final and the protocol is not frozen until all of these pass:
+The regional chapter is not final and the protocol is not frozen until these
+core gates pass:
 
-- original August 2020–September 2021 Kerkrade IoT CO2 and pressure, with
-  device identity, calibration and ABC-processing information;
 - at least 10 natural tributary watercourses with 10 common years of hourly
   discharge, at least 20 joint-period p99 episodes each and at least 40
   regional storms;
-- Worm/Wurm, or a hydrologically defensible and documented Kerkrade pair;
-- at least three later exact-onset events at that pair with complete CO2 and
-  pressure in the primary 72-hour window;
 - hourly 1-km RADOLAN rainfall averaged over verified catchment polygons;
 - at least 10 common years of temperature, humidity and pressure assigned to
   each watercourse by a source/rule fixed before outcome inspection;
 - at least 80% hourly coverage overall and 70% in every calendar year for each
   primary series over a joint period containing July 2021;
 - documented rating-curve changes, sampling semantics, timezones, units, zero
-  sentinels and July 2021 gauge reliability.
+  sentinels and July 2021 gauge status.
+- complete flow level/change windows for at least 80% of all possible
+  receiver-event/donor combinations overall and at least 70% within every
+  receiver and empirical distance third.
+
+The optional Kerkrade case has its own gate: normalised August 2020–September
+2021 CO2 and pressure plus device/calibration/ABC metadata; Worm/Wurm or a
+documented hydrological pair; independently supported July 2021 bounds; and at
+least three later exact-onset pair events with complete CO2 and pressure over
+the primary window. Failure means **case not available**, not core chapter
+failure and not a CO2 null.
 
 The executable audit is `scripts/31_event_study_gates.py`. On 2026-08-08 it
-fails because the contracted long discharge, RADOLAN catchment, long public
-weather and original IoT files are absent. This is a stop, not permission to
-lower the gate to the current two-year record. Groundwater is secondary
-mechanism evidence and cannot block the chapter.
+reports the regional core as failed because all six contracted network inputs
+are absent. A Viefhues source package has since been delivered locally and
+contains a cleaned hourly August 2020–September 2021 table, raw May–September
+2021 IoT files and ABC-processing code. The executable case gate remains
+**not available** until those files, their provenance and later-event support
+pass the contract. Case status does not affect the core return code. Core
+failure is a stop, not permission to lower the gate to the current two-year
+record. Groundwater cannot
+block either component.
 
 The held LANUK archive was audited separately without signal outcomes. Under
 the draft density and episode rules, its strongest tested decade supplies only
@@ -123,23 +146,24 @@ events on Broicher Bach or Beeckflies cannot substitute. See
 
 ## 6. July 2021 treatment
 
-The Kerkrade figure will show CO2, rainfall, pressure and available groundwater,
-with the high-water onset represented as an interval wherever gauge damage or
-uncertainty prevents exact timing. The chapter will not impute a peak, treat
-the failure as random missingness or include the episode in pooled exact-onset
-calculations.
+The core chapter will show the observed regional rainfall, weather and
+available discharge trajectory without inventing a missing local peak. If the
+Kerkrade gate passes, the figure additionally shows CO2, pressure and available
+groundwater, with local onset represented as an independently supported
+interval. Without that evidence, Viefhues's published finding remains context
+and no new Kerkrade trajectory is presented.
 
 ## 7. Pre-committed readings
 
-The complete result-to-interpretation table now lives in §10 of the protocol,
-the document that will be locked. In summary, rainfall, public weather,
-neighbouring flow and pressure-adjusted CO2 may recur, be heterogeneous or be
-null; none of those readings triggers new lags, thresholds or model families.
+The complete result-to-interpretation table lives in §10 of the protocol, the
+document that will be locked. It distinguishes a local distance decay, a broad
+regional footprint, no spatial coherence and storm-specific heterogeneity.
+None triggers new lags, thresholds or model families.
 
 ## 8. Existing Kerkrade context
 
 The retained Eryilmaz re-evaluation is same-site predecessor context only. It
-does not estimate pre-high-water recurrence or spatial transfer and cannot
+does not estimate pre-high-water recurrence or spatial extent and cannot
 substitute for the gated event study.
 
 ## 9. Claims ruled out
@@ -151,13 +175,14 @@ not damage or a statutory flood stage.
 
 ## 10. Required products
 
-If the gates pass and the protocol is frozen before outcome inspection, the
-analysis will generate tidy event, control, contrast and held-out-transfer
-tables and four figures:
+If the core gates pass and the protocol is frozen before outcome inspection,
+the analysis will generate tidy event, control, local-contrast, spatial-pair,
+distance-estimate and held-out-validation tables and four figures:
 
-1. July 2021 Kerkrade trajectory with censored high-water interval;
+1. July 2021 regional trajectory, with the conditional Kerkrade overlay only if
+   its gate passes;
 2. event-time public-signal profiles across watercourses;
 3. watercourse-level contrast forest plots;
-4. held-out signal direction and magnitude by watercourse and period.
+4. spatial contrast by distance, with held-out receiver-period observations.
 
 Every manuscript number must regenerate from those tidy artifacts.

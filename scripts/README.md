@@ -8,10 +8,10 @@ repository does not need an analysis framework.
 
 | script/module | purpose | state |
 | --- | --- | --- |
-| `31_event_study_gates.py` | write the hard-gate audit; fail unless every required input passes | implemented; current data fail |
+| `31_event_study_gates.py` | audit the binding regional core, all-donor spatial support and conditional Kerkrade case separately | implemented; core fails, case input not yet normalised |
 | `32_lanuk_feasibility.py` | audit held German gauges without inspecting signal outcomes | implemented; German route does not pass |
 | `src/event_study.py` | small tested definitions for storms, controls, censoring, pressure residuals and time blocks | implemented |
-| event-contrast script | recurrence, held-out signal transfer and four figures | deliberately not run or completed before gates/lock |
+| event-contrast script | local recurrence, all-donor distance gradients, held-out validation and four figures | deliberately not run or completed before gates/lock |
 
 Audit without pretending the known failure is a result:
 
@@ -55,8 +55,10 @@ it.
 
 ## Retired directions
 
-The live tree no longer uses all-pairs/Mantel, Fase-everywhere, best-lag,
+The live tree no longer uses all-pairs prediction matrices/Mantel,
+Fase-everywhere, best-lag,
 catchment-signature, detector-ensemble, hourly transfer classification or
 generic substitution machinery. The history remains in the decisions log.
-More models and more pair rows are not substitutes for missing years and
-rainfall exposure.
+The retained all-donor table answers one fixed spatial-extent question. More
+models and more pair rows are not substitutes for missing years and rainfall
+exposure.

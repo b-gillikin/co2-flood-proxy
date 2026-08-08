@@ -1013,3 +1013,84 @@ analysis would invite an avoidable methodological objection.
 
 Source: `scripts/03_eryilmaz_replication.py`, `tests/test_eryilmaz.py`, fifth-pass
 review.
+
+## 2026-08-08 — Separate the regional core from the Kerkrade CO2 case
+
+Decision: make the six-file regional network audit the only binding data gate
+for the core chapter. Treat recovery of the Viefhues IoT export, both sensor-era
+records, a defensible Kerkrade hydrological pair, independently supported July
+2021 local-onset bounds and three later complete CO2/pressure event windows as
+a separate case-study gate.
+
+Consequence: missing or inadequate Kerkrade inputs produce `case not available`,
+not core chapter failure and not a null CO2 finding. The regional study period
+must still contain July 2021, and its core figure may show observed regional
+rainfall, weather and discharge. Viefhues's published observation remains the
+intellectual starting point even if it cannot be reanalysed.
+
+Reasoning: availability of a five-year-old personal sensor export should not
+decide whether an otherwise qualifying ten-year regional recurrence and
+transfer study exists. The split preserves the sequence without weakening the
+core historical-data gate or laundering missing local evidence into a result.
+
+Source: `scripts/31_event_study_gates.py`, draft 0.4 of
+`docs/chapter-scope-and-preregistration.md`, user decision.
+
+## 2026-08-08 — Define transferability as spatial extent
+
+Decision: replace nearest-donor and held-out sign-concordance transfer with an
+all-donor spatial-gradient estimand. At every receiver event and its matched
+quiet times, evaluate each fixed signal at every other eligible watercourse.
+Relate the event-minus-quiet pair contrast to `log(1 + distance_km)` in one
+prespecified mixed model per signal, with receiver, donor and regional-storm
+intercepts. Report the curve at empirical distance quartiles and validate its
+fixed-effect magnitude at crossed held-out receiver-period intersections.
+
+Interpretation boundary: this estimates spatial coherence over the observed
+network. It is not a physical travel-time model, gauge-substitution test,
+ungauged-basin prediction, maximum-reach estimate or monitoring-radius result.
+A negative gradient indicates local decay; a positive contrast with little
+decay indicates a broad footprint; a null spatial contrast indicates no
+detectable coherence at this grain; unstable gradients indicate storm- or
+watercourse-specific extent.
+
+Availability rule, pending supervisor approval: retain all ordered
+receiver-donor pairs; require complete -13 to -1 hour donor-flow windows for at
+least 80% of all possible pair-event rows overall and 70% within every receiver
+and empirical distance third. A draft held-out fold requires at least three
+receiver events and coverage in all three distance thirds.
+
+Repository consequence: remove the unused sign-concordance helper and its
+synthetic tests, add all-pair distance and availability gates, and archive the
+five dated review passes outside live `docs/`. The outcome mixed-model code is
+not implemented before the core data gate passes and draft 0.5 is approved.
+
+Source-material update: a 63 MB Viefhues thesis package is now present locally,
+including a cleaned hourly August 2020–September 2021 table, raw
+May–September 2021 Kerkrade files and ABC-processing code. It remains ignored
+as external raw material until normalisation, provenance, calibration and
+ABC-processing checks determine whether the conditional case contract passes.
+
+Source: draft 0.5 of `docs/chapter-scope-and-preregistration.md`,
+`scripts/31_event_study_gates.py`, user decision.
+
+## 2026-08-08 — Clarify spatial decay and holdout leakage
+
+Decision: interpret decay as a decrease in the fitted contrast's absolute
+magnitude over the observed distance range, without a sign reversal. A negative
+coefficient alone is not decay for a signal whose local contrast is negative.
+If the curve changes sign, report the changing spatial pattern; do not label the
+crossing a reach boundary.
+
+For external validation, remove the held watercourse from training both as a
+receiver and as a donor. Its out-of-block discharge may define its test p99/p95
+and contamination periods, but none of its events, public signals or controls
+may estimate the distance curve. Prediction in the held intersection uses fixed
+effects only.
+
+Reasoning: the original shorthand imposed rainfall's expected positive
+direction on weather signals and allowed the hidden watercourse's donor values
+to leak into training. Both would overstate spatial transferability.
+
+Source: draft 0.5 of `docs/chapter-scope-and-preregistration.md`, methods
+consistency review.
