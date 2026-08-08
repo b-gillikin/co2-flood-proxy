@@ -18,6 +18,7 @@ ignore = [
 # importing local modules, so module-level imports below that are expected.
 "scripts/*" = ["E402"]
 "tests/*" = ["E402"]
+"infrastructure_tests/*" = ["E402"]
 "kerkrade_data/*" = ["E402"]
 
 [tool.ruff.lint.isort]

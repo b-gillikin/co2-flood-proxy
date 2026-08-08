@@ -7,7 +7,7 @@ study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 
 | component | gate | required delivery | current state |
 | --- | --- | --- | --- |
-| Kerkrade case | original IoT | Aug 2020–Sep 2021 CO2 and pressure plus device/calibration/ABC metadata | package has a cleaned Aug 2020–Sep 2021 table, raw May–Sep 2021 basement files and ABC code; contract not normalised or audited |
+| Kerkrade case | original IoT | July 2021 source CO2/pressure plus device/calibration/ABC metadata | source-native K4 is normalised with complete July hours; broader lineage and device metadata remain incomplete |
 | Kerkrade case | sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
 | core | tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 and held LANUK does not pass |
 | Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
@@ -17,46 +17,59 @@ study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 | core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
-audit. Core failure returns the chapter to the supervisor; Kerkrade-case failure
-removes that case only. The rolling record is not a permissible core fallback.
+**regional** audit. Core failure returns the chapter to the supervisor. The
+conditional Kerkrade case is assessed separately after its pair/onset inputs
+exist; failure removes that case only. The rolling record is not a permissible
+core fallback.
 
 ## 1. Original Viefhues IoT package — conditional Kerkrade case
 
-Status: **source package delivered locally; audit and metadata follow-up pending**.
+Status: **source package audited; July K4 normalised; targeted metadata
+follow-up pending**.
 
 The delivered folder contains the thesis, presentation, analysis code, a
-cleaned hourly table spanning 2020-08-25 to 2021-09-24, and raw Kerkrade CSVs
-including a basement record dated 2021-05-15 to 2021-09-24. The code identifies
-K4 as the non-ABC basement sensor and documents historical ABC adjustments, but
-the provenance of the cleaned pre-May record still needs reconstruction. The
-folder is kept out of Git because it is a 63 MB external source package
-containing raw data and binaries. Presence is not a passed gate: timestamps,
-device identity, calibration, ABC processing, aggregation and missingness still
-need to be checked against the contract below.
+cleaned table spanning 2020-08-25 to 2021-09-24 and raw Kerkrade CSVs. The
+source-native extended K4 file contains 169,594 minute observations from
+2021-05-15 to 2021-09-24 and covers every July 2021 hour. It is the non-ABC
+basement sensor in the supplied R code. `scripts/33_ingest_viefhues_iot.py`
+normalises that record to UTC hourly means without filling 335 absent hours
+elsewhere in its span.
+
+The longer cleaned analysis table is not source-native. It has 1,333 missing
+civil-time hours, a duplicated DST clock-hour and 550/744 July hours. The
+pre-May R workflow depends on four absent source/intermediate files. The K3
+filename also says `livingroom` while the thesis states that both sensors were
+in the basement. Sensor hardware identity, calibration history, row-level ABC
+changes and reuse conditions remain undocumented. See `iot-sources.md` for the
+audit and `student-next-actions.md` §4 for the precise follow-up.
 
 Request from Jan-Philipp Viefhues, sustainably.io and/or the Maastricht thesis
-data holder:
+data holder only for the unresolved material:
 
-- 2020-08-25 through 2021-09-01, preferably source-native minute data;
-- documented hourly data are acceptable if the raw export is unrecoverable;
+- pre-15-May-2021 K3/K4 source-native data and the missing intermediate named
+  in the R code, if they still exist;
 - indoor CO2 and air pressure are required; temperature and relative humidity
   should be included if present;
-- device identifier, sensor model, unit, timestamp/timezone convention;
+- resolution of the K3 `livingroom` versus thesis-basement contradiction;
+- device identifier, sensor model, unit and older timestamp/timezone convention;
 - calibration and replacement history;
 - whether automatic baseline correction (ABC) was enabled and whether the
   supplied values were already processed;
-- missing-data and aggregation rules used in the thesis.
+- exact row/date logic for ABC replacement and the 450-ppm correction;
+- missing-data, duplicate and aggregation rules used in the cleaned table;
+- data-use and redistribution conditions.
 
-Why still important: July 2021 is 3.5 years before the later local IoT record.
-Until the delivered source is normalised and its provenance resolved, this
-chapter cannot claim a reproduced Viefhues trajectory or compare it with later
-CO2 events. The regional recurrence/spatial-extent analysis can still proceed.
+Why still important: the source-native July K4 trajectory can now be reproduced,
+but it cannot yet be treated as a fully documented sensor era or compared with
+later events under the case protocol. The regional recurrence/spatial-extent
+analysis can proceed without that case.
 
-On receipt, produce:
+Current/remaining products:
 
 - `data/interim/viefhues_iot.csv` with `timestamp_utc`, `sensor_era`,
-  `iot_co2_ppm` and `iot_air_pressure_hpa` at the supplied or documented
-  resolution;
+  `iot_co2_ppm`, `iot_air_pressure_hpa` and source-row count — **written from
+  source-native K4**;
+- `data/processed/viefhues_iot_qc.csv` — **written**;
 - `data/interim/kerkrade_iot_eras.csv`, covering both the 2020–2021 and
   2025–2026 periods with `sensor_era`, `era_start_utc`, `era_end_utc`,
   `device_id`, `calibration_notes`, `abc_processing_notes` and
@@ -233,5 +246,6 @@ the **core** executable gate still requires supervisor approval before the
 protocol is locked. Kerkrade materials may be added only if their separate case
 gate passes before that case's outcomes are inspected.
 
-Ready-to-personalise messages are in `external-request-drafts.md`. They have
-not been sent by this repository work.
+The detailed five-task handoff, verified institutional addresses and
+ready-to-send English messages are in `student-next-actions.md`. They have not
+been sent by this repository work.

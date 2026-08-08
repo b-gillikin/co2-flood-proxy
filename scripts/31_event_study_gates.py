@@ -12,7 +12,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.event_study import cluster_regional_storms, episode_onsets, episode_table
+from src.event_study import cluster_regional_storms, episode_table
 
 CORE_FILES = {
     "long discharge": Path("data/interim/event_study_discharge_hourly.csv"),
@@ -21,11 +21,6 @@ CORE_FILES = {
     "catchment polygons": Path("data/interim/event_study_catchments.gpkg"),
     "long public weather": Path("data/interim/event_study_weather_hourly.csv"),
     "public weather provenance": Path("data/interim/event_study_weather_sources.csv"),
-}
-KERKRADE_FILES = {
-    "original IoT": Path("data/interim/viefhues_iot.csv"),
-    "later IoT": Path("data/interim/iot_hourly.csv"),
-    "IoT sensor-era metadata": Path("data/interim/kerkrade_iot_eras.csv"),
 }
 OUTPUT_DIR = Path("results/event_study")
 JULY_2021_ANCHOR = pd.Timestamp("2021-07-15", tz="UTC")
@@ -43,13 +38,12 @@ QA_COLUMNS = [
 ]
 
 
-def add(rows, name, passed, observed, required, component="core", status=None):
+def add(rows, name, passed, observed, required):
     """Append one readable gate result."""
     rows.append(
         {
-            "component": component,
             "gate": name,
-            "status": status or ("PASS" if passed else "FAIL"),
+            "status": "PASS" if passed else "FAIL",
             "observed": str(observed),
             "requirement": required,
         }
@@ -294,176 +288,13 @@ def read_long_weather(path):
     return frame, bool(regular), required
 
 
-def complete_precursor_events(onsets, frame, columns, hours=72):
-    """Count onsets whose full pre-event window is observed for every signal."""
-    count = 0
-    for onset in onsets:
-        window = pd.date_range(
-            onset - pd.Timedelta(hours=hours),
-            onset - pd.Timedelta(hours=1),
-            freq="h",
-        )
-        observed = frame.reindex(window)[columns].notna()
-        count += int(len(observed) == hours and observed.all().all())
-    return count
-
-
-def audit_kerkrade_inputs():
-    """Audit the optional CO2 case without affecting the regional chapter gate."""
-    rows = []
-    iot = pd.read_csv(KERKRADE_FILES["original IoT"])
-    iot_columns = {"timestamp_utc", "sensor_era", "iot_co2_ppm", "iot_air_pressure_hpa"}
-    iot_schema = iot_columns.issubset(iot)
-    add(
-        rows,
-        "Original IoT schema",
-        iot_schema,
-        sorted(iot),
-        sorted(iot_columns),
-        component="kerkrade_case",
-    )
-    if not iot_schema:
-        return rows, None
-
-    iot["timestamp_utc"] = pd.to_datetime(iot.timestamp_utc, utc=True, errors="coerce")
-    start, end = iot.timestamp_utc.min(), iot.timestamp_utc.max()
-    span_ok = start <= pd.Timestamp("2020-08-25", tz="UTC") and end >= pd.Timestamp(
-        "2021-09-01", tz="UTC"
-    )
-    add(
-        rows,
-        "Original IoT span",
-        span_ok,
-        f"{start} to {end}",
-        "2020-08-25 to 2021-09-01",
-        component="kerkrade_case",
-    )
-    anchor = iot[iot.timestamp_utc.between("2021-06-29", "2021-07-19 23:59:59")]
-    counts = anchor[["iot_co2_ppm", "iot_air_pressure_hpa"]].notna().sum()
-    add(
-        rows,
-        "July 2021 IoT signals",
-        counts.gt(0).all(),
-        counts.to_dict(),
-        "CO2 and pressure both observed",
-        component="kerkrade_case",
-    )
-
-    later_iot, later_axis = read_hourly(KERKRADE_FILES["later IoT"])
-    later_columns = {"iot_co2_ppm", "iot_air_pressure_hpa"}
-    later_schema = later_columns.issubset(later_iot)
-    add(
-        rows,
-        "Later IoT schema",
-        later_schema,
-        sorted(later_iot),
-        sorted(later_columns),
-        component="kerkrade_case",
-    )
-    add(
-        rows,
-        "Later IoT time axis",
-        later_axis,
-        "hourly table",
-        "regular hourly UTC",
-        component="kerkrade_case",
-    )
-    if not later_schema or not later_axis:
-        return rows, None
-    later_counts = later_iot[list(later_columns)].notna().sum()
-    add(
-        rows,
-        "Later IoT signals",
-        later_counts.gt(0).all(),
-        later_counts.to_dict(),
-        "CO2 and pressure both observed",
-        component="kerkrade_case",
-    )
-
-    iot_meta = pd.read_csv(KERKRADE_FILES["IoT sensor-era metadata"])
-    meta_columns = {
-        "sensor_era",
-        "era_start_utc",
-        "era_end_utc",
-        "device_id",
-        "calibration_notes",
-        "abc_processing_notes",
-        "source_resolution",
-    }
-    meta_schema = meta_columns.issubset(iot_meta)
-    meta_complete = (
-        meta_schema
-        and not iot_meta.empty
-        and (
-            iot_meta[list(meta_columns)]
-            .fillna("")
-            .astype(str)
-            .apply(lambda values: values.str.strip().ne(""))
-        )
-        .all()
-        .all()
-    )
-    era_start = (
-        pd.to_datetime(iot_meta["era_start_utc"], utc=True, errors="coerce")
-        if meta_schema
-        else pd.Series(dtype="datetime64[ns, UTC]")
-    )
-    era_end = (
-        pd.to_datetime(iot_meta["era_end_utc"], utc=True, errors="coerce")
-        if meta_schema
-        else pd.Series(dtype="datetime64[ns, UTC]")
-    )
-    era_intervals = meta_complete and era_start.notna().all() and era_end.notna().all()
-    era_intervals = bool(era_intervals and era_start.le(era_end).all())
-    era_names = set(iot_meta.sensor_era.astype(str)) if meta_schema else set()
-    original_eras = set(iot.sensor_era.dropna().astype(str))
-    all_iot_times = pd.DatetimeIndex(iot.timestamp_utc).append(later_iot.index)
-    era_coverage = pd.Series(0, index=all_iot_times)
-    if era_intervals:
-        for start_time, end_time in zip(era_start, era_end, strict=True):
-            era_coverage += era_coverage.index.to_series().between(start_time, end_time).astype(int)
-    era_assignment = (
-        era_intervals
-        and original_eras.issubset(era_names)
-        and not era_coverage.empty
-        and era_coverage.eq(1).all()
-    )
-    add(
-        rows,
-        "IoT provenance",
-        meta_complete and era_assignment,
-        sorted(iot_meta),
-        "both sensor periods assigned once; device, calibration, ABC and resolution complete",
-        component="kerkrade_case",
-    )
-    case_ready = all(row["status"] == "PASS" for row in rows)
-    return rows, later_iot if case_ready else None
-
-
 def audit():
-    """Return one tidy gate table; never substitute the rolling two-year files."""
+    """Audit the regional inputs without calculating signal outcomes."""
     rows = []
     for name, path in CORE_FILES.items():
         add(rows, f"File: {name}", path.exists(), path, "file exists")
-    for name, path in KERKRADE_FILES.items():
-        exists = path.exists()
-        add(
-            rows,
-            f"File: {name}",
-            exists,
-            path,
-            "file exists for the optional Kerkrade case",
-            component="kerkrade_case",
-            status="PASS" if exists else "NOT AVAILABLE",
-        )
 
-    later_iot = None
-    if all(path.exists() for path in KERKRADE_FILES.values()):
-        case_rows, later_iot = audit_kerkrade_inputs()
-        rows.extend(case_rows)
-
-    # Missing case-study files do not block the regional chapter. Missing core
-    # files do, and downstream checks cannot be evaluated without them.
+    # Downstream checks cannot be evaluated until every regional file exists.
     if not all(path.exists() for path in CORE_FILES.values()):
         return pd.DataFrame(rows)
 
@@ -798,136 +629,48 @@ def audit():
         "for complete -13 to -1 h donor windows",
     )
 
-    if later_iot is not None:
-        case_metadata = {
-            "july_2021_onset_lower_utc",
-            "july_2021_onset_upper_utc",
-        }
-        case_schema = case_metadata.issubset(primary)
-        add(
-            rows,
-            "Kerkrade gauge metadata",
-            case_schema,
-            sorted(primary),
-            sorted(case_metadata),
-            component="kerkrade_case",
-        )
-        if case_schema:
-            worm = primary.watercourse.str.contains("worm|wurm", case=False, na=False)
-            paired = (
-                as_bool(primary.kerkrade_pair)
-                if "kerkrade_pair" in primary
-                else pd.Series(False, index=primary.index)
-            )
-            rationale = (
-                primary.pairing_rationale.fillna("").str.strip().ne("")
-                if "pairing_rationale" in primary
-                else pd.Series(False, index=primary.index)
-            )
-            valid_pair = worm | (paired & rationale)
-            pair_rows = primary.loc[valid_pair]
-            add(
-                rows,
-                "Kerkrade hydrological pair",
-                valid_pair.any(),
-                pair_rows.watercourse.tolist(),
-                "Worm/Wurm or flagged pair with rationale",
-                component="kerkrade_case",
-            )
-            lower = pd.to_datetime(pair_rows.july_2021_onset_lower_utc, utc=True, errors="coerce")
-            upper = pd.to_datetime(pair_rows.july_2021_onset_upper_utc, utc=True, errors="coerce")
-            interval_ok = ((lower.notna()) & (upper.notna()) & lower.le(upper)).any()
-            add(
-                rows,
-                "July 2021 censored onset interval",
-                interval_ok,
-                int(((lower.notna()) & (upper.notna()) & lower.le(upper)).sum()),
-                ">=1 independently supported interval for the Kerkrade pair",
-                component="kerkrade_case",
-            )
-
-            later_event_counts = {}
-            for pair_gauge in pair_rows.gauge.astype(str):
-                pair_onsets = episode_onsets(
-                    discharge[pair_gauge],
-                    discharge[pair_gauge].quantile(0.99),
-                    merge_hours=72,
-                )
-                later_event_counts[pair_gauge] = complete_precursor_events(
-                    pair_onsets,
-                    later_iot,
-                    ["iot_co2_ppm", "iot_air_pressure_hpa"],
-                )
-            complete_later_events = max(later_event_counts.values(), default=0)
-            add(
-                rows,
-                "Later exact-onset Kerkrade events",
-                complete_later_events >= 3,
-                later_event_counts,
-                ">=3 events at one valid pair gauge with complete -72 to -1 h CO2 and pressure",
-                component="kerkrade_case",
-            )
     return pd.DataFrame(rows)
 
 
 def write_report(table):
-    """Write the audit without adding a table-rendering dependency."""
+    """Write the tidy audit as CSV and a small Markdown table."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     table.to_csv(OUTPUT_DIR / "gate_audit.csv", index=False)
-    columns = ["component", "gate", "status", "observed", "requirement"]
+    columns = ["gate", "status", "observed", "requirement"]
     markdown = [
         "| " + " | ".join(columns) + " |",
-        "| --- | --- | --- | --- | --- |",
+        "| --- | --- | --- | --- |",
     ]
     for row in table[columns].itertuples(index=False, name=None):
         cells = [str(value).replace("|", "\\|").replace("\n", " ") for value in row]
         markdown.append("| " + " | ".join(cells) + " |")
-    core = table[table.component.eq("core")]
-    case = table[table.component.eq("kerkrade_case")]
-    core_passed = not core.empty and core.status.eq("PASS").all()
-    case_detailed = case[~case.gate.str.startswith("File:")]
-    required_case_gates = {
-        "IoT provenance",
-        "Kerkrade hydrological pair",
-        "July 2021 censored onset interval",
-        "Later exact-onset Kerkrade events",
-    }
-    case_gates = set(case.gate)
-    if case.status.eq("NOT AVAILABLE").any():
-        case_status = "NOT AVAILABLE"
-    elif case_detailed.empty:
-        case_status = "NOT EVALUATED"
-    elif required_case_gates.issubset(case_gates) and case.status.eq("PASS").all():
-        case_status = "AVAILABLE"
-    else:
-        case_status = "INCOMPLETE"
+    passed = not table.empty and table.status.eq("PASS").all()
     report = [
         "# Event-study data-gate audit",
         "",
-        f"Core regional chapter: **{'PASS' if core_passed else 'FAIL'}**",
-        f"Conditional Kerkrade CO2 case: **{case_status}**",
+        f"Regional inputs: **{'PASS' if passed else 'FAIL'}**",
         "",
-        "The Kerkrade case does not affect the core pass/fail result. This is a "
-        "feasibility audit, not a chapter result.",
+        "This is an input-feasibility audit, not a chapter result. The conditional "
+        "Kerkrade source is checked separately.",
         "",
         *markdown,
         "",
     ]
     (OUTPUT_DIR / "gate_audit.md").write_text("\n".join(report), encoding="utf-8")
-    return core_passed
+    return passed
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--report-only", action="store_true", help="return zero when the core gates fail"
+        "--report-only", action="store_true", help="return zero when the regional gates fail"
     )
     args = parser.parse_args()
     table = audit()
     passed = write_report(table)
     print(table.to_string(index=False))
     if not passed and not args.report_only:
-        raise SystemExit("Core data gates failed; do not run the regional event study")
+        raise SystemExit("Regional data gates failed; do not run the event study")
 
 
 if __name__ == "__main__":

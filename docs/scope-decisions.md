@@ -67,10 +67,15 @@ Status: 2026-08-08. Detailed estimator rules are in
     contrasts are reconstructed within each crossed fold. Every contrast row
     carries the held watercourse and held block; global contrast tables are
     rejected.
-23. **Split gate:** six regional files determine whether the core chapter can
-    run. Original/later IoT, era provenance, a valid pair and local onset bounds
-    determine only whether the Kerkrade case can be added.
+23. **Separate gates:** the executable six-file audit determines whether the
+    regional chapter can run. Source/later IoT, era provenance, a valid pair and
+    local onset bounds are assessed separately to determine whether the
+    Kerkrade case can be added.
 24. **Spatial reading:** report the curve at empirical distance quartiles and
     validate held-out magnitude. Do not turn a confidence-interval crossing or
     sign change into a monitoring radius, maximum reach or gauge-substitution
     claim.
+25. **Viefhues source:** source-native non-ABC K4 is the reproducible July 2021
+    record and is normalised without gap filling. The longer cleaned thesis
+    table is processed output with missing intermediates; it is not silently
+    promoted to raw data.

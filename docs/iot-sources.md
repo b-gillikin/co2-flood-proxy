@@ -47,18 +47,42 @@ coverage-gap reports should travel with any interpretation.
 
 A separate 63 MB thesis package is now held locally at
 `Jan Philip Viefhues Thesis Presentation Data and Code/`. It includes the
-thesis, presentation, historical analysis code, a cleaned hourly flood table
-spanning 2020-08-25 to 2021-09-24 and raw Kerkrade CSVs including a basement
-record dated 2021-05-15 to 2021-09-24. The code identifies K4 as the non-ABC
-basement sensor and contains the historical ABC-adjustment procedure, but the
-cleaned pre-May record's provenance still needs reconstruction. The folder is
-ignored by Git as external raw material.
+thesis, presentation, historical analysis code, a cleaned analysis table and
+three source-native May-September 2021 Kerkrade exports. The folder is ignored
+by Git as external raw material.
 
-This delivery has not yet been normalised into `viefhues_iot.csv` or audited for
-timezone, device identity, calibration, ABC processing, duplicates,
-aggregation and missingness. It therefore changes the request state, not the
-case-gate result. The event study still requires `kerkrade_iot_eras.csv`; see
-`data-requests.md`.
+The usable source-native record is K4, identified by the supplied R code as the
+non-ABC basement sensor. Its extended file contains 169,594 minute rows from
+2021-05-15 12:43 CEST through 2021-09-24 07:28 CEST. It supplies all 744 July
+2021 civil-time hours. `scripts/33_ingest_viefhues_iot.py` verifies the labelled
+Europe/Amsterdam timezone, converts to UTC and writes 2,829 observed hourly
+means to `data/interim/viefhues_iot.csv`; absent hours remain absent. The QC
+table records 335 absent hours across the full May-September span, 83 source
+CO2 readings at 400 ppm and 5,761 readings at the 5,000-ppm ceiling. These
+values are documented, not automatically discarded.
+
+The delivered `cleaned_data/2021_flood_data.csv` is **processed thesis output**,
+not a substitute for raw input. It spans 2020-08-25 to 2021-09-24 but has 1,333
+missing civil-time hours, a duplicated 2020-10-25 02:00 hour and only 550 of
+744 July hours because later joins retained complete rows. Its post-15-May CO2
+and pressure are almost entirely the K4 hourly means. Before that date, the R
+workflow reads `kerkrade3tillJune1.csv`, `kerkrade4tillJune1.csv`,
+`metadata.json` and `total_Dataset_with_adjusted_ABC.csv`; none is in the
+delivered directory or ZIP. The longer cleaned lineage therefore cannot be
+reproduced from this package.
+
+Other unresolved provenance is material. The thesis says both sensors were in
+the basement, while the raw K3 filename says `livingroom`. The code labels K3
+as ABC-on and K4 as ABC-off, repairs selected K3 values with the K4 pattern and
+adds 450 ppm to the combined older record. The thesis describes the same
+baseline correction as approximate. Neither thesis nor package gives a sensor
+model, serial/device identifier, calibration date/certificate or complete
+row-level ABC audit trail.
+
+Consequently, the July K4 trajectory is now reproducible as an observed source
+record, but the conditional recurrence case is not yet admissible: sensor-era
+metadata, a hydrological pair with onset evidence and later complete events are
+still missing. See `data-requests.md` and `student-next-actions.md`.
 
 ## Local outputs
 
@@ -66,6 +90,8 @@ case-gate result. The event study still requires `kerkrade_iot_eras.csv`; see
 - Hourly aligned output: `data/interim/iot_hourly.csv`
 - Source summary: `data/processed/iot_source_summary.csv`
 - Hourly CO2 coverage gaps: `data/processed/iot_coverage_gaps.csv`
+- Historical K4 hourly output: `data/interim/viefhues_iot.csv`
+- Historical K4 QC: `data/processed/viefhues_iot_qc.csv`
 
 Run all available refreshes with:
 
@@ -89,4 +115,10 @@ For an Azure-only rebuild that ignores `iot-device-data/`:
 
 ```bash
 python scripts/01_ingest_iot.py --skip-download --skip-exports
+```
+
+Normalize only the delivered Viefhues K4 source record with:
+
+```bash
+python scripts/33_ingest_viefhues_iot.py
 ```

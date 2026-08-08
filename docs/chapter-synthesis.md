@@ -116,23 +116,24 @@ core gates pass:
   receiver-event/donor combinations overall and at least 70% within every
   receiver and empirical distance third.
 
-The optional Kerkrade case has its own gate: normalised August 2020–September
-2021 CO2 and pressure plus device/calibration/ABC metadata; Worm/Wurm or a
-documented hydrological pair; independently supported July 2021 bounds; and at
-least three later exact-onset pair events with complete CO2 and pressure over
-the primary window. Failure means **case not available**, not core chapter
-failure and not a CO2 null.
+The optional Kerkrade case has its own gate: source-native CO2 and pressure
+throughout July 2021 plus adequate quiet calibration hours and
+device/calibration/ABC metadata; Worm/Wurm or a documented hydrological pair;
+independently supported July 2021 bounds; and at least three later exact-onset
+pair events with complete CO2 and pressure over the primary window. Failure
+means **case not available**, not core chapter failure and not a CO2 null.
 
 The executable audit is `scripts/31_event_study_gates.py`. On 2026-08-08 it
 reports the regional core as failed because all six contracted network inputs
 are absent. A Viefhues source package has since been delivered locally and
-contains a cleaned hourly August 2020–September 2021 table, raw May–September
-2021 IoT files and ABC-processing code. The executable case gate remains
-**not available** until those files, their provenance and later-event support
-pass the contract. Case status does not affect the core return code. Core
-failure is a stop, not permission to lower the gate to the current two-year
-record. Groundwater cannot
-block either component.
+contains a cleaned August 2020–September 2021 table, raw May–September 2021 IoT
+files and ABC-processing code. Its source-native K4 record is now normalised
+and has all 744 July hours, but the pre-May lineage, sensor-era metadata,
+hydrological pair, onset bounds and later-event support remain incomplete. The
+regional audit deliberately does not turn those optional case requirements
+into software gates; the case is assessed separately before any CO2 contrast.
+Core failure is a stop, not permission to lower the gate to the current
+two-year record. Groundwater cannot block either component.
 
 The held LANUK archive was audited separately without signal outcomes. Under
 the draft density and episode rules, its strongest tested decade supplies only

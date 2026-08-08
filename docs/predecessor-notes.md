@@ -352,9 +352,10 @@ Prediction:
 
 ### Current Follow-Through
 
-- Audit the delivered original IoT package and resolve its calibration/ABC
-  history for the conditional Kerkrade case; inadequacy does not block the
-  regional chapter.
+- Use the audited source-native non-ABC K4 record for the observed July 2021
+  trajectory. Resolve its device/calibration metadata, the K3 location conflict
+  and missing older ABC lineage before treating the broader record as a sensor
+  era; inadequacy does not block the regional chapter.
 - Obtain the long tributary discharge cohort and independently document the
   July 2021 onset interval.
 - Fix catchment-average RADOLAN rainfall and a long-record public-weather source

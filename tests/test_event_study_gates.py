@@ -46,63 +46,6 @@ def test_hourly_contract_rejects_an_omitted_hour(tmp_path):
     assert not valid
 
 
-def test_missing_kerkrade_files_do_not_change_the_core_result(tmp_path, monkeypatch):
-    table = pd.DataFrame(
-        [
-            {
-                "component": "core",
-                "gate": "core input",
-                "status": "PASS",
-                "observed": "present",
-                "requirement": "present",
-            },
-            {
-                "component": "kerkrade_case",
-                "gate": "File: original IoT",
-                "status": "NOT AVAILABLE",
-                "observed": "missing",
-                "requirement": "optional case file",
-            },
-        ]
-    )
-    monkeypatch.setattr(GATES, "OUTPUT_DIR", tmp_path)
-
-    core_passed = GATES.write_report(table)
-    report = (tmp_path / "gate_audit.md").read_text()
-
-    assert core_passed
-    assert "Core regional chapter: **PASS**" in report
-    assert "Conditional Kerkrade CO2 case: **NOT AVAILABLE**" in report
-
-
-def test_case_is_incomplete_until_hydrological_gates_are_present(tmp_path, monkeypatch):
-    table = pd.DataFrame(
-        [
-            {
-                "component": "core",
-                "gate": "core input",
-                "status": "FAIL",
-                "observed": "missing",
-                "requirement": "present",
-            },
-            {
-                "component": "kerkrade_case",
-                "gate": "IoT provenance",
-                "status": "PASS",
-                "observed": "documented",
-                "requirement": "documented",
-            },
-        ]
-    )
-    monkeypatch.setattr(GATES, "OUTPUT_DIR", tmp_path)
-
-    core_passed = GATES.write_report(table)
-    report = (tmp_path / "gate_audit.md").read_text()
-
-    assert not core_passed
-    assert "Conditional Kerkrade CO2 case: **INCOMPLETE**" in report
-
-
 def test_common_span_counts_the_inclusive_last_hour():
     index = pd.date_range("2005-01-01", "2014-12-31 23:00", freq="h", tz="UTC")
     frame = pd.DataFrame({"A": 1.0, "B": 2.0}, index=index)
@@ -229,17 +172,6 @@ def test_public_weather_requires_a_regular_grid_for_each_watercourse(tmp_path):
     _, valid, _ = GATES.read_long_weather(path)
 
     assert not valid
-
-
-def test_complete_precursor_event_requires_every_hour_and_signal():
-    index = pd.date_range("2025-01-01", periods=200, freq="h", tz="UTC")
-    frame = pd.DataFrame({"co2": 400.0, "pressure": 1000.0}, index=index)
-    onsets = pd.DatetimeIndex([index[80], index[180]])
-    frame.loc[index[150], "co2"] = np.nan
-
-    count = GATES.complete_precursor_events(onsets, frame, ["co2", "pressure"])
-
-    assert count == 1
 
 
 def test_catchment_contract_opens_and_checks_geometries(tmp_path):

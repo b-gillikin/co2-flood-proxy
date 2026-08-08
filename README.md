@@ -12,10 +12,11 @@ Prospective research question:
 Status: **data-gated; no new chapter result exists**. The current repository
 does not contain any of the six contracted regional inputs. A newly delivered
 Viefhues source package contains a cleaned hourly 2020–2021 table, raw
-May–September 2021 IoT files and the historical ABC-processing code, but it has
-not yet been normalised or audited against the conditional case contract;
-sensor-era metadata and later-event feasibility remain unresolved. The
-protocol therefore remains unlocked and no outcome analysis has been run.
+May–September 2021 IoT files and the historical ABC-processing code. The
+source-native K4 record is now normalised and covers every July 2021 hour;
+older lineage, sensor-era metadata and later-event feasibility remain
+unresolved. The protocol therefore remains unlocked and no outcome analysis
+has been run.
 
 ## Read first
 
@@ -27,7 +28,7 @@ protocol therefore remains unlocked and no outcome analysis has been run.
 | `docs/data-requests.md` | exact blockers and delivery contracts |
 | `docs/lanuk-feasibility.md` | reproducible decision on the held German gauge route |
 | `docs/supervisor-decision-memo.md` | unresolved approvals, evidence and recommendations |
-| `docs/external-request-drafts.md` | messages ready for the student to personalise and send |
+| `docs/student-next-actions.md` | detailed five-task student handoff and send-ready institutional requests |
 | `docs/predecessor-notes.md` | Viefhues and Eryilmaz source notes |
 | `docs/HANDOFF.md` | session state only |
 
@@ -47,10 +48,16 @@ python scripts/31_event_study_gates.py --report-only
 ```
 
 `--report-only` writes `results/event_study/gate_audit.{csv,md}` while allowing
-the known failure. Omit it for the binding gate: a failed **core** audit exits
-nonzero. The report separately labels the Kerkrade case available, incomplete
-or not available; that status does not change the core return code. Do not point
-the audit at the rolling two-year files.
+the known failure. Omit it for the binding gate: a failed regional audit exits
+nonzero. The conditional Kerkrade case is assessed separately when a qualifying
+hydrological pair and onset evidence exist. Do not point the audit at the
+rolling two-year files.
+
+Normalize and audit the source-native Viefhues K4 record with:
+
+```bash
+python scripts/33_ingest_viefhues_iot.py
+```
 
 The separate LANUK source audit is safe to rerun before protocol lock because
 it uses discharge availability and metadata only:
@@ -80,6 +87,7 @@ chapter gate.
 
 ```bash
 python -m pytest -q
+python -m pytest infrastructure_tests -q  # only when legacy ingestion changes
 ruff check .
 ruff format --check .
 ```

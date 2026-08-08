@@ -1094,3 +1094,58 @@ to leak into training. Both would overstate spatial transferability.
 
 Source: draft 0.5 of `docs/chapter-scope-and-preregistration.md`, methods
 consistency review.
+
+## 2026-08-08 — Keep routine verification scientific rather than application-wide
+
+Decision: make `tests/` the 32-check scientific suite for event definitions,
+data-gate semantics, leakage guards and the one retained predecessor analysis.
+Move 18 older daily-summary and generic IoT-ingestion checks, with their
+fixtures, to `infrastructure_tests/`; run them only when that legacy machinery
+changes. Do not add fixture tests for the Viefhues normaliser: verify it against
+the delivered source and its tidy QC output.
+
+Also simplify `scripts/31_event_study_gates.py` to the binding six-file regional
+audit. The conditional Kerkrade case remains a scientific admissibility
+decision using explicit source, pair, onset and later-event evidence; optional
+personal-sensor files no longer generate a parallel product-style status tree
+inside the regional CLI.
+
+Reasoning: tests are justified where a silent error would alter an estimand,
+event definition or held-out comparison. Routine chapter work did not need a
+53-test product surface, speculative missing-file cases or an executable
+workflow for inputs that do not yet exist. The split preserves legacy coverage
+without presenting application infrastructure as the chapter's analytical
+core.
+
+Source: `pyproject.toml`, `tests/`, `infrastructure_tests/`,
+`scripts/31_event_study_gates.py`, user instruction.
+
+## 2026-08-08 — Use source-native Viefhues K4 for the July anchor
+
+Decision: normalise the delivered extended K4 CSV directly as the historical
+IoT input. Treat it as the non-ABC 2021 sensor era stated by the supplied R
+code, convert its labelled Europe/Amsterdam civil timestamps to UTC, average
+observed minute rows by hour and never fill absent hours. Preserve 400-ppm and
+5,000-ppm values while reporting their counts. Treat the longer
+`cleaned_data/2021_flood_data.csv` as processed thesis output, not raw data.
+
+Evidence: K4 contains 169,594 rows from 2021-05-15 12:43 CEST through
+2021-09-24 07:28 CEST and all 744 July civil-time hours. The hourly output has
+2,829 observed hours, with 335 absent hours elsewhere in its span, 83 minute
+values at 400 ppm and 5,761 at the 5,000-ppm ceiling. The cleaned thesis table
+has 1,333 absent civil-time hours, a duplicate 2020-10-25 02:00 row and only
+550 July hours. After 15 May its CO2/pressure values are almost entirely K4
+hourly means. Before May, the supplied R scripts depend on
+`kerkrade3tillJune1.csv`, `kerkrade4tillJune1.csv`, `metadata.json` and
+`total_Dataset_with_adjusted_ABC.csv`, none of which is present in the folder
+or ZIP.
+
+Consequence: the observed July K4 trajectory is reproducible, but the broader
+sensor-era provenance is not. K3's `livingroom` filename conflicts with the
+thesis statement that both sensors were in the basement; sensor model/serial,
+calibration history, exact ABC-repair rows, 450-ppm correction rationale and
+reuse terms still require targeted follow-up. These gaps can remove the
+conditional CO2 recurrence case but do not block the regional chapter.
+
+Source: `scripts/33_ingest_viefhues_iot.py`, the locally delivered thesis PDF,
+raw CSVs and R scripts.

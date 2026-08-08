@@ -97,9 +97,10 @@ Official product description:
 ### 6. Should the Kerkrade CO2 analysis be conditional?
 
 **Recommendation: yes.** A Viefhues source package has now been delivered
-locally, including a cleaned hourly 2020–2021 table, raw 2021 IoT files and ABC
-processing code, but it is not yet a passed analytical input. Require the
-regional record to contain July 2021 and show only observed
+locally. Its source-native non-ABC K4 record is now normalised and contains all
+744 July 2021 hours; however, the older cleaned lineage, device/calibration
+metadata and later hydrological events remain incomplete. Require the regional
+record to contain July 2021 and show only observed
 public/hydrological trajectories in the core figure. Add the Viefhues
 reanalysis and later CO2 recurrence only if the original IoT,
 sensor-era provenance, valid hydrological pair, independently supported local

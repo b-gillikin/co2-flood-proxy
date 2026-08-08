@@ -1,22 +1,24 @@
 # Analysis Inventory — Prospective Event Study
 
 Status: 2026-08-08. There is no new event-study result. The regional chapter is
-stopped at its core data gate; the separate Kerkrade gate reports not available
-because the delivered source package has not been normalised.
+stopped at its core data gate. The source-native July 2021 K4 IoT record is now
+normalised, but that alone does not make the separate Kerkrade recurrence case
+available.
 
 ## Prospective chapter components
 
 | component | role | current state |
 | --- | --- | --- |
 | Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | ready; source notes retained |
-| `31_event_study_gates.py` | audits the binding regional core, spatial support and conditional Kerkrade case separately | implemented; core fails, case source not yet normalised |
+| `31_event_study_gates.py` | audits the binding regional core and all-donor spatial support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
+| `33_ingest_viefhues_iot.py` | normalises the source-native non-ABC K4 record and records coverage/ceiling QC | implemented; all 744 July hours present |
 | `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
 | long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
 | matched local contrasts | establishes which fixed signals recur before receiver high water | not run or fully implemented |
 | all-donor spatial contrasts | estimates how each signal's event contrast changes with receiver-donor distance | gate support partly implemented; outcome estimator not implemented or run |
 | July 2021 regional anchor | observed regional trajectory inside the common study period | not run; core inputs fail |
-| conditional Kerkrade case | Viefhues trajectory and later pressure-adjusted CO2 recurrence | gate reports not available; source package delivered locally but normalisation, era metadata, pair, bounds and later-event support remain incomplete |
+| conditional Kerkrade case | Viefhues trajectory and later pressure-adjusted CO2 recurrence | July K4 is reproducible; era metadata, pair, bounds and later-event support remain incomplete |
 | RADOLAN catchment rainfall | principal rainfall exposure | not built; radar/polygon gate fails |
 | long public-weather assignment | temperature, humidity and pressure for each watercourse | source/rule not selected; gate fails |
 
@@ -75,3 +77,9 @@ scientific choices rather than obvious syntax. Add a shared helper only when a
 definition is reused or needs an isolated regression test. Do not build a
 pipeline framework, configuration system, report generator or reusable model
 product for this chapter.
+
+The default scientific suite contains 32 focused checks. Eighteen older
+application/ingestion checks have been moved to `infrastructure_tests/` and are
+not part of routine chapter verification. New source deliveries should first
+be checked against their real files and tidy QC artifacts; do not add fixture
+tests merely because a parser exists.

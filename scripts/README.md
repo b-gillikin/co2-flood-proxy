@@ -8,8 +8,9 @@ repository does not need an analysis framework.
 
 | script/module | purpose | state |
 | --- | --- | --- |
-| `31_event_study_gates.py` | audit the binding regional core, all-donor spatial support and conditional Kerkrade case separately | implemented; core fails, case input not yet normalised |
+| `31_event_study_gates.py` | audit the binding regional core and all-donor spatial support | implemented; regional inputs fail |
 | `32_lanuk_feasibility.py` | audit held German gauges without inspecting signal outcomes | implemented; German route does not pass |
+| `33_ingest_viefhues_iot.py` | normalise source-native K4 CO2/pressure and write compact coverage/provenance QC | implemented; complete July 2021 hourly coverage |
 | `src/event_study.py` | small tested definitions for storms, controls, censoring, pressure residuals and time blocks | implemented |
 | event-contrast script | local recurrence, all-donor distance gradients, held-out validation and four figures | deliberately not run or completed before gates/lock |
 
@@ -18,6 +19,7 @@ Audit without pretending the known failure is a result:
 ```bash
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
+python scripts/33_ingest_viefhues_iot.py
 ```
 
 ## Predecessor context
@@ -62,3 +64,16 @@ generic substitution machinery. The history remains in the decisions log.
 The retained all-donor table answers one fixed spatial-extent question. More
 models and more pair rows are not substitutes for missing years and rainfall
 exposure.
+
+## Verification boundary
+
+`pytest -q` runs the small scientific suite for event definitions, leakage
+guards and source semantics. Older IoT/daily-summary application checks live in
+`infrastructure_tests/` and run only when that legacy machinery changes:
+
+```bash
+pytest infrastructure_tests -q
+```
+
+The Viefhues ingest is checked against the actual delivered source and its QC
+table. It does not add another fixture-based test layer.

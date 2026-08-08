@@ -36,7 +36,8 @@ Run:
 python scripts/31_event_study_gates.py
 ```
 
-The audit reports two components. Only **core** failures cause a nonzero exit.
+The executable audit covers the binding regional inputs only. Any failure
+causes a nonzero exit.
 
 | component | file | minimum contract |
 | --- | --- | --- |
@@ -46,9 +47,6 @@ The audit reports two components. Only **core** failures cause a nonzero exit.
 | core | `data/interim/event_study_catchments.gpkg` | polygons used for the RADOLAN spatial average |
 | core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC temperature, relative humidity and pressure for every primary watercourse |
 | core | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
-| Kerkrade case | `data/interim/viefhues_iot.csv` | 2020–2021 CO2 and pressure including July 2021 |
-| Kerkrade case | `data/interim/iot_hourly.csv` | retained later-era CO2 and pressure |
-| Kerkrade case | `data/interim/kerkrade_iot_eras.csv` | non-overlapping device, calibration, ABC-processing and resolution records for both eras |
 
 The core cohort must contain at least 10 natural tributary watercourses, 10
 common years across discharge, RADOLAN and public weather, 20 joint-period p99
@@ -68,12 +66,17 @@ gap-honest 12-hour change. Availability must also be at least 70% within every
 receiver and distance third. These draft spatial floors require supervisor
 approval.
 
-The conditional Kerkrade case additionally requires Worm/Wurm or a documented
-hydrological pair, independently supported July 2021 lower/upper bounds and at
-least three later exact pair-gauge p99 onsets with every CO2 and pressure hour
-observed from -72 to -1. If any case requirement fails, report **Kerkrade case
-not available**. Do not call missing recurrence data a null, and do not stop the
-regional chapter.
+The conditional Kerkrade case is checked separately because it should not turn
+optional source provenance into a software gate for the regional chapter. Its
+inputs are `data/interim/viefhues_iot.csv`, retained later-era
+`data/interim/iot_hourly.csv` and `data/interim/kerkrade_iot_eras.csv`. It
+requires source-native CO2 and pressure throughout July 2021 plus at least 100
+complete quiet calibration hours in that sensor era; documented device,
+calibration and ABC status; Worm/Wurm or a documented hydrological pair;
+independently supported July 2021 lower/upper bounds; and at least three later
+exact pair-gauge p99 onsets with every CO2 and pressure hour observed from -72
+to -1. If any requirement fails, report **Kerkrade case not available**. Do not
+call missing recurrence data a null, and do not stop the regional chapter.
 
 For the executable gate, 10 years means at least 3,650 days between the
 inclusive first and last common hourly endpoints. Missing values remain visible
@@ -296,15 +299,16 @@ profiles, watercourse contrast forests and spatial contrast-by-distance curves
 with held-out observations. The first figure gains a Kerkrade CO2/pressure
 overlay only if the case gate passes.
 
-Before execution, tests must cover adjacent-hour p99 crossings, episode/storm
+Before execution, scientific checks must cover adjacent-hour p99 crossings, episode/storm
 single-linkage diagnostics, joint-period event counting, observation density,
 censored exclusion, control contamination, reference-only thresholds and
 scaling, all-pair distance construction, spatial-window availability, explicit
 crossed holdout exclusion, empty/sparse fold reporting, GeoPackage contents,
-RADOLAN missing/spatial handling, the core/case gate split and sensor-era
-pressure residuals. Before the outcome script is run, add synthetic tests for a
-decaying magnitude, a flat nonzero curve, a null curve, storm-dominated
-heterogeneity and held-out
+RADOLAN missing/spatial handling and sensor-era pressure residuals. The
+source-native Viefhues ingest is verified against its real-file QC rather than
+a fixture framework. Before the outcome script is run, add only the synthetic
+estimator checks needed for a decaying magnitude, a flat nonzero curve, a null
+curve, storm-dominated heterogeneity and held-out
 fixed-effect prediction. Those estimators do not yet exist and are not claimed
 as implemented.
 
