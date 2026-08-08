@@ -1,6 +1,6 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no new chapter result exists** (2026-08-07). This is the
+Status: **data-gated; no new chapter result exists** (2026-08-08). This is the
 canonical description of the proposed chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md`; current session state belongs in
 `HANDOFF.md`.
@@ -92,21 +92,34 @@ The design is not final and the protocol is not frozen until all of these pass:
 - original August 2020–September 2021 Kerkrade IoT CO2 and pressure, with
   device identity, calibration and ABC-processing information;
 - at least 10 natural tributary watercourses with 10 common years of hourly
-  discharge, at least 20 p99 episodes each and at least 40 regional storms;
+  discharge, at least 20 joint-period p99 episodes each and at least 40
+  regional storms;
 - Worm/Wurm, or a hydrologically defensible and documented Kerkrade pair;
 - at least three later exact-onset events at that pair with complete CO2 and
   pressure in the primary 72-hour window;
 - hourly 1-km RADOLAN rainfall averaged over verified catchment polygons;
 - at least 10 common years of temperature, humidity and pressure assigned to
   each watercourse by a source/rule fixed before outcome inspection;
-- documented rating-curve changes, timezones, units, zero sentinels and July
-  2021 gauge failures.
+- at least 80% hourly coverage overall and 70% in every calendar year for each
+  primary series over a joint period containing July 2021;
+- documented rating-curve changes, sampling semantics, timezones, units, zero
+  sentinels and July 2021 gauge reliability.
 
-The executable audit is `scripts/31_event_study_gates.py`. On 2026-08-07 it
+The executable audit is `scripts/31_event_study_gates.py`. On 2026-08-08 it
 fails because the contracted long discharge, RADOLAN catchment, long public
 weather and original IoT files are absent. This is a stop, not permission to
 lower the gate to the current two-year record. Groundwater is secondary
 mechanism evidence and cannot block the chapter.
+
+The held LANUK archive was audited separately without signal outcomes. Under
+the draft density and episode rules, its strongest tested decade supplies only
+three qualifying gauges across two verified watercourses. Moreover,
+`herzogenrath_2` and `honsdorf` are officially assigned to Broicher Bach and
+Beeckflies rather than the Wurm. LANUK remains a source lead, not a qualifying
+German cohort. The two officially matched Wurm gauges also have no observations
+in the later IoT era, so the held archive provides zero later exact Wurm events;
+events on Broicher Bach or Beeckflies cannot substitute. See
+`lanuk-feasibility.md`.
 
 ## 6. July 2021 treatment
 
@@ -118,19 +131,10 @@ calculations.
 
 ## 7. Pre-committed readings
 
-| result | reading |
-| --- | --- |
-| rainfall recurs and transfers | antecedent rainfall is a portable pre-high-water signal |
-| temperature, humidity or pressure recur and transfer | an E-derived public signal is portable in its own right |
-| public-weather contrasts are null or heterogeneous | those signals do not show stable pre-high-water recurrence at this grain |
-| donor-flow level/change recur and transfer | neighbouring flow reflects a portable regional high-water state |
-| donor-flow contrasts are null or heterogeneous | neighbouring flow does not travel consistently under the fixed distance rule |
-| CO2 residual recurs in later Kerkrade events | the indoor residual may be a repeatable local manifestation |
-| CO2 residual does not recur | the 2021 indoor response was event-, sensor- or building-specific |
-| all fixed contrasts are weak/heterogeneous | no stable pre-high-water signature is detectable under the design |
-
-Null or heterogeneous results do not trigger new lags, thresholds or model
-families.
+The complete result-to-interpretation table now lives in §10 of the protocol,
+the document that will be locked. In summary, rainfall, public weather,
+neighbouring flow and pressure-adjusted CO2 may recur, be heterogeneous or be
+null; none of those readings triggers new lags, thresholds or model families.
 
 ## 8. Existing Kerkrade context
 

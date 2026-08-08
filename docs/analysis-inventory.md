@@ -1,6 +1,6 @@
 # Analysis Inventory — Prospective Event Study
 
-Status: 2026-08-07. There is no new event-study result. The repository is
+Status: 2026-08-08. There is no new event-study result. The repository is
 stopped at the hard data gate.
 
 ## Prospective chapter components
@@ -9,6 +9,7 @@ stopped at the hard data gate.
 | --- | --- | --- |
 | Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> transfer test | ready; source notes retained |
 | `31_event_study_gates.py` | audits the non-negotiable data requirements | implemented; current audit fails |
+| `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
 | `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
 | long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
 | matched event contrasts | sole analysis of recurrence and held-out signal transfer | not run or fully implemented |
@@ -20,11 +21,15 @@ stopped at the hard data gate.
 No figure or outcome table from this prospective design exists. The protocol is
 not locked.
 
+The LANUK feasibility products under `results/feasibility/` are input-QA
+artifacts, not chapter findings. The tracked interpretation is
+`lanuk-feasibility.md`.
+
 ## Existing analysis retained as predecessor context
 
 | analysis | permitted role |
 | --- | --- |
-| `03_eryilmaz_replication.py` | short same-site context for Eryilmaz; not spatial transfer |
+| `03_eryilmaz_replication.py` | short same-site context for Eryilmaz; calendar-defined forward folds report coverage and outages separately, with no pooled/mean headline; not spatial transfer |
 
 ## Data infrastructure retained
 

@@ -14,6 +14,7 @@ from src.event_study import (
     cluster_regional_storms,
     contiguous_time_blocks,
     episode_onsets,
+    episode_table,
     exact_onset_events,
     heldout_signal_transfer,
     pressure_residuals_by_era,
@@ -30,6 +31,18 @@ def test_episode_onsets_merge_consecutive_recrossings_through_72_hours():
     onsets = episode_onsets(series, threshold=1.0, merge_hours=72)
 
     assert list(onsets) == [index[1]]
+
+
+def test_episode_table_reports_unbounded_single_linkage_chain():
+    index = pd.date_range("2025-01-01", periods=150, freq="h", tz="UTC")
+    series = pd.Series(0.0, index=index)
+    series.loc[[index[1], index[73], index[145]]] = 2.0
+
+    episodes = episode_table(series, threshold=1.0, merge_hours=72)
+
+    assert len(episodes) == 1
+    assert episodes.loc[0, "n_crossings"] == 3
+    assert episodes.loc[0, "chain_span_hours"] == 144
 
 
 def test_episode_onsets_do_not_bridge_a_missing_hour():
@@ -90,7 +103,9 @@ def test_control_availability_is_respected():
     allowed = pd.Timestamp("2020-05-10 12:00", tz="UTC")
     available.loc[allowed] = True
 
-    controls = quiet_control_times(index, event, [event], [], available, n_controls=5)
+    controls = quiet_control_times(
+        index, event, [event], [], available, n_controls=5, minimum_controls=1
+    )
 
     assert controls.tolist() == [allowed]
 
@@ -105,6 +120,34 @@ def test_missing_control_availability_is_not_treated_as_true():
     assert controls.empty
 
 
+def test_event_is_excluded_when_fewer_than_three_controls_exist():
+    index = pd.date_range("2020-01-01", "2022-12-31 23:00", freq="h", tz="UTC")
+    event = pd.Timestamp("2022-05-10 12:00", tz="UTC")
+    available = pd.Series(False, index=index)
+    available.loc[pd.Timestamp("2020-05-10 12:00", tz="UTC")] = True
+
+    controls = quiet_control_times(index, event, [event], [], available)
+
+    assert controls.empty
+
+
+def test_control_times_cannot_cross_the_heldout_block():
+    index = pd.date_range("2018-01-01", "2025-12-31 23:00", freq="h", tz="UTC")
+    block = (pd.Timestamp("2024-01-01", tz="UTC"), pd.Timestamp("2026-01-01", tz="UTC"))
+    heldout_event = pd.Timestamp("2025-03-15 06:00", tz="UTC")
+    reference_event = pd.Timestamp("2023-03-15 06:00", tz="UTC")
+
+    heldout_controls = quiet_control_times(
+        index, heldout_event, [heldout_event], [], heldout_block=block
+    )
+    reference_controls = quiet_control_times(
+        index, reference_event, [reference_event], [], heldout_block=block
+    )
+
+    assert ((heldout_controls >= block[0]) & (heldout_controls < block[1])).all()
+    assert ((reference_controls < block[0]) | (reference_controls >= block[1])).all()
+
+
 def test_robust_standardization_uses_reference_only():
     result = robust_standardize(pd.Series([10.0]), pd.Series([0.0, 1.0, 2.0, 3.0, 4.0]))
     assert result.iloc[0] == 8.0
@@ -112,16 +155,36 @@ def test_robust_standardization_uses_reference_only():
 
 def synthetic_contrasts(values):
     rows = []
-    for (watercourse, block), value in values.items():
-        rows.append(
-            {
-                "watercourse": watercourse,
-                "time_block": block,
-                "signal": "rain_72h",
-                "contrast": value,
-            }
-        )
+    watercourses = sorted({watercourse for watercourse, _ in values})
+    blocks = sorted({block for _, block in values})
+    for fold_watercourse in watercourses:
+        for fold_block in blocks:
+            for (watercourse, block), value in values.items():
+                rows.append(
+                    {
+                        "fold_heldout_watercourse": fold_watercourse,
+                        "fold_heldout_time_block": fold_block,
+                        "watercourse": watercourse,
+                        "time_block": block,
+                        "signal": "rain_72h",
+                        "contrast": value,
+                    }
+                )
     return pd.DataFrame(rows)
+
+
+def test_transfer_rejects_a_global_contrast_table():
+    global_contrasts = pd.DataFrame(
+        {
+            "watercourse": ["A"],
+            "time_block": [1],
+            "signal": ["rain_72h"],
+            "contrast": [1.0],
+        }
+    )
+
+    with pytest.raises(ValueError, match="fold_heldout"):
+        heldout_signal_transfer(global_contrasts)
 
 
 def test_positive_signal_transfers_to_every_heldout_fold():
@@ -170,6 +233,28 @@ def test_heterogeneous_signal_fails_heldout_sign_concordance():
     assert fold.reference_network_median == -1.5
     assert fold.n_reference_watercourses == 2
     assert not fold.sign_concordant
+
+
+def test_empty_and_sparse_transfer_folds_are_reported():
+    contrasts = synthetic_contrasts({("A", 1): 1.0, ("B", 2): 2.0, ("C", 2): 3.0})
+
+    transfer = heldout_signal_transfer(
+        contrasts,
+        watercourses=["A", "B", "C"],
+        time_blocks=[1, 2],
+        minimum_heldout_events=3,
+    )
+    empty = transfer[transfer.heldout_watercourse.eq("A") & transfer.heldout_time_block.eq(2)].iloc[
+        0
+    ]
+    sparse = transfer[
+        transfer.heldout_watercourse.eq("A") & transfer.heldout_time_block.eq(1)
+    ].iloc[0]
+
+    assert empty.fold_status == "no_heldout_events"
+    assert empty.n_heldout_events == 0
+    assert sparse.fold_status == "sparse_heldout_events"
+    assert not sparse.fold_eligible
 
 
 def test_pressure_residuals_are_fit_separately_by_sensor_era():

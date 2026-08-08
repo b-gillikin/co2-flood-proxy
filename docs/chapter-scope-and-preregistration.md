@@ -1,11 +1,11 @@
 # Prospective Event-Study Protocol
 
-Version: **draft 0.2, not locked** (2026-08-07).
+Version: **draft 0.3, not locked** (2026-08-08).
 
 This protocol becomes locked only after (a) every hard data gate passes and (b)
 the supervisor approves the research question. No new event-study outcome table
 may be inspected before the version, input hashes and lock timestamp are added
-to §12. This is a repository protocol, not an externally registered study.
+to §13. This is a repository protocol, not an externally registered study.
 
 ## 1. Question and estimands
 
@@ -46,18 +46,28 @@ The audit must pass without `--report-only`. Required files are:
 | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
 
 The primary cohort must contain at least 10 natural tributary watercourses, 10
-common years across discharge, RADOLAN and public weather, 20 full-record p99
+common years across discharge, RADOLAN and public weather, 20 joint-period p99
 episodes per watercourse, 40 regional storms and Worm/Wurm or a documented
 hydrological pair. That pair must have at least three later exact p99 onsets
 with all 72 pre-onset hourly CO2 and pressure values observed; otherwise CO2
 recurrence is not estimable. Rating curve, coordinates, timezone, unit,
-zero-sentinel, public-weather assignment and July 2021 status/bounds must be
-complete. Gate counts use the full eligible record for feasibility only; fold
-outcomes use the rules below.
+zero-sentinel, sampling/missingness semantics, public-weather assignment and
+July 2021 status/bounds must be complete. The joint period must contain 15 July
+2021. Within it, every primary discharge, RADOLAN and public-weather series must
+have at least 80% observed hourly cells overall and 70% in every calendar year.
+These draft density values reuse the prior chapter's 80% floor and add an annual
+backstop against multi-year gaps; they require supervisor approval before lock.
+Gate event and storm counts use only this joint period. Fold outcomes use the
+rules below. For the distance-selected donor pair, at least 80% of receiver
+events must have donor flow observed at `onset - 1 hour` and throughout the
+13-hour window needed for the gap-honest 12-hour change. This draft pair-level
+floor also requires supervisor approval.
 
 For the executable gate, 10 years means at least 3,650 days between the
 inclusive first and last common hourly endpoints. Missing values remain visible
-on that grid and event-count gates still have to pass.
+on that grid and cannot be hidden by endpoint span or event counts. The
+catchment GeoPackage must open successfully and contain one unique, valid,
+non-empty polygon per primary watercourse in a projected CRS.
 
 If any hard gate fails, stop. Do not use the rolling 2024–2026 Waterschap file
 as a substitute. Groundwater is not a gate.
@@ -81,10 +91,12 @@ define its outcome and contamination periods; receiver flow is not a candidate
 signal.
 
 A primary episode starts when discharge moves from at or below p99 to above p99
-on adjacent observed hours. Merge re-crossings whose onsets are at most 72
-hours apart. Across watercourses, sort episode onsets and place consecutive
-onsets at most 72 hours apart in the same regional storm. This single-linkage
-rule is fixed and its possible chain length will be reported.
+on adjacent observed hours. Merge re-crossings whose consecutive onsets are at
+most 72 hours apart. This is unbounded single-linkage: a chain can span more
+than 72 hours if every consecutive gap remains within 72 hours. Save the first
+and last crossing, number of crossings and chain span for every episode. Across
+watercourses, apply the same consecutive-onset rule to regional storms and
+report their chain length.
 
 Exact crisis-plan Fase crossings at the named leading gauges are a sparse
 sensitivity. Inventory thresholds at other points are not treated as
@@ -167,11 +179,17 @@ the watercourse median, IQR and sign count. Resample entire regional storms,
 recompute watercourse and network summaries, and report percentile intervals;
 do not resample event rows independently.
 
+Events, controls, quiet scaling and contrasts are constructed separately for
+every held-watercourse-by-held-block fold. Each contrast row carries
+`fold_heldout_watercourse` and `fold_heldout_time_block`; a single globally
+thresholded or globally scaled contrast table is invalid input to the transfer
+summary.
+
 ## 9. Held-out signal transfer
 
-Cross two exclusions: one entire receiver watercourse and one of five
-contiguous equal-duration time blocks. For each held watercourse-by-block fold
-and signal:
+Cross two exclusions for the public spatial signals: one entire receiver
+watercourse and one of five contiguous equal-duration time blocks. For each
+held watercourse-by-block fold and signal:
 
 1. remove every event from the held receiver and every event in the held time
    block from the reference set;
@@ -186,12 +204,41 @@ If the reference median is exactly zero, its direction is undefined and sign
 concordance is missing. A held-out zero is non-concordant with a defined
 direction. Do not impose a success proportion or magnitude threshold.
 
-Aggregate fold results within receiver watercourse before describing the
-network. Report sign-concordance counts and the distribution of magnitude
-differences for every signal. This is descriptive external validation of a
-contrast, not prediction or classification.
+Emit all five planned time blocks for every receiver and signal, including
+empty folds. The draft eligibility rule is at least three held-out event
+contrasts for that signal plus at least one reference watercourse. Sparse and
+empty folds remain in the output with an explicit status and do not enter the
+watercourse transfer summary. A network transfer description requires at least
+three eligible time blocks within a receiver. These occupancy rules require
+supervisor approval before lock.
 
-## 10. July 2021 and Kerkrade recurrence
+Aggregate eligible fold results within receiver watercourse before describing
+the network. Report the complete occupancy distribution, sign-concordance
+counts and magnitude differences for every signal. This is descriptive external
+validation of a contrast, not prediction or classification.
+
+Kerkrade-only CO2 and groundwater signals do not enter this network transfer
+table because they exist at one site and sensor era. Their recurrence analysis
+is defined separately in §11.
+
+## 10. Pre-committed readings
+
+| result | reading |
+| --- | --- |
+| rainfall recurs and transfers | antecedent rainfall is a portable pre-high-water signal |
+| temperature, humidity or pressure recur and transfer | an Eryilmaz-derived public signal is portable in its own right |
+| public-weather contrasts are null or heterogeneous | those signals do not show stable pre-high-water recurrence at this grain |
+| donor-flow level/change recur and transfer | neighbouring flow reflects a portable regional high-water state |
+| donor-flow contrasts are null or heterogeneous | neighbouring flow does not travel consistently under the fixed distance rule |
+| CO2 residual recurs in later Kerkrade events | the indoor residual may be a repeatable local manifestation |
+| CO2 residual does not recur | the 2021 indoor response was event-, sensor- or building-specific |
+| all fixed contrasts are weak or heterogeneous | no stable pre-high-water signature is detectable under the design |
+
+Null or heterogeneous results do not trigger new lags, thresholds, baselines or
+model families. These readings commit interpretation; they do not impose an
+arbitrary sign-concordance success threshold.
+
+## 11. July 2021 and Kerkrade recurrence
 
 Plot CO2, pressure, catchment rainfall and available groundwater for July 2021.
 Represent high-water timing as an interval when gauge evidence is damaged or
@@ -203,7 +250,7 @@ events. Compare direction and magnitude with the observed 2021 trajectory. A
 nonrecurring residual is a planned substantive conclusion, not grounds to alter
 the pressure baseline.
 
-## 11. Outputs and tests
+## 12. Outputs and tests
 
 Required tidy tables: `events.csv`, `controls.csv`, `signal_contrasts.csv`,
 `watercourse_contrasts.csv`, `heldout_signal_transfer.csv` and
@@ -213,12 +260,13 @@ Required figures: censored July 2021 trajectory, public-signal event-time
 profiles, watercourse contrast forests and held-out signal direction/magnitude.
 
 Before execution, tests must cover adjacent-hour p99 crossings, episode/storm
-clustering, censored exclusion, control contamination, reference-only thresholds
-and scaling, crossed holdout exclusion, RADOLAN missing/spatial handling,
-sensor-era pressure residuals, and synthetic positive, null and heterogeneous
-signal-transfer cases.
+single-linkage diagnostics, joint-period event counting, observation density,
+censored exclusion, control contamination, reference-only thresholds and
+scaling, explicit crossed holdout exclusion, empty/sparse fold reporting,
+GeoPackage contents, RADOLAN missing/spatial handling, sensor-era pressure
+residuals, and synthetic positive, null and heterogeneous signal-transfer cases.
 
-## 12. Lock and amendments
+## 13. Lock and amendments
 
 Current state: **unlocked because the data gates fail and supervisor approval is
 not recorded**.
@@ -231,6 +279,10 @@ At lock, record:
 - Git commit;
 - protocol lock timestamp;
 - any resolution of ambiguity made before outcome inspection.
+
+Outstanding supervisor approvals for draft 0.3 are the study population,
+public-weather assignment, density values, fold occupancy and acceptability of
+the July 2021 anchor evidence.
 
 After lock, append amendments here with date, change, reason and whether any new
 outcome table had been viewed. Never rewrite the prior entry.

@@ -11,9 +11,9 @@ two-year window. The NRW archive contains 15-minute records extending back to
 
 Two catchments are pulled by default:
 
-- ``Rureinzugsgebiet`` — the Rur/Roer and the Wurm/Worm. 30 gauges, including
-  Randerath and Stah (already in the chapter's set) and Herzogenrath 1 and 2,
-  Honsdorf, Haaren and Kalkofen on the Wurm itself.
+- ``Rureinzugsgebiet`` — the Rur/Roer, Wurm/Worm and nearby tributaries. The
+  official HYGON metadata place Randerath and Herzogenrath 1 on the Wurm;
+  Herzogenrath 2 and Honsdorf are on Broicher Bach and Beeckflies.
 - ``Niers-u-Schwalmeinzugsgebiet`` — covers ``niers_kessel`` and ``swalm_grens``.
 
 Together about 114 MB of zipped CSV, cached under ``data/raw/discharge/lanuk/``.
@@ -22,10 +22,11 @@ Together about 114 MB of zipped CSV, cached under ``data/raw/discharge/lanuk/``.
 whose public feed is only a rolling window. Any LANUK replacement for Rimburg
 must be justified as the Kerkrade hydrological pair before outcome inspection.
 
-**Gauges failed during the 2021 flood.** Randerath's record stops on
-2021-07-01 and Herzogenrath 2 has no July 2021 values. That is survivorship in
-the gauge network, not a fetch error, and the coverage report prints it rather
-than hiding it.
+**Archive gaps surround the 2021 flood.** Randerath's held record stops on
+2021-07-01 and Herzogenrath 2 has no July 2021 values. The public files do not
+establish whether those gaps are failure, retirement, compression or another
+publication rule. The coverage report prints them rather than inventing a
+cause or an onset bound.
 
 This source is reconnaissance, not automatic admission to the primary cohort.
 The event-study gate still requires one pre-declared gauge per natural
@@ -193,7 +194,7 @@ def main():
             )
     missing = inventory[(inventory["july_2021_hours"] == 0) & (inventory["end"] < "2021-08-01")]
     if len(missing):
-        print("\ngauges whose record ends at or before the flood (failed, not missing):")
+        print("\ngauges whose held record ends at or before the flood:")
         for row in missing.itertuples():
             print(f"  {row.station_name[:28]:30} ends {row.end:%Y-%m-%d}")
 

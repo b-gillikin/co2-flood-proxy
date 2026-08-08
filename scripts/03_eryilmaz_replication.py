@@ -3,7 +3,9 @@
 Eryilmaz compared indoor IoT variables with public outdoor weather for predicting
 hours above 1,000 ppm CO2.  This script repeats that comparison on the later
 2025--2026 record.  It is a temporal re-evaluation, not an exact replication:
-the observation window differs, and the paper does not specify shuffled folds.
+the observation window differs. Five expanding-window evaluations use contiguous
+calendar blocks on the full hourly axis; complete cases are selected only after
+the blocks are defined.
 
 AUROC is computed inside each fold. Probabilities from separately fitted folds
 are never pooled into one ranking.
@@ -23,7 +25,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import StratifiedKFold, TimeSeriesSplit
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -32,7 +33,6 @@ OUTPUT_DIR = Path("results/eryilmaz")
 
 CO2_THRESHOLD_PPM = 1000
 N_SPLITS = 5
-RANDOM_STATE = 42
 
 FEATURES = {
     "indoor_iot": [
@@ -59,51 +59,88 @@ def observed_change(series, hours):
 
 def analysis_frame():
     frame = pd.read_csv(INPUT_PATH, parse_dates=["timestamp_utc"]).set_index("timestamp_utc")
+    full_start = frame.index.min()
+    full_end = frame.index.max()
     frame["iot_delta_pressure_6h"] = observed_change(frame.iot_air_pressure_hpa, 6)
     frame["weather_delta_pressure_6h"] = observed_change(frame.kerkrade_weather_pressure_hpa, 6)
     required = [column for columns in FEATURES.values() for column in columns]
     frame = frame.dropna(subset=["iot_co2_ppm", *required]).copy()
     frame["high_co2"] = frame.iot_co2_ppm.gt(CO2_THRESHOLD_PPM).astype("int8")
+    frame.attrs.update(full_start=full_start, full_end=full_end)
     return frame
 
 
-def splits(frame, scheme):
-    if scheme == "random_five_fold":
-        cv = StratifiedKFold(n_splits=N_SPLITS, shuffle=True, random_state=RANDOM_STATE)
-        return cv.split(frame, frame.high_co2)
-    return TimeSeriesSplit(n_splits=N_SPLITS).split(frame)
+def calendar_splits(frame):
+    """Expanding training sets and contiguous tests on the full calendar axis."""
+    start = frame.attrs.get("full_start", frame.index.min())
+    end = frame.attrs.get("full_end", frame.index.max()) + pd.Timedelta(hours=1)
+    boundaries = pd.date_range(start, end, periods=N_SPLITS + 2)
+    for fold in range(1, N_SPLITS + 1):
+        test_start, test_end = boundaries[fold], boundaries[fold + 1]
+        train = frame.index < test_start
+        test = (frame.index >= test_start) & (frame.index < test_end)
+        yield fold, train, test, test_start, test_end
 
 
-def fold_metrics(frame, scheme):
+def hourly_grid(start, end):
+    """Hourly timestamps inside a left-closed, right-open interval."""
+    return pd.date_range(start.ceil("h"), (end - pd.Timedelta(nanoseconds=1)).floor("h"), freq="h")
+
+
+def longest_missing_run(index, start, end):
+    """Longest complete-case outage inside one planned hourly test block."""
+    expected = hourly_grid(start, end)
+    missing = ~expected.isin(index)
+    if not missing.any():
+        return 0
+    groups = pd.Series(missing).ne(pd.Series(missing).shift(fill_value=False)).cumsum()
+    return int(pd.Series(missing).groupby(groups).sum().max())
+
+
+def fold_metrics(frame):
     rows = []
-    for fold, (train_index, test_index) in enumerate(splits(frame, scheme), start=1):
-        train, test = frame.iloc[train_index], frame.iloc[test_index]
-        if train.high_co2.nunique() < 2 or test.high_co2.nunique() < 2:
-            continue
+    for fold, train_mask, test_mask, test_start, test_end in calendar_splits(frame):
+        train, test = frame.loc[train_mask], frame.loc[test_mask]
+        status = "eligible"
+        if test.empty:
+            status = "no_complete_cases"
+        elif train.high_co2.nunique() < 2 or test.high_co2.nunique() < 2:
+            status = "single_class"
+        calendar_hours = len(hourly_grid(test_start, test_end))
         for model_name, columns in FEATURES.items():
-            model = make_pipeline(
-                StandardScaler(),
-                LogisticRegression(max_iter=500, solver="lbfgs"),
-            )
-            model.fit(train[columns], train.high_co2)
-            scores = model.predict_proba(test[columns])[:, 1]
+            auroc = float("nan")
+            if status == "eligible":
+                model = make_pipeline(
+                    StandardScaler(),
+                    LogisticRegression(max_iter=500, solver="lbfgs"),
+                )
+                model.fit(train[columns], train.high_co2)
+                scores = model.predict_proba(test[columns])[:, 1]
+                auroc = roc_auc_score(test.high_co2, scores)
             rows.append(
                 {
-                    "scheme": scheme,
                     "fold": fold,
                     "model": model_name,
+                    "fold_status": status,
+                    "n_train_hours": len(train),
                     "n_test_hours": len(test),
                     "n_positive_hours": int(test.high_co2.sum()),
-                    "test_start": test.index.min(),
-                    "test_end": test.index.max(),
-                    "auroc": roc_auc_score(test.high_co2, scores),
+                    "test_start": test_start,
+                    "test_end_exclusive": test_end,
+                    "first_complete_case": test.index.min() if len(test) else pd.NaT,
+                    "last_complete_case": test.index.max() if len(test) else pd.NaT,
+                    "complete_case_coverage": len(test) / calendar_hours if calendar_hours else 0,
+                    "longest_complete_case_outage_hours": longest_missing_run(
+                        test.index, test_start, test_end
+                    ),
+                    "auroc": auroc,
                 }
             )
     return rows
 
 
 def paired_comparison(metrics):
-    keys = ["scheme", "fold"]
+    keys = ["fold"]
     wide = metrics.pivot(index=keys, columns="model", values="auroc").reset_index()
     wide["gap_indoor_minus_public"] = wide.indoor_iot - wide.public_weather
     return wide
@@ -116,48 +153,51 @@ def write_summary(frame, metrics, comparison):
         f"{len(frame):,} complete-case hours, {int(frame.high_co2.sum()):,} positive hours."
     )
     lines.append(
-        "This is not an exact replication: it uses a later sensor record, and random shuffling "
-        "is a project specification rather than a documented detail of the paper."
+        "This is not an exact replication: it uses a later sensor record and imposes "
+        "calendar-forward evaluation because the paper does not document its fold structure."
     )
-    lines.append("")
-    for scheme, group in comparison.groupby("scheme"):
-        lines.append(f"## {scheme}")
-        lines.append("")
-        model_means = metrics[metrics.scheme.eq(scheme)].groupby("model").auroc.mean()
-        gaps = group.gap_indoor_minus_public
-        lines.append(
-            f"Mean within-fold AUROC: indoor {model_means.indoor_iot:.3f}; "
-            f"public weather {model_means.public_weather:.3f}; mean paired gap {gaps.mean():+.3f}."
+    lines.extend(["", "## Calendar-forward folds", ""])
+    diagnostics = metrics.drop_duplicates("fold").set_index("fold")
+    scores = comparison.set_index("fold")
+    for fold, row in diagnostics.iterrows():
+        line = (
+            f"- Fold {fold}: {row.test_start:%Y-%m-%d} to "
+            f"{row.test_end_exclusive:%Y-%m-%d}; {row.n_test_hours:,} complete hours "
+            f"({row.complete_case_coverage:.1%}), {row.n_positive_hours} positives, "
+            f"longest outage {row.longest_complete_case_outage_hours} h; "
+            f"status `{row.fold_status}`"
         )
-        lines.append(
-            f"Fold gaps (indoor - public): {', '.join(f'{value:+.3f}' for value in gaps)}."
-        )
+        score = scores.loc[fold]
+        if pd.notna(score.indoor_iot) and pd.notna(score.public_weather):
+            line += (
+                f"; AUROC indoor {score.indoor_iot:.3f}, public {score.public_weather:.3f}, "
+                f"gap {score.gap_indoor_minus_public:+.3f}"
+            )
+        lines.append(line + ".")
         lines.append("")
     lines.append(
-        "The schemes use different test periods and training sizes; their absolute AUROCs are "
-        "not a numerical estimate of a leakage penalty."
+        "No mean is reported: folds differ materially in calendar coverage and positive count. "
+        "This later-record check is descriptive predecessor context, not chapter evidence."
     )
     (OUTPUT_DIR / "summary.md").write_text("\n".join(lines) + "\n")
 
 
 def plot_folds(comparison):
-    schemes = list(comparison.scheme.unique())
-    fig, axes = plt.subplots(1, len(schemes), figsize=(9, 4), sharey=True)
-    if len(schemes) == 1:
-        axes = [axes]
-    for axis, scheme in zip(axes, schemes, strict=True):
-        data = comparison[comparison.scheme.eq(scheme)]
-        for row in data.itertuples(index=False):
-            axis.plot(
-                ["Indoor IoT", "Public weather"],
-                [row.indoor_iot, row.public_weather],
-                marker="o",
-                alpha=0.7,
-            )
-        axis.set_title(scheme.replace("_", " "))
-        axis.set_ylim(0.5, 1.0)
-        axis.grid(axis="y", alpha=0.25)
-    axes[0].set_ylabel("AUROC within test fold")
+    fig, axis = plt.subplots(figsize=(5, 4))
+    for row in comparison.dropna(subset=["indoor_iot", "public_weather"]).itertuples(index=False):
+        axis.plot(
+            ["Indoor IoT", "Public weather"],
+            [row.indoor_iot, row.public_weather],
+            marker="o",
+            alpha=0.7,
+            label=f"fold {row.fold}",
+        )
+    axis.set_title("Calendar-forward folds")
+    axis.set_ylim(0.5, 1.0)
+    axis.set_ylabel("AUROC within test fold")
+    axis.grid(axis="y", alpha=0.25)
+    if axis.lines:
+        axis.legend(frameon=False)
     fig.tight_layout()
     fig.savefig(OUTPUT_DIR / "fold_auroc.png", dpi=180)
     plt.close(fig)
@@ -165,10 +205,7 @@ def plot_folds(comparison):
 
 def main():
     frame = analysis_frame()
-    rows = []
-    for scheme in ("random_five_fold", "forward_chaining"):
-        rows.extend(fold_metrics(frame, scheme))
-    metrics = pd.DataFrame(rows)
+    metrics = pd.DataFrame(fold_metrics(frame))
     comparison = paired_comparison(metrics)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

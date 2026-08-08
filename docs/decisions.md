@@ -930,3 +930,86 @@ supervisor decision to make before lock; it may not be chosen from event
 performance. It also requires at least three later exact-onset Kerkrade-pair
 events with complete primary-window CO2 and pressure. Fewer events cannot be
 reported as a null recurrence result.
+
+## 2026-08-08 — Harden comparable-period, density and holdout contracts
+
+Decision: count feasibility episodes and storms only within the joint
+discharge/RADOLAN/public-weather period; require that period to contain July
+2021; open and validate the catchment GeoPackage; expose every planned
+receiver-by-time-block fold; and make the held-block restriction an explicit
+control-selection argument.
+
+Draft rules pending supervisor approval: require at least 80% observed hourly
+cells overall and 70% within every calendar year for each primary series; mark
+a distance-selected donor pair adequate only when at least 80% of receiver
+events have its level and complete 13-hour change window; mark
+a transfer fold eligible with at least three held-out event contrasts and a
+nonempty reference; require three eligible blocks within a receiver for a
+receiver-level transfer summary.
+
+Reasoning: endpoint span and events accumulated outside the comparable period
+could previously pass the data gate despite long gaps. Empty transfer folds
+were omitted rather than reported, and the most leakage-prone control rule was
+left to an unavailable caller. The density values are availability rules, not
+outcome thresholds, and remain changeable before lock only through an explicit
+supervisor decision made without signal outcomes.
+
+Fold-specific input contract: each contrast row must identify the held
+watercourse and held block under which its thresholds, event set, controls and
+quiet scaling were estimated. A single globally prepared contrast table is
+rejected by the transfer summariser.
+
+Episode rule clarified: the 72-hour merge is unbounded single-linkage. Save the
+last crossing, crossing count and total chain span so an episode extending well
+beyond 72 hours is visible rather than implicit.
+
+Source: `scripts/31_event_study_gates.py`, `src/event_study.py`,
+`docs/chapter-scope-and-preregistration.md`, fourth-pass review.
+
+## 2026-08-08 — Held LANUK archive does not establish the German cohort
+
+Decision: retain LANUK as source reconnaissance and a possible future
+transboundary route, not as a qualifying primary cohort. Do not reframe the
+chapter around NRW from the currently held files.
+
+Evidence: `scripts/32_lanuk_feasibility.py` evaluates four complete ten-year
+windows containing July 2021 plus the 2005–2024 RADOLAN-era window, using no
+weather, rainfall, CO2 or signal contrasts. Under the draft 80% overall/70%
+annual density rule and the fixed 20-episode requirement, the strongest window
+contains three passing gauges representing only two verified watercourses.
+Official station/HYGON metadata match 32 of 42 held gauges to 18 named
+watercourses, but natural/managed status remains unverified.
+
+Correction: official metadata assign `herzogenrath_2` to Broicher Bach and
+`honsdorf` to Beeckflies. The matched Wurm gauges are `herzogenrath_1` and
+`randerath`; neither has held observations during the July 2021 event window.
+Their archive terminations do not themselves provide onset-censoring bounds,
+and neither overlaps the later IoT era. The later complete-window events in the
+held LANUK files occur on Broicher Bach or Beeckflies and cannot be relabelled
+as Wurm recurrence.
+
+Unresolved source issue: verified-discharge files use irregular timestamps,
+while the available HYGON data-model note documents quarter-hour raw water
+level rather than the verified discharge omission convention. Until LANUK
+clarifies whether timestamps are observations, compressed changes or valid
+hold-forward steps, unreported hours remain missing in the audit.
+
+Source: `scripts/32_lanuk_feasibility.py`, `docs/lanuk-feasibility.md`, official
+OpenGeodata NRW hydrological station and HYGON metadata.
+
+## 2026-08-08 — Keep the Eryilmaz re-evaluation descriptive and calendar-honest
+
+Decision: retain the later-record indoor-versus-public comparison only as
+predecessor context. Define its expanding test folds on the full hourly
+calendar before complete-case filtering, report every fold's planned dates,
+coverage, positive count and longest outage, and do not report a mean AUROC gap.
+Remove the randomly shuffled hourly comparison.
+
+Reasoning: row-position folds had made a disconnected test set spanning a
+159-day sensor outage look contiguous, while randomly shuffled hours placed
+autocorrelated neighbours across train and test. Neither defect changes the
+prospective chapter estimand, but leaving them in the sole retained contextual
+analysis would invite an avoidable methodological objection.
+
+Source: `scripts/03_eryilmaz_replication.py`, `tests/test_eryilmaz.py`, fifth-pass
+review.

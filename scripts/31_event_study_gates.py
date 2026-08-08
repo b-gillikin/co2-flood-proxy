@@ -6,12 +6,13 @@ import argparse
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.event_study import cluster_regional_storms, episode_onsets
+from src.event_study import cluster_regional_storms, episode_onsets, episode_table
 
 FILES = {
     "original IoT": Path("data/interim/viefhues_iot.csv"),
@@ -25,11 +26,16 @@ FILES = {
     "public weather provenance": Path("data/interim/event_study_weather_sources.csv"),
 }
 OUTPUT_DIR = Path("results/event_study")
+JULY_2021_ANCHOR = pd.Timestamp("2021-07-15", tz="UTC")
+MIN_OVERALL_COVERAGE = 0.80
+MIN_ANNUAL_COVERAGE = 0.70
+MIN_DONOR_EVENT_AVAILABILITY = 0.80
 QA_COLUMNS = [
     "rating_curve_verified",
     "timezone_verified",
     "units_verified",
     "zero_sentinel_verified",
+    "sampling_semantics_verified",
 ]
 
 
@@ -80,6 +86,140 @@ def common_span(frame):
     end = min(end for _, end in bounds)
     years = max(0.0, (end - start + pd.Timedelta(hours=1)) / pd.Timedelta(days=365))
     return start, end, years
+
+
+def coverage_summary(frame, start, end):
+    """Summarise observed hours over one fixed common period."""
+    expected = pd.date_range(start, end, freq="h")
+    observed = frame.reindex(expected).notna()
+    overall = observed.mean()
+    annual_minimum = observed.groupby(observed.index.year).mean().min()
+    return pd.DataFrame(
+        {
+            "overall_coverage": overall,
+            "minimum_annual_coverage": annual_minimum,
+        }
+    )
+
+
+def coverage_passes(summary):
+    """Apply the draft density floor to every required series."""
+    if summary.empty:
+        return False
+    return bool(
+        summary.overall_coverage.ge(MIN_OVERALL_COVERAGE).all()
+        and summary.minimum_annual_coverage.ge(MIN_ANNUAL_COVERAGE).all()
+    )
+
+
+def contains_july_2021(start, end):
+    """Require the independently specified anchor inside the common period."""
+    return bool(start <= JULY_2021_ANCHOR <= end)
+
+
+def episode_feasibility(frame, start, end):
+    """Count p99 episodes and chaining only inside the comparable period."""
+    study = frame.loc[start:end]
+    counts = {}
+    chains = {}
+    event_rows = []
+    for gauge in study:
+        threshold = study[gauge].quantile(0.99)
+        episodes = episode_table(study[gauge], threshold, merge_hours=72)
+        counts[gauge] = len(episodes)
+        chains[gauge] = {
+            "maximum_crossings": int(episodes.n_crossings.max()) if len(episodes) else 0,
+            "maximum_span_hours": float(episodes.chain_span_hours.max()) if len(episodes) else 0.0,
+        }
+        event_rows.extend({"gauge": gauge, "onset_utc": onset} for onset in episodes.onset_utc)
+    return counts, chains, pd.DataFrame(event_rows, columns=["gauge", "onset_utc"])
+
+
+def nearest_donor_map(gauges):
+    """Choose one other-watercourse donor by great-circle distance only."""
+    coordinates = gauges.set_index("gauge")[["latitude", "longitude"]].astype(float)
+    radians = np.radians(coordinates)
+    donors = {}
+    for receiver, point in radians.iterrows():
+        latitude = radians.latitude - point.latitude
+        longitude = radians.longitude - point.longitude
+        a = (
+            np.sin(latitude / 2) ** 2
+            + np.cos(point.latitude) * np.cos(radians.latitude) * np.sin(longitude / 2) ** 2
+        )
+        distance = 2 * np.arcsin(np.sqrt(a.clip(0, 1)))
+        distance.loc[receiver] = np.inf
+        choices = pd.DataFrame(
+            {
+                "gauge": distance.index.astype(str).to_numpy(),
+                "distance": distance.to_numpy(),
+            }
+        )
+        donors[receiver] = choices.sort_values(["distance", "gauge"]).gauge.iloc[0]
+    return donors
+
+
+def donor_event_availability(discharge, events, gauges):
+    """Check the fixed donor level and gap-honest 12-hour change at each event."""
+    donors = nearest_donor_map(gauges)
+    rows = []
+    for receiver, donor in donors.items():
+        onsets = events.loc[events.gauge.eq(receiver), "onset_utc"]
+        complete = 0
+        for onset in onsets:
+            required = pd.date_range(
+                onset - pd.Timedelta(hours=13),
+                onset - pd.Timedelta(hours=1),
+                freq="h",
+            )
+            complete += int(discharge[donor].reindex(required).notna().all())
+        rows.append(
+            {
+                "receiver_gauge": receiver,
+                "donor_gauge": donor,
+                "n_receiver_events": len(onsets),
+                "n_donor_complete": complete,
+                "availability": complete / len(onsets) if len(onsets) else 0.0,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def validate_catchments(path, watercourses):
+    """Open the GeoPackage and verify the polygons used for spatial rainfall."""
+    try:
+        import geopandas as gpd
+    except ImportError:
+        return False, "geopandas is not installed"
+
+    try:
+        frame = gpd.read_file(path)
+    except Exception as error:  # pragma: no cover - backend messages vary
+        return False, f"could not read GeoPackage: {error}"
+
+    required = set(map(str, watercourses))
+    if "watercourse" not in frame:
+        return False, "missing watercourse field"
+    names = frame.watercourse.astype(str)
+    geometries = frame.geometry
+    projected = frame.crs is not None and bool(frame.crs.is_projected)
+    polygonal = geometries.geom_type.isin({"Polygon", "MultiPolygon"}).all()
+    valid = (
+        not frame.empty
+        and names.is_unique
+        and set(names) == required
+        and geometries.notna().all()
+        and not geometries.is_empty.any()
+        and geometries.is_valid.all()
+        and polygonal
+        and projected
+        and geometries.area.gt(0).all()
+    )
+    observed = (
+        f"{len(frame)} polygons; CRS={frame.crs}; "
+        f"matched={len(required & set(names))}/{len(required)}; valid={bool(valid)}"
+    )
+    return bool(valid), observed
 
 
 def read_long_weather(path):
@@ -290,14 +430,15 @@ def audit():
         if "pairing_rationale" in primary
         else pd.Series(False, index=primary.index)
     )
+    valid_pair = worm | (paired & rationale)
     add(
         rows,
         "Kerkrade hydrological pair",
-        worm.any() or (paired & rationale).any(),
-        primary.loc[worm | paired, "watercourse"].tolist(),
+        valid_pair.any(),
+        primary.loc[valid_pair, "watercourse"].tolist(),
         "Worm/Wurm or flagged pair with rationale",
     )
-    pair_rows = primary.loc[worm | paired]
+    pair_rows = primary.loc[valid_pair]
     lower = pd.to_datetime(pair_rows.july_2021_onset_lower_utc, utc=True, errors="coerce")
     upper = pd.to_datetime(pair_rows.july_2021_onset_upper_utc, utc=True, errors="coerce")
     interval_ok = ((lower.notna()) & (upper.notna()) & lower.le(upper)).any()
@@ -351,40 +492,15 @@ def audit():
     if pd.isna(discharge_start) or pd.isna(discharge_end):
         return pd.DataFrame(rows)
 
-    episode_counts = {}
-    event_rows = []
-    for gauge in gauge_names:
-        onsets = episode_onsets(discharge[gauge], discharge[gauge].quantile(0.99), merge_hours=72)
-        episode_counts[gauge] = len(onsets)
-        event_rows.extend({"gauge": gauge, "onset_utc": onset} for onset in onsets)
-    minimum_episodes = min(episode_counts.values(), default=0)
-    add(rows, "p99 episodes per watercourse", minimum_episodes >= 20, episode_counts, ">=20 each")
-    storms = cluster_regional_storms(pd.DataFrame(event_rows, columns=["gauge", "onset_utc"]))
-    n_storms = storms.storm_id.nunique() if not storms.empty else 0
-    add(rows, "Independent regional storms", n_storms >= 40, n_storms, ">=40")
-
-    preferred_pair = primary.loc[paired]
-    if preferred_pair.empty:
-        preferred_pair = primary.loc[worm]
-    complete_later_events = 0
-    if not preferred_pair.empty:
-        pair_gauge = str(preferred_pair.sort_values("gauge").gauge.iloc[0])
-        pair_onsets = episode_onsets(
-            discharge[pair_gauge],
-            discharge[pair_gauge].quantile(0.99),
-            merge_hours=72,
-        )
-        complete_later_events = complete_precursor_events(
-            pair_onsets,
-            later_iot,
-            ["iot_co2_ppm", "iot_air_pressure_hpa"],
-        )
+    catchments_ok, catchments_observed = validate_catchments(
+        FILES["catchment polygons"], primary.watercourse.astype(str)
+    )
     add(
         rows,
-        "Later exact-onset Kerkrade events",
-        complete_later_events >= 3,
-        complete_later_events,
-        ">=3 events with complete -72 to -1 h CO2 and pressure",
+        "Catchment polygon contents",
+        catchments_ok,
+        catchments_observed,
+        "one unique, valid, non-empty projected polygon per primary watercourse",
     )
 
     radolan, radolan_axis = read_hourly(FILES["RADOLAN catchment rainfall"])
@@ -515,6 +631,109 @@ def audit():
         (joint_end - joint_start + pd.Timedelta(hours=1)) / pd.Timedelta(days=365),
     )
     add(rows, "Joint analysis span", joint_years >= 10, f"{joint_years:.2f} years", ">=10 years")
+    includes_anchor = contains_july_2021(joint_start, joint_end)
+    add(
+        rows,
+        "July 2021 in joint span",
+        includes_anchor,
+        f"{joint_start} to {joint_end}",
+        f"contains {JULY_2021_ANCHOR}",
+    )
+    if joint_years < 10 or not includes_anchor:
+        return pd.DataFrame(rows)
+
+    discharge_coverage = coverage_summary(discharge[gauge_names], joint_start, joint_end)
+    add(
+        rows,
+        "Discharge observation density",
+        coverage_passes(discharge_coverage),
+        discharge_coverage.round(3).to_dict(orient="index"),
+        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
+        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+    )
+    radolan_coverage = coverage_summary(radolan[watercourses], joint_start, joint_end)
+    add(
+        rows,
+        "RADOLAN observation density",
+        coverage_passes(radolan_coverage),
+        radolan_coverage.round(3).to_dict(orient="index"),
+        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
+        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+    )
+    weather_coverage = coverage_summary(selected_weather, joint_start, joint_end)
+    weather_coverage.index = [" / ".join(map(str, column)) for column in weather_coverage.index]
+    add(
+        rows,
+        "Public weather observation density",
+        coverage_passes(weather_coverage),
+        weather_coverage.round(3).to_dict(orient="index"),
+        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
+        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+    )
+
+    episode_counts, chain_diagnostics, event_rows = episode_feasibility(
+        discharge[gauge_names], joint_start, joint_end
+    )
+    minimum_episodes = min(episode_counts.values(), default=0)
+    add(
+        rows,
+        "p99 episodes per watercourse",
+        minimum_episodes >= 20,
+        episode_counts,
+        ">=20 each within the joint analysis span",
+    )
+    add(
+        rows,
+        "Episode single-linkage diagnostics",
+        True,
+        chain_diagnostics,
+        "reported for every primary gauge",
+    )
+    storms = cluster_regional_storms(event_rows)
+    n_storms = storms.storm_id.nunique() if not storms.empty else 0
+    add(
+        rows,
+        "Independent regional storms",
+        n_storms >= 40,
+        n_storms,
+        ">=40 within the joint analysis span",
+    )
+    donor_availability = donor_event_availability(
+        discharge.loc[joint_start:joint_end, gauge_names], event_rows, primary
+    )
+    donor_ok = (
+        not donor_availability.empty
+        and donor_availability.availability.ge(MIN_DONOR_EVENT_AVAILABILITY).all()
+    )
+    add(
+        rows,
+        "Nearest-donor event availability",
+        donor_ok,
+        donor_availability.round({"availability": 3}).to_dict(orient="records"),
+        f">={MIN_DONOR_EVENT_AVAILABILITY:.0%} of receiver events have donor level and "
+        "a complete -13 to -1 h donor window",
+    )
+
+    later_event_counts = {}
+    for pair_gauge in pair_rows.gauge.astype(str):
+        pair_onsets = episode_onsets(
+            discharge[pair_gauge],
+            discharge[pair_gauge].quantile(0.99),
+            merge_hours=72,
+        )
+        later_event_counts[pair_gauge] = complete_precursor_events(
+            pair_onsets,
+            later_iot,
+            ["iot_co2_ppm", "iot_air_pressure_hpa"],
+        )
+    complete_later_events = max(later_event_counts.values(), default=0)
+    add(
+        rows,
+        "Later exact-onset Kerkrade events",
+        complete_later_events >= 3,
+        later_event_counts,
+        ">=3 events at one valid pair gauge with complete -72 to -1 h CO2 and pressure",
+    )
     return pd.DataFrame(rows)
 
 

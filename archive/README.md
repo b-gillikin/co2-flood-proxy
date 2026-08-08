@@ -20,6 +20,11 @@ catchment-similarity code, the three-gauge soft-label event catalogue, the
 full-period barometric baseline and the unreproducible later-record precursor
 script.
 
+On 2026-08-08, ignored outputs left behind by the retired baseline, precursor,
+soft-label and hourly-classifier lanes were moved to
+`results/retired_2026_08_08/`. They remain recoverable here but have no live
+writer and are not prospective event-study results.
+
 The reasons and numerical history are preserved in `docs/decisions.md`. The
 live design is `docs/chapter-synthesis.md`; the live file inventory is
 `docs/analysis-inventory.md`. Ruff intentionally excludes this directory.

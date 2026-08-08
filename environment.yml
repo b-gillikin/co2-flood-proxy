@@ -9,6 +9,9 @@ dependencies:
   - pyarrow
   - xarray
   - netcdf4
+  - geopandas
+  - pyproj
+  - rasterio
   - matplotlib
   - scikit-learn
   - requests

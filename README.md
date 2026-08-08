@@ -22,8 +22,14 @@ and the outcome analysis has not been run.
 | `docs/chapter-scope-and-preregistration.md` | draft estimator protocol; lock only after gates and supervisor approval |
 | `docs/analysis-inventory.md` | prospective, secondary and stopped analyses |
 | `docs/data-requests.md` | exact blockers and delivery contracts |
+| `docs/lanuk-feasibility.md` | reproducible decision on the held German gauge route |
+| `docs/supervisor-decision-memo.md` | unresolved approvals, evidence and recommendations |
+| `docs/external-request-drafts.md` | messages ready for the student to personalise and send |
 | `docs/predecessor-notes.md` | Viefhues and Eryilmaz source notes |
 | `docs/HANDOFF.md` | session state only |
+
+`chapter-prework/` contains historical source material and earlier scaffolds;
+its README marks their status. None is a live chapter draft.
 
 The intended sequence is Viefhues MSc -> Eryilmaz paper -> this chapter:
 single-event observation -> same-site public-signal explanation -> recurrence
@@ -40,6 +46,17 @@ python scripts/31_event_study_gates.py --report-only
 `--report-only` writes `results/event_study/gate_audit.{csv,md}` while allowing
 the known failure. Omit it for the binding gate: a failed audit exits nonzero.
 Do not point the audit at the rolling two-year files.
+
+The separate LANUK source audit is safe to rerun before protocol lock because
+it uses discharge availability and metadata only:
+
+```bash
+python scripts/32_lanuk_feasibility.py
+```
+
+It writes tidy QA tables under `results/feasibility/` and regenerates
+`docs/lanuk-feasibility.md`. It does not calculate public-signal or CO2
+contrasts.
 
 ## Existing predecessor check
 
@@ -65,6 +82,7 @@ ruff format --check .
 ## Conventions
 
 - Hourly UTC; missing hours remain missing and crossings never bridge gaps.
+- Joint-period density is audited; endpoint span cannot substitute for observed hours.
 - One pre-declared representative per natural watercourse.
 - RADOLAN catchment averages are primary; point rainfall is sensitivity only.
 - Receiver flow defines high-water onset and is not a candidate signal.

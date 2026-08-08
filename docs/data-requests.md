@@ -1,6 +1,6 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-07. These are hard inputs for the prospective event study, not
+Status: 2026-08-08. These are hard inputs for the prospective event study, not
 optional extensions to the current hourly analysis.
 
 ## Current gate state
@@ -9,12 +9,12 @@ optional extensions to the current hourly analysis.
 | --- | --- | --- |
 | original Kerkrade IoT | Aug 2020–Sep 2021 CO2 and pressure plus device/calibration/ABC metadata | absent; not yet requested |
 | sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
-| tributary discharge | >=10 natural watercourses, >=10 common years hourly, >=20 p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 |
+| tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 and held LANUK does not pass |
 | Kerkrade pair | Worm/Wurm or documented hydrological pair in the long cohort | not established in a qualifying common record |
-| later Kerkrade recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | not evaluated until the long pair series is received |
+| later Kerkrade recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap; a qualifying pair series is still needed |
 | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
 | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | source/assignment not selected |
-| gauge QA | coordinates, rating curves, timezone, units, zero sentinels and July 2021 status/bounds | incomplete |
+| gauge QA | coordinates, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status/bounds | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
 audit. If these inputs do not pass, the chapter returns to the supervisor. The
@@ -71,10 +71,12 @@ Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
    10-watercourse common cohort.
 2. Gauge identifiers, coordinates, watercourse names and relocations.
 3. Units, timezone/DST convention, missing and zero-sentinel codes.
-4. Validation flags and rating-curve periods, especially revisions after 2021.
-5. Explicit July 2021 failure/damage status and the interval over which each
+4. Native sampling convention, including whether absent timestamps are missing
+   or imply a valid hold-forward interval.
+5. Validation flags and rating-curve periods, especially revisions after 2021.
+6. Explicit July 2021 failure/damage status and the interval over which each
    gauge is considered unreliable.
-6. Current and historical Fase thresholds at exact crisis-plan leading gauges
+7. Current and historical Fase thresholds at exact crisis-plan leading gauges
    for sensitivity analysis only.
 
 Academic-release precedent: Tsakiris et al. (HESS, 2024) report that Waterschap
@@ -86,8 +88,12 @@ Alternative routes, in order:
 1. the HESS 2024 authors for the cleaned Meerssen series and quality notes;
 2. JCAR ATRACE (`info@jcar-atrace.eu`; programme manager Kymo Slager), which is
    assembling transboundary Geul/Roer evidence after the 2021 flood;
-3. LANUK NRW for German Wurm/Rur/Niers/Schwalm gauges, already verified at
-   15-minute resolution with records extending to 1950;
+3. LANUK NRW clarification or replacement exports. The held verified-discharge
+   archive contains irregular timestamps and fails the draft density/episode
+   gate after deduplication by officially matched watercourse. The public
+   metadata also show that `herzogenrath_2` and `honsdorf` are on Broicher Bach
+   and Beeckflies, not the Wurm; the two held Wurm gauges do not overlap the
+   later IoT era. See `lanuk-feasibility.md`;
 4. RWS Waterwebservices for main-stem source validation, not as a substitute
    for the tributary population.
 
@@ -102,7 +108,7 @@ On receipt, inspect the native files before writing an ingest. Then produce:
 - `data/interim/event_study_gauges.csv` with at least `gauge`, `watercourse`,
   `latitude`, `longitude`, `include_primary`, `natural_tributary`,
   `rating_curve_verified`, `timezone_verified`, `units_verified`,
-  `zero_sentinel_verified`, `july_2021_status`,
+  `zero_sentinel_verified`, `sampling_semantics_verified`, `july_2021_status`,
   `july_2021_onset_lower_utc` and `july_2021_onset_upper_utc`.
 
 If Worm/Wurm is unavailable, add `kerkrade_pair` and `pairing_rationale`; the
@@ -211,3 +217,6 @@ correspondence; record a checksum; inspect units/timezone/sentinels before
 aggregation; and update this file plus the append-only `decisions.md`. Passing
 the executable gate still requires supervisor approval before the protocol is
 locked.
+
+Ready-to-personalise messages are in `external-request-drafts.md`. They have
+not been sent by this repository work.

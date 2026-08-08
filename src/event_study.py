@@ -11,22 +11,48 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 
-def episode_onsets(series, threshold, merge_hours=72):
-    """Find observed upward crossings and merge consecutive re-crossings."""
+def episode_table(series, threshold, merge_hours=72):
+    """Describe observed upward crossings joined by the fixed single-linkage rule."""
     previous = series.shift(1)
     crossing = series.gt(threshold) & previous.le(threshold)
     onsets = series.index[crossing & series.notna() & previous.notna()]
-    if len(onsets) < 2:
-        return pd.DatetimeIndex(onsets)
+    columns = ["onset_utc", "last_crossing_utc", "n_crossings", "chain_span_hours"]
+    if not len(onsets):
+        return pd.DataFrame(columns=columns)
 
-    keep = [onsets[0]]
-    previous_onset = onsets[0]
+    rows = []
+    first = previous_onset = onsets[0]
+    n_crossings = 1
     gap = pd.Timedelta(hours=merge_hours)
     for onset in onsets[1:]:
         if onset - previous_onset > gap:
-            keep.append(onset)
+            rows.append(
+                {
+                    "onset_utc": first,
+                    "last_crossing_utc": previous_onset,
+                    "n_crossings": n_crossings,
+                    "chain_span_hours": (previous_onset - first) / pd.Timedelta(hours=1),
+                }
+            )
+            first = onset
+            n_crossings = 0
+        n_crossings += 1
         previous_onset = onset
-    return pd.DatetimeIndex(keep)
+    rows.append(
+        {
+            "onset_utc": first,
+            "last_crossing_utc": previous_onset,
+            "n_crossings": n_crossings,
+            "chain_span_hours": (previous_onset - first) / pd.Timedelta(hours=1),
+        }
+    )
+    return pd.DataFrame(rows, columns=columns)
+
+
+def episode_onsets(series, threshold, merge_hours=72):
+    """Return episode starts while preserving gap-honest crossing detection."""
+    episodes = episode_table(series, threshold, merge_hours)
+    return pd.DatetimeIndex(episodes.onset_utc)
 
 
 def cluster_regional_storms(events, onset_col="onset_utc", max_gap_hours=72):
@@ -55,7 +81,9 @@ def quiet_control_times(
     receiver_exceedances,
     regional_storms,
     available=None,
+    heldout_block=None,
     n_controls=5,
+    minimum_controls=3,
     exclusion_days=7,
 ):
     """Choose deterministic season/hour-matched times away from high water.
@@ -65,6 +93,13 @@ def quiet_control_times(
     """
     index = pd.DatetimeIndex(index).sort_values().unique()
     candidates = index[(index.month == event_time.month) & (index.hour == event_time.hour)]
+    if heldout_block is not None:
+        block_start, block_end = map(pd.Timestamp, heldout_block)
+        if block_start >= block_end:
+            raise ValueError("Held-out block start must precede its end")
+        inside = (candidates >= block_start) & (candidates < block_end)
+        event_is_heldout = block_start <= event_time < block_end
+        candidates = candidates[inside if event_is_heldout else ~inside]
     if available is not None:
         valid = pd.Series(available, index=getattr(available, "index", index))
         is_available = valid.reindex(candidates).fillna(False).astype(bool)
@@ -80,7 +115,8 @@ def quiet_control_times(
 
     candidates = candidates[candidates != event_time]
     order = sorted(candidates, key=lambda time: (abs(time - event_time), time))
-    return pd.DatetimeIndex(order[:n_controls])
+    selected = pd.DatetimeIndex(order[:n_controls])
+    return selected if len(selected) >= minimum_controls else pd.DatetimeIndex([])
 
 
 def robust_standardize(values, reference):
@@ -98,56 +134,95 @@ def robust_standardize(values, reference):
 
 def heldout_signal_transfer(
     contrasts,
+    fold_watercourse_col="fold_heldout_watercourse",
+    fold_block_col="fold_heldout_time_block",
     watercourse_col="watercourse",
     block_col="time_block",
     signal_col="signal",
     value_col="contrast",
+    watercourses=None,
+    time_blocks=None,
+    signals=None,
+    minimum_heldout_events=3,
 ):
-    """Compare each held-out contrast with a direction learned elsewhere.
+    """Summarise contrasts that were estimated separately inside each fold.
 
-    For each watercourse-by-period test fold, the expected direction is the
-    median of reference-watercourse medians. The reference excludes the held-out
-    watercourse and every event in the held-out period.
+    The input carries the fold that produced each contrast. This prevents a
+    globally thresholded or scaled contrast table from entering a protocol that
+    requires fold-specific events, controls and standardisation.
     """
-    required = {watercourse_col, block_col, signal_col, value_col}
+    required = {
+        fold_watercourse_col,
+        fold_block_col,
+        watercourse_col,
+        block_col,
+        signal_col,
+        value_col,
+    }
     missing = required - set(contrasts)
     if missing:
         raise ValueError(f"Missing contrast columns: {sorted(missing)}")
 
-    frame = contrasts.dropna(subset=[value_col]).copy()
+    frame = contrasts.copy()
+    watercourses = sorted(
+        frame[fold_watercourse_col].dropna().unique() if watercourses is None else watercourses
+    )
+    time_blocks = sorted(
+        frame[fold_block_col].dropna().unique() if time_blocks is None else time_blocks
+    )
+    signals = sorted(frame[signal_col].dropna().unique() if signals is None else signals)
+    observed = frame.dropna(subset=[value_col])
     rows = []
-    for receiver in sorted(frame[watercourse_col].unique()):
-        for block in sorted(frame[block_col].unique()):
-            held = frame[frame[watercourse_col].eq(receiver) & frame[block_col].eq(block)]
-            reference = frame[frame[watercourse_col].ne(receiver) & frame[block_col].ne(block)]
-            for signal in sorted(held[signal_col].unique()):
+    for receiver in watercourses:
+        for block in time_blocks:
+            fold = observed[
+                observed[fold_watercourse_col].eq(receiver) & observed[fold_block_col].eq(block)
+            ]
+            held = fold[fold[watercourse_col].eq(receiver) & fold[block_col].eq(block)]
+            reference = fold[fold[watercourse_col].ne(receiver) & fold[block_col].ne(block)]
+            for signal in signals:
                 held_signal = held[held[signal_col].eq(signal)]
                 reference_signal = reference[reference[signal_col].eq(signal)]
                 reference_watercourses = reference_signal.groupby(watercourse_col)[
                     value_col
                 ].median()
-                if held_signal.empty or reference_watercourses.empty:
-                    continue
+                n_heldout = len(held_signal)
+                fold_eligible = n_heldout >= minimum_heldout_events
+                if held_signal.empty:
+                    status = "no_heldout_events"
+                elif not fold_eligible:
+                    status = "sparse_heldout_events"
+                elif reference_watercourses.empty:
+                    status = "no_reference_events"
+                else:
+                    status = "eligible"
 
-                expected = reference_watercourses.median()
-                observed = held_signal[value_col].median()
-                expected_sign = int(np.sign(expected))
-                observed_sign = int(np.sign(observed))
-                concordant = pd.NA if expected_sign == 0 else observed_sign == expected_sign
+                expected = (
+                    reference_watercourses.median() if len(reference_watercourses) else np.nan
+                )
+                heldout = held_signal[value_col].median() if n_heldout else np.nan
+                expected_sign = int(np.sign(expected)) if np.isfinite(expected) else pd.NA
+                heldout_sign = int(np.sign(heldout)) if np.isfinite(heldout) else pd.NA
+                concordant = pd.NA
+                if not pd.isna(expected_sign) and not pd.isna(heldout_sign):
+                    concordant = pd.NA if expected_sign == 0 else heldout_sign == expected_sign
                 rows.append(
                     {
                         "heldout_watercourse": receiver,
                         "heldout_time_block": block,
                         "signal": signal,
                         "reference_network_median": expected,
-                        "heldout_median": observed,
+                        "heldout_median": heldout,
                         "expected_sign": expected_sign,
-                        "heldout_sign": observed_sign,
+                        "heldout_sign": heldout_sign,
                         "sign_concordant": concordant,
-                        "magnitude_difference": observed - expected,
+                        "magnitude_difference": heldout - expected,
                         "n_reference_watercourses": len(reference_watercourses),
                         "n_reference_events": len(reference_signal),
-                        "n_heldout_events": len(held_signal),
+                        "n_heldout_events": n_heldout,
+                        "minimum_heldout_events": minimum_heldout_events,
+                        "fold_eligible": fold_eligible and len(reference_watercourses) > 0,
+                        "fold_status": status,
                     }
                 )
     return pd.DataFrame(rows)
