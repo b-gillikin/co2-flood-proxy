@@ -143,8 +143,8 @@ rationale must be hydrological and agreed before outcome inspection.
 
 ## 3. Long public weather — approved source, acquisition in progress
 
-Status: **ERA5-Land approved as primary; KNMI sensitivity acquired; ERA5-Land
-download awaits the user's CDS token**.
+Status: **ERA5-Land approved as primary and being acquired; KNMI sensitivity
+acquired**.
 
 Temperature, relative humidity and pressure are fixed primary signals.
 ERA5-Land was chosen before event contrasts because it supplies one consistent
@@ -155,11 +155,13 @@ assign the nearest grid cell to each catchment centroid, document shared cells
 and derive relative humidity from temperature and dew point using one fixed
 formula.
 
-`scripts/34_fetch_era5_land.py` makes annual NetCDF requests over the fixed
-bounding box and writes source hashes. It currently stops before submission
-because `~/.cdsapirc` is absent. The user must log into the Copernicus Climate
-Data Store, accept the ERA5-Land licence and install the two displayed
-credential lines. No outcome inspection is involved.
+`scripts/34_fetch_era5_land.py` requests monthly files over the fixed bounding
+box, validates timestamps, variables, units and missing cells, and writes
+source hashes. Full-year requests exceed the CDS 12,000-field limit. A valid
+five-hour annual block was benchmarked but took 16 minutes versus roughly four
+minutes for a full-day month, so the restart-safe monthly partition is retained
+for the overnight acquisition. The CDS credential and licence are verified and
+acquisition is in progress. No outcome inspection is involved.
 
 Validated KNMI hourly archives for Maastricht, Ell and Arcen have been acquired
 for 2001–2025 with `scripts/35_ingest_knmi_validated.py`. Temperature and

@@ -10,7 +10,8 @@ Prospective research question:
 > recur as a local manifestation of that regional state?
 
 Status: **data-gated; no new chapter result exists**. The primary ERA5-Land
-source has been approved, but its CDS download awaits local credentials. A
+source has been approved and its fixed 2001–2025 CDS extract is being acquired.
+A
 validated 2001–2025 KNMI station table is held for observational sensitivity;
 neither file is an event-study result. The repository still lacks the other
 contracted regional inputs. A newly delivered

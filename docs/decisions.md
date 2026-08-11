@@ -1215,3 +1215,23 @@ have been acquired; validated pressure is available only at Maastricht.
 Source: student-reported supervisor approval; Copernicus ERA5-Land dataset DOI
 `10.24381/cds.e2161bac`; KNMI validated hourly archive;
 `scripts/34_fetch_era5_land.py`; `scripts/35_ingest_knmi_validated.py`.
+
+## 2026-08-10 — Acquire ERA5-Land in restart-safe monthly files
+
+Decision: after the user installed the CDS credential and accepted the
+ERA5-Land licence, acquire the fixed 2001–2025 extract as complete monthly
+NetCDF files. Validate every file's timestamps, variables, units and missing
+cells, then hash the full archive. Retain the rectangular source grid until the
+watercourse cohort and catchment centroids are verified.
+
+Reasoning: a full-year request exceeds the CDS 12,000-field limit. A valid
+five-hour annual block used 11,160 fields but required 16 minutes, compared
+with roughly four minutes for a complete monthly request. The account permits
+only one concurrent MARS extraction, so parallel local processes do not shorten
+the queue. Monthly files are simpler, faster per field in the observed trial
+and provide finer restart checkpoints. No event outcome is used by the pull or
+its validation.
+
+Source: CDS API cost/status responses observed on 2026-08-10;
+`scripts/34_fetch_era5_land.py`; user confirmation that the licence was
+accepted.

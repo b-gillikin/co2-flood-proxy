@@ -14,7 +14,7 @@ available.
 | `31_event_study_gates.py` | audits the binding regional core and all-donor spatial support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
 | `33_ingest_viefhues_iot.py` | normalises the source-native non-ABC K4 record and records coverage/ceiling QC | implemented; all 744 July hours present |
-| `34_fetch_era5_land.py` | downloads the approved 2001–2025 primary-weather grid and hashes annual NetCDF files | implemented; blocked before submission by missing local CDS credentials |
+| `34_fetch_era5_land.py` | downloads and validates the approved 2001–2025 primary-weather grid and hashes its monthly NetCDF files | implemented; CDS credentials/licence verified and acquisition in progress |
 | `35_ingest_knmi_validated.py` | downloads and normalises validated Maastricht/Ell/Arcen hourly weather for observational sensitivity | implemented; 655,221 station-hours held |
 | `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
 | long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
@@ -23,7 +23,7 @@ available.
 | July 2021 regional anchor | observed regional trajectory inside the common study period | not run; core inputs fail |
 | conditional Kerkrade case | Viefhues trajectory and later pressure-adjusted CO2 recurrence | July K4 is reproducible; era metadata, pair, bounds and later-event support remain incomplete |
 | RADOLAN catchment rainfall | principal rainfall exposure | not built; radar/polygon gate fails |
-| long public-weather assignment | temperature, humidity and pressure for each watercourse | source/rule not selected; gate fails |
+| long public-weather assignment | temperature, humidity and pressure for each watercourse | primary source/rule fixed; raw grid acquisition in progress and catchment assignment not yet possible; gate fails |
 
 No figure or outcome table from this prospective design exists. The protocol is
 not locked.

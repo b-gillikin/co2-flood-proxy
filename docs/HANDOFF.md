@@ -46,12 +46,15 @@ freeze a supervisor decision. The protocol remains unlocked.
 
 ## Weather acquisition
 
-- `scripts/34_fetch_era5_land.py` is ready to download annual 2001–2025
+- `scripts/34_fetch_era5_land.py` downloads monthly files for 2001–2025
   temperature, dew point and surface-pressure grids over 50.5–52.0° N and
   5.0–6.7° E and hash them. `cdsapi` is installed in the named environment.
-- The ERA5-Land request has **not submitted** because `~/.cdsapirc` is absent.
-  The user must log into CDS, accept the ERA5-Land licence and install the two
-  credential lines; then rerun the script.
+- The CDS credential and ERA5-Land licence are verified. Full-day annual
+  requests exceed the 12,000-field limit. A five-hour annual-block benchmark
+  passed but was slower per field than the monthly requests, so acquisition is
+  proceeding in restart-safe monthly files. Six validated monthly files are
+  currently held locally; the 2001 annual-block benchmark is not part of the
+  final source manifest.
 - `scripts/35_ingest_knmi_validated.py` downloaded and hashed nine official
   decade ZIPs and wrote a 655,221-row 2001–2025 Maastricht/Ell/Arcen table.
   Temperature/humidity are effectively complete; validated pressure exists
@@ -98,11 +101,10 @@ inspect prospective signal contrasts.
 
 The student's immediate actions are:
 
-1. install the two CDS credential lines and accept the ERA5-Land licence;
-2. obtain the supervisor's remaining floor/occupancy decisions after the
+1. obtain the supervisor's remaining floor/occupancy decisions after the
    explanations in `supervisor-decision-memo.md`;
-3. wait for the already-sent Waterschap, LANUK and Viefhues replies; and
-4. return correspondence and native attachments unchanged.
+2. wait for the already-sent Waterschap, LANUK and Viefhues replies; and
+3. return correspondence and native attachments unchanged.
 
 ## Agent work after the student returns
 

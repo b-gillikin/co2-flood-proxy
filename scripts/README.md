@@ -56,9 +56,11 @@ python scripts/34_fetch_era5_land.py
 ```
 
 This requires a Copernicus CDS account, accepted ERA5-Land licence and the two
-credential lines in `~/.cdsapirc`. The script retrieves annual NetCDF files for
-2001–2025 and writes a checksum manifest. Catchment-centroid assignment and
-relative-humidity derivation wait for the verified cohort; no outcome is read.
+credential lines in `~/.cdsapirc`. The script retrieves monthly NetCDF files
+for 2001–2025, validates them and writes a checksum manifest. Monthly requests
+stay below the CDS field limit and were faster per field than a tested annual
+hour-block split. Catchment-centroid assignment and relative-humidity
+derivation wait for the verified cohort; no outcome is read.
 
 The BRO groundwater fetch/normalisation code is archived because groundwater is
 now optional mechanism evidence, not a live analytical lane. The already-held
