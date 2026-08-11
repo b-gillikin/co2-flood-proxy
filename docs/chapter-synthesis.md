@@ -1,6 +1,6 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no new chapter result exists** (2026-08-08). This is the
+Status: **data-gated; no new chapter result exists** (2026-08-10). This is the
 canonical description of the proposed chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md`; current session state belongs in
 `HANDOFF.md`.
@@ -79,6 +79,12 @@ six-hour change; and flow relative to the donor's reference-period p99 plus its
 own event. Spatial contrasts use every other eligible watercourse; no donor is
 selected from its outcome or apparent fit.
 
+ERA5-Land is the approved primary weather source. The fixed acquisition period
+is 2001–2025; after the cohort is fixed, each watercourse receives the grid cell
+nearest its verified catchment centroid. Validated Maastricht, Ell and Arcen
+KNMI hourly observations over the same period are the observational
+sensitivity. Visual Crossing remains predecessor context only.
+
 If its separate gate passes, Kerkrade adds raw CO2, pressure-adjusted CO2 and,
 where available, groundwater level/change. Pressure baselines are fitted
 separately for the documented 2020–2021 and 2025–2026 sensor eras, on quiet
@@ -106,8 +112,8 @@ core gates pass:
   discharge, at least 20 joint-period p99 episodes each and at least 40
   regional storms;
 - hourly 1-km RADOLAN rainfall averaged over verified catchment polygons;
-- at least 10 common years of temperature, humidity and pressure assigned to
-  each watercourse by a source/rule fixed before outcome inspection;
+- at least 10 common years of ERA5-Land temperature, humidity and pressure
+  assigned to each watercourse by the fixed centroid-cell rule;
 - at least 80% hourly coverage overall and 70% in every calendar year for each
   primary series over a joint period containing July 2021;
 - documented rating-curve changes, sampling semantics, timezones, units, zero
@@ -116,6 +122,12 @@ core gates pass:
   receiver-event/donor combinations overall and at least 70% within every
   receiver and empirical distance third.
 
+These numerical floors are still provisional. They are author-chosen
+minimum-information safeguards, not accepted hydrological standards. The
+supervisor has asked for their provenance. Before any signal contrast is read,
+a blinded availability audit will show the consequences of 70%, 80% and 90%
+coverage rules and the supervisor will freeze the final choice.
+
 The optional Kerkrade case has its own gate: source-native CO2 and pressure
 throughout July 2021 plus adequate quiet calibration hours and
 device/calibration/ABC metadata; Worm/Wurm or a documented hydrological pair;
@@ -123,9 +135,10 @@ independently supported July 2021 bounds; and at least three later exact-onset
 pair events with complete CO2 and pressure over the primary window. Failure
 means **case not available**, not core chapter failure and not a CO2 null.
 
-The executable audit is `scripts/31_event_study_gates.py`. On 2026-08-08 it
-reports the regional core as failed because all six contracted network inputs
-are absent. A Viefhues source package has since been delivered locally and
+The executable audit is `scripts/31_event_study_gates.py`. It still reports the
+regional core as failed. ERA5-Land is approved but its source pull awaits the
+user's CDS credential; the other binding regional tables are absent. A
+Viefhues source package has been delivered locally and
 contains a cleaned August 2020–September 2021 table, raw May–September 2021 IoT
 files and ABC-processing code. Its source-native K4 record is now normalised
 and has all 744 July hours, but the pre-May lineage, sensor-era metadata,

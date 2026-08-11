@@ -9,11 +9,13 @@ available.
 
 | component | role | current state |
 | --- | --- | --- |
-| literature source notes, evidence matrix and bibliography | verified source-level corpus for the student-authored literature review | ready; 40 sources and 94 question/source relationships; no aggregate synthesis |
+| literature source notes, evidence matrix and bibliography | verified source-level corpus for the student-authored literature review | ready; 43 sources and 97 question/source relationships; no aggregate synthesis |
 | Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | incorporated in the canonical literature corpus; original PDFs retained |
 | `31_event_study_gates.py` | audits the binding regional core and all-donor spatial support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
 | `33_ingest_viefhues_iot.py` | normalises the source-native non-ABC K4 record and records coverage/ceiling QC | implemented; all 744 July hours present |
+| `34_fetch_era5_land.py` | downloads the approved 2001–2025 primary-weather grid and hashes annual NetCDF files | implemented; blocked before submission by missing local CDS credentials |
+| `35_ingest_knmi_validated.py` | downloads and normalises validated Maastricht/Ell/Arcen hourly weather for observational sensitivity | implemented; 655,221 station-hours held |
 | `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
 | long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
 | matched local contrasts | establishes which fixed signals recur before receiver high water | not run or fully implemented |

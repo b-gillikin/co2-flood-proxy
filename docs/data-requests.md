@@ -1,6 +1,6 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-08. Core network deliveries are binding for the regional event
+Status: 2026-08-10. Core network deliveries are binding for the regional event
 study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 
 ## Current gate state
@@ -13,7 +13,7 @@ study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 | Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
 | Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
 | core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
-| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | source/assignment not selected |
+| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | ERA5-Land approved; pull blocked only by missing local CDS credentials; KNMI sensitivity held |
 | core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
@@ -25,7 +25,7 @@ core fallback.
 ## 1. Original Viefhues IoT package — conditional Kerkrade case
 
 Status: **source package audited; July K4 normalised; targeted metadata
-follow-up pending**.
+follow-up sent and awaiting reply**.
 
 The delivered folder contains the thesis, presentation, analysis code, a
 cleaned table spanning 2020-08-25 to 2021-09-24 and raw Kerkrade CSVs. The
@@ -83,7 +83,7 @@ cannot support a recurrence conclusion, but do not block the core chapter.
 
 ## 2. Long Limburg tributary discharge — blocking
 
-Status: **not yet requested; first priority**.
+Status: **request sent; awaiting reply**.
 
 Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
 088 88 90 100):
@@ -121,6 +121,9 @@ Alternative routes, in order:
 4. RWS Waterwebservices for main-stem source validation, not as a substitute
    for the tributary population.
 
+The Waterschap and LANUK messages in `student-next-actions.md` were reported
+sent by the student on 2026-08-10; both replies are pending.
+
 Routes already ruled out: the Waterstandlimburg OData endpoint before
 2024-08-06, the unfinished open.waterschaplimburg.nl portal, GRDC for the small
 tributaries, and daily CAMELS-DE (ends 2020 and misses July 2021).
@@ -138,23 +141,32 @@ On receipt, inspect the native files before writing an ingest. Then produce:
 If Worm/Wurm is unavailable, add `kerkrade_pair` and `pairing_rationale`; the
 rationale must be hydrological and agreed before outcome inspection.
 
-## 3. Long public weather — blocking design/data decision
+## 3. Long public weather — approved source, acquisition in progress
 
-Status: **held sources inspected; primary source and assignment not selected**.
+Status: **ERA5-Land approved as primary; KNMI sensitivity acquired; ERA5-Land
+download awaits the user's CDS token**.
 
-Temperature, relative humidity and pressure are fixed primary signals, so they
-need the same explicit treatment as rainfall. The current repository has about
-ten years of Visual Crossing values at four city points and a KNMI table from
-2020 onward. Neither has yet been assigned prospectively to the eventual
-watercourse cohort, and the narrow coverage boundary cannot be assumed to yield
-ten joint years with discharge and RADOLAN.
+Temperature, relative humidity and pressure are fixed primary signals.
+ERA5-Land was chosen before event contrasts because it supplies one consistent
+hourly 0.1° field across Limburg and the cross-border margin. The fixed raw
+extract covers 2001–2025 and retains 2 m temperature, 2 m dew-point temperature
+and surface pressure. After the cohort and catchment polygons are verified,
+assign the nearest grid cell to each catchment centroid, document shared cells
+and derive relative humidity from temperature and dew point using one fixed
+formula.
 
-Choose one rule with the supervisor before protocol lock, without viewing event
-contrasts. Plausible routes are a nearest official station archive, a fixed
-public gridded product, or a justified extension of the held point series. The
-choice must state whether the values are observations or reanalysis, how each
-watercourse is assigned, and how elevation/distance and cross-border coverage
-are handled. Convenience or event performance is not a selection rule.
+`scripts/34_fetch_era5_land.py` makes annual NetCDF requests over the fixed
+bounding box and writes source hashes. It currently stops before submission
+because `~/.cdsapirc` is absent. The user must log into the Copernicus Climate
+Data Store, accept the ERA5-Land licence and install the two displayed
+credential lines. No outcome inspection is involved.
+
+Validated KNMI hourly archives for Maastricht, Ell and Arcen have been acquired
+for 2001–2025 with `scripts/35_ingest_knmi_validated.py`. Temperature and
+relative humidity are effectively complete over the period; validated
+mean-sea-level pressure is present only at Maastricht, and Arcen currently ends
+on 30 September 2025. This is an observational sensitivity, not a substitute
+for the primary grid. Visual Crossing remains Eryilmaz predecessor context.
 
 Deliver:
 
@@ -246,6 +258,6 @@ the **core** executable gate still requires supervisor approval before the
 protocol is locked. Kerkrade materials may be added only if their separate case
 gate passes before that case's outcomes are inspected.
 
-The detailed five-task handoff, verified institutional addresses and
-ready-to-send English messages are in `student-next-actions.md`. They have not
-been sent by this repository work.
+The detailed five-task handoff, verified institutional addresses and message
+texts are in `student-next-actions.md`. The student reports that the contact
+messages have been sent; preserve the sent messages and replies on receipt.

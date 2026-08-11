@@ -44,11 +44,21 @@ Its input is the compact IoT/weather frame written by `01_eda.py`. Run
 | `25_ingest_lanuk_nrw.py` | German long-record gauges |
 | `26_ingest_rws_maas.py` | RWS main-stem source validation |
 | `27_ingest_dwd_precipitation.py` | point-rainfall sensitivity source |
+| `34_fetch_era5_land.py` | fixed 2001–2025 primary-weather grid over Limburg and its cross-border margin |
+| `35_ingest_knmi_validated.py` | 2001–2025 validated Maastricht/Ell/Arcen weather for observational sensitivity |
 
 RADOLAN catchment averaging and long Waterschap ingestion remain to be written
-after the data are obtained and their formats inspected. A long-record public
-weather source and assignment rule must also be fixed. Do not create parsers
-against imagined files.
+after the data are obtained and their formats inspected. ERA5-Land is the
+approved primary public-weather source. Fetch its source grid with:
+
+```bash
+python scripts/34_fetch_era5_land.py
+```
+
+This requires a Copernicus CDS account, accepted ERA5-Land licence and the two
+credential lines in `~/.cdsapirc`. The script retrieves annual NetCDF files for
+2001–2025 and writes a checksum manifest. Catchment-centroid assignment and
+relative-humidity derivation wait for the verified cohort; no outcome is read.
 
 The BRO groundwater fetch/normalisation code is archived because groundwater is
 now optional mechanism evidence, not a live analytical lane. The already-held

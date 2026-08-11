@@ -30,6 +30,7 @@ the source. The evidence-question IDs connect each entry to
 - **Q20:** What are the relevant characteristics and limitations of RADOLAN/RADKLIM rainfall products?
 - **Q21:** How do rating curves, gauge failure and censoring affect high-flow observations?
 - **Q22:** Which atmospheric variables accompany extreme rainfall and flash-flood occurrence?
+- **Q23:** What long-record public-weather products can supply hourly temperature, humidity and pressure, and what are their measurement limitations?
 
 ## Predecessors and the Kerkrade mechanism
 
@@ -448,3 +449,35 @@ the source. The evidence-question IDs connect each entry to
 - **Author-reported findings:** Estimated uncertainty differs materially among methods, especially at high flows and beyond measured gaugings. Differences can be traced to assumptions as well as to data. The authors do not identify one method as universally best; they call for matching the uncertainty method to station characteristics and the intended use.
 - **Author-stated limitations:** Three stations cannot represent all rating controls, and the true continuous discharge is unavailable for direct validation. Methods may omit changing channel geometry, hysteresis or other errors. The intercomparison supports explicit station-level QA but does not transform censored July 2021 evidence into an observed peak.
 - **Locators/questions:** Abstract; method-comparison design; station descriptions; uncertainty plots; discussion of assumptions and recommendations. Q07, Q21.
+
+## Long-record public weather
+
+### MunozSabaterEtAl2021 — Muñoz-Sabater et al. (2021)
+
+- **Citation:** Joaquín Muñoz-Sabater, Emanuel Dutra, Anna Agustí-Panareda, Clément Albergel, Gabriele Arduini, Gianpaolo Balsamo, Souhail Boussetta, Margarita Choulga, Shaun Harrigan, Hans Hersbach, Brecht Martens, Diego G. Miralles, María Piles, Nemesio J. Rodríguez-Fernández, Ervin Zsoter, Carlo Buontempo and Jean-Noël Thépaut. “ERA5-Land: A State-of-the-Art Global Reanalysis Dataset for Land Applications.” *Earth System Science Data* 13 (2021): 4349–4383. DOI: <https://doi.org/10.5194/essd-13-4349-2021>.
+- **Type/status:** Peer-reviewed data-description article.
+- **Objective and setting:** The article documents the production and evaluation of ERA5-Land, a global land-surface reanalysis driven by downscaled ERA5 meteorological forcing. The product is designed to give temporally consistent land and near-surface fields over a multi-decadal period.
+- **Data and method:** ERA5 atmospheric forcing is interpolated from roughly 31 km to the ERA5-Land grid, with elevation correction for near-surface thermodynamic variables, and used to drive the land model offline. ERA5-Land has hourly temporal resolution and approximately 9 km horizontal resolution. Evaluation uses in-situ, model and satellite reference datasets, mainly from 2000–2018.
+- **Author-reported findings:** The authors report advantages from the finer grid for several water-cycle fields and broadly similar energy-cycle performance to ERA5. They present continuity, hourly resolution and a fixed grid as product strengths for hydrological and land applications.
+- **Author-stated limitations:** ERA5-Land remains a model-based reanalysis rather than a direct station observation. Small-scale heterogeneity is unresolved, atmospheric forcing is interpolated from coarser ERA5 fields, and evaluation coverage is incomplete and variable-specific. Performance findings for land variables do not constitute a local validation of Limburg temperature, humidity or pressure.
+- **Locators/questions:** Abstract; §§2–4; §6; data-access statement. Q23.
+
+### CopernicusERA5Land2019 — Copernicus Climate Change Service (2019)
+
+- **Citation:** Copernicus Climate Change Service. *ERA5-Land Hourly Data from 1950 to Present.* Climate Data Store dataset, first published 2019 and continuously updated. DOI: <https://doi.org/10.24381/cds.e2161bac>.
+- **Type/status:** Versioned official public reanalysis dataset and product record.
+- **Objective and setting:** The product provides globally complete, hourly land and near-surface variables on a regular latitude–longitude grid. The present Climate Data Store record covers 1950 to near-present and identifies the product as ERA5-Land rather than direct meteorological observations.
+- **Data and method:** The land component of ERA5 is replayed at 0.1° resolution using ERA5 atmospheric forcing. Available fields include 2 m temperature, 2 m dew-point temperature and surface pressure. The gridded download service allows a fixed geographic subset and period to be requested in NetCDF or GRIB format.
+- **Provider-reported characteristics:** The fixed grid and multi-decadal hourly record support consistent extraction across national borders and periods. Observations affect the product indirectly through ERA5 atmospheric forcing; they are not assimilated directly into the offline ERA5-Land run.
+- **Provider-documented limitations:** The fields are numerical-model estimates with uncertainty, not station measurements. The provider states that uncertainty generally increases backward in time as the observing basis for the forcing becomes thinner. A 0.1° cell cannot represent building-scale weather or all topographic variation in a small tributary catchment. Dataset update date, requested variables, grid bounds and file hashes remain necessary provenance.
+- **Locators/questions:** Official overview, data description, variables, temporal/spatial coverage, licence and DOI record. Q23.
+
+### KNMIHourly2026 — Royal Netherlands Meteorological Institute (2026)
+
+- **Citation:** Royal Netherlands Meteorological Institute. *Uurgegevens van het weer in Nederland* [Hourly Weather Data in the Netherlands]. Official climatological station archive, accessed 10 August 2026. <https://www.knmi.nl/nederland-nu/klimatologie/uurgegevens>.
+- **Type/status:** Official validated observational data archive and documentation page.
+- **Objective and setting:** KNMI publishes combined hourly meteorological fields by Dutch station in decade ZIP files and through an interactive selection service. Relevant Limburg records include Maastricht, Ell and Arcen over 2001–2025.
+- **Data and method:** The archive reports hourly UTC observations including temperature, dew point, relative humidity, precipitation and, where measured, pressure. KNMI states that observations are checked on working days, corrected when needed and supplemented where possible. The source files define `HH` as the end of the UTC hourly interval and document units and missing fields.
+- **Provider-reported characteristics:** The archive supplies observed rather than reanalysis meteorology and separates stations and decade files explicitly. Maastricht, Ell and Arcen provide long temperature and humidity records that include July 2021; the available fields differ by station.
+- **Provider-documented limitations:** KNMI warns that station relocation and changing observing methods can make hourly series inhomogeneous and unsuitable for trend analysis. Validated mean-sea-level pressure is absent at Ell and Arcen in the retained files, and the current Arcen archive ends in September 2025. Quality control and supplementation also mean the validated archive can differ from unvalidated 10-minute feeds.
+- **Locators/questions:** Download description and warning; station rows 377, 380 and 391; variable definitions in the decade files. Q23.

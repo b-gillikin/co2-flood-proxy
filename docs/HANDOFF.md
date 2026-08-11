@@ -6,13 +6,13 @@ chapter claims.
 Read in this order:
 
 1. `chapter-synthesis.md` — canonical question, contribution, design and state.
-2. `chapter-scope-and-preregistration.md` — draft 0.5 estimator protocol.
+2. `chapter-scope-and-preregistration.md` — draft 0.6 estimator protocol.
 3. `supervisor-decision-memo.md` — choices requiring supervisor approval.
 4. `student-next-actions.md` — the student's detailed five-task handoff.
 5. `data-requests.md` — delivery contracts and blockers.
 6. `lanuk-feasibility.md` — reproducible decision on the held German route.
 7. `literature-source-notes.md` — source-level notes, not a literature review.
-8. `literature-evidence-matrix.csv` — 22 evidence questions mapped to sources.
+8. `literature-evidence-matrix.csv` — 23 evidence questions mapped to sources.
 9. `chapter-references.bib` — verified retained bibliography.
 10. `analysis-inventory.md` — live, secondary and stopped work.
 
@@ -30,12 +30,40 @@ weather explanation -> this chapter's recurrence and spatial-extent test.
 Transferability means the distance relationship in all-donor event contrasts,
 not classification, gauge substitution, travel time or an operational radius.
 
+## Supervisor response
+
+Approved: the contribution, transferability as all-donor spatial extent,
+natural Limburg tributaries as the primary population, ERA5-Land as primary
+weather, July 2021 as a censored regional anchor and the conditional status of
+the Kerkrade CO2 case. Three held-out receiver events is provisionally
+acceptable.
+
+Still open: the numerical cohort floor, the coverage/donor-availability floors
+and the clarified requirement that every retained test event have at least one
+complete donor in each distance third. These are design judgements, not field
+standards. Use the proposed blinded availability audit before outcomes, then
+freeze a supervisor decision. The protocol remains unlocked.
+
+## Weather acquisition
+
+- `scripts/34_fetch_era5_land.py` is ready to download annual 2001–2025
+  temperature, dew point and surface-pressure grids over 50.5–52.0° N and
+  5.0–6.7° E and hash them. `cdsapi` is installed in the named environment.
+- The ERA5-Land request has **not submitted** because `~/.cdsapirc` is absent.
+  The user must log into CDS, accept the ERA5-Land licence and install the two
+  credential lines; then rerun the script.
+- `scripts/35_ingest_knmi_validated.py` downloaded and hashed nine official
+  decade ZIPs and wrote a 655,221-row 2001–2025 Maastricht/Ell/Arcen table.
+  Temperature/humidity are effectively complete; validated pressure exists
+  only at Maastricht and Arcen currently ends 30 September 2025. This is
+  sensitivity evidence, not a core input.
+
 ## Literature reset completed
 
-- `literature-source-notes.md` contains 40 independent source entries across
+- `literature-source-notes.md` contains 43 independent source entries across
   the predecessors, local mine context, July 2021, flood processes, spatial
   dependence, event sampling, radar rainfall and discharge uncertainty.
-- `literature-evidence-matrix.csv` contains 94 question/source relationships
+- `literature-evidence-matrix.csv` contains 97 question/source relationships
   using only the six declared coverage roles. The 30–40 planning range was not
   treated as a quota; canonical sources were retained where applicable.
 - `chapter-references.bib` has one verified entry per retained source, with
@@ -64,17 +92,17 @@ complete events do not yet exist. That does not block the regional chapter.
 ## Current stop
 
 `python scripts/31_event_study_gates.py --report-only` still reports regional
-**FAIL** because all six contracted long-record network inputs are absent. Do
+**FAIL** because all six analysis-ready network inputs are absent. Do
 not lower the ten-year cohort rule, substitute the rolling two-year record or
 inspect prospective signal contrasts.
 
-The student's immediate actions remain those in `student-next-actions.md`:
+The student's immediate actions are:
 
-1. obtain the supervisor's eight design decisions;
-2. send the historical-discharge request to Waterschap Limburg;
-3. send the timestamp/gap-semantics request to LANUK;
-4. request the seven unresolved Viefhues provenance items; and
-5. return decisions, correspondence and native attachments unchanged.
+1. install the two CDS credential lines and accept the ERA5-Land licence;
+2. obtain the supervisor's remaining floor/occupancy decisions after the
+   explanations in `supervisor-decision-memo.md`;
+3. wait for the already-sent Waterschap, LANUK and Viefhues replies; and
+4. return correspondence and native attachments unchanged.
 
 ## Agent work after the student returns
 
@@ -82,8 +110,8 @@ The student's immediate actions remain those in `student-next-actions.md`:
    missingness, rating curves, natural/managed status and July 2021 QA.
 2. Fix the admissible watercourse cohort and write direct, tidy ingests only
    after the delivered formats are known.
-3. Build and visually verify catchment polygons, RADOLAN area averages and the
-   supervisor-approved long public-weather assignment.
+3. Complete and QA the ERA5-Land pull; build and visually verify catchment
+   polygons, centroid weather assignment and RADOLAN area averages.
 4. Rerun the strict regional gate. If it passes, record hashes and approvals
    and lock the protocol before outcome inspection.
 5. Implement matched contrasts, one prespecified spatial gradient per signal,
@@ -96,12 +124,12 @@ The student's immediate actions remain those in `student-next-actions.md`:
 Named interpreter:
 `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
-- literature integrity: **40** source notes, **94** question/source rows,
-  **40** matching BibTeX entries and **34** unique bare DOIs; all 22 questions
+- literature integrity: **43** source notes, **97** question/source rows,
+  **43** matching BibTeX entries and **36** unique bare DOIs; all 23 questions
   and all retained keys resolve;
 - default scientific suite: **32 passed**;
 - optional legacy infrastructure suite: **18 passed**;
 - `ruff check .`: passed;
-- `ruff format --check .`: passed (57 files);
+- `ruff format --check .`: passed (59 files);
 - regional gate report regenerated: **FAIL**, as expected, with all six
   contracted inputs absent.

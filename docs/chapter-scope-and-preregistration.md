@@ -1,6 +1,6 @@
 # Prospective Event-Study Protocol
 
-Version: **draft 0.5, not locked** (2026-08-08).
+Version: **draft 0.6, not locked** (2026-08-10).
 
 This protocol becomes locked only after (a) every **core regional** data gate
 passes and (b) the supervisor approves the research question. The separate
@@ -157,10 +157,15 @@ fixed signals—including donor flow—at the receiver's event and control times
 No nearest donor is selected and no pair is removed because its contrast is
 weak, strong or inconvenient.
 
-The source and spatial assignment for temperature, humidity and pressure are
-chosen and documented before the protocol lock. The held Visual Crossing and
-KNMI tables are source candidates/context, not an automatic assignment to the
-primary watercourses.
+ERA5-Land is the approved primary source for temperature, humidity and
+pressure. Download hourly 2 m temperature, 2 m dew-point temperature and
+surface pressure for 2001–2025 over the fixed Limburg/cross-border extract.
+After the cohort and catchment polygons are fixed, assign the nearest 0.1° grid
+cell to each catchment centroid and derive relative humidity from temperature
+and dew point using one documented formula. Record shared cells explicitly;
+they are shared exposures, not independent weather observations. Validated
+hourly KNMI stations are the observational sensitivity. Visual Crossing is
+retained only for the Eryilmaz predecessor comparison.
 
 If the case gate passes, Kerkrade-only signals are raw CO2, pressure-adjusted
 CO2 and available groundwater level/change. CO2 contrasts use the median hourly
@@ -240,8 +245,10 @@ all other thresholds, events, controls and scales from training data. Apply the
 training fixed-effect distance curve—with no receiver or donor random
 intercept—to complete pair contrasts in the held receiver-by-block
 intersection. Emit every planned fold with event, pair and distance-stratum
-counts. A draft eligible fold requires at least three receiver events and at
-least one complete pair contrast in each empirical distance third. Report
+counts. A draft eligible fold requires at least three receiver events, with
+each event having at least one complete donor contrast in each training-defined
+empirical distance third. Thus an eligible fold contains at least three
+pair-event rows per third. Report
 observed-minus-predicted contrast, median absolute error and calibration by
 distance quartile. Aggregate fold errors within receiver before describing the
 network. These occupancy rules require supervisor approval before lock.
@@ -314,9 +321,11 @@ as implemented.
 
 ## 13. Lock and amendments
 
-Current state: **unlocked because the core regional data gates fail and
-supervisor approval is not recorded**. The Kerkrade case is currently not
-available, but that alone will not prevent a future core lock.
+Current state: **unlocked because the core regional data gates fail and the
+numerical data/coverage floors remain under supervisor review**. The question,
+spatial-extent meaning, Limburg population, ERA5-Land source, July 2021
+treatment and conditional-case rule are approved. The Kerkrade case is
+currently not available, but that alone will not prevent a future core lock.
 
 At lock, record:
 
@@ -327,11 +336,10 @@ At lock, record:
 - protocol lock timestamp;
 - any resolution of ambiguity made before outcome inspection.
 
-Outstanding supervisor approvals for draft 0.5 are the spatial-gradient model,
-study population, public-weather assignment, density and all-donor availability
-values, held-out occupancy and acceptability of the July 2021 regional
-treatment. Record separately whether the conditional Kerkrade evidence is
-adequate for its case study.
+Outstanding supervisor approvals for draft 0.6 are the numerical cohort floors,
+density and all-donor availability values, and the clarified held-out occupancy
+rule. Record separately whether the conditional Kerkrade evidence is adequate
+for its case study.
 
 After lock, append amendments here with date, change, reason and whether any new
 outcome table had been viewed. Never rewrite the prior entry.

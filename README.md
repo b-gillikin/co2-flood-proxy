@@ -9,8 +9,11 @@ Prospective research question:
 > Kerkrade, if the source data support the case, does pressure-adjusted CO2
 > recur as a local manifestation of that regional state?
 
-Status: **data-gated; no new chapter result exists**. The current repository
-does not contain any of the six contracted regional inputs. A newly delivered
+Status: **data-gated; no new chapter result exists**. The primary ERA5-Land
+source has been approved, but its CDS download awaits local credentials. A
+validated 2001–2025 KNMI station table is held for observational sensitivity;
+neither file is an event-study result. The repository still lacks the other
+contracted regional inputs. A newly delivered
 Viefhues source package contains a cleaned hourly 2020–2021 table, raw
 May–September 2021 IoT files and the historical ABC-processing code. The
 source-native K4 record is now normalised and covers every July 2021 hour;
@@ -27,7 +30,7 @@ has been run.
 | `docs/analysis-inventory.md` | prospective, secondary and stopped analyses |
 | `docs/data-requests.md` | exact blockers and delivery contracts |
 | `docs/lanuk-feasibility.md` | reproducible decision on the held German gauge route |
-| `docs/supervisor-decision-memo.md` | unresolved approvals, evidence and recommendations |
+| `docs/supervisor-decision-memo.md` | recorded approvals, remaining design questions and recommendations |
 | `docs/student-next-actions.md` | detailed five-task student handoff and send-ready institutional requests |
 | `docs/literature-source-notes.md` | source-by-source notes; no aggregate literature synthesis |
 | `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
@@ -85,6 +88,19 @@ later sensor era. It is predecessor context, not the chapter's transfer method.
 `update_data.py` refreshes only Kerkrade IoT/weather and their QC frame; network
 source pulls are separate because their public rolling records do not pass the
 chapter gate.
+
+The approved primary public-weather pull is:
+
+```bash
+python scripts/34_fetch_era5_land.py
+```
+
+It needs the user's Copernicus CDS token in `~/.cdsapirc`. The validated KNMI
+sensitivity is reproducible without a key:
+
+```bash
+python scripts/35_ingest_knmi_validated.py
+```
 
 ## Verify
 

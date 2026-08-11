@@ -15,5 +15,6 @@ dependencies:
   - matplotlib
   - scikit-learn
   - requests
+  - cdsapi>=0.7.7
   - ruff
   - pytest

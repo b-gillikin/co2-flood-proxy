@@ -1,10 +1,26 @@
 # Student Next Actions
 
-Prepared 2026-08-08. Complete these five tasks in order. Do not lock the
-protocol or inspect new signal contrasts while the design and regional inputs
-remain unresolved.
+Updated 2026-08-10. The institutional emails were sent and the first supervisor
+reply was received. Do not lock the protocol or inspect new signal contrasts
+while the remaining design choices and regional inputs are unresolved.
 
-## 1. Get the design decisions from the supervisor
+## 1. Close the remaining supervisor decisions
+
+Approved: the contribution, spatial-extent meaning, Limburg population,
+ERA5-Land primary source, July 2021 treatment and conditional status of the CO2
+case. The minimum of three held-out receiver events was accepted provisionally.
+Only the following follow-up remains:
+
+- confirm that the 10-watercourse/10-year/20-episode/40-storm values may remain
+  prospective design floors after the explanation in
+  `supervisor-decision-memo.md` §4;
+- confirm the blinded 70/80/90 availability audit and commit to freezing one
+  coverage rule before signal outcomes; and
+- confirm that each of the three held-out events must have a complete donor in
+  each distance third.
+
+The original eight-item request is retained below as the response record, not
+as a new task.
 
 Send `supervisor-decision-memo.md` before the meeting and ask for a decision,
 not a general discussion, on each item below. Take notes in the wording the

@@ -1,9 +1,31 @@
 # KNMI Reference Meteorology
 
-Purpose: provide an official reference meteorological series for checking the
-Kerkrade Visual Crossing weather lane, especially pressure and temperature.
+Purpose: provide official observed meteorology for two limited roles: checking
+the Kerkrade Visual Crossing predecessor lane and assessing the approved
+ERA5-Land regional weather series as an observational sensitivity.
 
-## Source
+## Validated 2001–2025 sensitivity
+
+Run:
+
+```bash
+python scripts/35_ingest_knmi_validated.py
+```
+
+This downloads the official decade ZIP files for Maastricht (`380`), Ell
+(`377`) and Arcen (`391`), records their hashes and writes
+`data/interim/knmi_validated_hourly.parquet`. It requires no API key. The held
+table has 655,221 station-hours from 2001 through 2025. Temperature and relative
+humidity are effectively complete, including all July 2021 hours. The validated
+archive supplies mean-sea-level pressure only at Maastricht; Arcen's current
+2021–2030 file ends on 30 September 2025. These limitations remain visible.
+
+KNMI states that these hourly series are quality-controlled but may be
+inhomogeneous because stations and observing methods change. They are therefore
+an event-study sensitivity, not a trend series and not the primary spatial
+exposure.
+
+## Current 10-minute source
 
 - Portal: https://developer.dataplatform.knmi.nl/
 - API documentation: https://developer.dataplatform.knmi.nl/open-data-api

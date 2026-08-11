@@ -1,7 +1,8 @@
 # Supervisor Decision Memo
 
-Prepared 2026-08-08. The prospective signal outcomes have not been calculated.
-This memo asks for design approval before the protocol is locked.
+Updated 2026-08-10 from the student-reported supervisor response. The meeting
+date and supervisor name were not supplied. No prospective signal outcome has
+been calculated.
 
 ## Proposed chapter
 
@@ -12,124 +13,159 @@ This memo asks for design approval before the protocol is locked.
 > pressure-adjusted CO2 recur there as a local manifestation of that regional
 > state?
 
-The sequence is Viefhues's July 2021 single-site observation -> Eryilmaz's
-same-site public-weather explanation -> this chapter's recurrence and spatial-
-extent test. Local and all-donor event-minus-matched-quiet contrasts feed one
+The sequence is Viefhues's July 2021 observation -> Eryilmaz's same-site
+public-weather explanation -> this chapter's recurrence and spatial-extent
+test. Local and all-donor event-minus-matched-quiet contrasts feed one
 prespecified distance model per signal. There is no classifier, warning-system
-evaluation or model-family search. The regional chapter does not depend on the
-conditional Kerkrade case.
+evaluation or model-family search.
 
-## Decisions requested
+## Response record
 
-### 1. Does spatial extent satisfy the transferability requirement?
+| item | supervisor response | current status |
+| --- | --- | --- |
+| 1. contribution | “sounds good” | approved |
+| 2. transferability | chapter is not about substitution, propagation, an operational radius or ungauged-basin performance | approved |
+| 3. population | Limburg tributaries primary; NRW only if the same gates pass | approved |
+| 4. data floor | asked whether the values are arbitrary, accepted or data-derived | not approved; answer below |
+| 5. coverage floor | asked where the percentages came from | not approved; answer below |
+| 6. public weather | asked Visual Crossing or KNMI, and for how long; subsequently accepted proceeding with ERA5-Land | approved; implementation below |
+| 7. held-out evidence | three events acceptable for now, but any retained or revised value must be justified | provisionally accepted; clarification below |
+| 8. July 2021 and conditional CO2 | yes | approved |
 
-**Decision requested:** approve transferability as the distance relationship in
-all-donor event contrasts. For each receiver event, the analysis measures the
-same fixed signal at every other eligible watercourse at the event and matched
-quiet times. One mixed-effects model per signal estimates the change in
-contrast with `log(1 + distance_km)`, allowing receiver, donor and
-regional-storm random intercepts.
+The protocol remains unlocked. Items 4–5 need an explicit follow-up decision;
+item 7 needs the clarified wording accepted before lock.
 
-The curve is reported at empirical distance quartiles and validated at
-receiver-period intersections excluded from fitting; the held watercourse is
-absent from training as both receiver and donor. This directly estimates
-spatial extent within the observed network. It does not identify physical
-propagation, a hard geographic reach, gauge substitution or an ungauged-basin
-effect.
+## 4. Where the data-floor numbers come from
 
-### 2. What is the study population?
+They are **not accepted hydrological thresholds**, and they were **not chosen
+from the prospective outcome data**, which are still absent. They are
+author-chosen minimum-information rules tied to this design:
 
-**Recommendation: retain Limburg tributaries as primary while the historical
-Waterschap request is pending. Do not reframe around NRW yet.** A reproducible
-audit of the held LANUK archive found that its strongest tested ten-year window
-has only three gauges across two verified watercourses passing the draft
-density and episode rules. Natural/managed status and timestamp semantics also
-remain unresolved.
+- **10 watercourses** supplies a minimally useful network rather than a few
+  case studies. Ten watercourses give 90 ordered receiver-donor pairs before
+  missingness and approximately 30 pairs in each empirical distance third.
+- **10 common years** prevents the chapter from being driven by the rolling
+  two-year public record, retains July 2021 inside a genuinely historical
+  sample and provides interannual rather than single-storm replication. Ten is
+  a round scope choice, not a field standard.
+- **20 p99 episodes per watercourse** is derived from the five-block validation
+  design: 20 episodes average four per block, leaving a one-event buffer above
+  the proposed three-event test-fold minimum before controls and completeness
+  exclusions. It does not guarantee four in every block.
+- **40 regional storms** concerns the independent uncertainty unit. Pair and
+  watercourse rows within a storm are not independent; with materially fewer
+  storms, storm-resampled intervals would be dominated by a small number of
+  weather systems. Forty is a conservative design judgement, not a formal
+  power result.
 
-Official metadata correct a consequential earlier claim:
-`herzogenrath_2` is on Broicher Bach and `honsdorf` on Beeckflies. The Wurm
-gauges are `herzogenrath_1` and `randerath`, and neither supplies the July 2021
-event window or overlaps the later IoT era in the held archive. The apparent
-later events occur on Broicher Bach and Beeckflies and are not Wurm recurrence
-evidence. NRW should become the population only if a clarified/reconstructed
-archive passes the same gates and the transboundary framing is substantively
-approved.
+Recommendation: retain these as **provisional floors**, describe them exactly
+as design-derived rather than canonical, and run one blinded feasibility table
+after the data arrive. That table may use timestamps, gauge identities,
+missingness, event counts and network geometry, but no rainfall, weather,
+donor-flow or CO2 contrasts. If the supervisor revises a floor after seeing
+that table, amend the unlocked protocol before any outcome inspection. Do not
+silently lower a floor to admit the available data.
 
-### 3. What observation-density rule should lock?
+## 5. Where the coverage percentages come from
 
-**Draft recommendation:** at least 80% observed hourly cells overall and 70% in
-every calendar year for every primary discharge, RADOLAN and public-weather
-series over the joint study period. Complete donor level/change windows must
-cover at least 80% of all receiver-event/donor combinations and 70% within
-every receiver and empirical distance third. The joint period must contain
-July 2021.
-This prevents endpoint span and events from a few dense years from masquerading
-as a ten-year record. A draft LANUK request asks whether its irregular
-timestamps are true missing hours or a valid compressed/hold-forward series;
-the rule should be confirmed after the reply but before signal outcomes.
+The **80% overall** value was inherited from the prior chapter workflow. The
+**70% per-year** backstop was added during the event-study redesign so that a
+dense subset of years could not make a ten-year endpoint span look complete.
+The **80% overall/70% by receiver and distance third** donor-window rules were
+added to stop missing donor flow from selectively removing particular
+receivers or long-distance pairs. None is an externally accepted cutoff.
 
-### 4. How much evidence is required in a held-out fold?
+Recommendation: keep them provisional as transparent missing-data safeguards,
+not literature-based standards. Before outcomes are calculated, show a blinded
+availability table at 70%, 80% and 90% that reports only:
 
-**Draft recommendation:** retain every planned receiver-by-five-block row, but
-mark a fold eligible only with at least three receiver events and at least one
-complete pair contrast in every empirical distance third. Report all empty and
-sparse folds. This is an evidence floor for validating magnitude, not a success
-or reach threshold.
+- retained watercourses and common years;
+- missing hours by series and year;
+- eligible event/control windows;
+- eligible receiver-donor windows by receiver and distance third; and
+- whether missingness is concentrated around documented gauge failures.
 
-### 5. Which long public-weather source and spatial rule should be fixed?
+Then obtain one supervisor decision and freeze it. Missing hours remain
+missing under every option; the audit is not permission to interpolate. If no
+candidate rule leaves adequate support, the result is a failed data gate, not
+a reason to tune percentages against signal results.
 
-**Recommendation for discussion:** use one cross-border gridded source rather
-than choosing different national station networks after cohort selection.
-ERA5-Land offers hourly 2 m temperature, 2 m dew point and surface pressure from
-1950 onward; relative humidity can be derived from temperature, dew point and
-pressure. Assign values by a fixed catchment-area average or, if the grid is too
-coarse for meaningful averaging, the catchment centroid. Describe it as public
-reanalysis, not a gauge observation. Use nearest official DWD/KNMI stations as
-a sensitivity only if adequate common coverage is established.
+## 6. Public-weather decision and period
 
-This option provides consistent transboundary coverage but weakens the direct
-observational link to Eryilmaz's public weather source. Approval should therefore
-be substantive, not based on which source gives stronger event contrasts.
+Decision: use **ERA5-Land as the primary public-weather source**, not Visual
+Crossing or KNMI, and use **KNMI validated hourly stations as the observational
+sensitivity**. The student reported the supervisor's approval to proceed on
+2026-08-10.
 
-Official product description:
-<https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview>.
+ERA5-Land supplies one consistent hourly field across Dutch Limburg and any
+later NRW extension. The retained variables are 2 m temperature, 2 m dew-point
+temperature and surface pressure; relative humidity is derived from temperature
+and dew point using one fixed published formula. The product is reanalysis at
+0.1° (about 9 km), so call it
+reanalysis rather than a station observation. Assign the nearest ERA5-Land
+grid cell to each predeclared catchment centroid. Record watercourses sharing a
+cell; do not present duplicated cells as independent weather measurements.
 
-### 6. Should the Kerkrade CO2 analysis be conditional?
+Download **1 January 2001 through 31 December 2025** so weather does not limit
+the currently plausible radar/discharge intersection. The final analysis
+period is the longest qualifying common interval across discharge, RADKLIM and
+weather, must contain July 2021 and must include at least ten complete years.
+It is fixed after input QA and before event contrasts.
 
-**Recommendation: yes.** A Viefhues source package has now been delivered
-locally. Its source-native non-ABC K4 record is now normalised and contains all
-744 July 2021 hours; however, the older cleaned lineage, device/calibration
-metadata and later hydrological events remain incomplete. Require the regional
-record to contain July 2021 and show only observed
-public/hydrological trajectories in the core figure. Add the Viefhues
-reanalysis and later CO2 recurrence only if the original IoT,
-sensor-era provenance, valid hydrological pair, independently supported local
-onset interval and at least three later complete event windows pass their
-separate gate. Archive termination or a multi-year gap does not itself bound
-onset. If the case gate fails, cite Viefhues as motivation and make no new CO2
-claim; do not stop the regional chapter.
+Why not the alternatives as primary:
 
-## Pre-agreed readings
+- **Visual Crossing** remains faithful to Eryilmaz's predecessor analysis, but
+  it is a commercial aggregation/interpolation product and the held four-city
+  files sit near the ten-year boundary. Keep it only in the predecessor check.
+- **KNMI** is official observed meteorology. Maastricht has published hourly
+  decade files from 1951 onward, Ell from the 1990s and Arcen from the 1980s,
+  but the station network is sparse for catchment-level assignment and does not
+  give one consistent cross-border surface. It is the stronger sensitivity.
 
-The lockable protocol now states how local decay, a broad regional footprint,
-no spatial coherence and storm-specific heterogeneity will be read for
-rainfall, public weather and donor flow. If the conditional case is available,
-a null CO2 residual means the 2021 indoor response may have
-been event-, sensor- or building-specific; it does not trigger a new pressure
-baseline. An unavailable case is missing evidence, not a null. Weak or
-heterogeneous public signals remain a substantive finding under the fixed
-design.
+Official records:
+
+- ERA5-Land: <https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview>
+- KNMI hourly observations: <https://www.knmi.nl/nederland-nu/klimatologie/uurgegevens>
+- Visual Crossing source documentation: <https://www.visualcrossing.com/resources/documentation/weather-data/weather-data-sources-and-attribution/>
+
+The source was selected before the prospective event contrasts. It cannot be
+replaced later because another product produces a stronger pre-high-water
+contrast.
+
+## 7. Held-out evidence clarification
+
+The proposed minimum of **three receiver events** is connected to the data
+floor rather than being a conventional validation sample size: 20 events over
+five blocks average four per block, and three is the minimum retained after
+event/control completeness exclusions. Three remains sparse, so every fold
+will report its event count and no single fold will support a reach claim.
+
+Clarify the distance rule as follows: each of the at least three retained test
+events must have at least one complete donor contrast in each training-defined
+distance third. Thus an eligible fold has at least three pair-event rows per
+third and spatial support is not supplied by one event or one isolated far
+pair. Empty and sparse folds remain in the output as ineligible.
+
+Any revision is allowed only after the blinded availability audit and before
+outcome inspection. “Adjust if needed” must not become post-result tuning.
+
+## Approved substantive readings
+
+Transferability means spatial extent over the observed tributary network. It
+does not mean gauge substitution, physical propagation, an operational radius
+or ungauged-basin performance. July 2021 is a required regional anchor with no
+invented local onset or peak. The Kerkrade CO2 analysis is conditional: if its
+separate evidence contract fails, the regional chapter continues and no new
+CO2 result is claimed.
 
 ## Approval record
 
-Record the meeting date and decisions here or in meeting notes, then copy the
-resolved choices into protocol §13 before lock:
-
-- [ ] question and contribution approved;
-- [ ] all-donor distance gradient accepted as spatial transferability;
-- [ ] population approved;
-- [ ] density rule approved;
-- [ ] fold-occupancy rule approved;
-- [ ] public-weather source and assignment approved;
-- [ ] regional July 2021 treatment approved;
-- [ ] conditional Kerkrade-case rule approved.
+- [x] question and contribution approved;
+- [x] all-donor distance gradient accepted as spatial transferability;
+- [x] Limburg natural-tributary population approved;
+- [ ] numerical data floors approved after the explanation in §4;
+- [ ] coverage and donor-availability floors approved after the blinded audit plan in §5;
+- [x] ERA5-Land primary source and 2001–2025 acquisition approved;
+- [ ] clarified held-out event/distance support approved;
+- [x] regional July 2021 treatment approved;
+- [x] conditional Kerkrade-case rule approved.

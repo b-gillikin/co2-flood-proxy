@@ -1176,3 +1176,42 @@ foundations.
 Source: `docs/literature-source-notes.md`,
 `docs/literature-evidence-matrix.csv`, `docs/chapter-references.bib`, user
 instruction.
+
+## 2026-08-10 — Record the supervisor response without overstating approval
+
+Decision: treat the contribution, spatial-extent meaning, natural Limburg
+tributary population, July 2021 regional anchor and conditional Kerkrade case
+as approved. The supervisor provisionally accepts three held-out receiver
+events. The 10-watercourse/10-year/20-episode/40-storm floor, the 80%/70%
+coverage rules and the clarified distance-third support rule remain open.
+
+Reasoning: the numerical floors are prospective design judgements, not accepted
+hydrological standards and not values learned from signal outcomes. Before
+outcome inspection, use a blinded availability audit at 70%, 80% and 90% to
+show the consequences of alternative coverage rules; then obtain and freeze a
+supervisor decision. Do not use “adjust if needed” as permission for
+post-result tuning.
+
+Source: student-reported supervisor responses;
+`docs/supervisor-decision-memo.md`; protocol draft 0.6.
+
+## 2026-08-10 — Use ERA5-Land primary weather and long KNMI sensitivity
+
+Decision: acquire ERA5-Land 2 m temperature, 2 m dew-point temperature and
+surface pressure for 2001–2025 over 50.5–52.0° N, 5.0–6.7° E. After catchments
+are verified, assign the nearest 0.1° cell to each catchment centroid and
+derive relative humidity from temperature and dew point. Use validated KNMI
+hourly Maastricht, Ell and Arcen observations over the same period as the
+observational sensitivity. Keep Visual Crossing only for the Eryilmaz
+predecessor comparison.
+
+Reasoning: ERA5-Land gives a fixed hourly cross-border field; KNMI provides an
+observed check without pretending that sparse stations are catchment-level
+weather. The source choice was approved before prospective event contrasts.
+The ERA5 fetch is reproducible but currently cannot submit because the local
+CDS token/licence setup is absent. The KNMI source files and normalized table
+have been acquired; validated pressure is available only at Maastricht.
+
+Source: student-reported supervisor approval; Copernicus ERA5-Land dataset DOI
+`10.24381/cds.e2161bac`; KNMI validated hourly archive;
+`scripts/34_fetch_era5_land.py`; `scripts/35_ingest_knmi_validated.py`.

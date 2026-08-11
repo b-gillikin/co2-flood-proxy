@@ -1,5 +1,10 @@
 # Visual Crossing Weather Source Notes
 
+Role in the prospective chapter: predecessor context only. ERA5-Land is the
+approved primary regional weather source and validated KNMI hourly stations
+are the observational sensitivity. Visual Crossing is not eligible to replace
+either based on event results.
+
 ## Azure source
 
 The later-era Kerkrade context uses Visual Crossing weather CSVs already
@@ -33,11 +38,8 @@ weather blob container.
 - Long hourly output: `data/interim/weather_hourly_long.csv`
 - Wide hourly output: `data/interim/weather_hourly.csv`
 
-These point series are not automatically the prospective event-study weather
-input. That analysis requires a pre-outcome assignment with 10 common years for
-every primary watercourse. The spatial-extent estimand evaluates all eligible
-receiver-donor pairs, so every included donor must have the same documented
-weather assignment; see `data-requests.md`.
+These point series are not the prospective event-study weather input. See
+`data-requests.md` for the fixed ERA5-Land centroid-cell assignment.
 
 Run all available refreshes with:
 
