@@ -1,6 +1,6 @@
 # Analysis Inventory — Prospective Event Study
 
-Status: 2026-08-08. There is no new event-study result. The regional chapter is
+Status: 2026-08-10. There is no new event-study result. The regional chapter is
 stopped at its core data gate. The source-native July 2021 K4 IoT record is now
 normalised, but that alone does not make the separate Kerkrade recurrence case
 available.
@@ -9,7 +9,8 @@ available.
 
 | component | role | current state |
 | --- | --- | --- |
-| Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | ready; source notes retained |
+| literature source notes, evidence matrix and bibliography | verified source-level corpus for the student-authored literature review | ready; 40 sources and 94 question/source relationships; no aggregate synthesis |
+| Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | incorporated in the canonical literature corpus; original PDFs retained |
 | `31_event_study_gates.py` | audits the binding regional core and all-donor spatial support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
 | `33_ingest_viefhues_iot.py` | normalises the source-native non-ABC K4 record and records coverage/ceiling QC | implemented; all 744 July hours present |
@@ -43,7 +44,8 @@ artifacts, not chapter findings. The tracked interpretation is
   catchment exposure;
 - already-held BRO groundwater as optional Kerkrade mechanism evidence;
 - zero-sentinel, timestamp and precipitation-unit corrections;
-- source PDFs, source notes and the historical decisions log.
+- source PDFs, the canonical source notes/evidence matrix/BibTeX and the
+  historical decisions log.
 
 ## Stopped
 

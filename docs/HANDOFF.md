@@ -1,6 +1,6 @@
 # Session Handoff
 
-Written 2026-08-08. Session state only; use the synthesis and protocol for
+Written 2026-08-10. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -11,7 +11,10 @@ Read in this order:
 4. `student-next-actions.md` — the student's detailed five-task handoff.
 5. `data-requests.md` — delivery contracts and blockers.
 6. `lanuk-feasibility.md` — reproducible decision on the held German route.
-7. `analysis-inventory.md` — live, secondary and stopped work.
+7. `literature-source-notes.md` — source-level notes, not a literature review.
+8. `literature-evidence-matrix.csv` — 22 evidence questions mapped to sources.
+9. `chapter-references.bib` — verified retained bibliography.
+10. `analysis-inventory.md` — live, secondary and stopped work.
 
 ## Current chapter
 
@@ -25,91 +28,80 @@ Read in this order:
 The sequence is Viefhues's July 2021 observation -> Eryilmaz's same-site public
 weather explanation -> this chapter's recurrence and spatial-extent test.
 Transferability means the distance relationship in all-donor event contrasts,
-not a classifier, gauge substitution, physical travel time or an operational
-radius.
+not classification, gauge substitution, travel time or an operational radius.
 
-## Implemented in this pass
+## Literature reset completed
 
-- Simplified `scripts/31_event_study_gates.py` to the binding six-file regional
-  audit. Optional Kerkrade-source logic no longer turns the gate into a
-  product-style status workflow.
-- Kept routine chapter verification at 32 scientific checks. Moved 18 older
-  daily-summary and generic IoT checks plus fixtures to
-  `infrastructure_tests/`; they remain available but are not the default.
-- Audited the delivered Viefhues thesis, R code, cleaned table, raw files and
-  ZIP inventory. Added `scripts/33_ingest_viefhues_iot.py`, one direct pandas
-  ingest with no framework and no new fixture tests.
-- Replaced the general request drafts with `student-next-actions.md`: five
-  ordered tasks, verified Waterschap/LANUK addresses, English email text and a
-  native-delivery return rule.
-- Updated the README, synthesis, protocol, inventories, data requests, live
-  scope and append-only decisions log to reflect this state.
+- `literature-source-notes.md` contains 40 independent source entries across
+  the predecessors, local mine context, July 2021, flood processes, spatial
+  dependence, event sampling, radar rainfall and discharge uncertainty.
+- `literature-evidence-matrix.csv` contains 94 question/source relationships
+  using only the six declared coverage roles. The 30–40 planning range was not
+  treated as a quota; canonical sources were retained where applicable.
+- `chapter-references.bib` has one verified entry per retained source, with
+  shared keys and no provisional metadata or abbreviated author lists.
+- No integrated literature synthesis, literature-gap conclusion, expected
+  result or chapter prose was written. The student owns cross-source analysis
+  and writing.
+- The two supplied predecessor PDFs remain in `chapter-prework/`. Obsolete
+  How-To documents, generated source corpora, scaffold skills, reports and the
+  legacy bibliography were removed; Git history remains the archive.
 
-## Viefhues source finding
+## Viefhues source status
 
-K4 is the useful source-native historical record. It is labelled as the
-non-ABC basement sensor in the supplied R code and contains 169,594 minute rows
-from 2021-05-15 to 2021-09-24. Every July 2021 civil-time hour is present. The
-normaliser writes 2,829 observed UTC hourly means and reports 335 missing hours
-elsewhere in the May-September span, 83 minute observations at 400 ppm and
-5,761 at the 5,000-ppm ceiling. Missing hours and ceiling values are not
-silently altered.
+K4 remains the useful source-native historical record. It is labelled as the
+non-ABC basement sensor in the supplied R code and contains every July 2021
+civil-time hour. The observed K4 trajectory is reproducible, but device
+identity, calibration, exact ABC edits, the 450-ppm adjustment and reuse terms
+remain unresolved. K3's `livingroom` filename still conflicts with the thesis
+statement that both sensors were in the basement. These discrepancies are now
+recorded in the canonical source notes.
 
-The longer `2021_flood_data.csv` is processed thesis output: it has 1,333
-missing civil-time hours, a duplicated DST hour and only 550 July hours. Four
-pre-May source/intermediate files referenced by the R workflow are absent from
-both the folder and ZIP. K3's `livingroom` filename conflicts with the thesis
-statement that both sensors were in the basement. Hardware identity,
-calibration, exact ABC edits, the 450-ppm baseline adjustment and reuse terms
-remain unresolved.
-
-The observed K4 July trajectory is therefore reproducible. The conditional CO2
-recurrence case is still unavailable because sensor-era provenance, a valid
-hydrological pair, independent onset bounds and three later complete events do
-not yet exist. That does not block the regional chapter.
+The conditional CO2 recurrence case remains unavailable because sensor-era
+provenance, a valid hydrological pair, independent onset bounds and three later
+complete events do not yet exist. That does not block the regional chapter.
 
 ## Current stop
 
-`python scripts/31_event_study_gates.py --report-only` reports **regional
-FAIL**: all six contracted long-record network inputs are absent. Do not lower
-the ten-year cohort rule, use the rolling two-year record or inspect prospective
-signal contrasts.
+`python scripts/31_event_study_gates.py --report-only` still reports regional
+**FAIL** because all six contracted long-record network inputs are absent. Do
+not lower the ten-year cohort rule, substitute the rolling two-year record or
+inspect prospective signal contrasts.
 
-The student's immediate actions are fully specified in
-`student-next-actions.md`:
+The student's immediate actions remain those in `student-next-actions.md`:
 
 1. obtain the supervisor's eight design decisions;
 2. send the historical-discharge request to Waterschap Limburg;
 3. send the timestamp/gap-semantics request to LANUK;
-4. request only the seven unresolved Viefhues provenance items; and
-5. return decisions, correspondence and native attachments without modifying
-   the files.
+4. request the seven unresolved Viefhues provenance items; and
+5. return decisions, correspondence and native attachments unchanged.
 
 ## Agent work after the student returns
 
-1. Inventory and hash the native deliveries; resolve sampling, timezone,
-   units, missingness, rating curves, natural/managed status and July 2021 QA.
-2. Fix the admissible watercourse cohort and write an ingest only after the
-   delivered formats are known.
+1. Inventory and hash native deliveries; resolve sampling, timezone, units,
+   missingness, rating curves, natural/managed status and July 2021 QA.
+2. Fix the admissible watercourse cohort and write direct, tidy ingests only
+   after the delivered formats are known.
 3. Build and visually verify catchment polygons, RADOLAN area averages and the
    supervisor-approved long public-weather assignment.
 4. Rerun the strict regional gate. If it passes, record hashes and approvals
    and lock the protocol before outcome inspection.
-5. Then implement the concise matched contrasts, one prespecified spatial
-   gradient per signal, tidy outputs and four figures. Add only the synthetic
-   estimator checks that protect those claims.
-6. Add the Kerkrade recurrence section only if its separate evidence contract
-   passes; missing case evidence is not a null CO2 result.
+5. Implement matched contrasts, one prespecified spatial gradient per signal,
+   tidy outputs and four figures. Add only claim-protecting estimator checks.
+6. Add the Kerkrade section only if its separate evidence contract passes;
+   missing case evidence is not a null CO2 result.
 
 ## Verification
 
 Named interpreter:
 `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
+- literature integrity: **40** source notes, **94** question/source rows,
+  **40** matching BibTeX entries and **34** unique bare DOIs; all 22 questions
+  and all retained keys resolve;
 - default scientific suite: **32 passed**;
 - optional legacy infrastructure suite: **18 passed**;
 - `ruff check .`: passed;
-- `ruff format --check .`: passed;
-- regional gate report regenerated: **FAIL**, as expected;
-- Viefhues K4 normalisation regenerated: **744/744 July hours**;
-- the raw Viefhues package and generated data/results remain ignored by Git.
+- `ruff format --check .`: passed (57 files);
+- regional gate report regenerated: **FAIL**, as expected, with all six
+  contracted inputs absent.

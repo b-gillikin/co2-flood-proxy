@@ -1149,3 +1149,30 @@ conditional CO2 recurrence case but do not block the regional chapter.
 
 Source: `scripts/33_ingest_viefhues_iot.py`, the locally delivered thesis PDF,
 raw CSVs and R scripts.
+
+## 2026-08-10 — Replace the literature scaffold with a verified source corpus
+
+Decision: make `docs/literature-source-notes.md`,
+`docs/literature-evidence-matrix.csv` and `docs/chapter-references.bib` the only
+live literature artifacts. Organize the search with 22 evidence questions and
+retain sources because they directly address those questions or are canonical
+references for the underlying event, spatial-extremes or measurement method.
+The anticipated source count is not a quota. Record each source independently;
+do not add an integrated literature argument, aggregate support score, novelty
+claim or drafted chapter prose.
+
+Retain the original Viefhues and Eryilmaz PDFs. Remove the superseded
+predecessor notes after incorporating their verified facts, along with the old
+How-To files, generated source corpus, scaffold bundles, feasibility reports
+and legacy bibliography. Git history is the archive.
+
+Reasoning: the prior materials mixed live evidence with obsolete model choices
+and AI-generated scaffolding. A question-to-source matrix makes inclusion and
+scope inspectable while leaving cross-source analysis and chapter writing to
+the student. Canonical references remain necessary where later case studies
+apply rather than replace their event-sampling, dependence or measurement
+foundations.
+
+Source: `docs/literature-source-notes.md`,
+`docs/literature-evidence-matrix.csv`, `docs/chapter-references.bib`, user
+instruction.

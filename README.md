@@ -29,11 +29,14 @@ has been run.
 | `docs/lanuk-feasibility.md` | reproducible decision on the held German gauge route |
 | `docs/supervisor-decision-memo.md` | unresolved approvals, evidence and recommendations |
 | `docs/student-next-actions.md` | detailed five-task student handoff and send-ready institutional requests |
-| `docs/predecessor-notes.md` | Viefhues and Eryilmaz source notes |
+| `docs/literature-source-notes.md` | source-by-source notes; no aggregate literature synthesis |
+| `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
+| `docs/chapter-references.bib` | verified bibliography for the retained corpus |
 | `docs/HANDOFF.md` | session state only |
 
-`chapter-prework/` contains historical source material and earlier scaffolds;
-its README marks their status. None is a live chapter draft.
+`chapter-prework/` retains only the two supplied predecessor PDFs and a README.
+Obsolete scaffolds, generated source corpora, How-To documents and the legacy
+bibliography were removed; Git history remains their archive.
 
 The intended sequence is Viefhues MSc -> Eryilmaz paper -> this chapter:
 single-event observation -> same-site public-signal explanation -> recurrence
