@@ -13,7 +13,7 @@ study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 | Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
 | Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
 | core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
-| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | ERA5-Land approved; pull blocked only by missing local CDS credentials; KNMI sensitivity held |
+| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | ERA5-Land approved and being acquired |
 | core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
@@ -143,8 +143,7 @@ rationale must be hydrological and agreed before outcome inspection.
 
 ## 3. Long public weather — approved source, acquisition in progress
 
-Status: **ERA5-Land approved as primary and being acquired; KNMI sensitivity
-acquired**.
+Status: **ERA5-Land approved and being acquired**.
 
 Temperature, relative humidity and pressure are fixed primary signals.
 ERA5-Land was chosen before event contrasts because it supplies one consistent
@@ -163,12 +162,8 @@ minutes for a full-day month, so the restart-safe monthly partition is retained
 for the overnight acquisition. The CDS credential and licence are verified and
 acquisition is in progress. No outcome inspection is involved.
 
-Validated KNMI hourly archives for Maastricht, Ell and Arcen have been acquired
-for 2001–2025 with `scripts/35_ingest_knmi_validated.py`. Temperature and
-relative humidity are effectively complete over the period; validated
-mean-sea-level pressure is present only at Maastricht, and Arcen currently ends
-on 30 September 2025. This is an observational sensitivity, not a substitute
-for the primary grid. Visual Crossing remains Eryilmaz predecessor context.
+No second weather product will be added as a parallel sensitivity. Visual
+Crossing remains Eryilmaz predecessor context only.
 
 Deliver:
 
@@ -213,8 +208,9 @@ Deliver:
   missing codes, polygon source and spatial weighting.
 
 EStreams boundaries may be a starting point but must be visually and
-hydrologically checked. The existing combined KNMI/DWD point series remains a
-sensitivity only. ERA5-Land (~9 km) and retired REGNIE are not substitutes.
+hydrologically checked. The existing DWD point series is not a substitute for
+catchment-average RADOLAN rainfall. ERA5-Land (~9 km) and retired REGNIE are
+also not substitutes.
 
 ## 5. July 2021 gauge evidence — core status, conditional local bounds
 

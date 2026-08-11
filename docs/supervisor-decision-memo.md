@@ -1,8 +1,8 @@
 # Supervisor Decision Memo
 
-Updated 2026-08-10 from the student-reported supervisor response. The meeting
-date and supervisor name were not supplied. No prospective signal outcome has
-been calculated.
+Updated 2026-08-11 from the student-reported supervisor response and subsequent
+single-source weather decision. The meeting date and supervisor name were not
+supplied. No prospective signal outcome has been calculated.
 
 ## Proposed chapter
 
@@ -28,7 +28,7 @@ evaluation or model-family search.
 | 3. population | Limburg tributaries primary; NRW only if the same gates pass | approved |
 | 4. data floor | asked whether the values are arbitrary, accepted or data-derived | not approved; answer below |
 | 5. coverage floor | asked where the percentages came from | not approved; answer below |
-| 6. public weather | asked Visual Crossing or KNMI, and for how long; subsequently accepted proceeding with ERA5-Land | approved; implementation below |
+| 6. public weather | accepted proceeding with ERA5-Land and requested the period and assignment rule | approved; implementation below |
 | 7. held-out evidence | three events acceptable for now, but any retained or revised value must be justified | provisionally accepted; clarification below |
 | 8. July 2021 and conditional CO2 | yes | approved |
 
@@ -92,10 +92,8 @@ a reason to tune percentages against signal results.
 
 ## 6. Public-weather decision and period
 
-Decision: use **ERA5-Land as the primary public-weather source**, not Visual
-Crossing or KNMI, and use **KNMI validated hourly stations as the observational
-sensitivity**. The student reported the supervisor's approval to proceed on
-2026-08-10.
+Decision: use **ERA5-Land as the sole regional public-weather source**. The
+student reported the supervisor's approval to proceed on 2026-08-10.
 
 ERA5-Land supplies one consistent hourly field across Dutch Limburg and any
 later NRW extension. The retained variables are 2 m temperature, 2 m dew-point
@@ -112,20 +110,15 @@ period is the longest qualifying common interval across discharge, RADKLIM and
 weather, must contain July 2021 and must include at least ten complete years.
 It is fixed after input QA and before event contrasts.
 
-Why not the alternatives as primary:
+Boundary with the predecessor:
 
 - **Visual Crossing** remains faithful to Eryilmaz's predecessor analysis, but
   it is a commercial aggregation/interpolation product and the held four-city
   files sit near the ten-year boundary. Keep it only in the predecessor check.
-- **KNMI** is official observed meteorology. Maastricht has published hourly
-  decade files from 1951 onward, Ell from the 1990s and Arcen from the 1980s,
-  but the station network is sparse for catchment-level assignment and does not
-  give one consistent cross-border surface. It is the stronger sensitivity.
 
 Official records:
 
 - ERA5-Land: <https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview>
-- KNMI hourly observations: <https://www.knmi.nl/nederland-nu/klimatologie/uurgegevens>
 - Visual Crossing source documentation: <https://www.visualcrossing.com/resources/documentation/weather-data/weather-data-sources-and-attribution/>
 
 The source was selected before the prospective event contrasts. It cannot be

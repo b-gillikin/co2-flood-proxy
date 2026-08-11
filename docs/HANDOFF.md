@@ -1,6 +1,6 @@
 # Session Handoff
 
-Written 2026-08-10. Session state only; use the synthesis and protocol for
+Written 2026-08-11. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -56,18 +56,17 @@ freeze a supervisor decision. The protocol remains unlocked.
   recovered before the full sequential run began; newly completed months are
   added atomically. The 2001 annual-block benchmark is not part of the final
   source manifest.
-- `scripts/35_ingest_knmi_validated.py` downloaded and hashed nine official
-  decade ZIPs and wrote a 655,221-row 2001–2025 Maastricht/Ell/Arcen table.
-  Temperature/humidity are effectively complete; validated pressure exists
-  only at Maastricht and Arcen currently ends 30 September 2025. This is
-  sensitivity evidence, not a core input.
+- ERA5-Land is the only regional public-weather source. The parallel
+  station-weather sensitivity and its ingestion code were retired to keep the
+  chapter single-source and readable. Its dedicated Azure Function App is
+  stopped; cloud storage was not deleted.
 
 ## Literature reset completed
 
-- `literature-source-notes.md` contains 43 independent source entries across
+- `literature-source-notes.md` contains 42 independent source entries across
   the predecessors, local mine context, July 2021, flood processes, spatial
   dependence, event sampling, radar rainfall and discharge uncertainty.
-- `literature-evidence-matrix.csv` contains 97 question/source relationships
+- `literature-evidence-matrix.csv` contains 96 question/source relationships
   using only the six declared coverage roles. The 30–40 planning range was not
   treated as a quota; canonical sources were retained where applicable.
 - `chapter-references.bib` has one verified entry per retained source, with
@@ -127,12 +126,12 @@ The student's immediate actions are:
 Named interpreter:
 `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
-- literature integrity: **43** source notes, **97** question/source rows,
-  **43** matching BibTeX entries and **36** unique bare DOIs; all 23 questions
+- literature integrity: **42** source notes, **96** question/source rows,
+  **42** matching BibTeX entries and **36** unique bare DOIs; all 23 questions
   and all retained keys resolve;
 - default scientific suite: **32 passed**;
-- optional legacy infrastructure suite: **18 passed**;
+- optional legacy infrastructure suite: **6 passed**;
 - `ruff check .`: passed;
-- `ruff format --check .`: passed (59 files);
+- `ruff format --check .`: passed (52 files);
 - regional gate report regenerated: **FAIL**, as expected, with all six
   contracted inputs absent.

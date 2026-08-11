@@ -1,6 +1,6 @@
 # Live Scope Decisions
 
-Status: 2026-08-10. Detailed estimator rules are in
+Status: 2026-08-11. Detailed estimator rules are in
 `chapter-scope-and-preregistration.md`. Historical decisions remain appended in
 `decisions.md`.
 
@@ -44,9 +44,9 @@ Status: 2026-08-10. Detailed estimator rules are in
 17. **Public weather:** ERA5-Land is the approved primary source. Acquire
     2001–2025 temperature, dew point and surface pressure over the fixed
     Limburg/cross-border grid; after cohort definition, assign the nearest grid
-    cell to each catchment centroid and derive relative humidity. Validated
-    Maastricht/Ell/Arcen KNMI hourly data are observational sensitivity;
-    Visual Crossing is predecessor context only.
+    cell to each catchment centroid and derive relative humidity. Visual
+    Crossing is predecessor context only; no parallel weather sensitivity is
+    retained.
 18. **Local recurrence feasibility:** the conditional Kerkrade case requires at
     least three later exact-onset pair events with complete -72 to -1 hour CO2
     and pressure. Fewer events are missing recurrence evidence, not a null and

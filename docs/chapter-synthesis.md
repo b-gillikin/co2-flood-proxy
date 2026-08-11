@@ -1,6 +1,6 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no new chapter result exists** (2026-08-10). This is the
+Status: **data-gated; no new chapter result exists** (2026-08-11). This is the
 canonical description of the proposed chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md`; current session state belongs in
 `HANDOFF.md`.
@@ -81,9 +81,8 @@ selected from its outcome or apparent fit.
 
 ERA5-Land is the approved primary weather source. The fixed acquisition period
 is 2001–2025; after the cohort is fixed, each watercourse receives the grid cell
-nearest its verified catchment centroid. Validated Maastricht, Ell and Arcen
-KNMI hourly observations over the same period are the observational
-sensitivity. Visual Crossing remains predecessor context only.
+nearest its verified catchment centroid. Visual Crossing remains predecessor
+context only.
 
 If its separate gate passes, Kerkrade adds raw CO2, pressure-adjusted CO2 and,
 where available, groundwater level/change. Pressure baselines are fitted

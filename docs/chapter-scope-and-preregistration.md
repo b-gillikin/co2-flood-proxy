@@ -1,6 +1,6 @@
 # Prospective Event-Study Protocol
 
-Version: **draft 0.6, not locked** (2026-08-10).
+Version: **draft 0.6, not locked** (2026-08-11).
 
 This protocol becomes locked only after (a) every **core regional** data gate
 passes and (b) the supervisor approves the research question. The separate
@@ -163,9 +163,8 @@ surface pressure for 2001–2025 over the fixed Limburg/cross-border extract.
 After the cohort and catchment polygons are fixed, assign the nearest 0.1° grid
 cell to each catchment centroid and derive relative humidity from temperature
 and dew point using one documented formula. Record shared cells explicitly;
-they are shared exposures, not independent weather observations. Validated
-hourly KNMI stations are the observational sensitivity. Visual Crossing is
-retained only for the Eryilmaz predecessor comparison.
+they are shared exposures, not independent weather observations. Visual
+Crossing is retained only for the Eryilmaz predecessor comparison.
 
 If the case gate passes, Kerkrade-only signals are raw CO2, pressure-adjusted
 CO2 and available groundwater level/change. CO2 contrasts use the median hourly

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib
 import sys
 import unittest
 from pathlib import Path
@@ -11,14 +10,9 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "kerkrade_data"))
 
 from src.io_iot import _device_id_from_export_path, load_iot, load_iot_observations
-from src.io_knmi import _normalize_knmi_frame, load_knmi
 from src.io_weather import safe_token
-
-knmi_backfill = importlib.import_module("knmi_backfill")
-
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
@@ -53,57 +47,6 @@ class LoaderTests(unittest.TestCase):
         self.assertEqual(hourly["iot_co2_observation_count"].iloc[0], 2)
         self.assertEqual(hourly["iot_device_count"].iloc[0], 1)
 
-    def test_load_knmi_csv_sample(self):
-        frame = load_knmi(FIXTURES, frequency="h", station="380")
-
-        self.assertEqual(len(frame), 3)
-        self.assertEqual(frame["knmi_station"].iloc[0], "06380")
-        self.assertIn("knmi_temperature_c", frame.columns)
-        self.assertIn("knmi_pressure_hpa", frame.columns)
-        self.assertAlmostEqual(frame["knmi_temperature_c"].iloc[0], 12.3)
-        self.assertAlmostEqual(frame["knmi_pressure_hpa"].iloc[0], 1012.3)
-
-    def test_load_knmi_named_station_set(self):
-        frame = load_knmi(FIXTURES, frequency="h", station_set="meuse")
-
-        self.assertEqual(len(frame), 4)
-        self.assertEqual(set(frame["knmi_station"]), {"06377", "06380"})
-
-
-class KnmiUnitTests(unittest.TestCase):
-    """KNMI tenths-unit codes scale deterministically and warn when off."""
-
-    def _tenths_frame(self, temp_tenths):
-        # Real KNMI hourly rows carry both U (humidity, whole %) and RH
-        # (precipitation, 0.1 mm); include U so RH is sourced as precip.
-        return pd.DataFrame(
-            {
-                "STN": [380, 380],
-                "timestamp": ["2025-01-01T00:00:00Z", "2025-01-01T01:00:00Z"],
-                "T": temp_tenths,
-                "P": [10123, 10125],
-                "U": [80, 82],
-                "RH": [-1, 5],
-            }
-        )
-
-    def test_tenths_codes_are_scaled(self):
-        out = _normalize_knmi_frame(self._tenths_frame([123, 50]))
-
-        self.assertAlmostEqual(out["knmi_temperature_c"].iloc[0], 12.3)
-        self.assertAlmostEqual(out["knmi_pressure_hpa"].iloc[0], 1012.3)
-        # Humidity code U is whole percent (factor 1.0), not tenths.
-        self.assertAlmostEqual(out["knmi_relative_humidity_pct"].iloc[0], 80.0)
-        # KNMI trace sentinel -1 (0.1 mm units) maps to 0; 5 -> 0.5 mm.
-        self.assertAlmostEqual(out["knmi_precip_mm"].iloc[0], 0.0)
-        self.assertAlmostEqual(out["knmi_precip_mm"].iloc[1], 0.5)
-
-    def test_out_of_range_values_warn(self):
-        # 600 tenths -> 60 C, outside the plausible [-40, 50] range.
-        with self.assertLogs("src.io_knmi", level="WARNING") as captured:
-            _normalize_knmi_frame(self._tenths_frame([600, 50]))
-        self.assertTrue(any("knmi_temperature_c" in message for message in captured.output))
-
 
 class DeviceIdTests(unittest.TestCase):
     """Blynk device id comes from the folder name, not the whole path."""
@@ -116,80 +59,6 @@ class DeviceIdTests(unittest.TestCase):
 class WeatherNameTests(unittest.TestCase):
     def test_location_prefix_collapses_repeated_separators(self):
         self.assertEqual(safe_token("Maastricht / Aachen"), "maastricht_aachen")
-
-
-class KnmiBackfillHelperTests(unittest.TestCase):
-    """Verify the Azure KNMI backfill cursor helpers."""
-
-    def test_knmi_filename_uses_utc_10_minute_boundary(self):
-        timestamp = knmi_backfill.floor_10_minutes(knmi_backfill.parse_utc("2020-01-01T00:09:59Z"))
-
-        self.assertEqual(timestamp.isoformat(), "2020-01-01T00:00:00+00:00")
-        self.assertEqual(
-            knmi_backfill.filename_for(timestamp),
-            "KMDS__OPER_P___10M_OBS_L2_202001010000.nc",
-        )
-
-    def test_knmi_blob_name_uses_raw_prefix(self):
-        self.assertEqual(
-            knmi_backfill.blob_name_for("file.nc", "raw/10-minute-in-situ"),
-            "raw/10-minute-in-situ/file.nc",
-        )
-
-    def test_knmi_station_list_is_zero_padded(self):
-        self.assertEqual(
-            knmi_backfill.parse_station_list("380,06377, 6392"),
-            ["06380", "06377", "06392"],
-        )
-
-    def test_knmi_slim_blob_name_is_monthly(self):
-        timestamp = knmi_backfill.parse_utc("2020-02-03T04:10:00Z")
-
-        self.assertEqual(
-            knmi_backfill.slim_blob_name_for(timestamp, "slim/10-minute-in-situ"),
-            "slim/10-minute-in-situ/year=2020/month=02/knmi_meuse_10min_2020_02.csv.gz",
-        )
-
-    def test_knmi_backward_cursor_helpers(self):
-        start = knmi_backfill.parse_utc("2020-01-01T00:00:00Z")
-        end = knmi_backfill.parse_utc("2020-01-01T01:09:00Z")
-        direction = knmi_backfill.normalize_direction("reverse")
-        cursor = knmi_backfill.initial_cursor(start, end, direction)
-
-        self.assertEqual(direction, "backward")
-        self.assertEqual(cursor.isoformat(), "2020-01-01T01:00:00+00:00")
-        self.assertTrue(knmi_backfill.cursor_in_bounds(cursor, start, end, direction))
-        self.assertEqual(
-            knmi_backfill.advance_cursor(cursor, direction).isoformat(),
-            "2020-01-01T00:50:00+00:00",
-        )
-
-    def test_knmi_forward_uses_an_independent_state_blob(self):
-        self.assertEqual(
-            knmi_backfill.default_state_blob("forward"),
-            "state/knmi_forward_state.json",
-        )
-        self.assertEqual(
-            knmi_backfill.default_state_blob("backward"),
-            "state/knmi_backfill_state.json",
-        )
-
-    def test_knmi_forward_end_respects_publication_lag(self):
-        now = knmi_backfill.parse_utc("2026-07-21T20:09:00Z")
-
-        end = knmi_backfill.availability_end(now, "forward", 180)
-
-        self.assertEqual(end.isoformat(), "2026-07-21T17:09:00+00:00")
-        self.assertEqual(
-            knmi_backfill.availability_end(now, "backward", 180),
-            now,
-        )
-
-    def test_knmi_publication_lag_cannot_be_negative(self):
-        now = knmi_backfill.parse_utc("2026-07-21T20:00:00Z")
-
-        with self.assertRaisesRegex(ValueError, "must be non-negative"):
-            knmi_backfill.availability_end(now, "forward", -1)
 
 
 if __name__ == "__main__":

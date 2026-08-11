@@ -39,13 +39,11 @@ Its input is the compact IoT/weather frame written by `01_eda.py`. Run
 | `01_ingest_iot.py` | currently held 2025–2026 Kerkrade IoT |
 | `02_ingest_weather.py` | Kerkrade public weather |
 | `01_eda.py` | join those two sources and write the Eryilmaz/QC frame |
-| `04_ingest_knmi.py` / `04_sync_knmi_azure.py` | KNMI normalisation/cache |
 | `22_ingest_waterschap_gauges.py` | rolling two-year Waterschap network; not the long-record gate input |
 | `25_ingest_lanuk_nrw.py` | German long-record gauges |
 | `26_ingest_rws_maas.py` | RWS main-stem source validation |
 | `27_ingest_dwd_precipitation.py` | point-rainfall sensitivity source |
 | `34_fetch_era5_land.py` | fixed 2001–2025 primary-weather grid over Limburg and its cross-border margin |
-| `35_ingest_knmi_validated.py` | 2001–2025 validated Maastricht/Ell/Arcen weather for observational sensitivity |
 
 RADOLAN catchment averaging and long Waterschap ingestion remain to be written
 after the data are obtained and their formats inspected. ERA5-Land is the

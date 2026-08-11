@@ -3,5 +3,3 @@ azure-storage-blob
 azure-communication-email
 requests
 pandas
-xarray
-netcdf4

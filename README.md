@@ -11,10 +11,8 @@ Prospective research question:
 
 Status: **data-gated; no new chapter result exists**. The primary ERA5-Land
 source has been approved and its fixed 2001–2025 CDS extract is being acquired.
-A
-validated 2001–2025 KNMI station table is held for observational sensitivity;
-neither file is an event-study result. The repository still lacks the other
-contracted regional inputs. A newly delivered
+This is source acquisition, not an event-study result. The repository still
+lacks the other contracted regional inputs. A newly delivered
 Viefhues source package contains a cleaned hourly 2020–2021 table, raw
 May–September 2021 IoT files and the historical ABC-processing code. The
 source-native K4 record is now normalised and covers every July 2021 hour;
@@ -96,12 +94,8 @@ The approved primary public-weather pull is:
 python scripts/34_fetch_era5_land.py
 ```
 
-It needs the user's Copernicus CDS token in `~/.cdsapirc`. The validated KNMI
-sensitivity is reproducible without a key:
-
-```bash
-python scripts/35_ingest_knmi_validated.py
-```
+It needs the user's Copernicus CDS token in `~/.cdsapirc`. The credential and
+dataset licence are already configured on the current machine.
 
 ## Verify
 

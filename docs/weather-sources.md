@@ -1,9 +1,8 @@
 # Visual Crossing Weather Source Notes
 
 Role in the prospective chapter: predecessor context only. ERA5-Land is the
-approved primary regional weather source and validated KNMI hourly stations
-are the observational sensitivity. Visual Crossing is not eligible to replace
-either based on event results.
+sole regional public-weather source. Visual Crossing is not eligible to replace
+it based on event results.
 
 ## Azure source
 

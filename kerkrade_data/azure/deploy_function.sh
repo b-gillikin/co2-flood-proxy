@@ -92,7 +92,6 @@ exclude_prefixes = {
     '.venv/',
     '.python_packages/',
     '__pycache__/',
-    'knmi_backfill_timer/',
     'monthly_data/',
     'logs/',
     'azure/',
@@ -112,10 +111,7 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as zf:
         zf.write(p, rel)
 
 with zipfile.ZipFile(out) as zf:
-    unsafe = [
-        name for name in zf.namelist()
-        if name.startswith('.python_packages/') or name.startswith('knmi_backfill_timer/')
-    ]
+    unsafe = [name for name in zf.namelist() if name.startswith('.python_packages/')]
     if unsafe:
         raise RuntimeError(f'Unsafe files entered the deployment package: {unsafe[:5]}')
 PY

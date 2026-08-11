@@ -1235,3 +1235,23 @@ its validation.
 Source: CDS API cost/status responses observed on 2026-08-10;
 `scripts/34_fetch_era5_land.py`; user confirmation that the licence was
 accepted.
+
+## 2026-08-11 — Use ERA5-Land only and retire the station-weather lane
+
+Decision: use ERA5-Land as the chapter's sole regional public-weather source.
+Do not add a parallel station-weather sensitivity or mention it in the chapter.
+Stop the dedicated station-weather Azure collector and remove its acquisition,
+ingestion, deployment and test code from the live repository. Retain Visual
+Crossing only where needed to reproduce the Eryilmaz predecessor analysis.
+
+Reasoning: a second weather product does not answer the recurrence or spatial-
+extent question. It adds source reconciliation, code and exposition without
+changing the primary estimand. One predeclared gridded source is the cleaner
+and more auditable dissertation design.
+
+Operational state: `func-kerkrade-knmi-backfill-bg` in `rg-kerkrade-prod` was
+verified `Stopped` on the Azure for Students subscription. The Function App and
+stored blobs were not deleted. Git history preserves the retired code.
+
+Source: user instruction on 2026-08-11; Azure CLI state verification;
+`docs/chapter-synthesis.md`; `docs/chapter-scope-and-preregistration.md`.
