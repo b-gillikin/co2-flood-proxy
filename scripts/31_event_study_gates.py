@@ -28,6 +28,7 @@ MIN_OVERALL_COVERAGE = 0.80
 MIN_ANNUAL_COVERAGE = 0.70
 MIN_SPATIAL_OVERALL_AVAILABILITY = 0.80
 MIN_SPATIAL_STRATUM_AVAILABILITY = 0.70
+MIN_PAIR_COMPLETE_EVENTS = 10
 EARTH_RADIUS_KM = 6371.0088
 QA_COLUMNS = [
     "rating_curve_verified",
@@ -610,6 +611,7 @@ def audit():
     spatial_availability_ok = (
         distance_support_ok
         and overall >= MIN_SPATIAL_OVERALL_AVAILABILITY
+        and spatial_availability.n_donor_complete.ge(MIN_PAIR_COMPLETE_EVENTS).all()
         and not by_receiver.empty
         and by_receiver.availability.ge(MIN_SPATIAL_STRATUM_AVAILABILITY).all()
         and not by_stratum.empty
@@ -626,7 +628,8 @@ def audit():
         },
         f">={MIN_SPATIAL_OVERALL_AVAILABILITY:.0%} overall and >="
         f"{MIN_SPATIAL_STRATUM_AVAILABILITY:.0%} within every receiver and distance stratum "
-        "for complete -13 to -1 h donor windows",
+        f"and >={MIN_PAIR_COMPLETE_EVENTS} complete events per ordered pair for -13 to -1 h "
+        "donor windows",
     )
 
     return pd.DataFrame(rows)

@@ -12,7 +12,6 @@ sys.path.insert(0, str(ROOT))
 
 from src.event_study import (
     cluster_regional_storms,
-    contiguous_time_blocks,
     episode_onsets,
     episode_table,
     exact_onset_events,
@@ -51,6 +50,15 @@ def test_episode_onsets_do_not_bridge_a_missing_hour():
     onsets = episode_onsets(series, threshold=1.0, merge_hours=1)
 
     assert list(onsets) == [index[1], index[6]]
+
+
+def test_episode_onsets_do_not_bridge_an_omitted_timestamp():
+    index = pd.DatetimeIndex(["2025-01-01 00:00Z", "2025-01-01 02:00Z"])
+    series = pd.Series([0.0, 2.0], index=index)
+
+    onsets = episode_onsets(series, threshold=1.0)
+
+    assert onsets.empty
 
 
 def test_regional_storms_join_events_at_72_hours_but_not_after():
@@ -130,23 +138,6 @@ def test_event_is_excluded_when_fewer_than_three_controls_exist():
     assert controls.empty
 
 
-def test_control_times_cannot_cross_the_heldout_block():
-    index = pd.date_range("2018-01-01", "2025-12-31 23:00", freq="h", tz="UTC")
-    block = (pd.Timestamp("2024-01-01", tz="UTC"), pd.Timestamp("2026-01-01", tz="UTC"))
-    heldout_event = pd.Timestamp("2025-03-15 06:00", tz="UTC")
-    reference_event = pd.Timestamp("2023-03-15 06:00", tz="UTC")
-
-    heldout_controls = quiet_control_times(
-        index, heldout_event, [heldout_event], [], heldout_block=block
-    )
-    reference_controls = quiet_control_times(
-        index, reference_event, [reference_event], [], heldout_block=block
-    )
-
-    assert ((heldout_controls >= block[0]) & (heldout_controls < block[1])).all()
-    assert ((reference_controls < block[0]) | (reference_controls >= block[1])).all()
-
-
 def test_robust_standardization_uses_reference_only():
     result = robust_standardize(pd.Series([10.0]), pd.Series([0.0, 1.0, 2.0, 3.0, 4.0]))
     assert result.iloc[0] == 8.0
@@ -209,13 +200,3 @@ def test_pressure_change_does_not_bridge_an_omitted_timestamp():
     )
 
     assert pd.isna(residual.loc[index[120]])
-
-
-def test_five_time_blocks_are_contiguous_and_cover_the_record():
-    index = pd.date_range("2005-01-01", "2014-12-31 23:00", freq="h", tz="UTC")
-    blocks = contiguous_time_blocks(index)
-
-    assert len(blocks) == 5
-    assert blocks[0][0] == index.min()
-    assert blocks[-1][1] == index.max() + pd.Timedelta(hours=1)
-    assert all(left[1] == right[0] for left, right in zip(blocks[:-1], blocks[1:], strict=True))

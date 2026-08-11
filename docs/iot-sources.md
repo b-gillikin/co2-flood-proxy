@@ -17,8 +17,8 @@ The function app stores Blynk readings as daily CSV blobs named
 with `datetime.now(timezone.utc)`, so ingestion treats these timestamps as UTC.
 
 The local ingestion script uses the Azure CLI login on this machine and
-`--auth-mode key`; it does not store Azure connection strings, Blynk tokens, or
-Visual Crossing API keys in the repository.
+`--auth-mode key`; it does not store Azure connection strings or Blynk tokens
+in the repository.
 
 ## Local Blynk exports
 
@@ -38,10 +38,10 @@ Blynk export timestamps are local Europe/Amsterdam civil time in the CSVs. The
 loader converts them to UTC before hourly aggregation. Duplicate rows within a
 device/timestamp are resolved by preferring the more detailed source file.
 
-Interpretation caveat: the merged later-era hourly IoT frame is the input for
-the retained Eryilmaz context check, but it is not one uninterrupted
-single-device record and does not contain July 2021. Source, device and
-coverage-gap reports should travel with any interpretation.
+Interpretation caveat: the merged later-era hourly IoT frame is a possible
+input to the conditional Kerkrade recurrence case, but it is not one
+uninterrupted single-device record and does not contain July 2021. Source,
+device and coverage-gap reports must travel with any interpretation.
 
 ## Delivered Viefhues package
 
@@ -93,27 +93,16 @@ still missing. See `data-requests.md` and `student-next-actions.md`.
 - Historical K4 hourly output: `data/interim/viefhues_iot.csv`
 - Historical K4 QC: `data/processed/viefhues_iot_qc.csv`
 
-Run all available refreshes with:
+Refresh the later IoT stream with:
 
 ```bash
-python scripts/update_data.py
+python scripts/01_ingest_iot.py
 ```
 
-Rebuild normalized files from already downloaded raw files with:
-
-```bash
-python scripts/update_data.py --skip-download
-```
-
-To rebuild the IoT stream directly from cached raw files plus local exports:
+Rebuild from cached files, or ignore local Blynk exports, with:
 
 ```bash
 python scripts/01_ingest_iot.py --skip-download
-```
-
-For an Azure-only rebuild that ignores `iot-device-data/`:
-
-```bash
 python scripts/01_ingest_iot.py --skip-download --skip-exports
 ```
 

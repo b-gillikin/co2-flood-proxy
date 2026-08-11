@@ -1,88 +1,77 @@
 # Analysis Inventory — Prospective Event Study
 
 Status: 2026-08-11. There is no new event-study result. The regional chapter is
-stopped at its core data gate. The source-native July 2021 K4 IoT record is now
-normalised, but that alone does not make the separate Kerkrade recurrence case
+stopped at its core data gate. The source-native July 2021 K4 record is
+normalised, but that alone does not make the conditional Kerkrade case
 available.
 
-## Prospective chapter components
+## Prospective chapter
 
-| component | role | current state |
+| component | purpose | state |
 | --- | --- | --- |
-| literature source notes, evidence matrix and bibliography | verified source-level corpus for the student-authored literature review | ready; 42 sources and 96 question/source relationships; no aggregate synthesis |
-| Viefhues/Eryilmaz source reading | establishes event observation -> public explanation -> spatial-extent test | incorporated in the canonical literature corpus; original PDFs retained |
-| `31_event_study_gates.py` | audits the binding regional core and all-donor spatial support | implemented; core fails |
-| `32_lanuk_feasibility.py` | audits German gauge metadata, density, gaps, episodes and watercourse identity without signal outcomes | implemented; German cohort does not pass |
-| `33_ingest_viefhues_iot.py` | normalises the source-native non-ABC K4 record and records coverage/ceiling QC | implemented; all 744 July hours present |
-| `34_fetch_era5_land.py` | downloads and validates the approved 2001–2025 primary-weather grid and hashes its monthly NetCDF files | implemented; CDS credentials/licence verified and acquisition in progress |
-| `src/event_study.py` | small definitions for storms, censored events, controls, pressure residuals and time blocks | implemented and unit-tested |
-| long-record p99 event catalogue | independently defines high-water episodes | not built; discharge gate fails |
-| matched local contrasts | establishes which fixed signals recur before receiver high water | not run or fully implemented |
-| all-donor spatial contrasts | estimates how each signal's event contrast changes with receiver-donor distance | gate support partly implemented; outcome estimator not implemented or run |
-| July 2021 regional anchor | observed regional trajectory inside the common study period | not run; core inputs fail |
-| conditional Kerkrade case | Viefhues trajectory and later pressure-adjusted CO2 recurrence | July K4 is reproducible; era metadata, pair, bounds and later-event support remain incomplete |
-| RADOLAN catchment rainfall | principal rainfall exposure | not built; radar/polygon gate fails |
-| long public-weather assignment | temperature, humidity and pressure for each watercourse | primary source/rule fixed; raw grid acquisition in progress and catchment assignment not yet possible; gate fails |
+| literature notes, evidence matrix and BibTeX | verified source-level corpus for the student-authored review | ready; 42 sources, 96 relationships, no aggregate synthesis |
+| Viefhues and Eryilmaz source reading | establishes observation -> public explanation -> spatial-extent test | incorporated; original PDFs retained |
+| `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
+| `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
+| `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
+| `34_fetch_era5_land.py` | acquires and validates the approved 2001–2025 weather grid | implemented; acquisition in progress |
+| `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |
+| long-record event catalogue | independently defines high-water episodes | not built; discharge gate fails |
+| local event-minus-quiet contrasts | identifies recurring public signals | not implemented or run |
+| ordered-pair spatial contrasts | measures signal coherence at every other watercourse | support audit implemented; outcomes not implemented or run |
+| pair-median distance slopes | relates one median per ordered pair to fixed log distance | specified; not implemented or run |
+| July 2021 regional anchor | describes observed regional trajectory without invented onset/peak | not run; core inputs fail |
+| conditional Kerkrade recurrence | compares July 2021 with later pressure-adjusted CO2 events | unavailable; provenance, pair, bounds and later-event support incomplete |
 
-No figure or outcome table from this prospective design exists. The protocol is
-not locked.
+No prospective figure or outcome table exists. The protocol is unlocked.
+LANUK products under `results/feasibility/` are input-QA artifacts, not chapter
+findings.
 
-The LANUK feasibility products under `results/feasibility/` are input-QA
-artifacts, not chapter findings. The tracked interpretation is
-`lanuk-feasibility.md`.
+## Supporting data acquisition
 
-## Existing analysis retained as predecessor context
+- `01_ingest_iot.py` and `src/io_iot.py`: later Kerkrade IoT for the conditional
+  case;
+- `25_ingest_lanuk_nrw.py`: held German source needed to reproduce the failed
+  route;
+- `34_fetch_era5_land.py`: sole regional public-weather source;
+- source PDFs, source notes, evidence matrix, bibliography and append-only
+  decision log.
 
-| analysis | permitted role |
-| --- | --- |
-| `03_eryilmaz_replication.py` | short same-site context for Eryilmaz; calendar-defined forward folds report coverage and outages separately, with no pooled/mean headline; not spatial transfer |
+The Azure code in `kerkrade_data/` is collection infrastructure, not chapter
+analysis. It is outside routine scientific verification.
 
-## Data infrastructure retained
+## Removed from the live analysis
 
-- IoT and Visual Crossing ingestion retained for predecessor context;
-- Waterschap, LANUK and RWS discharge ingestion;
-- DWD point-rainfall ingest as a sensitivity source, not the principal
-  catchment exposure;
-- already-held BRO groundwater as optional Kerkrade mechanism evidence;
-- zero-sentinel, timestamp and precipitation-unit corrections;
-- source PDFs, the canonical source notes/evidence matrix/BibTeX and the
-  historical decisions log.
-
-## Stopped
-
-- symmetric all-pairs prediction matrices, Mantel tests and
-  catchment-signature analyses; the retained all-donor table serves one fixed
-  spatial-gradient estimand instead;
+- the later-era Eryilmaz model re-fit and its Visual Crossing join;
+- rolling two-year Dutch discharge, RWS main-stem and DWD point-rain pipelines;
+- all-pairs prediction matrices, Mantel and catchment-signature analyses;
 - best-lag search, correlation radii and monitoring-location inference;
-- Fase thresholds outside exact crisis-plan leading gauges;
+- Fase thresholds outside their exact crisis-plan gauges;
 - water-level expansion as a substitute for discharge history;
-- anomaly-detector and fun-model comparisons;
-- SARIMAX and Kalman filtering, which answer anomaly/dynamics questions rather
-  than event recurrence;
-- generic model/substitution frameworks and generated prose reports;
-- the 2024–2026 hourly transfer classifier and its operational metrics;
-- the unreproducible later-record precursor pipeline, whose input-producing
-  exploratory script had already been retired;
-- the three-gauge soft-label catalogue and full-period CO2 barometric baseline;
-- operational alerts, warning recall, false-alarm budgets and FEWS comparison.
+- anomaly detectors, SARIMAX, Kalman filters and fun-model comparisons;
+- hourly transfer classifiers, alert metrics and operational interpretations;
+- generic model/substitution frameworks and generated prose reports.
 
-Deleted code remains in Git history. More spatial rows, thresholds or model
-families do not compensate for missing years or missing catchment rainfall.
+The Eryilmaz paper remains predecessor evidence. Removing its later-era re-fit
+does not remove that intellectual step; it prevents a second same-site model
+from competing with the chapter's actual estimands. Deleted code remains in Git
+history.
 
-## Data-science code standard
+## Code standard
 
-New analysis should read as an auditable notebook translated into scripts:
+The planned analysis should read as an auditable data-science script:
 
 `load -> check -> define events/controls -> estimate -> tidy tables -> figures`
 
-Keep transformations in pandas, keep intermediate tables visible, and comment
-scientific choices rather than obvious syntax. Add a shared helper only when a
-definition is reused or needs an isolated regression test. Do not build a
-pipeline framework, configuration system, report generator or reusable model
-product for this chapter.
+Keep transformations visible in pandas. Use one simple equation per fixed
+signal, not an extensible modelling interface. Comment scientific decisions
+such as censoring, completeness and aggregation rather than obvious syntax.
+Add a helper only when a definition is reused or needs an isolated scientific
+check. Do not build a pipeline framework, configuration system, report
+generator, model registry or application layer.
 
-The default scientific suite contains 32 focused checks. Eighteen older
-application/ingestion checks have been moved to `infrastructure_tests/` and are
-not part of routine chapter verification. New source deliveries should first
-be checked against their real files and tidy QC artifacts; do not add fixture
-tests merely because a parser exists.
+The default test suite protects event definitions, leakage-prone source
+semantics and gate calculations. It should grow only when a possible error
+could alter a reported number or scientific claim. Parsers should first be
+checked against real delivered files and tidy QC artifacts, not automatically
+given fixture suites.

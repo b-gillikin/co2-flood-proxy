@@ -1,123 +1,116 @@
-# Pre-High-Water Signal Recurrence and Spatial Transferability
+# Pre-High-Water Signal Recurrence and Spatial Extent
 
 Prospective research question:
 
 > Across Limburg tributaries, which public hydrometeorological signals recur
 > during the 72 hours before independently defined high-water onset, and how
-> does their event-minus-quiet signal change with distance from the affected
-> watercourse? At
-> Kerkrade, if the source data support the case, does pressure-adjusted CO2
-> recur as a local manifestation of that regional state?
+> do the direction and magnitude of their event-minus-quiet contrasts change
+> with distance from the affected watercourse? If the source data support a
+> Kerkrade case, does
+> pressure-adjusted CO2 recur there as a local manifestation of that regional
+> state?
 
-Status: **data-gated; no new chapter result exists**. The primary ERA5-Land
-source has been approved and its fixed 2001–2025 CDS extract is being acquired.
-This is source acquisition, not an event-study result. The repository still
-lacks the other contracted regional inputs. A newly delivered
-Viefhues source package contains a cleaned hourly 2020–2021 table, raw
-May–September 2021 IoT files and the historical ABC-processing code. The
-source-native K4 record is now normalised and covers every July 2021 hour;
-older lineage, sensor-era metadata and later-event feasibility remain
-unresolved. The protocol therefore remains unlocked and no outcome analysis
-has been run.
+Status: **data-gated; no new chapter result exists**. ERA5-Land acquisition is
+in progress, but the repository still lacks the qualifying long discharge
+cohort, catchment polygons and RADOLAN catchment rainfall. The protocol is
+unlocked and the outcome analysis has not been run.
+
+The dissertation sequence is:
+
+1. Viefhues observes an indoor CO2 response around one exceptional event at
+   one Kerkrade house.
+2. Eryilmaz shows that public weather explains much of the same-site indoor
+   information outside the flood period.
+3. This chapter tests which public signals recur before independently defined
+   high water and how their contrasts vary with distance across the observed
+   tributary network.
+
+Transferability means **spatial extent**, not prediction, gauge substitution,
+physical propagation, an operational radius or performance in ungauged basins.
 
 ## Read first
 
 | document | role |
 | --- | --- |
-| `docs/chapter-synthesis.md` | canonical question, contribution, design and current status |
-| `docs/chapter-scope-and-preregistration.md` | draft estimator protocol; lock only after gates and supervisor approval |
-| `docs/analysis-inventory.md` | prospective, secondary and stopped analyses |
+| `docs/chapter-synthesis.md` | canonical question, contribution, design and status |
+| `docs/chapter-scope-and-preregistration.md` | estimator protocol; lock only after gates and approvals |
+| `docs/scope-decisions.md` | concise live choices |
+| `docs/analysis-inventory.md` | prospective, supporting and stopped work |
 | `docs/data-requests.md` | exact blockers and delivery contracts |
-| `docs/lanuk-feasibility.md` | reproducible decision on the held German gauge route |
-| `docs/supervisor-decision-memo.md` | recorded approvals, remaining design questions and recommendations |
-| `docs/student-next-actions.md` | detailed five-task student handoff and send-ready institutional requests |
-| `docs/literature-source-notes.md` | source-by-source notes; no aggregate literature synthesis |
+| `docs/supervisor-decision-memo.md` | approvals and unresolved numerical floors |
+| `docs/student-next-actions.md` | student tasks and send-ready requests |
+| `docs/literature-source-notes.md` | source-by-source notes without synthesis |
 | `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
-| `docs/chapter-references.bib` | verified bibliography for the retained corpus |
-| `docs/HANDOFF.md` | session state only |
+| `docs/chapter-references.bib` | verified retained bibliography |
+| `docs/HANDOFF.md` | current session state only |
 
-`chapter-prework/` retains only the two supplied predecessor PDFs and a README.
-Obsolete scaffolds, generated source corpora, How-To documents and the legacy
-bibliography were removed; Git history remains their archive.
+`chapter-prework/` retains the two supplied predecessor PDFs and its README.
+The Viefhues delivery is external raw material and is ignored by Git.
 
-The intended sequence is Viefhues MSc -> Eryilmaz paper -> this chapter:
-single-event observation -> same-site public-signal explanation -> recurrence
-and the spatial extent of those signals.
-
-## Audit the hard gates
+## Run the input audits
 
 ```bash
 conda env create -f environment.yml
 conda activate chapter1-co2
 python scripts/31_event_study_gates.py --report-only
-```
-
-`--report-only` writes `results/event_study/gate_audit.{csv,md}` while allowing
-the known failure. Omit it for the binding gate: a failed regional audit exits
-nonzero. The conditional Kerkrade case is assessed separately when a qualifying
-hydrological pair and onset evidence exist. Do not point the audit at the
-rolling two-year files.
-
-Normalize and audit the source-native Viefhues K4 record with:
-
-```bash
+python scripts/32_lanuk_feasibility.py
 python scripts/33_ingest_viefhues_iot.py
 ```
 
-The separate LANUK source audit is safe to rerun before protocol lock because
-it uses discharge availability and metadata only:
+`--report-only` writes the known failed regional audit without treating it as a
+chapter result. Omit that flag only when all six contracted regional inputs
+exist. The Kerkrade case is assessed separately.
 
-```bash
-python scripts/32_lanuk_feasibility.py
-```
-
-It writes tidy QA tables under `results/feasibility/` and regenerates
-`docs/lanuk-feasibility.md`. It does not calculate public-signal or CO2
-contrasts.
-
-## Existing predecessor check
-
-```bash
-python scripts/update_data.py --skip-download
-python scripts/03_eryilmaz_replication.py
-```
-
-This re-evaluates Eryilmaz's same-site indoor-versus-public comparison on the
-later sensor era. It is predecessor context, not the chapter's transfer method.
-`update_data.py` refreshes only Kerkrade IoT/weather and their QC frame; network
-source pulls are separate because their public rolling records do not pass the
-chapter gate.
-
-The approved primary public-weather pull is:
+Fetch the approved weather source with:
 
 ```bash
 python scripts/34_fetch_era5_land.py
 ```
 
-It needs the user's Copernicus CDS token in `~/.cdsapirc`. The credential and
-dataset licence are already configured on the current machine.
+The current machine has the CDS credential and accepted licence. The script is
+restart-safe and writes one validated monthly NetCDF plus a checksum manifest.
+
+Refresh the later Kerkrade IoT record, if needed for the conditional case, with:
+
+```bash
+python scripts/01_ingest_iot.py
+```
+
+## Planned analysis
+
+The chapter uses one quantity: signal in the pre-event window minus the median
+signal at matched quiet times. Local contrasts establish recurrence. Spatial
+contrasts are aggregated to one median per ordered receiver-donor pair and one
+prespecified line is fitted for each signal:
+
+```text
+pair_median_contrast ~ 1 + log(1 + distance_km)
+```
+
+Uncertainty resamples complete regional storms. Leave-one-watercourse-out
+refits are influence checks. There is no classifier, time-block validation,
+mixed-effects model, SARIMAX, Kalman filter or model-family search.
 
 ## Verify
 
 ```bash
 python -m pytest -q
-python -m pytest infrastructure_tests -q  # only when legacy ingestion changes
+python -m pytest infrastructure_tests -q  # only when legacy collection changes
 ruff check .
 ruff format --check .
 ```
 
-## Conventions
+## Working conventions
 
 - Hourly UTC; missing hours remain missing and crossings never bridge gaps.
-- Joint-period density is audited; endpoint span cannot substitute for observed hours.
-- One pre-declared representative per natural watercourse.
-- RADOLAN catchment averages are primary; point rainfall is sensitivity only.
-- Receiver flow defines high-water onset and is not a candidate signal.
-- Thresholds, scaling and pressure adjustment exclude held-out periods.
-- Estimate spatial extent from every eligible receiver-donor pair, not a chosen
-  nearest donor.
-- Fit one prespecified distance relationship per signal; validate its magnitude
-  at held-out receiver-period intersections. The held watercourse is absent
-  from training as both receiver and donor.
+- One predeclared gauge per natural tributary watercourse.
+- Receiver flow defines high-water onset and is not its own signal.
+- RADOLAN catchment rainfall and donor flow are principal hydrological signals.
+- ERA5-Land temperature, humidity and pressure form one fixed atmospheric block.
+- Every eligible receiver-donor pair is retained; each ordered pair has equal
+  weight in the distance analysis and must have at least 10 complete events.
 - Aggregate events within watercourse before describing the network.
-- No operational, causal, FEWS or monitoring-placement claim.
+- Null and heterogeneous results are final results, not invitations to add
+  models, lags or thresholds.
+- No flood-prediction, causal, FEWS, alert, monitoring-placement or ungauged-
+  basin claim.

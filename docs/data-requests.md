@@ -1,6 +1,6 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-10. Core network deliveries are binding for the regional event
+Status: 2026-08-11. Core network deliveries are binding for the regional event
 study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
 
 ## Current gate state
@@ -208,9 +208,9 @@ Deliver:
   missing codes, polygon source and spatial weighting.
 
 EStreams boundaries may be a starting point but must be visually and
-hydrologically checked. The existing DWD point series is not a substitute for
-catchment-average RADOLAN rainfall. ERA5-Land (~9 km) and retired REGNIE are
-also not substitutes.
+hydrologically checked. Point-gauge rainfall is not a substitute for
+catchment-average RADOLAN rainfall. ERA5-Land (~9 km) is also not a rainfall
+substitute.
 
 ## 5. July 2021 gauge evidence — core status, conditional local bounds
 

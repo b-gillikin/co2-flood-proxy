@@ -14,7 +14,10 @@ from sklearn.linear_model import LinearRegression
 def episode_table(series, threshold, merge_hours=72):
     """Describe observed upward crossings joined by the fixed single-linkage rule."""
     previous = series.shift(1)
-    crossing = series.gt(threshold) & previous.le(threshold)
+    elapsed = series.index.to_series().diff()
+    crossing = (
+        series.gt(threshold) & previous.le(threshold) & elapsed.eq(pd.Timedelta(hours=1)).to_numpy()
+    )
     onsets = series.index[crossing & series.notna() & previous.notna()]
     columns = ["onset_utc", "last_crossing_utc", "n_crossings", "chain_span_hours"]
     if not len(onsets):
@@ -81,7 +84,6 @@ def quiet_control_times(
     receiver_exceedances,
     regional_storms,
     available=None,
-    heldout_block=None,
     n_controls=5,
     minimum_controls=3,
     exclusion_days=7,
@@ -93,13 +95,6 @@ def quiet_control_times(
     """
     index = pd.DatetimeIndex(index).sort_values().unique()
     candidates = index[(index.month == event_time.month) & (index.hour == event_time.hour)]
-    if heldout_block is not None:
-        block_start, block_end = map(pd.Timestamp, heldout_block)
-        if block_start >= block_end:
-            raise ValueError("Held-out block start must precede its end")
-        inside = (candidates >= block_start) & (candidates < block_end)
-        event_is_heldout = block_start <= event_time < block_end
-        candidates = candidates[inside if event_is_heldout else ~inside]
     if available is not None:
         valid = pd.Series(available, index=getattr(available, "index", index))
         is_available = valid.reindex(candidates).fillna(False).astype(bool)
@@ -173,14 +168,3 @@ def pressure_residuals_by_era(frame, quiet_mask, era_col="sensor_era", **kwargs)
         raw = pressure_residuals(era, era_quiet, **kwargs)
         residual.loc[era.index] = robust_standardize(raw, raw.loc[era_quiet])
     return residual
-
-
-def contiguous_time_blocks(index, n_blocks=5):
-    """Split a UTC record into equal-duration, non-overlapping time blocks."""
-    index = pd.DatetimeIndex(index).sort_values()
-    if index.empty:
-        return []
-    start = index.min()
-    end = index.max() + pd.Timedelta(hours=1)
-    boundaries = pd.date_range(start, end, periods=n_blocks + 1)
-    return list(zip(boundaries[:-1], boundaries[1:], strict=True))

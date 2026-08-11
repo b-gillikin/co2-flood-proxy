@@ -1,89 +1,50 @@
 # Scripts
 
-Numbered scripts are data ingests or transparent analyses. New work should
-follow `load -> check -> define -> estimate -> tidy tables -> figures`; this
-repository does not need an analysis framework.
+The live scripts are data acquisition, input QA or small transparent analyses.
+New chapter code should read as:
 
-## Prospective event study
+`load -> check -> define events/controls -> estimate -> tidy tables -> figures`
+
+There is no analysis framework or model registry.
 
 | script/module | purpose | state |
 | --- | --- | --- |
-| `31_event_study_gates.py` | audit the binding regional core and all-donor spatial support | implemented; regional inputs fail |
-| `32_lanuk_feasibility.py` | audit held German gauges without inspecting signal outcomes | implemented; German route does not pass |
-| `33_ingest_viefhues_iot.py` | normalise source-native K4 CO2/pressure and write compact coverage/provenance QC | implemented; complete July 2021 hourly coverage |
-| `src/event_study.py` | small tested definitions for storms, controls, censoring, pressure residuals and time blocks | implemented |
-| event-contrast script | local recurrence, all-donor distance gradients, held-out validation and four figures | deliberately not run or completed before gates/lock |
+| `01_ingest_iot.py` | normalise later Kerkrade IoT for the conditional case | implemented |
+| `25_ingest_lanuk_nrw.py` | acquire the held German discharge source used by the feasibility audit | implemented; source does not pass |
+| `31_event_study_gates.py` | audit the six binding regional inputs and all-donor support | implemented; regional gate fails |
+| `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; German route fails |
+| `33_ingest_viefhues_iot.py` | normalise source-native July 2021 K4 CO2/pressure and write QC | implemented |
+| `34_fetch_era5_land.py` | acquire and validate the fixed 2001–2025 weather grid | implemented; acquisition in progress |
+| `src/event_study.py` | definitions for episodes, storms, controls, censoring and conditional CO2 adjustment | implemented and unit-tested |
+| event-contrast script | local recurrence, pair medians, distance slopes and four figures | not written or run before gates and lock |
 
-Audit without pretending the known failure is a result:
+Safe input-only commands:
 
 ```bash
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
 python scripts/33_ingest_viefhues_iot.py
-```
-
-## Predecessor context
-
-| script | permitted role |
-| --- | --- |
-| `03_eryilmaz_replication.py` | same-site context for Eryilmaz |
-
-Its input is the compact IoT/weather frame written by `01_eda.py`. Run
-`update_data.py --skip-download` to rebuild that frame from cached source files.
-
-## Relevant data collection
-
-| script | purpose |
-| --- | --- |
-| `update_data.py` | refresh later-era Kerkrade IoT/weather and rebuild context QC |
-| `01_ingest_iot.py` | currently held 2025–2026 Kerkrade IoT |
-| `02_ingest_weather.py` | Kerkrade public weather |
-| `01_eda.py` | join those two sources and write the Eryilmaz/QC frame |
-| `22_ingest_waterschap_gauges.py` | rolling two-year Waterschap network; not the long-record gate input |
-| `25_ingest_lanuk_nrw.py` | German long-record gauges |
-| `26_ingest_rws_maas.py` | RWS main-stem source validation |
-| `27_ingest_dwd_precipitation.py` | point-rainfall sensitivity source |
-| `34_fetch_era5_land.py` | fixed 2001–2025 primary-weather grid over Limburg and its cross-border margin |
-
-RADOLAN catchment averaging and long Waterschap ingestion remain to be written
-after the data are obtained and their formats inspected. ERA5-Land is the
-approved primary public-weather source. Fetch its source grid with:
-
-```bash
 python scripts/34_fetch_era5_land.py
 ```
 
-This requires a Copernicus CDS account, accepted ERA5-Land licence and the two
-credential lines in `~/.cdsapirc`. The script retrieves monthly NetCDF files
-for 2001–2025, validates them and writes a checksum manifest. Monthly requests
-stay below the CDS field limit and were faster per field than a tested annual
-hour-block split. Catchment-centroid assignment and relative-humidity
-derivation wait for the verified cohort; no outcome is read.
+The eventual outcome script should be one direct pandas/statsmodels-style
+analysis, split only if the figures make it unreadable. Add helpers only for a
+scientific definition reused in more than one place or requiring an isolated
+check. Comment choices such as censoring and window completeness, not obvious
+syntax.
 
-The BRO groundwater fetch/normalisation code is archived because groundwater is
-now optional mechanism evidence, not a live analytical lane. The already-held
-BRO observations can still be used descriptively if the Kerkrade case warrants
-it.
+## Retired from the live tree
 
-## Retired directions
-
-The live tree no longer uses all-pairs prediction matrices/Mantel,
-Fase-everywhere, best-lag,
-catchment-signature, detector-ensemble, hourly transfer classification or
-generic substitution machinery. The history remains in the decisions log.
-The retained all-donor table answers one fixed spatial-extent question. More
-models and more pair rows are not substitutes for missing years and rainfall
-exposure.
+The later-era Eryilmaz re-fit, Visual Crossing join, rolling two-year Dutch
+gauge pull, Maas main-stem validation and DWD point-rain sensitivity were
+removed. The Eryilmaz paper remains predecessor evidence; those extra pipelines
+did not answer the prospective chapter question. Older prediction matrices,
+classifiers, filters, anomaly detectors and generic substitution machinery were
+already retired. Git history and `docs/decisions.md` preserve the audit trail.
 
 ## Verification boundary
 
-`pytest -q` runs the small scientific suite for event definitions, leakage
-guards and source semantics. Older IoT/daily-summary application checks live in
-`infrastructure_tests/` and run only when that legacy machinery changes:
-
-```bash
-pytest infrastructure_tests -q
-```
-
-The Viefhues ingest is checked against the actual delivered source and its QC
-table. It does not add another fixture-based test layer.
+`pytest -q` covers scientific definitions and input semantics. The older IoT
+collection checks live in `infrastructure_tests/` and run only when that
+collection machinery changes. New parsers should first be checked against the
+delivered file and a tidy QC artifact; do not add fixture tests by default.

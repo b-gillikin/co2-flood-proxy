@@ -6,7 +6,6 @@ dependencies:
   - python=3.11
   - numpy
   - pandas
-  - pyarrow
   - xarray
   - netcdf4
   - geopandas
@@ -14,7 +13,6 @@ dependencies:
   - rasterio
   - matplotlib
   - scikit-learn
-  - requests
   - cdsapi>=0.7.7
   - ruff
   - pytest

@@ -1,23 +1,26 @@
 # Student Next Actions
 
-Updated 2026-08-10. The institutional emails were sent and the first supervisor
+Updated 2026-08-11. The institutional emails were sent and the first supervisor
 reply was received. Do not lock the protocol or inspect new signal contrasts
 while the remaining design choices and regional inputs are unresolved.
 
 ## 1. Close the remaining supervisor decisions
 
 Approved: the contribution, spatial-extent meaning, Limburg population,
-ERA5-Land primary source, July 2021 treatment and conditional status of the CO2
-case. The minimum of three held-out receiver events was accepted provisionally.
+ERA5-Land source, July 2021 treatment and conditional status of the CO2 case.
 Only the following follow-up remains:
 
 - confirm that the 10-watercourse/10-year/20-episode/40-storm values may remain
   prospective design floors after the explanation in
   `supervisor-decision-memo.md` §4;
 - confirm the blinded 70/80/90 availability audit and commit to freezing one
-  coverage rule before signal outcomes; and
-- confirm that each of the three held-out events must have a complete donor in
-  each distance third.
+  coverage rule before signal outcomes, including the proposed minimum of 10
+  complete event/control contrasts per ordered pair; and
+- inform the supervisor that held-out receiver-period prediction has been
+  removed. The final spatial estimator uses ordered-pair medians, one fixed
+  distance slope, storm resampling and leave-one-watercourse-out influence
+  checks. Confirm that this directly implements the approved spatial-extent
+  meaning.
 
 The original eight-item request is retained below as the response record, not
 as a new task.
@@ -42,12 +45,12 @@ supervisor actually uses.
    70% in every year for discharge, RADOLAN rainfall and public weather; also
    approve 80% overall/70% by receiver and distance third for donor-flow event
    windows.
-6. **Public weather:** approve a single long-record source and assignment rule.
-   The current recommendation is a consistent gridded source assigned before
-   inspecting outcomes; official stations can be a sensitivity.
-7. **Held-out evidence:** approve or revise the proposed minimum of three
-   receiver events and at least one complete pair contrast in each distance
-   third for an eligible receiver-period fold.
+6. **Public weather:** approve ERA5-Land for 2001–2025, assigning the nearest
+   fixed grid cell to each predeclared catchment centroid and deriving relative
+   humidity from temperature and dew point.
+7. **Spatial estimator:** note that the earlier held-out fold has been retired.
+   Confirm ordered-pair medians plus one fixed log-distance slope, storm
+   resampling and leave-one-watercourse-out influence checks.
 8. **July 2021:** approve its inclusion as a required regional anchor, with no
    invented local onset or peak. Confirm that the new Kerkrade CO2 analysis is
    conditional rather than a gate for the regional chapter.

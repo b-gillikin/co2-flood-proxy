@@ -6,132 +6,120 @@ chapter claims.
 Read in this order:
 
 1. `chapter-synthesis.md` — canonical question, contribution, design and state.
-2. `chapter-scope-and-preregistration.md` — draft 0.6 estimator protocol.
-3. `supervisor-decision-memo.md` — choices requiring supervisor approval.
-4. `student-next-actions.md` — the student's detailed five-task handoff.
+2. `chapter-scope-and-preregistration.md` — draft 0.7 protocol.
+3. `supervisor-decision-memo.md` — recorded approvals and open floors.
+4. `student-next-actions.md` — current student tasks and sent requests.
 5. `data-requests.md` — delivery contracts and blockers.
-6. `lanuk-feasibility.md` — reproducible decision on the held German route.
-7. `literature-source-notes.md` — source-level notes, not a literature review.
-8. `literature-evidence-matrix.csv` — 23 evidence questions mapped to sources.
-9. `chapter-references.bib` — verified retained bibliography.
-10. `analysis-inventory.md` — live, secondary and stopped work.
+6. `analysis-inventory.md` — prospective, supporting and retired work.
+7. `literature-source-notes.md`, `literature-evidence-matrix.csv` and
+   `chapter-references.bib` — source corpus for the student-authored review.
 
 ## Current chapter
 
-> Across Limburg tributaries, which public hydrometeorological signals recur
-> during the 72 hours before independently defined high-water onset, and how
-> does their event-minus-quiet signal change with distance from the affected
-> watercourse? If the source data support a Kerkrade case, does
-> pressure-adjusted CO2 recur there as a local manifestation of that regional
-> state?
+The chapter is now scoped as one direct matched event study:
 
-The sequence is Viefhues's July 2021 observation -> Eryilmaz's same-site public
-weather explanation -> this chapter's recurrence and spatial-extent test.
-Transferability means the distance relationship in all-donor event contrasts,
-not classification, gauge substitution, travel time or an operational radius.
+1. Viefhues: one Kerkrade event and indoor CO2 response.
+2. Eryilmaz: same-site public-weather explanation outside that event.
+3. This chapter: recurrence before independently defined high water and spatial
+   extent across the observed tributary network.
 
-## Supervisor response
+Transferability means the change in event-minus-quiet contrast with distance.
+It does not mean prediction, gauge substitution, propagation, operational
+radius or ungauged-basin performance.
 
-Approved: the contribution, transferability as all-donor spatial extent,
-natural Limburg tributaries as the primary population, ERA5-Land as primary
-weather, July 2021 as a censored regional anchor and the conditional status of
-the Kerkrade CO2 case. Three held-out receiver events is provisionally
-acceptable.
+Local event-minus-quiet contrasts establish recurrence. Spatial event
+contrasts are aggregated to one median per ordered receiver-donor pair, then
+one fixed line is fitted per signal:
 
-Still open: the numerical cohort floor, the coverage/donor-availability floors
-and the clarified requirement that every retained test event have at least one
-complete donor in each distance third. These are design judgements, not field
-standards. Use the proposed blinded availability audit before outcomes, then
-freeze a supervisor decision. The protocol remains unlocked.
+`pair_median_contrast ~ 1 + log(1 + distance_km)`.
 
-## Weather acquisition
+Pairs receive equal weight; complete storms are resampled for uncertainty;
+each watercourse is omitted in turn as an influence check. The former crossed
+watercourse/time-block validation and random-intercept model are retired.
 
-- `scripts/34_fetch_era5_land.py` downloads monthly files for 2001–2025
-  temperature, dew point and surface-pressure grids over 50.5–52.0° N and
-  5.0–6.7° E and hash them. `cdsapi` is installed in the named environment.
-- The CDS credential and ERA5-Land licence are verified. Full-day annual
-  requests exceed the 12,000-field limit. A five-hour annual-block benchmark
-  passed but was slower per field than the monthly requests, so acquisition is
-  proceeding in restart-safe monthly files. Six validated monthly files were
-  recovered before the full sequential run began; newly completed months are
-  added atomically. The 2001 annual-block benchmark is not part of the final
-  source manifest.
-- ERA5-Land is the only regional public-weather source. The parallel
-  station-weather sensitivity and its ingestion code were retired to keep the
-  chapter single-source and readable. Its dedicated Azure Function App is
-  stopped; cloud storage was not deleted.
+Signal hierarchy is fixed: RADOLAN catchment rainfall and donor flow are the
+principal hydrological signals; ERA5-Land temperature, humidity and pressure
+are one compact Eryilmaz-derived atmospheric block; CO2 is conditional.
 
-## Literature reset completed
+## Data and approvals
 
-- `literature-source-notes.md` contains 42 independent source entries across
-  the predecessors, local mine context, July 2021, flood processes, spatial
-  dependence, event sampling, radar rainfall and discharge uncertainty.
-- `literature-evidence-matrix.csv` contains 96 question/source relationships
-  using only the six declared coverage roles. The 30–40 planning range was not
-  treated as a quota; canonical sources were retained where applicable.
-- `chapter-references.bib` has one verified entry per retained source, with
-  shared keys and no provisional metadata or abbreviated author lists.
-- No integrated literature synthesis, literature-gap conclusion, expected
-  result or chapter prose was written. The student owns cross-source analysis
-  and writing.
-- The two supplied predecessor PDFs remain in `chapter-prework/`. Obsolete
-  How-To documents, generated source corpora, scaffold skills, reports and the
-  legacy bibliography were removed; Git history remains the archive.
+Approved: the contribution, spatial-extent meaning, natural Limburg tributary
+population, ERA5-Land source/rule, July 2021 anchor and conditional Kerkrade
+case.
 
-## Viefhues source status
+Still open: the provisional 10-watercourse/10-year/20-episode/40-storm floor;
+80% overall and 70% annual/receiver/distance coverage rules; and the new minimum
+of 10 complete event/control contrasts per ordered pair. The student should
+show the blind availability audit, freeze these values with the supervisor and
+inform the supervisor that the prediction-style holdout has been retired.
 
-K4 remains the useful source-native historical record. It is labelled as the
-non-ABC basement sensor in the supplied R code and contains every July 2021
-civil-time hour. The observed K4 trajectory is reproducible, but device
-identity, calibration, exact ABC edits, the 450-ppm adjustment and reuse terms
-remain unresolved. K3's `livingroom` filename still conflicts with the thesis
-statement that both sensors were in the basement. These discrepancies are now
-recorded in the canonical source notes.
+The Waterschap, LANUK and Viefhues follow-up messages were sent; replies are
+pending. The regional gate still **fails** because all six analysis-ready
+network inputs are absent. Do not inspect prospective signal contrasts or
+lower the gate.
 
-The conditional CO2 recurrence case remains unavailable because sensor-era
-provenance, a valid hydrological pair, independent onset bounds and three later
-complete events do not yet exist. That does not block the regional chapter.
+The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
+identity/calibration, complete ABC lineage, a defensible hydrological pair,
+independent onset bounds and later complete events remain unresolved. The CO2
+case is therefore unavailable, but the regional chapter is not blocked by it.
 
-## Current stop
+## ERA5-Land acquisition
 
-`python scripts/31_event_study_gates.py --report-only` still reports regional
-**FAIL** because all six analysis-ready network inputs are absent. Do
-not lower the ten-year cohort rule, substitute the rolling two-year record or
-inspect prospective signal contrasts.
+The local sequential process remains active in session `44575`. At this handoff
+the complete 2001-01 through 2001-10 monthly files were present and 2001-11 was
+running. Other benchmark files are not part of the final sequential manifest.
+The download is local: closing the laptop stops it. The script is restart-safe.
 
-The student's immediate actions are:
+ERA5-Land is the only regional weather source. The user stopped the retired
+KNMI Azure Function App; its app and stored blobs were not deleted.
 
-1. obtain the supervisor's remaining floor/occupancy decisions after the
-   explanations in `supervisor-decision-memo.md`;
-2. wait for the already-sent Waterschap, LANUK and Viefhues replies; and
-3. return correspondence and native attachments unchanged.
+## Code-review result
 
-## Agent work after the student returns
+The live analysis tree was reduced by more than 1,900 net lines. Removed:
 
-1. Inventory and hash native deliveries; resolve sampling, timezone, units,
-   missingness, rating curves, natural/managed status and July 2021 QA.
-2. Fix the admissible watercourse cohort and write direct, tidy ingests only
-   after the delivered formats are known.
-3. Complete and QA the ERA5-Land pull; build and visually verify catchment
-   polygons, centroid weather assignment and RADOLAN area averages.
-4. Rerun the strict regional gate. If it passes, record hashes and approvals
-   and lock the protocol before outcome inspection.
-5. Implement matched contrasts, one prespecified spatial gradient per signal,
-   tidy outputs and four figures. Add only claim-protecting estimator checks.
-6. Add the Kerkrade section only if its separate evidence contract passes;
-   missing case evidence is not a null CO2 result.
+- the later-era Eryilmaz re-fit and Visual Crossing join;
+- rolling two-year Waterschap and RWS main-stem pipelines;
+- DWD point-rain sensitivity;
+- holdout/time-block helpers and their tests;
+- the obsolete weather-source note and unused environment dependencies.
+
+Eryilmaz remains predecessor evidence in the source corpus. Active later-IoT
+ingestion remains only because it may support the conditional Kerkrade case.
+LANUK acquisition/feasibility code remains until the pending source reply is
+resolved. Azure collection code is operational infrastructure, not chapter
+analysis.
+
+The event helper now requires timestamps as well as rows to be exactly one hour
+apart, preventing a false p99 crossing across an omitted timestamp. A focused
+regression test protects that scientific rule.
+
+## Agent work after deliveries
+
+1. Inventory and hash native replies; resolve sampling, timezone, units,
+   sentinels, rating curves, natural/managed status and July 2021 QA.
+2. Fix the admissible cohort and write direct ingests after inspecting actual
+   formats.
+3. Finish/validate ERA5-Land, then build verified catchment polygons, centroid
+   assignment and RADOLAN area averages.
+4. Run the blinded threshold/coverage table and obtain the remaining supervisor
+   decisions.
+5. Rerun the strict gate and lock the protocol before outcomes if it passes.
+6. Implement one direct pandas analysis producing tidy contrasts, pair medians,
+   distance estimates, influence rows and four figures. Add only claim-
+   protecting checks.
+7. Add the Kerkrade section only if its separate evidence contract passes.
 
 ## Verification
 
-Named interpreter:
+Interpreter:
 `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
-- literature integrity: **42** source notes, **96** question/source rows,
-  **42** matching BibTeX entries and **36** unique bare DOIs; all 23 questions
-  and all retained keys resolve;
-- default scientific suite: **32 passed**;
-- optional legacy infrastructure suite: **6 passed**;
-- `ruff check .`: passed;
-- `ruff format --check .`: passed (52 files);
-- regional gate report regenerated: **FAIL**, as expected, with all six
-  contracted inputs absent.
+- literature crosswalk: 42 notes, 42 BibTeX keys, 96 matrix rows and 36 unique
+  DOIs; all keys resolve;
+- default scientific suite: **26 passed**;
+- operational infrastructure suite: **5 passed**;
+- Ruff lint and format: passed across **41 files**;
+- regional gate report: expected **FAIL**, with all six contracted inputs
+  absent;
+- Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July
+  hours.

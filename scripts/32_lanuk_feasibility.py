@@ -364,7 +364,7 @@ officially matched watercourse. No natural-tributary claim is made.
 
 ## Wurm correction
 
-The fourth-pass review treated `herzogenrath_2` and `honsdorf` as Wurm gauges.
+An earlier review treated `herzogenrath_2` and `honsdorf` as Wurm gauges.
 The official HYGON metadata instead assigns them to **Broicher Bach** and
 **Beeckflies**. The matched Wurm gauges are:
 

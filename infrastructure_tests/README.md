@@ -11,4 +11,4 @@ python -m pytest infrastructure_tests -q
 ```
 
 The default `python -m pytest -q` remains limited to event definitions, data
-semantics, predecessor context and feasibility checks used by the chapter.
+semantics and feasibility checks used by the chapter.

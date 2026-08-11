@@ -177,7 +177,7 @@ def write_coverage_reports(observations, iot):
 
 
 def write_normalized(export_dir=EXPORT_DIR, skip_exports=False):
-    """Build the hourly IoT frame used by downstream analysis scripts."""
+    """Build the hourly IoT frame for the conditional Kerkrade case."""
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     blynk_export_dir = None if skip_exports else export_dir
     observations = load_iot_observations(

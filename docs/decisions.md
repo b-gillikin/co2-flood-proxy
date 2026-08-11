@@ -1255,3 +1255,38 @@ stored blobs were not deleted. Git history preserves the retired code.
 
 Source: user instruction on 2026-08-11; Azure CLI state verification;
 `docs/chapter-synthesis.md`; `docs/chapter-scope-and-preregistration.md`.
+
+## 2026-08-11 — Make spatial extent descriptive and retire competing live pipelines
+
+Decision: define the chapter as one matched event study with two linked stages.
+First estimate fixed event-minus-quiet contrasts at the affected watercourse.
+Then calculate the same signal at every other watercourse, aggregate event
+contrasts to one median per ordered receiver-donor pair and fit one ordinary
+least-squares relationship per signal:
+`pair_median_contrast ~ 1 + log(1 + distance_km)`. Give every ordered pair
+equal weight, resample complete regional storms for uncertainty and omit each
+watercourse in turn as an influence check. Retire crossed receiver/time-block
+prediction, calibration, mixed-effects random intercepts and the three-event
+held-out-fold rule. Require provisionally at least 10 fully estimable events per
+ordered pair so an equal-weighted median cannot represent one or two episodes.
+
+Fix the signal hierarchy: RADOLAN catchment rainfall and donor flow are the
+principal hydrological signals; ERA5-Land temperature, humidity and pressure
+form one Eryilmaz-derived atmospheric block; CO2 remains a conditional
+Kerkrade case. Remove the live later-era Eryilmaz re-fit, Visual Crossing join,
+rolling two-year Waterschap pull, RWS main-stem validation and DWD point-rain
+sensitivity. Preserve the Eryilmaz paper as predecessor evidence and the
+deleted implementation in Git history.
+
+Reasoning: the supervisor-approved meaning of transferability is spatial extent
+over the observed network, not prediction at an unseen receiver. The crossed
+validation and random-effects machinery answered a larger question than the
+chapter claims. Pair aggregation prevents pair-event pseudo-replication and
+keeps the quantitative argument readable; storm resampling and watercourse
+omission expose the two main dependence/sensitivity concerns without turning
+the repository into a modelling framework. The retired acquisition and
+same-site model pipelines do not supply a binding input or answer either
+prospective estimand.
+
+Source: user instruction on 2026-08-11; full chapter/code review; protocol draft
+0.7; `docs/chapter-synthesis.md`; `docs/analysis-inventory.md`.

@@ -12,7 +12,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.io_iot import _device_id_from_export_path, load_iot, load_iot_observations
-from src.io_weather import safe_token
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
@@ -54,11 +53,6 @@ class DeviceIdTests(unittest.TestCase):
     def test_numeric_ancestor_is_ignored(self):
         path = Path("/data/2025010112/export/device_67890_basement")
         self.assertEqual(_device_id_from_export_path(path), "67890")
-
-
-class WeatherNameTests(unittest.TestCase):
-    def test_location_prefix_collapses_repeated_separators(self):
-        self.assertEqual(safe_token("Maastricht / Aachen"), "maastricht_aachen")
 
 
 if __name__ == "__main__":
