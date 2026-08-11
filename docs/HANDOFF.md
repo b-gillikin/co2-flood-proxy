@@ -52,9 +52,10 @@ freeze a supervisor decision. The protocol remains unlocked.
 - The CDS credential and ERA5-Land licence are verified. Full-day annual
   requests exceed the 12,000-field limit. A five-hour annual-block benchmark
   passed but was slower per field than the monthly requests, so acquisition is
-  proceeding in restart-safe monthly files. Six validated monthly files are
-  currently held locally; the 2001 annual-block benchmark is not part of the
-  final source manifest.
+  proceeding in restart-safe monthly files. Six validated monthly files were
+  recovered before the full sequential run began; newly completed months are
+  added atomically. The 2001 annual-block benchmark is not part of the final
+  source manifest.
 - `scripts/35_ingest_knmi_validated.py` downloaded and hashed nine official
   decade ZIPs and wrote a 655,221-row 2001–2025 Maastricht/Ell/Arcen table.
   Temperature/humidity are effectively complete; validated pressure exists
