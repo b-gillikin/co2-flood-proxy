@@ -141,9 +141,9 @@ On receipt, inspect the native files before writing an ingest. Then produce:
 If Worm/Wurm is unavailable, add `kerkrade_pair` and `pairing_rationale`; the
 rationale must be hydrological and agreed before outcome inspection.
 
-## 3. Long public weather — approved source, acquisition in progress
+## 3. Long public weather — approved source, cloud acquisition in progress
 
-Status: **ERA5-Land approved and being acquired**.
+Status: **ERA5-Land approved and being acquired unattended in Azure**.
 
 Temperature, relative humidity and pressure are fixed primary signals.
 ERA5-Land was chosen before event contrasts because it supplies one consistent
@@ -154,13 +154,16 @@ assign the nearest grid cell to each catchment centroid, document shared cells
 and derive relative humidity from temperature and dew point using one fixed
 formula.
 
-`scripts/34_fetch_era5_land.py` requests monthly files over the fixed bounding
-box, validates timestamps, variables, units and missing cells, and writes
-source hashes. Full-year requests exceed the CDS 12,000-field limit. A valid
-five-hour annual block was benchmarked but took 16 minutes versus roughly four
-minutes for a full-day month, so the restart-safe monthly partition is retained
-for the overnight acquisition. The CDS credential and licence are verified and
-acquisition is in progress. No outcome inspection is involved.
+The dedicated Function under `infrastructure/era5_backfill/` requests one
+month at a time over the fixed bounding box, persists the CDS request ID,
+validates timestamps, variables, units and missing cells, and writes source
+hashes to Blob Storage. Full-year requests exceed the CDS 12,000-field limit.
+A valid five-hour annual block was benchmarked but took 16 minutes versus
+roughly four minutes for a full-day month, so the restart-safe monthly
+partition is retained. The laptop process was stopped after September 2005;
+Azure adopted and completed its October 2005 request. At that verification,
+the container held the contiguous 2001-01--2005-10 sequence plus five later
+benchmark months. No outcome inspection is involved.
 
 No second weather product will be added as a parallel sensitivity. Visual
 Crossing remains Eryilmaz predecessor context only.

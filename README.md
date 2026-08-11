@@ -11,9 +11,9 @@ Prospective research question:
 > state?
 
 Status: **data-gated; no new chapter result exists**. ERA5-Land acquisition is
-in progress, but the repository still lacks the qualifying long discharge
-cohort, catchment polygons and RADOLAN catchment rainfall. The protocol is
-unlocked and the outcome analysis has not been run.
+running unattended in Azure, but the repository still lacks the qualifying
+long discharge cohort, catchment polygons and RADOLAN catchment rainfall. The
+protocol is unlocked and the outcome analysis has not been run.
 
 The dissertation sequence is:
 
@@ -61,14 +61,16 @@ python scripts/33_ingest_viefhues_iot.py
 chapter result. Omit that flag only when all six contracted regional inputs
 exist. The Kerkrade case is assessed separately.
 
-Fetch the approved weather source with:
+ERA5-Land now backfills through the dedicated Azure Function documented in
+`infrastructure/era5_backfill/README.md`; closing this laptop does not stop it.
+The local command is a restart-safe fallback and must not run while the Azure
+timer is enabled:
 
 ```bash
 python scripts/34_fetch_era5_land.py
 ```
 
-The current machine has the CDS credential and accepted licence. The script is
-restart-safe and writes one validated monthly NetCDF plus a checksum manifest.
+The script writes one validated monthly NetCDF plus a checksum manifest.
 
 Refresh the later Kerkrade IoT record, if needed for the conditional case, with:
 

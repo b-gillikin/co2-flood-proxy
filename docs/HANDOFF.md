@@ -65,10 +65,25 @@ case is therefore unavailable, but the regional chapter is not blocked by it.
 
 ## ERA5-Land acquisition
 
-The local sequential process remains active in session `44575`. At this handoff
-the complete 2001-01 through 2001-10 monthly files were present and 2001-11 was
-running. Other benchmark files are not part of the final sequential manifest.
-The download is local: closing the laptop stops it. The script is restart-safe.
+The ERA5-Land backfill is deployed and enabled in
+`func-kerkrade-era5-backfill-bg` in `rg-kerkrade-prod`. It runs every five
+minutes, permits one CDS request at a time and persists `_state.json` plus a
+checksum manifest in `stkerkradeprod01bg` / `era5-land`. Closing the laptop does
+not stop it.
+
+The local process was stopped after completing September 2005. Sixty-two
+validated local files were seeded. Azure adopted the already-running October
+2005 request, validated and uploaded it at 13:26 UTC, bringing Blob Storage to
+63 source files: the contiguous 2001-01--2005-10 sequence plus five later
+benchmark months. The scheduled timer independently submitted November 2005
+at 13:30 UTC. At handoff its request ID is
+`d0f418be-2709-47fe-bef0-98982f6b095e`; there is no error or blocked state.
+
+The app is `Running`, `ERA5_ENABLED=true`, HTTPS-only and registered with one
+timer trigger. SCM basic publishing is closed. `deploy.sh` always redeploys it
+paused, temporarily opens SCM only for the remote build and explicitly syncs
+the trigger. The local fetch script remains a fallback and must not run while
+the cloud timer is enabled.
 
 ERA5-Land is the only regional weather source. The user stopped the retired
 KNMI Azure Function App; its app and stored blobs were not deleted.
@@ -118,7 +133,9 @@ Interpreter:
   DOIs; all keys resolve;
 - default scientific suite: **26 passed**;
 - operational infrastructure suite: **5 passed**;
-- Ruff lint and format: passed across **41 files**;
+- Ruff lint and format: passed across **45 files**;
+- ERA5 Azure execution: adopted and completed 2005-10; independent timer
+  submitted 2005-11; 63 validated source blobs, no blocked/error state;
 - regional gate report: expected **FAIL**, with all six contracted inputs
   absent;
 - Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July

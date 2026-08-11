@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AZURE_STORAGE_CONNECTION_STRING": "UseDevelopmentStorage=true",
+    "CDSAPI_URL": "https://cds.climate.copernicus.eu/api",
+    "CDSAPI_KEY": "replace-with-cds-personal-access-token",
+    "ERA5_CONTAINER": "era5-land",
+    "ERA5_ENABLED": "false",
+    "ERA5_TIMER_SCHEDULE": "0 */5 * * * *"
+  }
+}

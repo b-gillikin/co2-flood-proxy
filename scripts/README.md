@@ -14,7 +14,7 @@ There is no analysis framework or model registry.
 | `31_event_study_gates.py` | audit the six binding regional inputs and all-donor support | implemented; regional gate fails |
 | `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; German route fails |
 | `33_ingest_viefhues_iot.py` | normalise source-native July 2021 K4 CO2/pressure and write QC | implemented |
-| `34_fetch_era5_land.py` | acquire and validate the fixed 2001–2025 weather grid | implemented; acquisition in progress |
+| `34_fetch_era5_land.py` | local fallback for the fixed 2001–2025 weather grid | implemented; stopped while Azure backfill runs |
 | `src/event_study.py` | definitions for episodes, storms, controls, censoring and conditional CO2 adjustment | implemented and unit-tested |
 | event-contrast script | local recurrence, pair medians, distance slopes and four figures | not written or run before gates and lock |
 
@@ -24,8 +24,11 @@ Safe input-only commands:
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
 python scripts/33_ingest_viefhues_iot.py
-python scripts/34_fetch_era5_land.py
 ```
+
+The ERA5-Land backfill runs in Azure. Do not start `34_fetch_era5_land.py`
+unless the cloud timer is first paused; both use the same CDS account and fixed
+monthly request sequence.
 
 The eventual outcome script should be one direct pandas/statsmodels-style
 analysis, split only if the figures make it unreadable. Add helpers only for a

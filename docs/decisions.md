@@ -1290,3 +1290,31 @@ prospective estimand.
 
 Source: user instruction on 2026-08-11; full chapter/code review; protocol draft
 0.7; `docs/chapter-synthesis.md`; `docs/analysis-inventory.md`.
+
+## 2026-08-11 — Move the fixed ERA5-Land backfill to Azure
+
+Decision: run the already approved 2001--2025 ERA5-Land monthly acquisition in
+a dedicated timer Function, `func-kerkrade-era5-backfill-bg`, in
+`rg-kerkrade-prod`. Keep acquisition infrastructure under
+`infrastructure/era5_backfill/`, outside the chapter analysis. Store validated
+monthly NetCDF files, a checksum manifest and one small state document in the
+existing production storage account's `era5-land` container.
+
+Operational design: permit only one CDS request at a time. One short Function
+invocation submits a month and stores its request ID; later five-minute timer
+invocations poll that ID and download, validate and upload only after CDS marks
+it successful. This works within the Consumption-plan timeout without a
+long-running process or orchestration framework. The laptop pull was stopped
+after September 2005. Azure adopted its existing October request, validated and
+uploaded that month, and recorded completion at 2026-08-11 13:26 UTC. The
+scheduled timer independently submitted November 2005 at 13:30 UTC, confirming
+the unattended path. The station-weather Function remains stopped.
+
+Reasoning: the fixed raw weather extract is an input-acquisition task, not a
+chapter model. Running it unattended prevents laptop sleep from interrupting
+the download while preserving the same predeclared requests and validation
+rules. Persistent request state avoids duplicate submissions and keeps the
+implementation small enough to audit directly.
+
+Source: user authorization on 2026-08-11; live Azure deployment and Blob state;
+`infrastructure/era5_backfill/`; `scripts/34_fetch_era5_land.py`.
