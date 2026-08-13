@@ -1,7 +1,10 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-11. Core network deliveries are binding for the regional event
-study. Kerkrade IoT and local-onset deliveries govern a conditional case study.
+Status: 2026-08-13. The student reports that all email contacts have replied and
+that the requested data will take several weeks. No reply files or new native
+datasets have yet been added to the repository, so the gates below are
+unchanged. Core network deliveries are binding for the regional event study.
+Kerkrade IoT and local-onset deliveries govern a conditional case study.
 
 ## Current gate state
 
@@ -24,8 +27,8 @@ core fallback.
 
 ## 1. Original Viefhues IoT package — conditional Kerkrade case
 
-Status: **source package audited; July K4 normalised; targeted metadata
-follow-up sent and awaiting reply**.
+Status: **source package audited; July K4 normalised; follow-up reply reported
+but not yet preserved or audited**.
 
 The delivered folder contains the thesis, presentation, analysis code, a
 cleaned table spanning 2020-08-25 to 2021-09-24 and raw Kerkrade CSVs. The
@@ -83,7 +86,7 @@ cannot support a recurrence conclusion, but do not block the core chapter.
 
 ## 2. Long Limburg tributary discharge — blocking
 
-Status: **request sent; awaiting reply**.
+Status: **reply reported; native discharge delivery expected in several weeks**.
 
 Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
 088 88 90 100):
@@ -122,7 +125,8 @@ Alternative routes, in order:
    for the tributary population.
 
 The Waterschap and LANUK messages in `student-next-actions.md` were reported
-sent by the student on 2026-08-10; both replies are pending.
+sent by the student on 2026-08-10. Replies were reported on 2026-08-13, but the
+correspondence and any commitments have not yet been preserved in the repo.
 
 Routes already ruled out: the Waterstandlimburg OData endpoint before
 2024-08-06, the unfinished open.waterschaplimburg.nl portal, GRDC for the small

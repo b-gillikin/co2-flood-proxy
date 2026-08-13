@@ -1318,3 +1318,23 @@ implementation small enough to audit directly.
 
 Source: user authorization on 2026-08-11; live Azure deployment and Blob state;
 `infrastructure/era5_backfill/`; `scripts/34_fetch_era5_land.py`.
+
+## 2026-08-13 — Adopt a dissertation-wide research and code standard
+
+Decision: use `docs/dissertation-research-and-code-guidelines.md` as a reusable
+knowledge-base document for the remaining dissertation chapters. Scope each
+chapter from its substantive question, predecessor sequence, population and
+estimand before reusing code. Prefer one direct empirical spine, strict
+outcome-blind data gates, pre-committed null readings and transparent
+dataframe-oriented scripts. Add models, abstractions and tests only when they
+estimate or protect a live scientific claim.
+
+Reasoning: this chapter repeatedly drifted when available code and short data
+were allowed to define the question. The eventual simplification came from
+fixing the meaning of transferability, refusing to work around an inadequate
+record, separating optional CO2 evidence from the regional core, and removing
+models and infrastructure that did not serve the final estimands. These are
+general dissertation practices rather than chapter-specific estimator choices.
+
+Source: user instruction on 2026-08-13; chapter scope and code-review history;
+`docs/dissertation-research-and-code-guidelines.md`.

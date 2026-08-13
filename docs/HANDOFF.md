@@ -13,6 +13,8 @@ Read in this order:
 6. `analysis-inventory.md` — prospective, supporting and retired work.
 7. `literature-source-notes.md`, `literature-evidence-matrix.csv` and
    `chapter-references.bib` — source corpus for the student-authored review.
+8. `dissertation-research-and-code-guidelines.md` — reusable standard for
+   scoping, evidence, coding and review across the remaining chapters.
 
 ## Current chapter
 
@@ -53,10 +55,11 @@ of 10 complete event/control contrasts per ordered pair. The student should
 show the blind availability audit, freeze these values with the supervisor and
 inform the supervisor that the prediction-style holdout has been retired.
 
-The Waterschap, LANUK and Viefhues follow-up messages were sent; replies are
-pending. The regional gate still **fails** because all six analysis-ready
-network inputs are absent. Do not inspect prospective signal contrasts or
-lower the gate.
+The student reports that replies to all sent messages have arrived and that the
+requested data will take several weeks. The reply files and contents have not
+yet been added to the repository. The regional gate still **fails** because all
+six analysis-ready network inputs are absent. Do not inspect prospective signal
+contrasts or lower the gate.
 
 The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
 identity/calibration, complete ABC lineage, a defensible hydrological pair,
@@ -71,13 +74,10 @@ minutes, permits one CDS request at a time and persists `_state.json` plus a
 checksum manifest in `stkerkradeprod01bg` / `era5-land`. Closing the laptop does
 not stop it.
 
-The local process was stopped after completing September 2005. Sixty-two
-validated local files were seeded. Azure adopted the already-running October
-2005 request, validated and uploaded it at 13:26 UTC, bringing Blob Storage to
-63 source files: the contiguous 2001-01--2005-10 sequence plus five later
-benchmark months. The scheduled timer independently submitted November 2005
-at 13:30 UTC. At handoff its request ID is
-`d0f418be-2709-47fe-bef0-98982f6b095e`; there is no error or blocked state.
+The local process was stopped after completing September 2005 and 62 validated
+local files were seeded. At the 2026-08-13 check, Blob Storage held 217
+validated source files: the contiguous 2001-01--2018-11 sequence plus five
+later benchmark months. There was no error or blocked state.
 
 The app is `Running`, `ERA5_ENABLED=true`, HTTPS-only and registered with one
 timer trigger. SCM basic publishing is closed. `deploy.sh` always redeploys it
@@ -135,7 +135,8 @@ Interpreter:
 - operational infrastructure suite: **5 passed**;
 - Ruff lint and format: passed across **45 files**;
 - ERA5 Azure execution: adopted and completed 2005-10; independent timer
-  submitted 2005-11; 63 validated source blobs, no blocked/error state;
+  operation subsequently reached 217 validated source blobs through 2018-11,
+  with no blocked/error state;
 - regional gate report: expected **FAIL**, with all six contracted inputs
   absent;
 - Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July

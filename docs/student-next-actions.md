@@ -1,8 +1,11 @@
 # Student Next Actions
 
-Updated 2026-08-11. The institutional emails were sent and the first supervisor
-reply was received. Do not lock the protocol or inspect new signal contrasts
-while the remaining design choices and regional inputs are unresolved.
+Updated 2026-08-13. The student reports that replies to all sent emails have
+arrived and that the requested data will take several weeks. Preserve and
+return the complete replies now; the data gate does not change until the native
+deliveries are received and audited. Do not lock the protocol or inspect new
+signal contrasts while the remaining design choices and regional inputs are
+unresolved.
 
 ## 1. Close the remaining supervisor decisions
 

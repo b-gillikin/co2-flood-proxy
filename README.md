@@ -42,6 +42,7 @@ physical propagation, an operational radius or performance in ungauged basins.
 | `docs/literature-source-notes.md` | source-by-source notes without synthesis |
 | `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
 | `docs/chapter-references.bib` | verified retained bibliography |
+| `docs/dissertation-research-and-code-guidelines.md` | reusable scoping, evidence and data-science coding standard for all chapters |
 | `docs/HANDOFF.md` | current session state only |
 
 `chapter-prework/` retains the two supplied predecessor PDFs and its README.
