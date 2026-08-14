@@ -1,6 +1,6 @@
 # Session Handoff
 
-Written 2026-08-11. Session state only; use the synthesis and protocol for
+Written 2026-08-14. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -68,22 +68,23 @@ case is therefore unavailable, but the regional chapter is not blocked by it.
 
 ## ERA5-Land acquisition
 
-The ERA5-Land backfill is deployed and enabled in
-`func-kerkrade-era5-backfill-bg` in `rg-kerkrade-prod`. It runs every five
-minutes, permits one CDS request at a time and persists `_state.json` plus a
-checksum manifest in `stkerkradeprod01bg` / `era5-land`. Closing the laptop does
-not stop it.
+The ERA5-Land backfill completed all 300 months from 2001-01 through 2025-12 in
+`stkerkradeprod01bg` / `era5-land`. The final 2026-08-14 audit downloaded and
+reopened all files, revalidated timestamps, variables, units and missing cells,
+and recomputed sizes and SHA-256 hashes. Its manifest was byte-for-byte
+identical to the cloud manifest: 300 unique periods, blobs and hashes, zero
+missing/extra months and 310,537,386 total bytes.
 
-The local process was stopped after completing September 2005 and 62 validated
-local files were seeded. At the 2026-08-13 check, Blob Storage held 217
-validated source files: the contiguous 2001-01--2018-11 sequence plus five
-later benchmark months. There was no error or blocked state.
+The Function App remains available and HTTPS-only, but both execution controls
+are off: `ERA5_ENABLED=false` and
+`AzureWebJobs.era5_backfill_timer.Disabled=true`. The five-minute timer no
+longer runs. SCM basic publishing remains closed. The local fetch script is a
+fallback only.
 
-The app is `Running`, `ERA5_ENABLED=true`, HTTPS-only and registered with one
-timer trigger. SCM basic publishing is closed. `deploy.sh` always redeploys it
-paused, temporarily opens SCM only for the remote build and explicitly syncs
-the trigger. The local fetch script remains a fallback and must not run while
-the cloud timer is enabled.
+The same 300 source files are available in the ignored local working cache at
+`data/raw/era5_land/`. `data/raw/era5_land/manifest.csv` is identical to the
+versioned `data/processed/era5_land_manifest.csv`; the raw NetCDF files remain
+outside Git.
 
 ERA5-Land is the only regional weather source. The user stopped the retired
 KNMI Azure Function App; its app and stored blobs were not deleted.
@@ -114,8 +115,8 @@ regression test protects that scientific rule.
    sentinels, rating curves, natural/managed status and July 2021 QA.
 2. Fix the admissible cohort and write direct ingests after inspecting actual
    formats.
-3. Finish/validate ERA5-Land, then build verified catchment polygons, centroid
-   assignment and RADOLAN area averages.
+3. Build verified catchment polygons, assign the completed ERA5-Land grid by
+   nearest catchment centroid and calculate RADOLAN area averages.
 4. Run the blinded threshold/coverage table and obtain the remaining supervisor
    decisions.
 5. Rerun the strict gate and lock the protocol before outcomes if it passes.
@@ -133,10 +134,10 @@ Interpreter:
   DOIs; all keys resolve;
 - default scientific suite: **26 passed**;
 - operational infrastructure suite: **5 passed**;
-- Ruff lint and format: passed across **45 files**;
-- ERA5 Azure execution: adopted and completed 2005-10; independent timer
-  operation subsequently reached 217 validated source blobs through 2018-11,
-  with no blocked/error state;
+- Ruff lint and format: passed across **46 files**;
+- ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
+  recomputed and cloud manifests byte-identical; 300 unique hashes; timer
+  disabled;
 - regional gate report: expected **FAIL**, with all six contracted inputs
   absent;
 - Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July

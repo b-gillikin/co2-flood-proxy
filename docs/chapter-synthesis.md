@@ -148,9 +148,10 @@ pair events with complete CO2 and pressure. Failure means **case not
 available**, not core chapter failure and not a CO2 null.
 
 The executable audit is `scripts/31_event_study_gates.py`. It still reports the
-regional core as failed. ERA5-Land is approved and its fixed raw source grid is
-being acquired; the analysis-ready catchment assignment and other binding
-regional tables are absent. The delivered Viefhues package provides a
+regional core as failed. ERA5-Land is approved and its complete 2001--2025 raw
+source grid passed the final manifest/hash and NetCDF integrity audit; the
+analysis-ready catchment assignment and other binding regional tables remain
+absent. The delivered Viefhues package provides a
 source-native K4 record with all 744 July 2021 hours, but broader device
 provenance, a defensible hydrological pair, onset bounds and later-event support
 remain incomplete. The regional audit deliberately keeps those optional case

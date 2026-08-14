@@ -15,10 +15,12 @@ Azure resources:
 - state: `_state.json`;
 - checksum manifest: `manifest.csv`.
 
-The app was deployed and enabled on 2026-08-11. It adopted the laptop's active
-October 2005 CDS request and completed that month in Azure; the local process
-is stopped. The scheduled timer independently submitted November 2005 at
-13:30 UTC. The acquisition therefore continues when the laptop is closed.
+The app was deployed on 2026-08-11 and completed all 300 months through
+December 2025 on 2026-08-14. A final audit downloaded and reopened every
+NetCDF, recomputed every byte count and SHA-256, and reproduced `manifest.csv`
+byte for byte. The archive contains 300 unique months and hashes with no
+missing or extra period. `ERA5_ENABLED=false` and
+`AzureWebJobs.era5_backfill_timer.Disabled=true`; the timer no longer runs.
 
 Deployment requires Azure CLI, `curl`, `jq`, `zip` and the chapter Python
 environment. It always leaves the timer paused and, by default, seeds locally
@@ -41,7 +43,22 @@ az functionapp config appsettings set \
   --subscription c7729fd0-7b35-4ec4-b1a3-ec7079b776fa \
   --resource-group rg-kerkrade-prod \
   --name func-kerkrade-era5-backfill-bg \
-  --settings ERA5_ENABLED=true \
+  --settings \
+    ERA5_ENABLED=true \
+    AzureWebJobs.era5_backfill_timer.Disabled=false \
+  -o none
+```
+
+Disable after completion with both the safety flag and trigger setting:
+
+```bash
+az functionapp config appsettings set \
+  --subscription c7729fd0-7b35-4ec4-b1a3-ec7079b776fa \
+  --resource-group rg-kerkrade-prod \
+  --name func-kerkrade-era5-backfill-bg \
+  --settings \
+    ERA5_ENABLED=false \
+    AzureWebJobs.era5_backfill_timer.Disabled=true \
   -o none
 ```
 

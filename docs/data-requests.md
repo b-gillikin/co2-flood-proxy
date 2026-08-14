@@ -16,7 +16,7 @@ Kerkrade IoT and local-onset deliveries govern a conditional case study.
 | Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
 | Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
 | core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
-| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | ERA5-Land approved and being acquired |
+| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | raw ERA5-Land archive complete and audited; catchment assignment awaits the fixed cohort |
 | core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
@@ -145,9 +145,10 @@ On receipt, inspect the native files before writing an ingest. Then produce:
 If Worm/Wurm is unavailable, add `kerkrade_pair` and `pairing_rationale`; the
 rationale must be hydrological and agreed before outcome inspection.
 
-## 3. Long public weather — approved source, cloud acquisition in progress
+## 3. Long public weather — raw source archive complete
 
-Status: **ERA5-Land approved and being acquired unattended in Azure**.
+Status: **ERA5-Land approved; all 300 monthly source files acquired and
+audited**.
 
 Temperature, relative humidity and pressure are fixed primary signals.
 ERA5-Land was chosen before event contrasts because it supplies one consistent
@@ -158,16 +159,19 @@ assign the nearest grid cell to each catchment centroid, document shared cells
 and derive relative humidity from temperature and dew point using one fixed
 formula.
 
-The dedicated Function under `infrastructure/era5_backfill/` requests one
-month at a time over the fixed bounding box, persists the CDS request ID,
-validates timestamps, variables, units and missing cells, and writes source
-hashes to Blob Storage. Full-year requests exceed the CDS 12,000-field limit.
-A valid five-hour annual block was benchmarked but took 16 minutes versus
-roughly four minutes for a full-day month, so the restart-safe monthly
-partition is retained. The laptop process was stopped after September 2005;
-Azure adopted and completed its October 2005 request. At that verification,
-the container held the contiguous 2001-01--2005-10 sequence plus five later
-benchmark months. No outcome inspection is involved.
+The dedicated Function under `infrastructure/era5_backfill/` requested one
+month at a time over the fixed bounding box, persisted the CDS request ID,
+validated timestamps, variables, units and missing cells, and wrote source
+hashes to Blob Storage. Full-year requests exceed the CDS 12,000-field limit,
+so the restart-safe monthly partition was retained.
+
+The final audit on 2026-08-14 downloaded and reopened all 300 source NetCDFs.
+Every file contained the expected complete hourly UTC month, `t2m`, `d2m` and
+`sp` variables in K, K and Pa respectively, with no missing grid cells. The
+recomputed manifest was byte-for-byte identical to the cloud manifest: 300
+unique periods, 300 unique blob names, 300 unique SHA-256 values, no missing or
+extra months and 310,537,386 total source bytes. The backfill and five-minute
+timer were then disabled. No outcome inspection was involved.
 
 No second weather product will be added as a parallel sensitivity. Visual
 Crossing remains Eryilmaz predecessor context only.

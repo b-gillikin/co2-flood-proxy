@@ -1338,3 +1338,31 @@ general dissertation practices rather than chapter-specific estimator choices.
 
 Source: user instruction on 2026-08-13; chapter scope and code-review history;
 `docs/dissertation-research-and-code-guidelines.md`.
+
+## 2026-08-14 — Complete and disable the ERA5-Land backfill
+
+Decision: accept the Azure `era5-land` source archive as complete after a
+full-content integrity audit, then disable both the backfill safety flag and
+the five-minute timer trigger. Retain the Function App and source blobs for
+provenance and possible controlled reuse; do not continue completion polling.
+
+Audit result: all 300 monthly NetCDF files from January 2001 through December
+2025 were downloaded and reopened. Each passed the fixed timestamp, variable,
+unit and missing-cell checks. The independently recomputed manifest was
+byte-for-byte identical to the cloud manifest and contained 300 unique periods,
+blob names and SHA-256 hashes, no missing or extra periods, and 310,537,386
+source bytes. Azure settings were changed to `ERA5_ENABLED=false` and
+`AzureWebJobs.era5_backfill_timer.Disabled=true`.
+
+The verified source files were retained as an ignored local analysis cache in
+`data/raw/era5_land/`; the exact manifest was retained in Git at
+`data/processed/era5_land_manifest.csv`. Azure remains the durable source
+archive.
+
+Reasoning: blob counts alone do not verify content integrity. Recomputing hashes
+from downloaded bytes and reopening each scientific file verifies both storage
+and analytical readability. Disabling the trigger after completion prevents
+unnecessary Function invocations while preserving a reproducible archive.
+
+Source: live Azure Blob archive and manifest; full local recomputation on
+2026-08-14; `infrastructure/era5_backfill/era5_common.py`.

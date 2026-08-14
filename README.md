@@ -10,10 +10,11 @@ Prospective research question:
 > pressure-adjusted CO2 recur there as a local manifestation of that regional
 > state?
 
-Status: **data-gated; no new chapter result exists**. ERA5-Land acquisition is
-running unattended in Azure, but the repository still lacks the qualifying
-long discharge cohort, catchment polygons and RADOLAN catchment rainfall. The
-protocol is unlocked and the outcome analysis has not been run.
+Status: **data-gated; no new chapter result exists**. The complete 2001--2025
+ERA5-Land source archive has passed its final integrity audit, but the
+repository still lacks the qualifying long discharge cohort, catchment
+polygons and RADOLAN catchment rainfall. The protocol is unlocked and the
+outcome analysis has not been run.
 
 The dissertation sequence is:
 
@@ -62,10 +63,11 @@ python scripts/33_ingest_viefhues_iot.py
 chapter result. Omit that flag only when all six contracted regional inputs
 exist. The Kerkrade case is assessed separately.
 
-ERA5-Land now backfills through the dedicated Azure Function documented in
-`infrastructure/era5_backfill/README.md`; closing this laptop does not stop it.
-The local command is a restart-safe fallback and must not run while the Azure
-timer is enabled:
+ERA5-Land was backfilled through the dedicated Azure Function documented in
+`infrastructure/era5_backfill/README.md`. The archive is complete and the timer
+is disabled. A complete ignored working copy is in `data/raw/era5_land/`; its
+small checksum manifest is versioned as `data/processed/era5_land_manifest.csv`.
+The local command remains a restart-safe fallback:
 
 ```bash
 python scripts/34_fetch_era5_land.py

@@ -14,7 +14,7 @@ available.
 | `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
 | `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
-| ERA5-Land Azure backfill | acquires and validates the approved 2001–2025 weather grid | deployed and running; 2001-01 through 2018-11 plus five later benchmark months present at 2026-08-13 check |
+| ERA5-Land raw archive | fixed 2001–2025 weather grid used after catchment assignment | complete; 300/300 months passed NetCDF, size and SHA-256 audit; Azure timer disabled |
 | `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |
 | long-record event catalogue | independently defines high-water episodes | not built; discharge gate fails |
 | local event-minus-quiet contrasts | identifies recurring public signals | not implemented or run |
@@ -33,8 +33,8 @@ findings.
   case;
 - `25_ingest_lanuk_nrw.py`: held German source needed to reproduce the failed
   route;
-- `infrastructure/era5_backfill/`: active unattended acquisition for the sole
-  regional public-weather source;
+- `infrastructure/era5_backfill/`: completed unattended acquisition for the
+  sole regional public-weather source; timer disabled after final audit;
 - `34_fetch_era5_land.py`: stopped local fallback for the same fixed requests;
 - source PDFs, source notes, evidence matrix, bibliography and append-only
   decision log.
