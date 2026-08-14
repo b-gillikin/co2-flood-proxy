@@ -26,8 +26,8 @@ python scripts/32_lanuk_feasibility.py
 python scripts/33_ingest_viefhues_iot.py
 ```
 
-The ERA5-Land Azure backfill completed and its timer is disabled. Do not start
-`34_fetch_era5_land.py` without first confirming that no cloud request is
+The ERA5-Land Azure backfill completed and its Function App is stopped. Do not
+start `34_fetch_era5_land.py` without first confirming that no cloud request is
 active; both paths use the same CDS account and fixed monthly request sequence.
 
 The eventual outcome script should be one direct pandas/statsmodels-style

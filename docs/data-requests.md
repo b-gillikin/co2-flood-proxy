@@ -170,8 +170,9 @@ Every file contained the expected complete hourly UTC month, `t2m`, `d2m` and
 `sp` variables in K, K and Pa respectively, with no missing grid cells. The
 recomputed manifest was byte-for-byte identical to the cloud manifest: 300
 unique periods, 300 unique blob names, 300 unique SHA-256 values, no missing or
-extra months and 310,537,386 total source bytes. The backfill and five-minute
-timer were then disabled. No outcome inspection was involved.
+extra months and 310,537,386 total source bytes. The backfill-only Function App
+was then stopped, which disables its five-minute timer. No outcome inspection
+was involved.
 
 No second weather product will be added as a parallel sensitivity. Visual
 Crossing remains Eryilmaz predecessor context only.

@@ -20,7 +20,10 @@ December 2025 on 2026-08-14. A final audit downloaded and reopened every
 NetCDF, recomputed every byte count and SHA-256, and reproduced `manifest.csv`
 byte for byte. The archive contains 300 unique months and hashes with no
 missing or extra period. `ERA5_ENABLED=false` and
-`AzureWebJobs.era5_backfill_timer.Disabled=true`; the timer no longer runs.
+`AzureWebJobs.era5_backfill_timer.Disabled=true`. Because the deployed Python
+host continued to make short completion-check invocations with those settings,
+the dedicated Function App is also stopped; that is the operative timer
+control.
 
 Deployment requires Azure CLI, `curl`, `jq`, `zip` and the chapter Python
 environment. It always leaves the timer paused and, by default, seeds locally
@@ -39,6 +42,11 @@ Enable only after the local pull is stopped and its final completed month has
 been seeded:
 
 ```bash
+az functionapp start \
+  --subscription c7729fd0-7b35-4ec4-b1a3-ec7079b776fa \
+  --resource-group rg-kerkrade-prod \
+  --name func-kerkrade-era5-backfill-bg
+
 az functionapp config appsettings set \
   --subscription c7729fd0-7b35-4ec4-b1a3-ec7079b776fa \
   --resource-group rg-kerkrade-prod \
@@ -49,7 +57,7 @@ az functionapp config appsettings set \
   -o none
 ```
 
-Disable after completion with both the safety flag and trigger setting:
+Disable after completion with both settings, then stop the dedicated app:
 
 ```bash
 az functionapp config appsettings set \
@@ -60,6 +68,11 @@ az functionapp config appsettings set \
     ERA5_ENABLED=false \
     AzureWebJobs.era5_backfill_timer.Disabled=true \
   -o none
+
+az functionapp stop \
+  --subscription c7729fd0-7b35-4ec4-b1a3-ec7079b776fa \
+  --resource-group rg-kerkrade-prod \
+  --name func-kerkrade-era5-backfill-bg
 ```
 
 The timer allows one outstanding CDS request. Three failed submissions for one

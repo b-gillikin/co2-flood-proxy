@@ -75,11 +75,14 @@ and recomputed sizes and SHA-256 hashes. Its manifest was byte-for-byte
 identical to the cloud manifest: 300 unique periods, blobs and hashes, zero
 missing/extra months and 310,537,386 total bytes.
 
-The Function App remains available and HTTPS-only, but both execution controls
-are off: `ERA5_ENABLED=false` and
-`AzureWebJobs.era5_backfill_timer.Disabled=true`. The five-minute timer no
-longer runs. SCM basic publishing remains closed. The local fetch script is a
-fallback only.
+The Function App remains available and HTTPS-only but is **Stopped**, which
+definitively disables its five-minute timer. The defense-in-depth settings also
+remain `ERA5_ENABLED=false` and
+`AzureWebJobs.era5_backfill_timer.Disabled=true`. The running Python host did
+not honor the trigger-specific setting alone, so stopping this backfill-only app
+is the operative control. Azure reported no invocation at the first subsequent
+five-minute boundary (13:35 UTC). SCM basic publishing remains closed. The
+local fetch script is a fallback only.
 
 The same 300 source files are available in the ignored local working cache at
 `data/raw/era5_land/`. `data/raw/era5_land/manifest.csv` is identical to the
@@ -136,8 +139,8 @@ Interpreter:
 - operational infrastructure suite: **5 passed**;
 - Ruff lint and format: passed across **46 files**;
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
-  recomputed and cloud manifests byte-identical; 300 unique hashes; timer
-  disabled;
+  recomputed and cloud manifests byte-identical; 300 unique hashes;
+  backfill-only Function App stopped;
 - regional gate report: expected **FAIL**, with all six contracted inputs
   absent;
 - Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July

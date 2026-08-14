@@ -65,7 +65,8 @@ exist. The Kerkrade case is assessed separately.
 
 ERA5-Land was backfilled through the dedicated Azure Function documented in
 `infrastructure/era5_backfill/README.md`. The archive is complete and the timer
-is disabled. A complete ignored working copy is in `data/raw/era5_land/`; its
+is disabled because the backfill-only Function App is stopped. A complete
+ignored working copy is in `data/raw/era5_land/`; its
 small checksum manifest is versioned as `data/processed/era5_land_manifest.csv`.
 The local command remains a restart-safe fallback:
 
