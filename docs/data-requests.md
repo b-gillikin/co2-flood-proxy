@@ -245,19 +245,33 @@ Store the lower and upper onset bounds in the Kerkrade-pair row of
 
 ## 6. Groundwater and mine water — secondary
 
-Status: provincial/mine-water questions sent 2026-08-06 to
-`meetnetbeheer@avallo.nl`, cc `infopuntmijnbouw@prvlimburg.nl`; awaiting reply.
+Status: **Provincie Limburg reply and one native CSV received 2026-08-19**.
+The untouched PDF and attachment are preserved under
+`data/raw/external_deliveries/provincie_limburg/2026-08-19/` with SHA-256
+checksums in `receipt.txt`.
 
-Questions concern closer provincial wells, mine-water monitoring, screen depth,
-measurement frequency, pumping schedules and the 2025 publication stop. These
-data may help interpret the Kerkrade mechanism but cannot rescue or block the
-chapter.
+The province confirms that GMW000000091726 (Willem) and GMW000000091599 are
+mine-water-network points. The delivered file contains the former Willem shaft
+record (`WILLEM OUD`, 2000-08-14--2022-10-21) and its adjacent replacement
+(`WILLEM`, 2023-12-15--2026-06-07) as two source-native station codes. The old
+record contains 31 daily July 2021 observations. The replacement contains no
+July 2021 observations. The provider attributes the intervening gap to shaft
+remediation/replacement and other gaps to equipment failures.
+
+The file is not analysis-ready. Timezone, validation status, the exact
+`Waarde (m -NAP)` convention, repeated `-90`/`-94`/zero values, authoritative
+identifier mapping, continuity across the replacement and redistribution terms
+remain unresolved. Do not recode or join the two station records until those
+points are answered. These data may help interpret the Kerkrade mechanism but
+cannot rescue or block the chapter.
 
 Already received: three BRO Gemeente Heerlen wells at 2.85–3.60 km, nominally
 six-hourly from 2021-01-01 to 2025-08-27 (16,532 readings). They are shallow
 phreatic wells, not mine shafts; screen-depth metadata are incomplete and no
-data were published after 2025-08-27. Treat them as secondary contextual
-evidence.
+data were published after 2025-08-27 in the earlier retrieval. The province
+clarifies that these wells are in Kerkrade and directs current observations to
+the provincial Veldoffice portal, with validated series entering the BRO after
+a delay. Treat them as secondary contextual evidence.
 
 ## Receipt rule
 

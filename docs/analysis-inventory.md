@@ -1,6 +1,6 @@
 # Analysis Inventory — Prospective Event Study
 
-Status: 2026-08-11. There is no new event-study result. The regional chapter is
+Status: 2026-08-19. There is no new event-study result. The regional chapter is
 stopped at its core data gate. The source-native July 2021 K4 record is
 normalised, but that alone does not make the conditional Kerkrade case
 available.
@@ -15,6 +15,7 @@ available.
 | `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
 | `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
 | ERA5-Land raw archive | fixed 2001–2025 weather grid used after catchment assignment | complete; 300/300 months passed NetCDF, size and SHA-256 audit; backfill-only Azure app stopped |
+| Provincie Limburg Willem delivery | possible mine-water context for the conditional Kerkrade case | native reply preserved and audited; July 2021 has 31 daily old-shaft observations; semantics unresolved |
 | `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |
 | long-record event catalogue | independently defines high-water episodes | not built; discharge gate fails |
 | local event-minus-quiet contrasts | identifies recurring public signals | not implemented or run |
@@ -36,6 +37,8 @@ findings.
 - `infrastructure/era5_backfill/`: completed unattended acquisition for the
   sole regional public-weather source; Function App stopped after final audit;
 - `34_fetch_era5_land.py`: stopped local fallback for the same fixed requests;
+- Provincie Limburg's native Willem/Willem Oud delivery: ignored raw evidence
+  for the conditional case, not yet analysis-ready;
 - source PDFs, source notes, evidence matrix, bibliography and append-only
   decision log.
 

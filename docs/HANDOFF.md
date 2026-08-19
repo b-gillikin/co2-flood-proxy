@@ -1,6 +1,6 @@
 # Session Handoff
 
-Written 2026-08-14. Session state only; use the synthesis and protocol for
+Written 2026-08-19. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -56,15 +56,25 @@ show the blind availability audit, freeze these values with the supervisor and
 inform the supervisor that the prediction-style holdout has been retired.
 
 The student reports that replies to all sent messages have arrived and that the
-requested data will take several weeks. The reply files and contents have not
-yet been added to the repository. The regional gate still **fails** because all
-six analysis-ready network inputs are absent. Do not inspect prospective signal
-contrasts or lower the gate.
+requested core data will take several weeks. One Provincie Limburg reply and
+its native Willem/Willem Oud mine-water CSV were added on 2026-08-19 under the
+ignored external-deliveries tree and hashed. The regional gate still **fails**
+because all six analysis-ready network inputs are absent. Do not inspect
+prospective signal contrasts or lower the gate.
 
 The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
 identity/calibration, complete ABC lineage, a defensible hydrological pair,
 independent onset bounds and later complete events remain unresolved. The CO2
 case is therefore unavailable, but the regional chapter is not blocked by it.
+
+Provincie Limburg confirms that GMW000000091726 (Willem) and
+GMW000000091599 are mine-water-network points. The delivered `WILLEM OUD`
+series contains 31 daily July 2021 observations; its adjacent replacement
+starts in December 2023. The untouched files and receipt are in
+`data/raw/external_deliveries/provincie_limburg/2026-08-19/`. Timezone,
+validation status, value/sentinel semantics, identifier mapping, continuity and
+reuse terms must be resolved before use. This is secondary mechanism evidence,
+not a regional-gate input and not enough to make the Kerkrade case available.
 
 ## ERA5-Land acquisition
 

@@ -1371,3 +1371,31 @@ reversible archive.
 
 Source: live Azure Blob archive and manifest; full local recomputation on
 2026-08-14; `infrastructure/era5_backfill/era5_common.py`.
+
+## 2026-08-19 — Receive Willem mine-water data as conditional context
+
+Decision: preserve Provincie Limburg's native email PDF and `Willem en Willem
+oud.csv` without modification, record their SHA-256 checksums, and classify the
+delivery as unresolved secondary evidence for the conditional Kerkrade case.
+Do not join the old and replacement records, recode suspicious values or add a
+groundwater analysis until the provider clarifies the source semantics.
+
+The CSV has 12,455 data rows and two source-native station codes. `WILLEM OUD`
+runs from 2000-08-14 to 2022-10-21 and contains 31 daily observations in July
+2021. `WILLEM` runs from 2023-12-15 to 2026-06-07 and has no July 2021 data. No
+missing cells, invalid timestamps or duplicate station-times were found in the
+native file. The email states that the adjacent replacement was constructed in
+2023, that the records are consistent across an October 2022--December 2023
+gap, and that other gaps arose from equipment failures.
+
+Open semantics are timezone, validation status, the sign/datum convention of
+`Waarde (m -NAP)`, repeated `-90`, `-94` and zero values, authoritative station
+identifiers, the defensibility of continuity across replacement, and licence
+or redistribution terms. These prevent analysis but do not affect the regional
+chapter gate.
+
+Source hashes: email PDF
+`aeb182654ad0986e162d14f2bd3ccf5e358ca954e98f761d93fdfd242ad298ba`;
+CSV `943b4909a873669c183a31aa013f27bf5f8d43372bb45dd9ee6f5188c2e1e90f`.
+Source: Jean Hacking, Provincie Limburg, reply dated 2026-08-19; ignored native
+delivery under `data/raw/external_deliveries/provincie_limburg/2026-08-19/`.

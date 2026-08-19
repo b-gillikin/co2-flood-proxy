@@ -1,11 +1,12 @@
 # Student Next Actions
 
-Updated 2026-08-13. The student reports that replies to all sent emails have
-arrived and that the requested data will take several weeks. Preserve and
-return the complete replies now; the data gate does not change until the native
-deliveries are received and audited. Do not lock the protocol or inspect new
-signal contrasts while the remaining design choices and regional inputs are
-unresolved.
+Updated 2026-08-19. The student reports that replies to all sent emails have
+arrived and that the requested core data will take several weeks. The Provincie
+Limburg mine-water reply and attachment have been preserved and audited; their
+remaining semantic questions are recorded in `data-requests.md`. Preserve and
+return the other complete replies and deliveries as they arrive. Do not lock
+the protocol or inspect new signal contrasts while the remaining design choices
+and regional inputs are unresolved.
 
 ## 1. Close the remaining supervisor decisions
 
@@ -93,8 +94,9 @@ Use the following English text, replacing only the signature details.
 >   watercourses over a common period of ten or more years that includes July
 >   2021.
 >
-> The complete archive is preferable; if a date range is needed, 1 January
-> 2010 through 31 December 2025 would provide the required common period.
+> Please provide 1 January 2010 through 31 December 2025. I do not need the
+> pre-2010 archive. Native 15-minute data are preferable; I will aggregate to
+> hourly values only after checking continuity and source conventions.
 >
 > For each gauge, could you also provide or identify:
 >
@@ -236,6 +238,7 @@ data/raw/external_deliveries/
   waterschap_limburg/YYYY-MM-DD/
   lanuk_nrw/YYYY-MM-DD/
   viefhues_followup/YYYY-MM-DD/
+  provincie_limburg/YYYY-MM-DD/
 ```
 
 For each source, include:
