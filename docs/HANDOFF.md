@@ -58,9 +58,10 @@ inform the supervisor that the prediction-style holdout has been retired.
 The student reports that replies to all sent messages have arrived and that the
 requested core data will take several weeks. One Provincie Limburg reply and
 its native Willem/Willem Oud mine-water CSV were added on 2026-08-19 under the
-ignored external-deliveries tree and hashed. The regional gate still **fails**
-because all six analysis-ready network inputs are absent. Do not inspect
-prospective signal contrasts or lower the gate.
+ignored external-deliveries tree and hashed. The native EML is authoritative;
+its embedded CSV is byte-identical to the separately preserved attachment. The
+regional gate still **fails** because all six analysis-ready network inputs are
+absent. Do not inspect prospective signal contrasts or lower the gate.
 
 The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
 identity/calibration, complete ABC lineage, a defensible hydrological pair,

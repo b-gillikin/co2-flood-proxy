@@ -246,9 +246,10 @@ Store the lower and upper onset bounds in the Kerkrade-pair row of
 ## 6. Groundwater and mine water — secondary
 
 Status: **Provincie Limburg reply and one native CSV received 2026-08-19**.
-The untouched PDF and attachment are preserved under
+The untouched EML, mailbox PDF and attachment are preserved under
 `data/raw/external_deliveries/provincie_limburg/2026-08-19/` with SHA-256
-checksums in `receipt.txt`.
+checksums in `receipt.txt`. The CSV decoded from the EML is byte-identical to
+the separately preserved attachment.
 
 The province confirms that GMW000000091726 (Willem) and GMW000000091599 are
 mine-water-network points. The delivered file contains the former Willem shaft

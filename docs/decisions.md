@@ -1374,11 +1374,13 @@ Source: live Azure Blob archive and manifest; full local recomputation on
 
 ## 2026-08-19 — Receive Willem mine-water data as conditional context
 
-Decision: preserve Provincie Limburg's native email PDF and `Willem en Willem
-oud.csv` without modification, record their SHA-256 checksums, and classify the
-delivery as unresolved secondary evidence for the conditional Kerkrade case.
-Do not join the old and replacement records, recode suspicious values or add a
-groundwater analysis until the provider clarifies the source semantics.
+Decision: preserve Provincie Limburg's native EML, mailbox PDF and `Willem en
+Willem oud.csv` without modification, record their SHA-256 checksums, and
+classify the delivery as unresolved secondary evidence for the conditional
+Kerkrade case. The decoded attachment inside the EML is byte-identical to the
+separately preserved CSV. Do not join the old and replacement records, recode
+suspicious values or add a groundwater analysis until the provider clarifies
+the source semantics.
 
 The CSV has 12,455 data rows and two source-native station codes. `WILLEM OUD`
 runs from 2000-08-14 to 2022-10-21 and contains 31 daily observations in July
@@ -1394,7 +1396,9 @@ identifiers, the defensibility of continuity across replacement, and licence
 or redistribution terms. These prevent analysis but do not affect the regional
 chapter gate.
 
-Source hashes: email PDF
+Source hashes: native EML
+`b3713e201222b46cefc8f9b71005e9ea939f60d28a81ecfa3848285d0e64932b`;
+mailbox PDF
 `aeb182654ad0986e162d14f2bd3ccf5e358ca954e98f761d93fdfd242ad298ba`;
 CSV `943b4909a873669c183a31aa013f27bf5f8d43372bb45dd9ee6f5188c2e1e90f`.
 Source: Jean Hacking, Provincie Limburg, reply dated 2026-08-19; ignored native
