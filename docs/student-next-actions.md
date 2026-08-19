@@ -1,12 +1,11 @@
 # Student Next Actions
 
-Updated 2026-08-19. The student reports that replies to all sent emails have
-arrived and that the requested core data will take several weeks. The Provincie
-Limburg mine-water reply and attachment have been preserved and audited; their
-remaining semantic questions are recorded in `data-requests.md`. Preserve and
-return the other complete replies and deliveries as they arrive. Do not lock
-the protocol or inspect new signal contrasts while the remaining design choices
-and regional inputs are unresolved.
+Updated 2026-08-19. The Waterschap discharge and Provincie Limburg mine-water
+deliveries have been preserved and audited. Their remaining semantic questions
+are recorded in `data-requests.md`; Waterschap says the detailed metadata will
+follow when workload permits. Preserve and return the other complete replies
+and deliveries as they arrive. Do not lock the protocol or inspect new signal
+contrasts while the remaining design choices and regional inputs are unresolved.
 
 ## 1. Close the remaining supervisor decisions
 
@@ -64,14 +63,23 @@ Immediately after the meeting, record for every item: **approved as written**,
 meeting date and the supervisor's name. Return those notes before any protocol
 lock.
 
-## 2. Request the long discharge archive from Waterschap Limburg
+## 2. Long discharge archive — delivered; metadata and cohort still open
+
+The 2010--2025 quarter-hour table arrived on 2026-08-19 and has been audited
+without calculating discharge thresholds or events. Do not resend the original
+request. Await the provider's promised metadata response. After the supervisor
+reviews the blinded availability result, either request additional natural
+watercourses or record an approved revision to the provisional watercourse
+floor; do not treat branches or duplicate gauges as extra watercourses merely
+to reach a number.
 
 **Send to:** `info@waterschaplimburg.nl`  
 **Official contact:** <https://www.waterschaplimburg.nl/contact/>  
 **Subject:** Academic data request: historical Limburg tributary discharge and
 gauge metadata
 
-Use the following English text, replacing only the signature details.
+The original request text is retained below as a correspondence record. Do not
+send it again.
 
 > Dear Waterschap Limburg water-information or hydrology team,
 >

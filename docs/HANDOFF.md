@@ -55,13 +55,22 @@ of 10 complete event/control contrasts per ordered pair. The student should
 show the blind availability audit, freeze these values with the supervisor and
 inform the supervisor that the prediction-style holdout has been retired.
 
-The student reports that replies to all sent messages have arrived and that the
-requested core data will take several weeks. One Provincie Limburg reply and
-its native Willem/Willem Oud mine-water CSV were added on 2026-08-19 under the
-ignored external-deliveries tree and hashed. The native EML is authoritative;
-its embedded CSV is byte-identical to the separately preserved attachment. The
-regional gate still **fails** because all six analysis-ready network inputs are
-absent. Do not inspect prospective signal contrasts or lower the gate.
+The Waterschap discharge and Provincie Limburg mine-water deliveries were added
+on 2026-08-19 under the ignored external-deliveries tree and hashed. The
+regional gate still **fails**. Do not inspect prospective signal contrasts or
+lower the gate.
+
+Waterschap supplied one exact quarter-hour grid for 2010--2025 with 15 series
+columns, 14 station IDs and eight named watercourse labels. The CSV and XLSX
+are cell-for-cell value-equivalent. `35_audit_waterschap_delivery.py` found nine
+series across those eight labels that pass the provisional 80% overall/70%
+every-year availability rule, but this is an upper bound rather than a cohort.
+Almost all gauges exceeded their ranges in July 2021 and several failed;
+timezone, blanks/zeros, rating curves, failure bounds, coordinates and
+natural/managed status remain unresolved. Millen/Vloedgraaf and
+Partij/Molentak are split systems, Munstergeleen is threshold-labelled,
+Oud-Roosteren is duplicated and Meerssen has gravel-bar interference. No p99
+threshold or event has been calculated.
 
 The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
 identity/calibration, complete ABC lineage, a defensible hydrological pair,
@@ -127,17 +136,19 @@ regression test protects that scientific rule.
 
 1. Inventory and hash native replies; resolve sampling, timezone, units,
    sentinels, rating curves, natural/managed status and July 2021 QA.
-2. Fix the admissible cohort and write direct ingests after inspecting actual
-   formats.
-3. Build verified catchment polygons, assign the completed ERA5-Land grid by
+2. Present the blind Waterschap availability audit to the supervisor; resolve
+   the watercourse floor, then fix the admissible cohort after metadata arrives.
+3. Write the direct hourly discharge ingest only after source semantics and the
+   cohort are fixed.
+4. Build verified catchment polygons, assign the completed ERA5-Land grid by
    nearest catchment centroid and calculate RADOLAN area averages.
-4. Run the blinded threshold/coverage table and obtain the remaining supervisor
-   decisions.
-5. Rerun the strict gate and lock the protocol before outcomes if it passes.
-6. Implement one direct pandas analysis producing tidy contrasts, pair medians,
+5. Complete the blinded threshold/coverage table and obtain the remaining
+   supervisor decisions.
+6. Rerun the strict gate and lock the protocol before outcomes if it passes.
+7. Implement one direct pandas analysis producing tidy contrasts, pair medians,
    distance estimates, influence rows and four figures. Add only claim-
    protecting checks.
-7. Add the Kerkrade section only if its separate evidence contract passes.
+8. Add the Kerkrade section only if its separate evidence contract passes.
 
 ## Verification
 
@@ -148,11 +159,14 @@ Interpreter:
   DOIs; all keys resolve;
 - default scientific suite: **26 passed**;
 - operational infrastructure suite: **5 passed**;
-- Ruff lint and format: passed across **46 files**;
+- Ruff lint and format: passed across **47 files**;
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
   recomputed and cloud manifests byte-identical; 300 unique hashes;
   backfill-only Function App stopped;
 - regional gate report: expected **FAIL**, with all six contracted inputs
   absent;
+- Waterschap delivery: 561,024 requested-period quarter-hours on an exact grid;
+  15 series, 14 station IDs, eight named watercourse labels; XLSX/CSV values
+  equivalent; no outcomes inspected;
 - Viefhues real-file QC: 169,594 source rows, 2,829 hourly rows and 744/744 July
   hours.

@@ -14,6 +14,7 @@ available.
 | `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
 | `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
+| `35_audit_waterschap_delivery.py` | audits the delivered quarter-hour discharge grid without calculating thresholds or events | implemented; 15 series audited, cohort unresolved |
 | ERA5-Land raw archive | fixed 2001–2025 weather grid used after catchment assignment | complete; 300/300 months passed NetCDF, size and SHA-256 audit; backfill-only Azure app stopped |
 | Provincie Limburg Willem delivery | possible mine-water context for the conditional Kerkrade case | native reply preserved and audited; July 2021 has 31 daily old-shaft observations; semantics unresolved |
 | `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |
@@ -37,6 +38,8 @@ findings.
 - `infrastructure/era5_backfill/`: completed unattended acquisition for the
   sole regional public-weather source; Function App stopped after final audit;
 - `34_fetch_era5_land.py`: stopped local fallback for the same fixed requests;
+- Waterschap Limburg's native 2010--2025 discharge delivery and the compact
+  availability audit produced by `35_audit_waterschap_delivery.py`;
 - Provincie Limburg's native Willem/Willem Oud delivery: ignored raw evidence
   for the conditional case, not yet analysis-ready;
 - source PDFs, source notes, evidence matrix, bibliography and append-only

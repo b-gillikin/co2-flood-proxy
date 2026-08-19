@@ -1403,3 +1403,36 @@ mailbox PDF
 CSV `943b4909a873669c183a31aa013f27bf5f8d43372bb45dd9ee6f5188c2e1e90f`.
 Source: Jean Hacking, Provincie Limburg, reply dated 2026-08-19; ignored native
 delivery under `data/raw/external_deliveries/provincie_limburg/2026-08-19/`.
+
+## 2026-08-19 — Receive Waterschap discharge but keep the regional gate closed
+
+Decision: preserve the native Waterschap EML, mailbox PDF, XLSX and CSV;
+record their hashes; use the value-equivalent CSV for a direct pandas
+availability audit; and do not calculate p99 thresholds, episodes or signal
+contrasts until the remaining source semantics and cohort decision are fixed.
+
+The CSV and XLSX are cell-for-cell equivalent across 561,031 rows. The source
+contains an exact 561,024-row quarter-hour grid for 2010--2025 plus one endpoint
+at 2026-01-01 00:00. Fifteen series columns represent 14 station IDs and eight
+named watercourse labels. Nine series across those labels pass the provisional
+80% overall/70% every-year complete-hour rule, but availability is not
+eligibility and the provisional 10-watercourse floor is not met.
+
+The provider reports that almost all gauges exceeded measurement range in July
+2021, several failed from water damage and Meerssen remains affected by gravel
+bars. The delivery also contains documented split branches, a threshold-labelled
+Munstergeleen column, two non-equivalent Oud-Roosteren columns and a Molentak
+series whose observed cells are 91.6% zero. Timezone/DST, blank and zero
+semantics, rating curves, validation flags, per-gauge July failure bounds,
+coordinates, natural/managed status and reuse terms remain open. Therefore no
+hourly analytical discharge table or event catalogue is yet defensible.
+
+Source hashes: EML
+`48641b7e85fa242221881ef802cca3c07ac188cf7b03f6dee262afa05e2869cf`;
+mailbox PDF
+`3b094cca8aefc12f0c6e20b376ada4fd8b0293669a923bbda83ace53fe1e642c`;
+XLSX `f41566b9816b398b1e93ae0c149536a2b3df6e64712b601595d610fecf5defa1`;
+CSV `8ce4dab437647966524e00c1520e77452b3983970c21d73e4e0c7cb14e3f5dd9`.
+Source: Rene Mols, Waterschap Limburg, reply dated 2026-08-19; ignored native
+delivery under `data/raw/external_deliveries/waterschap_limburg/2026-08-19/`;
+`scripts/35_audit_waterschap_delivery.py`.

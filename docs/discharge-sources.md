@@ -7,15 +7,24 @@ The binding delivery contract is in `data-requests.md`.
 | --- | --- | --- |
 | `25_ingest_lanuk_nrw.py` | acquire long German gauge records for the documented feasibility route | held archive does not pass the draft cohort gate |
 | `32_lanuk_feasibility.py` | audit metadata, density, gaps, p99 episodes and watercourse identity | input QA only; no signal outcomes |
+| `35_audit_waterschap_delivery.py` | audit the delivered 2010–2025 Dutch grid | availability only; source semantics and cohort remain unresolved |
 
 The public rolling Waterschap pull and RWS main-stem validation were removed
 from the live tree. Neither can produce the qualifying ten-year natural-
 tributary cohort. Their code remains in Git history.
 
+Waterschap Limburg delivered 15 quarter-hour series columns on an exact
+2010--2025 grid. The value-equivalent CSV is the simple audit source; the XLSX,
+EML and rendered mailbox PDF remain preserved native artifacts. Nine series
+across eight named watercourse labels pass the provisional availability rule,
+but range exceedance, failure, branch structure, zero meanings, rating curves
+and natural/managed status remain unresolved. Availability does not establish a
+cohort.
+
 The eventual analytical input is
-`data/interim/event_study_discharge_hourly.csv`, built only after the requested
-historical files and metadata are inspected. Do not rename a rolling public
-export to satisfy that contract.
+`data/interim/event_study_discharge_hourly.csv`, built only after the metadata
+are received and the cohort is fixed. Do not rename a raw delivery or rolling
+public export to satisfy that contract.
 
 The reproducible German-route decision is in `lanuk-feasibility.md`. Official
 HYGON metadata place `herzogenrath_2` on Broicher Bach and `honsdorf` on

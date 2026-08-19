@@ -1,10 +1,11 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-13. The student reports that all email contacts have replied and
-that the requested data will take several weeks. No reply files or new native
-datasets have yet been added to the repository, so the gates below are
-unchanged. Core network deliveries are binding for the regional event study.
-Kerkrade IoT and local-onset deliveries govern a conditional case study.
+Status: 2026-08-19. The native Waterschap discharge delivery and Provincie
+Limburg mine-water reply are preserved and audited. The regional gate remains
+failed because the discharge cohort and source semantics are unresolved and
+the other analysis-ready regional inputs remain absent. Core network deliveries
+are binding for the regional event study. Kerkrade IoT and local-onset
+deliveries govern a conditional case study.
 
 ## Current gate state
 
@@ -12,7 +13,7 @@ Kerkrade IoT and local-onset deliveries govern a conditional case study.
 | --- | --- | --- | --- |
 | Kerkrade case | original IoT | July 2021 source CO2/pressure plus device/calibration/ABC metadata | source-native K4 is normalised with complete July hours; broader lineage and device metadata remain incomplete |
 | Kerkrade case | sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
-| core | tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | absent; rolling Waterschap file is only 2024–2026 and held LANUK does not pass |
+| core | tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | 2010–2025 native delivery received; 15 series but only eight named watercourse labels; metadata and event counts unresolved |
 | Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
 | Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
 | core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
@@ -86,7 +87,48 @@ cannot support a recurrence conclusion, but do not block the core chapter.
 
 ## 2. Long Limburg tributary discharge — blocking
 
-Status: **reply reported; native discharge delivery expected in several weeks**.
+Status: **native EML, PDF, XLSX and value-equivalent CSV received and audited
+2026-08-19**. Files and checksums are preserved under
+`data/raw/external_deliveries/waterschap_limburg/2026-08-19/`.
+
+The source supplies an exact 15-minute grid from 2010-01-01 through
+2025-12-31, plus one endpoint at 2026-01-01 00:00. It contains 15 series
+columns representing 14 station IDs and eight named watercourse labels. Headers
+state `GMT+1`, m3/s and 15-minute means. The CSV and single-sheet XLSX are
+cell-for-cell value-equivalent; the CSV is used for the transparent pandas
+audit while the XLSX remains the original spreadsheet artifact.
+
+`scripts/35_audit_waterschap_delivery.py` measures blank-cell availability
+without calculating thresholds, events or signal outcomes. Nine series across
+the eight named watercourses pass the provisional 80% overall/70% every-year
+complete-hour rule. This is not a gate pass. There are fewer than 10 named
+watercourses, and availability does not resolve whether the stations belong to
+the target population or whether their values are valid.
+
+Material cautions from the source and headers:
+
+- almost all gauges exceeded their measurement range in July 2021 and several
+  failed from water damage, so a populated cell is not proof of validity;
+- continuing gravel bars interfere with Meerssen;
+- Millen is one branch of a split and carries at most 1 m3/s; Vloedgraaf
+  receives the remaining Geleenbeek flow plus Rode Beek;
+- Selzerbeek splits into the main branch and Molentak; 91.6% of observed
+  Molentak cells are zero and zero semantics are not yet documented;
+- Munstergeleen is labelled as discharge measurement from 2.5 m3/s;
+- Oud-Roosteren appears twice under station ID 6.Q.27, with one column marked
+  `indicatie`.
+
+Still required before hourly discharge, p99 thresholds or events are built:
+
+- confirmation whether `GMT+1` is fixed UTC+1 or Dutch civil time with DST;
+- blank and zero semantics, validation flags and rating-curve periods;
+- per-gauge July 2021 range-exceedance, damage and reliable-data intervals;
+- coordinates, relocation history and natural/managed classification;
+- interpretation of the special branch, threshold and duplicate columns;
+- licence, citation and redistribution terms; and
+- either enough additional defensible natural tributaries for the provisional
+  10-watercourse floor or a supervisor-approved revision after the blinded
+  feasibility audit.
 
 Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
 088 88 90 100):
@@ -124,9 +166,9 @@ Alternative routes, in order:
 4. RWS Waterwebservices for main-stem source validation, not as a substitute
    for the tributary population.
 
-The Waterschap and LANUK messages in `student-next-actions.md` were reported
-sent by the student on 2026-08-10. Replies were reported on 2026-08-13, but the
-correspondence and any commitments have not yet been preserved in the repo.
+The Waterschap correspondence and first discharge delivery are preserved. The
+provider states that the remaining metadata questions will be addressed when
+workload permits. LANUK clarification remains pending in the repository.
 
 Routes already ruled out: the Waterstandlimburg OData endpoint before
 2024-08-06, the unfinished open.waterschaplimburg.nl portal, GRDC for the small

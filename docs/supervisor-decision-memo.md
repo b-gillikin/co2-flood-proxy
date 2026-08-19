@@ -1,8 +1,8 @@
 # Supervisor Decision Memo
 
-Updated 2026-08-11 from the student-reported supervisor response. The meeting
-date and supervisor name were not supplied. No prospective signal outcome has
-been calculated.
+Updated 2026-08-19 from the student-reported supervisor response and the first
+blind Waterschap availability audit. The meeting date and supervisor name were
+not supplied. No prospective signal outcome has been calculated.
 
 ## Proposed chapter
 
@@ -91,6 +91,40 @@ outcomes, show a blinded 70/80/90 availability table containing only:
 Then obtain one supervisor decision and freeze it. Missing hours remain missing
 under every option; the audit is not permission to interpolate or tune against
 signal results.
+
+**First blind availability result, 2026-08-19:** the delivery contains 15
+series columns but only eight named watercourse labels. Requiring all four
+quarter-hours for an observed hour, nine series across those eight labels pass
+the provisional 80% overall/70% every-year rule. Seven series across seven
+labels pass when both the overall and every-year cutoff is 80% or 90%. These
+counts remain upper bounds: branch structure, 91.6% zeros at Selzerbeek
+Molentak, threshold-only Munstergeleen measurements, duplicate Oud-Roosteren
+columns, July 2021 range exceedance/failure and missing rating-curve metadata
+may remove candidates. Do not freeze or lower the watercourse floor from these
+counts alone.
+
+| source series | watercourse / gauge | complete hours overall | lowest annual coverage | complete July 2021 hours | provisional 80/70 availability |
+| --- | --- | ---: | ---: | ---: | --- |
+| 11.Q.32 | Eyserbeek / Eys | 99.6% | 97.4% | 741/744 | pass |
+| 6.Q.18 | Geleenbeek / Brommelen | 98.0% | 77.0% | 739/744 | pass |
+| 6.Q.24 | Geleenbeek / Millen | 99.1% | 95.3% | 744/744 | pass; split/cap unresolved |
+| 6.Q.22 | Geleenbeek / Munstergeleen | 63.6% | 5.8% | 744/744 | fail; threshold-labelled |
+| 10.Q.29 | Geul / Cottessen | 96.2% | 75.3% | 371/744 | pass |
+| 10.Q.30 | Geul / Hommerich | 92.9% | 22.3% | 62/744 | fail |
+| 13.Q.34 | Gulp / Azijnfabriek | 99.3% | 96.2% | 744/744 | pass |
+| 12.Q.31 | Selzerbeek / Partij | 86.2% | 45.4% | 329/744 | fail |
+| 6.Q.25 | Vloedgraaf / Nieuwstadt | 99.0% | 95.5% | 744/744 | pass; split/mixed flow unresolved |
+| 15.Q.41 | Voer / Mesch | 99.0% | 93.3% | 741/744 | pass |
+| 18.Q.45 | Worm / Rimburg | 99.3% | 97.4% | 717/744 | pass |
+| 6.Q.27 indicator | Geleenbeek / Oud-Roosteren | 77.1% | 0.0% | 744/744 | fail; meaning unresolved |
+| 12.Q.46 | Selzerbeek / Molentak | 99.5% | 97.3% | 744/744 | pass; 91.6% observed zeros |
+| 6.Q.27 | Geleenbeek / Oud-Roosteren | 87.7% | 6.1% | 744/744 | fail; duplicate ID unresolved |
+| 10.Q.36 | Geul / Meerssen | 89.4% | 42.2% | 388/744 | fail; gravel-bar warning |
+
+“Complete” here means that all four source quarter-hours exist. It does not
+mean that the measurement was within range or otherwise valid. The provider's
+July 2021 warning therefore overrides any inference from populated cells until
+per-gauge quality intervals arrive.
 
 ## 6. Public-weather decision and period
 

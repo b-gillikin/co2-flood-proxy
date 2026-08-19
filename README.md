@@ -11,10 +11,12 @@ Prospective research question:
 > state?
 
 Status: **data-gated; no new chapter result exists**. The complete 2001--2025
-ERA5-Land source archive has passed its final integrity audit, but the
-repository still lacks the qualifying long discharge cohort, catchment
-polygons and RADOLAN catchment rainfall. The protocol is unlocked and the
-outcome analysis has not been run.
+ERA5-Land source archive has passed its final integrity audit. A 2010--2025
+Waterschap discharge delivery has also passed an outcome-blind availability
+audit, but the qualifying watercourse cohort remains unresolved pending gauge
+metadata and supervisor decisions. Catchment polygons and RADOLAN catchment
+rainfall are still absent. The protocol is unlocked and the outcome analysis
+has not been run.
 
 The dissertation sequence is:
 
@@ -57,6 +59,7 @@ conda activate chapter1-co2
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
 python scripts/33_ingest_viefhues_iot.py
+python scripts/35_audit_waterschap_delivery.py
 ```
 
 `--report-only` writes the known failed regional audit without treating it as a
