@@ -31,6 +31,7 @@ the source. The evidence-question IDs connect each entry to
 - **Q21:** How do rating curves, gauge failure and censoring affect high-flow observations?
 - **Q22:** Which atmospheric variables accompany extreme rainfall and flash-flood occurrence?
 - **Q23:** What long-record public-weather products can supply hourly temperature, humidity and pressure, and what are their measurement limitations?
+- **Q24:** How does current operational-AI work in Limburg distinguish experimental flood information from an authorized warning system?
 
 ## Predecessors and the Kerkrade mechanism
 
@@ -471,3 +472,24 @@ the source. The evidence-question IDs connect each entry to
 - **Provider-reported characteristics:** The fixed grid and multi-decadal hourly record support consistent extraction across national borders and periods. Observations affect the product indirectly through ERA5 atmospheric forcing; they are not assimilated directly into the offline ERA5-Land run.
 - **Provider-documented limitations:** The fields are numerical-model estimates with uncertainty, not station measurements. The provider states that uncertainty generally increases backward in time as the observing basis for the forcing becomes thinner. A 0.1° cell cannot represent building-scale weather or all topographic variation in a small tributary catchment. Dataset update date, requested variables, grid bounds and file hashes remain necessary provenance.
 - **Locators/questions:** Official overview, data description, variables, temporal/spatial coverage, licence and DOI record. Q23.
+
+## Contemporary operational-AI context
+
+### ProvinceLimburgDeepWaive2026 — Province of Limburg (2026)
+
+- **Citation:** Province of Limburg. *Predicting floods in the Selzerbeek catchment area using DeepWaive.* Dutch Algorithm Register, last changed 6 August 2026. <https://algoritmes.overheid.nl/en/algoritme/pv31/99467265/predicting-floods-in-the-selzerbeek-catchment-area-using-deepwave>.
+- **Type/status:** Official algorithm-register record for a research and test system; not a peer-reviewed performance evaluation.
+- **Objective and setting:** The Province is testing whether a physics-based AI model trained on hydraulic simulations can generate 48-hour, two-dimensional flood-depth and flood-development products for the Selzerbeek catchment more quickly than conventional numerical models. Listed operational inputs include five-minute RADOLAN and KNMI radar, deterministic ICON-D2 precipitation forecasts, AHN-derived terrain, land use, water-system geometry and Limburg Water Board level/discharge observations.
+- **Provider-reported status:** The project runs from March 2026 to February 2027. The register explicitly states that the model remains under research and has not been used for warnings or crisis management.
+- **Use in this chapter:** Contemporary institutional context in the case geography. It demonstrates the evidentiary boundary between producing rapid flood information and authorizing an operational warning. It also identifies potentially relevant public-data and institutional interfaces.
+- **Limitations:** The register supplies no independent validation results and no Chapter 1 outcome. DeepWaive is not a comparator or input to the retrospective recurrence analysis.
+- **Locators/questions:** Goal and impact; operations/data; technical design; responsible-use statement. Q24.
+
+### LiEtAl2026ResponsibleModelling — Li et al. (2026)
+
+- **Citation:** Kailong Li, Saman Razavi, Holger R. Maier, Markus Hrachowitz, Ehsan Nabavi, Natasha Harvey, Khaled Akhtar and Fisaha Unduche. “When Are AI Models Ready for Deployment? Reassessing Google's Global AI Flood Forecasting System Through the Lens of Responsible Modelling.” *Journal of Hydrology X* 30 (2026): 100215. DOI: <https://doi.org/10.1016/j.hydroa.2026.100215>.
+- **Type/status:** Peer-reviewed critical assessment.
+- **Objective and method:** The authors reassess claims of operational readiness across predictive accuracy, timeliness, extreme-event characterization and benchmarking, emphasizing sensitivity to evaluation definitions and the intended operating environment.
+- **Use in this chapter:** Supports strict separation of retrospective association from prediction, warning value and deployment readiness. It reinforces the need to anchor event definitions to observations and disclose the consequences of timing and threshold choices.
+- **Limitations:** The assessment concerns a global AI forecasting system, not Limburg public-signal recurrence. Its disputed performance estimates are not transferred to this chapter.
+- **Locators/questions:** Framework and §§2–3; deployment-readiness discussion. Q24.

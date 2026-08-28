@@ -9,7 +9,7 @@ available.
 
 | component | purpose | state |
 | --- | --- | --- |
-| literature notes, evidence matrix and BibTeX | verified source-level corpus for the student-authored review | ready; 42 sources, 96 relationships, no aggregate synthesis |
+| literature notes, evidence matrix and BibTeX | verified source-level corpus for the student-authored review | ready; 44 sources, 98 relationships, no aggregate synthesis |
 | Viefhues and Eryilmaz source reading | establishes observation -> public explanation -> spatial-extent test | incorporated; original PDFs retained |
 | `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |

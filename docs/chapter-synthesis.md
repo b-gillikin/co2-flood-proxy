@@ -190,12 +190,21 @@ Eryilmaz's supplied manuscript is same-site predecessor evidence only. It does
 not estimate pre-high-water recurrence or spatial extent and cannot substitute
 for the gated event study. No separate later-era re-fit is part of this chapter.
 
+The Province of Limburg's 2026 DeepWaive test in the Selzerbeek is contemporary
+institutional context, not part of the empirical design. Its official register
+states that the model is still being researched and is not used for warnings or
+crisis management. That boundary is useful in the discussion: rapid flood
+information, retrospective signal evidence and an authorized operational FEWS
+are different evidentiary objects.
+
 ## 9. Claims ruled out
 
 The manuscript will make no claim about flood prediction, causal effects,
 operational warning lead time, FEWS performance, alert thresholds, monitoring
 placement or ungauged catchments generally. p99 denotes relative high water,
-not damage or a statutory flood stage.
+not damage or a statutory flood stage. Contemporary systems such as DeepWaive
+may be cited as case context but will not be treated as validation, a comparator
+or evidence that the public signals studied here are operationally useful.
 
 ## 10. Required products
 

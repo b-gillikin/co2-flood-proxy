@@ -155,7 +155,7 @@ regression test protects that scientific rule.
 Interpreter:
 `/Users/briangillikin/miniforge3/envs/chapter1-co2/bin/python`
 
-- literature crosswalk: 42 notes, 42 BibTeX keys, 96 matrix rows and 36 unique
+- literature crosswalk: 44 notes, 44 BibTeX keys, 98 matrix rows and 37 unique
   DOIs; all keys resolve;
 - default scientific suite: **26 passed**;
 - operational infrastructure suite: **5 passed**;
