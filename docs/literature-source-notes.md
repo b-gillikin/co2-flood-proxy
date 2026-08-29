@@ -32,6 +32,7 @@ the source. The evidence-question IDs connect each entry to
 - **Q22:** Which atmospheric variables accompany extreme rainfall and flash-flood occurrence?
 - **Q23:** What long-record public-weather products can supply hourly temperature, humidity and pressure, and what are their measurement limitations?
 - **Q24:** How does current operational-AI work in Limburg distinguish experimental flood information from an authorized warning system?
+- **Q25:** What generic time-series and extreme-value methods are useful as secondary comparators without substituting for the flooded-mine mechanism?
 
 ## Predecessors and the Kerkrade mechanism
 
@@ -472,6 +473,30 @@ the source. The evidence-question IDs connect each entry to
 - **Provider-reported characteristics:** The fixed grid and multi-decadal hourly record support consistent extraction across national borders and periods. Observations affect the product indirectly through ERA5 atmospheric forcing; they are not assimilated directly into the offline ERA5-Land run.
 - **Provider-documented limitations:** The fields are numerical-model estimates with uncertainty, not station measurements. The provider states that uncertainty generally increases backward in time as the observing basis for the forcing becomes thinner. A 0.1° cell cannot represent building-scale weather or all topographic variation in a small tributary catchment. Dataset update date, requested variables, grid bounds and file hashes remain necessary provenance.
 - **Locators/questions:** Official overview, data description, variables, temporal/spatial coverage, licence and DOI record. Q23.
+
+## Secondary methodological comparators
+
+### KallioEtAl2021 — Kallio et al. (2021)
+
+- **Citation:** Johanna Kallio, Jaakko Tervonen, Pauli Räsänen, Riku Mäkynen, Jani Koivusaari and Johannes Peltola. “Forecasting Office Indoor CO2 Concentration Using Machine Learning with a One-Year Dataset.” *Building and Environment* 187 (2021): 107409. DOI: <https://doi.org/10.1016/j.buildenv.2020.107409>.
+- **Evidence:** One-year indoor-CO2 forecasting benchmark for a conventional occupied office, with temporal prediction experiments and publicly released data.
+- **Use:** Optional precedent for time-aware validation and simple forecasting baselines.
+- **Limit:** Occupancy and ventilation drive the office signal; it does not validate CO2 as a mine-gas or flood precursor in Limburg. Q25.
+
+### Koutsoyiannis2004 — Koutsoyiannis (2004)
+
+- **Citation:** Demetris Koutsoyiannis. “Statistics of Extremes and Estimation of Extreme Rainfall: I. Theoretical Investigation.” *Hydrological Sciences Journal* 49 (2004): 575–590. DOI: <https://doi.org/10.1623/hysj.49.4.575.54430>.
+- **Evidence:** Theoretical critique of light-tailed rainfall-extreme assumptions and associated risk underestimation.
+- **Use:** Secondary support for distributional sensitivity when rainfall extremes are interpreted.
+- **Limit:** It does not replace the chapter's POT, declustering, spatial-event or measurement-uncertainty design. Q16, Q19, Q25.
+
+### SerinaldiKilsby2014 — Serinaldi and Kilsby (2014)
+
+- **Citation:** Francesco Serinaldi and Chris G. Kilsby. “Rainfall Extremes: Toward Reconciliation after the Battle of Distributions.” *Water Resources Research* 50 (2014). DOI: <https://doi.org/10.1002/2013WR014211>.
+- **Evidence:** Global POT rainfall analysis showing the sensitivity of inferred tail behavior to threshold choice and record length.
+- **Use:** Supports explicit threshold and sample-length sensitivity rather than selection of a universal rainfall-tail distribution.
+- **Limit:** Rainfall-tail inference is ancillary to the chapter's spatial recurrence question and cannot establish the CO2 mechanism. Q16, Q19, Q25.
+
 
 ## Contemporary operational-AI context
 

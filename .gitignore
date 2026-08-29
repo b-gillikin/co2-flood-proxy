@@ -23,3 +23,4 @@ kerkrade_data/monthly_data/
 kerkrade_data/blynk_co2/streaming_data.csv
 kerkrade_data/blynk_co2/streaming_data.parquet
 /Jan Philip Viefhues Thesis Presentation Data and Code/
+recovery/.remote-*

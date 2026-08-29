@@ -1,0 +1,10 @@
+{
+  "chapter_id": "chapter1-co2",
+  "remote": "unumerit-onedrive",
+  "remote_root": "UNU-MERIT-Dissertation/disaster-recovery",
+  "paths": [
+    "data/raw",
+    "iot-device-data",
+    "Jan Philip Viefhues Thesis Presentation Data and Code"
+  ]
+}

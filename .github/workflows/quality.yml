@@ -1,0 +1,22 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  recovery-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: conda-lock.yml
+          environment-name: chapter1-co2
+          cache-environment: true
+          cache-downloads: true
+      - name: Check tracked recovery machinery and unit tests
+        shell: bash -el {0}
+        run: |
+          python -m py_compile tools/disaster_recovery.py
+          python -m pytest
