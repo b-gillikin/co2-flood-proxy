@@ -1,5 +1,8 @@
 {
   "chapter_id": "chapter1-co2",
+  "azure_subscription_id": "c7729fd0-7b35-4ec4-b1a3-ec7079b776fa",
+  "azure_account": "stunumeritphdbackupbg",
+  "azure_container": "dissertation-recovery",
   "remote": "unumerit-onedrive",
   "remote_root": "UNU-MERIT-Dissertation/disaster-recovery",
   "paths": [

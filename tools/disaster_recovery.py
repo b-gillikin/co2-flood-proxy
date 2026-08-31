@@ -122,6 +122,159 @@ def remote_base(config: dict) -> str:
     return f"{remote}:{root.rstrip('/')}/{config['chapter_id']}"
 
 
+def azure_base(config: dict) -> str:
+    return f"{config['remote_root'].strip('/')}/{config['chapter_id']}"
+
+
+def azure_common(config: dict) -> list[str]:
+    return [
+        "--account-name", config["azure_account"],
+        "--auth-mode", "login",
+        "--only-show-errors",
+    ]
+
+
+def require_azure(config: dict) -> None:
+    if not shutil.which("az"):
+        raise SystemExit("Azure CLI is not installed; install it and run: az login")
+    result = subprocess.run(
+        ["az", "account", "show", "--query", "id", "-o", "tsv"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        raise SystemExit("Azure CLI is not authenticated; run: az login")
+    expected = config.get("azure_subscription_id")
+    if expected and result.stdout.strip() != expected:
+        raise SystemExit(
+            f"Wrong Azure subscription: {result.stdout.strip()}; expected {expected}"
+        )
+
+
+def azure_blob_exists(config: dict, name: str) -> bool:
+    result = subprocess.run(
+        [
+            "az", "storage", "blob", "exists",
+            "--container-name", config["azure_container"],
+            "--name", name,
+            *azure_common(config),
+            "--query", "exists", "-o", "tsv",
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip().lower() == "true"
+
+
+def fetch_azure_manifest(config: dict, destination: Path) -> list[tuple[str, int, str]] | None:
+    name = f"{azure_base(config)}/_recovery/data-manifest.tsv"
+    if not azure_blob_exists(config, name):
+        return None
+    run([
+        "az", "storage", "blob", "download",
+        "--container-name", config["azure_container"],
+        "--name", name,
+        "--file", str(destination),
+        "--overwrite", "true",
+        "--no-progress",
+        *azure_common(config),
+        "-o", "none",
+    ])
+    return read_manifest(destination)
+
+
+def azure_upload_file(config: dict, source: Path, relative: str) -> None:
+    run([
+        "az", "storage", "blob", "upload",
+        "--container-name", config["azure_container"],
+        "--name", f"{azure_base(config)}/{relative}",
+        "--file", str(source),
+        "--overwrite", "true",
+        "--no-progress",
+        *azure_common(config),
+        "-o", "none",
+    ])
+
+
+def backup_azure(
+    config: dict, rows: list[tuple[str, int, str]], dry_run: bool
+) -> int:
+    require_azure(config)
+    with tempfile.TemporaryDirectory(prefix="dissertation-azure-manifest-") as temp_dir:
+        remote_rows = fetch_azure_manifest(config, Path(temp_dir) / "data-manifest.tsv")
+    if remote_rows is None:
+        for relative in config["paths"]:
+            source = ROOT / relative
+            if not source.exists():
+                print(f"skip missing path: {relative}")
+                continue
+            if dry_run:
+                print(f"would upload initial path: {relative}")
+            elif source.is_dir():
+                run([
+                    "az", "storage", "blob", "upload-batch",
+                    "--destination", config["azure_container"],
+                    "--destination-path", f"{azure_base(config)}/{relative}",
+                    "--source", str(source),
+                    "--overwrite", "true",
+                    "--no-progress",
+                    *azure_common(config),
+                    "-o", "none",
+                ])
+            else:
+                azure_upload_file(config, source, relative)
+        changed = rows
+    else:
+        remote = {path: (digest, size) for digest, size, path in remote_rows}
+        changed = [row for row in rows if remote.get(row[2]) != (row[0], row[1])]
+        for _digest, _size, relative in changed:
+            if dry_run:
+                print(f"would upload changed file: {relative}")
+            else:
+                azure_upload_file(config, ROOT / relative, relative)
+    if not dry_run and (remote_rows is None or remote_rows != rows):
+        azure_upload_file(config, MANIFEST_PATH, "_recovery/data-manifest.tsv")
+    total = sum(size for _digest, size, _path in rows)
+    print(
+        f"Azure destination: {config['azure_account']}/"
+        f"{config['azure_container']}/{azure_base(config)}"
+    )
+    print(
+        f"Inventory: {len(rows)} files, {total / (1024**3):.2f} GiB; "
+        f"uploaded or changed: {len(changed)}"
+    )
+    return 0
+
+
+def restore_azure(config: dict, overwrite: bool) -> int:
+    require_azure(config)
+    with tempfile.TemporaryDirectory(prefix="dissertation-azure-restore-") as temp_dir:
+        temp = Path(temp_dir)
+        remote_manifest_path = temp / "remote-manifest.tsv"
+        remote_rows = fetch_azure_manifest(config, remote_manifest_path)
+        if remote_rows is None:
+            raise SystemExit("Azure recovery manifest is missing; run backup first")
+        run([
+            "az", "storage", "blob", "download-batch",
+            "--destination", str(temp),
+            "--source", config["azure_container"],
+            "--pattern", f"{azure_base(config)}/*",
+            "--max-connections", "8",
+            "--no-progress",
+            *azure_common(config),
+            "-o", "none",
+        ])
+        downloaded_root = temp / azure_base(config)
+        for _digest, _size, relative in remote_rows:
+            source = downloaded_root / relative
+            destination = ROOT / relative
+            if destination.exists() and not overwrite:
+                continue
+            copy_local(source, destination)
+        return verify(remote_manifest_path)
+
+
 def local_base(config: dict) -> Path | None:
     explicit = os.environ.get("DISSERTATION_BACKUP_LOCAL_ROOT")
     if explicit:
@@ -175,6 +328,8 @@ def run(command: list[str]) -> None:
 def backup(config: dict, dry_run: bool) -> int:
     rows = build_inventory(config)
     write_manifest(rows)
+    if config.get("azure_account"):
+        return backup_azure(config, rows, dry_run)
     if local_base(config) is not None:
         return backup_local(config, rows, dry_run)
     remote = os.environ.get("DISSERTATION_BACKUP_REMOTE", config["remote"])
@@ -205,6 +360,8 @@ def backup(config: dict, dry_run: bool) -> int:
 
 
 def restore(config: dict, overwrite: bool) -> int:
+    if config.get("azure_account"):
+        return restore_azure(config, overwrite)
     local = local_base(config)
     if local is not None:
         remote_manifest = local / "_recovery" / "data-manifest.tsv"
@@ -235,6 +392,27 @@ def doctor(config: dict) -> int:
     print(f"Chapter: {config['chapter_id']}")
     print(f"Repository: {ROOT}")
     print(f"Protected paths: {', '.join(config['paths'])}")
+    if config.get("azure_account"):
+        print(
+            f"Azure destination: {config['azure_account']}/"
+            f"{config['azure_container']}/{azure_base(config)}"
+        )
+        try:
+            require_azure(config)
+            subprocess.run(
+                [
+                    "az", "storage", "container", "show",
+                    "--name", config["azure_container"],
+                    *azure_common(config),
+                    "-o", "none",
+                ],
+                check=True,
+            )
+        except (SystemExit, subprocess.CalledProcessError) as exc:
+            print(f"Azure check: FAILED ({exc})")
+            return 1
+        print("Azure check: OK")
+        return 0
     local = local_base(config)
     if local is not None:
         print(f"OneDrive destination: {local}")
