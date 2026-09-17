@@ -1,0 +1,68 @@
+{
+  "status": "guidance_for_human_design_decisions_not_an_active_protocol",
+  "design_comparison": [
+    {
+      "dimension": "target",
+      "discharge": "station_specific_p99_discharge_crossing",
+      "stage_candidate": "station_and_stable_era_specific_high_water_crossing"
+    },
+    {
+      "dimension": "physical_quantity",
+      "discharge": "volume_per_time_m3s",
+      "stage_candidate": "water_surface_elevation_in_documented_datum"
+    },
+    {
+      "dimension": "threshold_options_for_author_decision",
+      "discharge": "fixed_joint_record_p99_in_active_draft",
+      "stage_candidate": "predeclared_station_era_quantile_or_documented_historical_alert_threshold"
+    },
+    {
+      "dimension": "cross_site_comparison",
+      "discharge": "prespecified_standardized_event_minus_quiet_signals",
+      "stage_candidate": "prespecified_standardized_signals_around_local_stage_onsets_not_pooled_raw_stage"
+    },
+    {
+      "dimension": "rating_curve_failure",
+      "discharge": "exclude_or_censor_outside_valid_domain",
+      "stage_candidate": "potentially_recoverable_only_if_stage_sensor_and_datum_remain_valid"
+    },
+    {
+      "dimension": "instrument_failure",
+      "discharge": "censor_or_unavailable",
+      "stage_candidate": "censor_or_unavailable"
+    },
+    {
+      "dimension": "available_retained_hour_count",
+      "discharge": "raw_presence_upper_bound_in_stage_discharge_comparison_csv",
+      "stage_candidate": "unknown_no_long_record_stage_delivery"
+    },
+    {
+      "dimension": "independent_claim",
+      "discharge": "signals_before_discharge_defined_high_water",
+      "stage_candidate": "signals_before_locally_defined_high_water_not_discharge_equivalence"
+    }
+  ],
+  "author_decisions": [
+    "minimum_scientifically_useful_interval_precision",
+    "acceptable_simulation_bias_and_coverage_under_missingness_scenarios",
+    "fixed_network_population_and_representative_gauges",
+    "stage_question_and_threshold_basis_if_stage_route_selected",
+    "datum_sensor_era_boundaries_and_censoring_rules",
+    "how_to_treat_source_reconstructed_values_without_creating_cross_gauge_leakage"
+  ],
+  "acquisition_priority": [
+    {
+      "provider": "LANUK_Department_51_4",
+      "evidence_date": "2026-09-11",
+      "route_status": "regular_15_minute_export_offered_not_held",
+      "fields": ["station_id", "timestamp", "timezone", "stage", "discharge", "units", "QC", "reconstruction_provenance", "datum_history", "rating_validity"],
+      "purpose": "distinguish_constant_flow_from_archive_omission_and_real_gaps"
+    },
+    {
+      "provider": "Waterschap_Limburg",
+      "route_status": "stage_and_metadata_recovery",
+      "fields": ["long_record_stage", "stage_discharge_identifier_crosswalk", "datum_history", "sensor_range", "failure_intervals", "timezone_DST", "zero_semantics"],
+      "purpose": "assess_stage_recovery_where_discharge_rating_fails"
+    }
+  ]
+}

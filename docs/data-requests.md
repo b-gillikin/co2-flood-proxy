@@ -7,6 +7,12 @@ the other analysis-ready regional inputs remain absent. Core network deliveries
 are binding for the regional event study. Kerkrade IoT and local-onset
 deliveries govern a conditional case study.
 
+**Outreach 2026-09-17 (researcher-reported):** follow-up emails were sent to
+LANUK NRW (Jens Hammersen, following his 2026-09-11 reply and its offer of
+15-minute-average exports and discharge curves) and to Waterschap Limburg
+(René Mols, following the 2026-09-07 metadata reply). The sent-message copies
+are not yet archived, so this file does not record their exact requests.
+
 ## Current gate state
 
 | component | gate | required delivery | current state |
