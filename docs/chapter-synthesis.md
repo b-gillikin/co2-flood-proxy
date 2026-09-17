@@ -151,12 +151,13 @@ The executable audit is `scripts/31_event_study_gates.py`. It still reports the
 regional core as failed. ERA5-Land is approved and its complete 2001--2025 raw
 source grid passed the final manifest/hash and NetCDF integrity audit; the
 analysis-ready catchment assignment remains absent. Waterschap Limburg has now
-delivered a complete 2010--2025 quarter-hour grid for 15 series columns, but it
-contains only eight named watercourse labels and still lacks the metadata
-needed to determine hydrological eligibility and July 2021 validity. No
-discharge thresholds or events have been inspected. The delivered Viefhues
-package provides a
-source-native K4 record with all 744 July 2021 hours, but broader device
+delivered a complete 2010--2025 quarter-hour grid for 15 series columns and a
+follow-up defining trailing means, blank semantics, rating curves and July
+2021 station problems. It contains only eight named watercourse labels and
+still lacks verified timezone/zero semantics and a defensible natural-
+tributary cohort. No discharge thresholds or events have been inspected. The
+delivered Viefhues package provides a source-native K4 record with all 744 July
+2021 hours, but broader device
 provenance, a defensible hydrological pair, onset bounds and later-event support
 remain incomplete. The regional audit deliberately keeps those optional case
 requirements separate. Core failure is a stop, not permission to use the

@@ -88,8 +88,9 @@ cannot support a recurrence conclusion, but do not block the core chapter.
 ## 2. Long Limburg tributary discharge — blocking
 
 Status: **native EML, PDF, XLSX and value-equivalent CSV received and audited
-2026-08-19**. Files and checksums are preserved under
-`data/raw/external_deliveries/waterschap_limburg/2026-08-19/`.
+2026-08-19; provider metadata follow-up received 2026-09-07 and reviewed
+2026-09-14**. The original delivery and follow-up evidence are preserved under
+the dated folders in `data/raw/external_deliveries/waterschap_limburg/`.
 
 The source supplies an exact 15-minute grid from 2010-01-01 through
 2025-12-31, plus one endpoint at 2026-01-01 00:00. It contains 15 series
@@ -105,7 +106,10 @@ complete-hour rule. This is not a gate pass. There are fewer than 10 named
 watercourses, and availability does not resolve whether the stations belong to
 the target population or whether their values are valid.
 
-Material cautions from the source and headers:
+The follow-up resolves that values are means of the preceding 15 minutes,
+blanks mean unavailable data, no validation flags exist and no relocations
+occurred in the requested period. It supplies rating-curve sheets and a July
+2021 station-status report. Material cautions from those sources include:
 
 - almost all gauges exceeded their measurement range in July 2021 and several
   failed from water damage, so a populated cell is not proof of validity;
@@ -120,10 +124,10 @@ Material cautions from the source and headers:
 
 Still required before hourly discharge, p99 thresholds or events are built:
 
-- confirmation whether `GMT+1` is fixed UTC+1 or Dutch civil time with DST;
-- blank and zero semantics, validation flags and rating-curve periods;
-- per-gauge July 2021 range-exceedance, damage and reliable-data intervals;
-- coordinates, relocation history and natural/managed classification;
+- confirmation whether `GMT+1` is fixed UTC+1 or Dutch civil time with DST,
+  plus zero/sentinel semantics;
+- executable rating-domain/range checks for any candidate gauge;
+- numerical coordinates and natural/managed classification;
 - interpretation of the special branch, threshold and duplicate columns;
 - licence, citation and redistribution terms; and
 - either enough additional defensible natural tributaries for the provisional
@@ -157,18 +161,21 @@ Alternative routes, in order:
 1. the HESS 2024 authors for the cleaned Meerssen series and quality notes;
 2. JCAR ATRACE (`info@jcar-atrace.eu`; programme manager Kymo Slager), which is
    assembling transboundary Geul/Roer evidence after the 2021 flood;
-3. LANUK NRW clarification or replacement exports. The held verified-discharge
-   archive contains irregular timestamps and fails the draft density/episode
-   gate after deduplication by officially matched watercourse. The public
+3. LANUK NRW replacement 15-minute exports. LANUK confirms that the held
+   verified-discharge archive is an inflection-point series in which constant
+   values cannot be distinguished from gaps and no hold-forward rule exists;
+   it fails the draft density/episode gate under conservative no-fill handling.
+   The public
    metadata also show that `herzogenrath_2` and `honsdorf` are on Broicher Bach
    and Beeckflies, not the Wurm; the two held Wurm gauges do not overlap the
    later IoT era. See `lanuk-feasibility.md`;
 4. RWS Waterwebservices for main-stem source validation, not as a substitute
    for the tributary population.
 
-The Waterschap correspondence and first discharge delivery are preserved. The
-provider states that the remaining metadata questions will be addressed when
-workload permits. LANUK clarification remains pending in the repository.
+The Waterschap correspondence, discharge delivery and metadata follow-up are
+preserved. See `waterschap-source-metadata.md` for the station-level usability
+assessment. The regional gate remains closed; the reply does not supply enough
+natural watercourses or resolve timezone, zero and cohort semantics.
 
 Routes already ruled out: the Waterstandlimburg OData endpoint before
 2024-08-06, the unfinished open.waterschaplimburg.nl portal, GRDC for the small

@@ -6,7 +6,7 @@ signal contrast is used here.
 
 ## Decision
 
-The held archive contains 42 named gauges. Official station and HYGON metadata support a <= 100 m watercourse match for 32 gauges representing 18 named watercourses. Natural/managed status and the meaning of omitted verified-discharge timestamps remain unverified.
+The held archive contains 42 named gauges. Official station and HYGON metadata support a <= 100 m watercourse match for 32 gauges representing 18 named watercourses. Natural/managed status remains unverified. LANUK confirms that rows are hydrograph inflection points, but an omission can mean either a constant value or missing data and no hold-forward rule exists.
 
 Under the draft density rule (>=80% overall and >=70% in every calendar year) plus >=20 p99 episodes, the strongest tested windows are **2014-2023 and 2015-2024**, each with **3 gauges across 2 verified watercourses**. It does not meet the ten-watercourse gate. This is a feasibility failure, not a chapter null result and not permission to lower the rule.
 
@@ -26,7 +26,7 @@ officially matched watercourse. No natural-tributary claim is made.
 
 ## Wurm correction
 
-The fourth-pass review treated `herzogenrath_2` and `honsdorf` as Wurm gauges.
+An earlier review treated `herzogenrath_2` and `honsdorf` as Wurm gauges.
 The official HYGON metadata instead assigns them to **Broicher Bach** and
 **Beeckflies**. The matched Wurm gauges are:
 
@@ -62,12 +62,14 @@ Beeckflies cannot be relabelled as Wurm/Kerkrade recurrence evidence.
 ## Timestamp semantics
 
 The verified-discharge CSVs contain irregular timestamps, including non-quarter
-hours. The official HYGON data-model note describes regular quarter-hour raw
-water-level observations but does not define the omission or hold-forward rule
-for these verified discharge archives. Therefore the audit conservatively counts
-an hour as observed only when the published file contains a value in that hour.
-LANUK clarification is required before interpreting the density failure as
-physical gauge downtime or carrying observations forward.
+hours. LANUK confirms that a row is recorded at every hydrograph inflection
+point, so the files are non-equidistant change series. An omitted timestamp can
+nevertheless mean either a prolonged constant value or missing data, and LANUK
+has no hold-forward rule for gaps. Therefore the audit conservatively counts an
+hour as observed only when the published file contains a value in that hour.
+Do not interpret the density failure as physical downtime or carry values
+forward. A requested 15-minute-average export would expose actual gaps but has
+not been received.
 
 ## Reproducible artifacts
 

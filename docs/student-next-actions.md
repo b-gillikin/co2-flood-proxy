@@ -63,12 +63,14 @@ Immediately after the meeting, record for every item: **approved as written**,
 meeting date and the supervisor's name. Return those notes before any protocol
 lock.
 
-## 2. Long discharge archive — delivered; metadata and cohort still open
+## 2. Long discharge archive — metadata follow-up received; cohort still open
 
-The 2010--2025 quarter-hour table arrived on 2026-08-19 and has been audited
-without calculating discharge thresholds or events. Do not resend the original
-request. Await the provider's promised metadata response. After the supervisor
-reviews the blinded availability result, either request additional natural
+The 2010--2025 quarter-hour table arrived on 2026-08-19. The provider's
+metadata follow-up arrived on 2026-09-07 and is recorded in
+`waterschap-source-metadata.md`. Do not resend the original request. A short
+follow-up is still needed for fixed-offset versus DST handling, zero semantics
+and numerical coordinates. After the supervisor reviews the blinded
+availability and source-QA result, either request additional natural
 watercourses or record an approved revision to the provisional watercourse
 floor; do not treat branches or duplicate gauges as extra watercourses merely
 to reach a number.

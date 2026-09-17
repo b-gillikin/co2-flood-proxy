@@ -1,6 +1,6 @@
 # Session Handoff
 
-Written 2026-08-19. Session state only; use the synthesis and protocol for
+Updated 2026-09-14. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -65,12 +65,15 @@ columns, 14 station IDs and eight named watercourse labels. The CSV and XLSX
 are cell-for-cell value-equivalent. `35_audit_waterschap_delivery.py` found nine
 series across those eight labels that pass the provisional 80% overall/70%
 every-year availability rule, but this is an upper bound rather than a cohort.
-Almost all gauges exceeded their ranges in July 2021 and several failed;
-timezone, blanks/zeros, rating curves, failure bounds, coordinates and
-natural/managed status remain unresolved. Millen/Vloedgraaf and
-Partij/Molentak are split systems, Munstergeleen is threshold-labelled,
-Oud-Roosteren is duplicated and Meerssen has gravel-bar interference. No p99
-threshold or event has been calculated.
+The 2026-09-07 provider follow-up confirms trailing 15-minute means, unavailable
+blank cells, no validation flags and no relocations; it also supplies rating
+curves and station-specific July 2021 failure/range evidence. Raw availability
+is now kept separate from analytical usability in
+`35_audit_waterschap_delivery.py`. Timezone/DST, zero semantics, numerical
+coordinates and natural/managed cohort status remain unresolved.
+Millen/Vloedgraaf and Partij/Molentak are split systems, Munstergeleen is
+threshold-labelled, Oud-Roosteren is duplicated and Meerssen has gravel-bar
+interference. No p99 threshold or event has been calculated.
 
 The Viefhues K4 source is reproducible and has all 744 July 2021 hours. Device
 identity/calibration, complete ABC lineage, a defensible hydrological pair,
@@ -124,9 +127,11 @@ The live analysis tree was reduced by more than 1,900 net lines. Removed:
 
 Eryilmaz remains predecessor evidence in the source corpus. Active later-IoT
 ingestion remains only because it may support the conditional Kerkrade case.
-LANUK acquisition/feasibility code remains until the pending source reply is
-resolved. Azure collection code is operational infrastructure, not chapter
-analysis.
+LANUK acquisition/feasibility code remains to reproduce the failed German
+route. LANUK's 2026-09-11 reply confirms inflection-point change series but says
+constant values and gaps cannot be distinguished and gives no hold-forward
+rule; the conservative no-fill audit therefore stands. Azure collection code
+is operational infrastructure, not chapter analysis.
 
 The event helper now requires timestamps as well as rows to be exactly one hour
 apart, preventing a false p99 crossing across an omitted timestamp. A focused

@@ -1436,3 +1436,51 @@ CSV `8ce4dab437647966524e00c1520e77452b3983970c21d73e4e0c7cb14e3f5dd9`.
 Source: Rene Mols, Waterschap Limburg, reply dated 2026-08-19; ignored native
 delivery under `data/raw/external_deliveries/waterschap_limburg/2026-08-19/`;
 `scripts/35_audit_waterschap_delivery.py`.
+
+## 2026-09-14 — Separate Waterschap availability from discharge usability
+
+Decision: retain the raw quarter-hour availability audit unchanged in meaning,
+but attach a provider-sourced QA registry to every delivered series. A populated
+cell is not treated as valid discharge. Future hourly data may be built only
+from four complete, admissible trailing 15-minute means after timezone,
+rating-domain, failure and structural checks.
+
+The 2026-09-07 reply defines blanks as unavailable data whose unreliable versus
+non-operational causes are not distinguished, confirms that no validation flags
+exist and reports no relocations. The supplied status report and rating sheets
+show that Cottessen and Selzerbeek Partij exceeded supported ranges; Hommerich,
+Partij and Meerssen failed; Rimburg's observed peak stage exceeded its rating
+domain; Oud-Roosteren is not direct high-flow evidence; and Molentak was closed
+by an automatic weir. These cases are censored or excluded rather than filled,
+clipped or extrapolated.
+
+The reply does not resolve whether `GMT+1` is a fixed offset or Dutch civil
+time, whether zero is always physical rather than a sentinel, numerical
+coordinates, natural/managed classification or the insufficient watercourse
+floor. The regional gate therefore remains closed and no p99 event or signal
+contrast has been calculated.
+
+Source: Rene Mols, Waterschap Limburg, reply dated 2026-09-07; native evidence
+and checksums under
+`data/raw/external_deliveries/waterschap_limburg/2026-09-07/`;
+`docs/waterschap-source-metadata.md`; `scripts/35_audit_waterschap_delivery.py`.
+
+## 2026-09-14 — Retain conservative handling of LANUK change series
+
+Decision: update the LANUK source interpretation without changing the failed
+German-route result. The public verified-discharge rows are hydrograph
+inflection points rather than equidistant observations. Because LANUK says an
+omission may mean either a prolonged constant value or missing data and has no
+hold-forward rule, do not reconstruct a regular series from the public CSVs.
+
+The existing audit continues to count only explicitly published hours. This is
+a conservative availability measure, not inferred gauge downtime. LANUK can
+provide 15-minute-average exports that expose actual gaps, but those exports
+have not been received. It also reports continuous July 2021 water-level
+measurements at the named gauges while discharge processing and rating-curve
+verification remain incomplete; that does not repair the held discharge
+archive or create a later-IoT Wurm overlap.
+
+Source: Jens Hammersen, LANUK NRW, reply dated 2026-09-11; native EML and
+checksum under `data/raw/external_deliveries/lanuk_nrw/2026-09-11/`;
+`scripts/32_lanuk_feasibility.py`; `docs/lanuk-feasibility.md`.

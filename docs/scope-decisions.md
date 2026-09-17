@@ -1,6 +1,6 @@
 # Live Scope Decisions
 
-Status: 2026-08-11. Estimator details are in
+Status: 2026-09-14. Estimator details are in
 `chapter-scope-and-preregistration.md`. Historical decisions remain appended in
 `decisions.md`.
 
@@ -64,3 +64,13 @@ Status: 2026-08-11. Estimator details are in
 21. **Viefhues source:** source-native non-ABC K4 is the reproducible July 2021
     record and is normalised without gap filling. The longer cleaned thesis
     table is processed output with missing intermediates.
+22. **Waterschap sampling:** interpret each populated value as the mean of the
+    preceding 15 minutes; a blank remains unavailable. Build an hour only from
+    four complete, admissible quarter-hours after timezone and source QA.
+23. **Availability is not validity:** apply rating domains and documented
+    failures before event detection. Do not infer, clip or extrapolate affected
+    discharge. Operational stage alone does not validate discharge.
+24. **July 2021 censoring:** exclude out-of-range or failed receiver events from
+    exact-onset contrasts. Retain them only as descriptive/censored evidence.
+    Controlled branches and composite high-flow estimates cannot enter the
+    primary natural-tributary cohort.

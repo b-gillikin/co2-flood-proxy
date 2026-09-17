@@ -1,6 +1,6 @@
 # Prospective Event-Study Protocol
 
-Version: **draft 0.7, not locked** (2026-08-11).
+Version: **draft 0.8, not locked** (2026-09-14).
 
 This protocol locks only after every core regional data gate passes and the
 supervisor approves the remaining numerical floors. The Kerkrade case is added
@@ -94,6 +94,22 @@ event contrasts. NRW is an extension only if records pass the same gates.
 All analytical series use a complete hourly UTC grid. Missing observations
 remain missing. Do not interpolate discharge, bridge a missing hour when
 identifying a crossing or turn a missing RADOLAN code into zero.
+
+For the delivered Waterschap series, a source value is the mean of the
+preceding 15 minutes. A blank means unavailable data, with unreliable and
+non-operational causes not distinguished. Populate an hourly value only when
+all four constituent quarter-hours are present and admissible after source QA.
+Populated does not mean valid: apply the documented rating-curve period and
+domain, station-failure evidence and structural exclusions before event
+detection. Set affected observations to missing; do not clip, extrapolate,
+reconstruct or carry them forward.
+
+An operational stage sensor does not validate derived discharge. If the July
+2021 peak exceeded the rating domain or the instrument failed, retain the event
+as descriptive/censored evidence and exclude it from exact-onset contrasts for
+that receiver. Controlled branches and composite high-flow estimates are not
+eligible primary natural-tributary gauges. The source-specific decisions are in
+`waterschap-source-metadata.md`.
 
 ## 4. Episodes and regional storms
 

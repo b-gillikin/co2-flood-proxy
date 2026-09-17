@@ -1,8 +1,10 @@
-"""Audit the delivered Waterschap discharge table without analysing outcomes.
+"""Audit Waterschap availability and attach provider-sourced station QA.
 
 The source contains a complete 15-minute time grid and blank gauge cells. This
-script measures availability only. It does not calculate discharge thresholds,
-events, peaks or signal contrasts while source semantics remain unresolved.
+script measures raw availability without calculating discharge thresholds,
+events, peaks or signal contrasts. A separate registry records sampling
+semantics, station problems and unresolved usability fields without altering
+source cells.
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ SOURCE = (
 )
 QC_PATH = ROOT / "data/processed/waterschap_discharge_qc.csv"
 ANNUAL_PATH = ROOT / "data/processed/waterschap_discharge_annual_coverage.csv"
+METADATA_PATH = ROOT / "data/processed/waterschap_station_source_qa.csv"
 
 START = pd.Timestamp("2010-01-01 00:00")
 END = pd.Timestamp("2026-01-01 00:00")
@@ -60,6 +63,137 @@ SERIES = [
     ),
     ("10.Q.36", "10.Q.36", "Geul", "Meerssen", "provider reports continuing gravel-bar problems"),
 ]
+
+# Source-backed interpretation received from Waterschap Limburg on 2026-09-07.
+# These fields deliberately distinguish a populated source cell from a discharge
+# value that is usable for an exact-onset analysis.  None of the categories below
+# is inferred from the delivered discharge values.
+SOURCE_CONTRACT = {
+    "sampling_semantics_verified": True,
+    "units_verified": True,
+    "timezone_verified": False,
+    "zero_sentinel_verified": False,
+    "validation_flags_available": False,
+    "sampling_semantics": "mean of the preceding 15 minutes",
+    "blank_semantics": (
+        "no data available; unreliable and non-operational causes are not distinguished"
+    ),
+    "timezone_note": "source says GMT+1; fixed offset versus Dutch civil time remains unresolved",
+    "reuse_note": (
+        "semi-finished and not fully validated; provider strongly advises against onward transfer"
+    ),
+}
+
+STATION_SOURCE_QA = [
+    {
+        "series_key": "11.Q.32",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "pending_range_check",
+        "structural_note": "reported operational; event stage must remain within the rating domain",
+    },
+    {
+        "series_key": "6.Q.18",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "pending_range_check",
+        "structural_note": "reported no operational problem",
+    },
+    {
+        "series_key": "6.Q.24",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "pending_range_check",
+        "structural_note": "split Geleenbeek branch; representativeness remains unresolved",
+    },
+    {
+        "series_key": "6.Q.22",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "rating_relation_uncertain",
+        "structural_note": "mill control and summer vegetation affect the rating relation",
+    },
+    {
+        "series_key": "10.Q.29",
+        "july_2021_instrument_status": "water_level_operational",
+        "july_2021_discharge_status": "exclude_out_of_range",
+        "structural_note": "discharge exceeded 27.5 m3/s range and was disturbed by inundation/deposits",
+    },
+    {
+        "series_key": "10.Q.30",
+        "july_2021_instrument_status": "failed_2021-07-14",
+        "july_2021_discharge_status": "exclude_failed_and_disturbed",
+        "structural_note": "flow and stage failed; gravel bank disturbed the discharge calculation",
+    },
+    {
+        "series_key": "13.Q.34",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "rating_relation_uncertain",
+        "structural_note": "curve document reports poor accuracy and calibration only to about 3 m3/s",
+    },
+    {
+        "series_key": "12.Q.31",
+        "july_2021_instrument_status": "out_of_range_then_failed_2021-07-15",
+        "july_2021_discharge_status": "exclude_out_of_range_and_failed",
+        "structural_note": "14 July wave exceeded stage and rating ranges; likely power/water damage",
+    },
+    {
+        "series_key": "6.Q.25",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "pending_range_check",
+        "structural_note": "Vloedgraaf split-system representativeness remains unresolved",
+    },
+    {
+        "series_key": "15.Q.41",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "pending_range_check",
+        "structural_note": "reported no operational problem",
+    },
+    {
+        "series_key": "18.Q.45",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "exclude_peak_outside_rating_domain",
+        "structural_note": "86.427 m NAP peak exceeded the documented 86.027 m rating-curve limit",
+    },
+    {
+        "series_key": "6.Q.27_indicatie",
+        "july_2021_instrument_status": "water_level_and_electrics_operational",
+        "july_2021_discharge_status": "exclude_derived_high_flow_series",
+        "structural_note": "summer composite estimate omits flood-wave travel time",
+    },
+    {
+        "series_key": "12.Q.46",
+        "july_2021_instrument_status": "operational",
+        "july_2021_discharge_status": "exclude_controlled_branch",
+        "structural_note": "automatic weir closed the Molentak during the event",
+    },
+    {
+        "series_key": "6.Q.27",
+        "july_2021_instrument_status": "water_level_and_electrics_operational",
+        "july_2021_discharge_status": "exclude_derived_high_flow_series",
+        "structural_note": "summer composite estimate omits flood-wave travel time",
+    },
+    {
+        "series_key": "10.Q.36",
+        "july_2021_instrument_status": "failed_2021-07-14",
+        "july_2021_discharge_status": "exclude_implausible_then_failed",
+        "structural_note": "gravel deposition biased discharge; no measurement to 2022-07-15",
+    },
+]
+
+
+def station_metadata_table() -> pd.DataFrame:
+    """Return the source interpretation, failing if a delivered series is unclassified."""
+    metadata = pd.DataFrame(STATION_SOURCE_QA)
+    expected = {row[0] for row in SERIES}
+    observed = set(metadata.series_key)
+    if metadata.series_key.duplicated().any() or observed != expected:
+        raise ValueError(
+            "Waterschap source-QA registry must contain each delivered series exactly once: "
+            f"missing={sorted(expected - observed)}, extra={sorted(observed - expected)}"
+        )
+    for field, value in SOURCE_CONTRACT.items():
+        metadata[field] = value
+    metadata["rating_curve_documented"] = True
+    metadata["rating_curve_verified"] = False
+    metadata["relocation_2010_2025"] = "none reported"
+    return metadata
 
 
 def read_source() -> pd.DataFrame:
@@ -190,14 +324,19 @@ def availability_tables(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]
             }
         )
 
-    return pd.DataFrame(summaries), pd.DataFrame(annual_rows)
+    summary = pd.DataFrame(summaries).merge(
+        station_metadata_table(), on="series_key", how="left", validate="one_to_one"
+    )
+    return summary, pd.DataFrame(annual_rows)
 
 
 def main() -> None:
     summary, annual = availability_tables(read_source())
+    metadata = station_metadata_table()
     QC_PATH.parent.mkdir(parents=True, exist_ok=True)
     summary.to_csv(QC_PATH, index=False)
     annual.to_csv(ANNUAL_PATH, index=False)
+    metadata.to_csv(METADATA_PATH, index=False)
     shown = summary[
         [
             "series_key",
@@ -206,12 +345,14 @@ def main() -> None:
             "complete_hour_coverage",
             "minimum_annual_complete_hour_coverage",
             "july_2021_complete_hours",
+            "july_2021_discharge_status",
             "passes_provisional_80_70_availability",
         ]
     ]
     print(shown.to_string(index=False))
     print(f"\nWrote {len(summary)} series to {QC_PATH}")
     print(f"Wrote {len(annual)} series-years to {ANNUAL_PATH}")
+    print(f"Wrote {len(metadata)} source-QA rows to {METADATA_PATH}")
 
 
 if __name__ == "__main__":

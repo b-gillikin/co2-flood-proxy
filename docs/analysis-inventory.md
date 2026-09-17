@@ -1,6 +1,6 @@
 # Analysis Inventory — Prospective Event Study
 
-Status: 2026-08-19. There is no new event-study result. The regional chapter is
+Status: 2026-09-14. There is no new event-study result. The regional chapter is
 stopped at its core data gate. The source-native July 2021 K4 record is
 normalised, but that alone does not make the conditional Kerkrade case
 available.
@@ -14,7 +14,7 @@ available.
 | `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
 | `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
 | `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
-| `35_audit_waterschap_delivery.py` | audits the delivered quarter-hour discharge grid without calculating thresholds or events | implemented; 15 series audited, cohort unresolved |
+| `35_audit_waterschap_delivery.py` | audits raw availability and emits a separate provider-sourced station-QA registry without calculating thresholds or events | implemented; 15 series classified, timezone/zero/cohort unresolved |
 | ERA5-Land raw archive | fixed 2001–2025 weather grid used after catchment assignment | complete; 300/300 months passed NetCDF, size and SHA-256 audit; backfill-only Azure app stopped |
 | Provincie Limburg Willem delivery | possible mine-water context for the conditional Kerkrade case | native reply preserved and audited; July 2021 has 31 daily old-shaft observations; semantics unresolved |
 | `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |

@@ -330,8 +330,9 @@ def write_report(metadata, audit, summary, july, later):
         f"The held archive contains {len(metadata)} named gauges. Official station and HYGON "
         f"metadata support a <= {MAX_WATERCOURSE_MATCH_METRES} m watercourse match for "
         f"{len(mapped)} gauges representing {mapped.watercourse.nunique()} named watercourses. "
-        "Natural/managed status and the meaning of omitted verified-discharge timestamps "
-        "remain unverified."
+        "Natural/managed status remains unverified. LANUK confirms that rows are "
+        "hydrograph inflection points, but an omission can mean either a constant value or "
+        "missing data and no hold-forward rule exists."
     )
     gate_result = (
         f"Under the draft density rule (>={MIN_OVERALL_COVERAGE:.0%} overall and "
@@ -387,12 +388,14 @@ Beeckflies cannot be relabelled as Wurm/Kerkrade recurrence evidence.
 ## Timestamp semantics
 
 The verified-discharge CSVs contain irregular timestamps, including non-quarter
-hours. The official HYGON data-model note describes regular quarter-hour raw
-water-level observations but does not define the omission or hold-forward rule
-for these verified discharge archives. Therefore the audit conservatively counts
-an hour as observed only when the published file contains a value in that hour.
-LANUK clarification is required before interpreting the density failure as
-physical gauge downtime or carrying observations forward.
+hours. LANUK confirms that a row is recorded at every hydrograph inflection
+point, so the files are non-equidistant change series. An omitted timestamp can
+nevertheless mean either a prolonged constant value or missing data, and LANUK
+has no hold-forward rule for gaps. Therefore the audit conservatively counts an
+hour as observed only when the published file contains a value in that hour.
+Do not interpret the density failure as physical downtime or carry values
+forward. A requested 15-minute-average export would expose actual gaps but has
+not been received.
 
 ## Reproducible artifacts
 
