@@ -1,163 +1,152 @@
-# Manuscript outline: Limburg signal recurrence and spatial extent
+# Manuscript outline: pre-high-water signals across Limburg tributaries
 
 Status: prospective, data-gated outline
-Status date: 2026-09-16
+Status date: 2026-09-18 (protocol draft 0.9)
 
-This outline translates the live protocol into a paper-shaped chapter. It does
-not alter the estimands, gates or stopping rules in
+This outline turns the live protocol into a paper-shaped chapter. It does not
+alter the estimands, gates or stopping rules in
 `chapter-scope-and-preregistration.md`.
 
 ## Working title
 
-**Pre-high-water signal recurrence and spatial extent across Limburg tributaries**
+**How far ahead? Seasonal lag structure of public hydrometeorological signals
+before high water on Limburg tributaries: a time-stratified case-crossover
+study**
 
-The title must change if the final geography supports watercourse-level
-replication but not the prespecified distance analysis. CO2 enters the title
-only if its independent Kerkrade gate passes.
+If the seasonal fallback applies (§2 of the protocol), drop "seasonal" from the
+title and lead with the pooled lag structure.
 
 ## Abstract
 
-One compact account of the recurrence question, independently defined
-high-water events, matched quiet references, fixed signal set, achieved
-geographic claim level, results and bounded interpretation. No flood-prediction,
-propagation or warning-radius language.
+The question, the case-crossover design, the cohort and storm counts, the
+seasonal lag result, the atmospheric-block result, and the feasibility-bounded
+implication for warning on small tributaries. No flood-prediction, causal or
+warning-performance language.
 
 ## 1. Introduction
 
-### 1.1 From one Kerkrade observation to a regional test
+### 1.1 Small tributaries and the warning gap
 
-- Establish the Viefhues observation and Eryilmaz weather explanation as
-  motivating predecessors, not evidence for this chapter's result.
-- Explain why recurrence before independently defined high water must be tested
-  across watercourses and events.
+- Main-river warning in the Netherlands is national, while tributaries fall to
+  the water boards. July 2021 showed the cost of that gap on the Geul and its
+  neighbours.
+- Check the exact recommendations of the post-2021 Dutch reviews before citing
+  them.
 
-### 1.2 Evidence gap
+### 1.2 From one Kerkrade observation to a regional question
 
-- Separate public hydrometeorological recurrence from prediction and physical
-  flood-wave propagation.
-- Identify the unresolved spatial-support problem: whether contrasts recur and
-  how their direction and magnitude vary with distance from the affected
-  watercourse.
+- Viefhues and Eryilmaz as motivation: an indoor anomaly, then a public-weather
+  explanation.
+- Why the transferable question concerns public regional signals, not one
+  sensor.
 
-### 1.3 Question, estimands and contribution
+### 1.3 Question, estimand and contribution
 
-- State the primary and conditional Kerkrade questions verbatim from the
-  protocol.
-- Define local recurrence and spatial extent as separate estimands.
-- State the contribution at the claim level authorized by the final network.
+- State the question verbatim from the protocol.
+- Primary estimand: the seasonal difference in the rainfall lag-response.
+- Contribution: evidence on how far ahead public signals depart from normal,
+  and a design new to this literature.
 
 ### 1.4 Boundaries
 
 - High water is not relabelled as damaging flooding.
-- No operational early-warning, causal, propagation, gauge-substitution or
-  ungauged-basin claim.
+- "Association lag" is not an operational warning lead time.
+- No prediction, causal, trigger or ungauged-basin claim.
 
-## 2. Study area, predecessor evidence and data
+## 2. Study area and data
 
-### 2.1 Limburg tributaries and candidate watercourses
+### 2.1 Limburg tributaries and the cohort
 
-- Geography, hydrological setting, gauge selection and achieved network extent.
-- NRW extension only if the timestamp and comparability gates pass.
+- Hydrological setting, cross-border headwaters, the independence rule for
+  split systems and the final cohort.
 
-### 2.2 Event-defining discharge records
+### 2.2 Discharge records
 
-- Gauge provenance, timestamp semantics, gaps, quality flags and watercourse
-  biography.
+- Waterschap provenance, sampling semantics, rating eras, July 2021 station
+  status and the onset-only censoring rule.
 
-### 2.3 Fixed signal blocks
+### 2.3 Rainfall and weather
 
-- RADOLAN catchment rainfall and donor flow.
-- ERA5-Land temperature, humidity and pressure.
-- Conditional pressure-adjusted Kerkrade CO2.
+- RADKLIM or RADOLAN catchment rainfall over cross-border catchments.
+- ERA5-Land relative humidity and pressure change.
 
-### 2.4 July 2021 and prior Kerkrade work
+## 3. Methods
 
-- Prespecified role of July 2021.
-- What the predecessor studies do and do not establish.
+### 3.1 High-water onsets and regional storms
 
-## 3. Prospective design and gates
+- Adjacent-hour p99 crossings per rating era; 72-hour single linkage.
 
-### 3.1 Input and cohort gates
+### 3.2 The time-stratified case-crossover design
 
-- Report each contracted input and eligibility decision before any outcome.
-- State whether the distance estimand, replication-only fallback and Kerkrade
-  case are activated.
+- At-risk hours; watercourse × year × month × hour-of-day strata.
+- Why this removes overlap and seasonal-trend bias.
 
-### 3.2 High-water episodes and regional storms
+### 3.3 Distributed-lag conditional Poisson models
 
-- Fixed onset rule, gap handling and storm aggregation.
+- The cross-basis, the fixed rainfall contrast and the season interaction.
+- Model specifications: primary and S1–S4.
 
-### 3.3 Matched quiet references
+### 3.4 Uncertainty
 
-- Time-stratified eligible references, exclusion windows and balance checks.
+- Calendar year-month block bootstrap.
 
-### 3.4 Local recurrence contrasts
+### 3.5 Secondary and descriptive analyses
 
-- Event-window signal minus matched quiet median.
-- Aggregation within event and watercourse.
-
-### 3.5 Spatial extent
-
-- Ordered receiver--donor pairs and distance definition.
-- Pair-median contrast model and equal pair weighting.
-- Cluster resampling and leave-one-watercourse-out influence checks.
-
-### 3.6 Conditional Kerkrade analysis
-
-- Pressure adjustment, overlap period and independent activation gate.
+- Exposure-response shape, the Fase comparison where supplied, stability, July
+  2021 and the two-stage pooling sensitivity.
 
 ## 4. Results
 
 ### 4.1 Gate and sample audit
 
-- Eligible watercourses, gauges, storms, events, missingness and supported
-  claim level.
+- Watercourses, storms per season, onsets, censored onsets and coverage.
 
-### 4.2 Local recurrence
+### 4.2 Seasonal lag structure (primary)
 
-- Direction, magnitude and event heterogeneity for every fixed signal.
+- Lag-response curves by season, cumulative association and median association
+  lag, with intervals.
 
-### 4.3 Spatial extent or watercourse replication
+### 4.3 Beyond rainfall
 
-- Report the prespecified distance result if activated.
-- Otherwise report the authorized cross-watercourse/seasonal result without
-  fitting a weakened distance model.
+- Humidity and pressure-change lag-responses adjusted for rainfall.
 
-### 4.4 July 2021 and Kerkrade
+### 4.4 Replication and stability
 
-- Clearly label July 2021 and CO2 as prespecified descriptive or conditional
-  analyses.
+- Watercourse forest plot and sign count; the 2010–2017 and 2018–2025
+  comparison; the two-stage pooling sensitivity.
 
-### 4.5 Influence and robustness
+### 4.5 Exposure-response shape and operational thresholds
 
-- Leave-one-watercourse-out, completeness and reference-balance diagnostics.
+- Rainfall exposure-response, and the Fase comparison where thresholds exist.
+
+### 4.6 July 2021
+
+- The regional trajectory and its position against the pooled relationship.
 
 ## 5. Discussion
 
-- Answer the recurrence question at the achieved geographic scale.
-- Distinguish atmospheric coherence, hydrological recurrence and untested
-  mechanism.
-- Explain what distance patterns can and cannot mean.
-- Relate results to the predecessor studies without treating them as a pooled
-  dataset.
-- State limitations arising from geography, gauge biography, event count and
-  public-data support.
+- Answer the question at the achieved scale.
+- What seasonal lag structure implies for warning on small tributaries:
+  nowcasting and prepared responses where association is short, anticipatory
+  action where it builds over days. Feasibility claims only.
+- Cross-border headwaters and upstream information.
+- Relation to the predecessor studies.
+- Limitations: six watercourses, shared storms, associational design, rating
+  stability, radar quality at the edge of the domain.
 
 ## 6. Conclusion
 
-- One direct answer for public signals.
-- A separate answer for conditional Kerkrade CO2 if activated.
-- The minimum additional evidence required for any broader spatial or
-  operational claim.
+- One direct answer on seasonal lag structure.
+- One answer on whether the atmospheric block adds anything.
+- The minimum further evidence needed for any operational claim.
 
 ## Planned core artifacts
 
-1. Study-network and watercourse map.
+1. Study network and cross-border catchment map.
 2. Gate and input-provenance table.
-3. Event and matched-reference flow diagram.
-4. Watercourse/event timeline.
-5. Local recurrence forest or interval display.
-6. Spatial pair display and prespecified fit, if activated.
-7. Leave-one-watercourse-out influence table.
+3. Onset, storm and at-risk-hour flow diagram.
+4. Seasonal rainfall lag-response figure (primary).
+5. Watercourse forest plot.
+6. Network-state event-time profiles.
+7. July 2021 regional trajectory.
 8. Result-to-claim table.
-

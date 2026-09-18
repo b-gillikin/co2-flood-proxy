@@ -1,33 +1,67 @@
-# Prospective Event-Study Protocol
+# Prospective Case-Crossover Protocol
 
-Version: **draft 0.8, not locked** (2026-09-14).
+Version: **draft 0.9, not locked** (2026-09-18).
 
 This protocol locks only after every core regional data gate passes and the
-remaining numerical floors are decided and recorded in `decisions.md`. The Kerkrade case is added
-only if its separate gate passes. No prospective outcome table may be inspected
-before the version, input hashes and lock timestamp are recorded in §13. This
-is a repository protocol, not an externally registered study.
+remaining numerical floors are decided and recorded in `decisions.md`. No
+prospective outcome table may be inspected before the version, input hashes and
+lock timestamp are recorded in §13. This is a repository protocol, not an
+externally registered study.
+
+## Changes from draft 0.8
+
+Draft 0.9 is a redesign recorded in `decisions.md` (2026-09-18). It replaces the
+recurrence-plus-distance event study with a time-stratified case-crossover
+study of seasonal lag structure.
+
+| draft 0.8 | draft 0.9 |
+| --- | --- |
+| Recurrence plus a log-distance slope over ordered receiver-donor pairs | Recurrence and seasonal lag structure; the distance slope survives only as a conditional module (§9.5) |
+| Conditional Kerkrade CO2 case | Removed; Viefhues and Eryilmaz become motivation only |
+| Five nearest quiet hours per event, with p95/storm exclusion over seven days | Time-stratified at-risk hours (§5) |
+| Event-minus-quiet medians and sign counts | Conditional quasi-Poisson distributed-lag models (§7) |
+| Storm resampling | Calendar year-month block bootstrap; storms remain an information floor (§8) |
+| Eight signals, including temperature, pressure level and all donor pairs | Hourly rainfall, relative humidity and six-hour pressure change; network state becomes descriptive (§6) |
+| At least 10 watercourses | At least 5 for the core, and 6 for the cross-watercourse sign test, with stated rationales (§2) |
+| Events censored when the peak exceeded the rating domain | Events censored only when the onset hour itself is missing or out of domain (§3) |
+
+The draft 0.8 text remains in Git history.
 
 ## 1. Question and estimands
 
-> Across Limburg tributaries, which public hydrometeorological signals recur
-> during the 72 hours before independently defined high-water onset, and how
-> do the direction and magnitude of their event-minus-quiet contrasts change
-> with distance from the affected watercourse? If the source data support a
-> Kerkrade case, does
-> pressure-adjusted CO2 recur there as a local manifestation of that regional
-> state?
+> Across natural Limburg tributaries, how are public hydrometeorological
+> signals in the 72 hours before independently defined high-water onset
+> associated with that onset, and does the timing of that association differ
+> between warm-season and cold-season events?
 
-The first estimand is the local event-minus-matched-quiet contrast for each
-fixed signal. The second is the slope relating the median contrast of every
-ordered receiver-donor pair to `log(1 + distance_km)`. Here transferability
-means **spatial extent across the observed network**. It does not mean
-prediction, gauge substitution, physical propagation, an operational radius
-or performance in ungauged basins.
+The unit of analysis is the watercourse-hour. The outcome is a high-water onset
+(§4). Signals are compared with the same watercourse's own at-risk hours from the
+same year, month and hour of day (§5).
 
-The regional record must contain July 2021, but no missing local peak or onset
-is invented. CO2 recurrence is a conditional case, not a prerequisite for the
-regional estimands.
+**Primary estimand.** The seasonal difference, warm season (May–October) minus
+cold season (November–April), in the hourly-rainfall lag-response over lags 1–72
+hours. It is summarised by two quantities:
+
+1. **cumulative association:** the rate ratio for onset accumulated over lags
+   1–72 at the fixed rainfall contrast defined in §7; and
+2. **median association lag:** the smallest lag ℓ at which the cumulative log
+   rate ratio over lags 1..ℓ reaches half of its 1–72 total. A smaller value
+   means the association is concentrated close to onset. It is reported as not
+   estimable when the 1–72 cumulative association is not positive.
+
+**Secondary estimands**, reported with intervals but interpreted descriptively:
+
+- S1: the pooled, all-season rainfall lag-response;
+- S2: relative-humidity and pressure-change lag-responses, adjusted for
+  rainfall, asking whether the Eryilmaz atmospheric block carries association
+  beyond rainfall;
+- S3: watercourse-specific cumulative associations and their sign count;
+- S4: temporal stability, 2010–2017 against 2018–2025;
+- S5: the Fase comparison, conditional on receiving the thresholds (§9.2).
+
+Only the primary estimand is interpreted confirmatorily. This is an
+associational study. "Lag" and "association lag" describe when signals depart
+from normal before onset. They are not operational warning lead times.
 
 ## 2. Hard gates and input contracts
 
@@ -37,296 +71,375 @@ Run:
 python scripts/31_event_study_gates.py
 ```
 
-The executable audit covers the binding regional inputs only. Any failure
-causes a nonzero exit.
+The executable audit covers the binding regional inputs. Any failure causes a
+nonzero exit.
 
 | component | file | minimum contract |
 | --- | --- | --- |
 | core | `data/interim/event_study_discharge_hourly.csv` | unique regular hourly UTC index plus one column per primary gauge |
-| core | `data/interim/event_study_gauges.csv` | gauge/watercourse identity, coordinates, cohort/QA flags and July 2021 status |
-| core | `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average column per primary watercourse |
-| core | `data/interim/event_study_catchments.gpkg` | polygons used for the RADOLAN spatial average |
-| core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC temperature, relative humidity and pressure for every primary watercourse |
+| core | `data/interim/event_study_gauges.csv` | gauge/watercourse identity, coordinates, cohort/QA flags, rating eras and July 2021 status |
+| core | `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average rainfall column per primary watercourse |
+| core | `data/interim/event_study_catchments.gpkg` | one valid polygon per primary watercourse, delineated across national borders |
+| core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for every primary watercourse |
 | core | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
 
-The core cohort must contain at least 10 natural tributary watercourses, 10
-common years across discharge, RADOLAN and weather, 20 joint-period p99
-episodes per watercourse and 40 regional storms. Rating curves, coordinates,
-timezone, units, zero-sentinel and missingness semantics, weather assignment
-and July 2021 gauge status must be documented. The joint period must include 15
-July 2021.
+**Core floors.** The cohort must contain:
 
-Within the joint period, every discharge, RADOLAN and weather series must have
-at least 80% observed hourly cells overall and 70% in every calendar year. At
-least 80% of possible receiver-event-donor combinations must have donor flow
-observed throughout the -13 to -1 hour window needed for level and a gap-honest
-12-hour change; availability must be at least 70% within every receiver and
-empirical distance third, and every ordered pair must have at least 10 complete
-receiver events. Distances must be positive for every ordered pair.
+- at least **5** natural, hydrologically independent tributary watercourses,
+  each passing the coverage rule below with at least 20 joint-period p99
+  episodes. The S3 sign test additionally requires 6;
+- at least 10 common years across discharge, rainfall and weather, with the
+  joint period including 15 July 2021;
+- at least **40** regional storms in the joint period.
 
-These numerical floors are provisional author-chosen information safeguards,
-not accepted hydrological standards. They must be frozen after a blinded audit
-of dates, missingness, event counts and geometry, and before any signal
-contrast is inspected. Ten years means at least 3,650 days between the first
-and last common hourly endpoints; missing cells remain visible on that grid.
-The GeoPackage must contain one unique, valid, non-empty polygon per primary
-watercourse in a projected CRS.
+For the primary estimand, each season also needs at least **15** regional
+storms. If either season falls short, the chapter still runs: S1 becomes the
+primary estimand and the seasonal contrast is reported descriptively. This
+fallback is fixed now.
 
-The conditional Kerkrade case is assessed separately. It requires
-source-native CO2 and pressure throughout July 2021; at least 100 complete quiet
-calibration hours in that sensor era; documented device, calibration and ABC
-status; Worm/Wurm or a documented hydrological pair; independently supported
-July 2021 lower and upper bounds; and at least three later exact pair-gauge p99
-onsets with complete CO2 and pressure from -72 to -1. If any requirement fails,
-report **Kerkrade case not available**. Do not call missing recurrence evidence
-a null and do not stop the regional chapter.
+Within the joint period, every discharge, rainfall and weather series must have
+at least 80% observed hourly cells overall and 70% in every calendar year. Ten
+years means at least 3,650 days between the first and last common hourly
+endpoints; missing cells remain visible on that grid.
 
-If any core gate fails, stop. Do not substitute the rolling 2024–2026
-Waterschap file. Groundwater is not a gate.
+**Why these values.** They are author-chosen minimum-information safeguards, not
+accepted hydrological standards, and each has a stated purpose:
 
-## 3. Population and time axis
+- **Five watercourses (core).** The primary estimand pools onsets across
+  watercourses, and its information comes from storms, not from the number of
+  watercourses. Five is an author-chosen minimum for a claim worded as "across
+  tributaries" rather than about one or two streams. Below five the core gate
+  fails.
+- **Six watercourses (S3 sign test).** Six is the smallest cohort in which
+  unanimous agreement in sign across watercourses is distinguishable from
+  chance. Two-sided, the probability is 2 × 0.5⁶ ≈ 0.031 with six, and 0.0625
+  with five. Watercourses share storms, so this is a necessary condition for
+  the replication claim, not the main test. With five, S3 is reported
+  descriptively with no sign test.
+- **Forty storms.** Regional storms are the independent weather systems behind
+  the sample. Inference from few clusters is unreliable (Cameron, Gelbach and
+  Miller 2008).
+- **Fifteen storms per season.** Keeps the seasonal contrast from resting on a
+  handful of weather systems.
+- **Twenty episodes per watercourse.** Keeps a watercourse's own S3 estimate
+  from resting on a handful of events.
+- **Ten years** rejects the rolling two-year record and gives interannual
+  replication.
 
-Use one predeclared representative gauge for each natural tributary
-watercourse. Exclude main stems, canals, managed structures, reversing or
-controlled flow series and gauges without documented QA. Selection cannot use
-event contrasts. NRW is an extension only if records pass the same gates.
+These floors are frozen after a blinded audit of dates, missingness, event
+counts and geometry, and before any signal association is estimated.
 
-All analytical series use a complete hourly UTC grid. Missing observations
-remain missing. Do not interpolate discharge, bridge a missing hour when
-identifying a crossing or turn a missing RADOLAN code into zero.
+If any core gate fails, stop and record a dated rescoping decision. Do not
+substitute the rolling 2024–2026 Waterschap file.
 
-For the delivered Waterschap series, a source value is the mean of the
-preceding 15 minutes. A blank means unavailable data, with unreliable and
-non-operational causes not distinguished. Populate an hourly value only when
-all four constituent quarter-hours are present and admissible after source QA.
-Populated does not mean valid: apply the documented rating-curve period and
-domain, station-failure evidence and structural exclusions before event
-detection. Set affected observations to missing; do not clip, extrapolate,
-reconstruct or carry them forward.
+## 3. Population, events and time axis
 
-An operational stage sensor does not validate derived discharge. If the July
-2021 peak exceeded the rating domain or the instrument failed, retain the event
-as descriptive/censored evidence and exclude it from exact-onset contrasts for
-that receiver. Controlled branches and composite high-flow estimates are not
-eligible primary natural-tributary gauges. The source-specific decisions are in
-`waterschap-source-metadata.md`.
+**Population.** Use one predeclared representative gauge for each natural,
+hydrologically independent tributary watercourse. Exclude main stems, canals,
+managed structures, reversing or controlled flow series, composite estimates,
+and gauges without documented QA. Selection cannot use signal associations.
+
+Watercourses are independent only if their high flows are not routed into one
+another. Branches of one split system count once. In particular, Waterschap
+reports that Geleenbeek flow above 1 m³/s at Millen passes to the Vloedgraaf.
+Geleenbeek (Brommelen) and Vloedgraaf (Nieuwstadt) therefore enter as one
+watercourse if Brommelen lies upstream of that split, with the representative
+gauge chosen on QA grounds before events are built.
+
+Candidate cohort before classification: Eyserbeek (Eys), Geul (Cottessen), Gulp
+(Azijnfabriek), Voer (Mesch), Worm (Rimburg), and Geleenbeek or Vloedgraaf.
+Selzerbeek is excluded: Partij fails coverage and Molentak is weir-controlled.
+
+**Time axis.** All analytical series use a complete hourly UTC grid. Missing
+observations remain missing. Do not interpolate discharge, bridge a missing
+hour when identifying a crossing, or turn a missing rainfall code into zero.
+
+**Waterschap semantics.** A source value is the mean of the preceding 15
+minutes; a blank means unavailable data. Populate an hourly value only when all
+four quarter-hours are present and admissible after source QA and a verified
+timezone conversion.
+
+**Rating eras.** Where rating-curve validity periods show a revision, compute the
+p99 threshold separately within each documented era. Era boundaries come from
+the provider's rating documentation and are fixed before any event is built.
+Because every hydrological quantity is a within-gauge, within-era rank, the
+design depends on the rating curve's stability, not its absolute accuracy.
+
+**Censoring.** Censor an event's onset only when the onset hour or the hour
+before it is missing, falls inside a documented failure interval, or lies
+outside the valid rating domain. A peak that later exceeds the rating domain
+does not censor an onset observed within the domain. Censored onsets are
+retained as descriptive evidence and excluded from estimation.
+
+**Stage, conditional.** If Waterschap supplies water-level records with datum
+and sensor history, a censored discharge onset may be recovered from stage.
+The recovered onset is the first adjacent-hour crossing of the stage
+corresponding to that era's discharge p99 under the valid rating curve. Only
+onset timing is recovered this way. Stage never substitutes for a discharge
+history.
 
 ## 4. Episodes and regional storms
 
-For each receiver, calculate p99 and p95 from observed discharge during the
-fixed qualifying joint period. Receiver flow defines its outcome and
-contamination periods only; it is not a signal for its own event.
+For each receiver and rating era, calculate p99 from observed discharge in the
+fixed joint period. Receiver flow defines its outcome and is never a signal for
+its own onset.
 
-A primary episode starts when discharge moves from at or below p99 to above p99
-on adjacent observed hours. Merge re-crossings whose consecutive onsets are at
-most 72 hours apart. This is unbounded single linkage: a chain may span more
-than 72 hours if every consecutive gap remains within 72 hours. Save the first
-and last crossing, number of crossings and chain span. Apply the same rule to
-episode onsets across watercourses to define regional storms.
+An episode starts when discharge moves from at or below p99 to above p99 on
+adjacent observed hours. Re-crossings whose consecutive onsets are at most 72
+hours apart merge into one episode by unbounded single linkage. Save the first
+and last crossing, the number of crossings and the chain span. Apply the same
+rule to episode onsets across watercourses to define regional storms.
 
-Exact crisis-plan Fase crossings at named leading gauges are a sparse
-sensitivity. Inventory thresholds at other points are not treated as
-equivalent.
+The primary lag window is 1–72 hours. The onset hour itself is excluded from
+every signal. A sensitivity analysis extends the maximum lag to 168 hours.
 
-The primary precursor window is -72 to -1 hours. Sensitivity windows are -24 to
--1 and -168 to -1. The event timestamp is excluded from signal summaries.
+## 5. At-risk hours and time strata
 
-## 5. Matched quiet references
+The design is a time-stratified case-crossover design (Maclure 1991; Janes,
+Sheppard and Lumley 2005), analysed in its equivalent time-series form
+(Armstrong, Gasparrini and Tobias 2014).
 
-For each event, candidate references are hours on the same receiver, calendar
-month and UTC hour. Candidates require every principal public signal and must
-be more than seven days from any receiver p95 exceedance and any regional storm
-onset.
+An hour *t* is **at risk** for watercourse *w* when:
 
-Rank candidates deterministically by absolute time from the event, then by
-timestamp; take the first five. Exclude an event with fewer than three. Save
-the selected timestamps before computing contrasts.
+- discharge is observed at *t* and *t* − 1;
+- discharge at *t* − 1 is at or below that era's p99; and
+- no upward p99 crossing for *w* was observed in the preceding 72 hours.
 
-Evaluate each fixed rolling signal at the end of the precursor window (`onset
-- 1 hour`) and at the matched reference hour. Event-time trajectories are
-descriptive figure data and do not create additional tested lags.
+That definition is the exact complement of the episode-merging rule: under
+72-hour single linkage, a crossing starts a new episode exactly when no
+crossing occurred in the preceding 72 hours. Every at-risk hour that is a
+crossing is therefore an onset. It removes
+the draft 0.8 exclusions around p95 exceedances and other watercourses' storms.
+Hours with high but sub-threshold flow, and hours during storms on other
+watercourses, are legitimate non-onset hours and are kept.
 
-Control selection depends on receiver-side availability only, not on which
-donor gives a stronger or more complete result. A spatial pair contrast
-requires its donor event summary and at least three of the five saved donor
-control summaries. Before values are summarised, audit that every ordered pair
-still has at least 10 fully estimable event contrasts; otherwise the spatial
-gate fails.
+The outcome is 1 for an at-risk hour that is an onset, and 0 otherwise.
+
+**Strata:** watercourse × calendar year × calendar month × hour of day. Each
+stratum holds roughly 30 at-risk hours. Only within-stratum comparisons inform
+the estimates, so seasonal, interannual, diurnal and watercourse-level
+differences in baseline onset rates are controlled by design.
 
 ## 6. Fixed signals
 
-The fixed hierarchy is:
+| signal | source | role |
+| --- | --- | --- |
+| hourly catchment rainfall | RADKLIM-RW, or operational RADOLAN RW throughout (see below) | principal exposure |
+| hourly relative humidity | ERA5-Land 2 m temperature and dew point, one documented formula | atmospheric block, S2 |
+| six-hour surface-pressure change | ERA5-Land surface pressure | atmospheric block, S2 |
+| network state | median within-era percentile rank of the other cohort watercourses' discharge | descriptive only |
 
-**Principal hydrological signals**
+**Rainfall product.** Use RADKLIM-RW, the reprocessed climatology-grade radar
+product, if it covers the full joint period. Otherwise use operational RADOLAN
+RW for the whole period. Never splice the two. Before acquisition, verify
+coverage quality over South Limburg. The nearest radars are Essen and
+Neuheilenbach.
 
-- catchment-average RADOLAN rainfall totals over 24 and 72 hours;
-- donor flow divided by its joint-period p99 and its 12-hour change on that
-  scale.
+**Catchments.** Delineate from a DEM that crosses national borders. The Geul,
+Gulp and Voer rise in Belgium and the Worm drains Aachen, so Dutch-only
+catchment layers would truncate them.
 
-**Eryilmaz-derived atmospheric block**
+**Weather assignment.** Assign the ERA5-Land 0.1° cell nearest each fixed
+catchment centroid. Record shared cells as shared exposures. Visual Crossing is
+predecessor context only.
 
-- public temperature and relative-humidity means over 24 hours;
-- pressure level and six-hour pressure change.
+**Dropped from draft 0.8.** Temperature is dropped: it mainly tracks season,
+which is now the contrast of interest. Pressure level is dropped in favour of
+pressure change. Donor-flow pairs are replaced by the network-state description.
+Network state is part of the same flood process, a co-symptom rather than an
+exposure, so it is shown as event-time profiles and never modelled as a cause.
 
-The local recurrence analysis uses receiver-catchment rainfall and the
-atmospheric block. The spatial analysis applies all fixed signals at every
-other eligible watercourse at receiver event and control times. No nearest
-donor is selected and no pair or signal is removed because of its result.
+## 7. Model
 
-ERA5-Land is the sole regional source for temperature, humidity and pressure.
-Acquire hourly 2 m temperature, 2 m dew-point temperature and surface pressure
-for 2001–2025 over the fixed Limburg/cross-border extract. After cohort and
-catchment polygons are fixed, assign the nearest 0.1-degree grid cell to each
-catchment centroid and derive relative humidity with one documented formula.
-Record shared cells as shared exposures. Visual Crossing is predecessor
-context only.
+For each specification, fit a conditional quasi-Poisson regression of the onset
+indicator on the stratum structure, using a distributed-lag cross-basis for each
+exposure (Gasparrini, Armstrong and Kenward 2010).
 
-If its case gate passes, Kerkrade-only signals are raw CO2,
-pressure-adjusted CO2 and available groundwater level/change. CO2 uses the
-median hourly value over each precursor window and requires every hour;
-groundwater remains secondary mechanism evidence.
+- **Lag dimension:** natural cubic spline over lags 1–72 hours with 4 degrees of
+  freedom, knots equally spaced on the log scale. There is no degree-of-freedom
+  search; one sensitivity analysis uses 6.
+- **Exposure dimension:** linear in the primary model. The non-linear
+  exposure-response is a secondary analysis (§9.1).
+- **Fixed rainfall contrast:** the pooled 95th percentile of positive hourly
+  catchment rainfall in the joint period, against zero. It is computed from
+  exposure data only, before any model is fitted.
+- **Season:** the rainfall cross-basis interacted with a warm-season indicator.
+  Season main effects are absorbed by the strata.
 
-## 7. Pressure adjustment
+Model specifications:
 
-This section applies only if the Kerkrade gate passes. Fit separate linear
-pressure baselines in the documented 2020–2021 and 2025–2026 sensor eras.
-Features are pressure level and 1/3/6/12/24-hour changes. Fit only on at least
-100 complete quiet calibration hours. Apply the era model to all complete
-hours, then subtract the quiet-calibration median and divide by its MAD. Save
-the feature table, quiet mask, coefficients and residual series.
+1. **Primary:** rainfall cross-basis × season.
+2. **S1:** rainfall cross-basis alone.
+3. **S2:** rainfall, relative-humidity and pressure-change cross-bases jointly.
+4. **S3:** specification 2 fitted separately for each watercourse.
+5. **S4:** rainfall cross-basis × period indicator (2010–2017 against
+   2018–2025).
 
-A seasonal/diurnal baseline is sensitivity-only. Do not choose between
-baselines from event performance.
+**Implementation.** Use the reference implementations (`dlnm` and `gnm` in R),
+or a Python implementation shown to reproduce them on a synthetic dataset to
+numerical tolerance before any real data are fitted. The choice is recorded in
+`decisions.md` before lock.
 
-## 8. Local event contrasts: recurrence
+## 8. Uncertainty
 
-For event `e`, signal `s` and valid controls `c`, calculate:
+Resample calendar year-month blocks jointly across all watercourses: 999
+replicates, percentile intervals. Blocks preserve within-month serial
+dependence and the dependence between watercourses that share storms. Every
+at-risk hour belongs to a block, whereas only onset hours belong to storms,
+which is why blocks replace storms as the resampling unit. Storm counts remain
+the information floor in §2.
 
-`contrast(e, s) = event_summary(e, s) - median(control_summary(e, c, s))`.
+Report the primary estimand's two summaries with intervals. Secondary estimands
+receive intervals but no confirmatory tests.
 
-Express summaries relative to the median and MAD of eligible quiet hours in
-the fixed joint period. If MAD is zero, use the quiet-period population
-standard deviation; if that too is zero, the signal is not estimable. Save the
-reference values used for scaling.
+## 9. Secondary and descriptive analyses
 
-Report every event contrast. Aggregate to one median per watercourse before
-describing the network distribution. For each signal report watercourse
-medians, IQR and sign count. Resample complete regional storms, recompute the
-watercourse and network summaries and report percentile intervals. Never
-resample event rows independently.
+### 9.1 Exposure-response shape
 
-## 9. Spatial extent
+Refit S1 with a natural-spline exposure dimension, knots at the pooled 50th and
+90th percentiles of positive hourly rainfall. The analysis describes the
+rainfall accumulations at which onset association rises steeply. It does not
+propose, calibrate or evaluate a warning trigger.
 
-For receiver event `e` on watercourse `r`, evaluate each fixed signal at every
-other watercourse `d` at `e - 1 hour` and at the receiver's saved control times:
+### 9.2 Fase comparison (conditional)
 
-`pair_contrast(e, r, d, s) = donor_event_summary - median(donor_control_summary)`.
+This analysis is conditional on Waterschap supplying current and historical
+Fase thresholds for their exact crisis-plan leading gauges. Where a cohort gauge
+is such a leading gauge:
 
-Distance is the great-circle distance between the predeclared representative
-gauge coordinates. Catchment-centroid distance is a sensitivity only. Retain
-every ordered receiver-donor pair with complete inputs.
+1. locate each Fase threshold on that gauge's within-era discharge distribution
+   relative to p99; and
+2. refit S1 with Fase-crossing onsets as the outcome, as a sensitivity analysis.
 
-For each signal:
+Thresholds are never transferred to gauges they were not defined for.
 
-1. aggregate event-level pair contrasts to one median for each ordered
-   receiver-donor pair;
-2. fit the prespecified ordinary least-squares model
-   `pair_median_contrast ~ 1 + log(1 + distance_km)`, giving each ordered pair
-   equal weight;
-3. resample complete regional storms, rebuild the pair medians and refit the
-   line for percentile intervals;
-4. report the intercept, distance slope, fitted contrast at the empirical 25th,
-   50th and 75th distance percentiles and the observed distance range; and
-5. repeat the fit after omitting each watercourse and every pair in which it is
-   receiver or donor.
+### 9.3 Temporal stability
 
-The leave-one-watercourse-out results are influence checks. They do not claim
-prediction at a held-out or ungauged watercourse, and the slope is a descriptive
-network association rather than a causal effect of distance. Do not search
-alternative distance functions, derive a maximum-reach cutoff or condition the
-spatial analysis on whether a local result is statistically significant.
+S4 describes whether the rainfall lag structure differs between the two halves
+of the record. It is a stability description, not a prediction test.
+
+### 9.4 July 2021
+
+Describe observed rainfall, weather, network state and available discharge
+around 14–15 July 2021, and locate the event's pre-onset rainfall against the
+fitted S1 relationship. Invent no local peak or onset; censored onsets stay
+descriptive.
+
+### 9.5 Conditional distance module
+
+If the LANUK 15-minute export arrives before lock, passes the same coverage and
+cohort gates, and identifies reconstructed values, the ordered-pair
+log-distance analysis of draft 0.8 §9 may be reinstated as a secondary module.
+Reconstructed values include those filled from neighbouring gauges. The
+decision is recorded before lock. After lock, the module cannot be added.
+
+### 9.6 Two-stage pooling sensitivity
+
+Fit S3 per watercourse and pool the reduced cumulative associations by
+multivariate meta-analysis (Gasparrini and Armstrong 2013). With six
+watercourses the between-watercourse variance is weakly identified. The
+analysis is therefore a sensitivity check on S1, reported with its
+heterogeneity estimate. It uses fixed-effect pooling if the random-effects fit
+does not converge.
 
 ## 10. Pre-committed readings
 
 | result | reading |
 | --- | --- |
-| local rainfall or atmospheric signal recurs | that signal is repeatedly elevated or depressed before receiver high water |
-| local contrasts are centred near zero or heterogeneous | that signal does not show stable pre-high-water recurrence at this grain |
-| fitted pair contrast moves toward zero with distance | spatial coherence weakens over the observed distance range |
-| fitted pair contrast remains similar over distance | the signal has a broad footprint over the observed network |
-| fitted pair contrast changes sign | the spatial pattern changes; the crossing is not labelled maximum reach |
-| pair contrasts are centred near zero | no spatially coherent pre-high-water signal is detectable at this grain |
-| leave-one-watercourse-out slopes vary materially | the distance result depends on network composition and is not stable across watercourses |
-| donor-flow level/change has a stable spatial pattern | other-watercourse flow reflects a regional high-water state over the observed range |
-| donor-flow pair contrasts are null or heterogeneous | donor flow has no stable regional signature under the fixed design |
-| conditional CO2 residual recurs later | the indoor residual may be a repeatable local manifestation |
-| conditional CO2 residual does not recur | the 2021 response was event-, sensor- or building-specific |
-| Kerkrade gate does not pass | no new CO2 recurrence claim is estimable; this is not a null |
-| all fixed contrasts are weak or heterogeneous | no stable pre-high-water signature is detectable under the design |
+| warm-season median association lag clearly shorter than cold-season | rainfall association before summer onsets is concentrated closer to onset than before winter onsets |
+| seasonal difference interval includes zero | no detectable seasonal difference in lag structure at this grain |
+| cumulative rainfall association positive in both seasons | rainfall in the preceding 72 hours is associated with onset in both regimes |
+| atmospheric block associated after rainfall adjustment | humidity or pressure change carries association beyond rainfall |
+| atmospheric block null after rainfall adjustment | the Eryilmaz-derived signals add no detectable association beyond rainfall |
+| watercourse estimates share sign (six or more watercourses) | the association replicates across the observed network |
+| watercourse estimates heterogeneous | the association depends on the watercourse and is not a network-wide regularity |
+| lag structure differs between periods | the relationship is not stable over 2010–2025 |
+| Fase thresholds lie well above or below p99 | statistically defined and operationally defined high water differ at that gauge |
 
-Null or heterogeneous results do not trigger new lags, thresholds, baselines or
-model families. No success or reach threshold is imposed.
+Null or heterogeneous results do not trigger new lags, bases, thresholds or
+model families. No success threshold is imposed.
 
-## 11. July 2021 and Kerkrade recurrence
+## 11. Claims ruled out
 
-The core July 2021 figure shows observed regional rainfall, weather and
-available discharge without imputing a missing local peak. If the Kerkrade
-gate passes, add CO2, pressure and available groundwater, represent local
-high-water timing as an independently supported interval and quantify observed
-trajectories and missingness. Do not include the episode in calculations
-requiring exact onset.
+No claims about:
 
-Only with a passed case gate, estimate raw and adjusted CO2 contrasts for later
-exact-onset Kerkrade events and compare them with the observed 2021 trajectory.
-A nonrecurring residual is a planned result, not grounds to alter the pressure
-baseline. If the gate fails, cite Viefhues as motivation and report no new CO2
-result.
+- flood prediction or causal effects;
+- operational warning lead time or FEWS performance;
+- recommended alert thresholds or trigger skill;
+- damage or statutory flood stage (p99 denotes relative high water);
+- monitoring placement or ungauged catchments.
+
+Policy implications are limited to what the observed lag structure makes
+feasible or infeasible for warning on small tributaries. Contemporary systems
+such as DeepWaive are case context, not validation or comparators.
 
 ## 12. Outputs and scientific checks
 
-Required tidy tables: `events.csv`, `controls.csv`,
-`local_signal_contrasts.csv`, `watercourse_contrasts.csv`,
-`spatial_pair_contrasts.csv`, `spatial_pair_summaries.csv`,
-`spatial_decay_estimates.csv` and `spatial_influence.csv`.
+**Required tidy tables:**
 
-Required figures: July 2021 regional trajectory, public-signal event-time
-profiles, watercourse contrast forests and ordered-pair median contrast by
-distance. The first figure gains a Kerkrade CO2/pressure overlay only if its
-case gate passes.
+- `events.csv`, `storms.csv`, `at_risk_hours.parquet`;
+- `crossbasis_estimates.csv`, `primary_estimand.csv`;
+- `secondary_estimates.csv`, `watercourse_estimates.csv`, `bootstrap_draws.csv`.
 
-Before execution, scientific checks must cover adjacent-hour p99 crossings,
-episode/storm single linkage, joint-period event counting, observation density,
-censored-event exclusion, control contamination, fixed-period thresholds and
-scaling, all-pair distances, spatial-window availability, GeoPackage contents,
-RADOLAN missing/spatial handling and sensor-era pressure residuals. The
-source-native Viefhues ingest is checked against its real-file QC. Add only the
-synthetic estimator checks needed to protect the implemented claims: a
-distance-decaying contrast, a flat nonzero contrast, a null contrast,
-storm-resampling integrity and leave-one-watercourse-out pair removal. Those
-estimators do not yet exist and are not claimed as implemented.
+**Required figures:**
+
+- study network and cross-border catchments;
+- July 2021 regional trajectory;
+- seasonal rainfall lag-response curves with intervals;
+- watercourse forest plot of cumulative association;
+- network-state event-time profiles.
+
+**Scientific checks before execution:**
+
+- adjacent-hour crossings and onset-only censoring;
+- episode and storm single linkage;
+- rating-era thresholds and the at-risk definition;
+- stratum construction and cross-basis alignment, so that lag 1 means the hour
+  before onset;
+- block-bootstrap integrity;
+- RADOLAN/RADKLIM missing-value and spatial-average handling.
+
+**Synthetic estimator checks**, on data with a known structure:
+
+- a known lag-response is recovered;
+- a null produces intervals covering zero;
+- a known seasonal difference in median association lag is recovered.
 
 ## 13. Lock and amendments
 
-Current state: **unlocked because the core regional data gates fail and the
-numerical data/coverage floors remain undecided**. The question,
-meaning of spatial extent, Limburg population, ERA5-Land source, July 2021
-treatment and conditional-case rule are settled.
+Current state: **unlocked**. The core regional inputs are incomplete and the
+numerical floors are not yet frozen.
 
 At lock, record:
 
-- the date and `decisions.md` entry fixing the numerical floors;
-- gate-audit path and hash;
+- the date and `decisions.md` entry fixing the numerical floors and cohort;
+- the modelling implementation choice (§7) and the distance-module decision
+  (§9.5);
+- the gate-audit path and hash;
 - hashes of all analytical inputs;
-- Git commit;
-- protocol lock timestamp;
+- the Git commit;
+- the protocol lock timestamp;
 - any ambiguity resolved before outcome inspection.
 
-Outstanding decisions for draft 0.7 are the numerical cohort, density and
-all-donor availability floors, including the 10-complete-event pair minimum.
-The earlier three-event held-out-fold proposal is retired because the chapter
-no longer makes a held-out prediction claim.
-Record separately whether the conditional Kerkrade evidence passes its case
-gate.
+After lock, append amendments here with date, change, reason and whether any
+new outcome table had been viewed. Never rewrite a prior amendment.
 
-After lock, append amendments here with date, change, reason and whether any new
-outcome table had been viewed. Never rewrite a prior amendment.
+## References for the design
+
+- Armstrong, B. G., Gasparrini, A. and Tobias, A. (2014). Conditional Poisson
+  models: a flexible alternative to conditional logistic case cross-over
+  analysis. *BMC Medical Research Methodology* 14, 122.
+- Cameron, A. C., Gelbach, J. B. and Miller, D. L. (2008). Bootstrap-based
+  improvements for inference with clustered errors. *Review of Economics and
+  Statistics* 90(3), 414–427.
+- Gasparrini, A. and Armstrong, B. (2013). Reducing and meta-analysing estimates
+  from distributed lag non-linear models. *BMC Medical Research Methodology*
+  13, 1.
+- Gasparrini, A., Armstrong, B. and Kenward, M. G. (2010). Distributed lag
+  non-linear models. *Statistics in Medicine* 29(21), 2224–2234.
+- Janes, H., Sheppard, L. and Lumley, T. (2005). Case-crossover analyses of air
+  pollution exposure data: referent selection strategies and their
+  implications for bias. *Epidemiology* 16(6), 717–726.
+- Maclure, M. (1991). The case-crossover design: a method for studying transient
+  effects on the risk of acute events. *American Journal of Epidemiology*
+  133(2), 144–153.

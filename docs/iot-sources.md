@@ -1,5 +1,9 @@
 # Kerkrade IoT Source Notes
 
+> **Historical (2026-09-18).** The conditional Kerkrade CO2 case was retired from
+> the chapter in protocol draft 0.9. These notes document the motivating
+> observation's provenance and are not inputs to the analysis.
+
 ## Azure source
 
 Task 1.1 uses the production Azure storage account and container already fed by

@@ -1,11 +1,11 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-08-19. The native Waterschap discharge delivery and Provincie
-Limburg mine-water reply are preserved and audited. The regional gate remains
-failed because the discharge cohort and source semantics are unresolved and
-the other analysis-ready regional inputs remain absent. Core network deliveries
-are binding for the regional event study. Kerkrade IoT and local-onset
-deliveries govern a conditional case study.
+Status: 2026-09-18 (protocol draft 0.9). The native Waterschap discharge
+delivery is preserved and audited. The regional gate still fails: the cohort
+and source semantics are unresolved, and radar rainfall and cross-border
+catchments are not yet built. The Kerkrade CO2 case and the mine-water evidence
+were retired from the chapter on 2026-09-18. Their deliveries remain preserved
+as provenance, and the sections below that concern them are historical.
 
 **Outreach 2026-09-17 (researcher-reported):** follow-up emails were sent to
 LANUK NRW (Jens Hammersen, following his 2026-09-11 reply and its offer of
@@ -17,22 +17,21 @@ are not yet archived, so this file does not record their exact requests.
 
 | component | gate | required delivery | current state |
 | --- | --- | --- | --- |
-| Kerkrade case | original IoT | July 2021 source CO2/pressure plus device/calibration/ABC metadata | source-native K4 is normalised with complete July hours; broader lineage and device metadata remain incomplete |
-| Kerkrade case | sensor-era map | non-overlapping provenance records for the 2020–2021 and 2025–2026 devices | absent; current device history incomplete |
-| core | tributary discharge | >=10 natural watercourses, >=10 common years hourly with draft 80%/70% density, >=20 joint-period p99 episodes each, >=40 storms | 2010–2025 native delivery received; 15 series but only eight named watercourse labels; metadata and event counts unresolved |
-| Kerkrade case | hydrological pair | Worm/Wurm or documented pair plus independently supported July 2021 bounds | not established in a qualifying common record |
-| Kerkrade case | later recurrence | >=3 exact pair events with complete 72-hour CO2/pressure windows | held LANUK Wurm gauges have no later-IoT overlap |
-| core | catchment rainfall | hourly 1-km RADOLAN averages over verified polygons | absent; point stations do not qualify |
-| core | public weather | 10 common years of temperature, humidity and pressure with a fixed assignment per watercourse | raw ERA5-Land archive complete and audited; catchment assignment awaits the fixed cohort |
-| core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
+| core | tributary discharge | >=5 natural, hydrologically independent watercourses (6 for the sign test); >=10 common years hourly with 80%/70% density; >=20 joint-period p99 episodes each; >=40 storms and >=15 per season | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
+| core | catchment rainfall | hourly RADKLIM-RW (or operational RADOLAN RW throughout) averaged over cross-border catchment polygons | absent; open data, no institution needed |
+| core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | absent; open data, no institution needed |
+| core | public weather | 10 common years of relative humidity and surface pressure with a fixed assignment per watercourse | raw ERA5-Land archive complete and audited; catchment assignment awaits the fixed cohort |
+| core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and July 2021 status | incomplete; follow-up sent 2026-09-17 |
+| conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | not requested in writing before 2026-09-18; ask when René Mols replies |
+| conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received |
+| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for the distance module before lock | offered 2026-09-11; follow-up sent 2026-09-17 |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
-**regional** audit. Core failure stops the chapter pending a dated rescoping decision. The
-conditional Kerkrade case is assessed separately after its pair/onset inputs
-exist; failure removes that case only. The rolling record is not a permissible
-core fallback.
+**regional** audit. Core failure stops the chapter pending a dated rescoping
+decision. The rolling record is not a permissible core fallback. The script
+still encodes the draft 0.8 floors until it is updated.
 
-## 1. Original Viefhues IoT package — conditional Kerkrade case
+## 1. Original Viefhues IoT package — historical (Kerkrade case retired 2026-09-18)
 
 Status: **source package audited; July K4 normalised; follow-up reply reported
 but not yet preserved or audited**.
@@ -242,7 +241,7 @@ Deliver:
   `spatial_assignment`, `timezone_verified` and `units_verified`.
 
 The files must provide 10 years common to the discharge and RADOLAN cohort.
-The assignment must support values at every receiver and donor watercourse;
+The assignment must support values at every cohort watercourse;
 spatial contrasts use all eligible pairs rather than a nearest-site subset.
 
 ## 4. RADOLAN catchment rainfall — blocking

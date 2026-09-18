@@ -1,6 +1,6 @@
 # Student Next Actions
 
-Updated 2026-08-19. The Waterschap discharge and Provincie Limburg mine-water
+Updated 2026-09-18 for protocol draft 0.9. First written 2026-08-19. The Waterschap discharge and Provincie Limburg mine-water
 deliveries have been preserved and audited. Their remaining semantic questions
 are recorded in `data-requests.md`; Waterschap says the detailed metadata will
 follow when workload permits. Preserve and return the other complete replies
@@ -21,6 +21,21 @@ the provisional floors remain in `supervisor-decision-memo.md` as a historical
 record.
 
 ## 2. Long discharge archive — metadata follow-up received; cohort still open
+
+**Draft 0.9 additions (2026-09-18).** When René Mols replies to the
+2026-09-17 follow-up, ask in the same thread for anything the reply leaves
+open:
+
+- timezone/DST, zero semantics and numerical station coordinates;
+- **water-level (stage) records** for the candidate gauges, with datum and
+  sensor history, for onset-timing recovery where discharge is missing;
+- **Fase thresholds** at the exact crisis-plan leading gauges, current and
+  historical. They were requested in August and have not arrived.
+
+Then classify the cohort, including whether Geleenbeek (Brommelen) sits
+upstream of the Millen split, and record the classification before any event
+is built.
+
 
 The 2010--2025 quarter-hour table arrived on 2026-08-19. The provider's
 metadata follow-up arrived on 2026-09-07 and is recorded in
@@ -165,6 +180,10 @@ until the next timestamp” is not enough by itself: ask for the maximum valid
 duration and the document or quality rule that authorises it.
 
 ## 4. Resolve only the remaining Viefhues provenance questions
+
+> **Historical (2026-09-18).** The Kerkrade CO2 case was retired in draft 0.9.
+> These questions no longer block anything; pursue them only for the provenance
+> record of the motivating observation.
 
 The delivered package is useful but incomplete. The source-native K4 record
 already supplies every July 2021 hour at minute resolution, so do **not** ask

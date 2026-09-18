@@ -1,29 +1,27 @@
-# Analysis Inventory — Prospective Event Study
+# Analysis Inventory — Prospective Case-Crossover Study
 
-Status: 2026-09-14. There is no new event-study result. The regional chapter is
-stopped at its core data gate. The source-native July 2021 K4 record is
-normalised, but that alone does not make the conditional Kerkrade case
-available.
+Status: 2026-09-18, protocol draft 0.9. There is no chapter result. The
+regional chapter is stopped at its core data gate.
 
 ## Prospective chapter
 
 | component | purpose | state |
 | --- | --- | --- |
-| literature notes, evidence matrix and BibTeX | verified source-level corpus for the student-authored review | ready; 44 sources, 98 relationships, no aggregate synthesis |
-| Viefhues and Eryilmaz source reading | establishes observation -> public explanation -> spatial-extent test | incorporated; original PDFs retained |
-| `31_event_study_gates.py` | audits the binding regional inputs and all-donor support | implemented; core fails |
-| `32_lanuk_feasibility.py` | audits the German route without signal outcomes | implemented; route fails |
-| `33_ingest_viefhues_iot.py` | normalises source-native non-ABC K4 and records QC | implemented; all 744 July hours present |
-| `35_audit_waterschap_delivery.py` | audits raw availability and emits a separate provider-sourced station-QA registry without calculating thresholds or events | implemented; 15 series classified, timezone/zero/cohort unresolved |
-| ERA5-Land raw archive | fixed 2001–2025 weather grid used after catchment assignment | complete; 300/300 months passed NetCDF, size and SHA-256 audit; backfill-only Azure app stopped |
-| Provincie Limburg Willem delivery | possible mine-water context for the conditional Kerkrade case | native reply preserved and audited; July 2021 has 31 daily old-shaft observations; semantics unresolved |
-| `src/event_study.py` | defines storms, censored events, quiet controls and conditional pressure residuals | implemented and unit-tested |
-| long-record event catalogue | independently defines high-water episodes | not built; discharge gate fails |
-| local event-minus-quiet contrasts | identifies recurring public signals | not implemented or run |
-| ordered-pair spatial contrasts | measures signal coherence at every other watercourse | support audit implemented; outcomes not implemented or run |
-| pair-median distance slopes | relates one median per ordered pair to fixed log distance | specified; not implemented or run |
-| July 2021 regional anchor | describes observed regional trajectory without invented onset/peak | not run; core inputs fail |
-| conditional Kerkrade recurrence | compares July 2021 with later pressure-adjusted CO2 events | unavailable; provenance, pair, bounds and later-event support incomplete |
+| literature notes, evidence matrix and BibTeX | verified source corpus | 44 sources; case-crossover and distributed-lag design references still to be added |
+| Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
+| `31_event_study_gates.py` | audits the binding regional inputs | implemented for draft 0.8 floors; **must be updated to draft 0.9** |
+| `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
+| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone, zero and cohort unresolved |
+| `36_design_recovery.py` | design simulations and stage/discharge comparison | implemented 2026-09-17; to be reviewed against draft 0.9 |
+| ERA5-Land raw archive | relative humidity and pressure | complete; 300/300 months audited |
+| `src/event_study.py` | episodes, storms, censoring, quiet controls, pressure residuals | episode and storm functions reusable; quiet controls and pressure residuals superseded |
+| radar rainfall and cross-border catchments | principal exposure | not acquired |
+| hourly discharge ingest and rating eras | outcome series | not built; awaits source semantics |
+| at-risk hours and strata | case-crossover comparison set | not implemented |
+| distributed-lag conditional Poisson models | primary and secondary estimands | not implemented; reference implementation or validated equivalent to be chosen |
+| year-month block bootstrap | uncertainty | not implemented |
+| July 2021 regional anchor | descriptive trajectory | not run |
+| conditional distance module | ordered-pair slope if LANUK passes before lock | inactive |
 
 No prospective figure or outcome table exists. The protocol is unlocked.
 LANUK products under `results/feasibility/` are input-QA artifacts, not chapter
@@ -51,6 +49,13 @@ scientific verification.
 
 ## Removed from the live analysis
 
+In draft 0.9 (2026-09-18): the log-distance slope over ordered pairs (except as
+a conditional module), the conditional Kerkrade CO2 case, the mine-water
+evidence, five-nearest-quiet-hour controls with seven-day exclusions,
+temperature and pressure level as signals, and donor-flow pairs as signals.
+
+Earlier:
+
 - the later-era Eryilmaz model re-fit and its Visual Crossing join;
 - rolling two-year Dutch discharge, RWS main-stem and DWD point-rain pipelines;
 - all-pairs prediction matrices, Mantel and catchment-signature analyses;
@@ -72,8 +77,10 @@ The planned analysis should read as an auditable data-science script:
 
 `load -> check -> define events/controls -> estimate -> tidy tables -> figures`
 
-Keep transformations visible in pandas. Use one simple equation per fixed
-signal, not an extensible modelling interface. Comment scientific decisions
+Keep transformations visible in pandas. Draft 0.9 uses one distributed-lag
+conditional Poisson model per prespecified specification, not an extensible
+modelling interface. This is a deliberate, recorded change from the earlier
+"one simple equation per signal" standard (`decisions.md`, 2026-09-18). Comment scientific decisions
 such as censoring, completeness and aggregation rather than obvious syntax.
 Add a helper only when a definition is reused or needs an isolated scientific
 check. Do not build a pipeline framework, configuration system, report

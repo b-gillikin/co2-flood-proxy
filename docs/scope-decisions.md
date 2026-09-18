@@ -1,76 +1,58 @@
 # Live Scope Decisions
 
-Status: 2026-09-14. Estimator details are in
-`chapter-scope-and-preregistration.md`. Historical decisions remain appended in
-`decisions.md`.
+Status: 2026-09-18, protocol draft 0.9. Estimator details are in
+`chapter-scope-and-preregistration.md`. Historical decisions, including the
+draft 0.8 design, remain appended in `decisions.md`.
 
-1. **Question:** which fixed signals recur before independently defined high
-   water, and how do the direction and magnitude of their event-minus-quiet
-   contrasts change with distance?
-2. **Sequence:** Viefhues single event -> Eryilmaz same-site public explanation
-   -> this chapter's recurrence and spatial-extent test.
-3. **Transferability:** spatial extent across the observed natural-tributary
-   network, not prediction, substitution, propagation, a causal distance
-   effect, an operational radius or ungauged-basin performance.
-4. **Outcome:** adjacent-observation upward crossing of joint-period p99. Say
-   high water, not flood. Receiver flow defines the outcome and is not its own
-   signal.
+1. **Question:** how are public signals in the 72 hours before high-water onset
+   associated with that onset, and does the timing differ between warm and
+   cold seasons?
+2. **Design:** time-stratified case-crossover, analysed as conditional
+   quasi-Poisson regression with distributed-lag cross-bases.
+3. **Sequence:** Viefhues and Eryilmaz motivate the question. No CO2 is
+   analysed.
+4. **Outcome:** adjacent-observation upward crossing of the watercourse's own
+   p99, per rating era. Say high water, not flood. Receiver flow is never its
+   own signal.
 5. **Events:** merge re-crossings and cluster regional storms by unbounded
-   72-hour single linkage; report crossing counts and chain spans.
-6. **Controls:** take five deterministic same-month/same-hour quiet times;
-   require three and exclude p95/storm contamination within seven days.
-7. **Signals:** RADOLAN 24/72-hour catchment rainfall and donor-flow level/change
-   are principal. ERA5-Land temperature, humidity and pressure form one fixed
-   Eryilmaz-derived atmospheric block.
-8. **Analysis:** local event-minus-quiet contrasts establish recurrence. Spatial
-   contrasts use every other eligible watercourse and are aggregated to one
-   median per ordered receiver-donor pair.
-9. **Distance model:** for each fixed signal, fit
-   `pair_median_contrast ~ 1 + log(1 + distance_km)` with equal pair weights.
-   Resample complete storms for uncertainty and refit after omitting each
-   watercourse as an influence check. No mixed-effects or held-out prediction
-   model.
-10. **Public weather:** ERA5-Land is the sole regional source. Acquire
-    2001–2025 temperature, dew point and surface pressure; assign the nearest
-    grid cell to each fixed catchment centroid and derive relative humidity.
-    Visual Crossing is predecessor source context only.
-11. **Kerkrade:** July 2021 is required regionally, but new Viefhues reanalysis
-    and later CO2 recurrence are conditional. Do not invent a local onset or
-    peak. Fit pressure baselines by documented sensor era only if the case gate
-    passes.
-12. **Groundwater:** secondary mechanism evidence; it cannot block the chapter.
-13. **Data floor:** provisionally require 10 watercourses, 10 common years, 20
-    p99 episodes per watercourse and 40 storms. These are design safeguards, not
-    field standards, and remain subject to a blind audit and supervisor freeze.
-14. **Coverage:** provisionally require 80% observed hours overall and 70% in
-    every year for each primary series, plus 80% all-donor window availability
-    overall, 70% by receiver and distance third, and 10 complete events per
-    ordered pair. Missing values stay missing.
-15. **Stop rule:** if a core gate fails, return to the supervisor. Do not lower
-    it to admit the rolling record. Kerkrade-case failure removes that case only.
-16. **Nulls:** null and heterogeneous contrasts are planned results, not prompts
-    to search lags, thresholds or model families.
-17. **Methods ruled out:** no classifier, SARIMAX, Kalman filter, anomaly
-    detector, random-effects framework or best-model exercise.
-18. **Claims ruled out:** no flood prediction, causality, FEWS, alert,
-    false-alarm, warning-lead, monitoring-placement or general ungauged-basin
-    claim.
-19. **German route:** the held LANUK archive is not a qualifying cohort. Its
-    Wurm gauges do not provide the July 2021/later-IoT support needed for the
-    conditional Kerkrade case.
-20. **Separate gates:** the six-file regional audit determines whether the core
-    chapter can run. IoT provenance, a defensible pair, local bounds and later
-    complete events determine whether the Kerkrade case can be added.
-21. **Viefhues source:** source-native non-ABC K4 is the reproducible July 2021
-    record and is normalised without gap filling. The longer cleaned thesis
-    table is processed output with missing intermediates.
-22. **Waterschap sampling:** interpret each populated value as the mean of the
-    preceding 15 minutes; a blank remains unavailable. Build an hour only from
-    four complete, admissible quarter-hours after timezone and source QA.
+   72-hour single linkage.
+6. **Comparison:** at-risk hours in watercourse × year × month × hour-of-day
+   strata. At risk means flow in the previous hour at or below p99 and no upward
+   crossing in the preceding 72 hours. There are no other exclusion windows.
+7. **Signals:** hourly catchment rainfall (principal); hourly relative humidity
+   and six-hour pressure change (ERA5-Land). Temperature and pressure level are
+   dropped. Network state is descriptive only.
+8. **Primary estimand:** warm-minus-cold difference in the rainfall
+   lag-response over lags 1–72, as cumulative association and median
+   association lag.
+9. **Uncertainty:** calendar year-month block bootstrap, 999 replicates.
+10. **Rainfall source:** RADKLIM-RW if it covers the joint period, otherwise
+    operational RADOLAN RW throughout. Never splice them.
+11. **Weather source:** ERA5-Land only; nearest cell to each fixed catchment
+    centroid.
+12. **Catchments:** delineated from a cross-border DEM.
+13. **Floors:** at least 5 natural, hydrologically independent watercourses
+    (6 for the S3 sign test);
+    10 common years including July 2021; 40 regional storms, 15 per season;
+    20 episodes per watercourse; 80% overall and 70% annual coverage.
+14. **Independence:** branches of one split system count as one watercourse,
+    which applies to Geleenbeek and Vloedgraaf.
+15. **Censoring:** censor only onsets whose onset hour is missing, failed or
+    outside the rating domain.
+16. **Stage:** conditional, onset-timing recovery only.
+17. **Distance:** a conditional module only if the LANUK export passes the gates
+    before lock; the lock date is the cutoff.
+18. **Stop rule:** if a core gate fails, stop and record a dated rescoping
+    decision. Never substitute the rolling record.
+19. **Nulls:** null and heterogeneous results are planned results, not prompts
+    to search lags, bases, thresholds or model families.
+20. **Methods ruled out:** classifiers, SARIMAX, Kalman filters, anomaly
+    detectors, best-model exercises and any degree-of-freedom search.
+21. **Claims ruled out:** prediction, causality, FEWS performance, warning lead
+    time, alert or trigger claims, damage, monitoring placement and ungauged
+    basins.
+22. **Waterschap sampling:** each value is the mean of the preceding 15 minutes;
+    a blank is unavailable. Build an hour only from four admissible
+    quarter-hours.
 23. **Availability is not validity:** apply rating domains and documented
-    failures before event detection. Do not infer, clip or extrapolate affected
-    discharge. Operational stage alone does not validate discharge.
-24. **July 2021 censoring:** exclude out-of-range or failed receiver events from
-    exact-onset contrasts. Retain them only as descriptive/censored evidence.
-    Controlled branches and composite high-flow estimates cannot enter the
-    primary natural-tributary cohort.
+    failures before events are built.

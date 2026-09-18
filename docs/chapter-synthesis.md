@@ -1,222 +1,145 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no new chapter result exists** (2026-08-11). This is the
-canonical description of the proposed chapter. Estimator details belong in
-`chapter-scope-and-preregistration.md`; current session state belongs in
-`HANDOFF.md`.
+Status: **data-gated; no chapter result exists** (2026-09-18). This is the
+canonical description of the chapter. Estimator details belong in
+`chapter-scope-and-preregistration.md` (draft 0.9); session state belongs in
+`HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
 
 ## 1. Research question
 
-> Across Limburg tributaries, which public hydrometeorological signals recur
-> during the 72 hours before independently defined high-water onset, and how
-> do the direction and magnitude of their event-minus-quiet contrasts change
-> with distance from the affected watercourse? If the source data support a
-> Kerkrade case, does
-> pressure-adjusted CO2 recur there as a local manifestation of that regional
-> state?
+> Across natural Limburg tributaries, how are public hydrometeorological
+> signals in the 72 hours before independently defined high-water onset
+> associated with that onset, and does the timing of that association differ
+> between warm-season and cold-season events?
 
-This is an event-recurrence and spatial-extent chapter. It is not an early
-warning system, a flood predictor or a search for an unusual model.
+This is a time-stratified case-crossover study. It is not an early-warning
+system, a flood predictor or a search for an unusual model.
 
 ## 2. Intellectual sequence
 
-1. **Viefhues (2022)** documented indoor CO2 and other hydrological responses at
-   one Kerkrade house around the July 2021 flood: one site and one exceptional
-   event.
+1. **Viefhues (2022)** documented an indoor CO2 response at one Kerkrade house
+   around the July 2021 flood: one site and one exceptional event.
 2. **Eryilmaz (2025)** found that public outdoor weather reproduced much of the
-   information in indoor variables for predicting high indoor CO2 at the same
-   site outside the flood period: a public-signal explanation at that site.
-3. **This chapter** asks which public signals recur before independently defined
-   high-water episodes and how their event-related contrasts vary over space.
-   It separates a regional public signal from event-, sensor- and
-   building-specific response.
+   information in the indoor variables at the same site: a public-signal
+   explanation.
+3. **This chapter** asks how public signals behave before independently defined
+   high water across many events and watercourses, and when they depart from
+   normal.
 
-The sequence is therefore: event observation -> public-signal explanation ->
-recurrence and spatial-extent test.
+Viefhues and Eryilmaz motivate the question. The chapter analyses no CO2.
 
 ## 3. Intended contribution
 
-The chapter uses one transparent quantity throughout:
-**signal during the pre-high-water window minus that signal at matched quiet
-times**.
+The chapter measures **how far ahead of high-water onset public regional
+signals depart from normal on small tributaries, and whether that differs
+between convective summer and frontal winter regimes.**
 
-The analysis has two linked stages:
+That question has a policy consequence. If summer association concentrates
+within hours of onset, public regional data cannot support day-ahead
+anticipatory action for small tributaries in summer, and warning there depends
+on nowcasting and prepared responses. If winter association builds over days,
+anticipatory action is feasible then. Either way, warning for small catchments
+should be season-specific. The chapter supports claims about **feasibility**,
+not about **what works**.
 
-1. At the affected watercourse, estimate which fixed public signals recur
-   before high water.
-2. At every other eligible watercourse, estimate the same contrast at the same
-   times, aggregate to one median per ordered receiver-donor pair, and relate
-   that pair contrast to geographic distance.
-
-The quantitative analysis is a matched event study plus one prespecified
-distance slope per signal. Complete regional storms, rather than individual
-pair rows, are resampled for uncertainty. Leave-one-watercourse-out refits show
-whether the slope depends on one member of the network; they are influence
-checks, not predictions of an unseen basin.
-
-No classifier, time-series filter, mixed-effects model, model-family search or
-cross-validation framework is part of the prospective chapter. The only other
-fitted equation, if the conditional Kerkrade case is available, is a
-pressure-only baseline used to adjust CO2.
-
-July 2021 must lie within the regional study period and is described without an
-invented local peak or onset. The Viefhues IoT reanalysis and later-event CO2
-recurrence test are conditional. If that case gate fails, the published
-observation still motivates the chapter but no new CO2 result is claimed.
+Methodologically, the chapter brings the standard design for short-term
+exposures preceding acute events in environmental epidemiology into hydrology:
+the time-stratified case-crossover, analysed with conditional Poisson
+distributed-lag models.
 
 ## 4. Fixed study design
 
-The primary outcome is an upward crossing of a watercourse-specific p99 with
-observations on both adjacent hours. Re-crossings within 72 hours are one
-episode; episodes across watercourses within 72 hours form a regional storm.
-The primary precursor window is -72 to -1 hours, with -24 to -1 and -168 to -1
-sensitivities.
+- **Outcome:** an upward crossing of the watercourse's own p99 (per rating era)
+  on adjacent observed hours. Re-crossings within 72 hours are one episode;
+  episodes across watercourses within 72 hours form a regional storm.
+- **Comparison:** at-risk hours from the same watercourse, year, month and hour
+  of day. An hour is at risk when flow in the previous hour was at or below p99
+  and no upward crossing occurred in the preceding 72 hours.
+- **Signals:** hourly catchment rainfall from RADKLIM or RADOLAN (principal);
+  hourly relative humidity and six-hour pressure change from ERA5-Land. Network
+  state (other watercourses' percentile rank) is descriptive only.
+- **Model:** conditional quasi-Poisson regression with distributed-lag
+  cross-bases over lags 1–72 hours.
+- **Primary estimand:** the warm-minus-cold-season difference in the rainfall
+  lag-response, summarised as the cumulative association and the median
+  association lag.
+- **Uncertainty:** calendar year-month block bootstrap.
+- **Secondary:** the pooled lag-response; whether humidity and pressure change
+  add association beyond rainfall; watercourse-specific replication; stability
+  across 2010–2017 and 2018–2025; exposure-response shape; the Fase comparison
+  where thresholds are supplied.
 
-Each episode receives five deterministic quiet reference times from the same
-watercourse, calendar month and UTC hour. A control cannot lie within seven
-days of a receiver p95 exceedance or regional storm. Events with fewer than
-three valid controls are excluded.
-
-The signal hierarchy is fixed before outcomes are inspected:
-
-- **principal hydrological signals:** catchment-average RADOLAN rainfall over
-  24 and 72 hours, and donor flow relative to its p99 plus its 12-hour change;
-- **Eryilmaz-derived atmospheric block:** 24-hour temperature and
-  relative-humidity means, pressure level and six-hour pressure change;
-- **conditional Kerkrade case:** raw CO2, pressure-adjusted CO2 and available
-  groundwater.
-
-Receiver flow defines its own outcome and is never a predictor or signal for
-that event. Spatial contrasts use every other eligible watercourse; no donor,
-signal or distance function is selected from the result.
-
-ERA5-Land is the sole regional weather source. The fixed acquisition period is
-2001–2025; after the cohort is fixed, each watercourse receives the grid cell
-nearest its verified catchment centroid. Visual Crossing remains predecessor
-context only.
-
-For each signal, aggregate event-level donor contrasts to one median per
-ordered receiver-donor pair. Fit one ordinary least-squares line:
-
-`pair_median_contrast ~ 1 + log(1 + distance_km)`.
-
-Each ordered pair receives equal weight. Report the intercept, distance slope,
-storm-bootstrap intervals, fitted contrasts at the empirical distance
-quartiles and the observed distance range. Refit after omitting each
-watercourse and all pairs in which it is receiver or donor. The result describes
-spatial coherence in this observed network; it does not establish an
-operational radius, physical propagation, a causal effect of distance, gauge
-substitution or performance in ungauged basins.
+Because every hydrological quantity is a within-gauge, within-era rank, the
+design depends on rating-curve **stability**, not absolute accuracy.
 
 ## 5. Feasibility gates
 
-The regional chapter is not final and the protocol is not frozen until these
-core gates pass:
+The protocol is not frozen until these core gates pass:
 
-- at least 10 natural tributary watercourses with 10 common years of hourly
-  discharge, at least 20 joint-period p99 episodes each and at least 40
-  regional storms;
-- hourly 1-km RADOLAN rainfall averaged over verified catchment polygons;
-- at least 10 common years of ERA5-Land temperature, humidity and pressure
-  assigned by the fixed centroid-cell rule;
-- at least 80% hourly coverage overall and 70% in every calendar year for each
-  primary series over a joint period containing July 2021;
-- documented rating-curve changes, sampling semantics, timezones, units, zero
-  sentinels and July 2021 gauge status;
-- complete flow level/change windows for at least 80% of possible
-  receiver-event-donor combinations overall and 70% within every receiver and
-  empirical distance third, with at least 10 complete events per ordered pair.
+- at least 5 natural, hydrologically independent watercourses, each with at
+  least 20 joint-period episodes, and 6 for the cross-watercourse sign test;
+- at least 10 common years including July 2021;
+- at least 40 regional storms, and at least 15 per season for the primary
+  estimand, with a fixed fallback to the pooled estimand;
+- at least 80% hourly coverage overall and 70% in every year for every series;
+- documented rating eras, sampling semantics, timezone, units, zero semantics
+  and July 2021 status;
+- radar rainfall averaged over catchments delineated across borders, and
+  ERA5-Land assigned by the fixed centroid rule.
 
-These numerical floors are provisional author-chosen minimum-information
-safeguards, not accepted hydrological standards. Ten watercourses and ten
-years prevent the chapter from collapsing into a few case studies; twenty
-episodes prevents a watercourse summary from representing only a handful of
-events; forty storms protects the storm-level uncertainty calculation from
-being based on very few weather systems. Ten complete pair events prevents an
-equal-weighted pair median from representing only one or two episodes. The
-coverage floors prevent endpoint
-span or a dense subset of years and distances from hiding major gaps. Before
-any signal contrast is read, a blinded availability audit will show the
-consequences of 70%, 80% and 90% coverage rules and the supervisor will freeze
-the final values.
+Each floor has a stated rationale in protocol §2. Six is the smallest cohort in
+which unanimous sign agreement is distinguishable from chance.
 
-The optional Kerkrade case has its own gate: source-native CO2 and pressure
-throughout July 2021 plus adequate quiet calibration hours and
-device/calibration/ABC metadata; Worm/Wurm or a documented hydrological pair;
-independently supported July 2021 bounds; and at least three later exact-onset
-pair events with complete CO2 and pressure. Failure means **case not
-available**, not core chapter failure and not a CO2 null.
+## 6. Current evidence state
 
-The executable audit is `scripts/31_event_study_gates.py`. It still reports the
-regional core as failed. ERA5-Land is approved and its complete 2001--2025 raw
-source grid passed the final manifest/hash and NetCDF integrity audit; the
-analysis-ready catchment assignment remains absent. Waterschap Limburg has now
-delivered a complete 2010--2025 quarter-hour grid for 15 series columns and a
-follow-up defining trailing means, blank semantics, rating curves and July
-2021 station problems. It contains only eight named watercourse labels and
-still lacks verified timezone/zero semantics and a defensible natural-
-tributary cohort. No discharge thresholds or events have been inspected. The
-delivered Viefhues package provides a source-native K4 record with all 744 July
-2021 hours, but broader device
-provenance, a defensible hydrological pair, onset bounds and later-event support
-remain incomplete. The regional audit deliberately keeps those optional case
-requirements separate. Core failure is a stop, not permission to use the
-rolling two-year record. Groundwater cannot block either component.
+- **Discharge:** Waterschap Limburg delivered 2010–2025 quarter-hour data for
+  15 series and eight named watercourses, with rating curves and July 2021
+  station status. Timezone/DST, zero semantics and numerical coordinates are
+  still open; a follow-up went to Waterschap on 2026-09-17.
+- **Candidate cohort:** Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg),
+  and Geleenbeek or Vloedgraaf, which count as one watercourse if their high
+  flows are shared. That is six candidates: one to spare for the core floor,
+  and none for the sign test.
+- **Weather:** the ERA5-Land 2001–2025 archive is complete and audited.
+- **Rainfall and catchments:** not yet acquired. Both are openly available and
+  need no institution.
+- **LANUK:** the 15-minute export was offered on 2026-09-11, and a follow-up
+  went to LANUK on 2026-09-17. It enters only through the conditional distance
+  module, if it arrives before lock.
+- **No threshold, event, storm or association has been calculated.**
 
-The held LANUK archive was audited without signal outcomes. Under the draft
-density and episode rules, its strongest tested decade supplies only three
-qualifying gauges across two verified watercourses. LANUK remains a source
-lead, not a qualifying German cohort. See `lanuk-feasibility.md`.
+## 7. July 2021 treatment
 
-## 6. July 2021 treatment
+July 2021 must lie in the joint period. It is described without an invented
+local peak or onset. Onsets observed within the rating domain are kept even
+where the later peak exceeded it. The event is located against the fitted
+pooled relationship descriptively.
 
-The core chapter will show observed regional rainfall, weather and available
-discharge without inventing a missing local peak. If the Kerkrade gate passes,
-the figure additionally shows CO2, pressure and available groundwater, with
-local high-water timing represented as an independently supported interval.
-Without that evidence, Viefhues's published finding remains context and no new
-Kerkrade trajectory is presented.
+## 8. Existing context
 
-## 7. Pre-committed readings
-
-The complete result-to-interpretation table lives in §10 of the protocol, the
-document that will be locked. It distinguishes recurring local signals,
-distance decay, broad regional coherence, no spatial coherence and
-storm/watercourse sensitivity. None triggers new lags, thresholds or model
-families.
-
-## 8. Existing Kerkrade context
-
-Eryilmaz's supplied manuscript is same-site predecessor evidence only. It does
-not estimate pre-high-water recurrence or spatial extent and cannot substitute
-for the gated event study. No separate later-era re-fit is part of this chapter.
-
-The Province of Limburg's 2026 DeepWaive test in the Selzerbeek is contemporary
-institutional context, not part of the empirical design. Its official register
-states that the model is still being researched and is not used for warnings or
-crisis management. That boundary is useful in the discussion: rapid flood
-information, retrospective signal evidence and an authorized operational FEWS
-are different evidentiary objects.
+The Province of Limburg's 2026 DeepWaive test in the Selzerbeek is
+contemporary institutional context. Its official register says the model is
+still being researched and is not used for warnings. Retrospective signal
+evidence, rapid flood information and an authorised operational FEWS are
+different evidentiary objects.
 
 ## 9. Claims ruled out
 
-The manuscript will make no claim about flood prediction, causal effects,
-operational warning lead time, FEWS performance, alert thresholds, monitoring
-placement or ungauged catchments generally. p99 denotes relative high water,
-not damage or a statutory flood stage. Contemporary systems such as DeepWaive
-may be cited as case context but will not be treated as validation, a comparator
-or evidence that the public signals studied here are operationally useful.
+No claims about flood prediction, causal effects, operational warning lead
+time, FEWS performance, recommended alert thresholds, trigger skill, damage,
+monitoring placement or ungauged catchments. "Association lag" describes when
+signals depart from normal; it is not a warning lead time. p99 denotes relative
+high water, not damage or a statutory flood stage.
 
 ## 10. Required products
 
-If the core gates pass and the protocol is frozen before outcome inspection,
-the analysis will generate tidy event, control, local-contrast, watercourse,
-spatial-pair, distance-estimate and influence tables and four figures:
+Tidy event, storm, at-risk-hour, cross-basis, primary-estimand, secondary and
+bootstrap tables, and five figures:
 
-1. July 2021 regional trajectory, with the conditional Kerkrade overlay only if
-   its gate passes;
-2. event-time public-signal profiles across watercourses;
-3. watercourse-level contrast forest plots;
-4. ordered-pair median contrast by distance with the fixed fitted line.
+1. study network and cross-border catchments;
+2. July 2021 regional trajectory;
+3. seasonal rainfall lag-response curves;
+4. watercourse forest plot;
+5. network-state event-time profiles.
 
 Every manuscript number must regenerate from those tidy artifacts.

@@ -1484,3 +1484,75 @@ archive or create a later-IoT Wurm overlap.
 Source: Jens Hammersen, LANUK NRW, reply dated 2026-09-11; native EML and
 checksum under `data/raw/external_deliveries/lanuk_nrw/2026-09-11/`;
 `scripts/32_lanuk_feasibility.py`; `docs/lanuk-feasibility.md`.
+
+## 2026-09-18 — Redesign as a time-stratified case-crossover study (draft 0.9)
+
+Decision: replace the draft 0.8 recurrence-plus-distance event study with a
+time-stratified case-crossover study of seasonal lag structure. The protocol is
+now draft 0.9, still unlocked. The supervisor has been informed and agrees with
+the direction. No discharge threshold, event, storm or signal contrast had been
+calculated when this decision was made.
+
+What changes:
+
+1. **Estimand.** The primary estimand is the warm-minus-cold-season difference
+   in the hourly-rainfall lag-response over lags 1–72 hours, summarised by the
+   cumulative association and the median association lag. Recurrence across
+   watercourses becomes secondary estimand S3.
+2. **Distance slope.** Dropped from the core. Six to eight watercourses within
+   about 31 km cannot identify decay for signals whose coherence scale
+   approaches 100 km. It survives only as a conditional module if the LANUK
+   15-minute export arrives, passes the same gates and flags reconstructed
+   values before lock. The lock date is the cutoff.
+3. **Kerkrade CO2 and mine water.** Removed from the protocol. The CO2 case gate
+   was very unlikely to pass, since neither held Wurm gauge overlaps the later
+   sensor era. Viefhues and Eryilmaz remain motivation.
+4. **Controls.** The five nearest quiet hours, with p95 and storm exclusion over
+   seven days, are replaced by time-stratified at-risk hours: strata of
+   watercourse × year × month × hour of day. This removes overlap and
+   seasonal-trend bias and stops the winter event population being stripped
+   out (`dissertation-evaluation.md`).
+5. **Model.** Conditional quasi-Poisson regression with distributed-lag
+   cross-bases (Armstrong, Gasparrini and Tobias 2014; Gasparrini, Armstrong
+   and Kenward 2010). This partly reverses the earlier "no random-effects
+   framework / one simple equation per signal" standard. The core model is
+   fixed-effects by stratum. Random effects appear only in the two-stage
+   pooling sensitivity. The reversal is deliberate: the case-crossover design
+   is the established analysis for short-term exposures preceding acute
+   events, and it replaces rather than adds to the descriptive machinery.
+6. **Uncertainty.** Calendar year-month block bootstrap, replacing storm
+   resampling, because every at-risk hour belongs to a block while only onset
+   hours belong to storms. Storms remain the information floor.
+7. **Signals.** Hourly catchment rainfall (principal), hourly relative
+   humidity and six-hour pressure change. Temperature is dropped because it
+   mainly tracks the season being contrasted, and pressure level is dropped in
+   favour of pressure change. Network state becomes descriptive only, since it
+   is part of the same flood process.
+8. **Floors.** At least 5 natural, hydrologically independent watercourses for
+   the core. The S3 sign test needs 6, since six is the smallest cohort in
+   which unanimous sign agreement is distinguishable from chance (two-sided
+   0.031). At least 40 regional storms
+   and at least 15 per season, falling back to the pooled estimand if a season
+   falls short. Coverage stays at 80% overall and 70% per year.
+9. **Censoring.** Censor an onset only when the onset hour itself is missing,
+   failed or outside the rating domain, not when a later peak exceeds the
+   domain. This recovers July 2021 onsets without new data.
+10. **Stage.** Conditional, onset-timing recovery only, if Waterschap supplies
+    water-level records with datum history.
+11. **Secondary analyses.** Exposure-response shape, the Fase comparison
+    (conditional on receiving the thresholds), temporal stability
+    (2010–2017 against 2018–2025), July 2021 in context, and two-stage pooling
+    as a sensitivity check.
+
+Why: the draft 0.8 design depended on inputs unlikely to arrive (ten natural
+watercourses, a German cohort) and asked a distance question the geometry
+cannot answer. Draft 0.9 needs only data already delivered or openly available
+(Waterschap discharge, ERA5-Land, RADKLIM or RADOLAN, a cross-border DEM),
+together with Waterschap's answers on timezone, zero values and coordinates. It
+answers a question with a policy consequence: whether public regional signals
+give small tributaries hours or days of association lead, and whether that
+differs by season.
+
+Source: author design review of 2026-09-17 and 2026-09-18, cross-checked with
+Claude and GPT; `chapter-scope-and-preregistration.md` draft 0.9;
+`dissertation-evaluation.md`; `waterschap-source-metadata.md`.

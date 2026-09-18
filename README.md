@@ -1,46 +1,37 @@
-# Pre-High-Water Signal Recurrence and Spatial Extent
+# Pre-High-Water Signals Across Limburg Tributaries
 
-Prospective research question:
+Prospective research question (protocol draft 0.9):
 
-> Across Limburg tributaries, which public hydrometeorological signals recur
-> during the 72 hours before independently defined high-water onset, and how
-> do the direction and magnitude of their event-minus-quiet contrasts change
-> with distance from the affected watercourse? If the source data support a
-> Kerkrade case, does
-> pressure-adjusted CO2 recur there as a local manifestation of that regional
-> state?
+> Across natural Limburg tributaries, how are public hydrometeorological
+> signals in the 72 hours before independently defined high-water onset
+> associated with that onset, and does the timing of that association differ
+> between warm-season and cold-season events?
 
-Status: **data-gated; no new chapter result exists**. The complete 2001--2025
-ERA5-Land source archive has passed its final integrity audit. A 2010--2025
-Waterschap discharge delivery has also passed an outcome-blind availability
-audit, but the qualifying watercourse cohort remains unresolved pending gauge
-metadata and supervisor decisions. Catchment polygons and RADOLAN catchment
-rainfall are still absent. The protocol is unlocked and the outcome analysis
-has not been run.
+Design: a **time-stratified case-crossover study**, analysed with conditional
+quasi-Poisson distributed-lag models. The draft 0.8 distance slope and
+conditional Kerkrade CO2 case were dropped on 2026-09-18; see `decisions.md`.
+The repository keeps its historical `chapter1-co2` name.
 
-The dissertation sequence is:
+Status: **data-gated; no chapter result exists**. The 2001--2025 ERA5-Land
+archive is complete and audited. The 2010--2025 Waterschap discharge delivery
+has passed an outcome-blind availability audit. Timezone, zero semantics,
+coordinates and cohort classification remain open. Radar rainfall and
+cross-border catchments are not yet acquired. The protocol is unlocked and no
+outcome analysis has been run.
 
-1. Viefhues observes an indoor CO2 response around one exceptional event at
-   one Kerkrade house.
-2. Eryilmaz shows that public weather explains much of the same-site indoor
-   information outside the flood period.
-3. This chapter tests which public signals recur before independently defined
-   high water and how their contrasts vary with distance across the observed
-   tributary network.
-
-Transferability means **spatial extent**, not prediction, gauge substitution,
-physical propagation, an operational radius or performance in ungauged basins.
+Viefhues's Kerkrade CO2 observation and Eryilmaz's public-weather explanation
+motivate the question. The chapter analyses no CO2.
 
 ## Read first
 
 | document | role |
 | --- | --- |
 | `docs/chapter-synthesis.md` | canonical question, contribution, design and status |
-| `docs/chapter-scope-and-preregistration.md` | estimator protocol; lock only after gates and approvals |
+| `docs/chapter-scope-and-preregistration.md` | draft 0.9 case-crossover protocol; lock only after gates pass and floors are recorded |
 | `docs/scope-decisions.md` | concise live choices |
 | `docs/analysis-inventory.md` | prospective, supporting and stopped work |
 | `docs/data-requests.md` | exact blockers and delivery contracts |
-| `docs/supervisor-decision-memo.md` | approvals and unresolved numerical floors |
+| `docs/supervisor-decision-memo.md` | 2026-08 supervisor response (historical record) |
 | `docs/student-next-actions.md` | student tasks and send-ready requests |
 | `docs/literature-source-notes.md` | source-by-source notes without synthesis |
 | `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
@@ -58,13 +49,13 @@ conda env create -f environment.yml
 conda activate chapter1-co2
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
-python scripts/33_ingest_viefhues_iot.py
 python scripts/35_audit_waterschap_delivery.py
 ```
 
 `--report-only` writes the known failed regional audit without treating it as a
 chapter result. Omit that flag only when all six contracted regional inputs
-exist. The Kerkrade case is assessed separately.
+exist. The gate script still encodes the draft 0.8 floors until it is updated
+to draft 0.9 (see `docs/draft-0.9-implementation-plan.md`).
 
 ERA5-Land was backfilled through the dedicated Azure Function documented in
 `infrastructure/era5_backfill/README.md`. The archive is complete and the timer
@@ -79,26 +70,23 @@ python scripts/34_fetch_era5_land.py
 
 The script writes one validated monthly NetCDF plus a checksum manifest.
 
-Refresh the later Kerkrade IoT record, if needed for the conditional case, with:
-
-```bash
-python scripts/01_ingest_iot.py
-```
+The Kerkrade IoT and Viefhues ingests (`01_ingest_iot.py`,
+`33_ingest_viefhues_iot.py`) belonged to the retired conditional CO2 case. They
+remain in the repository as provenance for the motivating observation and are
+not part of the draft 0.9 analysis.
 
 ## Planned analysis
 
-The chapter uses one quantity: signal in the pre-event window minus the median
-signal at matched quiet times. Local contrasts establish recurrence. Spatial
-contrasts are aggregated to one median per ordered receiver-donor pair and one
-prespecified line is fitted for each signal:
+High-water onsets are adjacent-hour crossings of each watercourse's own p99.
+Each onset hour is compared with at-risk hours from the same watercourse, year,
+month and hour of day. For each exposure, a conditional quasi-Poisson model with
+a distributed-lag cross-basis over lags 1–72 hours estimates how the onset rate
+relates to the signal at each preceding hour. The primary estimand is the
+warm-minus-cold-season difference in the rainfall lag-response. Uncertainty
+comes from a calendar year-month block bootstrap.
 
-```text
-pair_median_contrast ~ 1 + log(1 + distance_km)
-```
-
-Uncertainty resamples complete regional storms. Leave-one-watercourse-out
-refits are influence checks. There is no classifier, time-block validation,
-mixed-effects model, SARIMAX, Kalman filter or model-family search.
+There is no classifier, predictive validation, SARIMAX, Kalman filter,
+model-family search or degree-of-freedom search.
 
 ## Verify
 
@@ -112,14 +100,15 @@ ruff format --check .
 ## Working conventions
 
 - Hourly UTC; missing hours remain missing and crossings never bridge gaps.
-- One predeclared gauge per natural tributary watercourse.
-- Receiver flow defines high-water onset and is not its own signal.
-- RADOLAN catchment rainfall and donor flow are principal hydrological signals.
-- ERA5-Land temperature, humidity and pressure form one fixed atmospheric block.
-- Every eligible receiver-donor pair is retained; each ordered pair has equal
-  weight in the distance analysis and must have at least 10 complete events.
-- Aggregate events within watercourse before describing the network.
+- One predeclared gauge per natural, hydrologically independent watercourse;
+  branches of one split system count once.
+- Receiver flow defines onset and is never its own signal.
+- Hourly catchment rainfall is the principal exposure; ERA5-Land relative
+  humidity and six-hour pressure change form the atmospheric block.
+- Every hydrological quantity is a within-gauge, within-rating-era rank.
+- Censor an onset only when the onset hour itself is missing, failed or outside
+  the rating domain.
 - Null and heterogeneous results are final results, not invitations to add
   models, lags or thresholds.
-- No flood-prediction, causal, FEWS, alert, monitoring-placement or ungauged-
-  basin claim.
+- No flood-prediction, causal, FEWS, warning-lead, trigger, monitoring-placement
+  or ungauged-basin claim.
