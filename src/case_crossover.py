@@ -255,15 +255,39 @@ def block_bootstrap(design, onset, strata, blocks, statistic, replicates=999, se
     return pd.DataFrame(draws)
 
 
-def percentile_interval(draws, level=0.95):
-    """Percentile intervals and the share of estimable draws for each statistic."""
+MEDIAN_LAG_RANGE = {
+    "median_lag_warm": (1.0, 72.0),
+    "median_lag_cold": (1.0, 72.0),
+    "median_lag_difference": (-71.0, 71.0),
+}
+
+
+def percentile_interval(draws, level=0.95, ranges=None):
+    """Percentile intervals and the share of estimable draws for each statistic.
+
+    For a statistic with an admissible range (`ranges`, e.g. the median lags),
+    an undefined draw counts as possibly any value in that range: it enters the
+    lower quantile at the range minimum and the upper quantile at the range
+    maximum (decision D7). An endpoint therefore reaches the range bound once
+    more than the tail share of draws is undefined, meaning the data do not
+    bound that side. Without a range, undefined draws are dropped.
+    """
     tail = (1 - level) / 2
+    ranges = ranges or {}
     rows = {}
     for column in draws:
-        values = draws[column].dropna()
+        values = draws[column]
+        defined = values.dropna()
+        if column in ranges and len(values):
+            low, high = ranges[column]
+            lower = values.fillna(low).quantile(tail)
+            upper = values.fillna(high).quantile(1 - tail)
+        else:
+            lower = defined.quantile(tail) if len(defined) else np.nan
+            upper = defined.quantile(1 - tail) if len(defined) else np.nan
         rows[column] = {
-            "lower": values.quantile(tail) if len(values) else np.nan,
-            "upper": values.quantile(1 - tail) if len(values) else np.nan,
-            "estimable_share": len(values) / len(draws) if len(draws) else np.nan,
+            "lower": lower,
+            "upper": upper,
+            "estimable_share": len(defined) / len(values) if len(values) else np.nan,
         }
     return pd.DataFrame(rows).T

@@ -1949,3 +1949,49 @@ Consequence measured on the 800 validation datasets
 (about 216 onsets), a median-lag-difference interval would be reported in 38%
 of datasets at a 95% threshold and 27.5% at 97.5%. The rule therefore matters
 for the primary estimand.
+
+## 2026-09-18 — D7 decided: undefined median lags widen the interval
+
+**D7 (author decision).** A bootstrap draw with no median lag (1–72 cumulative
+association not positive) counts as possibly any lag in the admissible range:
+1–72 hours per season, −71 to 71 for the difference. It enters the lower
+percentile at the range minimum and the upper percentile at the range maximum.
+An endpoint at the range bound is reported as "the data do not bound the lag on
+this side"; the interval is never suppressed. The estimable share is reported
+with every median-lag interval. The grounding is Gleser & Hwang (1987) and
+Dufour (1997), as set out in the previous entry. There is no free threshold:
+at a 95% level, an endpoint reaches the bound once more than 2.5% of draws are
+undefined.
+
+Implemented in `percentile_interval(..., ranges=MEDIAN_LAG_RANGE)` in
+`src/case_crossover.py`, with a unit test. Protocol §8 and §10 are updated.
+
+**Validation re-run** (`scripts/38_validate_estimator.py`, 200 datasets per
+scenario, 199 bootstrap replicates, same seeds):
+
+| scenario | median-lag difference: coverage | bounded interval | interval excludes zero |
+| --- | --- | --- | --- |
+| seasonal (true difference −21 h, about 216 onsets) | 99.5% | 29% | 10.5% |
+| same in both seasons (true difference 0) | 98.5% | 49.5% | 1.5% (false detection) |
+| no association (lag undefined) | not applicable | 0% | 0% |
+| saturating stress (true −21 h, about 400 onsets) | 99.5% | 54% | 52% |
+
+- The rule is conservative, with 98.5–99.5% coverage against a nominal 95%.
+- Under no association, it always reports the uninformative interval. That is
+  the intended behaviour.
+- Cumulative-difference results are unchanged: 93–93.5% coverage, and
+  detection of 38% and 63% in the seasonal and stress scenarios.
+
+**Correction to the entry "Implement the draft 0.9 workstreams…".** That entry
+reports the median-lag difference as detected in 67.5% (about 216 onsets) and
+98% (about 400 onsets) of datasets. Those rates came from intervals built only
+from estimable draws, the practice D7 rejects. Under D7 the rates are 10.5% and
+52%.
+
+**Consequence.** With about 216 onsets, the median-lag half of the primary
+estimand will usually not be located in the warm season: 78% of warm-season
+intervals reach the range bound. Power rests on the true warm-season
+association and on the onset count, which the blinded audit will report. The
+simulated warm-season effect (cumulative log RR 2.88 at the contrast) is a
+calibration choice, not an estimate. No design change is made here; the audit
+gives the real onset counts.

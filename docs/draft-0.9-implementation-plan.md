@@ -30,7 +30,7 @@ now, in parallel.
 | 2.3 Catchment rainfall | **done**: `data/interim/radolan_catchment_hourly.csv`, 0.03–0.21% hours missing; timing matches DWD Aachen-Orsbach (r = 0.84 at zero shift) |
 | 2.4 Weather | **done** (`scripts/40_build_event_study_weather.py`) |
 | 3 Discharge ingest | rating curves **transcribed and checked** (`scripts/42_check_rating_transcription.py`); rating-era table **built** under D8 (`scripts/43_build_rating_eras.py`); ingest waits on Waterschap semantics |
-| 5 Estimator validation | **done**: the Python estimator reproduces R to within 1e-13. Coverage of the primary estimand is 93–97.5%. Results in `results/estimator_validation/`. |
+| 5 Estimator validation | **done**: the Python estimator reproduces R to within 1e-13. Coverage is 93–93.5% for the cumulative difference and 98.5–99.5% for the median-lag difference under D7. With about 216 onsets, the median-lag difference excludes zero in only 10.5% of datasets. Results in `results/estimator_validation/`. |
 
 Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
 0.9 workstreams").
@@ -46,7 +46,7 @@ Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
 | D5 | Provisional coordinates | **Decided 2026-09-18**: public-portal coordinates until Waterschap's numerical ones arrive; then re-run `39_delineate_catchments.py`. | on arrival |
 | D6 | Low flows outside the rating domain | **Decided 2026-09-18**: discard only where the reading is genuinely ambiguous. Implemented and in protocol §3. | done |
 | D8 | Rating versions to eras (new) | **Decided 2026-09-18**: a boundary only where the relation changes at or above p99; short versions that change it are excluded. Built by `scripts/43_build_rating_eras.py`; the gate audit checks each era's p99 against the level where its versions agree. Gulp excludes 2011-01-19 to 2011-07-18 and 2012-10-15 to 2013-10-31. | done |
-| D7 | Median-lag interval reporting (new) | **Open.** The proposed 95% estimable-draw threshold has no literature basis. Options under the Gleser–Hwang/Dufour results are in `decisions.md`. | lock |
+| D7 | Median-lag interval reporting (new) | **Decided 2026-09-18**: undefined draws count as any lag in the admissible range, so intervals widen to the bound instead of being suppressed (Gleser & Hwang 1987; Dufour 1997). Implemented and validated: coverage 98.5–99.5%. | done |
 
 Each decision is recorded, dated, in `decisions.md`.
 

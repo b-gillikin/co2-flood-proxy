@@ -320,6 +320,18 @@ the information floor in §2.
 Report the primary estimand's two summaries with intervals. Secondary estimands
 receive intervals but no confirmatory tests.
 
+**Undefined median lags (decision D7, 2026-09-18).** A bootstrap draw whose
+1–72 cumulative association is not positive has no median lag. Such a draw
+counts as possibly any lag in the admissible range: 1–72 hours for a season,
+−71 to 71 for the difference. It enters the lower percentile at the range
+minimum and the upper percentile at the range maximum. An interval endpoint
+at the range bound therefore means the data do not bound the lag on that side,
+and it is reported as such, not suppressed. This follows the results of
+Gleser and Hwang (1987) and Dufour (1997): for a parameter that is undefined
+where another is zero, a valid confidence set must sometimes cover the whole
+admissible range. The share of estimable draws is reported with every
+median-lag interval.
+
 ## 9. Secondary and descriptive analyses
 
 ### 9.1 Exposure-response shape
@@ -376,6 +388,7 @@ does not converge.
 | --- | --- |
 | warm-season median association lag clearly shorter than cold-season | rainfall association before summer onsets is concentrated closer to onset than before winter onsets |
 | seasonal difference interval includes zero | no detectable seasonal difference in lag structure at this grain |
+| median-lag interval reaches the admissible range bound | the data do not locate the association lag on that side |
 | cumulative rainfall association positive in both seasons | rainfall in the preceding 72 hours is associated with onset in both regimes |
 | atmospheric block associated after rainfall adjustment | humidity or pressure change carries association beyond rainfall |
 | atmospheric block null after rainfall adjustment | the Eryilmaz-derived signals add no detectable association beyond rainfall |

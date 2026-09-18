@@ -144,7 +144,7 @@ Interpreter:
 
 - literature crosswalk: 44 notes, 44 BibTeX keys, 98 matrix rows and 37 unique
   DOIs; all keys resolve;
-- default scientific suite: **55 passed** (2026-09-18);
+- default scientific suite: **56 passed** (2026-09-18);
 - operational infrastructure suite: **5 passed**;
 - Ruff lint and format: passed across **47 files**;
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;

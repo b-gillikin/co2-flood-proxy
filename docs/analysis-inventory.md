@@ -19,7 +19,7 @@ regional chapter is stopped at its core data gate.
 | rating eras | per-era p99 and rating domain | built under D8 (`43_build_rating_eras.py`); merge validity checked in the gate audit |
 | hourly discharge ingest | outcome series | not built; awaits source semantics |
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
-| synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; primary-estimand coverage 93–97.5% |
+| synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
 | July 2021 regional anchor | descriptive trajectory | not run |
 | conditional distance module | ordered-pair slope if LANUK passes before lock | inactive |
 

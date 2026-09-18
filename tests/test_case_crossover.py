@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.case_crossover import (
+    MEDIAN_LAG_RANGE,
     block_bootstrap,
     cross_basis,
     fit_conditional_poisson,
@@ -162,6 +163,18 @@ def test_primary_estimand_is_warm_minus_cold():
     assert result["cumulative_log_rr_difference"] == pytest.approx(
         2.0 * (basis @ (warm - cold)).sum()
     )
+
+
+def test_undefined_median_lag_draws_widen_the_interval_to_the_range():
+    few = pd.DataFrame({"median_lag_warm": np.r_[np.full(99, 10.0), np.nan]})
+    many = pd.DataFrame({"median_lag_warm": np.r_[np.full(90, 10.0), [np.nan] * 10]})
+
+    narrow = percentile_interval(few, ranges=MEDIAN_LAG_RANGE)
+    wide = percentile_interval(many, ranges=MEDIAN_LAG_RANGE)
+
+    assert narrow.loc["median_lag_warm", ["lower", "upper"]].tolist() == [10.0, 10.0]
+    assert wide.loc["median_lag_warm", ["lower", "upper"]].tolist() == [1.0, 72.0]
+    assert wide.loc["median_lag_warm", "estimable_share"] == 0.9
 
 
 def test_percentile_interval_reports_estimable_share():

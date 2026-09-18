@@ -33,6 +33,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.case_crossover import (
     MAX_LAG,
+    MEDIAN_LAG_RANGE,
     block_bootstrap,
     cross_basis,
     fit_conditional_poisson,
@@ -284,7 +285,7 @@ def one_dataset(task):
         replicates=replicates,
         seed=seed + 1,
     )
-    interval = percentile_interval(draws[STATISTICS])
+    interval = percentile_interval(draws[STATISTICS], ranges=MEDIAN_LAG_RANGE)
     out = []
     for statistic in STATISTICS:
         lower, upper = interval.loc[statistic, ["lower", "upper"]]
@@ -298,6 +299,12 @@ def one_dataset(task):
                 "lower": lower,
                 "upper": upper,
                 "estimable_share": interval.loc[statistic, "estimable_share"],
+                "at_range_bound": bool(
+                    lower <= MEDIAN_LAG_RANGE[statistic][0]
+                    or upper >= MEDIAN_LAG_RANGE[statistic][1]
+                )
+                if statistic in MEDIAN_LAG_RANGE
+                else np.nan,
                 "covered": bool(lower <= truth[statistic] <= upper)
                 if np.isfinite([lower, upper, truth[statistic]]).all()
                 else np.nan,
@@ -332,6 +339,9 @@ def summarise(replicates):
                 if len(covered)
                 else np.nan,
                 "median_interval_width": (group.upper - group.lower).median(),
+                "interval_at_range_bound": group.at_range_bound.dropna().astype(float).mean()
+                if group.at_range_bound.notna().any()
+                else np.nan,
                 "mean_onsets": group.n_onsets.mean(),
             }
         )
