@@ -1690,3 +1690,92 @@ Geleenbeek and Vloedgraaf share one cell.
 Source: this session's runs; `results/estimator_validation/`,
 `results/catchments/`, `results/radar/`; EStreams gauging-station metadata;
 DWD CDC open-data directory listings.
+
+## 2026-09-18 — D6 decided; rating curves transcribed; Worm area claim withdrawn
+
+**D6 (author decision).** Discard a discharge hour only where the reading is
+genuinely ambiguous. A value outside the rating domain stays admissible
+whenever its side of p99 is certain:
+
+- a value below the domain minimum is admissible when that minimum is at or
+  below p99;
+- a value above the domain maximum is admissible when that maximum is at or
+  above p99.
+
+An hour is inadmissible only when being outside the domain leaves its side of
+p99 uncertain (for example, where p99 itself lies above the domain maximum),
+or when it has no era. Missing hours and documented failure intervals remain
+inadmissible.
+
+Consequences:
+
+- Summer onsets rising from base flow below the domain minimum are kept.
+- By the same principle, an onset whose first hour already exceeds the domain
+  maximum is kept when that maximum is at or above p99.
+
+Implemented in `rating_domain_admissible()` and tested. Protocol §3 is
+updated.
+
+**Rating curves transcribed.** All 14 rating-curve PDFs of the 2026-09-07
+Waterschap delivery were transcribed into `config/rating_curves/`:
+
+- 89 relation segments of every version in force at any time in 2010–2025,
+  with each formula kept as written and in normalised form;
+- the structure periods, with method, levels, catchment area and stated
+  discharge range.
+
+`scripts/42_check_rating_transcription.py` confirms against the PDF text that
+every formula appears verbatim, that the stage bounds and version dates on its
+line match, and that the normalised formula has the same numbers. 85 segments
+match automatically. The other 4 were checked by eye and are named in the
+script:
+
+- a segment printed above its dates;
+- one date read differently from the print (below);
+- a bare zero;
+- a formula wrapped over two lines.
+
+The arithmetic checks flag properties of the sheets, not transcription errors:
+
+- steps of 3–45% where segments meet (Hommerich, Azijnfabriek, Nieuwstadt);
+- a slightly falling quadratic at Azijnfabriek (2012–2013);
+- relations undefined at the bottom of their stated stage range;
+- tops of relation up to 35% beyond the stated discharge range.
+
+**Source issues for Waterschap**, none affecting a proposed cohort gauge except
+Nieuwstadt:
+
+- Nieuwstadt lists two different relations from 2013-01-01. They differ by
+  about 25% at the top of the range, and the sheet does not say which produced
+  the delivered series.
+- Hommerich prints a 2016 start date that overlaps the previous version; it is
+  read here as 2016-08-05.
+- Hommerich has no relation from 2020-10-14 to 2021-10-13.
+- Partij and Azijnfabriek each have uncovered intervals.
+- Mesch's structure description ends in 2008, although its 2002 relation
+  remains open.
+
+**Cohort gauges over 2010–2025.**
+
+| gauge | rating versions |
+| --- | --- |
+| Cottessen, Eys, Mesch | one version each |
+| Brommelen | two, but the 2010-09-23 version is the earlier relation shifted by +0.050 m with the structure re-levelled, so the same hydraulics |
+| Rimburg | two, with the 2021-09-01 change confined to stages below 84.45 m (about 5 m³/s) |
+| Azijnfabriek | six, including versions of 4.5 and 12.5 months; the high-flow segment changes only in 2011-03/07 and slightly (2 cm) from 2017-05-04 |
+
+How versions become eras is a new author decision, D8.
+
+**Additional catchment-area checks** from the sheets:
+
+- Cottessen: 12,330 ha against the delineated 121.4 km² (−1.6%);
+- Azijnfabriek: 4,640 ha against 47.6 km² (+2.5%).
+
+**Correction.** The entry above ("Implement the draft 0.9 workstreams…",
+decision D3) says the provider's Wurm area at Herzogenrath is below the
+topographic one and that this bears on classifying the Worm. That is wrong.
+After the snapping fix, the delineated Herzogenrath catchment is 95.1 km²
+against the provider's 96.3 km². EStreams' own computed 131.7 km² (flagged in
+EStreams) almost certainly includes the Broicher Bach, which is gauged 250 m
+away with 41.4 km², as did the first, faulty snap (131.2 km²). There is no
+evidence of an urban-drainage area discrepancy on the Worm.

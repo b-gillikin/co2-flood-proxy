@@ -21,6 +21,7 @@ There is no analysis framework or model registry.
 | `39_delineate_catchments.py` | cross-border catchments from Copernicus GLO-30, checked against EStreams areas | implemented; provisional pour points |
 | `40_build_event_study_weather.py` | ERA5-Land relative humidity, surface pressure and six-hour change per catchment | implemented and run |
 | `41_radar_catchment_rainfall.py` | area-weighted hourly catchment rainfall and exposure-only QA | implemented; runs after the RADOLAN download |
+| `42_check_rating_transcription.py` | check the hand transcription of the 14 rating-curve PDFs (`config/rating_curves/`) against the PDF text and its own arithmetic | implemented and run |
 | `R/case_crossover_reference.R` | R reference fit (`dlnm` plus fixed-effects GLM), called by script 38 | implemented |
 | `src/event_study.py` | rating-era thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | `src/case_crossover.py` | lag basis, cross-basis, conditional Poisson fit, block bootstrap, primary summaries | implemented, unit-tested and validated against R |

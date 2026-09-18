@@ -239,3 +239,44 @@ def test_stage_crossing_cannot_span_gap_or_datum_change():
     eras = pd.Series(["A"] * 5 + ["B"] * 3, index=index)
     result = stage_onsets(stage, eras, {"A": 1, "B": 1}, merge_hours=0)
     assert result.onset_utc.tolist() == [index[1], index[7]]
+
+
+def test_out_of_domain_hours_are_admissible_when_their_side_of_p99_is_certain():
+    from src.event_study import rating_domain_admissible
+
+    index = hours(5)
+    series = pd.Series([0.005, 0.5, 3.0, 12.0, np.nan], index=index)
+    eras = pd.Series("A", index=index)
+    table = pd.DataFrame({"era_id": ["A"], "domain_min_m3s": [0.01], "domain_max_m3s": [7.75]})
+
+    # p99 inside the domain: below-minimum and above-maximum values are certain.
+    assert rating_domain_admissible(series, eras, table, 2.0).tolist() == [
+        True,
+        True,
+        True,
+        True,
+        False,
+    ]
+    # p99 above the domain maximum: a value above the maximum may be below p99.
+    assert rating_domain_admissible(series, eras, table, 9.0).tolist() == [
+        True,
+        True,
+        True,
+        False,
+        False,
+    ]
+
+
+def test_low_flow_below_the_rating_domain_does_not_censor_a_summer_onset():
+    from src.event_study import rating_domain_admissible
+
+    index = hours(4, "2020-07-01")
+    series = pd.Series([0.005, 0.005, 3.0, 0.5], index=index)  # below domain, then onset
+    eras = pd.Series("A", index=index)
+    table = pd.DataFrame({"era_id": ["A"], "domain_min_m3s": [0.01], "domain_max_m3s": [7.75]})
+    admissible = rating_domain_admissible(series, eras, table, 2.0)
+
+    episodes = episode_table(series, 2.0, admissible=admissible, eras=eras)
+
+    assert episodes.onset_utc.tolist() == [index[2]]
+    assert not episodes.loc[0, "onset_censored"]

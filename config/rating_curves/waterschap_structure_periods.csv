@@ -1,0 +1,19 @@
+gauge,station,watercourse,period_start,period_end_as_written,method,bed_level_m,bank_level_m,catchment_ha,stage_range_low_m,stage_range_high_m,discharge_range_min_m3s,discharge_range_max_m3s,note
+10.Q.29,Cottessen,Geul,2007-11-16,,"measuring flume, trapezoidal",119.477,121.500,12330,119.530,121.800,0.5,27.5,
+10.Q.30,Hommerich,Geul,1994-01-01,,QH relation,92.15,95.00,15420,92.20,95.10,1,50,zero-flow level 92.15 m; mean bed slope 0.0023
+10.Q.36,Meerssen,Geul,1994-04-01,2011-01-01,QH relation,42.60,,,42.60,46.80,1,55,"relocated to Maastrichterweg bridge, Bunde; backwater from the Maas above about 1500 m3/s requires correction"
+10.Q.36,Meerssen,Geul,2010-11-24,,ADCP,42.60,46.00,31070,42.60,46.80,1,55,ADCP installed under the bridge; overlaps the previous period in the sheet
+11.Q.32,Eyserbeek Eys,Eyserbeek,2008-02-21,,"measuring flume, trapezoidal",100.611,102.511,,100.650,106.600,0.01,7.75,
+12.Q.31,Selzerbeek Partij,Selzerbeek,1991-07-01,,"measuring flume, trapezoidal",95.955,97.200,,96.000,97.300,0.01,6.50,
+12.Q.46,Selzerbeek Molentak,Selzerbeek Molentak,1991-07-01,,"measuring flume, trapezoidal",94.440,95.950,,94.500,96.100,0.1,1.0,
+13.Q.34,Azijnfabriek,Gulp,1995-04-01,2014-02-24,QH relation,90.630,,4640,90.700,92.700,0,12,"weir removed May 1995; downstream profile and bed roughness too unstable for an accurate relation; relation calibrated only to about 3 m3/s (2012 statement)"
+13.Q.34,Azijnfabriek,Gulp,2014-02-25,,QH relation with added ADCP velocity meter,90.630,,4640,90.700,92.700,0,12,
+15.Q.41,Mesch,Voer,1995-01-01,2008-02-20,"measuring flume, trapezoidal",68.800,70.400,,68.850,71.000,0.01,5.5,the sheet gives no structure period after 2008-02-20 although the 2002 relation stays open
+18.Q.45,Rimburg,Worm,1993-01-01,,QH relation with control section,83.400,85.500,,83.500,86.250,1,45,zero-flow level 83.790 m; highest expected stage 86.250 m
+6.Q.18,Brommelen,Geleenbeek,2010-09-23,,"measuring flume, trapezoidal",69.50,71.75,,69.55,71.55,0.05,15.3,
+6.Q.18,Brommelen,Geleenbeek,2001-11-19,2010-09-22,"measuring flume, trapezoidal",69.45,71.70,,69.50,71.50,0.05,15.3,largest relation error about 2% between 2 and 4 m3/s (sheet)
+6.Q.22,Munstergeleen,Geleenbeek,1991-07-01,,"measuring flume, trapezoidal",46.55,49.60,,46.60,49.70,0.10,34,"Ophovenermolen mill backs up low flows; discharge only above 4 m3/s from 2001-06-01, working from 2.5 m3/s since 2010"
+6.Q.24,Millen,Geleenbeek,2008-02-25,,"measuring flume, trapezoidal with sill",35.338,37.40,,35.40,37.20,0.10,5.5,sill level 35.535 m
+6.Q.25,Nieuwstadt,Vloedgraaf,2008-02-21,,QH relation,33.339,36.45,,33.55,36.50,0.125,60,zero-flow level 33.345 m; structure redesigned to pass fish at low flow
+6.Q.27,Oud-Roosteren,Geleenbeek,1990-01-01,2008-03-20,QH relation,25.95,29.50,,25.95,29.80,1,55,large deviations under vegetation; Manning extrapolation; backwater from the Maas above about 2000 m3/s at Borgharen
+6.Q.27,Oud-Roosteren,Geleenbeek,2010-12-10,,ADCP,26.05,30.45,,26.15,30.85,1,70,

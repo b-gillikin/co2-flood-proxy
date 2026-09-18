@@ -50,18 +50,32 @@ def assign_eras(index, eras):
     return labels
 
 
-def rating_domain_admissible(series, eras, era_table):
-    """True where an observed value lies inside its era's valid rating domain.
+def rating_domain_admissible(series, eras, era_table, threshold):
+    """True where an hour's position relative to its era's p99 is certain (decision D6).
 
-    `era_table` gives `domain_min_m3s` and `domain_max_m3s` per `era_id`; an
-    empty bound is unbounded. Hours without an era are inadmissible. This is
-    the single place where protocol §3's rating-domain rule is applied.
+    Inside the rating domain the value is valid. Outside it, the magnitude is
+    uncertain but its side of the threshold may not be: a value below the
+    domain minimum is certainly at or below p99 when that minimum is at or
+    below p99, and a value above the domain maximum is certainly above p99
+    when that maximum is at or above p99. Such hours stay admissible. An hour
+    is inadmissible only when being outside the domain leaves its side of p99
+    uncertain, or when it has no era. `era_table` gives `domain_min_m3s` and
+    `domain_max_m3s` per `era_id`; an empty bound is unbounded. This is the
+    single place where protocol §3's rating-domain rule is applied.
     """
     table = era_table.set_index(era_table.era_id.astype(str))
     labels = pd.Series(eras, index=series.index).astype("string")
     lower = labels.map(table.domain_min_m3s).astype(float).fillna(-np.inf)
     upper = labels.map(table.domain_max_m3s).astype(float).fillna(np.inf)
-    return series.notna() & labels.notna() & series.ge(lower) & series.le(upper)
+    threshold = (
+        threshold.reindex(series.index).astype(float)
+        if isinstance(threshold, pd.Series)
+        else pd.Series(float(threshold), index=series.index)
+    )
+    inside = series.ge(lower) & series.le(upper)
+    certainly_below = series.lt(lower) & lower.le(threshold)
+    certainly_above = series.gt(upper) & upper.ge(threshold)
+    return series.notna() & labels.notna() & (inside | certainly_below | certainly_above)
 
 
 def era_thresholds(series, eras=None, quantile=0.99):

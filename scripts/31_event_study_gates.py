@@ -184,8 +184,8 @@ def gauge_hourly_state(series, era_table, start, end):
     """Era labels, admissibility and era thresholds over the joint period."""
     study = series.loc[start:end]
     eras = assign_eras(study.index, era_table)
-    admissible = rating_domain_admissible(study, eras, era_table)
     _, threshold = era_thresholds(study, eras)
+    admissible = rating_domain_admissible(study, eras, era_table, threshold)
     return study, eras, admissible, threshold
 
 

@@ -168,7 +168,11 @@ design depends on the rating curve's stability, not its absolute accuracy.
 
 **Censoring.** Censor an event's onset only when the onset hour or the hour
 before it is missing, falls inside a documented failure interval, or lies
-outside the valid rating domain. A peak that later exceeds the rating domain
+outside the valid rating domain in a way that leaves its side of p99 uncertain.
+A value below the domain minimum is certainly at or below p99 when that minimum
+is at or below p99, and a value above the domain maximum is certainly above p99
+when that maximum is at or above p99. Such hours are kept (decision D6,
+2026-09-18). A peak that later exceeds the rating domain
 does not censor an onset observed within the domain. A record that resumes
 above p99 after a gap, at a rating-era boundary or next to an inadmissible hour
 starts a censored episode. That entry blocks at-risk hours for 72 hours like

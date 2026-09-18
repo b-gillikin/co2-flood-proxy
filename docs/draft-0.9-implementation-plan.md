@@ -29,7 +29,7 @@ now, in parallel.
 | 2.2 Catchments | **done, provisional**: GLO-30 delineation, seven area checks within ±4.4%. Pour points are public-portal coordinates. |
 | 2.3 Catchment rainfall | script ready (`scripts/41_radar_catchment_rainfall.py`); runs when the download completes |
 | 2.4 Weather | **done** (`scripts/40_build_event_study_weather.py`) |
-| 3 Discharge ingest | waits on Waterschap semantics |
+| 3 Discharge ingest | rating curves **transcribed and checked** (`config/rating_curves/`, `scripts/42_check_rating_transcription.py`); ingest waits on Waterschap semantics and D3/D8 |
 | 5 Estimator validation | **done**: the Python estimator reproduces R to within 1e-13. Coverage of the primary estimand is 93–97.5%. Results in `results/estimator_validation/`. |
 
 Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
@@ -41,10 +41,11 @@ Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
 | --- | --- | --- | --- |
 | D1 | Estimation toolchain | **Python**, with the R script kept as a standing cross-check. The Python estimator reproduces the R reference to within 1e-13 on 8 simulated datasets, which meets the protocol's condition. `gnm`'s `eliminate=` fit diverged on the saturating-stress dataset, so the R reference uses a fixed-effects GLM. | lock |
 | D2 | Rainfall product | **Operational RADOLAN RW throughout**, by the protocol's own rule. RADKLIM-RW is masked outside a band around Germany: the Voer is never observed and 45% of the Gulp is not. RADOLAN observed every catchment in the July 2015 probe. Confirm. | Phase 2.3 |
-| D3 | Cohort classification | Brommelen lies upstream of the Millen split, so Geleenbeek and Vloedgraaf are one watercourse under protocol §3. Choose the representative gauge on QA grounds. Classify the Worm with its Aachen urban drainage in mind: the provider area at Herzogenrath is below the topographic area in EStreams' record. | Phase 3 |
+| D3 | Cohort classification | Brommelen lies upstream of the Millen split, so Geleenbeek and Vloedgraaf are one watercourse under protocol §3. Choose the representative gauge on QA grounds; Brommelen is recommended over Nieuwstadt, whose flow depends on the split and whose post-2013 relation is ambiguous. The Worm's delineated area matches the provider's (the earlier urban-drainage concern was an EStreams artefact, corrected in `decisions.md`). | Phase 3 |
 | D4 | Season boundaries | May–October warm, November–April cold, as drafted. Confirm, or change before any event is built. | Phase 4 |
 | D5 | Provisional coordinates | Waterschap's public-portal coordinates were used as provisional pour points. Replace them when Waterschap's numerical coordinates arrive, and re-run `39_delineate_catchments.py`. | none now |
-| D6 | Low flows outside the rating domain (new) | Treat an hour as inadmissible only where being outside the domain makes its above-or-below-p99 status uncertain. A value below the domain minimum is still certainly below p99, and censoring those onsets would remove summer onsets from low base flow. Needs an edit to protocol §3. | Phase 3 |
+| D6 | Low flows outside the rating domain | **Decided 2026-09-18**: discard only where the reading is genuinely ambiguous. Implemented and in protocol §3. | done |
+| D8 | Rating versions to eras (new) | Transcription done (`config/rating_curves/`). Place an era boundary only where a version changes the relation for high flows. Datum re-levellings with the same relation (Brommelen 2010) and low-flow-only revisions (Rimburg 2021) are not boundaries. Short high-flow versions (Azijnfabriek 2011-03 to 2011-07) are excluded from estimation rather than given their own p99. The literal reading, every version an era, would give some gauges a p99 from a few summer months. | Phase 3 |
 | D7 | Median-lag interval reporting (new) | Report a median-lag interval only when at least 95% of bootstrap draws are estimable in both seasons; otherwise report it as not estimable. | lock |
 
 Each decision is recorded, dated, in `decisions.md`.
