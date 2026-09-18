@@ -27,7 +27,7 @@ are not yet archived, so this file does not record their exact requests.
 | core | gauge QA | coordinates for all pair distances, rating curves, sampling semantics, timezone, units, zero sentinels and July 2021 status | incomplete |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
-**regional** audit. Core failure returns the chapter to the supervisor. The
+**regional** audit. Core failure stops the chapter pending a dated rescoping decision. The
 conditional Kerkrade case is assessed separately after its pair/onset inputs
 exist; failure removes that case only. The rolling record is not a permissible
 core fallback.
@@ -137,8 +137,8 @@ Still required before hourly discharge, p99 thresholds or events are built:
 - interpretation of the special branch, threshold and duplicate columns;
 - licence, citation and redistribution terms; and
 - either enough additional defensible natural tributaries for the provisional
-  10-watercourse floor or a supervisor-approved revision after the blinded
-  feasibility audit.
+  10-watercourse floor or a recorded revision made after the blinded
+  feasibility audit and before any outcome is inspected.
 
 Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
 088 88 90 100):
@@ -334,8 +334,8 @@ a delay. Treat them as secondary contextual evidence.
 For every delivered dataset, preserve the raw file, licence and request
 correspondence; record a checksum; inspect units/timezone/sentinels before
 aggregation; and update this file plus the append-only `decisions.md`. Passing
-the **core** executable gate still requires supervisor approval before the
-protocol is locked. Kerkrade materials may be added only if their separate case
+the **core** executable gate still requires the recorded floor decisions before
+the protocol is locked. Kerkrade materials may be added only if their separate case
 gate passes before that case's outcomes are inspected.
 
 The detailed five-task handoff, verified institutional addresses and message

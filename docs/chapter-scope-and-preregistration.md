@@ -3,7 +3,7 @@
 Version: **draft 0.8, not locked** (2026-09-14).
 
 This protocol locks only after every core regional data gate passes and the
-supervisor approves the remaining numerical floors. The Kerkrade case is added
+remaining numerical floors are decided and recorded in `decisions.md`. The Kerkrade case is added
 only if its separate gate passes. No prospective outcome table may be inspected
 before the version, input hashes and lock timestamp are recorded in §13. This
 is a repository protocol, not an externally registered study.
@@ -308,20 +308,20 @@ estimators do not yet exist and are not claimed as implemented.
 ## 13. Lock and amendments
 
 Current state: **unlocked because the core regional data gates fail and the
-numerical data/coverage floors remain under supervisor review**. The question,
+numerical data/coverage floors remain undecided**. The question,
 meaning of spatial extent, Limburg population, ERA5-Land source, July 2021
-treatment and conditional-case rule are approved.
+treatment and conditional-case rule are settled.
 
 At lock, record:
 
-- supervisor approval date;
+- the date and `decisions.md` entry fixing the numerical floors;
 - gate-audit path and hash;
 - hashes of all analytical inputs;
 - Git commit;
 - protocol lock timestamp;
 - any ambiguity resolved before outcome inspection.
 
-Outstanding approvals for draft 0.7 are the numerical cohort, density and
+Outstanding decisions for draft 0.7 are the numerical cohort, density and
 all-donor availability floors, including the 10-complete-event pair minimum.
 The earlier three-event held-out-fold proposal is retired because the chapter
 no longer makes a held-out prediction claim.

@@ -146,10 +146,10 @@ When a floor cannot be justified analytically in advance:
 
 1. audit only dates, geometry, missingness and outcome-independent counts;
 2. show the consequences of a small set of candidate rules;
-3. obtain a supervisor decision; and
+3. make the decision and record it, dated, in `decisions.md`; and
 4. freeze the rule before inspecting the substantive contrasts.
 
-If the hard gate fails, stop and return to the supervisor. Do not silently
+If the hard gate fails, stop and record a dated rescoping decision. Do not silently
 lower it, change populations, add outcome types or substitute a shorter record.
 
 ### Separate core and optional evidence
@@ -510,7 +510,8 @@ Ask:
 3. Create a prospective synthesis before analytical code.
 4. Identify binding data and measurement metadata.
 5. Build and run a blinded feasibility gate.
-6. Return unresolved scope and numerical floors to the supervisor.
+6. Record unresolved scope and numerical floors as dated decisions, and inform
+   the supervisor of those that change the chapter's shape.
 7. Build a verified source corpus organized by evidence questions.
 8. Freeze the protocol and result-to-reading table.
 9. Write direct source-specific ingests from the delivered formats.

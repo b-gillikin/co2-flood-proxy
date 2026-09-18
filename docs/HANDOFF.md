@@ -7,7 +7,7 @@ Read in this order:
 
 1. `chapter-synthesis.md` — canonical question, contribution, design and state.
 2. `chapter-scope-and-preregistration.md` — draft 0.7 protocol.
-3. `supervisor-decision-memo.md` — recorded approvals and open floors.
+3. `supervisor-decision-memo.md` — the 2026-08 supervisor response and the rationale for the provisional floors (historical record).
 4. `student-next-actions.md` — current student tasks and sent requests.
 5. `data-requests.md` — delivery contracts and blockers.
 6. `analysis-inventory.md` — prospective, supporting and retired work.
@@ -51,9 +51,9 @@ case.
 
 Still open: the provisional 10-watercourse/10-year/20-episode/40-storm floor;
 80% overall and 70% annual/receiver/distance coverage rules; and the new minimum
-of 10 complete event/control contrasts per ordered pair. The student should
-show the blind availability audit, freeze these values with the supervisor and
-inform the supervisor that the prediction-style holdout has been retired.
+of 10 complete event/control contrasts per ordered pair. The author freezes
+these values after the blind availability audit, recording each decision in
+`decisions.md` before outcomes are inspected.
 
 The Waterschap discharge and Provincie Limburg mine-water deliveries were added
 on 2026-08-19 under the ignored external-deliveries tree and hashed. The
@@ -141,14 +141,14 @@ regression test protects that scientific rule.
 
 1. Inventory and hash native replies; resolve sampling, timezone, units,
    sentinels, rating curves, natural/managed status and July 2021 QA.
-2. Present the blind Waterschap availability audit to the supervisor; resolve
+2. Complete the blind Waterschap availability audit; decide and record
    the watercourse floor, then fix the admissible cohort after metadata arrives.
 3. Write the direct hourly discharge ingest only after source semantics and the
    cohort are fixed.
 4. Build verified catchment polygons, assign the completed ERA5-Land grid by
    nearest catchment centroid and calculate RADOLAN area averages.
-5. Complete the blinded threshold/coverage table and obtain the remaining
-   supervisor decisions.
+5. Complete the blinded threshold/coverage table and record the remaining
+   floor decisions.
 6. Rerun the strict gate and lock the protocol before outcomes if it passes.
 7. Implement one direct pandas analysis producing tidy contrasts, pair medians,
    distance estimates, influence rows and four figures. Add only claim-

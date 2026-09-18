@@ -7,61 +7,18 @@ follow when workload permits. Preserve and return the other complete replies
 and deliveries as they arrive. Do not lock the protocol or inspect new signal
 contrasts while the remaining design choices and regional inputs are unresolved.
 
-## 1. Close the remaining supervisor decisions
+## 1. Record the remaining design decisions
 
-Approved: the contribution, spatial-extent meaning, Limburg population,
-ERA5-Land source, July 2021 treatment and conditional status of the CO2 case.
-Only the following follow-up remains:
+Design decisions are the author's. Each is written down and dated in
+`decisions.md` before any signal outcome is inspected; that timing, not a
+signature, is what protects the chapter. The supervisor is informed of
+decisions that change the chapter's shape, and work does not wait on a reply.
 
-- confirm that the 10-watercourse/10-year/20-episode/40-storm values may remain
-  prospective design floors after the explanation in
-  `supervisor-decision-memo.md` §4;
-- confirm the blinded 70/80/90 availability audit and commit to freezing one
-  coverage rule before signal outcomes, including the proposed minimum of 10
-  complete event/control contrasts per ordered pair; and
-- inform the supervisor that held-out receiver-period prediction has been
-  removed. The final spatial estimator uses ordered-pair medians, one fixed
-  distance slope, storm resampling and leave-one-watercourse-out influence
-  checks. Confirm that this directly implements the approved spatial-extent
-  meaning.
-
-The original eight-item request is retained below as the response record, not
-as a new task.
-
-Send `supervisor-decision-memo.md` before the meeting and ask for a decision,
-not a general discussion, on each item below. Take notes in the wording the
-supervisor actually uses.
-
-1. **Contribution:** approve or revise the primary question: which signals
-   recur before high water, and how does their event-minus-quiet magnitude
-   change with distance across the observed tributary network?
-2. **Meaning of transferability:** approve spatial extent estimated from all
-   receiver-donor pairs. Confirm that the chapter is not intended to estimate
-   gauge substitution, physical propagation, an operational radius or
-   performance in ungauged basins.
-3. **Population:** retain natural Limburg tributaries as the target population,
-   with NRW as a possible extension only if clarified records pass the same
-   gates, or specify a different population now.
-4. **Data floor:** approve or revise at least 10 watercourses, 10 common years,
-   20 p99 episodes per watercourse and 40 regional storms.
-5. **Coverage floor:** approve or revise 80% observed hourly cells overall and
-   70% in every year for discharge, RADOLAN rainfall and public weather; also
-   approve 80% overall/70% by receiver and distance third for donor-flow event
-   windows.
-6. **Public weather:** approve ERA5-Land for 2001–2025, assigning the nearest
-   fixed grid cell to each predeclared catchment centroid and deriving relative
-   humidity from temperature and dew point.
-7. **Spatial estimator:** note that the earlier held-out fold has been retired.
-   Confirm ordered-pair medians plus one fixed log-distance slope, storm
-   resampling and leave-one-watercourse-out influence checks.
-8. **July 2021:** approve its inclusion as a required regional anchor, with no
-   invented local onset or peak. Confirm that the new Kerkrade CO2 analysis is
-   conditional rather than a gate for the regional chapter.
-
-Immediately after the meeting, record for every item: **approved as written**,
-**approved with this replacement wording**, or **not approved**. Include the
-meeting date and the supervisor's name. Return those notes before any protocol
-lock.
+Still to decide and record: the numerical cohort, record-length and storm
+floors; the coverage rule, fixed after the blinded 70/80/90 availability audit;
+and the final estimator. The 2026-08 supervisor response and the rationale for
+the provisional floors remain in `supervisor-decision-memo.md` as a historical
+record.
 
 ## 2. Long discharge archive — metadata follow-up received; cohort still open
 
