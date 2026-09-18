@@ -112,8 +112,12 @@ Each decision is recorded, dated, in `decisions.md`.
 2. ~~Transcribe the rating-curve validity periods from the 14 PDFs into a small
    versioned table of rating eras.~~ Done 2026-09-18 (`config/rating_curves/`,
    scripts 42 and 43, D8).
-3. Build `data/interim/event_study_gauges.csv` with the cohort classification
-   (D3), coordinates, rating eras and July 2021 status.
+3. ~~Build `data/interim/event_study_gauges.csv` with the cohort classification
+   (D3), coordinates, rating eras and July 2021 status.~~ Done 2026-09-18
+   (`scripts/44_build_event_study_gauges.py`).
+3a. `scripts/45_build_event_study_discharge.py` implements the four-quarter-hour
+    rule and both candidate timezone/zero readings, but refuses to write the
+    core file until Waterschap's timezone and zero semantics are verified.
 4. **Conditional:** if stage records arrive, add the onset-timing recovery rule
    from protocol §3.
 

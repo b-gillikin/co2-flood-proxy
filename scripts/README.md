@@ -23,6 +23,8 @@ There is no analysis framework or model registry.
 | `41_radar_catchment_rainfall.py` | area-weighted hourly catchment rainfall and exposure-only QA | implemented and run (RADOLAN and RADKLIM) |
 | `42_check_rating_transcription.py` | check the hand transcription of the 14 rating-curve PDFs (`config/rating_curves/`) against the PDF text and its own arithmetic | implemented and run |
 | `43_build_rating_eras.py` | rating-era table under decision D8 (`config/rating_curves/event_study_eras.csv`), with domains and the level where merged versions agree; also the literal-era sensitivity table | implemented and run |
+| `44_build_event_study_gauges.py` | core gauge-metadata table: D3 cohort, provisional D5 coordinates, source QA and July 2021 status, coordinate cross-check | implemented and run |
+| `45_build_event_study_discharge.py` | hourly discharge outcome series: four-quarter-hour rule, candidate timezone/zero readings, failure masking | implemented; refuses to write the core file until timezone and zero semantics are verified |
 | `R/case_crossover_reference.R` | R reference fit (`dlnm` plus fixed-effects GLM), called by script 38 | implemented |
 | `src/event_study.py` | rating-era thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | `src/case_crossover.py` | lag basis, cross-basis, conditional Poisson fit, block bootstrap, primary summaries | implemented, unit-tested and validated against R |

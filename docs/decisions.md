@@ -1995,3 +1995,63 @@ association and on the onset count, which the blinded audit will report. The
 simulated warm-season effect (cumulative log RR 2.88 at the contrast) is a
 calibration choice, not an estimate. No design change is made here; the audit
 gives the real onset counts.
+
+## 2026-09-18 — Gauge metadata built; coordinates cross-checked; discharge ingest scaffolded and blocked
+
+**Gauge metadata built.** `data/interim/event_study_gauges.csv`, the core
+gate contract, is built by the new `scripts/44_build_event_study_gauges.py`
+from four already-built sources: the D3 cohort
+(`config/event_study_cohort.csv`), provisional coordinates (D5), the per-station
+source QA and July 2021 status that `scripts/35_audit_waterschap_delivery.py`
+already derived from Waterschap's 2026-09-07 reply, and the rating-era table
+(D8). Running the gate audit now passes the file-existence check for every
+core input except the discharge series.
+
+**Data-requests.md was overstated.** Re-reading Waterschap's 2026-09-07 reply
+against `scripts/35_audit_waterschap_delivery.py`'s `SOURCE_CONTRACT` shows
+sampling semantics, units and July 2021 station status were answered weeks
+ago and are already encoded; `data-requests.md` still listed them as
+outstanding. Corrected. What remains genuinely open:
+
+- **Zero semantics.** The reply's question 3 asked about "absent timestamps,
+  missing codes, zeros and sentinel values" together; the answer addressed
+  only absent timestamps ("no data available... no differentiation"). A
+  delivered zero's meaning was never actually answered.
+- **Timezone.** The source header says "GMT+1", but whether that is a fixed
+  offset or Dutch civil time (CET/CEST, DST-aware) was not one of the six
+  questions asked in either reply. This needs to go to Waterschap explicitly;
+  it was not previously identified as a distinct open question.
+- The new question about recomputed rating history (previous entry).
+
+**Coordinates cross-checked, not re-requested.** Waterschap's 2026-09-07 reply
+gave Google Maps links instead of numerical coordinates. Resolving the six
+links for the cohort gauges (`config/waterschap_gauge_coordinates_crosscheck.csv`)
+gives Waterschap's own pin for each station:
+
+| gauge | offset from the public-portal coordinate |
+| --- | --- |
+| Eys, Mesch, Rimburg | <10 m |
+| Cottessen, Azijnfabriek | ~7-8 m |
+| Brommelen | 8.8 m |
+
+Every offset is under one Copernicus GLO-30 cell (30 m) and well inside the
+450 m snap-to-channel radius `scripts/39_delineate_catchments.py` already
+applies, so the delineation is not re-run. This closes D5 in practice; the
+decision stays recorded as "provisional" since Waterschap never sent decimal
+coordinates, but no material change is expected if they do.
+
+**Discharge ingest scaffolded, deliberately blocked.** `scripts/45_build_event_study_discharge.py`
+implements the four-quarter-hour rule, timezone conversion under either
+candidate assumption, both zero-value readings, and documented-failure
+masking, all unit-tested (`tests/test_event_study_discharge.py`). It always
+writes labelled candidate series to `results/discharge_ingest_candidates/`
+and refuses to write the core gate file unless
+`data/interim/event_study_gauges.csv` records both `timezone_verified` and
+`zero_semantics_verified` as true for every cohort gauge, which is not yet
+the case. Running it now (civil Amsterdam time, zero taken as true zero)
+produces plausible series for all six gauges (e.g. Cottessen up to 27.1 m³/s
+against its 27.5 m³/s domain; Rimburg up to 44.0 m³/s against its 44.6 m³/s
+era domain), which is a sanity check on the pipeline, not a result: neither
+assumption is verified.
+
+Tests: 68 passed.

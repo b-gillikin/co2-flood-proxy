@@ -17,7 +17,8 @@ regional chapter is stopped at its core data gate.
 | radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
 | cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |
 | rating eras | per-era p99 and rating domain | built under D8 (`43_build_rating_eras.py`); merge validity checked in the gate audit |
-| hourly discharge ingest | outcome series | not built; awaits source semantics |
+| gauge metadata | cohort, coordinates, QA, July 2021 status | built (`44_build_event_study_gauges.py`) |
+| hourly discharge ingest | outcome series | scaffolded and unit-tested (`45_build_event_study_discharge.py`); blocked on verified timezone and zero semantics |
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
 | synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
 | July 2021 regional anchor | descriptive trajectory | not run |
