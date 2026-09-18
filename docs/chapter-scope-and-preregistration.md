@@ -40,7 +40,10 @@ same year, month and hour of day (§5).
 
 **Primary estimand.** The seasonal difference, warm season (May–October) minus
 cold season (November–April), in the hourly-rainfall lag-response over lags 1–72
-hours. It is summarised by two quantities:
+hours. The seasons are the hydrological half-years of DIN 4049-1, as used for
+the Geul by Tsiokanos et al. (2024), who find most extreme hourly rainfall in
+the summer half-year but most extreme flows in winter (decision D4,
+2026-09-18). It is summarised by two quantities:
 
 1. **cumulative association:** the rate ratio for onset accumulated over lags
    1–72 at the fixed rainfall contrast defined in §7; and

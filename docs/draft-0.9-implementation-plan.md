@@ -39,14 +39,14 @@ Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
 
 | # | decision | recommendation and evidence (2026-09-18) | blocks |
 | --- | --- | --- | --- |
-| D1 | Estimation toolchain | **Python**, with the R script kept as a standing cross-check. The Python estimator reproduces the R reference to within 1e-13 on 8 simulated datasets, which meets the protocol's condition. `gnm`'s `eliminate=` fit diverged on the saturating-stress dataset, so the R reference uses a fixed-effects GLM. | lock |
-| D2 | Rainfall product | **Operational RADOLAN RW throughout**, by the protocol's own rule. RADKLIM-RW is masked outside a band around Germany: the Voer is never observed and 45% of the Gulp is not. RADOLAN observed every catchment in the July 2015 probe. Confirm. | Phase 2.3 |
+| D1 | Estimation toolchain | **Decided 2026-09-18**: Python, with the R script as a background cross-check. | done |
+| D2 | Rainfall product | **Decided 2026-09-18**: operational RADOLAN RW 2010–2025. | done |
 | D3 | Cohort classification | **Decided 2026-09-18**: Eys, Cottessen, Azijnfabriek, Mesch, Rimburg and Brommelen (for Geleenbeek/Vloedgraaf). | done |
-| D4 | Season boundaries | May–October warm, November–April cold, as drafted. Confirm, or change before any event is built. | Phase 4 |
-| D5 | Provisional coordinates | Waterschap's public-portal coordinates were used as provisional pour points. Replace them when Waterschap's numerical coordinates arrive, and re-run `39_delineate_catchments.py`. | none now |
+| D4 | Season boundaries | **Decided 2026-09-18**: May–October warm, November–April cold (DIN 4049-1 half-years; Tsiokanos et al. 2024 for the Geul). | done |
+| D5 | Provisional coordinates | **Decided 2026-09-18**: public-portal coordinates until Waterschap's numerical ones arrive; then re-run `39_delineate_catchments.py`. | on arrival |
 | D6 | Low flows outside the rating domain | **Decided 2026-09-18**: discard only where the reading is genuinely ambiguous. Implemented and in protocol §3. | done |
 | D8 | Rating versions to eras (new) | **Decided 2026-09-18**: a boundary only where the relation changes at or above p99; short versions that change it are excluded. Built by `scripts/43_build_rating_eras.py`; the gate audit checks each era's p99 against the level where its versions agree. Gulp excludes 2011-01-19 to 2011-07-18 and 2012-10-15 to 2013-10-31. | done |
-| D7 | Median-lag interval reporting (new) | Report a median-lag interval only when at least 95% of bootstrap draws are estimable in both seasons; otherwise report it as not estimable. | lock |
+| D7 | Median-lag interval reporting (new) | **Open.** The proposed 95% estimable-draw threshold has no literature basis. Options under the Gleser–Hwang/Dufour results are in `decisions.md`. | lock |
 
 Each decision is recorded, dated, in `decisions.md`.
 

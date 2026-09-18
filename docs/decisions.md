@@ -1895,3 +1895,57 @@ Aside: the archived `data/interim/knmi_hourly.parquet` (from the retired
 pipeline, not an event-study input) shows annual precipitation about a tenth
 of the radar's, and a one-hour offset. Its producer is in `archive/`. It is
 not used here and was not corrected.
+
+## 2026-09-18 — D1, D2, D4 and D5 decided; D7 threshold not grounded
+
+**D1 (author decision): toolchain.** The analysis runs in Python.
+`scripts/R/case_crossover_reference.R` stays as a background cross-check
+through `scripts/38_validate_estimator.py`.
+
+**D2 (author decision): rainfall product.** Operational RADOLAN RW for
+2010–2025, by the protocol's own fallback rule, because RADKLIM-RW cannot
+observe the Voer or 45% of the Gulp.
+
+**D4 (author decision): seasons.** Warm season May–October; cold season
+November–April. This is the hydrological half-year convention of the study
+area, not an ad hoc split:
+
+- DIN 4049-1 defines the German hydrological year (Abflussjahr) as
+  1 November to 31 October, with the winter half-year November–April and the
+  summer half-year May–October.
+- Tsiokanos et al. (2024, HESS 28:3327, the Geul catchment) use the same
+  hydrological year and half-years, following Tu (2006) and Sperna Weiland et
+  al. (2015) for the Meuse.
+- The same paper reports that about 75% of the Geul's extreme hourly
+  precipitation (P99, Pmax) falls in the summer half-year, while more than 70%
+  of its extreme flows occur in winter. That contrast is the motivation for the
+  seasonal-difference estimand.
+
+Protocol §1 now cites the convention.
+
+**D5 (author decision): coordinates.** The public-portal coordinates stay as
+provisional pour points. When Waterschap sends numerical coordinates, replace
+them and re-run `scripts/39_delineate_catchments.py`.
+
+**D7: not decided.** The author accepted the rule only if the 95% threshold is
+grounded in literature or accepted practice. It is not: no source prescribes a
+minimum share of estimable bootstrap draws, and 95% was a proposal. The
+relevant literature is about locally unidentified, ratio-type parameters (the
+median lag is undefined when the cumulative association is zero):
+
+- Gleser & Hwang (1987, Annals of Statistics 15:1351–1362) show that
+  confidence sets that are always bounded cannot achieve nominal coverage in
+  such models;
+- Dufour (1997, Econometrica 65:1365–1387) shows that a valid confidence set
+  for a locally almost unidentified parameter must be unbounded (here: the
+  whole admissible range) with positive probability.
+
+Both imply that dropping undefined draws, or suppressing the interval at an
+arbitrary threshold, is not the principled response. The options put to the
+author are recorded in the next D7 entry once decided.
+
+Consequence measured on the 800 validation datasets
+(`results/estimator_validation/replicates.csv`): under the "seasonal" scenario
+(about 216 onsets), a median-lag-difference interval would be reported in 38%
+of datasets at a 95% threshold and 27.5% at 97.5%. The rule therefore matters
+for the primary estimand.
