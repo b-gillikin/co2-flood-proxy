@@ -20,8 +20,9 @@ There is no analysis framework or model registry.
 | `38_validate_estimator.py` | synthetic validation: agreement with R, recovery, bootstrap coverage | implemented and run; see `results/estimator_validation/` |
 | `39_delineate_catchments.py` | cross-border catchments from Copernicus GLO-30, checked against EStreams areas | implemented; provisional pour points |
 | `40_build_event_study_weather.py` | ERA5-Land relative humidity, surface pressure and six-hour change per catchment | implemented and run |
-| `41_radar_catchment_rainfall.py` | area-weighted hourly catchment rainfall and exposure-only QA | implemented; runs after the RADOLAN download |
+| `41_radar_catchment_rainfall.py` | area-weighted hourly catchment rainfall and exposure-only QA | implemented and run (RADOLAN and RADKLIM) |
 | `42_check_rating_transcription.py` | check the hand transcription of the 14 rating-curve PDFs (`config/rating_curves/`) against the PDF text and its own arithmetic | implemented and run |
+| `43_build_rating_eras.py` | rating-era table under decision D8 (`config/rating_curves/event_study_eras.csv`), with domains and the level where merged versions agree; also the literal-era sensitivity table | implemented and run |
 | `R/case_crossover_reference.R` | R reference fit (`dlnm` plus fixed-effects GLM), called by script 38 | implemented |
 | `src/event_study.py` | rating-era thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | `src/case_crossover.py` | lag basis, cross-basis, conditional Poisson fit, block bootstrap, primary summaries | implemented, unit-tested and validated against R |
@@ -38,6 +39,8 @@ python scripts/38_validate_estimator.py   # synthetic data only; needs R with dl
 python scripts/39_delineate_catchments.py
 python scripts/40_build_event_study_weather.py
 python scripts/41_radar_catchment_rainfall.py
+python scripts/42_check_rating_transcription.py
+python scripts/43_build_rating_eras.py
 ```
 
 The ERA5-Land Azure backfill completed and its Function App is stopped. Do not

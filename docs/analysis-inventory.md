@@ -14,9 +14,10 @@ regional chapter is stopped at its core data gate.
 | `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone, zero and cohort unresolved |
 | ERA5-Land weather table | relative humidity, surface pressure and six-hour change | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
 | `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
-| radar rainfall | principal exposure | RADKLIM ruled out on coverage; RADOLAN RW download running; averaging script ready |
+| radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
 | cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |
-| hourly discharge ingest and rating eras | outcome series | not built; awaits source semantics |
+| rating eras | per-era p99 and rating domain | built under D8 (`43_build_rating_eras.py`); merge validity checked in the gate audit |
+| hourly discharge ingest | outcome series | not built; awaits source semantics |
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
 | synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; primary-estimand coverage 93–97.5% |
 | July 2021 regional anchor | descriptive trajectory | not run |

@@ -72,8 +72,10 @@ ERA_COLUMNS = {
     "valid_to_utc",
     "domain_min_m3s",
     "domain_max_m3s",
+    "relation_uniform_above_m3s",
     "source_document",
 }
+ERA_CONSTANTS = ["domain_min_m3s", "domain_max_m3s", "relation_uniform_above_m3s"]
 WEATHER_COLUMNS = {"timestamp_utc", "watercourse", "relative_humidity_pct", "surface_pressure_hpa"}
 
 
@@ -161,7 +163,11 @@ def contains_july_2021(start, end):
 
 
 def read_rating_eras(path, gauges):
-    """Read the rating-era table and check one non-overlapping era set per gauge."""
+    """Read the rating-era table and check one non-overlapping era set per gauge.
+
+    An era may span several interval rows (decision D8); its domain and its
+    agreement level must then be the same on every row.
+    """
     eras = pd.read_csv(path)
     if not ERA_COLUMNS.issubset(eras):
         return eras, False, f"missing columns {sorted(ERA_COLUMNS - set(eras))}"
@@ -171,8 +177,9 @@ def read_rating_eras(path, gauges):
         if table.empty:
             problems.append(f"{gauge}: no era")
             continue
-        if not table.era_id.astype(str).is_unique:
-            problems.append(f"{gauge}: duplicate era ids")
+        constants = table.groupby(table.era_id.astype(str))[ERA_CONSTANTS].nunique(dropna=False)
+        if constants.gt(1).any(axis=None):
+            problems.append(f"{gauge}: era rows disagree on domain or agreement level")
         try:
             assign_eras(pd.DatetimeIndex([], tz="UTC"), table)
         except ValueError as error:
@@ -187,6 +194,28 @@ def gauge_hourly_state(series, era_table, start, end):
     _, threshold = era_thresholds(study, eras)
     admissible = rating_domain_admissible(study, eras, era_table, threshold)
     return study, eras, admissible, threshold
+
+
+def era_merge_checks(frame, era_tables, start, end):
+    """Each era's p99 must lie where all its merged rating versions agree (D8)."""
+    rows = []
+    for gauge in frame:
+        table = era_tables[gauge].assign(era_id=lambda f: f.era_id.astype(str))
+        study = frame[gauge].loc[start:end]
+        per_era, _ = era_thresholds(study, assign_eras(study.index, table))
+        levels = table.drop_duplicates("era_id").set_index("era_id").relation_uniform_above_m3s
+        for era_id, p99 in per_era.items():
+            level = float(levels.get(era_id, float("inf")))
+            rows.append(
+                {
+                    "gauge": gauge,
+                    "era_id": era_id,
+                    "p99_m3s": round(float(p99), 3),
+                    "uniform_above_m3s": level,
+                    "ok": bool(p99 >= level),
+                }
+            )
+    return pd.DataFrame(rows, columns=["gauge", "era_id", "p99_m3s", "uniform_above_m3s", "ok"])
 
 
 def episode_feasibility(frame, era_tables, start, end):
@@ -578,6 +607,14 @@ def audit():
         density,
     )
 
+    merges = era_merge_checks(discharge, era_tables, joint_start, joint_end)
+    add(
+        rows,
+        "Rating-era merges",
+        not merges.empty and merges.ok.all(),
+        merges.drop(columns="ok").to_dict(orient="records"),
+        "each era's p99 at or above the discharge where its merged versions agree (D8)",
+    )
     counts, chains, events, risk = episode_feasibility(
         discharge, era_tables, joint_start, joint_end
     )

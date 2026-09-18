@@ -35,8 +35,9 @@ def assign_eras(index, eras):
     """Label each hour with the rating era whose [valid_from, valid_to) interval holds it.
 
     `eras` needs `era_id`, `valid_from_utc` and `valid_to_utc`; an empty
-    `valid_to_utc` means the era is still current. Hours outside every era get
-    no label, and overlapping eras are rejected.
+    `valid_to_utc` means the era is still current. An era may span several
+    rows (intervals with holes, decision D8). Hours outside every interval get
+    no label, and overlapping intervals are rejected.
     """
     index = pd.DatetimeIndex(index)
     start = pd.to_datetime(eras.valid_from_utc, utc=True)
@@ -63,7 +64,8 @@ def rating_domain_admissible(series, eras, era_table, threshold):
     `domain_max_m3s` per `era_id`; an empty bound is unbounded. This is the
     single place where protocol §3's rating-domain rule is applied.
     """
-    table = era_table.set_index(era_table.era_id.astype(str))
+    table = era_table.assign(era_id=era_table.era_id.astype(str)).drop_duplicates("era_id")
+    table = table.set_index("era_id")
     labels = pd.Series(eras, index=series.index).astype("string")
     lower = labels.map(table.domain_min_m3s).astype(float).fillna(-np.inf)
     upper = labels.map(table.domain_max_m3s).astype(float).fillna(np.inf)

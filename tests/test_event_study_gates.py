@@ -142,6 +142,7 @@ def test_episode_feasibility_uses_joint_period_and_counts_censored_onsets():
             "valid_to_utc": [None],
             "domain_min_m3s": [None],
             "domain_max_m3s": [None],
+            "relation_uniform_above_m3s": [0.0],
         }
     )
 
@@ -164,6 +165,7 @@ def test_overlapping_rating_eras_fail_the_gate(tmp_path):
             "valid_to_utc": ["2016-01-01T00:00Z", None],
             "domain_min_m3s": [0.0, 0.0],
             "domain_max_m3s": [10.0, 12.0],
+            "relation_uniform_above_m3s": [0.0, 0.0],
             "source_document": ["curve.pdf", "curve.pdf"],
         }
     ).to_csv(path, index=False)
@@ -172,6 +174,46 @@ def test_overlapping_rating_eras_fail_the_gate(tmp_path):
 
     assert not valid
     assert "overlap" in str(observed)
+
+
+def era_rows(gauge, uniform_above, domain_max=(12.0, 12.0)):
+    """One era over two intervals with a hole between them."""
+    return pd.DataFrame(
+        {
+            "gauge": gauge,
+            "era_id": ["A", "A"],
+            "valid_from_utc": ["2010-01-01T00:00Z", "2016-01-01T00:00Z"],
+            "valid_to_utc": ["2015-01-01T00:00Z", None],
+            "domain_min_m3s": [0.0, 0.0],
+            "domain_max_m3s": list(domain_max),
+            "relation_uniform_above_m3s": [uniform_above, uniform_above],
+            "source_document": ["curve.pdf", "curve.pdf"],
+        }
+    )
+
+
+def test_an_era_may_span_intervals_but_must_agree_on_its_domain(tmp_path):
+    path = tmp_path / "eras.csv"
+    era_rows("A", 0.5).to_csv(path, index=False)
+    _, valid, _ = GATES.read_rating_eras(path, ["A"])
+    assert valid
+
+    era_rows("A", 0.5, domain_max=(12.0, 10.0)).to_csv(path, index=False)
+    _, valid, observed = GATES.read_rating_eras(path, ["A"])
+    assert not valid
+    assert "disagree" in str(observed)
+
+
+def test_merged_era_fails_when_p99_lies_where_its_versions_disagree():
+    index = pd.date_range("2020-01-01", periods=1000, freq="h", tz="UTC")
+    frame = pd.DataFrame({"G": np.linspace(0.0, 2.0, len(index))}, index=index)
+
+    merges = GATES.era_merge_checks(frame, {"G": era_rows("G", 3.0)}, index[0], index[-1])
+    assert merges.p99_m3s.iloc[0] < 3.0
+    assert not merges.ok.any()
+
+    merges = GATES.era_merge_checks(frame, {"G": era_rows("G", 1.0)}, index[0], index[-1])
+    assert merges.ok.all()
 
 
 def write_fixture(root, n_units=6, storms_every_days=20):
@@ -215,6 +257,7 @@ def write_fixture(root, n_units=6, storms_every_days=20):
             "valid_to_utc": None,
             "domain_min_m3s": 0.0,
             "domain_max_m3s": 1000.0,
+            "relation_uniform_above_m3s": 0.0,
             "source_document": "synthetic",
         }
     ).to_csv(interim / "event_study_rating_eras.csv", index=False)

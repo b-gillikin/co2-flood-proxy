@@ -78,7 +78,7 @@ nonzero exit.
 | --- | --- | --- |
 | core | `data/interim/event_study_discharge_hourly.csv` | unique regular hourly UTC index plus one column per primary gauge |
 | core | `data/interim/event_study_gauges.csv` | gauge/watercourse identity, independence unit, coordinates, cohort/QA flags and July 2021 status |
-| core | `data/interim/event_study_rating_eras.csv` | non-overlapping rating eras per gauge, with validity periods, rating domain and source document |
+| core | `data/interim/event_study_rating_eras.csv` | non-overlapping rating eras per gauge (an era may span several intervals), with validity periods, rating domain, the discharge from which merged versions agree, and source document |
 | core | `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average rainfall column per primary watercourse |
 | core | `data/interim/event_study_catchments.gpkg` | one valid polygon per primary watercourse, delineated across national borders, naming its DEM |
 | core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for every primary watercourse |
@@ -147,8 +147,10 @@ Geleenbeek (Brommelen) and Vloedgraaf (Nieuwstadt) therefore enter as one
 watercourse if Brommelen lies upstream of that split, with the representative
 gauge chosen on QA grounds before events are built.
 
-Candidate cohort before classification: Eyserbeek (Eys), Geul (Cottessen), Gulp
-(Azijnfabriek), Voer (Mesch), Worm (Rimburg), and Geleenbeek or Vloedgraaf.
+Cohort (decision D3, 2026-09-18): Eyserbeek (Eys), Geul (Cottessen), Gulp
+(Azijnfabriek), Voer (Mesch), Worm (Rimburg) and Geleenbeek (Brommelen).
+Brommelen lies upstream of the Millen split and represents the
+Geleenbeek/Vloedgraaf system; Nieuwstadt's flow depends on the split.
 Selzerbeek is excluded: Partij fails coverage and Molentak is weir-controlled.
 
 **Time axis.** All analytical series use a complete hourly UTC grid. Missing
@@ -163,6 +165,13 @@ timezone conversion.
 **Rating eras.** Where rating-curve validity periods show a revision, compute the
 p99 threshold separately within each documented era. Era boundaries come from
 the provider's rating documentation and are fixed before any event is built.
+An era boundary falls only where a version changes the relation at or above
+p99. Versions that agree there, such as a datum re-levelling with the same
+hydraulics or a low-flow-only revision, share one era. A short version that
+changes the relation there is excluded rather than given its own p99
+(decision D8, 2026-09-18). The merge is checked: each era's p99 must lie at or
+above the discharge from which its versions agree to within 1%. Every version
+as its own era is a sensitivity analysis.
 Because every hydrological quantity is a within-gauge, within-era rank, the
 design depends on the rating curve's stability, not its absolute accuracy.
 

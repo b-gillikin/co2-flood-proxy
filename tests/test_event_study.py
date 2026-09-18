@@ -280,3 +280,27 @@ def test_low_flow_below_the_rating_domain_does_not_censor_a_summer_onset():
 
     assert episodes.onset_utc.tolist() == [index[2]]
     assert not episodes.loc[0, "onset_censored"]
+
+
+def test_an_era_with_a_hole_shares_one_threshold_and_censors_entry_after_the_hole():
+    from src.event_study import rating_domain_admissible
+
+    index = hours(10, "2020-01-01")
+    table = pd.DataFrame(
+        {
+            "era_id": ["A", "A"],
+            "valid_from_utc": ["2020-01-01T00:00Z", "2020-01-01T06:00Z"],
+            "valid_to_utc": ["2020-01-01T04:00Z", None],
+            "domain_min_m3s": [0.0, 0.0],
+            "domain_max_m3s": [10.0, 10.0],
+        }
+    )
+    series = pd.Series([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 0.0, 0.0, 0.0], index=index)
+    eras = assign_eras(index, table)
+    admissible = rating_domain_admissible(series, eras, table, 1.0)
+
+    assert eras.isna().tolist() == [False] * 4 + [True] * 2 + [False] * 4
+    assert era_thresholds(series, eras)[0].index.tolist() == ["A"]
+    assert not admissible.iloc[4:6].any()
+    episodes = episode_table(series, 1.0, admissible=admissible, eras=eras)
+    assert episodes.onset_censored.tolist() == [True]

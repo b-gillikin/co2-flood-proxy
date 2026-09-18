@@ -25,11 +25,11 @@ now, in parallel.
 | phase | state |
 | --- | --- |
 | 1 Code alignment | **done** (commit 2221ea0) |
-| 2.1 Radar rainfall | coverage check **done**: RADKLIM cannot observe the Voer or half the Gulp. Operational RADOLAN RW 2010–2025 download running (`scripts/37_fetch_radar.py`). |
+| 2.1 Radar rainfall | **done**: RADKLIM cannot observe the Voer or half the Gulp; operational RADOLAN RW 2010–2025 downloaded (`scripts/37_fetch_radar.py`). |
 | 2.2 Catchments | **done, provisional**: GLO-30 delineation, seven area checks within ±4.4%. Pour points are public-portal coordinates. |
-| 2.3 Catchment rainfall | script ready (`scripts/41_radar_catchment_rainfall.py`); runs when the download completes |
+| 2.3 Catchment rainfall | **done**: `data/interim/radolan_catchment_hourly.csv`, 0.03–0.21% hours missing; timing matches DWD Aachen-Orsbach (r = 0.84 at zero shift) |
 | 2.4 Weather | **done** (`scripts/40_build_event_study_weather.py`) |
-| 3 Discharge ingest | rating curves **transcribed and checked** (`config/rating_curves/`, `scripts/42_check_rating_transcription.py`); ingest waits on Waterschap semantics and D3/D8 |
+| 3 Discharge ingest | rating curves **transcribed and checked** (`scripts/42_check_rating_transcription.py`); rating-era table **built** under D8 (`scripts/43_build_rating_eras.py`); ingest waits on Waterschap semantics |
 | 5 Estimator validation | **done**: the Python estimator reproduces R to within 1e-13. Coverage of the primary estimand is 93–97.5%. Results in `results/estimator_validation/`. |
 
 Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
@@ -41,11 +41,11 @@ Details and numbers are in `decisions.md` (2026-09-18, "Implement the draft
 | --- | --- | --- | --- |
 | D1 | Estimation toolchain | **Python**, with the R script kept as a standing cross-check. The Python estimator reproduces the R reference to within 1e-13 on 8 simulated datasets, which meets the protocol's condition. `gnm`'s `eliminate=` fit diverged on the saturating-stress dataset, so the R reference uses a fixed-effects GLM. | lock |
 | D2 | Rainfall product | **Operational RADOLAN RW throughout**, by the protocol's own rule. RADKLIM-RW is masked outside a band around Germany: the Voer is never observed and 45% of the Gulp is not. RADOLAN observed every catchment in the July 2015 probe. Confirm. | Phase 2.3 |
-| D3 | Cohort classification | Brommelen lies upstream of the Millen split, so Geleenbeek and Vloedgraaf are one watercourse under protocol §3. Choose the representative gauge on QA grounds; Brommelen is recommended over Nieuwstadt, whose flow depends on the split and whose post-2013 relation is ambiguous. The Worm's delineated area matches the provider's (the earlier urban-drainage concern was an EStreams artefact, corrected in `decisions.md`). | Phase 3 |
+| D3 | Cohort classification | **Decided 2026-09-18**: Eys, Cottessen, Azijnfabriek, Mesch, Rimburg and Brommelen (for Geleenbeek/Vloedgraaf). | done |
 | D4 | Season boundaries | May–October warm, November–April cold, as drafted. Confirm, or change before any event is built. | Phase 4 |
 | D5 | Provisional coordinates | Waterschap's public-portal coordinates were used as provisional pour points. Replace them when Waterschap's numerical coordinates arrive, and re-run `39_delineate_catchments.py`. | none now |
 | D6 | Low flows outside the rating domain | **Decided 2026-09-18**: discard only where the reading is genuinely ambiguous. Implemented and in protocol §3. | done |
-| D8 | Rating versions to eras (new) | Transcription done (`config/rating_curves/`). Place an era boundary only where a version changes the relation for high flows. Datum re-levellings with the same relation (Brommelen 2010) and low-flow-only revisions (Rimburg 2021) are not boundaries. Short high-flow versions (Azijnfabriek 2011-03 to 2011-07) are excluded from estimation rather than given their own p99. The literal reading, every version an era, would give some gauges a p99 from a few summer months. | Phase 3 |
+| D8 | Rating versions to eras (new) | **Decided 2026-09-18**: a boundary only where the relation changes at or above p99; short versions that change it are excluded. Built by `scripts/43_build_rating_eras.py`; the gate audit checks each era's p99 against the level where its versions agree. Gulp excludes 2011-01-19 to 2011-07-18 and 2012-10-15 to 2013-10-31. | done |
 | D7 | Median-lag interval reporting (new) | Report a median-lag interval only when at least 95% of bootstrap draws are estimable in both seasons; otherwise report it as not estimable. | lock |
 
 Each decision is recorded, dated, in `decisions.md`.
@@ -109,8 +109,9 @@ Each decision is recorded, dated, in `decisions.md`.
    - zero handling as confirmed;
    - documented failure intervals from the July 2021 status report set to
      missing.
-2. Transcribe the rating-curve validity periods from the 14 PDFs into a small
-   versioned table of rating eras. Record the transcription in `decisions.md`.
+2. ~~Transcribe the rating-curve validity periods from the 14 PDFs into a small
+   versioned table of rating eras.~~ Done 2026-09-18 (`config/rating_curves/`,
+   scripts 42 and 43, D8).
 3. Build `data/interim/event_study_gauges.csv` with the cohort classification
    (D3), coordinates, rating eras and July 2021 status.
 4. **Conditional:** if stage records arrive, add the onset-timing recovery rule

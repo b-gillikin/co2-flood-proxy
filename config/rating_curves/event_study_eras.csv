@@ -1,0 +1,12 @@
+gauge,era_id,version_start,stage_shift_m,note
+10.Q.29,10.Q.29-A,2007-11-16,0,single version in force 2010-2025
+11.Q.32,11.Q.32-A,2001-01-01,0,single version; 2008 re-levelling (5 mm) without a new relation
+13.Q.34,13.Q.34-A,1997-11-13,0,reference version of era A
+13.Q.34,13.Q.34-A,2011-07-19,0,identical to the 1997 relation
+13.Q.34,13.Q.34-A,2013-11-01,0,identical to the 1997 relation above its lowest 2 cm
+13.Q.34,13.Q.34-B,2017-05-04,0,high-flow segment shifted by 2 cm (about 28% at 1 m3/s)
+15.Q.41,15.Q.41-A,2002-07-04,0,single version in force 2010-2025
+18.Q.45,18.Q.45-A,2009-07-02,0,reference version
+18.Q.45,18.Q.45-A,2021-09-01,0,revision confined to stages below 84.45 m (about 5 m3/s)
+6.Q.18,6.Q.18-A,2004-11-01,0,reference version
+6.Q.18,6.Q.18-A,2010-09-23,0.050,same relation after re-levelling the structure by +0.050 m

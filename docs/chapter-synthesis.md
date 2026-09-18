@@ -96,10 +96,10 @@ which unanimous sign agreement is distinguishable from chance.
   15 series and eight named watercourses, with rating curves and July 2021
   station status. Timezone/DST, zero semantics and numerical coordinates are
   still open; a follow-up went to Waterschap on 2026-09-17.
-- **Candidate cohort:** Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg),
-  and Geleenbeek or Vloedgraaf, which count as one watercourse if their high
-  flows are shared. That is six candidates: one to spare for the core floor,
-  and none for the sign test.
+- **Cohort (D3, decided 2026-09-18):** Eyserbeek, Geul (Cottessen), Gulp,
+  Voer, Worm (Rimburg) and Geleenbeek (Brommelen), which represents the shared
+  Geleenbeek/Vloedgraaf system. That is six watercourses: one to spare for the
+  core floor, and none for the sign test.
 - **Weather:** the ERA5-Land 2001–2025 archive is complete and audited.
 - **Rainfall and catchments:** catchments were delineated across borders on
   2026-09-18, with seven area checks within ±4.4%. RADKLIM cannot observe the

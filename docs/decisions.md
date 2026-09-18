@@ -1779,3 +1779,119 @@ against the provider's 96.3 km². EStreams' own computed 131.7 km² (flagged in
 EStreams) almost certainly includes the Broicher Bach, which is gauged 250 m
 away with 41.4 km², as did the first, faulty snap (131.2 km²). There is no
 evidence of an urban-drainage area discrepancy on the Worm.
+
+## 2026-09-18 — D3 and D8 decided; rating-era table built
+
+**D3 (author decision): cohort.** Six watercourses, one representative gauge
+each:
+
+| watercourse | gauge |
+| --- | --- |
+| Eyserbeek | Eys (11.Q.32) |
+| Geul | Cottessen (10.Q.29) |
+| Gulp | Azijnfabriek (13.Q.34) |
+| Voer | Mesch (15.Q.41) |
+| Worm | Rimburg (18.Q.45) |
+| Geleenbeek / Vloedgraaf | Brommelen (6.Q.18) |
+
+Reasons:
+
+- Brommelen is chosen over Nieuwstadt. It lies upstream of the Millen split,
+  so its flow is not engineered. Its one rating relation holds throughout
+  (2010 was a re-levelling). Nieuwstadt's flow depends on the split, its
+  contributing area is ill-defined, and from 2013 its sheet gives two relations
+  about 25% apart.
+- The Worm is included. Its delineated area matches the provider's, and urban
+  land is not a protocol exclusion. Its narrow rating range (1–45 m³/s) is
+  handled by D6.
+
+Six watercourses meet the core floor of 5 and the sign-test flag of 6, with
+none to spare.
+
+**D8 (author decision): rating versions to eras.** An era boundary falls only
+where a version changes the relation for high flows. A short version that
+changes it is excluded from estimation rather than given its own p99. Datum
+re-levellings that keep the same hydraulics, and low-flow-only revisions, are
+not boundaries. The literal reading (every version its own era) is kept as a
+sensitivity analysis.
+
+**"High flows" made operational.** Merging versions is valid only if they agree
+at and above the era's p99. Before building the table, the versions within
+each proposed era were compared across their common stage range:
+
+| gauge | versions compared | agreement |
+| --- | --- | --- |
+| Brommelen | 2004 and 2010 (with the +0.050 m datum shift) | identical at every stage |
+| Rimburg | 2009 and 2021 | identical from about 4.9 m³/s; up to 12% apart below |
+| Azijnfabriek | 1997, 2011-07 and 2013-11 | identical |
+| Azijnfabriek | 2012-10 vs the others | identical only from 2.6 m³/s; 9% apart at 2 m³/s and 32% at 1 m³/s |
+| Azijnfabriek | 2017-05 vs the others | 3–28% apart across the range |
+
+The delivered 2024–2026 series puts Gulp's p99 near 1.2 m³/s and the Worm's
+near 10 m³/s (indicative only; the event-study ingest is not built). The
+2012-10-15 to 2013-10-31 version therefore changes the Gulp relation where p99
+lies. Under D8 that 12.5-month version is excluded, like the 2011-03 to 2011-07
+version. This corrects the earlier recommendation to this author, which
+excluded only the 2011 version.
+
+Resulting eras:
+
+| gauge | eras | excluded intervals |
+| --- | --- | --- |
+| Cottessen, Eys, Mesch | one each (single version) | none |
+| Brommelen | one | none |
+| Rimburg | one (merge valid while p99 ≥ 4.9 m³/s) | none |
+| Azijnfabriek | A: to 2011-01-18, 2011-07-19 to 2012-10-14, 2013-11-01 to 2017-05-03; B: from 2017-05-04 | 2011-01-19 to 2011-07-18; 2012-10-15 to 2013-10-31 |
+
+The grouping is written in `config/rating_curves/event_study_eras.csv`.
+`scripts/43_build_rating_eras.py` derives the rest of the table from the
+transcription:
+
+- validity intervals, where one era may span several intervals;
+- the rating domain: the discharge range every version in the era defines,
+  intersected with the stated measuring range;
+- `relation_uniform_above_m3s`: the discharge above which the era's versions
+  agree to within 1%.
+
+The script writes `data/interim/event_study_rating_eras.csv` and the literal
+sensitivity table `event_study_rating_eras_literal.csv` (13 eras). Sheet dates
+are read as local midnight in Europe/Amsterdam. Hours in an excluded interval
+carry no era, so they are inadmissible, and a crossing just after one is a
+censored entry.
+
+The gate audit gains a binding check, "Rating-era merges". Each era's p99 over
+the joint period must lie at or above `relation_uniform_above_m3s`. If it
+fails, the merge is invalid and the grouping must be revised by a dated
+decision before events are built.
+
+**Open question for Waterschap** (added to `data-requests.md`): was each part
+of the delivered discharge series computed with the rating version in force at
+the time, or was history recomputed with a later relation (the 1997–2006 Gulp
+series was recomputed in 2007)? Eras are meaningful only in the first case.
+
+Tests: 55 passed.
+
+## 2026-09-18 — RADOLAN catchment rainfall built and checked
+
+The operational RADOLAN RW download for 2010–2025 completed, and
+`scripts/41_radar_catchment_rainfall.py` wrote
+`data/interim/radolan_catchment_hourly.csv` for all seven delineated
+catchments.
+
+- **Completeness.** Missing hours are 0.03–0.21% per catchment; the Voer is
+  highest at 0.21%.
+- **Annual totals.** 535–1,048 mm, with 2017 the driest year and 2024 the
+  wettest (`results/radar/radolan_annual_catchment_totals_mm.csv`).
+- **Timing.** Against DWD Aachen-Orsbach (dwd_15000, 1.8 km from the Worm
+  catchment centre, 2011–2025, 129,228 common hours), the hourly correlation
+  with the Worm catchment average is 0.84 at zero shift, against 0.42 and 0.40
+  at ±1 h. Against DWD Aachen (dwd_00003, 2010–2011), it is 0.83 at zero shift.
+  The HH:50-to-HH+1:00 labelling therefore agrees with DWD's end-of-hour
+  convention.
+- **Totals against the gauge.** Gauge-to-catchment ratios are 1.14 (Orsbach)
+  and 1.03 (Aachen).
+
+Aside: the archived `data/interim/knmi_hourly.parquet` (from the retired
+pipeline, not an event-study input) shows annual precipitation about a tenth
+of the radar's, and a one-hour offset. Its producer is in `archive/`. It is
+not used here and was not corrected.
