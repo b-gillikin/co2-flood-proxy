@@ -55,7 +55,7 @@ distributed-lag models.
 - **Comparison:** at-risk hours from the same watercourse, year, month and hour
   of day. An hour is at risk when flow in the previous hour was at or below p99
   and no upward crossing occurred in the preceding 72 hours.
-- **Signals:** hourly catchment rainfall from RADKLIM or RADOLAN (principal);
+- **Signals:** hourly catchment rainfall from radar, operational RADOLAN RW unless decided otherwise (principal);
   hourly relative humidity and six-hour pressure change from ERA5-Land. Network
   state (other watercourses' percentile rank) is descriptive only.
 - **Model:** conditional quasi-Poisson regression with distributed-lag
@@ -101,8 +101,13 @@ which unanimous sign agreement is distinguishable from chance.
   flows are shared. That is six candidates: one to spare for the core floor,
   and none for the sign test.
 - **Weather:** the ERA5-Land 2001–2025 archive is complete and audited.
-- **Rainfall and catchments:** not yet acquired. Both are openly available and
-  need no institution.
+- **Rainfall and catchments:** catchments were delineated across borders on
+  2026-09-18, with seven area checks within ±4.4%. RADKLIM cannot observe the
+  Voer, so operational RADOLAN RW is being acquired. The ERA5-Land weather
+  table is built.
+- **Estimator:** implemented in Python. On synthetic data it reproduces the R
+  reference to within 1e-13, and coverage of the primary estimand is close to
+  nominal (93–97.5%).
 - **LANUK:** the 15-minute export was offered on 2026-09-11, and a follow-up
   went to LANUK on 2026-09-17. It enters only through the conditional distance
   module, if it arrives before lock.

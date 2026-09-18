@@ -1556,3 +1556,137 @@ differs by season.
 Source: author design review of 2026-09-17 and 2026-09-18, cross-checked with
 Claude and GPT; `chapter-scope-and-preregistration.md` draft 0.9;
 `dissertation-evaluation.md`; `waterschap-source-metadata.md`.
+
+## 2026-09-18 — Implement the draft 0.9 workstreams that need no institution
+
+Status: implementation and input work only. No discharge threshold, event,
+storm or signal association was calculated. Everything below used code,
+synthetic data, geometry or exposure data.
+
+**1. Code aligned with draft 0.9** (commit 2221ea0).
+`src/event_study.py` now implements rating-era p99 thresholds, adjacent-hour
+crossings, onset-only censoring, 72-hour single linkage, at-risk hours and
+watercourse × year × month × hour strata. A randomised test confirms that the
+at-risk onsets are exactly the uncensored episode onsets. The gate audit
+(`scripts/31_event_study_gates.py`) uses the 5/6 watercourse floors and reports
+the per-season storm floor as a non-binding fallback. It adds a rating-era
+table (`data/interim/event_study_rating_eras.csv`) and an independence-unit
+column, and requires each catchment's DEM to be named. The draft 0.8
+quiet-control, pressure-residual, donor-pair and design-simulation code was
+retired to Git history. Three implementation readings of protocol §3 are
+recorded here:
+
+- A record that resumes above p99 after a gap, at a rating-era boundary or
+  next to an inadmissible hour starts a **censored** episode. The entry blocks
+  at-risk hours for 72 hours like any crossing, so a hidden onset cannot make a
+  later re-crossing look like a new one.
+- p99 ranks every observed value in the era, including values outside the
+  rating domain: their magnitude is uncertain but their rank is not.
+- Admissibility is decided once, in `rating_domain_admissible()`.
+
+**2. Estimator implemented in Python and validated against R.**
+`src/case_crossover.py` builds the lag basis with R's `ns` algorithm on
+`dlnm::logknots` knots, the cross-basis (lag 1 is the hour before the outcome
+hour), the conditional Poisson fit, the year-month block bootstrap and the
+primary summaries. `scripts/38_validate_estimator.py` simulated six
+watercourses over 2010–2025 in four scenarios, with 200 datasets per scenario
+and 199 bootstrap replicates each:
+
+- **Agreement with R** (`dlnm` plus a stratum fixed-effects Poisson GLM):
+  - lag curves agree within 1e-13;
+  - cumulative associations agree within 3e-12;
+  - median lags and dispersion are identical.
+
+  `gnm`'s `eliminate=` fit converged on the rare-event datasets checked, and
+  matched the GLM to within 5e-7. It diverged on the saturating-stress
+  dataset, with the deviance undefined at the first iterations. The R
+  reference therefore uses the fixed-effects GLM, which has the same
+  coefficients and converged throughout.
+- **Coverage of the primary estimand.** The warm-minus-cold difference had
+  93–97.5% coverage of nominal 95% intervals in every scenario. This includes
+  both nulls and a stress scenario in which strong rainfall makes onsets
+  near-certain.
+- **Single-season summaries.** Single-season median lags are biased upward by
+  2–4 hours. Under saturation, single-season cumulative associations are biased
+  upward too: cold-season coverage fell to 70% for the cumulative association
+  and 52% for the median lag. The seasonal difference largely cancels these
+  biases. They are a property of the rate-ratio model when hourly onset
+  probabilities are high, which real high water may reach.
+- **Detection.** The median-lag difference was detected in 67.5% of datasets
+  with about 216 onsets in a rare-event world, and in 98% with about 400
+  onsets in a rain-driven world. The cumulative difference was detected in 38%
+  and 63%. False detection was 4.5–6.5%.
+
+Results: `results/estimator_validation/`.
+
+**3. Radar coverage check (input to D2).** RADKLIM-RW 2017.002 has monthly
+files for 2001–2025, but it is masked outside a band around Germany. Share of
+each candidate catchment's area never observed:
+
+| catchment | never observed by RADKLIM |
+| --- | --- |
+| Voer | 100% |
+| Gulp | 45% |
+| Geleenbeek | 9% |
+| Vloedgraaf | 6% |
+| Eyserbeek, Geul, Worm | 0% |
+
+Operational RADOLAN RW observed every catchment in the probe month (July
+2015), with no missing cells. Binary decoding matched DWD's own ASCII grids
+exactly for a wet hour of each product. An accumulation stamped HH:50 is
+labelled HH+1:00, so rainfall labelled t covers (t − 70 min, t − 10 min].
+
+**4. Cross-border catchments** (`scripts/39_delineate_catchments.py`).
+Catchments were delineated from Copernicus GLO-30 with `pysheds`. The pour
+points are the gauge coordinates on Waterschap Limburg's public portal, used
+provisionally until the requested numerical coordinates arrive. Each snaps to
+the nearest channel cell draining at least 5 km²; snaps moved the points 27–84
+m, and 222 m at Vloedgraaf. Seven checks against provider-reported areas in
+EStreams all fall within ±4.4%:
+
+- Eys: 28.3 against 27.1 km²;
+- Azijnfabriek: 47.6 against 46.1 km²;
+- Mesch: 56.5 against 57.0 km²;
+- Partij: 28.6 against 28.7 km²;
+- Sippenaeken: 116.8 against 121.0 km²;
+- Wurm at Kalkofen: 32.1 against 33.6 km²;
+- Wurm at Herzogenrath: 95.1 against 96.3 km².
+
+Geleenbeek (Brommelen) and Vloedgraaf (Nieuwstadt) have no independent
+reference area.
+
+**5. Weather** (`scripts/40_build_event_study_weather.py`). ERA5-Land relative
+humidity (Magnus formula, Alduchov and Eskridge 1996), surface pressure and
+six-hour pressure change are complete for 2001–2025 for every candidate.
+Geleenbeek and Vloedgraaf share one cell.
+
+**Decisions left to the author, with the evidence above:**
+
+- **D1 (toolchain).** The protocol's condition for the Python route is met.
+  The recommendation is to keep the Python pipeline and retain the R script as
+  a standing cross-check.
+- **D2 (rainfall product).** The protocol's rule falls back to operational
+  RADOLAN RW throughout, because RADKLIM cannot observe the cohort. Confirm.
+- **D3 (cohort).** Brommelen (50.909° N) lies upstream of the Millen split
+  (51.024° N), so under protocol §3 Geleenbeek and Vloedgraaf are one
+  watercourse. The representative gauge is still to be chosen on QA grounds.
+  At Herzogenrath the provider's Wurm area is below the topographic one in
+  EStreams' own record. That bears on classifying the Worm, which drains urban
+  Aachen.
+- **D5 (coordinates).** Public-portal coordinates were used provisionally. They
+  are replaceable when Waterschap answers.
+- **D6 (new): low flows outside the rating domain.** Protocol §3 censors an
+  onset whose previous hour lies outside the rating domain. A value below the
+  domain minimum is still certainly below p99, so the literal rule would censor
+  summer onsets from low base flow and could bias the seasonal contrast.
+  Proposed rule: treat an hour as inadmissible only where being outside the
+  domain makes its above-or-below-p99 status uncertain.
+- **D7 (new): reporting the median-lag interval.** Under no association the
+  median lag is mostly not estimable, but an interval can still be computed
+  from the minority of estimable draws. Proposed rule: report a median-lag
+  interval only when at least 95% of bootstrap draws are estimable in both
+  seasons; otherwise report it as not estimable.
+
+Source: this session's runs; `results/estimator_validation/`,
+`results/catchments/`, `results/radar/`; EStreams gauging-station metadata;
+DWD CDC open-data directory listings.

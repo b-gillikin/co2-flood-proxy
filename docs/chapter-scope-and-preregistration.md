@@ -77,9 +77,10 @@ nonzero exit.
 | component | file | minimum contract |
 | --- | --- | --- |
 | core | `data/interim/event_study_discharge_hourly.csv` | unique regular hourly UTC index plus one column per primary gauge |
-| core | `data/interim/event_study_gauges.csv` | gauge/watercourse identity, coordinates, cohort/QA flags, rating eras and July 2021 status |
+| core | `data/interim/event_study_gauges.csv` | gauge/watercourse identity, independence unit, coordinates, cohort/QA flags and July 2021 status |
+| core | `data/interim/event_study_rating_eras.csv` | non-overlapping rating eras per gauge, with validity periods, rating domain and source document |
 | core | `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average rainfall column per primary watercourse |
-| core | `data/interim/event_study_catchments.gpkg` | one valid polygon per primary watercourse, delineated across national borders |
+| core | `data/interim/event_study_catchments.gpkg` | one valid polygon per primary watercourse, delineated across national borders, naming its DEM |
 | core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for every primary watercourse |
 | core | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
 
@@ -168,8 +169,13 @@ design depends on the rating curve's stability, not its absolute accuracy.
 **Censoring.** Censor an event's onset only when the onset hour or the hour
 before it is missing, falls inside a documented failure interval, or lies
 outside the valid rating domain. A peak that later exceeds the rating domain
-does not censor an onset observed within the domain. Censored onsets are
-retained as descriptive evidence and excluded from estimation.
+does not censor an onset observed within the domain. A record that resumes
+above p99 after a gap, at a rating-era boundary or next to an inadmissible hour
+starts a censored episode. That entry blocks at-risk hours for 72 hours like
+any crossing. Censored onsets are retained as descriptive evidence and excluded
+from estimation. p99 ranks every observed value in the era, including values
+outside the rating domain, whose rank is certain even where their magnitude is
+not.
 
 **Stage, conditional.** If Waterschap supplies water-level records with datum
 and sensor history, a censored discharge onset may be recovered from stage.
@@ -233,7 +239,10 @@ differences in baseline onset rates are controlled by design.
 product, if it covers the full joint period. Otherwise use operational RADOLAN
 RW for the whole period. Never splice the two. Before acquisition, verify
 coverage quality over South Limburg. The nearest radars are Essen and
-Neuheilenbach.
+Neuheilenbach. The check of 2026-09-18 found RADKLIM-RW masked outside a band
+around Germany: the Voer catchment is never observed and 45% of the Gulp
+catchment is not. Operational RADOLAN RW observes every candidate catchment.
+The product choice is recorded in `decisions.md`.
 
 **Catchments.** Delineate from a DEM that crosses national borders. The Geul,
 Gulp and Voer rise in Belgium and the Worm drains Aachen, so Dutch-only
@@ -275,10 +284,13 @@ Model specifications:
 5. **S4:** rainfall cross-basis × period indicator (2010–2017 against
    2018–2025).
 
-**Implementation.** Use the reference implementations (`dlnm` and `gnm` in R),
-or a Python implementation shown to reproduce them on a synthetic dataset to
-numerical tolerance before any real data are fitted. The choice is recorded in
-`decisions.md` before lock.
+**Implementation.** The R reference is `dlnm` for the cross-basis and
+predictions, with coefficients from a Poisson GLM with one fixed effect per
+stratum. That GLM has the same coefficients as the conditional likelihood, and
+`gnm`'s faster `eliminate=` fit diverged on one simulated dataset. A Python
+implementation may be used instead if it reproduces the reference on synthetic
+data to numerical tolerance before any real data are fitted. The choice is
+recorded in `decisions.md` before lock.
 
 ## 8. Uncertainty
 

@@ -9,17 +9,16 @@ regional chapter is stopped at its core data gate.
 | --- | --- | --- |
 | literature notes, evidence matrix and BibTeX | verified source corpus | 44 sources; case-crossover and distributed-lag design references still to be added |
 | Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
-| `31_event_study_gates.py` | audits the binding regional inputs | implemented for draft 0.8 floors; **must be updated to draft 0.9** |
+| `31_event_study_gates.py` | audits the binding regional inputs | aligned with draft 0.9 (5/6 floors, rating eras, per-season storm fallback) |
 | `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
 | `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone, zero and cohort unresolved |
-| `36_design_recovery.py` | design simulations and stage/discharge comparison | implemented 2026-09-17; to be reviewed against draft 0.9 |
-| ERA5-Land raw archive | relative humidity and pressure | complete; 300/300 months audited |
-| `src/event_study.py` | episodes, storms, censoring, quiet controls, pressure residuals | episode and storm functions reusable; quiet controls and pressure residuals superseded |
-| radar rainfall and cross-border catchments | principal exposure | not acquired |
+| ERA5-Land weather table | relative humidity, surface pressure and six-hour change | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
+| `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
+| radar rainfall | principal exposure | RADKLIM ruled out on coverage; RADOLAN RW download running; averaging script ready |
+| cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |
 | hourly discharge ingest and rating eras | outcome series | not built; awaits source semantics |
-| at-risk hours and strata | case-crossover comparison set | not implemented |
-| distributed-lag conditional Poisson models | primary and secondary estimands | not implemented; reference implementation or validated equivalent to be chosen |
-| year-month block bootstrap | uncertainty | not implemented |
+| `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
+| synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; primary-estimand coverage 93–97.5% |
 | July 2021 regional anchor | descriptive trajectory | not run |
 | conditional distance module | ordered-pair slope if LANUK passes before lock | inactive |
 

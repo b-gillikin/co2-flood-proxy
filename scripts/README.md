@@ -11,21 +11,32 @@ There is no analysis framework or model registry.
 | --- | --- | --- |
 | `01_ingest_iot.py` | normalise later Kerkrade IoT for the conditional case | implemented |
 | `25_ingest_lanuk_nrw.py` | acquire the held German discharge source used by the feasibility audit | implemented; source does not pass |
-| `31_event_study_gates.py` | audit the six binding regional inputs and all-donor support | implemented; regional gate fails |
-| `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; German route fails |
-| `33_ingest_viefhues_iot.py` | normalise source-native July 2021 K4 CO2/pressure and write QC | implemented |
+| `31_event_study_gates.py` | audit the seven binding regional inputs against the draft 0.9 floors | implemented; inputs incomplete |
+| `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; relevant only to the conditional distance module |
+| `33_ingest_viefhues_iot.py` | normalise source-native July 2021 K4 CO2/pressure and write QC | implemented; predecessor evidence only in draft 0.9 |
 | `34_fetch_era5_land.py` | local fallback for the fixed 2001–2025 weather grid | implemented; archive complete, fallback only |
 | `35_audit_waterschap_delivery.py` | outcome-blind raw coverage audit plus provider-sourced station QA for the delivered 2010–2025 table | implemented; timezone, zero and cohort decisions remain open |
-| `src/event_study.py` | definitions for episodes, storms, controls, censoring and conditional CO2 adjustment | implemented and unit-tested |
-| event-contrast script | local recurrence, pair medians, distance slopes and four figures | not written or run before gates and lock |
+| `37_fetch_radar.py` | download DWD RADOLAN RW or RADKLIM-RW, crop to South Limburg, checksum | implemented; decoding matches DWD ASCII exactly |
+| `38_validate_estimator.py` | synthetic validation: agreement with R, recovery, bootstrap coverage | implemented and run; see `results/estimator_validation/` |
+| `39_delineate_catchments.py` | cross-border catchments from Copernicus GLO-30, checked against EStreams areas | implemented; provisional pour points |
+| `40_build_event_study_weather.py` | ERA5-Land relative humidity, surface pressure and six-hour change per catchment | implemented and run |
+| `41_radar_catchment_rainfall.py` | area-weighted hourly catchment rainfall and exposure-only QA | implemented; runs after the RADOLAN download |
+| `R/case_crossover_reference.R` | R reference fit (`dlnm` plus fixed-effects GLM), called by script 38 | implemented |
+| `src/event_study.py` | rating-era thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
+| `src/case_crossover.py` | lag basis, cross-basis, conditional Poisson fit, block bootstrap, primary summaries | implemented, unit-tested and validated against R |
+| case-crossover analysis script | primary and secondary estimands, tables and figures | not written or run before gates and lock |
 
 Safe input-only commands:
 
 ```bash
 python scripts/31_event_study_gates.py --report-only
 python scripts/32_lanuk_feasibility.py
-python scripts/33_ingest_viefhues_iot.py
 python scripts/35_audit_waterschap_delivery.py
+python scripts/37_fetch_radar.py --product radolan
+python scripts/38_validate_estimator.py   # synthetic data only; needs R with dlnm
+python scripts/39_delineate_catchments.py
+python scripts/40_build_event_study_weather.py
+python scripts/41_radar_catchment_rainfall.py
 ```
 
 The ERA5-Land Azure backfill completed and its Function App is stopped. Do not

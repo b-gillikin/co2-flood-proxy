@@ -2,8 +2,9 @@
 
 Status: 2026-09-18 (protocol draft 0.9). The native Waterschap discharge
 delivery is preserved and audited. The regional gate still fails: the cohort
-and source semantics are unresolved, and radar rainfall and cross-border
-catchments are not yet built. The Kerkrade CO2 case and the mine-water evidence
+and source semantics are unresolved. Cross-border catchments and the ERA5-Land
+weather table were built on 2026-09-18, and operational RADOLAN RW is being
+acquired. The Kerkrade CO2 case and the mine-water evidence
 were retired from the chapter on 2026-09-18. Their deliveries remain preserved
 as provenance, and the sections below that concern them are historical.
 
@@ -18,18 +19,18 @@ are not yet archived, so this file does not record their exact requests.
 | component | gate | required delivery | current state |
 | --- | --- | --- | --- |
 | core | tributary discharge | >=5 natural, hydrologically independent watercourses (6 for the sign test); >=10 common years hourly with 80%/70% density; >=20 joint-period p99 episodes each; >=40 storms and >=15 per season | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
-| core | catchment rainfall | hourly RADKLIM-RW (or operational RADOLAN RW throughout) averaged over cross-border catchment polygons | absent; open data, no institution needed |
-| core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | absent; open data, no institution needed |
-| core | public weather | 10 common years of relative humidity and surface pressure with a fixed assignment per watercourse | raw ERA5-Land archive complete and audited; catchment assignment awaits the fixed cohort |
+| core | catchment rainfall | hourly radar rainfall averaged over cross-border catchment polygons | RADKLIM-RW ruled out on coverage (Voer never observed); operational RADOLAN RW 2010–2025 download running; averaging script ready |
+| core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | built from Copernicus GLO-30 for all seven candidates; seven area checks within ±4.4%; pour points provisional |
+| core | public weather | 10 common years of relative humidity and surface pressure with a fixed assignment per watercourse | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid |
 | core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and July 2021 status | incomplete; follow-up sent 2026-09-17 |
 | conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | not requested in writing before 2026-09-18; ask when René Mols replies |
-| conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received |
+| conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received. Current Fase 1–3 values per gauge appear in Waterschap's public-portal location table (snapshot 2026-08-07, `data/interim/waterschap_locations.csv`); historical values and leading-gauge status still needed |
 | conditional | LANUK export | 15-minute averages with reconstructed values flagged, for the distance module before lock | offered 2026-09-11; follow-up sent 2026-09-17 |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
 **regional** audit. Core failure stops the chapter pending a dated rescoping
 decision. The rolling record is not a permissible core fallback. The script
-still encodes the draft 0.8 floors until it is updated.
+encodes the draft 0.9 floors.
 
 ## 1. Original Viefhues IoT package — historical (Kerkrade case retired 2026-09-18)
 
@@ -246,7 +247,12 @@ spatial contrasts use all eligible pairs rather than a nearest-site subset.
 
 ## 4. RADOLAN catchment rainfall — blocking
 
-Status: **source verified; not yet built**.
+Status (2026-09-18): **acquisition running**. RADKLIM-RW was checked first, as
+protocol §6 prefers it, but it is masked outside a band around Germany. It
+never observes the Voer catchment and misses 45% of the Gulp. Operational
+RADOLAN RW observes every candidate catchment and is being downloaded for
+2010–2025 (`scripts/37_fetch_radar.py`); `scripts/41_radar_catchment_rainfall.py`
+builds the catchment series. Details are in `decisions.md` (2026-09-18).
 
 DWD RADOLAN `RW` is gauge-adjusted 1-km hourly radar rainfall from 2005 onward.
 The July 2021 monthly archive was previously verified as downloadable. It is

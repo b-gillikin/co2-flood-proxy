@@ -125,14 +125,17 @@ regression test protects that scientific rule.
 
 ## Agent work
 
-Follow `draft-0.9-implementation-plan.md`. In short:
+Follow `draft-0.9-implementation-plan.md` (progress table at the top). Done
+on 2026-09-18: gate script and event definitions aligned with draft 0.9;
+catchments delineated; ERA5-Land weather table built; estimator implemented
+and validated against R on synthetic data. Next:
 
-1. update the gate script and tests to the draft 0.9 floors;
-2. acquire radar rainfall and delineate cross-border catchments;
+1. finish the RADOLAN RW download (`37_fetch_radar.py`, resumable) and run
+   `41_radar_catchment_rainfall.py`;
+2. author decisions D1–D7 (plan, Phase 0);
 3. write the hourly discharge ingest once source semantics are resolved;
 4. run the blinded feasibility audit and record the frozen floors;
-5. validate the estimator on synthetic data, then lock;
-6. run the analysis.
+5. lock, then run the analysis.
 
 ## Verification
 
@@ -141,7 +144,7 @@ Interpreter:
 
 - literature crosswalk: 44 notes, 44 BibTeX keys, 98 matrix rows and 37 unique
   DOIs; all keys resolve;
-- default scientific suite: **26 passed**;
+- default scientific suite: **46 passed** (2026-09-18);
 - operational infrastructure suite: **5 passed**;
 - Ruff lint and format: passed across **47 files**;
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;

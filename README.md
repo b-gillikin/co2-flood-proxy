@@ -15,9 +15,11 @@ The repository keeps its historical `chapter1-co2` name.
 Status: **data-gated; no chapter result exists**. The 2001--2025 ERA5-Land
 archive is complete and audited. The 2010--2025 Waterschap discharge delivery
 has passed an outcome-blind availability audit. Timezone, zero semantics,
-coordinates and cohort classification remain open. Radar rainfall and
-cross-border catchments are not yet acquired. The protocol is unlocked and no
-outcome analysis has been run.
+coordinates and cohort classification remain open. Cross-border catchments
+are delineated (provisional pour points), the ERA5-Land weather table is built,
+operational RADOLAN RW radar rainfall is being acquired, and the Python
+estimator reproduces the R reference on synthetic data. The protocol is
+unlocked and no outcome analysis has been run.
 
 Viefhues's Kerkrade CO2 observation and Eryilmaz's public-weather explanation
 motivate the question. The chapter analyses no CO2.
@@ -54,8 +56,8 @@ python scripts/35_audit_waterschap_delivery.py
 
 `--report-only` writes the known failed regional audit without treating it as a
 chapter result. Omit that flag only when all six contracted regional inputs
-exist. The gate script still encodes the draft 0.8 floors until it is updated
-to draft 0.9 (see `docs/draft-0.9-implementation-plan.md`).
+exist. The gate script encodes the draft 0.9 floors (see
+`docs/draft-0.9-implementation-plan.md`).
 
 ERA5-Land was backfilled through the dedicated Azure Function documented in
 `infrastructure/era5_backfill/README.md`. The archive is complete and the timer

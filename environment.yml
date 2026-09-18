@@ -16,3 +16,12 @@ dependencies:
   - cdsapi>=0.7.7
   - ruff
   - pytest
+  - scipy
+  - statsmodels
+  - pyarrow
+  - pip
+  - pip:
+      # Catchment delineation (scripts/39); 0.5 needs a NumPy 2 shim in that script.
+      - pysheds==0.5
+# The estimator cross-check (scripts/38) also calls R >= 4.5 with the CRAN
+# packages dlnm (2.4.10) and gnm (1.1.5); the analysis itself runs in Python.

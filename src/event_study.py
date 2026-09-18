@@ -204,13 +204,13 @@ def warm_season(index):
 def stratum_labels(index, watercourse):
     """Watercourse x calendar year x calendar month x hour-of-day strata (UTC)."""
     index = pd.DatetimeIndex(index)
-    labels = (
-        f"{watercourse}|"
-        + index.strftime("%Y-%m").astype(str)
-        + "|"
-        + index.strftime("%H").astype(str)
+    code = (index.year * 100 + index.month) * 100 + index.hour
+    unique, position = np.unique(code, return_inverse=True)
+    names = np.array(
+        [f"{watercourse}|{c // 10000:04d}-{c // 100 % 100:02d}|{c % 100:02d}" for c in unique],
+        dtype=object,
     )
-    return pd.Series(labels, index=index, dtype="string")
+    return pd.Series(names[position], index=index, dtype="string")
 
 
 def cluster_regional_storms(events, onset_col="onset_utc", max_gap_hours=72):
