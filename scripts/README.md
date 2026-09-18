@@ -11,11 +11,11 @@ There is no analysis framework or model registry.
 | --- | --- | --- |
 | `01_ingest_iot.py` | normalise later Kerkrade IoT for the conditional case | implemented |
 | `25_ingest_lanuk_nrw.py` | acquire the held German discharge source used by the feasibility audit | implemented; source does not pass |
-| `31_event_study_gates.py` | audit the seven binding regional inputs against the draft 0.9 floors | implemented; inputs incomplete |
+| `31_event_study_gates.py` | audit the seven binding regional inputs against the draft 0.9 floors | implemented; only the discharge file is still missing |
 | `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; relevant only to the conditional distance module |
 | `33_ingest_viefhues_iot.py` | normalise source-native July 2021 K4 CO2/pressure and write QC | implemented; predecessor evidence only in draft 0.9 |
 | `34_fetch_era5_land.py` | local fallback for the fixed 2001–2025 weather grid | implemented; archive complete, fallback only |
-| `35_audit_waterschap_delivery.py` | outcome-blind raw coverage audit plus provider-sourced station QA for the delivered 2010–2025 table | implemented; timezone, zero and cohort decisions remain open |
+| `35_audit_waterschap_delivery.py` | outcome-blind raw coverage audit plus provider-sourced station QA for the delivered 2010–2025 table | implemented; timezone and zero semantics remain open (cohort decided, D3) |
 | `37_fetch_radar.py` | download DWD RADOLAN RW or RADKLIM-RW, crop to South Limburg, checksum | implemented; decoding matches DWD ASCII exactly |
 | `38_validate_estimator.py` | synthetic validation: agreement with R, recovery, bootstrap coverage | implemented and run; see `results/estimator_validation/` |
 | `39_delineate_catchments.py` | cross-border catchments from Copernicus GLO-30, checked against EStreams areas | implemented; provisional pour points |

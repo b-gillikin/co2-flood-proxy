@@ -258,7 +258,8 @@ coverage quality over South Limburg. The nearest radars are Essen and
 Neuheilenbach. The check of 2026-09-18 found RADKLIM-RW masked outside a band
 around Germany: the Voer catchment is never observed and 45% of the Gulp
 catchment is not. Operational RADOLAN RW observes every candidate catchment.
-The product choice is recorded in `decisions.md`.
+**Decided (D2, 2026-09-18): operational RADOLAN RW throughout**, built and
+checked for 2010–2025 (`data/interim/radolan_catchment_hourly.csv`).
 
 **Catchments.** Delineate from a DEM that crosses national borders. The Geul,
 Gulp and Voer rise in Belgium and the Worm drains Aachen, so Dutch-only
@@ -303,10 +304,11 @@ Model specifications:
 **Implementation.** The R reference is `dlnm` for the cross-basis and
 predictions, with coefficients from a Poisson GLM with one fixed effect per
 stratum. That GLM has the same coefficients as the conditional likelihood, and
-`gnm`'s faster `eliminate=` fit diverged on one simulated dataset. A Python
-implementation may be used instead if it reproduces the reference on synthetic
-data to numerical tolerance before any real data are fitted. The choice is
-recorded in `decisions.md` before lock.
+`gnm`'s faster `eliminate=` fit diverged on one simulated dataset. **Decided
+(D1, 2026-09-18): the analysis runs in Python** (`src/case_crossover.py`),
+which reproduces the R reference to within 1e-13 on synthetic data
+(`results/estimator_validation/`); the R script stays as a standing
+cross-check, not the analysis path.
 
 ## 8. Uncertainty
 

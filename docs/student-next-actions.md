@@ -1,59 +1,79 @@
 # Student Next Actions
 
-Updated 2026-09-18 for protocol draft 0.9. First written 2026-08-19. The Waterschap discharge and Provincie Limburg mine-water
-deliveries have been preserved and audited. Their remaining semantic questions
-are recorded in `data-requests.md`; Waterschap says the detailed metadata will
-follow when workload permits. Preserve and return the other complete replies
-and deliveries as they arrive. Do not lock the protocol or inspect new signal
-contrasts while the remaining design choices and regional inputs are unresolved.
+Updated 2026-09-18 (afternoon) for protocol draft 0.9. First written
+2026-08-19. All eight design decisions (D1–D8) are recorded in `decisions.md`
+and built into the pipeline (68 tests passing). Every core regional input
+except the discharge series is built: gauge metadata, rating eras, catchment
+polygons, catchment rainfall (RADOLAN 2010–2025) and public weather are all in
+`data/interim/`. The discharge ingest itself is written and tested
+(`scripts/45_build_event_study_discharge.py`) but refuses to produce the core
+file until Waterschap's semantics are verified — see task 1. **This is now the
+only blocker.** Preserve and return other complete replies and deliveries as
+they arrive. Do not lock the protocol or inspect any signal contrast before
+the discharge series is committed and the blinded feasibility audit
+(`scripts/31_event_study_gates.py`) has run against it.
 
-## 1. Record the remaining design decisions
+## 1. Send a short, targeted Waterschap follow-up
 
-Design decisions are the author's. Each is written down and dated in
-`decisions.md` before any signal outcome is inspected; that timing, not a
-signature, is what protects the chapter. The supervisor is informed of
-decisions that change the chapter's shape, and work does not wait on a reply.
+Design decisions are the author's, recorded and dated in `decisions.md` before
+any signal outcome is inspected; that timing, not a supervisor signature, is
+what protects the chapter. The supervisor is informed of decisions that change
+the chapter's shape; work does not wait on a reply from them, and none of the
+three questions below need their input.
 
-Still to decide and record: the numerical cohort, record-length and storm
-floors; the coverage rule, fixed after the blinded 70/80/90 availability audit;
-and the final estimator. The 2026-08 supervisor response and the rationale for
-the provisional floors remain in `supervisor-decision-memo.md` as a historical
-record.
+Everything that could be resolved without Waterschap is done: the cohort
+(D3), the rating eras (D8), and a coordinate cross-check that confirms the
+provisional pour points to within 8.8 m using Waterschap's own map pins from
+the 2026-09-07 reply (`config/waterschap_gauge_coordinates_crosscheck.csv`).
+That reply also already answered sampling semantics, units and July 2021
+station status, which earlier drafts of this file listed as still open — they
+are not.
 
-## 2. Long discharge archive — metadata follow-up received; cohort still open
+**Exactly three questions are still open, all in the same email thread as the
+2026-09-07 reply.** Two of them were asked before but not actually answered;
+the third is new. Suggested text:
 
-**Draft 0.9 additions (2026-09-18).** When René Mols replies to the
-2026-09-17 follow-up, ask in the same thread for anything the reply leaves
-open:
+**Send to:** `R.Mols@waterschaplimburg.nl` (same thread as the 2026-09-07 reply)  
+**Subject:** Re: data request — three remaining questions
 
-- timezone/DST, zero semantics and numerical station coordinates;
-- **water-level (stage) records** for the candidate gauges, with datum and
-  sensor history, for onset-timing recovery where discharge is missing;
-- **Fase thresholds** at the exact crisis-plan leading gauges, current and
-  historical. They were requested in August and have not arrived.
+> Dear René,
+>
+> Thank you again for the rating curves, the July 2021 report and the station
+> details. Three specific points from my original list are still open; the
+> data are otherwise ready to use.
+>
+> 1. **Timezone.** The delivery header labels the time axis "GMT+1". Is this a
+>    fixed UTC+1 offset all year, or Dutch civil time (CET in winter, CEST in
+>    summer, i.e. following daylight saving)? This matters for placing events
+>    to the correct hour, especially around the March and October clock
+>    changes.
+> 2. **Zero values.** My third question asked about the meaning of absent
+>    timestamps, missing codes, zeros and sentinel values together; your reply
+>    addressed absent timestamps only. Does a delivered value of exactly 0.000
+>    always mean zero discharge, or can it also mean an unreliable or
+>    non-operational reading, the way a blank cell does?
+> 3. **Rating-curve history and the delivered series.** For a station whose
+>    rating relation changed over 2010–2025 (for example Azijnfabriek on the
+>    Gulp), was each part of the delivered discharge series computed with the
+>    rating relation in force at that time, or was some of the history
+>    recomputed later using a newer relation? I ask because the 1997–2006
+>    Azijnfabriek relation was recomputed once already, in 2007.
+>
+> Kind regards,
+>
+> [full name]
 
-Then classify the cohort, including whether Geleenbeek (Brommelen) sits
-upstream of the Millen split, and record the classification before any event
-is built.
+Save the sent message and any reply the same way as the original thread.
 
+**Optional, non-blocking, can go in the same email if convenient:** water-level
+(stage) records with datum and sensor history, for recovering the timing of a
+censored onset where discharge is missing; and current and historical Fase
+warning thresholds at the exact crisis-plan leading gauges (current values are
+already on the public portal). Neither is needed to ingest discharge or run
+the blinded feasibility audit.
 
-The 2010--2025 quarter-hour table arrived on 2026-08-19. The provider's
-metadata follow-up arrived on 2026-09-07 and is recorded in
-`waterschap-source-metadata.md`. Do not resend the original request. A short
-follow-up is still needed for fixed-offset versus DST handling, zero semantics
-and numerical coordinates. After the supervisor reviews the blinded
-availability and source-QA result, either request additional natural
-watercourses or record an approved revision to the provisional watercourse
-floor; do not treat branches or duplicate gauges as extra watercourses merely
-to reach a number.
-
-**Send to:** `info@waterschaplimburg.nl`  
-**Official contact:** <https://www.waterschaplimburg.nl/contact/>  
-**Subject:** Academic data request: historical Limburg tributary discharge and
-gauge metadata
-
-The original request text is retained below as a correspondence record. Do not
-send it again.
+The original 2026-08 request text is retained below as a correspondence
+record. Do not send it again.
 
 > Dear Waterschap Limburg water-information or hydrology team,
 >
@@ -114,7 +134,7 @@ Save the sent message as `.eml` or PDF. When a reply arrives, preserve every
 attachment in its native format; do not open and resave CSV or spreadsheet
 files before returning them.
 
-## 3. Ask LANUK to define its verified-discharge timestamps and gaps
+## 2. Ask LANUK to define its verified-discharge timestamps and gaps
 
 **Send to:** `poststelle@lanuk.nrw.de`  
 **Ask them to route it to:** Fachgebiet 51.4, Pegelwesen Süd  
@@ -179,7 +199,7 @@ Save the sent message and all replies. A short answer such as “hold the value
 until the next timestamp” is not enough by itself: ask for the maximum valid
 duration and the document or quality rule that authorises it.
 
-## 4. Resolve only the remaining Viefhues provenance questions
+## 3. Resolve only the remaining Viefhues provenance questions
 
 > **Historical (2026-09-18).** The Kerkrade CO2 case was retired in draft 0.9.
 > These questions no longer block anything; pursue them only for the provenance
@@ -215,7 +235,7 @@ package and ask for these specific unresolved items:
 If these files or metadata no longer exist, obtain that statement in writing.
 That limits the scope of the case; it does not block the regional chapter.
 
-## 5. Return the decisions and native deliveries without modifying them
+## 4. Return the decisions and native deliveries without modifying them
 
 Create one folder per source and delivery date under the ignored raw-data tree:
 
@@ -240,8 +260,11 @@ not unzip over an earlier delivery. If a source sends a link, save the message
 containing the link and record the download date. Return the supervisor notes
 from task 1 alongside the three delivery folders.
 
-Once those materials are in the repository workspace, the next analysis pass
-will inventory and hash them, inspect their native formats and semantics, fix
-the admissible cohort, build catchment rainfall and approved public weather,
-rerun the regional gate, and lock the protocol only if the gate and supervisor
-decisions pass.
+Once Waterschap answers the three questions in task 1, the remaining steps are
+mechanical and already scripted: run `scripts/45_build_event_study_discharge.py`
+with the verified timezone and zero assumptions and `--commit`, run
+`scripts/31_event_study_gates.py` for the blinded feasibility audit (episode
+and storm counts, not signal associations), freeze the audit result in
+`decisions.md`, then write and run the estimation script against the primary
+and secondary specifications in protocol §7. No further design decision is
+expected to block that sequence.
