@@ -75,83 +75,6 @@ def test_joint_period_must_contain_july_2021():
     )
 
 
-def test_episode_feasibility_excludes_crossings_outside_joint_period():
-    index = pd.date_range("2020-01-01", periods=500, freq="h", tz="UTC")
-    frame = pd.DataFrame({"gauge": 0.0}, index=index)
-    frame.loc[[index[20], index[250]], "gauge"] = 2.0
-
-    counts, _, events = GATES.episode_feasibility(frame, index[200], index[400])
-
-    assert counts == {"gauge": 1}
-    assert events.onset_utc.tolist() == [index[250]]
-
-
-def test_spatial_pair_table_contains_every_ordered_pair():
-    gauges = pd.DataFrame(
-        {
-            "gauge": ["A", "B", "C"],
-            "latitude": [50.0, 50.1, 50.4],
-            "longitude": [6.0, 6.1, 6.5],
-        }
-    )
-
-    pairs = GATES.spatial_pair_table(gauges)
-
-    assert len(pairs) == 6
-    assert not (pairs.receiver_gauge == pairs.donor_gauge).any()
-    assert set(pairs.distance_stratum) == {"near", "middle", "far"}
-    ab = pairs[pairs.receiver_gauge.eq("A") & pairs.donor_gauge.eq("B")].iloc[0]
-    ba = pairs[pairs.receiver_gauge.eq("B") & pairs.donor_gauge.eq("A")].iloc[0]
-    assert ab.distance_km == pytest.approx(ba.distance_km)
-
-
-def test_all_donor_availability_requires_complete_12_hour_change():
-    index = pd.date_range("2025-01-01", periods=100, freq="h", tz="UTC")
-    discharge = pd.DataFrame({"A": 1.0, "B": 2.0, "C": 3.0}, index=index)
-    discharge.loc[index[75], "B"] = np.nan
-    events = pd.DataFrame({"gauge": ["A", "A"], "onset_utc": [index[50], index[80]]})
-    gauges = pd.DataFrame(
-        {
-            "gauge": ["A", "B", "C"],
-            "latitude": [50.0, 50.1, 50.4],
-            "longitude": [6.0, 6.1, 6.5],
-        }
-    )
-
-    availability = GATES.spatial_event_availability(discharge, events, gauges)
-    ab = availability[availability.receiver_gauge.eq("A") & availability.donor_gauge.eq("B")].iloc[
-        0
-    ]
-    ac = availability[availability.receiver_gauge.eq("A") & availability.donor_gauge.eq("C")].iloc[
-        0
-    ]
-
-    assert ab.n_receiver_events == 2
-    assert ab.n_donor_complete == 1
-    assert ab.availability == 0.5
-    assert ac.n_donor_complete == 2
-    assert ac.availability == 1.0
-
-
-def test_spatial_availability_summary_weights_pair_event_rows():
-    availability = pd.DataFrame(
-        {
-            "receiver_gauge": ["A", "A", "B"],
-            "distance_stratum": ["near", "far", "near"],
-            "n_receiver_events": [10, 10, 2],
-            "n_donor_complete": [10, 0, 2],
-        }
-    )
-
-    overall, by_receiver, by_stratum = GATES.spatial_availability_summary(availability)
-
-    assert overall == pytest.approx(12 / 22)
-    receiver_a = by_receiver[by_receiver.receiver_gauge.eq("A")].iloc[0]
-    assert receiver_a.availability == 0.5
-    near = by_stratum[by_stratum.distance_stratum.eq("near")].iloc[0]
-    assert near.availability == 1.0
-
-
 def test_public_weather_requires_a_regular_grid_for_each_watercourse(tmp_path):
     path = tmp_path / "weather.csv"
     pd.DataFrame(
@@ -163,9 +86,8 @@ def test_public_weather_requires_a_regular_grid_for_each_watercourse(tmp_path):
                 "2020-01-01T02:00Z",
             ],
             "watercourse": ["A", "A", "B", "B"],
-            "temperature_c": [1.0, 1.0, 1.0, 1.0],
             "relative_humidity_pct": [80.0, 80.0, 80.0, 80.0],
-            "pressure_hpa": [1000.0, 1000.0, 1000.0, 1000.0],
+            "surface_pressure_hpa": [1000.0, 1000.0, 1000.0, 1000.0],
         }
     ).to_csv(path, index=False)
 
@@ -179,7 +101,7 @@ def test_catchment_contract_opens_and_checks_geometries(tmp_path):
     shapely = pytest.importorskip("shapely.geometry")
     path = tmp_path / "catchments.gpkg"
     frame = geopandas.GeoDataFrame(
-        {"watercourse": ["A", "B"]},
+        {"watercourse": ["A", "B"], "dem_source": "Copernicus GLO-30"},
         geometry=[
             shapely.box(0, 0, 1, 1),
             shapely.box(2, 0, 3, 1),
@@ -191,3 +113,161 @@ def test_catchment_contract_opens_and_checks_geometries(tmp_path):
     valid, observed = GATES.validate_catchments(path, ["A", "B"])
 
     assert valid, observed
+
+
+def test_catchments_without_a_named_dem_fail(tmp_path):
+    geopandas = pytest.importorskip("geopandas")
+    shapely = pytest.importorskip("shapely.geometry")
+    path = tmp_path / "catchments.gpkg"
+    geopandas.GeoDataFrame(
+        {"watercourse": ["A"]}, geometry=[shapely.box(0, 0, 1, 1)], crs="EPSG:28992"
+    ).to_file(path, driver="GPKG")
+
+    valid, _ = GATES.validate_catchments(path, ["A"])
+
+    assert not valid
+
+
+def test_episode_feasibility_uses_joint_period_and_counts_censored_onsets():
+    index = pd.date_range("2020-01-01", periods=500, freq="h", tz="UTC")
+    frame = pd.DataFrame({"gauge": 0.0}, index=index)
+    frame.loc[[index[20], index[250]], "gauge"] = 2.0
+    frame.loc[index[349], "gauge"] = np.nan
+    frame.loc[index[350], "gauge"] = 2.0
+    eras = pd.DataFrame(
+        {
+            "gauge": ["gauge"],
+            "era_id": ["one"],
+            "valid_from_utc": ["2019-01-01T00:00Z"],
+            "valid_to_utc": [None],
+            "domain_min_m3s": [None],
+            "domain_max_m3s": [None],
+        }
+    )
+
+    counts, _, events, risk = GATES.episode_feasibility(
+        frame, {"gauge": eras}, index[200], index[400]
+    )
+
+    assert counts == {"gauge": {"uncensored": 1, "censored": 1}}
+    assert events.onset_utc.tolist() == [index[250], index[350]]
+    assert risk.loc[0, "strata_with_onset"] == 1
+
+
+def test_overlapping_rating_eras_fail_the_gate(tmp_path):
+    path = tmp_path / "eras.csv"
+    pd.DataFrame(
+        {
+            "gauge": ["A", "A"],
+            "era_id": ["1", "2"],
+            "valid_from_utc": ["2010-01-01T00:00Z", "2015-01-01T00:00Z"],
+            "valid_to_utc": ["2016-01-01T00:00Z", None],
+            "domain_min_m3s": [0.0, 0.0],
+            "domain_max_m3s": [10.0, 12.0],
+            "source_document": ["curve.pdf", "curve.pdf"],
+        }
+    ).to_csv(path, index=False)
+
+    _, valid, observed = GATES.read_rating_eras(path, ["A"])
+
+    assert not valid
+    assert "overlap" in str(observed)
+
+
+def write_fixture(root, n_units=6, storms_every_days=20):
+    """A complete synthetic input set that should pass every binding gate."""
+    import geopandas
+    import shapely.geometry
+
+    rng = np.random.default_rng(7)
+    index = pd.date_range("2011-01-01", "2021-12-31 23:00", freq="h", tz="UTC")
+    names = [f"W{k}" for k in range(n_units)]
+    storm_hours = np.zeros(len(index))
+    storm_hours[:: storms_every_days * 24] = 1
+    common = np.convolve(storm_hours, np.ones(12), mode="same")
+    flow = {
+        f"G{k}": 1 + rng.gamma(1.0, 0.2, len(index)) + 20 * common * rng.random(len(index))
+        for k in range(n_units)
+    }
+    interim = root / "data" / "interim"
+    interim.mkdir(parents=True)
+    pd.DataFrame({"timestamp_utc": index, **flow}).to_csv(
+        interim / "event_study_discharge_hourly.csv", index=False
+    )
+    pd.DataFrame(
+        {
+            "gauge": list(flow),
+            "watercourse": names,
+            "independence_unit": names,
+            "latitude": 50.8,
+            "longitude": 5.9,
+            "include_primary": True,
+            "natural_tributary": True,
+            "july_2021_status": "documented",
+            **{column: True for column in GATES.QA_COLUMNS},
+        }
+    ).to_csv(interim / "event_study_gauges.csv", index=False)
+    pd.DataFrame(
+        {
+            "gauge": list(flow),
+            "era_id": "1",
+            "valid_from_utc": "2000-01-01T00:00Z",
+            "valid_to_utc": None,
+            "domain_min_m3s": 0.0,
+            "domain_max_m3s": 1000.0,
+            "source_document": "synthetic",
+        }
+    ).to_csv(interim / "event_study_rating_eras.csv", index=False)
+    pd.DataFrame(
+        {"timestamp_utc": index, **{name: rng.gamma(0.2, 1.0, len(index)) for name in names}}
+    ).to_csv(interim / "radolan_catchment_hourly.csv", index=False)
+    geopandas.GeoDataFrame(
+        {"watercourse": names, "dem_source": "synthetic"},
+        geometry=[shapely.geometry.box(k, 0, k + 1, 1) for k in range(n_units)],
+        crs="EPSG:28992",
+    ).to_file(interim / "event_study_catchments.gpkg", driver="GPKG")
+    pd.concat(
+        pd.DataFrame(
+            {
+                "timestamp_utc": index,
+                "watercourse": name,
+                "relative_humidity_pct": 80.0,
+                "surface_pressure_hpa": 1000.0,
+            }
+        )
+        for name in names
+    ).to_csv(interim / "event_study_weather_hourly.csv", index=False)
+    pd.DataFrame(
+        {
+            "watercourse": names,
+            "source_id": "era5-land",
+            "source_type": "reanalysis",
+            "spatial_assignment": "nearest cell to catchment centroid",
+            "timezone_verified": True,
+            "units_verified": True,
+        }
+    ).to_csv(interim / "event_study_weather_sources.csv", index=False)
+
+
+def test_complete_synthetic_inputs_pass_every_binding_gate(tmp_path, monkeypatch):
+    pytest.importorskip("geopandas")
+    write_fixture(tmp_path)
+    monkeypatch.chdir(tmp_path)
+
+    table = GATES.audit()
+
+    binding = table[table.binding]
+    assert binding.status.eq("PASS").all(), binding[binding.status.ne("PASS")].to_string()
+    assert GATES.write_report(table)
+
+
+def test_five_watercourses_pass_the_core_but_fall_back_on_the_sign_test(tmp_path, monkeypatch):
+    pytest.importorskip("geopandas")
+    write_fixture(tmp_path, n_units=5)
+    monkeypatch.chdir(tmp_path)
+
+    table = GATES.audit().set_index("gate")
+
+    assert table.loc["Independent natural watercourses (core)", "status"] == "PASS"
+    assert table.loc["Independent natural watercourses (S3 sign test)", "status"] == "FALLBACK"
+    assert GATES.write_report(table.reset_index())

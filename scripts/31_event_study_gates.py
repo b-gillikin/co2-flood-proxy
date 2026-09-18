@@ -1,4 +1,10 @@
-"""Audit the hard inputs before any prospective event-study outcome is run."""
+"""Audit the hard inputs before any case-crossover outcome is estimated.
+
+Implements the gates of protocol draft 0.9 §2. The audit reads timestamps,
+counts, flags, geometry and discharge ranks only. It never reads rainfall or
+weather values beyond their presence and physical range, and it estimates no
+association. Rows marked non-binding report a fallback, not a failure.
+"""
 
 from __future__ import annotations
 
@@ -6,45 +12,82 @@ import argparse
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.event_study import cluster_regional_storms, episode_table
+from src.event_study import (
+    assign_eras,
+    at_risk_hours,
+    cluster_regional_storms,
+    episode_table,
+    era_thresholds,
+    rating_domain_admissible,
+    storm_table,
+    stratum_labels,
+)
 
 CORE_FILES = {
     "long discharge": Path("data/interim/event_study_discharge_hourly.csv"),
     "gauge metadata": Path("data/interim/event_study_gauges.csv"),
-    "RADOLAN catchment rainfall": Path("data/interim/radolan_catchment_hourly.csv"),
+    "rating eras": Path("data/interim/event_study_rating_eras.csv"),
+    "radar catchment rainfall": Path("data/interim/radolan_catchment_hourly.csv"),
     "catchment polygons": Path("data/interim/event_study_catchments.gpkg"),
     "long public weather": Path("data/interim/event_study_weather_hourly.csv"),
     "public weather provenance": Path("data/interim/event_study_weather_sources.csv"),
 }
 OUTPUT_DIR = Path("results/event_study")
 JULY_2021_ANCHOR = pd.Timestamp("2021-07-15", tz="UTC")
+MIN_WATERCOURSES = 5
+MIN_WATERCOURSES_SIGN_TEST = 6
+MIN_YEARS = 10
+MIN_STORMS = 40
+MIN_STORMS_PER_SEASON = 15
+MIN_EPISODES = 20
 MIN_OVERALL_COVERAGE = 0.80
 MIN_ANNUAL_COVERAGE = 0.70
-MIN_SPATIAL_OVERALL_AVAILABILITY = 0.80
-MIN_SPATIAL_STRATUM_AVAILABILITY = 0.70
-MIN_PAIR_COMPLETE_EVENTS = 10
-EARTH_RADIUS_KM = 6371.0088
 QA_COLUMNS = [
-    "rating_curve_verified",
+    "rating_eras_documented",
     "timezone_verified",
     "units_verified",
-    "zero_sentinel_verified",
+    "zero_semantics_verified",
     "sampling_semantics_verified",
 ]
+GAUGE_COLUMNS = {
+    "gauge",
+    "watercourse",
+    "independence_unit",
+    "latitude",
+    "longitude",
+    "include_primary",
+    "natural_tributary",
+    "july_2021_status",
+    *QA_COLUMNS,
+}
+ERA_COLUMNS = {
+    "gauge",
+    "era_id",
+    "valid_from_utc",
+    "valid_to_utc",
+    "domain_min_m3s",
+    "domain_max_m3s",
+    "source_document",
+}
+WEATHER_COLUMNS = {"timestamp_utc", "watercourse", "relative_humidity_pct", "surface_pressure_hpa"}
 
 
-def add(rows, name, passed, observed, required):
+def add(rows, name, passed, observed, required, binding=True):
     """Append one readable gate result."""
+    if binding:
+        status = "PASS" if passed else "FAIL"
+    else:
+        status = "PASS" if passed else "FALLBACK"
     rows.append(
         {
             "gate": name,
-            "status": "PASS" if passed else "FAIL",
+            "status": status,
+            "binding": binding,
             "observed": str(observed),
             "requirement": required,
         }
@@ -103,7 +146,7 @@ def coverage_summary(frame, start, end):
 
 
 def coverage_passes(summary):
-    """Apply the draft density floor to every required series."""
+    """Apply the density floor to every required series."""
     if summary.empty:
         return False
     return bool(
@@ -117,113 +160,70 @@ def contains_july_2021(start, end):
     return bool(start <= JULY_2021_ANCHOR <= end)
 
 
-def episode_feasibility(frame, start, end):
-    """Count p99 episodes and chaining only inside the comparable period."""
-    study = frame.loc[start:end]
-    counts = {}
-    chains = {}
-    event_rows = []
-    for gauge in study:
-        threshold = study[gauge].quantile(0.99)
-        episodes = episode_table(study[gauge], threshold, merge_hours=72)
-        counts[gauge] = len(episodes)
+def read_rating_eras(path, gauges):
+    """Read the rating-era table and check one non-overlapping era set per gauge."""
+    eras = pd.read_csv(path)
+    if not ERA_COLUMNS.issubset(eras):
+        return eras, False, f"missing columns {sorted(ERA_COLUMNS - set(eras))}"
+    problems = []
+    for gauge in gauges:
+        table = eras.loc[eras.gauge.astype(str).eq(gauge)]
+        if table.empty:
+            problems.append(f"{gauge}: no era")
+            continue
+        if not table.era_id.astype(str).is_unique:
+            problems.append(f"{gauge}: duplicate era ids")
+        try:
+            assign_eras(pd.DatetimeIndex([], tz="UTC"), table)
+        except ValueError as error:
+            problems.append(f"{gauge}: {error}")
+    return eras, not problems, problems or f"{len(eras)} eras for {len(gauges)} gauges"
+
+
+def gauge_hourly_state(series, era_table, start, end):
+    """Era labels, admissibility and era thresholds over the joint period."""
+    study = series.loc[start:end]
+    eras = assign_eras(study.index, era_table)
+    admissible = rating_domain_admissible(study, eras, era_table)
+    _, threshold = era_thresholds(study, eras)
+    return study, eras, admissible, threshold
+
+
+def episode_feasibility(frame, era_tables, start, end):
+    """Count episodes, censored onsets and at-risk hours per gauge (blinded audit)."""
+    counts, chains, risk_rows, event_rows = {}, {}, [], []
+    for gauge in frame:
+        study, eras, admissible, threshold = gauge_hourly_state(
+            frame[gauge], era_tables[gauge], start, end
+        )
+        episodes = episode_table(study, threshold, 72, admissible, eras)
+        censored = episodes.onset_censored.astype(bool)
+        counts[gauge] = {"uncensored": int((~censored).sum()), "censored": int(censored.sum())}
         chains[gauge] = {
             "maximum_crossings": int(episodes.n_crossings.max()) if len(episodes) else 0,
             "maximum_span_hours": float(episodes.chain_span_hours.max()) if len(episodes) else 0.0,
         }
-        event_rows.extend({"gauge": gauge, "onset_utc": onset} for onset in episodes.onset_utc)
-    return counts, chains, pd.DataFrame(event_rows, columns=["gauge", "onset_utc"])
-
-
-def spatial_pair_table(gauges):
-    """List every ordered receiver-donor pair and its great-circle distance."""
-    coordinates = gauges.set_index("gauge")[["latitude", "longitude"]].astype(float)
-    radians = np.radians(coordinates)
-    rows = []
-    for receiver, point in radians.iterrows():
-        latitude = radians.latitude - point.latitude
-        longitude = radians.longitude - point.longitude
-        a = (
-            np.sin(latitude / 2) ** 2
-            + np.cos(point.latitude) * np.cos(radians.latitude) * np.sin(longitude / 2) ** 2
+        event_rows.extend(
+            {"gauge": gauge, "onset_utc": onset, "onset_censored": flag}
+            for onset, flag in zip(episodes.onset_utc, censored, strict=True)
         )
-        distance = 2 * EARTH_RADIUS_KM * np.arcsin(np.sqrt(a.clip(0, 1)))
-        rows.extend(
+        risk = at_risk_hours(study, threshold, admissible, eras)
+        strata = stratum_labels(study.index, gauge)
+        per_stratum = risk.at_risk.groupby(strata).sum()
+        risk_rows.append(
             {
-                "receiver_gauge": str(receiver),
-                "donor_gauge": str(donor),
-                "distance_km": float(distance.loc[donor]),
-            }
-            for donor in distance.index
-            if donor != receiver
-        )
-    columns = ["receiver_gauge", "donor_gauge", "distance_km", "distance_stratum"]
-    if not rows:
-        return pd.DataFrame(columns=columns)
-    pairs = pd.DataFrame(rows).sort_values(["receiver_gauge", "distance_km", "donor_gauge"])
-    lower, upper = pairs.distance_km.quantile([1 / 3, 2 / 3])
-    if lower < upper:
-        pairs["distance_stratum"] = pd.cut(
-            pairs.distance_km,
-            bins=[-np.inf, lower, upper, np.inf],
-            labels=["near", "middle", "far"],
-            include_lowest=True,
-        ).astype("string")
-    else:
-        pairs["distance_stratum"] = pd.NA
-    return pairs.reset_index(drop=True)[columns]
-
-
-def spatial_event_availability(discharge, events, gauges):
-    """Check every donor's level/change window at every receiver event."""
-    pairs = spatial_pair_table(gauges)
-    rows = []
-    for pair in pairs.itertuples(index=False):
-        receiver, donor = pair.receiver_gauge, pair.donor_gauge
-        onsets = events.loc[events.gauge.eq(receiver), "onset_utc"]
-        complete = 0
-        for onset in onsets:
-            required = pd.date_range(
-                onset - pd.Timedelta(hours=13),
-                onset - pd.Timedelta(hours=1),
-                freq="h",
-            )
-            complete += int(discharge[donor].reindex(required).notna().all())
-        rows.append(
-            {
-                "receiver_gauge": receiver,
-                "donor_gauge": donor,
-                "distance_km": pair.distance_km,
-                "distance_stratum": pair.distance_stratum,
-                "n_receiver_events": len(onsets),
-                "n_donor_complete": complete,
-                "availability": complete / len(onsets) if len(onsets) else 0.0,
+                "gauge": gauge,
+                "at_risk_hours": int(risk.at_risk.sum()),
+                "strata_with_onset": int(risk.onset.groupby(strata).any().sum()),
+                "median_at_risk_per_stratum": float(per_stratum.median()),
             }
         )
-    return pd.DataFrame(rows)
-
-
-def spatial_availability_summary(availability):
-    """Return weighted all-pair availability overall, by receiver and by distance."""
-    if availability.empty:
-        return 0.0, pd.DataFrame(), pd.DataFrame()
-
-    def aggregate(columns):
-        grouped = availability.groupby(columns, observed=True)[
-            ["n_receiver_events", "n_donor_complete"]
-        ].sum()
-        grouped["availability"] = grouped.n_donor_complete / grouped.n_receiver_events.replace(
-            0, np.nan
-        )
-        return grouped.reset_index()
-
-    total_events = availability.n_receiver_events.sum()
-    overall = availability.n_donor_complete.sum() / total_events if total_events else 0.0
-    return overall, aggregate(["receiver_gauge"]), aggregate(["distance_stratum"])
+    events = pd.DataFrame(event_rows, columns=["gauge", "onset_utc", "onset_censored"])
+    return counts, chains, events, pd.DataFrame(risk_rows)
 
 
 def validate_catchments(path, watercourses):
-    """Open the GeoPackage and verify the polygons used for spatial rainfall."""
+    """Open the GeoPackage and verify the polygons used for catchment rainfall."""
     try:
         import geopandas as gpd
     except ImportError:
@@ -235,8 +235,8 @@ def validate_catchments(path, watercourses):
         return False, f"could not read GeoPackage: {error}"
 
     required = set(map(str, watercourses))
-    if "watercourse" not in frame:
-        return False, "missing watercourse field"
+    if "watercourse" not in frame or "dem_source" not in frame:
+        return False, "missing watercourse or dem_source field"
     names = frame.watercourse.astype(str)
     geometries = frame.geometry
     projected = frame.crs is not None and bool(frame.crs.is_projected)
@@ -251,6 +251,7 @@ def validate_catchments(path, watercourses):
         and polygonal
         and projected
         and geometries.area.gt(0).all()
+        and frame.dem_source.fillna("").astype(str).str.strip().ne("").all()
     )
     observed = (
         f"{len(frame)} polygons; CRS={frame.crs}; "
@@ -262,18 +263,11 @@ def validate_catchments(path, watercourses):
 def read_long_weather(path):
     """Read the tidy watercourse-weather contract and check each hourly grid."""
     frame = pd.read_csv(path)
-    required = {
-        "timestamp_utc",
-        "watercourse",
-        "temperature_c",
-        "relative_humidity_pct",
-        "pressure_hpa",
-    }
-    if not required.issubset(frame):
-        return frame, False, required
+    if not WEATHER_COLUMNS.issubset(frame):
+        return frame, False, WEATHER_COLUMNS
 
     frame["timestamp_utc"] = pd.to_datetime(frame.timestamp_utc, utc=True, errors="coerce")
-    for column in ["temperature_c", "relative_humidity_pct", "pressure_hpa"]:
+    for column in ["relative_humidity_pct", "surface_pressure_hpa"]:
         frame[column] = pd.to_numeric(frame[column], errors="coerce")
     no_duplicates = not frame.duplicated(["watercourse", "timestamp_utc"]).any()
     regular = no_duplicates and frame.timestamp_utc.notna().all()
@@ -286,7 +280,7 @@ def read_long_weather(path):
             and (index.second == 0).all()
             and step.eq(pd.Timedelta(hours=1)).all()
         )
-    return frame, bool(regular), required
+    return frame, bool(regular), WEATHER_COLUMNS
 
 
 def audit():
@@ -300,35 +294,40 @@ def audit():
         return pd.DataFrame(rows)
 
     gauges = pd.read_csv(CORE_FILES["gauge metadata"])
-    gauge_columns = {
-        "gauge",
-        "watercourse",
-        "latitude",
-        "longitude",
-        "include_primary",
-        "natural_tributary",
-        "july_2021_status",
-        *QA_COLUMNS,
-    }
-    gauge_schema = gauge_columns.issubset(gauges)
-    add(rows, "Gauge metadata schema", gauge_schema, sorted(gauges), sorted(gauge_columns))
+    gauge_schema = GAUGE_COLUMNS.issubset(gauges)
+    add(rows, "Gauge metadata schema", gauge_schema, sorted(gauges), sorted(GAUGE_COLUMNS))
     if not gauge_schema:
         return pd.DataFrame(rows)
 
     primary = gauges[as_bool(gauges.include_primary) & as_bool(gauges.natural_tributary)].copy()
-    n_watercourses = primary.watercourse.nunique()
-    add(rows, "Natural tributary cohort", n_watercourses >= 10, n_watercourses, ">=10")
+    n_units = primary.independence_unit.nunique()
+    add(
+        rows,
+        "Independent natural watercourses (core)",
+        n_units >= MIN_WATERCOURSES,
+        n_units,
+        f">={MIN_WATERCOURSES}",
+    )
+    add(
+        rows,
+        "Independent natural watercourses (S3 sign test)",
+        n_units >= MIN_WATERCOURSES_SIGN_TEST,
+        n_units,
+        f">={MIN_WATERCOURSES_SIGN_TEST}; otherwise S3 is descriptive with no sign test",
+        binding=False,
+    )
     one_gauge_each = (
         not primary.empty
         and primary.gauge.astype(str).is_unique
         and primary.watercourse.astype(str).is_unique
+        and primary.independence_unit.astype(str).is_unique
     )
     add(
         rows,
-        "One representative gauge per watercourse",
+        "One representative gauge per independent watercourse",
         one_gauge_each,
-        f"{primary.gauge.nunique()} gauges / {n_watercourses} watercourses",
-        "one unique gauge for each unique watercourse",
+        f"{primary.gauge.nunique()} gauges / {n_units} independence units",
+        "one gauge per watercourse; split branches share one independence unit",
     )
     coordinates = primary[["latitude", "longitude"]].apply(pd.to_numeric, errors="coerce")
     coordinate_ok = (
@@ -349,8 +348,20 @@ def audit():
         "all documented",
     )
 
-    discharge, discharge_axis = read_hourly(CORE_FILES["long discharge"])
     gauge_names = primary.gauge.astype(str).tolist()
+    eras, eras_ok, eras_observed = read_rating_eras(CORE_FILES["rating eras"], gauge_names)
+    add(
+        rows,
+        "Rating eras",
+        eras_ok,
+        eras_observed,
+        "every primary gauge has documented, non-overlapping eras with rating domains",
+    )
+    if not eras_ok:
+        return pd.DataFrame(rows)
+    era_tables = {gauge: eras.loc[eras.gauge.astype(str).eq(gauge)] for gauge in gauge_names}
+
+    discharge, discharge_axis = read_hourly(CORE_FILES["long discharge"])
     discharge_columns = set(gauge_names).issubset(discharge)
     add(
         rows,
@@ -374,9 +385,9 @@ def audit():
     add(
         rows,
         "Common discharge span",
-        discharge_years >= 10,
+        discharge_years >= MIN_YEARS,
         f"{discharge_years:.2f} years",
-        ">=10 years",
+        f">={MIN_YEARS} years",
     )
     if pd.isna(discharge_start) or pd.isna(discharge_end):
         return pd.DataFrame(rows)
@@ -389,37 +400,41 @@ def audit():
         "Catchment polygon contents",
         catchments_ok,
         catchments_observed,
-        "one unique, valid, non-empty projected polygon per primary watercourse",
+        "one valid projected polygon per primary watercourse, with its cross-border DEM named",
     )
 
-    radolan, radolan_axis = read_hourly(CORE_FILES["RADOLAN catchment rainfall"])
+    rain, rain_axis = read_hourly(CORE_FILES["radar catchment rainfall"])
     watercourses = primary.watercourse.astype(str).unique().tolist()
-    radolan_columns = set(watercourses).issubset(radolan)
+    rain_columns = set(watercourses).issubset(rain)
     add(
         rows,
-        "RADOLAN time axis",
-        radolan_axis,
-        f"{radolan.index.min()} to {radolan.index.max()}",
+        "Radar rainfall time axis",
+        rain_axis,
+        f"{rain.index.min()} to {rain.index.max()}",
         "regular hourly UTC",
     )
     add(
         rows,
-        "RADOLAN catchment assignment",
-        radolan_columns,
-        len(set(watercourses) & set(radolan)),
+        "Radar rainfall catchment assignment",
+        rain_columns,
+        len(set(watercourses) & set(rain)),
         len(watercourses),
     )
-    if not radolan_axis or not radolan_columns:
+    if not rain_axis or not rain_columns:
         return pd.DataFrame(rows)
 
-    negative_rain = int(radolan[watercourses].lt(0).sum().sum())
-    add(rows, "RADOLAN missing codes", negative_rain == 0, negative_rain, "no negative sentinels")
+    negative_rain = int(rain[watercourses].lt(0).sum().sum())
+    add(rows, "Radar missing codes", negative_rain == 0, negative_rain, "no negative sentinels")
 
-    radolan_start, radolan_end, radolan_years = common_span(radolan[watercourses])
+    rain_start, rain_end, rain_years = common_span(rain[watercourses])
     add(
-        rows, "Common RADOLAN span", radolan_years >= 10, f"{radolan_years:.2f} years", ">=10 years"
+        rows,
+        "Common radar span",
+        rain_years >= MIN_YEARS,
+        f"{rain_years:.2f} years",
+        f">={MIN_YEARS} years",
     )
-    if pd.isna(radolan_start) or pd.isna(radolan_end):
+    if pd.isna(rain_start) or pd.isna(rain_end):
         return pd.DataFrame(rows)
 
     weather, weather_axis, weather_columns = read_long_weather(CORE_FILES["long public weather"])
@@ -482,22 +497,21 @@ def audit():
         return pd.DataFrame(rows)
 
     weather_plausible = (
-        weather.temperature_c.dropna().between(-60, 60).all()
-        and weather.relative_humidity_pct.dropna().between(0, 100).all()
-        and weather.pressure_hpa.dropna().between(850, 1100).all()
+        weather.relative_humidity_pct.dropna().between(0, 100).all()
+        and weather.surface_pressure_hpa.dropna().between(850, 1100).all()
     )
     add(
         rows,
         "Public weather value ranges",
         weather_plausible,
-        "temperature [-60,60], RH [0,100], pressure [850,1100]",
+        "RH [0,100], surface pressure [850,1100]",
         "all observed values physically plausible",
     )
 
     weather_wide = weather.pivot(
         index="timestamp_utc",
         columns="watercourse",
-        values=["temperature_c", "relative_humidity_pct", "pressure_hpa"],
+        values=["relative_humidity_pct", "surface_pressure_hpa"],
     )
     selected_weather = weather_wide.loc[
         :, weather_wide.columns.get_level_values(1).isin(watercourses)
@@ -506,20 +520,26 @@ def audit():
     add(
         rows,
         "Common public weather span",
-        weather_years >= 10,
+        weather_years >= MIN_YEARS,
         f"{weather_years:.2f} years",
-        ">=10 years",
+        f">={MIN_YEARS} years",
     )
     if pd.isna(weather_start) or pd.isna(weather_end):
         return pd.DataFrame(rows)
 
-    joint_start = max(discharge_start, radolan_start, weather_start)
-    joint_end = min(discharge_end, radolan_end, weather_end)
+    joint_start = max(discharge_start, rain_start, weather_start)
+    joint_end = min(discharge_end, rain_end, weather_end)
     joint_years = max(
         0.0,
         (joint_end - joint_start + pd.Timedelta(hours=1)) / pd.Timedelta(days=365),
     )
-    add(rows, "Joint analysis span", joint_years >= 10, f"{joint_years:.2f} years", ">=10 years")
+    add(
+        rows,
+        "Joint analysis span",
+        joint_years >= MIN_YEARS,
+        f"{joint_years:.2f} years",
+        f">={MIN_YEARS} years",
+    )
     includes_anchor = contains_july_2021(joint_start, joint_end)
     add(
         rows,
@@ -528,26 +548,25 @@ def audit():
         f"{joint_start} to {joint_end}",
         f"contains {JULY_2021_ANCHOR}",
     )
-    if joint_years < 10 or not includes_anchor:
+    if joint_years < MIN_YEARS or not includes_anchor:
         return pd.DataFrame(rows)
 
-    discharge_coverage = coverage_summary(discharge[gauge_names], joint_start, joint_end)
+    density = f">={MIN_OVERALL_COVERAGE:.0%} overall and >={MIN_ANNUAL_COVERAGE:.0%} in every calendar year"
+    discharge_coverage = coverage_summary(discharge, joint_start, joint_end)
     add(
         rows,
         "Discharge observation density",
         coverage_passes(discharge_coverage),
         discharge_coverage.round(3).to_dict(orient="index"),
-        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
-        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+        density,
     )
-    radolan_coverage = coverage_summary(radolan[watercourses], joint_start, joint_end)
+    rain_coverage = coverage_summary(rain[watercourses], joint_start, joint_end)
     add(
         rows,
-        "RADOLAN observation density",
-        coverage_passes(radolan_coverage),
-        radolan_coverage.round(3).to_dict(orient="index"),
-        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
-        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+        "Radar rainfall observation density",
+        coverage_passes(rain_coverage),
+        rain_coverage.round(3).to_dict(orient="index"),
+        density,
     )
     weather_coverage = coverage_summary(selected_weather, joint_start, joint_end)
     weather_coverage.index = [" / ".join(map(str, column)) for column in weather_coverage.index]
@@ -556,80 +575,53 @@ def audit():
         "Public weather observation density",
         coverage_passes(weather_coverage),
         weather_coverage.round(3).to_dict(orient="index"),
-        f">={MIN_OVERALL_COVERAGE:.0%} overall and >="
-        f"{MIN_ANNUAL_COVERAGE:.0%} in every calendar year",
+        density,
     )
 
-    episode_counts, chain_diagnostics, event_rows = episode_feasibility(
-        discharge[gauge_names], joint_start, joint_end
+    counts, chains, events, risk = episode_feasibility(
+        discharge, era_tables, joint_start, joint_end
     )
-    minimum_episodes = min(episode_counts.values(), default=0)
+    minimum_episodes = min((count["uncensored"] for count in counts.values()), default=0)
     add(
         rows,
-        "p99 episodes per watercourse",
-        minimum_episodes >= 20,
-        episode_counts,
-        ">=20 each within the joint analysis span",
+        "Uncensored p99 episodes per watercourse",
+        minimum_episodes >= MIN_EPISODES,
+        counts,
+        f">={MIN_EPISODES} uncensored episodes each within the joint period",
     )
     add(
         rows,
         "Episode single-linkage diagnostics",
         True,
-        chain_diagnostics,
+        chains,
         "reported for every primary gauge",
-    )
-    storms = cluster_regional_storms(event_rows)
-    n_storms = storms.storm_id.nunique() if not storms.empty else 0
-    add(
-        rows,
-        "Independent regional storms",
-        n_storms >= 40,
-        n_storms,
-        ">=40 within the joint analysis span",
-    )
-    spatial_availability = spatial_event_availability(
-        discharge.loc[joint_start:joint_end, gauge_names], event_rows, primary
-    )
-    distance_strata = set(spatial_availability.distance_stratum.dropna())
-    distance_support_ok = (
-        not spatial_availability.empty
-        and spatial_availability.distance_km.gt(0).all()
-        and distance_strata == {"near", "middle", "far"}
+        binding=False,
     )
     add(
         rows,
-        "Spatial distance support",
-        distance_support_ok,
-        {
-            "ordered_pairs": len(spatial_availability),
-            "unique_distances": spatial_availability.distance_km.nunique(),
-            "distance_strata": sorted(distance_strata),
-        },
-        "all ordered receiver-donor pairs have positive distances and populate near/middle/far strata",
+        "At-risk hours",
+        not risk.empty and risk.at_risk_hours.gt(0).all(),
+        risk.to_dict(orient="records"),
+        "every primary gauge contributes at-risk hours",
     )
-    overall, by_receiver, by_stratum = spatial_availability_summary(spatial_availability)
-    spatial_availability_ok = (
-        distance_support_ok
-        and overall >= MIN_SPATIAL_OVERALL_AVAILABILITY
-        and spatial_availability.n_donor_complete.ge(MIN_PAIR_COMPLETE_EVENTS).all()
-        and not by_receiver.empty
-        and by_receiver.availability.ge(MIN_SPATIAL_STRATUM_AVAILABILITY).all()
-        and not by_stratum.empty
-        and by_stratum.availability.ge(MIN_SPATIAL_STRATUM_AVAILABILITY).all()
-    )
+    storms = storm_table(cluster_regional_storms(events))
+    estimable = storms.loc[storms.n_uncensored.gt(0)] if not storms.empty else storms
     add(
         rows,
-        "All-donor event availability",
-        spatial_availability_ok,
-        {
-            "overall": round(overall, 3),
-            "by_receiver": by_receiver.round({"availability": 3}).to_dict(orient="records"),
-            "by_distance_stratum": by_stratum.round({"availability": 3}).to_dict(orient="records"),
-        },
-        f">={MIN_SPATIAL_OVERALL_AVAILABILITY:.0%} overall and >="
-        f"{MIN_SPATIAL_STRATUM_AVAILABILITY:.0%} within every receiver and distance stratum "
-        f"and >={MIN_PAIR_COMPLETE_EVENTS} complete events per ordered pair for -13 to -1 h "
-        "donor windows",
+        "Regional storms",
+        len(estimable) >= MIN_STORMS,
+        {"with_uncensored_onset": len(estimable), "all": len(storms)},
+        f">={MIN_STORMS} storms with at least one uncensored onset",
+    )
+    warm = int(estimable.warm_season.sum()) if len(estimable) else 0
+    cold = len(estimable) - warm
+    add(
+        rows,
+        "Regional storms per season",
+        min(warm, cold) >= MIN_STORMS_PER_SEASON,
+        {"warm": warm, "cold": cold},
+        f">={MIN_STORMS_PER_SEASON} per season; otherwise S1 becomes primary (protocol §2)",
+        binding=False,
     )
 
     return pd.DataFrame(rows)
@@ -639,22 +631,23 @@ def write_report(table):
     """Write the tidy audit as CSV and a small Markdown table."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     table.to_csv(OUTPUT_DIR / "gate_audit.csv", index=False)
-    columns = ["gate", "status", "observed", "requirement"]
+    columns = ["gate", "status", "binding", "observed", "requirement"]
     markdown = [
         "| " + " | ".join(columns) + " |",
-        "| --- | --- | --- | --- |",
+        "| --- | --- | --- | --- | --- |",
     ]
     for row in table[columns].itertuples(index=False, name=None):
         cells = [str(value).replace("|", "\\|").replace("\n", " ") for value in row]
         markdown.append("| " + " | ".join(cells) + " |")
-    passed = not table.empty and table.status.eq("PASS").all()
+    binding = table.loc[table.binding.astype(bool)] if not table.empty else table
+    passed = not binding.empty and binding.status.eq("PASS").all()
     report = [
         "# Event-study data-gate audit",
         "",
-        f"Regional inputs: **{'PASS' if passed else 'FAIL'}**",
+        f"Core regional inputs: **{'PASS' if passed else 'FAIL'}**",
         "",
-        "This is an input-feasibility audit, not a chapter result. The conditional "
-        "Kerkrade source is checked separately.",
+        "This is an input-feasibility audit, not a chapter result. FALLBACK rows are "
+        "non-binding and name the protocol's fixed fallback.",
         "",
         *markdown,
         "",
