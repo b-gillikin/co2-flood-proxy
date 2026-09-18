@@ -2,7 +2,13 @@
 
 > **Historical (2026-09-18).** The conditional Kerkrade CO2 case was retired from
 > the chapter in protocol draft 0.9. These notes document the motivating
-> observation's provenance and are not inputs to the analysis.
+> observation's provenance and are not inputs to the analysis. The scripts
+> referenced below (`01_ingest_iot.py`, `33_ingest_viefhues_iot.py`) moved to
+> `archive/` the same day; the commands at the end of this file are a
+> record of what was run, not a live interface. `src/io_iot.py` stays in
+> `src/`: `infrastructure_tests/test_io_data.py` still exercises it to protect
+> the deployed Azure daily-summary function, a maintained asset independent of
+> this chapter.
 
 ## Azure source
 
@@ -97,21 +103,17 @@ still missing. See `data-requests.md` and `student-next-actions.md`.
 - Historical K4 hourly output: `data/interim/viefhues_iot.csv`
 - Historical K4 QC: `data/processed/viefhues_iot_qc.csv`
 
-Refresh the later IoT stream with:
+These two scripts moved to `archive/scripts/` on 2026-09-18 (`src/io_iot.py`
+did not move; see the banner above). Like the rest of `archive/`, they are not
+expected to run from their new
+location: their `ROOT` path resolves relative to `archive/`, not the repo
+root, so `data/...` paths inside them now point at a folder that does not
+exist. This is a record of the commands that were run when they were live,
+not a live interface:
 
 ```bash
-python scripts/01_ingest_iot.py
-```
-
-Rebuild from cached files, or ignore local Blynk exports, with:
-
-```bash
-python scripts/01_ingest_iot.py --skip-download
-python scripts/01_ingest_iot.py --skip-download --skip-exports
-```
-
-Normalize only the delivered Viefhues K4 source record with:
-
-```bash
-python scripts/33_ingest_viefhues_iot.py
+python scripts/01_ingest_iot.py                                    # refresh the later IoT stream
+python scripts/01_ingest_iot.py --skip-download                    # rebuild from cached files
+python scripts/01_ingest_iot.py --skip-download --skip-exports     # ignore local Blynk exports
+python scripts/33_ingest_viefhues_iot.py                           # normalize the Viefhues K4 record
 ```

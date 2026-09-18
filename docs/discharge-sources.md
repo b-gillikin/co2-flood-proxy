@@ -7,7 +7,7 @@ The binding delivery contract is in `data-requests.md`.
 | --- | --- | --- |
 | `25_ingest_lanuk_nrw.py` | acquire long German gauge records for the documented feasibility route | held archive does not pass the draft cohort gate |
 | `32_lanuk_feasibility.py` | audit metadata, density, gaps, p99 episodes and watercourse identity | input QA only; no signal outcomes |
-| `35_audit_waterschap_delivery.py` | audit the delivered 2010–2025 Dutch grid | raw availability plus separate source QA; timezone, zero and cohort remain unresolved |
+| `35_audit_waterschap_delivery.py` | audit the delivered 2010–2025 Dutch grid | raw availability plus separate source QA; timezone and zero semantics remain unresolved (cohort decided, D3) |
 
 The public rolling Waterschap pull and RWS main-stem validation were removed
 from the live tree. Neither can produce the qualifying ten-year natural-
@@ -15,18 +15,21 @@ tributary cohort. Their code remains in Git history.
 
 Waterschap Limburg delivered 15 quarter-hour series columns on an exact
 2010--2025 grid. The value-equivalent CSV is the simple audit source; the XLSX,
-EML and rendered mailbox PDF remain preserved native artifacts. Nine series
-across eight named watercourse labels pass the provisional availability rule.
-The 2026-09-07 follow-up defines trailing 15-minute means and blank semantics,
-supplies rating curves and documents July 2021 failures and range exceedances.
-It also confirms that no validation flags exist. Timezone, zero meanings,
-natural/managed status and the final cohort remain unresolved. Availability
-does not establish usability or a cohort; see `waterschap-source-metadata.md`.
+EML and rendered mailbox PDF remain preserved native artifacts. All six cohort
+gauges (D3, 2026-09-18) pass the provisional availability rule
+(`data/processed/waterschap_discharge_qc.csv`). The 2026-09-07 follow-up
+defines trailing 15-minute means and blank semantics, supplies rating curves
+and documents July 2021 failures and range exceedances. It also confirms that
+no validation flags exist. Timezone and zero meanings remain unresolved.
+Availability does not establish usability on its own; see
+`waterschap-source-metadata.md`.
 
 The eventual analytical input is
-`data/interim/event_study_discharge_hourly.csv`, built only after the metadata
-are received and the cohort is fixed. Do not rename a raw delivery or rolling
-public export to satisfy that contract.
+`data/interim/event_study_discharge_hourly.csv`. `scripts/45_build_event_study_discharge.py`
+builds it, but refuses to write it until timezone and zero-value semantics
+are verified; see `docs/student-next-actions.md` for the outstanding
+questions. Do not rename a raw delivery or rolling public export to satisfy
+that contract.
 
 The reproducible German-route decision is in `lanuk-feasibility.md`. Official
 HYGON metadata place `herzogenrath_2` on Broicher Bach and `honsdorf` on

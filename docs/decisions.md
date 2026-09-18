@@ -2055,3 +2055,37 @@ era domain), which is a sanity check on the pipeline, not a result: neither
 assumption is verified.
 
 Tests: 68 passed.
+
+## 2026-09-18 — Documentation and code cleanup
+
+Follow-up to the drift review earlier today. Two kinds of cleanup:
+
+**Code.** `scripts/01_ingest_iot.py` and `scripts/33_ingest_viefhues_iot.py`
+moved to `archive/scripts/`. Both normalise Kerkrade IoT data for the
+conditional CO2 case that draft 0.9 removed from the protocol; the chapter
+analyses no CO2 (`chapter-synthesis.md`). Neither had test coverage, and
+nothing in the live pipeline imports them. `src/io_iot.py` was **not** moved:
+`infrastructure_tests/test_io_data.py` still exercises it to protect the
+deployed Kerkrade Azure daily-summary function, a maintained asset independent
+of this chapter. Verified after the move: the default suite (68 tests) and
+`infrastructure_tests` (5 tests) both pass; `ruff check`/`format` unchanged.
+
+**Documentation.** Corrected staleness beyond the two items fixed in the
+earlier drift review (protocol §6/§7; `scripts/README.md`'s cohort line):
+
+- `docs/analysis-inventory.md`, `docs/discharge-sources.md`: still described
+  the cohort, natural/managed status and timezone/zero/units as jointly
+  unresolved. Only timezone and zero semantics remain open (D3 decided units
+  and the cohort).
+- `docs/scope-decisions.md`: item 10 still posed the rainfall product as an
+  open choice; D2 decided it. Added a pointer marking `decisions.md` as the
+  source of truth if this summary ever disagrees with it.
+- `docs/supervisor-decision-memo.md`: describes the August 2026 chapter
+  proposal (distance/donor contrasts, conditional CO2 case), twice-superseded
+  and not marked as such. Added a historical banner; content unchanged, since
+  it is a record of what was said then, not a live document.
+- `docs/iot-sources.md`, `archive/README.md`, `scripts/README.md`: updated for
+  the code move above.
+
+No design decision changed. Tests: 68 passed (default), 5 passed
+(`infrastructure_tests`).

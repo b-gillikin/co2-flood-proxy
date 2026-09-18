@@ -11,7 +11,7 @@ regional chapter is stopped at its core data gate.
 | Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
 | `31_event_study_gates.py` | audits the binding regional inputs | aligned with draft 0.9 (5/6 floors, rating eras, per-season storm fallback) |
 | `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
-| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone, zero and cohort unresolved |
+| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone and zero semantics unresolved (cohort decided, D3) |
 | ERA5-Land weather table | relative humidity, surface pressure and six-hour change | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
 | `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
@@ -30,8 +30,6 @@ findings.
 
 ## Supporting data acquisition
 
-- `01_ingest_iot.py` and `src/io_iot.py`: later Kerkrade IoT for the conditional
-  case;
 - `25_ingest_lanuk_nrw.py`: held German source needed to reproduce the failed
   route;
 - `infrastructure/era5_backfill/`: completed unattended acquisition for the
@@ -46,7 +44,11 @@ findings.
 
 The Azure code in `kerkrade_data/` and `infrastructure/era5_backfill/` is
 collection infrastructure, not chapter analysis. It is outside routine
-scientific verification.
+scientific verification. The scripts that once normalised the Kerkrade IoT
+stream (`01_ingest_iot.py`, `33_ingest_viefhues_iot.py`) moved to `archive/`
+on 2026-09-18; see `docs/iot-sources.md`. `src/io_iot.py` stays in `src/`,
+still exercised by `infrastructure_tests/test_io_data.py` for the deployed
+Azure function.
 
 ## Removed from the live analysis
 

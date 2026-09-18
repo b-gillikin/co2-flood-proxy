@@ -1,6 +1,8 @@
 # Live Scope Decisions
 
-Status: 2026-09-18, protocol draft 0.9. Estimator details are in
+Status: 2026-09-18, protocol draft 0.9. All numbered decisions below (D1–D8)
+are decided and recorded, dated, in `decisions.md`, which is the source of
+truth if this summary and it ever disagree. Estimator details are in
 `chapter-scope-and-preregistration.md`. Historical decisions, including the
 draft 0.8 design, remain appended in `decisions.md`.
 
@@ -26,8 +28,9 @@ draft 0.8 design, remain appended in `decisions.md`.
    lag-response over lags 1–72, as cumulative association and median
    association lag.
 9. **Uncertainty:** calendar year-month block bootstrap, 999 replicates.
-10. **Rainfall source:** RADKLIM-RW if it covers the joint period, otherwise
-    operational RADOLAN RW throughout. Never splice them.
+10. **Rainfall source (D2, decided):** RADKLIM-RW was masked over the Voer and
+    part of the Gulp, so operational RADOLAN RW is used throughout, built and
+    checked for 2010–2025.
 11. **Weather source:** ERA5-Land only; nearest cell to each fixed catchment
     centroid.
 12. **Catchments:** delineated from a cross-border DEM.

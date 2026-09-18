@@ -1,5 +1,13 @@
 # Supervisor Decision Memo
 
+> **Historical (2026-09-18).** This memo describes the August 2026 chapter
+> proposal (distance/donor-pair contrasts, a conditional Kerkrade CO2 case).
+> The chapter has since been redesigned twice; the live design is protocol
+> draft 0.9 (`chapter-scope-and-preregistration.md`). Design decisions are the
+> author's, recorded and dated in `decisions.md`; they are not gated on
+> supervisor review. This memo is kept as the record of the 2026-08 response,
+> not as a current approval requirement.
+
 Updated 2026-08-19 from the student-reported supervisor response and the first
 blind Waterschap availability audit. The meeting date and supervisor name were
 not supplied. No prospective signal outcome has been calculated.
