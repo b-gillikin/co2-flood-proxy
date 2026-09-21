@@ -14,6 +14,16 @@ LANUK NRW (Jens Hammersen, following his 2026-09-11 reply and its offer of
 (René Mols, following the 2026-09-07 metadata reply). The sent-message copies
 are not yet archived, so this file does not record their exact requests.
 
+**Outreach 2026-09-21 (researcher-reported):** the three-question follow-up was
+sent to René Mols in the 2026-09-07 thread: (1) whether the source's "GMT+1"
+is a fixed offset or Dutch civil time; (2) whether a delivered 0.000 can mean
+an unreliable reading rather than zero discharge; (3) whether any delivered
+discharge history was recomputed with a later rating relation. Fase thresholds
+and stage records were included as non-blocking extras. Questions 1 and 2 block
+the discharge ingest. Draft text is in `student-next-actions.md`; archive the
+sent copy under `data/raw/external_deliveries/waterschap_limburg/` when
+convenient.
+
 ## Current gate state
 
 | component | gate | required delivery | current state |
