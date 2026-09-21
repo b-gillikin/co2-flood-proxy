@@ -198,15 +198,12 @@ Then:
 
 ## Outreach still needed for this chapter
 
-When René Mols replies, ask in the same thread for anything still open:
-
-- timezone/DST and zero semantics;
-- numerical coordinates;
-- stage records with datum history;
-- Fase thresholds.
-
-Stage records and Fase thresholds serve conditional analyses only. The chapter
-runs without them.
+The targeted Waterschap follow-up was sent to René Mols on 2026-09-21. Await
+his reply; do not send another message in the meantime. The email asks about
+timezone/DST, zero semantics and historical rating-curve application. It also
+requests stage records with datum/sensor history and Fase thresholds as
+conditional extras. Stage records and Fase thresholds are not required to run
+the core chapter.
 
 ## Risks
 

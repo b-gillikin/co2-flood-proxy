@@ -58,11 +58,14 @@ failure and range evidence.
 Still open:
 
 - timezone/DST and zero semantics;
-- numerical coordinates;
-- natural/managed classification;
-- stage records and Fase thresholds, neither of which has arrived.
+- whether historical discharge was computed with the contemporaneous rating
+  relation or later recomputed; and
+- stage records and Fase thresholds, neither of which has arrived and both of
+  which are conditional extras.
 
-A follow-up went to René Mols on 2026-09-17. Its sent text is not archived.
+A targeted follow-up covering these items went to René Mols on 2026-09-21 in
+the existing thread. Its sent-message export is not yet archived. The earlier
+2026-09-17 follow-up also remains recorded in `docs/data-requests.md`.
 
 Candidate cohort: Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg), and
 Geleenbeek or Vloedgraaf. Those two count once if their high flows are shared

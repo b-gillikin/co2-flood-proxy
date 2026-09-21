@@ -1,6 +1,6 @@
 # Student Next Actions
 
-Updated 2026-09-18 (afternoon) for protocol draft 0.9. First written
+Updated 2026-09-21 for protocol draft 0.9. First written
 2026-08-19. All eight design decisions (D1–D8) are recorded in `decisions.md`
 and built into the pipeline (68 tests passing). Every core regional input
 except the discharge series is built: gauge metadata, rating eras, catchment
@@ -13,7 +13,13 @@ they arrive. Do not lock the protocol or inspect any signal contrast before
 the discharge series is committed and the blinded feasibility audit
 (`scripts/31_event_study_gates.py`) has run against it.
 
-## 1. Send a short, targeted Waterschap follow-up
+## 1. Await the Waterschap follow-up response
+
+**Sent 2026-09-21:** the researcher sent the targeted follow-up to René Mols
+in the existing thread. It asks the three blocking interpretation questions
+below and requests stage records and Fase thresholds as optional, non-blocking
+extras. Do not send another message while this reply is pending. Preserve the
+sent-message export when available.
 
 Design decisions are the author's, recorded and dated in `decisions.md` before
 any signal outcome is inspected; that timing, not a supervisor signature, is
@@ -31,7 +37,8 @@ are not.
 
 **Exactly three questions are still open, all in the same email thread as the
 2026-09-07 reply.** Two of them were asked before but not actually answered;
-the third is new. Suggested text:
+the third is new. The draft below is retained as planning provenance; the
+researcher's sent message is authoritative.
 
 **Send to:** `R.Mols@waterschaplimburg.nl` (same thread as the 2026-09-07 reply)  
 **Subject:** Re: data request — three remaining questions
