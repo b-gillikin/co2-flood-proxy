@@ -1,8 +1,8 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no chapter result exists** (2026-09-24). This is the
+Status: **input semantics pending; no chapter result exists** (2026-09-24). This is the
 canonical description of the chapter. Estimator details belong in
-`chapter-scope-and-preregistration.md` (draft 0.9); session state belongs in
+`chapter-scope-and-preregistration.md` (draft 0.10); session state belongs in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
 
 ## 1. Research question
@@ -69,23 +69,20 @@ distributed-lag models.
 Because every hydrological quantity is a within-gauge, within-era rank, the
 design depends on rating-curve **stability**, not absolute accuracy.
 
-## 5. Feasibility gates
+## 5. Input audit and claim scale
 
-The protocol is not frozen until these core gates pass:
+Documented rating eras, sampling semantics, timezone, units and zero meanings
+are needed before affected discharge hours can be interpreted. Rainfall needs
+a defined cross-border catchment assignment, and ERA5-Land needs its documented
+spatial assignment. These are input-validity checks.
 
-- at least 5 natural, hydrologically independent watercourses, each with at
-  least 20 joint-period episodes, and 6 for the cross-watercourse sign test;
-- at least 10 common years including July 2021;
-- at least 40 regional storms, and at least 15 per season for the primary
-  estimand, with a fixed fallback to the pooled estimand;
-- at least 80% hourly coverage overall and 70% in every year for every series;
-- documented rating eras, sampling semantics, timezone, units, zero semantics
-  and July 2021 status;
-- radar rainfall averaged over catchments delineated across borders, and
-  ERA5-Land assigned by the fixed centroid rule.
-
-Each floor has a stated rationale in protocol §2. Six is the smallest cohort in
-which unanimous sign agreement is distinguishable from chance.
+The former numerical floors—five watercourses, 20 episodes per stream, ten
+years, 40 storms, 15 per season and 80%/70% coverage—are now information
+benchmarks. Report the actual counts, missingness, event/control support and
+uncertainty, then use the strongest supported regional, pooled, site-specific
+or descriptive claim. July 2021 is a historical case, not a required endpoint.
+S3 signs are descriptive because shared storms undermine an independent-sign
+binomial test. See protocol §2.
 
 ## 6. Current evidence state
 
@@ -98,7 +95,7 @@ which unanimous sign agreement is distinguishable from chance.
 - **Cohort (D3, decided 2026-09-18):** Eyserbeek, Geul (Cottessen), Gulp,
   Voer, Worm (Rimburg) and Geleenbeek (Brommelen), which represents the shared
   Geleenbeek/Vloedgraaf system. That is six watercourses: one to spare for the
-  core floor, and none for the sign test.
+  former breadth benchmark. No sign test is planned.
 - **Weather:** the ERA5-Land 2001–2025 archive is complete and audited.
 - **Rainfall and catchments:** catchments were delineated across borders on
   2026-09-18, with seven area checks within ±4.4%. RADKLIM cannot observe the

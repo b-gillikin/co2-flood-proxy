@@ -1,10 +1,10 @@
 # Manuscript outline: pre-high-water signals across Limburg tributaries
 
-Status: prospective, data-gated outline
-Status date: 2026-09-18 (protocol draft 0.9)
+Status: working analysis outline; no result reported
+Status date: 2026-09-24 (protocol draft 0.10)
 
 This outline turns the live protocol into a paper-shaped chapter. It does not
-alter the estimands, gates or stopping rules in
+alter the estimands or measurement-validity rules in
 `chapter-scope-and-preregistration.md`.
 
 ## Working title
@@ -131,7 +131,7 @@ warning-performance language.
   action where it builds over days. Feasibility claims only.
 - Cross-border headwaters and upstream information.
 - Relation to the predecessor studies.
-- Limitations: six watercourses, shared storms, associational design, rating
+- Limitations: achieved watercourse count, shared storms, associational design, rating
   stability, radar quality at the edge of the domain.
 
 ## 6. Conclusion

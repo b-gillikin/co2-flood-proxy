@@ -1,12 +1,12 @@
-# Prospective Case-Crossover Protocol
+# Case-Crossover Analysis Protocol
 
-Version: **draft 0.9, not locked** (2026-09-18).
+Version: **draft 0.10, not locked** (2026-09-24).
 
-This protocol locks only after every core regional data gate passes and the
-remaining numerical floors are decided and recorded in `decisions.md`. No
-prospective outcome table may be inspected before the version, input hashes and
-lock timestamp are recorded in §13. This is a repository protocol, not an
-externally registered study.
+This is an internal analysis plan, not a commitment to formal preregistration.
+Record the data version, analysis choices and any changes in `decisions.md`.
+Before estimating signal associations, audit available inputs and state the
+claim scale they support. An unavailable or weak data component narrows that
+claim; it does not automatically cancel the research question.
 
 ## Changes from draft 0.8
 
@@ -62,11 +62,13 @@ the summer half-year but most extreme flows in winter (decision D4,
 - S4: temporal stability, 2010–2017 against 2018–2025;
 - S5: the Fase comparison, conditional on receiving the thresholds (§9.2).
 
-Only the primary estimand is interpreted confirmatorily. This is an
+The seasonal contrast is the planned primary estimand when both seasons have
+adequate information; otherwise lead with the pooled association and describe
+the seasonal contrast with its uncertainty. This is an
 associational study. "Lag" and "association lag" describe when signals depart
 from normal before onset. They are not operational warning lead times.
 
-## 2. Hard gates and input contracts
+## 2. Input validity and information audit
 
 Run:
 
@@ -74,8 +76,11 @@ Run:
 python scripts/31_event_study_gates.py
 ```
 
-The executable audit covers the binding regional inputs. Any failure causes a
-nonzero exit.
+The executable audit distinguishes input-validity failures from descriptive
+information benchmarks. A failure of essential source semantics or geometry
+prevents the affected estimate until resolved. Counts and coverage percentages
+describe precision, temporal representation and the supported claim scale; they
+are not automatic chapter-stopping rules.
 
 | component | file | minimum contract |
 | --- | --- | --- |
@@ -87,39 +92,34 @@ nonzero exit.
 | core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for every primary watercourse |
 | core | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
 
-**Core floors.** The cohort must contain:
+**Information benchmarks for the intended regional claim:**
 
 - at least **5** natural, hydrologically independent tributary watercourses,
-  each passing the coverage rule below with at least 20 joint-period p99
-  episodes. The S3 sign test additionally requires 6;
-- at least 10 common years across discharge, rainfall and weather, with the
-  joint period including 15 July 2021;
-- at least **40** regional storms in the joint period.
+  with 20 joint-period p99 episodes per watercourse as a descriptive stability
+  benchmark;
+- 10 common years across discharge, rainfall and weather; and
+- 40 regional storms in the joint period.
 
-For the primary estimand, each season also needs at least **15** regional
-storms. If either season falls short, the chapter still runs: S1 becomes the
-primary estimand and the seasonal contrast is reported descriptively. This
-fallback is fixed now.
+Fifteen regional storms per season is a benchmark for the seasonal contrast. If
+one season contains few independent storms, lead with S1 and report the seasonal
+contrast descriptively if estimable. July 2021 is a motivated historical case,
+not a condition for analysing the other years.
 
-Within the joint period, every discharge, rainfall and weather series must have
-at least 80% observed hourly cells overall and 70% in every calendar year. Ten
-years means at least 3,650 days between the first and last common hourly
-endpoints; missing cells remain visible on that grid.
+Report hourly coverage for each series overall and by calendar year, with 80%
+overall and 70% annually as reference values, not automatic exclusions. Report
+complete event/control windows and whether missingness concentrates around high
+water. Retain missing cells on the hourly grid; do not manufacture observations.
 
-**Why these values.** They are author-chosen minimum-information safeguards, not
-accepted hydrological standards, and each has a stated purpose:
+**Why these values were proposed.** They are author-chosen reference values, not
+accepted hydrological standards or power calculations:
 
 - **Five watercourses (core).** The primary estimand pools onsets across
   watercourses, and its information comes from storms, not from the number of
-  watercourses. Five is an author-chosen minimum for a claim worded as "across
-  tributaries" rather than about one or two streams. Below five the core gate
-  fails.
-- **Six watercourses (S3 sign test).** Six is the smallest cohort in which
-  unanimous agreement in sign across watercourses is distinguishable from
-  chance. Two-sided, the probability is 2 × 0.5⁶ ≈ 0.031 with six, and 0.0625
-  with five. Watercourses share storms, so this is a necessary condition for
-  the replication claim, not the main test. With five, S3 is reported
-  descriptively with no sign test.
+  watercourses. Five motivates the intended regional breadth; fewer may still
+  support a multi-site or site-specific analysis with narrower language.
+- **Cross-watercourse signs.** Report S3 signs and estimates descriptively.
+  An exact binomial sign test assumes independent signs, which shared regional
+  storms do not establish, even if the streams are hydrologically distinct.
 - **Forty storms.** Regional storms are the independent weather systems behind
   the sample. Inference from few clusters is unreliable (Cameron, Gelbach and
   Miller 2008).
@@ -130,11 +130,14 @@ accepted hydrological standards, and each has a stated purpose:
 - **Ten years** rejects the rolling two-year record and gives interannual
   replication.
 
-These floors are frozen after a blinded audit of dates, missingness, event
-counts and geometry, and before any signal association is estimated.
-
-If any core gate fails, stop and record a dated rescoping decision. Do not
-substitute the rolling 2024–2026 Waterschap file.
+Use the audit of dates, missingness, event counts and geometry to label the
+supported result as a regional seasonal comparison, a pooled multi-watercourse
+association, a narrower site/period analysis, or an evidence/feasibility result.
+Show the event counts and uncertainty that justify the choice. Record any
+change after inspecting signal associations and label it exploratory. The
+rolling 2024–2026 Waterschap file may support a separately labelled shorter-
+period analysis; it cannot silently replace the historical record or establish
+interannual replication.
 
 ## 3. Population, events and time axis
 
@@ -369,11 +372,12 @@ descriptive.
 
 ### 9.5 Conditional distance module
 
-If the LANUK 15-minute export arrives before lock, passes the same coverage and
-cohort gates, and identifies reconstructed values, the ordered-pair
-log-distance analysis of draft 0.8 §9 may be reinstated as a secondary module.
+If LANUK supplies enough identified, temporally comparable observations and
+reconstruction information, the ordered-pair log-distance analysis of draft
+0.8 §9 may be considered as a separate, labelled secondary module.
 Reconstructed values include those filled from neighbouring gauges. The
-decision is recorded before lock. After lock, the module cannot be added.
+decision and available information are recorded before estimating that module;
+adding it later remains possible when labelled exploratory.
 
 ### 9.6 Two-stage pooling sensitivity
 
@@ -394,7 +398,7 @@ does not converge.
 | cumulative rainfall association positive in both seasons | rainfall in the preceding 72 hours is associated with onset in both regimes |
 | atmospheric block associated after rainfall adjustment | humidity or pressure change carries association beyond rainfall |
 | atmospheric block null after rainfall adjustment | the Eryilmaz-derived signals add no detectable association beyond rainfall |
-| watercourse estimates share sign (six or more watercourses) | the association replicates across the observed network |
+| watercourse estimates share sign | descriptive consistency across the observed watercourses; shared storms preclude an independent-sign p-value |
 | watercourse estimates heterogeneous | the association depends on the watercourse and is not a network-wide regularity |
 | lag structure differs between periods | the relationship is not stable over 2010–2025 |
 | Fase thresholds lie well above or below p99 | statistically defined and operationally defined high water differ at that gauge |
@@ -452,22 +456,23 @@ such as DeepWaive are case context, not validation or comparators.
 
 ## 13. Lock and amendments
 
-Current state: **unlocked**. The core regional inputs are incomplete and the
-numerical floors are not yet frozen.
+Current state: **unlocked**. Discharge source semantics remain unresolved. A
+version record is internal documentation, not formal preregistration.
 
 At lock, record:
 
-- the date and `decisions.md` entry fixing the numerical floors and cohort;
+- the date and `decisions.md` entry recording the cohort and supported claim scale;
 - the modelling implementation choice (§7) and the distance-module decision
   (§9.5);
 - the gate-audit path and hash;
 - hashes of all analytical inputs;
 - the Git commit;
-- the protocol lock timestamp;
+- the analysis-version timestamp;
 - any ambiguity resolved before outcome inspection.
 
-After lock, append amendments here with date, change, reason and whether any
-new outcome table had been viewed. Never rewrite a prior amendment.
+After a version is recorded, append changes here with date, reason and whether
+signal associations had been viewed. Label outcome-informed analyses exploratory;
+never rewrite a prior decision.
 
 ## References for the design
 

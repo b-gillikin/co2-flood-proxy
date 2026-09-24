@@ -75,6 +75,20 @@ def test_joint_period_must_contain_july_2021():
     )
 
 
+def test_unmet_information_benchmark_does_not_fail_input_contract(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    rows = []
+    GATES.add(rows, "Verified time axis", True, "hourly UTC", "valid")
+    GATES.add(rows, "Regional storm benchmark", False, 12, ">=40", binding=False)
+
+    table = pd.DataFrame(rows)
+
+    assert table.loc[1, "status"] == "REVIEW"
+    assert GATES.write_report(table)
+    report = (tmp_path / "results/event_study/gate_audit.md").read_text()
+    assert "Input contracts: **PASS**" in report
+
+
 def test_public_weather_requires_a_regular_grid_for_each_watercourse(tmp_path):
     path = tmp_path / "weather.csv"
     pd.DataFrame(
@@ -304,13 +318,13 @@ def test_complete_synthetic_inputs_pass_every_binding_gate(tmp_path, monkeypatch
     assert GATES.write_report(table)
 
 
-def test_five_watercourses_pass_the_core_but_fall_back_on_the_sign_test(tmp_path, monkeypatch):
+def test_watercourse_breadth_is_a_nonbinding_information_benchmark(tmp_path, monkeypatch):
     pytest.importorskip("geopandas")
-    write_fixture(tmp_path, n_units=5)
+    write_fixture(tmp_path, n_units=4)
     monkeypatch.chdir(tmp_path)
 
     table = GATES.audit().set_index("gate")
 
-    assert table.loc["Independent natural watercourses (core)", "status"] == "PASS"
-    assert table.loc["Independent natural watercourses (S3 sign test)", "status"] == "FALLBACK"
+    assert table.loc["Independent natural watercourses (breadth benchmark)", "status"] == "REVIEW"
+    assert not table.loc["Independent natural watercourses (breadth benchmark)", "binding"]
     assert GATES.write_report(table.reset_index())

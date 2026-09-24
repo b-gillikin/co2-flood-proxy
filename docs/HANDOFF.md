@@ -6,8 +6,9 @@ chapter claims.
 Read in this order:
 
 1. `chapter-synthesis.md` — canonical question, contribution, design and state.
-2. `chapter-scope-and-preregistration.md` — draft 0.9 case-crossover protocol.
-   `draft-0.9-implementation-plan.md` — the build sequence to protocol lock.
+2. `chapter-scope-and-preregistration.md` — draft 0.10 internal case-crossover analysis protocol.
+   `draft-0.9-implementation-plan.md` — historical build sequence; its stop
+   rules have been superseded.
 3. `supervisor-decision-memo.md` — the 2026-08 supervisor response and the rationale for the provisional floors (historical record).
 4. `student-next-actions.md` — current student tasks and sent requests.
 5. `data-requests.md` — delivery contracts and blockers.
@@ -36,17 +37,18 @@ the timing differs between warm and cold seasons.
   lag-response.
 - **Uncertainty:** calendar year-month block bootstrap.
 
-Dropped: the distance slope, which survives only as a conditional LANUK module
-before lock; the Kerkrade CO2 case and mine water, now motivation only; the
+Dropped: the distance slope, which survives only as a separately labelled
+conditional LANUK module; the Kerkrade CO2 case and mine water, now motivation only; the
 five-nearest-quiet-hour controls; temperature and pressure level.
 
 ## Data state
 
-Floors to freeze after the blinded audit: at least 5 natural, hydrologically
-independent watercourses, and 6 for the cross-watercourse sign test; 10 common years including July 2021; 40 regional
-storms and 15 per season; 20 episodes per watercourse; 80% overall and 70%
-annual coverage. The author records each decision in `decisions.md` before
-outcomes are inspected.
+Audit information benchmarks after source semantics are resolved: five natural,
+hydrologically distinct watercourses, ten common years, 40 regional storms,
+15 per season, 20 episodes per watercourse and 80% overall/70% annual coverage.
+These are not chapter-stopping thresholds. July 2021 is a historical case;
+cross-watercourse signs are descriptive, with no independent-sign test. Record
+the supported claim scale and any outcome-informed changes in `decisions.md`.
 
 Waterschap supplied one exact quarter-hour grid for 2010--2025 with 15 series
 columns, 14 station IDs and eight named watercourse labels. The CSV and XLSX
@@ -74,7 +76,7 @@ curve history. Await both replies; neither request should be resent now.
 Candidate cohort: Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg), and
 Geleenbeek or Vloedgraaf. Those two count once if their high flows are shared
 below the Millen split. That is six: one to spare for the core floor, and none
-for the sign test. Selzerbeek is out.
+for the former breadth benchmark. Selzerbeek is out.
 No p99 threshold or event has been calculated.
 
 The Viefhues K4 record and the Provincie Limburg mine-water delivery remain

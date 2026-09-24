@@ -1,5 +1,10 @@
 # Draft 0.9 implementation plan
 
+Historical plan. Its numerical stop rules and formal lock language were
+superseded on 2026-09-24 by draft 0.10 of
+`chapter-scope-and-preregistration.md` and the live `HANDOFF.md`. Retained to
+show how the implementation reached the current design.
+
 Status: 2026-09-18. This plan builds the case-crossover protocol
 (`chapter-scope-and-preregistration.md`, draft 0.9) from its current state to
 protocol lock and then to results. No outcome may be computed before lock.

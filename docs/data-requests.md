@@ -39,19 +39,20 @@ message itself has not been archived here.
 
 | component | gate | required delivery | current state |
 | --- | --- | --- | --- |
-| core | tributary discharge | >=5 natural, hydrologically independent watercourses (6 for the sign test); >=10 common years hourly with 80%/70% density; >=20 joint-period p99 episodes each; >=40 storms and >=15 per season | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
+| core | tributary discharge | Verified timezone, zero meanings, units and rating history for affected estimates; report watercourses, years, episodes, storms and coverage as information benchmarks | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
 | core | catchment rainfall | hourly radar rainfall averaged over cross-border catchment polygons | built from operational RADOLAN RW 2010–2025 (RADKLIM-RW ruled out on coverage); 0.03–0.21% hours missing per catchment |
 | core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | built from Copernicus GLO-30 for all seven candidates; seven area checks within ±4.4%; pour points provisional |
-| core | public weather | 10 common years of relative humidity and surface pressure with a fixed assignment per watercourse | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid |
+| core | public weather | Relative humidity and surface pressure with a fixed assignment per watercourse; report usable overlap | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid |
 | core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and July 2021 status | **mostly resolved.** Sampling semantics, units and July 2021 station status were answered in the 2026-09-07 reply and are built into `data/interim/event_study_gauges.csv` (`scripts/44_build_event_study_gauges.py`). Rating eras are transcribed and built (D8). Coordinates were sent as Google Maps pins, not decimals; resolved 2026-09-18, they differ from the public-portal coordinates already in use by 0.1-8.8 m for all six cohort gauges, under one DEM cell — D5 stands without a re-run (`config/waterschap_gauge_coordinates_crosscheck.csv`). **Still open, and blocking the discharge ingest:** (1) whether the source's "GMT+1" label is a fixed offset or Dutch civil time with DST — not asked in either reply; (2) what a delivered zero discharge means, asked on 2026-09-07 but not answered (only blank cells were addressed); (3) **new question (2026-09-18):** was each part of the delivered discharge computed with the rating version in force at the time, or was history recomputed with a later relation? |
 | conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | requested as a non-blocking extra in the 2026-09-21 follow-up; not received |
 | conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received. Current Fase 1–3 values per gauge appear in Waterschap's public-portal location table (snapshot 2026-08-07, `data/interim/waterschap_locations.csv`); historical values and leading-gauge status still needed |
-| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for the distance module before lock | four station packages received 2026-09-23; Honsdorf stage export is sparse (36 measurements); reconstruction and rating-curve questions sent to Jens 2026-09-24; re-audit pending |
+| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for a separately labelled distance module if comparable | four station packages received 2026-09-23; Honsdorf stage export is sparse (36 measurements); reconstruction and rating-curve questions sent to Jens 2026-09-24; re-audit pending |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
-**regional** audit. Core failure stops the chapter pending a dated rescoping
-decision. The rolling record is not a permissible core fallback. The script
-encodes the draft 0.9 floors.
+**regional** audit. Input-validity failures block affected estimates; numerical
+benchmarks prompt review of precision and claim scale. A shorter rolling record
+can support a separately labelled analysis, not silent historical substitution.
+The script encodes the draft 0.10 distinction.
 
 ## 1. Original Viefhues IoT package — historical (Kerkrade case retired 2026-09-18)
 

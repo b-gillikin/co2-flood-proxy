@@ -1,6 +1,6 @@
 # Live Scope Decisions
 
-Status: 2026-09-18, protocol draft 0.9. All numbered decisions below (D1–D8)
+Status: 2026-09-24, protocol draft 0.10. All numbered decisions below (D1–D8)
 are decided and recorded, dated, in `decisions.md`, which is the source of
 truth if this summary and it ever disagree. Estimator details are in
 `chapter-scope-and-preregistration.md`. Historical decisions, including the
@@ -34,19 +34,21 @@ draft 0.8 design, remain appended in `decisions.md`.
 11. **Weather source:** ERA5-Land only; nearest cell to each fixed catchment
     centroid.
 12. **Catchments:** delineated from a cross-border DEM.
-13. **Floors:** at least 5 natural, hydrologically independent watercourses
-    (6 for the S3 sign test);
-    10 common years including July 2021; 40 regional storms, 15 per season;
-    20 episodes per watercourse; 80% overall and 70% annual coverage.
+13. **Information benchmarks:** five natural, hydrologically distinct
+    watercourses; ten common years; 40 regional storms and 15 per season;
+    20 episodes per watercourse; 80% overall and 70% annual coverage. They
+    inform precision and claim scale, not a chapter stop. July 2021 is a
+    historical case; S3 signs are descriptive, without a binomial sign test.
 14. **Independence:** branches of one split system count as one watercourse,
     which applies to Geleenbeek and Vloedgraaf.
 15. **Censoring:** censor only onsets whose onset hour is missing, failed or
     outside the rating domain.
 16. **Stage:** conditional, onset-timing recovery only.
-17. **Distance:** a conditional module only if the LANUK export passes the gates
-    before lock; the lock date is the cutoff.
-18. **Stop rule:** if a core gate fails, stop and record a dated rescoping
-    decision. Never substitute the rolling record.
+17. **Distance:** a conditional module if LANUK data support a comparable
+    analysis; a later addition is labelled exploratory.
+18. **Claim-scale rule:** invalid measurement blocks affected estimates;
+    inadequate breadth or precision narrows the claim. A shorter rolling
+    record can be analysed separately with its temporal limitation explicit.
 19. **Nulls:** null and heterogeneous results are planned results, not prompts
     to search lags, bases, thresholds or model families.
 20. **Methods ruled out:** classifiers, SARIMAX, Kalman filters, anomaly

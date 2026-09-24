@@ -127,30 +127,34 @@ available. Attack the data constraint first. A short record with a handful of
 events cannot support a broad transferability claim, regardless of model
 complexity.
 
-For each chapter, define a hard data gate containing:
+For each chapter, audit the evidence needed for its intended claim:
 
-- the target population and minimum number of independent units;
+- the target population and number of independent units available;
 - the common observation period;
-- minimum information per unit;
-- coverage and missingness requirements;
+- information per unit and the precision it supports;
+- coverage and missingness patterns;
 - measurement and metadata requirements;
-- required support across important strata; and
-- the rule for stopping if the gate fails.
+- support across important strata; and
+- the claim level supported when information is limited.
 
 Numerical floors must be labelled honestly. They may be accepted standards,
 power-based quantities, practical minimum-information safeguards or values
 chosen after a blinded availability audit. Do not present author-chosen values
 as universal disciplinary thresholds.
 
-When a floor cannot be justified analytically in advance:
+When an information benchmark cannot be justified analytically in advance:
 
 1. audit only dates, geometry, missingness and outcome-independent counts;
 2. show the consequences of a small set of candidate rules;
 3. make the decision and record it, dated, in `decisions.md`; and
-4. freeze the rule before inspecting the substantive contrasts.
+4. record the chosen claim scale before inspecting substantive contrasts where
+   practical, and label later outcome-informed changes exploratory.
 
-If the hard gate fails, stop and record a dated rescoping decision. Do not silently
-lower it, change populations, add outcome types or substitute a shorter record.
+An invalid measurement blocks the affected estimate until resolved. Falling
+short of an author-chosen numerical benchmark calls for a narrower claim,
+uncertainty assessment or descriptive result, not an automatic chapter stop.
+Document population, outcome or period changes; do not pass them off as the
+original planned analysis.
 
 ### Separate core and optional evidence
 

@@ -1,17 +1,18 @@
 # Student Next Actions
 
-Updated 2026-09-24 for protocol draft 0.9. First written
+Updated 2026-09-24 for protocol draft 0.10. First written
 2026-08-19. All eight design decisions (D1–D8) are recorded in `decisions.md`
 and built into the pipeline (68 tests passing). Every core regional input
 except the discharge series is built: gauge metadata, rating eras, catchment
 polygons, catchment rainfall (RADOLAN 2010–2025) and public weather are all in
 `data/interim/`. The discharge ingest itself is written and tested
 (`scripts/45_build_event_study_discharge.py`) but refuses to produce the core
-file until Waterschap's semantics are verified — see task 1. **This is now the
-only blocker.** Preserve and return other complete replies and deliveries as
-they arrive. Do not lock the protocol or inspect any signal contrast before
-the discharge series is committed and the blinded feasibility audit
-(`scripts/31_event_study_gates.py`) has run against it.
+file until Waterschap's semantics are verified — see task 1. This blocks a
+definitive hourly discharge interpretation, not the research question.
+Candidate timezone/zero interpretations can already be compared as labelled
+sensitivity diagnostics. Preserve and return other complete replies and
+deliveries as they arrive. Run the input/information audit before treating an
+association as the planned primary analysis.
 
 ## 1. Await the Waterschap follow-up response
 
@@ -284,8 +285,8 @@ from task 1 alongside the three delivery folders.
 Once Waterschap answers the three questions in task 1, the remaining steps are
 mechanical and already scripted: run `scripts/45_build_event_study_discharge.py`
 with the verified timezone and zero assumptions and `--commit`, run
-`scripts/31_event_study_gates.py` for the blinded feasibility audit (episode
-and storm counts, not signal associations), freeze the audit result in
+`scripts/31_event_study_gates.py` for the input and information audit (episode
+and storm counts, not signal associations), record the supported claim scale in
 `decisions.md`, then write and run the estimation script against the primary
 and secondary specifications in protocol §7. No further design decision is
 expected to block that sequence.

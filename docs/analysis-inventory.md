@@ -1,7 +1,7 @@
 # Analysis Inventory — Prospective Case-Crossover Study
 
-Status: 2026-09-18, protocol draft 0.9. There is no chapter result. The
-regional chapter is stopped at its core data gate.
+Status: 2026-09-24, protocol draft 0.10. There is no chapter result. Discharge
+source semantics remain unresolved; numerical benchmarks do not stop the study.
 
 ## Prospective chapter
 
@@ -9,7 +9,7 @@ regional chapter is stopped at its core data gate.
 | --- | --- | --- |
 | literature notes, evidence matrix and BibTeX | verified source corpus | 44 sources; case-crossover and distributed-lag design references still to be added |
 | Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
-| `31_event_study_gates.py` | audits the binding regional inputs | aligned with draft 0.9 (5/6 floors, rating eras, per-season storm fallback) |
+| `31_event_study_gates.py` | audits input validity and information | aligned with draft 0.10; numerical benchmarks are nonbinding, rating-era validity remains binding |
 | `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
 | `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone and zero semantics unresolved (cohort decided, D3) |
 | ERA5-Land weather table | relative humidity, surface pressure and six-hour change | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
@@ -22,7 +22,7 @@ regional chapter is stopped at its core data gate.
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
 | synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
 | July 2021 regional anchor | descriptive trajectory | not run |
-| conditional distance module | ordered-pair slope if LANUK passes before lock | inactive |
+| conditional distance module | separate ordered-pair slope if LANUK data are comparable | inactive |
 
 No prospective figure or outcome table exists. The protocol is unlocked.
 LANUK products under `results/feasibility/` are input-QA artifacts, not chapter

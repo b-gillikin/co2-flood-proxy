@@ -1,9 +1,9 @@
-"""Audit the hard inputs before any case-crossover outcome is estimated.
+"""Audit input validity and information before estimating associations.
 
-Implements the gates of protocol draft 0.9 §2. The audit reads timestamps,
+Implements protocol draft 0.10 §2. The audit reads timestamps,
 counts, flags, geometry and discharge ranks only. It never reads rainfall or
 weather values beyond their presence and physical range, and it estimates no
-association. Rows marked non-binding report a fallback, not a failure.
+association. Non-binding rows report information benchmarks, not chapter vetoes.
 """
 
 from __future__ import annotations
@@ -40,7 +40,6 @@ CORE_FILES = {
 OUTPUT_DIR = Path("results/event_study")
 JULY_2021_ANCHOR = pd.Timestamp("2021-07-15", tz="UTC")
 MIN_WATERCOURSES = 5
-MIN_WATERCOURSES_SIGN_TEST = 6
 MIN_YEARS = 10
 MIN_STORMS = 40
 MIN_STORMS_PER_SEASON = 15
@@ -84,7 +83,7 @@ def add(rows, name, passed, observed, required, binding=True):
     if binding:
         status = "PASS" if passed else "FAIL"
     else:
-        status = "PASS" if passed else "FALLBACK"
+        status = "PASS" if passed else "REVIEW"
     rows.append(
         {
             "gate": name,
@@ -330,21 +329,9 @@ def audit():
 
     primary = gauges[as_bool(gauges.include_primary) & as_bool(gauges.natural_tributary)].copy()
     n_units = primary.independence_unit.nunique()
-    add(
-        rows,
-        "Independent natural watercourses (core)",
-        n_units >= MIN_WATERCOURSES,
-        n_units,
-        f">={MIN_WATERCOURSES}",
-    )
-    add(
-        rows,
-        "Independent natural watercourses (S3 sign test)",
-        n_units >= MIN_WATERCOURSES_SIGN_TEST,
-        n_units,
-        f">={MIN_WATERCOURSES_SIGN_TEST}; otherwise S3 is descriptive with no sign test",
-        binding=False,
-    )
+    add(rows, "Independent natural watercourses (breadth benchmark)",
+        n_units >= MIN_WATERCOURSES, n_units, f">={MIN_WATERCOURSES} for intended breadth",
+        binding=False)
     one_gauge_each = (
         not primary.empty
         and primary.gauge.astype(str).is_unique
@@ -369,13 +356,9 @@ def audit():
     qa_ok = not primary.empty and primary[QA_COLUMNS].apply(as_bool).all().all()
     july_ok = not primary.empty and primary.july_2021_status.fillna("").str.strip().ne("").all()
     add(rows, "Gauge QA", qa_ok, primary[QA_COLUMNS].apply(as_bool).sum().to_dict(), "all true")
-    add(
-        rows,
-        "July 2021 gauge status",
-        july_ok,
-        primary.july_2021_status.notna().sum(),
-        "all documented",
-    )
+    add(rows, "July 2021 gauge status", july_ok,
+        primary.july_2021_status.notna().sum(), "all documented for July case",
+        binding=False)
 
     gauge_names = primary.gauge.astype(str).tolist()
     eras, eras_ok, eras_observed = read_rating_eras(CORE_FILES["rating eras"], gauge_names)
@@ -416,7 +399,8 @@ def audit():
         "Common discharge span",
         discharge_years >= MIN_YEARS,
         f"{discharge_years:.2f} years",
-        f">={MIN_YEARS} years",
+        f">={MIN_YEARS} years for intended interannual breadth",
+        binding=False,
     )
     if pd.isna(discharge_start) or pd.isna(discharge_end):
         return pd.DataFrame(rows)
@@ -461,7 +445,8 @@ def audit():
         "Common radar span",
         rain_years >= MIN_YEARS,
         f"{rain_years:.2f} years",
-        f">={MIN_YEARS} years",
+        f">={MIN_YEARS} years for intended interannual breadth",
+        binding=False,
     )
     if pd.isna(rain_start) or pd.isna(rain_end):
         return pd.DataFrame(rows)
@@ -551,13 +536,19 @@ def audit():
         "Common public weather span",
         weather_years >= MIN_YEARS,
         f"{weather_years:.2f} years",
-        f">={MIN_YEARS} years",
+        f">={MIN_YEARS} years for intended interannual breadth",
+        binding=False,
     )
     if pd.isna(weather_start) or pd.isna(weather_end):
         return pd.DataFrame(rows)
 
     joint_start = max(discharge_start, rain_start, weather_start)
     joint_end = min(discharge_end, rain_end, weather_end)
+    overlapping = joint_start <= joint_end
+    add(rows, "Joint observed period exists", overlapping,
+        f"{joint_start} to {joint_end}", "at least one common hour")
+    if not overlapping:
+        return pd.DataFrame(rows)
     joint_years = max(
         0.0,
         (joint_end - joint_start + pd.Timedelta(hours=1)) / pd.Timedelta(days=365),
@@ -567,7 +558,8 @@ def audit():
         "Joint analysis span",
         joint_years >= MIN_YEARS,
         f"{joint_years:.2f} years",
-        f">={MIN_YEARS} years",
+        f">={MIN_YEARS} years for intended interannual breadth",
+        binding=False,
     )
     includes_anchor = contains_july_2021(joint_start, joint_end)
     add(
@@ -576,10 +568,8 @@ def audit():
         includes_anchor,
         f"{joint_start} to {joint_end}",
         f"contains {JULY_2021_ANCHOR}",
+        binding=False,
     )
-    if joint_years < MIN_YEARS or not includes_anchor:
-        return pd.DataFrame(rows)
-
     density = f">={MIN_OVERALL_COVERAGE:.0%} overall and >={MIN_ANNUAL_COVERAGE:.0%} in every calendar year"
     discharge_coverage = coverage_summary(discharge, joint_start, joint_end)
     add(
@@ -588,6 +578,7 @@ def audit():
         coverage_passes(discharge_coverage),
         discharge_coverage.round(3).to_dict(orient="index"),
         density,
+        binding=False,
     )
     rain_coverage = coverage_summary(rain[watercourses], joint_start, joint_end)
     add(
@@ -596,6 +587,7 @@ def audit():
         coverage_passes(rain_coverage),
         rain_coverage.round(3).to_dict(orient="index"),
         density,
+        binding=False,
     )
     weather_coverage = coverage_summary(selected_weather, joint_start, joint_end)
     weather_coverage.index = [" / ".join(map(str, column)) for column in weather_coverage.index]
@@ -605,6 +597,7 @@ def audit():
         coverage_passes(weather_coverage),
         weather_coverage.round(3).to_dict(orient="index"),
         density,
+        binding=False,
     )
 
     merges = era_merge_checks(discharge, era_tables, joint_start, joint_end)
@@ -625,6 +618,7 @@ def audit():
         minimum_episodes >= MIN_EPISODES,
         counts,
         f">={MIN_EPISODES} uncensored episodes each within the joint period",
+        binding=False,
     )
     add(
         rows,
@@ -649,6 +643,7 @@ def audit():
         len(estimable) >= MIN_STORMS,
         {"with_uncensored_onset": len(estimable), "all": len(storms)},
         f">={MIN_STORMS} storms with at least one uncensored onset",
+        binding=False,
     )
     warm = int(estimable.warm_season.sum()) if len(estimable) else 0
     cold = len(estimable) - warm
@@ -657,7 +652,7 @@ def audit():
         "Regional storms per season",
         min(warm, cold) >= MIN_STORMS_PER_SEASON,
         {"warm": warm, "cold": cold},
-        f">={MIN_STORMS_PER_SEASON} per season; otherwise S1 becomes primary (protocol §2)",
+        f">={MIN_STORMS_PER_SEASON} per season for intended seasonal comparison",
         binding=False,
     )
 
@@ -679,12 +674,12 @@ def write_report(table):
     binding = table.loc[table.binding.astype(bool)] if not table.empty else table
     passed = not binding.empty and binding.status.eq("PASS").all()
     report = [
-        "# Event-study data-gate audit",
+        "# Event-study input and information audit",
         "",
-        f"Core regional inputs: **{'PASS' if passed else 'FAIL'}**",
+        f"Input contracts: **{'PASS' if passed else 'FAIL'}**",
         "",
-        "This is an input-feasibility audit, not a chapter result. FALLBACK rows are "
-        "non-binding and name the protocol's fixed fallback.",
+        "This is an input audit, not a chapter result. REVIEW rows are "
+        "non-binding benchmarks for judging precision and claim scale.",
         "",
         *markdown,
         "",
@@ -696,14 +691,14 @@ def write_report(table):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--report-only", action="store_true", help="return zero when the regional gates fail"
+        "--report-only", action="store_true", help="return zero when input contracts fail"
     )
     args = parser.parse_args()
     table = audit()
     passed = write_report(table)
     print(table.to_string(index=False))
     if not passed and not args.report_only:
-        raise SystemExit("Regional data gates failed; do not run the event study")
+        raise SystemExit("Input contracts failed; resolve affected measurements before estimation")
 
 
 if __name__ == "__main__":

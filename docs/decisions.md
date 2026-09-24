@@ -2089,3 +2089,17 @@ earlier drift review (protocol §6/§7; `scripts/README.md`'s cohort line):
 
 No design decision changed. Tests: 68 passed (default), 5 passed
 (`infrastructure_tests`).
+# 2026-09-24 — Numerical benchmarks no longer veto the Limburg chapter
+
+**Decision:** Keep the case-crossover question and work with usable records.
+The former five-watercourse, ten-year, 40-storm, 20-episode, 15-per-season and
+80%/70% thresholds are information benchmarks, not hard chapter gates. July
+2021 remains a historical case rather than a required joint-period endpoint.
+Source semantics and valid event/control construction still constrain affected
+estimates. Report the strongest supported claim scale, precision and missingness.
+
+**Method correction:** Cross-watercourse signs are descriptive. The exact
+binomial sign-test calculation assumed independent signs despite shared regional
+storms and is withdrawn. An internal versioned protocol records decisions but
+does not commit the author to formal preregistration. Outcome-informed changes
+are documented and labelled exploratory. Earlier decisions remain as history.
