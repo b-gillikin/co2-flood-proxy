@@ -1,6 +1,6 @@
 # Student Next Actions
 
-Updated 2026-09-21 for protocol draft 0.9. First written
+Updated 2026-09-24 for protocol draft 0.9. First written
 2026-08-19. All eight design decisions (D1–D8) are recorded in `decisions.md`
 and built into the pipeline (68 tests passing). Every core regional input
 except the discharge series is built: gauge metadata, rating eras, catchment
@@ -141,7 +141,21 @@ Save the sent message as `.eml` or PDF. When a reply arrives, preserve every
 attachment in its native format; do not open and resave CSV or spreadsheet
 files before returning them.
 
-## 2. Ask LANUK to define its verified-discharge timestamps and gaps
+## 2. Await Jens Hammersen’s reply on the LANUK station packages
+
+**Current status (2026-09-24):** Four station packages arrived on
+2026-09-23. The researcher confirmed download and sent Jens a follow-up on
+2026-09-24. It requests (1) the continuous Honsdorf 15-minute stage series
+if available—the delivered stage file has only 36 dated measurements from
+2012–2025; (2) reconstructed/filled-value flags or affected periods,
+especially July 2021; and (3) the provisional discharge periods and
+date-applicable rating-curve treatment for Herzogenrath 1 and Randerath.
+Await his reply and the previously promised academic-use/citation terms.
+Preserve the sent-message export when available. Re-audit the delivered
+15-minute series before using it in the conditional distance module.
+
+**Historical request draft below:** This earlier public-archive query is
+retained for correspondence provenance; do not send it now.
 
 **Send to:** `poststelle@lanuk.nrw.de`  
 **Ask them to route it to:** Fachgebiet 51.4, Pegelwesen Süd  

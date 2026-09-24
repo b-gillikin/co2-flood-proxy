@@ -1,5 +1,14 @@
 # LANUK feasibility audit
 
+> **Update 2026-09-24.** LANUK delivered four station packages on
+> 2026-09-23. This audit covers the *older public verified-discharge
+> archive*, not those deliveries; its density and episode results must
+> not be applied to the new 15-minute exports. The delivered Honsdorf
+> stage file has only 36 dated measurements. A follow-up to Jens
+> Hammersen was sent 2026-09-24 about continuous Honsdorf stage,
+> reconstructed/filled values, and provisional rating-curve periods.
+> The new packages require a separate feasibility audit.
+
 > **Role under draft 0.9 (2026-09-18).** The German route is no longer needed to
 > meet a core floor. It enters only through the conditional distance module
 > (protocol §9.5): the 15-minute export must arrive before lock, pass the same
@@ -73,8 +82,8 @@ nevertheless mean either a prolonged constant value or missing data, and LANUK
 has no hold-forward rule for gaps. Therefore the audit conservatively counts an
 hour as observed only when the published file contains a value in that hour.
 Do not interpret the density failure as physical downtime or carry values
-forward. A requested 15-minute-average export would expose actual gaps but has
-not been received.
+forward. The subsequently delivered 15-minute-average export may expose actual gaps;
+it is outside the scope of this historical public-archive audit.
 
 ## Reproducible artifacts
 

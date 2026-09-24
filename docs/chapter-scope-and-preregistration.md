@@ -412,8 +412,10 @@ No claims about:
 - damage or statutory flood stage (p99 denotes relative high water);
 - monitoring placement or ungauged catchments.
 
-Policy implications are limited to what the observed lag structure makes
-feasible or infeasible for warning on small tributaries. Contemporary systems
+Policy discussion may identify temporal constraints suggested by the observed
+lag structure and questions for a separate forecast evaluation. It may not
+declare day-ahead action feasible or infeasible, prescribe a warning strategy,
+or translate association lags into operational lead time. Contemporary systems
 such as DeepWaive are case context, not validation or comparators.
 
 ## 12. Outputs and scientific checks

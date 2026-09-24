@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-18. Session state only; use the synthesis and protocol for
+Updated 2026-09-24. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -66,6 +66,10 @@ Still open:
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export is not yet archived. The earlier
 2026-09-17 follow-up also remains recorded in `docs/data-requests.md`.
+Jens Hammersen supplied four LANUK station packages on 2026-09-23; the
+researcher confirmed download and asked on 2026-09-24 for the continuous
+Honsdorf stage series, reconstruction flags/periods and provisional discharge
+curve history. Await both replies; neither request should be resent now.
 
 Candidate cohort: Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg), and
 Geleenbeek or Vloedgraaf. Those two count once if their high flows are shared
@@ -126,19 +130,14 @@ The event helper now requires timestamps as well as rows to be exactly one hour
 apart, preventing a false p99 crossing across an omitted timestamp. A focused
 regression test protects that scientific rule.
 
-## Agent work
+## Next work
 
-Follow `draft-0.9-implementation-plan.md` (progress table at the top). Done
-on 2026-09-18: gate script and event definitions aligned with draft 0.9;
-catchments delineated; ERA5-Land weather table built; estimator implemented
-and validated against R on synthetic data. Next:
-
-1. finish the RADOLAN RW download (`37_fetch_radar.py`, resumable) and run
-   `41_radar_catchment_rainfall.py`;
-2. author decisions D1–D7 (plan, Phase 0);
-3. write the hourly discharge ingest once source semantics are resolved;
-4. run the blinded feasibility audit and record the frozen floors;
-5. lock, then run the analysis.
+Decisions D1–D8, catchment polygons, RADOLAN RW catchment rainfall, public
+weather and the guarded hourly discharge ingest are built. Await Waterschap's
+three source-semantics answers; then run the ingest and blinded feasibility
+audit, record the frozen floors, lock the protocol and only then run analysis.
+LANUK's separate follow-up may inform the conditional distance module before
+lock but does not replace the core discharge source.
 
 ## Verification
 
@@ -153,8 +152,8 @@ Interpreter:
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
   recomputed and cloud manifests byte-identical; 300 unique hashes;
   backfill-only Function App stopped;
-- regional gate report: expected **FAIL**, with all six contracted inputs
-  absent;
+- regional gate report: expected **FAIL**, with the discharge file absent and
+  the other six contracted inputs present (2026-09-24);
 - Waterschap delivery: 561,024 requested-period quarter-hours on an exact grid;
   15 series, 14 station IDs, eight named watercourse labels; XLSX/CSV values
   equivalent; no outcomes inspected;

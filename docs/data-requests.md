@@ -1,10 +1,10 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-09-18 (protocol draft 0.9). The native Waterschap discharge
-delivery is preserved and audited. The regional gate still fails: the cohort
-and source semantics are unresolved. Cross-border catchments and the ERA5-Land
-weather table were built on 2026-09-18, and operational RADOLAN RW is being
-acquired. The Kerkrade CO2 case and the mine-water evidence
+Status: 2026-09-24 (protocol draft 0.9). The native Waterschap discharge
+delivery is preserved and audited. The regional gate still fails because
+discharge source semantics remain unresolved. The candidate cohort, cross-border
+catchments, ERA5-Land weather table and operational RADOLAN RW catchment series
+are built. The Kerkrade CO2 case and the mine-water evidence
 were retired from the chapter on 2026-09-18. Their deliveries remain preserved
 as provenance, and the sections below that concern them are historical.
 
@@ -24,6 +24,17 @@ the discharge ingest. Draft text is in `student-next-actions.md`; archive the
 sent copy under `data/raw/external_deliveries/waterschap_limburg/` when
 convenient.
 
+**LANUK delivery and outreach 2026-09-23–24 (researcher-reported):** Jens
+Hammersen supplied four station packages, preserved under
+`data/raw/external_deliveries/lanuk_nrw/2026-09-23/`. On 2026-09-24
+the researcher replied confirming download and asking for the Honsdorf
+continuous 15-minute stage export, row-level reconstruction flags or
+affected periods (especially July 2021), and the provisional periods
+and date-applicable rating curves for Herzogenrath 1 and Randerath.
+The Honsdorf stage file contains 36 dated measurements from 2012–2025,
+despite its 15-minute-average filename. Await Jens’s reply; the sent
+message itself has not been archived here.
+
 ## Current gate state
 
 | component | gate | required delivery | current state |
@@ -33,9 +44,9 @@ convenient.
 | core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | built from Copernicus GLO-30 for all seven candidates; seven area checks within ±4.4%; pour points provisional |
 | core | public weather | 10 common years of relative humidity and surface pressure with a fixed assignment per watercourse | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid |
 | core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and July 2021 status | **mostly resolved.** Sampling semantics, units and July 2021 station status were answered in the 2026-09-07 reply and are built into `data/interim/event_study_gauges.csv` (`scripts/44_build_event_study_gauges.py`). Rating eras are transcribed and built (D8). Coordinates were sent as Google Maps pins, not decimals; resolved 2026-09-18, they differ from the public-portal coordinates already in use by 0.1-8.8 m for all six cohort gauges, under one DEM cell — D5 stands without a re-run (`config/waterschap_gauge_coordinates_crosscheck.csv`). **Still open, and blocking the discharge ingest:** (1) whether the source's "GMT+1" label is a fixed offset or Dutch civil time with DST — not asked in either reply; (2) what a delivered zero discharge means, asked on 2026-09-07 but not answered (only blank cells were addressed); (3) **new question (2026-09-18):** was each part of the delivered discharge computed with the rating version in force at the time, or was history recomputed with a later relation? |
-| conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | not requested in writing before 2026-09-18; ask when René Mols replies |
+| conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | requested as a non-blocking extra in the 2026-09-21 follow-up; not received |
 | conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received. Current Fase 1–3 values per gauge appear in Waterschap's public-portal location table (snapshot 2026-08-07, `data/interim/waterschap_locations.csv`); historical values and leading-gauge status still needed |
-| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for the distance module before lock | offered 2026-09-11; follow-up sent 2026-09-17 |
+| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for the distance module before lock | four station packages received 2026-09-23; Honsdorf stage export is sparse (36 measurements); reconstruction and rating-curve questions sent to Jens 2026-09-24; re-audit pending |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
 **regional** audit. Core failure stops the chapter pending a dated rescoping

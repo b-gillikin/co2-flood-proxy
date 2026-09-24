@@ -1,6 +1,6 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **data-gated; no chapter result exists** (2026-09-18). This is the
+Status: **data-gated; no chapter result exists** (2026-09-24). This is the
 canonical description of the chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md` (draft 0.9); session state belongs in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
@@ -30,17 +30,14 @@ Viefhues and Eryilmaz motivate the question. The chapter analyses no CO2.
 
 ## 3. Intended contribution
 
-The chapter measures **how far ahead of high-water onset public regional
-signals depart from normal on small tributaries, and whether that differs
-between convective summer and frontal winter regimes.**
+The chapter measures **when public regional signals depart from comparison
+hours before high-water onset on small tributaries, and whether that observed
+association differs between warm and cold seasons.**
 
-That question has a policy consequence. If summer association concentrates
-within hours of onset, public regional data cannot support day-ahead
-anticipatory action for small tributaries in summer, and warning there depends
-on nowcasting and prepared responses. If winter association builds over days,
-anticipatory action is feasible then. Either way, warning for small catchments
-should be season-specific. The chapter supports claims about **feasibility**,
-not about **what works**.
+The observed lag structure can identify temporal constraints and questions for
+a separate forecast evaluation. It does not establish whether day-ahead action
+is possible, how much warning lead time an operational system has, or which
+warning strategy should be used.
 
 Methodologically, the chapter brings the standard design for short-term
 exposures preceding acute events in environmental epidemiology into hydrology:
@@ -94,8 +91,10 @@ which unanimous sign agreement is distinguishable from chance.
 
 - **Discharge:** Waterschap Limburg delivered 2010–2025 quarter-hour data for
   15 series and eight named watercourses, with rating curves and July 2021
-  station status. Timezone/DST, zero semantics and numerical coordinates are
-  still open; a follow-up went to Waterschap on 2026-09-17.
+  station status. Timezone/DST, zero semantics and historical rating-recomputation
+  remain open; a targeted follow-up went to Waterschap on 2026-09-21.
+  Numerical coordinates were cross-checked against provider map pins on
+  2026-09-18. The discharge ingest is written but awaits source semantics.
 - **Cohort (D3, decided 2026-09-18):** Eyserbeek, Geul (Cottessen), Gulp,
   Voer, Worm (Rimburg) and Geleenbeek (Brommelen), which represents the shared
   Geleenbeek/Vloedgraaf system. That is six watercourses: one to spare for the
@@ -103,14 +102,15 @@ which unanimous sign agreement is distinguishable from chance.
 - **Weather:** the ERA5-Land 2001–2025 archive is complete and audited.
 - **Rainfall and catchments:** catchments were delineated across borders on
   2026-09-18, with seven area checks within ±4.4%. RADKLIM cannot observe the
-  Voer, so operational RADOLAN RW is being acquired. The ERA5-Land weather
-  table is built.
+  Voer. Operational RADOLAN RW catchment rainfall and the ERA5-Land weather
+  table are built for the candidate cohort.
 - **Estimator:** implemented in Python. On synthetic data it reproduces the R
   reference to within 1e-13, and coverage of the primary estimand is close to
   nominal (93–97.5%).
-- **LANUK:** the 15-minute export was offered on 2026-09-11, and a follow-up
-  went to LANUK on 2026-09-17. It enters only through the conditional distance
-  module, if it arrives before lock.
+- **LANUK:** four station packages were received on 2026-09-23. A follow-up
+  went to Jens Hammersen on 2026-09-24 about the sparse Honsdorf stage file,
+  reconstruction flags and provisional rating periods. LANUK remains
+  conditional and does not unblock the Waterschap core.
 - **No threshold, event, storm or association has been calculated.**
 
 ## 7. July 2021 treatment
