@@ -112,10 +112,11 @@ binomial test. See protocol §2.
 
 ## 7. July 2021 treatment
 
-July 2021 must lie in the joint period. It is described without an invented
-local peak or onset. Onsets observed within the rating domain are kept even
-where the later peak exceeded it. The event is located against the fitted
-pooled relationship descriptively.
+July 2021 lies within the requested calendar span, but individual gauge hours
+can remain unusable. It is described without an invented local peak or onset.
+Onsets observed within the rating domain are kept even where the later peak
+exceeded it. The event is located against the fitted pooled relationship
+descriptively where the needed observations exist.
 
 ## 8. Existing context
 

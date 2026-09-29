@@ -10,7 +10,7 @@ There is no analysis framework or model registry.
 | script/module | purpose | state |
 | --- | --- | --- |
 | `25_ingest_lanuk_nrw.py` | acquire the held German discharge source used by the feasibility audit | implemented; source does not pass |
-| `31_event_study_gates.py` | audit the seven binding regional inputs against the draft 0.9 floors | implemented; only the discharge file is still missing |
+| `31_event_study_gates.py` | audit the five binding primary input files and report S2 weather plus information benchmarks separately | implemented; the discharge file and its source semantics remain unresolved |
 | `32_lanuk_feasibility.py` | audit German metadata, gaps, density and episode counts without signal outcomes | implemented; relevant only to the conditional distance module |
 | `34_fetch_era5_land.py` | local fallback for the fixed 2001–2025 weather grid | implemented; archive complete, fallback only |
 | `35_audit_waterschap_delivery.py` | outcome-blind raw coverage audit plus provider-sourced station QA for the delivered 2010–2025 table | implemented; timezone and zero semantics remain open (cohort decided, D3) |

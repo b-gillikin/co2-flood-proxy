@@ -89,8 +89,19 @@ are not automatic chapter-stopping rules.
 | core | `data/interim/event_study_rating_eras.csv` | non-overlapping rating eras per gauge (an era may span several intervals), with validity periods, rating domain, the discharge from which merged versions agree, and source document |
 | core | `data/interim/radolan_catchment_hourly.csv` | unique regular hourly UTC index plus one catchment-average rainfall column per primary watercourse |
 | core | `data/interim/event_study_catchments.gpkg` | one valid polygon per primary watercourse, delineated across national borders, naming its DEM |
-| core | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for every primary watercourse |
-| core | `data/interim/event_study_weather_sources.csv` | one pre-outcome source and spatial-assignment record per primary watercourse |
+| secondary S2 | `data/interim/event_study_weather_hourly.csv` | regular tidy hourly UTC relative humidity and surface pressure for the watercourses assessed in S2; already built |
+| secondary S2 | `data/interim/event_study_weather_sources.csv` | pre-outcome source and spatial-assignment records for S2; already built |
+
+The primary rainfall seasonal contrast consumes discharge, its high-water
+validity metadata, catchment rainfall and the fixed catchment assignment. S2's
+ERA5-Land variables are already available, but their absence at an individual
+site would narrow S2 rather than cancel the rainfall analysis. Stage, Fase
+thresholds, LANUK records and further weather products are not inputs to the
+primary estimand. The [time-stratified case-crossover design](https://pubmed.ncbi.nlm.nih.gov/16222160/)
+requires comparable event and at-risk exposure histories; the
+[distributed-lag method](https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.3940)
+models timing of those exposures and does not prescribe extra covariate
+datasets.
 
 **Information benchmarks for the intended regional claim:**
 

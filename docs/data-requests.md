@@ -1,6 +1,6 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-09-24 (protocol draft 0.9). The native Waterschap discharge
+Status: 2026-09-28 (protocol draft 0.10). The native Waterschap discharge
 delivery is preserved and audited. The regional gate still fails because
 discharge source semantics remain unresolved. The candidate cohort, cross-border
 catchments, ERA5-Land weather table and operational RADOLAN RW catchment series
@@ -42,7 +42,7 @@ message itself has not been archived here.
 | core | tributary discharge | Verified timezone, zero meanings, units and rating history for affected estimates; report watercourses, years, episodes, storms and coverage as information benchmarks | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
 | core | catchment rainfall | hourly radar rainfall averaged over cross-border catchment polygons | built from operational RADOLAN RW 2010–2025 (RADKLIM-RW ruled out on coverage); 0.03–0.21% hours missing per catchment |
 | core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | built from Copernicus GLO-30 for all seven candidates; seven area checks within ±4.4%; pour points provisional |
-| core | public weather | Relative humidity and surface pressure with a fixed assignment per watercourse; report usable overlap | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid |
+| secondary S2 | public weather | Relative humidity and surface pressure with a fixed assignment per watercourse; report usable overlap | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid; no further weather source required |
 | core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and July 2021 status | **mostly resolved.** Sampling semantics, units and July 2021 station status were answered in the 2026-09-07 reply and are built into `data/interim/event_study_gauges.csv` (`scripts/44_build_event_study_gauges.py`). Rating eras are transcribed and built (D8). Coordinates were sent as Google Maps pins, not decimals; resolved 2026-09-18, they differ from the public-portal coordinates already in use by 0.1-8.8 m for all six cohort gauges, under one DEM cell — D5 stands without a re-run (`config/waterschap_gauge_coordinates_crosscheck.csv`). **Still open, and blocking the discharge ingest:** (1) whether the source's "GMT+1" label is a fixed offset or Dutch civil time with DST — not asked in either reply; (2) what a delivered zero discharge means, asked on 2026-09-07 but not answered (only blank cells were addressed); (3) **new question (2026-09-18):** was each part of the delivered discharge computed with the rating version in force at the time, or was history recomputed with a later relation? |
 | conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | requested as a non-blocking extra in the 2026-09-21 follow-up; not received |
 | conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received. Current Fase 1–3 values per gauge appear in Waterschap's public-portal location table (snapshot 2026-08-07, `data/interim/waterschap_locations.csv`); historical values and leading-gauge status still needed |
@@ -53,6 +53,21 @@ Run `python scripts/31_event_study_gates.py --report-only` for the executable
 benchmarks prompt review of precision and claim scale. A shorter rolling record
 can support a separately labelled analysis, not silent historical substitution.
 The script encodes the draft 0.10 distinction.
+
+**Minimum-dataset reading (2026-09-28).** The primary seasonal rainfall analysis
+uses the delivered Waterschap discharge, its source interpretation and
+high-water-relevant rating/QA history, the already-built RADOLAN catchment
+rainfall, and the already-built cross-border catchment assignment. Event,
+at-risk and storm tables are derived from these inputs, not separate datasets.
+ERA5-Land supports S2 and is complete; no second weather product is needed.
+The sent Waterschap questions are targeted at interpreting the existing
+delivery, not at obtaining another time series. Stage, Fase thresholds, LANUK
+and mine-water records remain conditional or historical. Do not launch a new
+data request merely to fill those secondary branches. Source rating-curve
+evidence is needed where high-water ranks or onset validity could change, not
+every historical low-flow gauging. Published hydrometric research documents
+why rating revisions can matter at high flows
+([Gharari et al., 2024](https://hess.copernicus.org/articles/28/4383/2024/)).
 
 ## 1. Original Viefhues IoT package — historical (Kerkrade case retired 2026-09-18)
 
@@ -113,7 +128,7 @@ long Kerkrade-pair series arrives, it must overlap at least three exact p99
 onsets with all 72 pre-onset CO2 and pressure hours observed. Fewer events
 cannot support a recurrence conclusion, but do not block the core chapter.
 
-## 2. Long Limburg tributary discharge — blocking
+## 2. Long Limburg tributary discharge — received; interpretation pending
 
 Status: **native EML, PDF, XLSX and value-equivalent CSV received and audited
 2026-08-19; provider metadata follow-up received 2026-09-07 and reviewed
@@ -150,7 +165,14 @@ occurred in the requested period. It supplies rating-curve sheets and a July
 - Oud-Roosteren appears twice under station ID 6.Q.27, with one column marked
   `indicatie`.
 
-Still required before hourly discharge, p99 thresholds or events are built:
+The following list records the earlier request wording; the live status is the
+table and minimum-dataset reading above. Of these, timezone, zero semantics and
+high-water-relevant rating treatment remain open in the sent 2026-09-21
+follow-up. Coordinates, cohort classification and rating-era transcription
+have since been resolved. The former ten-watercourse floor is a nonbinding
+information benchmark, not another data request.
+
+Earlier request checklist before hourly discharge, p99 thresholds or events:
 
 - confirmation whether `GMT+1` is fixed UTC+1 or Dutch civil time with DST,
   plus zero/sentinel semantics;
@@ -162,7 +184,7 @@ Still required before hourly discharge, p99 thresholds or events are built:
   10-watercourse floor or a recorded revision made after the blinded
   feasibility audit and before any outcome is inspected.
 
-Primary request to Waterschap Limburg (`info@waterschaplimburg.nl`,
+Original request to Waterschap Limburg (`info@waterschaplimburg.nl`,
 088 88 90 100):
 
 1. Full available discharge history at native resolution for natural tributary
@@ -184,7 +206,7 @@ Academic-release precedent: Tsakiris et al. (HESS, 2024) report that Waterschap
 Limburg supplied 15-minute Meerssen discharge from 1970 to August 2021. The
 archive therefore exists beyond the public endpoint's rolling window.
 
-Alternative routes, in order:
+Historical alternative routes considered before the delivery:
 
 1. the HESS 2024 authors for the cleaned Meerssen series and quality notes;
 2. JCAR ATRACE (`info@jcar-atrace.eu`; programme manager Kymo Slager), which is
@@ -227,7 +249,7 @@ rationale must be hydrological and agreed before outcome inspection.
 Status: **ERA5-Land approved; all 300 monthly source files acquired and
 audited**.
 
-Temperature, relative humidity and pressure are fixed primary signals.
+Relative humidity and pressure change are fixed S2 signals, not primary inputs.
 ERA5-Land was chosen before event contrasts because it supplies one consistent
 hourly 0.1° field across Limburg and the cross-border margin. The fixed raw
 extract covers 2001–2025 and retains 2 m temperature, 2 m dew-point temperature
@@ -306,15 +328,18 @@ hydrologically checked. Point-gauge rainfall is not a substitute for
 catchment-average RADOLAN rainfall. ERA5-Land (~9 km) is also not a rainfall
 substitute.
 
-## 5. July 2021 gauge evidence — core status, conditional local bounds
+## 5. July 2021 gauge evidence — affected-hour validity, conditional local bounds
 
 The Deltares rapid assessment reports missing/damaged Geul peaks and warns that
 surviving flood discharge observations may be unreliable. Independently, some
 LANUK gauges stop before the flood. Therefore July 2021 is interval-censored,
 not missing at random.
 
-Every core gauge needs a documented July 2021 status. For the conditional
-Kerkrade case, request or extract:
+Document July 2021 status where a gauge's observations or descriptive event
+interpretation are affected; missing or failed hours are excluded without
+inventing an onset. A complete station-by-station July report is not a
+prerequisite for valid other years. The following Kerkrade-case list is
+historical because that case was retired on 2026-09-18:
 
 - last reliable pre-failure observation;
 - first reliable post-failure observation;
@@ -360,10 +385,10 @@ a delay. Treat them as secondary contextual evidence.
 
 For every delivered dataset, preserve the raw file, licence and request
 correspondence; record a checksum; inspect units/timezone/sentinels before
-aggregation; and update this file plus the append-only `decisions.md`. Passing
-the **core** executable gate still requires the recorded floor decisions before
-the protocol is locked. Kerkrade materials may be added only if their separate case
-gate passes before that case's outcomes are inspected.
+aggregation; and update this file plus the append-only `decisions.md`. The
+executable audit reports input validity and information benchmarks; its
+numerical floors are not automatic chapter-stopping rules. Kerkrade materials
+are outside the live analysis.
 
 The detailed five-task handoff, verified institutional addresses and message
 texts are in `student-next-actions.md`. The student reports that the contact

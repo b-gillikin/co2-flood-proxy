@@ -12,7 +12,7 @@ source semantics remain unresolved; numerical benchmarks do not stop the study.
 | `31_event_study_gates.py` | audits input validity and information | aligned with draft 0.10; numerical benchmarks are nonbinding, rating-era validity remains binding |
 | `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
 | `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone and zero semantics unresolved (cohort decided, D3) |
-| ERA5-Land weather table | relative humidity, surface pressure and six-hour change | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
+| ERA5-Land weather table | already-built S2 humidity and pressure-change inputs; not required for the primary rainfall contrast | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
 | `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
 | cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |

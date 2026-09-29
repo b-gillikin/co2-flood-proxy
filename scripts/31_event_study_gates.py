@@ -34,6 +34,8 @@ CORE_FILES = {
     "rating eras": Path("data/interim/event_study_rating_eras.csv"),
     "radar catchment rainfall": Path("data/interim/radolan_catchment_hourly.csv"),
     "catchment polygons": Path("data/interim/event_study_catchments.gpkg"),
+}
+SECONDARY_FILES = {
     "long public weather": Path("data/interim/event_study_weather_hourly.csv"),
     "public weather provenance": Path("data/interim/event_study_weather_sources.csv"),
 }
@@ -316,6 +318,8 @@ def audit():
     rows = []
     for name, path in CORE_FILES.items():
         add(rows, f"File: {name}", path.exists(), path, "file exists")
+    for name, path in SECONDARY_FILES.items():
+        add(rows, f"File: {name}", path.exists(), path, "needed for S2 only", binding=False)
 
     # Downstream checks cannot be evaluated until every regional file exists.
     if not all(path.exists() for path in CORE_FILES.values()):
@@ -329,9 +333,14 @@ def audit():
 
     primary = gauges[as_bool(gauges.include_primary) & as_bool(gauges.natural_tributary)].copy()
     n_units = primary.independence_unit.nunique()
-    add(rows, "Independent natural watercourses (breadth benchmark)",
-        n_units >= MIN_WATERCOURSES, n_units, f">={MIN_WATERCOURSES} for intended breadth",
-        binding=False)
+    add(
+        rows,
+        "Independent natural watercourses (breadth benchmark)",
+        n_units >= MIN_WATERCOURSES,
+        n_units,
+        f">={MIN_WATERCOURSES} for intended breadth",
+        binding=False,
+    )
     one_gauge_each = (
         not primary.empty
         and primary.gauge.astype(str).is_unique
@@ -356,9 +365,14 @@ def audit():
     qa_ok = not primary.empty and primary[QA_COLUMNS].apply(as_bool).all().all()
     july_ok = not primary.empty and primary.july_2021_status.fillna("").str.strip().ne("").all()
     add(rows, "Gauge QA", qa_ok, primary[QA_COLUMNS].apply(as_bool).sum().to_dict(), "all true")
-    add(rows, "July 2021 gauge status", july_ok,
-        primary.july_2021_status.notna().sum(), "all documented for July case",
-        binding=False)
+    add(
+        rows,
+        "July 2021 gauge status",
+        july_ok,
+        primary.july_2021_status.notna().sum(),
+        "all documented for July case",
+        binding=False,
+    )
 
     gauge_names = primary.gauge.astype(str).tolist()
     eras, eras_ok, eras_observed = read_rating_eras(CORE_FILES["rating eras"], gauge_names)
@@ -451,102 +465,16 @@ def audit():
     if pd.isna(rain_start) or pd.isna(rain_end):
         return pd.DataFrame(rows)
 
-    weather, weather_axis, weather_columns = read_long_weather(CORE_FILES["long public weather"])
-    add(
-        rows,
-        "Public weather schema",
-        weather_columns.issubset(weather),
-        sorted(weather),
-        sorted(weather_columns),
-    )
-    add(rows, "Public weather time axes", weather_axis, "tidy hourly rows", "regular hourly UTC")
-    if not weather_columns.issubset(weather) or not weather_axis:
-        return pd.DataFrame(rows)
-
-    weather_watercourses = set(weather.watercourse.astype(str))
-    weather_assignment = set(watercourses).issubset(weather_watercourses)
-    add(
-        rows,
-        "Public weather assignment",
-        weather_assignment,
-        len(set(watercourses) & weather_watercourses),
-        len(watercourses),
-    )
-
-    weather_sources = pd.read_csv(CORE_FILES["public weather provenance"])
-    source_columns = {
-        "watercourse",
-        "source_id",
-        "source_type",
-        "spatial_assignment",
-        "timezone_verified",
-        "units_verified",
-    }
-    source_schema = source_columns.issubset(weather_sources)
-    source_rows = (
-        weather_sources[weather_sources.watercourse.astype(str).isin(watercourses)]
-        if source_schema
-        else pd.DataFrame()
-    )
-    source_complete = (
-        source_schema
-        and source_rows.watercourse.astype(str).is_unique
-        and set(watercourses).issubset(set(source_rows.watercourse.astype(str)))
-        and source_rows[["source_id", "source_type", "spatial_assignment"]]
-        .fillna("")
-        .astype(str)
-        .apply(lambda column: column.str.strip().ne(""))
-        .all()
-        .all()
-        and source_rows[["timezone_verified", "units_verified"]].apply(as_bool).all().all()
-    )
-    add(
-        rows,
-        "Public weather provenance",
-        source_complete,
-        sorted(weather_sources) if source_schema else "schema incomplete",
-        "one complete, verified assignment per primary watercourse",
-    )
-    if not weather_assignment or not source_complete:
-        return pd.DataFrame(rows)
-
-    weather_plausible = (
-        weather.relative_humidity_pct.dropna().between(0, 100).all()
-        and weather.surface_pressure_hpa.dropna().between(850, 1100).all()
-    )
-    add(
-        rows,
-        "Public weather value ranges",
-        weather_plausible,
-        "RH [0,100], surface pressure [850,1100]",
-        "all observed values physically plausible",
-    )
-
-    weather_wide = weather.pivot(
-        index="timestamp_utc",
-        columns="watercourse",
-        values=["relative_humidity_pct", "surface_pressure_hpa"],
-    )
-    selected_weather = weather_wide.loc[
-        :, weather_wide.columns.get_level_values(1).isin(watercourses)
-    ]
-    weather_start, weather_end, weather_years = common_span(selected_weather)
-    add(
-        rows,
-        "Common public weather span",
-        weather_years >= MIN_YEARS,
-        f"{weather_years:.2f} years",
-        f">={MIN_YEARS} years for intended interannual breadth",
-        binding=False,
-    )
-    if pd.isna(weather_start) or pd.isna(weather_end):
-        return pd.DataFrame(rows)
-
-    joint_start = max(discharge_start, rain_start, weather_start)
-    joint_end = min(discharge_end, rain_end, weather_end)
+    joint_start = max(discharge_start, rain_start)
+    joint_end = min(discharge_end, rain_end)
     overlapping = joint_start <= joint_end
-    add(rows, "Joint observed period exists", overlapping,
-        f"{joint_start} to {joint_end}", "at least one common hour")
+    add(
+        rows,
+        "Joint observed period exists",
+        overlapping,
+        f"{joint_start} to {joint_end}",
+        "at least one common hour",
+    )
     if not overlapping:
         return pd.DataFrame(rows)
     joint_years = max(
@@ -589,16 +517,116 @@ def audit():
         density,
         binding=False,
     )
-    weather_coverage = coverage_summary(selected_weather, joint_start, joint_end)
-    weather_coverage.index = [" / ".join(map(str, column)) for column in weather_coverage.index]
-    add(
-        rows,
-        "Public weather observation density",
-        coverage_passes(weather_coverage),
-        weather_coverage.round(3).to_dict(orient="index"),
-        density,
-        binding=False,
-    )
+    if all(path.exists() for path in SECONDARY_FILES.values()):
+        weather, weather_axis, weather_columns = read_long_weather(
+            SECONDARY_FILES["long public weather"]
+        )
+        weather_schema = weather_columns.issubset(weather)
+        add(
+            rows,
+            "Public weather schema",
+            weather_schema,
+            sorted(weather),
+            sorted(weather_columns),
+            binding=False,
+        )
+        add(
+            rows,
+            "Public weather time axes",
+            weather_axis,
+            "tidy hourly rows",
+            "regular hourly UTC",
+            binding=False,
+        )
+        if weather_schema and weather_axis:
+            weather_watercourses = set(weather.watercourse.astype(str))
+            weather_assignment = set(watercourses).issubset(weather_watercourses)
+            add(
+                rows,
+                "Public weather assignment",
+                weather_assignment,
+                len(set(watercourses) & weather_watercourses),
+                len(watercourses),
+                binding=False,
+            )
+            weather_sources = pd.read_csv(SECONDARY_FILES["public weather provenance"])
+            source_columns = {
+                "watercourse",
+                "source_id",
+                "source_type",
+                "spatial_assignment",
+                "timezone_verified",
+                "units_verified",
+            }
+            source_schema = source_columns.issubset(weather_sources)
+            source_rows = (
+                weather_sources[weather_sources.watercourse.astype(str).isin(watercourses)]
+                if source_schema
+                else pd.DataFrame()
+            )
+            source_complete = (
+                source_schema
+                and source_rows.watercourse.astype(str).is_unique
+                and set(watercourses).issubset(set(source_rows.watercourse.astype(str)))
+                and source_rows[["source_id", "source_type", "spatial_assignment"]]
+                .fillna("")
+                .astype(str)
+                .apply(lambda column: column.str.strip().ne(""))
+                .all()
+                .all()
+                and source_rows[["timezone_verified", "units_verified"]].apply(as_bool).all().all()
+            )
+            add(
+                rows,
+                "Public weather provenance",
+                source_complete,
+                sorted(weather_sources) if source_schema else "schema incomplete",
+                "one complete, verified assignment per S2 watercourse",
+                binding=False,
+            )
+            weather_plausible = (
+                weather.relative_humidity_pct.dropna().between(0, 100).all()
+                and weather.surface_pressure_hpa.dropna().between(850, 1100).all()
+            )
+            add(
+                rows,
+                "Public weather value ranges",
+                weather_plausible,
+                "RH [0,100], surface pressure [850,1100]",
+                "all observed values physically plausible",
+                binding=False,
+            )
+            if weather_assignment and source_complete and weather_plausible:
+                weather_wide = weather.pivot(
+                    index="timestamp_utc",
+                    columns="watercourse",
+                    values=["relative_humidity_pct", "surface_pressure_hpa"],
+                )
+                selected_weather = weather_wide.loc[
+                    :, weather_wide.columns.get_level_values(1).isin(watercourses)
+                ]
+                weather_start, weather_end, weather_years = common_span(selected_weather)
+                add(
+                    rows,
+                    "Common public weather span",
+                    weather_years >= MIN_YEARS,
+                    f"{weather_years:.2f} years",
+                    f">={MIN_YEARS} years for intended interannual breadth",
+                    binding=False,
+                )
+                if not (pd.isna(weather_start) or pd.isna(weather_end)):
+                    weather_coverage = coverage_summary(selected_weather, joint_start, joint_end)
+                    weather_coverage.index = [
+                        " / ".join(map(str, column)) for column in weather_coverage.index
+                    ]
+                    add(
+                        rows,
+                        "Public weather observation density",
+                        coverage_passes(weather_coverage),
+                        weather_coverage.round(3).to_dict(orient="index"),
+                        density,
+                        binding=False,
+                    )
 
     merges = era_merge_checks(discharge, era_tables, joint_start, joint_end)
     add(

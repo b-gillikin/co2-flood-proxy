@@ -318,6 +318,21 @@ def test_complete_synthetic_inputs_pass_every_binding_gate(tmp_path, monkeypatch
     assert GATES.write_report(table)
 
 
+def test_secondary_weather_absence_does_not_block_rainfall_audit(tmp_path, monkeypatch):
+    pytest.importorskip("geopandas")
+    write_fixture(tmp_path)
+    interim = tmp_path / "data" / "interim"
+    (interim / "event_study_weather_hourly.csv").unlink()
+    (interim / "event_study_weather_sources.csv").unlink()
+    monkeypatch.chdir(tmp_path)
+
+    table = GATES.audit().set_index("gate")
+
+    assert table.loc["File: long public weather", "status"] == "REVIEW"
+    assert table.loc["Joint observed period exists", "status"] == "PASS"
+    assert GATES.write_report(table.reset_index())
+
+
 def test_watercourse_breadth_is_a_nonbinding_information_benchmark(tmp_path, monkeypatch):
     pytest.importorskip("geopandas")
     write_fixture(tmp_path, n_units=4)
