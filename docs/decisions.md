@@ -2127,3 +2127,26 @@ the radar-hour contract. The input audit also now accepts the existing seventh
 candidate catchment when validating the six primary watercourses. After these
 corrections, all 19 binding input contracts pass. No association result has
 been estimated.
+
+# 2026-09-29 — First real-data event review and model execution
+
+The outcome-only review found 724 exact p99 onsets in 240 regional storms.
+Provider high-flow concerns and plotted abrupt rises did not establish a new
+invalid onset pair; 721 onsets retained complete 72-hour rainfall histories.
+The first association fit used the fixed six-gauge cohort, RADOLAN RW,
+ERA5-Land and the protocol's 999 joint year-month bootstrap draws. The
+measurement review, manifest and internal results guide are in
+`limburg-first-fit-review.md`, ignored local `results/event_study/real_data_v1/`
+and `limburg-first-fit-results-guide.md`, respectively.
+
+The first fit exposed a claim-scale problem: the fixed p95-positive hourly
+rainfall contrast, if interpreted literally at all 72 lags, describes a
+sustained history not observed in any catchment. Retain the prespecified
+estimate as an extrapolative model index; do not turn its enormous log-rate
+ratio into a realistic flood-risk effect size. The warm-minus-cold median-lag
+interval includes zero. The primary model is not replaced or tuned on this
+result. An exploratory flagged-event sensitivity and July 2021 influence
+check are labelled as such. The event review gained two additional
+peak-domain concern flags after the initial computational fit, although their
+onset pairs remained valid; this amendment is explicitly recorded rather
+than backdated.

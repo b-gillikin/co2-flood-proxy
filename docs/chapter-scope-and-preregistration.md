@@ -466,6 +466,17 @@ Current state: **unlocked**. Fixed GMT+1 and true-zero semantics were confirmed
 by the provider on 2026-09-29; discharge preparation and input audit can run. A
 version record is internal documentation, not formal preregistration.
 
+**First execution (2026-09-29):** the reviewed real-data fit and 999-draw
+bootstrap are preserved in ignored local `results/event_study/real_data_v1/`,
+with input/code hashes and a fixed seed in `analysis_run.json`. See
+`limburg-first-fit-review.md` for the dated measurement decision and
+`limburg-first-fit-results-guide.md` for results and interpretation. This first
+run does not lock or rewrite the protocol. The fixed cumulative rainfall
+contrast corresponds to sustained p95-positive hourly rain at all 72 lags,
+which is outside the observed histories; its magnitude must not be described
+as an observed storm effect. The median-lag comparison remains the direct
+timing summary.
+
 At lock, record:
 
 - the date and `decisions.md` entry recording the cohort and supported claim scale;

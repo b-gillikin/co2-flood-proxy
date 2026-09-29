@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-29. Session state only; use the synthesis and protocol for
+Updated 2026-09-29 after the first real-data fit. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -63,8 +63,11 @@ corrections documented in the data file. The current H1/H2/H3 threshold CSV is
 archived; historical thresholds are unavailable. No stage datum or sensor
 history was supplied. The six-gauge hourly discharge series has been built,
 including a correction to align trailing quarter-hour means to their hour-end
-label. The input audit passes all 19 binding contracts. This is readiness for
-analysis, not an estimated association or validation of every extreme value.
+label. The input audit passes all 19 binding contracts. The first real-data
+fit is in ignored local `results/event_study/real_data_v1/`; read
+`limburg-first-fit-review.md` and `limburg-first-fit-results-guide.md` before
+using its numbers. The cumulative fixed-rainfall contrast lies outside observed
+72-hour rainfall-history support and is not a realistic storm effect size.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;
@@ -79,7 +82,8 @@ Candidate cohort: Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg), and
 Geleenbeek or Vloedgraaf. Those two count once if their high flows are shared
 below the Millen split. That is six: one to spare for the core floor, and none
 for the former breadth benchmark. Selzerbeek is out.
-No p99 threshold or event has been calculated.
+The review found 724 exact p99 onsets in 240 storms; 721 onsets in 239 storms
+have complete 72-hour rainfall histories for the primary fit.
 
 The Viefhues K4 record and the Provincie Limburg mine-water delivery remain
 preserved under `data/raw/external_deliveries/` as provenance for the
@@ -157,8 +161,9 @@ Interpreter:
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
   recomputed and cloud manifests byte-identical; 300 unique hashes;
   backfill-only Function App stopped;
-- input audit: **19/19 binding contracts PASS** (2026-09-29); information
-  benchmarks are descriptive and no association estimate exists;
+- input audit: **19/19 binding contracts PASS** (2026-09-29); first 999-draw
+  association fit complete, with the limitations in
+  `limburg-first-fit-results-guide.md`;
 - Waterschap delivery: 561,024 requested-period quarter-hours on an exact grid;
   15 series, 14 station IDs, eight named watercourse labels; XLSX/CSV values
   equivalent; no outcomes inspected;

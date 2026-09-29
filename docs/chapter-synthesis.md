@@ -1,9 +1,11 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **core input semantics resolved; no chapter result exists** (2026-09-29). This is the
+Status: **first real-data fit complete; interpretation remains provisional** (2026-09-29). This is the
 canonical description of the chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md` (draft 0.10); session state belongs in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
+The measurement review and first-fit interpretation are in
+`limburg-first-fit-review.md` and `limburg-first-fit-results-guide.md`.
 
 ## 1. Research question
 

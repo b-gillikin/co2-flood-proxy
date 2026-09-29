@@ -26,7 +26,10 @@ There is no analysis framework or model registry.
 | `R/case_crossover_reference.R` | R reference fit (`dlnm` plus fixed-effects GLM), called by script 38 | implemented |
 | `src/event_study.py` | rating-era thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | `src/case_crossover.py` | lag basis, cross-basis, conditional Poisson fit, block bootstrap, primary summaries | implemented, unit-tested and validated against R |
-| case-crossover analysis script | primary and secondary estimands, tables and figures | not written or run before gates and lock |
+| `46_review_events.py` | outcome-only review of every candidate onset, source concerns and discharge contact sheets | run; 724 exact onsets reviewed |
+| `47_run_real_event_study.py` | primary, S1–S4, specified sensitivities, 999-draw joint-month bootstrap and tidy outputs | first real-data fit run 2026-09-29 |
+| `48_render_real_event_study.py` | five protocol figures from fitted outputs and the fixed catchment GeoPackage | run |
+| `49_diagnose_real_event_study.py` | fitted-onset diagnostics, July 2021 point-estimate influence and rainfall-contrast support | run; diagnostic only |
 
 Safe input-only commands:
 
@@ -44,6 +47,19 @@ python scripts/43_build_rating_eras.py
 python scripts/44_build_event_study_gauges.py
 python scripts/45_build_event_study_discharge.py --timezone fixed_utc_plus_1 --zero true_zero --commit
 ```
+
+First-fit workflow (project environment):
+
+```bash
+python scripts/46_review_events.py
+python scripts/47_run_real_event_study.py --replicates 999
+python scripts/48_render_real_event_study.py
+python scripts/49_diagnose_real_event_study.py
+```
+
+The review is completed before the fit. `results/event_study/real_data_v1/`
+holds ignored local analytical artifacts; `docs/limburg-first-fit-results-guide.md`
+records the interpretation and the cumulative-contrast limitation.
 
 The last command writes a labelled candidate under
 `results/discharge_ingest_candidates/` and the core gate file. The core write
