@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-29 after the first real-data fit. Session state only; use the synthesis and protocol for
+Updated 2026-09-29 after the observed-history diagnostic. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -17,6 +17,8 @@ Read in this order:
    `chapter-references.bib` — source corpus for the student-authored review.
 8. `dissertation-research-and-code-guidelines.md` — reusable standard for
    scoping, evidence, coding and review across the remaining chapters.
+9. `limburg-next-pass-method-note.md` — observed-rainfall diagnostic and the
+   bounded simulated-storm prospect; neither changes the current estimand.
 
 ## Current chapter
 
@@ -68,6 +70,12 @@ fit is in ignored local `results/event_study/real_data_v1/`; read
 `limburg-first-fit-review.md` and `limburg-first-fit-results-guide.md` before
 using its numbers. The cumulative fixed-rainfall contrast lies outside observed
 72-hour rainfall-history support and is not a realistic storm effect size.
+The follow-up diagnostic in `limburg-next-pass-method-note.md` shows a strong
+descriptive 1–24 h rainfall contrast at onset, a much weaker 25–72 h contrast,
+and an observed maximum 72 h case total about half of the fixed model
+contrast. An explicitly exploratory two-window fit, with 999 joint-block
+bootstrap draws, is documented there too. Neither replaces the original
+estimand or constitutes a forecast exercise.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;
