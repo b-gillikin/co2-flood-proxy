@@ -64,21 +64,23 @@ SERIES = [
     ("10.Q.36", "10.Q.36", "Geul", "Meerssen", "provider reports continuing gravel-bar problems"),
 ]
 
-# Source-backed interpretation received from Waterschap Limburg on 2026-09-07.
+# Source-backed interpretation received from Waterschap Limburg on 2026-09-07
+# and clarified in René Mols's reply relayed by the researcher on 2026-09-29.
 # These fields deliberately distinguish a populated source cell from a discharge
 # value that is usable for an exact-onset analysis.  None of the categories below
 # is inferred from the delivered discharge values.
 SOURCE_CONTRACT = {
     "sampling_semantics_verified": True,
     "units_verified": True,
-    "timezone_verified": False,
-    "zero_sentinel_verified": False,
+    "timezone_verified": True,
+    "zero_sentinel_verified": True,
     "validation_flags_available": False,
     "sampling_semantics": "mean of the preceding 15 minutes",
     "blank_semantics": (
         "no data available; unreliable and non-operational causes are not distinguished"
     ),
-    "timezone_note": "source says GMT+1; fixed offset versus Dutch civil time remains unresolved",
+    "timezone_note": "fixed GMT+1 (UTC+1) throughout the year; no daylight-saving adjustment",
+    "zero_note": "0.000 m3/s is actual zero discharge, not a missing-value sentinel",
     "reuse_note": (
         "semi-finished and not fully validated; provider strongly advises against onward transfer"
     ),

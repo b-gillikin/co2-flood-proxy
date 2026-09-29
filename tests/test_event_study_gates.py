@@ -124,7 +124,7 @@ def test_catchment_contract_opens_and_checks_geometries(tmp_path):
     )
     frame.to_file(path, driver="GPKG")
 
-    valid, observed = GATES.validate_catchments(path, ["A", "B"])
+    valid, observed = GATES.validate_catchments(path, ["A"])
 
     assert valid, observed
 

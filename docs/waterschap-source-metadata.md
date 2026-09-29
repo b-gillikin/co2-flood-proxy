@@ -1,6 +1,7 @@
 # Waterschap Limburg Discharge Source Metadata
 
-Status: provider follow-up received 2026-09-07 and reviewed 2026-09-14. This
+Status: provider follow-up received 2026-09-07; further answers relayed by the
+researcher on 2026-09-29. This
 note interprets source semantics and station QA without calculating thresholds,
 episodes, peaks or signal contrasts.
 
@@ -14,16 +15,24 @@ semi-finished, not fully validated and may differ from reality. The provider
 strongly advises against forwarding them to third parties.
 
 Units are documented as m3/s and no station relocation occurred during the
-requested period. Two source semantics remain unresolved:
+requested period. René confirms that `GMT+1` is a fixed UTC+1 offset all year,
+without daylight saving, and that `0.000` always denotes zero discharge rather
+than a missing or unreliable reading. Blanks still mean unavailable data.
+He states that the delivered values correspond to the relation applicable to
+their period; check measurements can prompt retrospective correction, which
+the provider says is documented in the data file. This does not certify every
+high-flow value or identify a version for every row. Thus timezone and zero
+semantics are verified, while rating-domain admissibility remains a separate
+per-era, per-hour check.
 
-- whether the header `GMT+1` means a fixed UTC+1 offset or Dutch civil time
-  with daylight-saving transitions; and
-- whether zero is always a physical or controlled zero rather than a sentinel.
-
-Consequently `sampling_semantics_verified` and `units_verified` can be true,
-but `timezone_verified`, `zero_sentinel_verified` and
-`rating_curve_verified` remain false. A rating-curve sheet being present does
-not establish that every reported value is within its applicable domain.
+René could provide only **current** H1/H2/H3 warning thresholds. Historical
+thresholds are not retained. The CSV relayed with his response is preserved
+unchanged under `data/raw/external_deliveries/waterschap_limburg/2026-09-29/`
+(SHA-256 `eac84eea917267a5d0e6aad1bf40c6ef6b13287c08c1f8752d95f211a1736dbd`).
+Its 14 station rows give discharge thresholds in m3/s. H1 means increased
+vigilance, H2 imminent flood risk and H3 flooding. It is a current snapshot,
+not a dated series; do not assign these values to historical onsets. René could
+not provide reference-datum or sensor-history information.
 
 ## July 2021 source assessment
 
@@ -64,14 +73,16 @@ The future hourly ingest must:
 7. exclude controlled branches and composite estimates from the primary
    natural-tributary cohort.
 
-The metadata follow-up narrows the unresolved work but does not open the
-regional gate. Fixed timezone/DST semantics, zero semantics, numerical
-coordinates, natural/managed classification, a defensible cohort of sufficient
-watercourses and supervisor approval of the numerical floors are still needed.
+The source-semantics questions no longer prevent hourly discharge preparation.
+Data quality, rating domains and supported event counts still determine the
+eventual claim scale; numerical information benchmarks are not automatic
+chapter vetoes.
 
 ## Preserved evidence
 
-The native email, station-status DOCX, 14 rating-curve PDFs and a checksum
+The 2026-09-07 native email, station-status DOCX, 14 rating-curve PDFs and a checksum
 receipt are preserved under
 `data/raw/external_deliveries/waterschap_limburg/2026-09-07/`. The original
 quarter-hour CSV/XLSX delivery remains unchanged under the 2026-08-19 folder.
+The 2026-09-29 answers were pasted by the researcher because Outlook would not
+export the `.eml`; no native email is archived for that reply.

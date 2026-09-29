@@ -18,10 +18,9 @@ already-built sources:
 - `config/rating_curves/event_study_eras.csv`: confirms every cohort gauge has
   a documented rating era (decision D8).
 
-Two QA columns stay false because Waterschap's reply did not resolve them:
-zero-cell semantics (a zero was never distinguished from a sentinel) and the
-GMT+1 timezone (fixed offset or Dutch civil time was never asked). Both
-remain open in `docs/data-requests.md`.
+Waterschap's follow-up, relayed on 2026-09-29, confirms fixed GMT+1 without
+daylight saving and that 0.000 is genuine zero discharge. The source-QA table
+therefore verifies both fields for the six cohort gauges.
 
 It reads no discharge, rainfall or weather value.
 

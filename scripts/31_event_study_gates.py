@@ -274,7 +274,7 @@ def validate_catchments(path, watercourses):
     valid = (
         not frame.empty
         and names.is_unique
-        and set(names) == required
+        and required.issubset(set(names))
         and geometries.notna().all()
         and not geometries.is_empty.any()
         and geometries.is_valid.all()

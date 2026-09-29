@@ -2103,3 +2103,27 @@ binomial sign-test calculation assumed independent signs despite shared regional
 storms and is withdrawn. An internal versioned protocol records decisions but
 does not commit the author to formal preregistration. Outcome-informed changes
 are documented and labelled exploratory. Earlier decisions remain as history.
+
+# 2026-09-29 — Waterschap source semantics and current thresholds
+
+René Mols's reply, pasted by the researcher because Outlook would not export
+the native email, confirms fixed GMT+1 without daylight saving, genuine 0.000
+m³/s values, and discharge values based on relations applicable to their
+period, with retrospective adjustments documented in the delivery. Use fixed
+UTC+1 and retain zeros in the hourly ingest. Keep per-era rating-domain and
+known station-failure checks; provider clarification does not validate every
+high-flow measurement.
+
+The supplied H1/H2/H3 CSV is a current 14-station threshold snapshot. Historical
+thresholds are not retained, and datum/sensor history was not supplied. Do not
+retrofit current warning thresholds to 2010–2025 events; the proposed
+historical Fase-onset sensitivity is inactive. The p99 outcome remains the
+primary chapter definition.
+
+The first actual ingest review revealed that preceding-15-minute means were
+grouped by the hour containing their timestamp. Corrected to label an hour by
+its end, averaging the four intervals in `(t - 1 hour, t]`, consistent with
+the radar-hour contract. The input audit also now accepts the existing seventh
+candidate catchment when validating the six primary watercourses. After these
+corrections, all 19 binding input contracts pass. No association result has
+been estimated.

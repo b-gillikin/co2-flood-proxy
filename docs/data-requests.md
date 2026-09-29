@@ -1,8 +1,8 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-09-28 (protocol draft 0.10). The native Waterschap discharge
-delivery is preserved and audited. The regional gate still fails because
-discharge source semantics remain unresolved. The candidate cohort, cross-border
+Status: 2026-09-29 (protocol draft 0.10). The native Waterschap discharge
+delivery is preserved and audited. René's reply resolves fixed GMT+1 and true
+zero semantics; the six-gauge hourly ingest and input audit now run. The candidate cohort, cross-border
 catchments, ERA5-Land weather table and operational RADOLAN RW catchment series
 are built. The Kerkrade CO2 case and the mine-water evidence
 were retired from the chapter on 2026-09-18. Their deliveries remain preserved
@@ -22,7 +22,15 @@ discharge history was recomputed with a later rating relation. Fase thresholds
 and stage records were included as non-blocking extras. Questions 1 and 2 block
 the discharge ingest. Draft text is in `student-next-actions.md`; archive the
 sent copy under `data/raw/external_deliveries/waterschap_limburg/` when
-convenient.
+convenient. This paragraph records what was sent, not the current blocker.
+
+**Reply relayed 2026-09-29:** René confirms fixed GMT+1 without daylight
+saving, genuine zero discharge, and period-applicable rating relations with
+retrospective adjustments documented in the delivery. He supplies current
+H1/H2/H3 thresholds only; historical thresholds are not retained. Datum and
+sensor history are unavailable. The attached 14-station threshold CSV is
+preserved unchanged under `data/raw/external_deliveries/waterschap_limburg/2026-09-29/`.
+The reply text was pasted by the researcher; no native `.eml` is held.
 
 **LANUK delivery and outreach 2026-09-23–24 (researcher-reported):** Jens
 Hammersen supplied four station packages, preserved under
@@ -39,13 +47,13 @@ message itself has not been archived here.
 
 | component | gate | required delivery | current state |
 | --- | --- | --- | --- |
-| core | tributary discharge | Verified timezone, zero meanings, units and rating history for affected estimates; report watercourses, years, episodes, storms and coverage as information benchmarks | 2010–2025 native delivery received; six candidate watercourses after the independence rule; metadata and event counts unresolved |
+| core | tributary discharge | Verified timezone, zero meanings, units and rating history for affected estimates; report watercourses, years, episodes, storms and coverage as information benchmarks | 2010–2025 delivery received; six-gauge UTC hourly table built using confirmed fixed GMT+1 and true zeros; input audit passes all binding contracts. Rating-domain interpretation remains event/era specific |
 | core | catchment rainfall | hourly radar rainfall averaged over cross-border catchment polygons | built from operational RADOLAN RW 2010–2025 (RADKLIM-RW ruled out on coverage); 0.03–0.21% hours missing per catchment |
 | core | catchment polygons | one valid polygon per watercourse from a cross-border DEM | built from Copernicus GLO-30 for all seven candidates; seven area checks within ±4.4%; pour points provisional |
 | secondary S2 | public weather | Relative humidity and surface pressure with a fixed assignment per watercourse; report usable overlap | built for all seven candidates, 2001–2025, nearest cell to each catchment centroid; no further weather source required |
-| core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and affected-hour validity | **Mostly resolved.** Sampling semantics, units and July 2021 station status were answered in the 2026-09-07 reply and are built into `data/interim/event_study_gauges.csv` (`scripts/44_build_event_study_gauges.py`). Rating eras are transcribed and built (D8). Provider map pins resolved coordinates on 2026-09-18 within one DEM cell of the public positions (`config/waterschap_gauge_coordinates_crosscheck.csv`). **Open source-interpretation questions:** (1) fixed GMT+1 versus Dutch civil time and (2) the meaning of exact zero currently block committing the hourly discharge ingest. (3) Whether history was later recomputed with a newer rating may affect era interpretation and sensitivity, but is not a separate dataset or automatic block if high-water comparability can be bounded. |
-| conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | requested as a non-blocking extra in the 2026-09-21 follow-up; not received |
-| conditional | Fase thresholds | current and historical Fase thresholds at exact crisis-plan leading gauges | requested in August; not received. Current Fase 1–3 values per gauge appear in Waterschap's public-portal location table (snapshot 2026-08-07, `data/interim/waterschap_locations.csv`); historical values and leading-gauge status still needed |
+| core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and affected-hour validity | Source semantics confirmed in René's 2026-09-29 reply and built into gauge QA. Rating eras are transcribed (D8); provider map pins match provisional coordinates within one DEM cell. Rating-domain validity and local high-flow reliability still require event-specific interpretation |
+| conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | not supplied; René cannot provide datum or sensor history, so no stage-based recovery is planned |
+| context only | current warning thresholds | H1/H2/H3 discharge thresholds at named gauges | received as a 14-station CSV; historical thresholds are not retained, so historical Fase-crossing analysis is inactive |
 | conditional | LANUK export | 15-minute averages with reconstructed values flagged, for a separately labelled distance module if comparable | four station packages received 2026-09-23; Honsdorf stage export is sparse (36 measurements); reconstruction and rating-curve questions sent to Jens 2026-09-24; re-audit pending |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
@@ -54,15 +62,15 @@ benchmarks prompt review of precision and claim scale. A shorter rolling record
 can support a separately labelled analysis, not silent historical substitution.
 The script encodes the draft 0.10 distinction.
 
-**Minimum-dataset reading (2026-09-28).** The primary seasonal rainfall analysis
+**Minimum-dataset reading (2026-09-29).** The primary seasonal rainfall analysis
 uses the delivered Waterschap discharge, its source interpretation and
 high-water-relevant rating/QA history, the already-built RADOLAN catchment
 rainfall, and the already-built cross-border catchment assignment. Event,
 at-risk and storm tables are derived from these inputs, not separate datasets.
 ERA5-Land supports S2 and is complete; no second weather product is needed.
-The sent Waterschap questions are targeted at interpreting the existing
-delivery, not at obtaining another time series. Stage, Fase thresholds, LANUK
-and mine-water records remain conditional or historical. Do not launch a new
+René's answers interpret the existing delivery rather than add another time
+series. Stage, LANUK and mine-water records remain conditional or historical;
+current H1/H2/H3 thresholds are context only. Do not launch a new
 data request merely to fill those secondary branches. Source rating-curve
 evidence is needed where high-water ranks or onset validity could change, not
 every historical low-flow gauging. Published hydrometric research documents
@@ -128,11 +136,11 @@ long Kerkrade-pair series arrives, it must overlap at least three exact p99
 onsets with all 72 pre-onset CO2 and pressure hours observed. Fewer events
 cannot support a recurrence conclusion, but do not block the core chapter.
 
-## 2. Long Limburg tributary discharge — received; interpretation pending
+## 2. Long Limburg tributary discharge — received; core source semantics resolved
 
 Status: **native EML, PDF, XLSX and value-equivalent CSV received and audited
 2026-08-19; provider metadata follow-up received 2026-09-07 and reviewed
-2026-09-14**. The original delivery and follow-up evidence are preserved under
+2026-09-14; fixed GMT+1 and true-zero clarification relayed 2026-09-29**. The original delivery and follow-up evidence are preserved under
 the dated folders in `data/raw/external_deliveries/waterschap_limburg/`.
 
 The source supplies an exact 15-minute grid from 2010-01-01 through
@@ -145,7 +153,8 @@ audit while the XLSX remains the original spreadsheet artifact.
 `scripts/35_audit_waterschap_delivery.py` measures blank-cell availability
 without calculating thresholds, events or signal outcomes. Nine series across
 the eight named watercourses pass the provisional 80% overall/70% every-year
-complete-hour rule. This is not a gate pass. There are fewer than 10 named
+complete-hour reference rule. This was an availability screen, not a chapter
+viability decision. There are fewer than 10 named
 watercourses, and availability does not resolve whether the stations belong to
 the target population or whether their values are valid.
 
@@ -160,15 +169,17 @@ occurred in the requested period. It supplies rating-curve sheets and a July
 - Millen is one branch of a split and carries at most 1 m3/s; Vloedgraaf
   receives the remaining Geleenbeek flow plus Rode Beek;
 - Selzerbeek splits into the main branch and Molentak; 91.6% of observed
-  Molentak cells are zero and zero semantics are not yet documented;
+  Molentak cells are genuine zero discharge, consistent with René's note that
+  this branch regularly runs dry;
 - Munstergeleen is labelled as discharge measurement from 2.5 m3/s;
 - Oud-Roosteren appears twice under station ID 6.Q.27, with one column marked
   `indicatie`.
 
 The following list records the earlier request wording; the live status is the
-table and minimum-dataset reading above. Of these, timezone, zero semantics and
-high-water-relevant rating treatment remain open in the sent 2026-09-21
-follow-up. Coordinates, cohort classification and rating-era transcription
+table and minimum-dataset reading above. Timezone and zero semantics were
+resolved by René's reply relayed on 2026-09-29. High-water-relevant rating
+validity still requires per-era interpretation. Coordinates, cohort classification
+and rating-era transcription
 have since been resolved. The former ten-watercourse floor is a nonbinding
 information benchmark, not another data request.
 

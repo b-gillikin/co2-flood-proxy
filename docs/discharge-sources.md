@@ -7,7 +7,7 @@ The binding delivery contract is in `data-requests.md`.
 | --- | --- | --- |
 | `25_ingest_lanuk_nrw.py` | acquire long German gauge records for the documented feasibility route | held archive does not pass the draft cohort gate |
 | `32_lanuk_feasibility.py` | audit metadata, density, gaps, p99 episodes and watercourse identity | input QA only; no signal outcomes |
-| `35_audit_waterschap_delivery.py` | audit the delivered 2010–2025 Dutch grid | raw availability plus separate source QA; timezone and zero semantics remain unresolved (cohort decided, D3) |
+| `35_audit_waterschap_delivery.py` | audit the delivered 2010–2025 Dutch grid | raw availability plus separate source QA; fixed GMT+1 and true-zero semantics confirmed 2026-09-29 |
 
 The public rolling Waterschap pull and RWS main-stem validation were removed
 from the live tree. Neither can produce the qualifying ten-year natural-

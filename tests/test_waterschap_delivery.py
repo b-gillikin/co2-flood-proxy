@@ -21,13 +21,13 @@ def test_source_qa_registry_classifies_every_delivered_series_once():
     assert metadata.series_key.is_unique
 
 
-def test_reply_resolves_sampling_but_not_timezone_zero_or_validation_flags():
+def test_provider_replies_resolve_source_semantics_but_not_high_flow_validation():
     metadata = WATERSCHAP.station_metadata_table()
 
     assert metadata.sampling_semantics_verified.all()
     assert metadata.units_verified.all()
-    assert not metadata.timezone_verified.any()
-    assert not metadata.zero_sentinel_verified.any()
+    assert metadata.timezone_verified.all()
+    assert metadata.zero_sentinel_verified.all()
     assert not metadata.validation_flags_available.any()
     assert not metadata.rating_curve_verified.any()
 

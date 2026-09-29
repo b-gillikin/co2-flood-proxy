@@ -1,26 +1,25 @@
 # Student Next Actions
 
-Updated 2026-09-24 for protocol draft 0.10. First written
+Updated 2026-09-29 for protocol draft 0.10. First written
 2026-08-19. All eight design decisions (D1–D8) are recorded in `decisions.md`
-and built into the pipeline (68 tests passing). Every core regional input
-except the discharge series is built: gauge metadata, rating eras, catchment
+and built into the pipeline. Every core regional input is now built: hourly
+discharge, gauge metadata, rating eras, catchment
 polygons, catchment rainfall (RADOLAN 2010–2025) and public weather are all in
-`data/interim/`. The discharge ingest itself is written and tested
-(`scripts/45_build_event_study_discharge.py`) but refuses to produce the core
-file until Waterschap's semantics are verified — see task 1. This blocks a
-definitive hourly discharge interpretation, not the research question.
-Candidate timezone/zero interpretations can already be compared as labelled
-sensitivity diagnostics. Preserve and return other complete replies and
-deliveries as they arrive. Run the input/information audit before treating an
-association as the planned primary analysis.
+`data/interim/`. René's answers relayed on 2026-09-29 confirm fixed GMT+1 and
+genuine zeros; the hourly ingest and input audit have run. All 19 binding input
+contracts pass. Review high-flow validity and the supported claim scale before
+estimating associations. Preserve and return other replies and deliveries as
+they arrive.
 
-## 1. Await the Waterschap follow-up response
+## 1. Waterschap follow-up answered; preserve correspondence
 
-**Sent 2026-09-21:** the researcher sent the targeted follow-up to René Mols
-in the existing thread. It asks the three blocking interpretation questions
-below and requests stage records and Fase thresholds as optional, non-blocking
-extras. Do not send another message while this reply is pending. Preserve the
-sent-message export when available.
+**Sent 2026-09-21; answered by 2026-09-29:** the researcher sent the targeted
+follow-up to René Mols in the existing thread. His reply confirms fixed GMT+1,
+true zeros and period-applicable ratings, with retrospective corrections
+documented in the delivery. The current H1/H2/H3 CSV is preserved; historical
+thresholds and datum/sensor history are unavailable. Preserve the sent-message
+export if available. The question draft below is historical provenance, not a
+message to send.
 
 Design decisions are the author's, recorded and dated in `decisions.md` before
 any signal outcome is inspected; that timing, not a supervisor signature, is
@@ -36,10 +35,9 @@ That reply also already answered sampling semantics, units and July 2021
 station status, which earlier drafts of this file listed as still open — they
 are not.
 
-**Exactly three questions are still open, all in the same email thread as the
-2026-09-07 reply.** Two of them were asked before but not actually answered;
-the third is new. The draft below is retained as planning provenance; the
-researcher's sent message is authoritative.
+**The three questions below have been answered.** The draft is retained as
+planning provenance; the researcher's sent message and René's reply are
+authoritative.
 
 **Send to:** `R.Mols@waterschaplimburg.nl` (same thread as the 2026-09-07 reply)  
 **Subject:** Re: data request — three remaining questions
@@ -73,7 +71,7 @@ researcher's sent message is authoritative.
 
 Save the sent message and any reply the same way as the original thread.
 
-**Optional, non-blocking, can go in the same email if convenient:** water-level
+**Historical request wording, now resolved or declined:** water-level
 (stage) records with datum and sensor history, for recovering the timing of a
 censored onset where discharge is missing; and current and historical Fase
 warning thresholds at the exact crisis-plan leading gauges (current values are

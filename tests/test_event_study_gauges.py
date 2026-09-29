@@ -32,11 +32,11 @@ def test_brommelen_shares_one_independence_unit_with_the_split_system():
     assert gauges.independence_unit.is_unique
 
 
-def test_zero_and_timezone_semantics_stay_unverified_but_units_and_sampling_do_not():
+def test_provider_verified_source_semantics_reach_cohort_gauges():
     gauges, _ = GAUGES.build_gauges()
 
-    assert not gauges.zero_semantics_verified.any()
-    assert not gauges.timezone_verified.any()
+    assert gauges.zero_semantics_verified.all()
+    assert gauges.timezone_verified.all()
     assert gauges.units_verified.all()
     assert gauges.sampling_semantics_verified.all()
     assert gauges.rating_eras_documented.all()

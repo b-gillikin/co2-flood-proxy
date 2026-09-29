@@ -1,6 +1,6 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **input semantics pending; no chapter result exists** (2026-09-24). This is the
+Status: **core input semantics resolved; no chapter result exists** (2026-09-29). This is the
 canonical description of the chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md` (draft 0.10); session state belongs in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
@@ -63,8 +63,8 @@ distributed-lag models.
 - **Uncertainty:** calendar year-month block bootstrap.
 - **Secondary:** the pooled lag-response; whether humidity and pressure change
   add association beyond rainfall; watercourse-specific replication; stability
-  across 2010–2017 and 2018–2025; exposure-response shape; the Fase comparison
-  where thresholds are supplied.
+  across 2010–2017 and 2018–2025; exposure-response shape. Current H1/H2/H3
+  warning thresholds are context only because their historical values are not retained.
 
 Because every hydrological quantity is a within-gauge, within-era rank, the
 design depends on rating-curve **stability**, not absolute accuracy.
@@ -88,10 +88,12 @@ binomial test. See protocol §2.
 
 - **Discharge:** Waterschap Limburg delivered 2010–2025 quarter-hour data for
   15 series and eight named watercourses, with rating curves and July 2021
-  station status. Timezone/DST, zero semantics and historical rating-recomputation
-  remain open; a targeted follow-up went to Waterschap on 2026-09-21.
-  Numerical coordinates were cross-checked against provider map pins on
-  2026-09-18. The discharge ingest is written but awaits source semantics.
+  station status. René's answer relayed on 2026-09-29 confirms fixed GMT+1,
+  genuine zero discharge and period-applicable rating relations, with any
+  retrospective corrections documented in the delivery. Numerical coordinates
+  were cross-checked against provider map pins on 2026-09-18. The six-gauge
+  hourly ingest now uses those semantics; rating-domain checks remain specific
+  to each era and high-water hour.
 - **Cohort (D3, decided 2026-09-18):** Eyserbeek, Geul (Cottessen), Gulp,
   Voer, Worm (Rimburg) and Geleenbeek (Brommelen), which represents the shared
   Geleenbeek/Vloedgraaf system. That is six watercourses: one to spare for the
@@ -108,7 +110,9 @@ binomial test. See protocol §2.
   went to Jens Hammersen on 2026-09-24 about the sparse Honsdorf stage file,
   reconstruction flags and provisional rating periods. LANUK remains
   conditional and does not unblock the Waterschap core.
-- **No threshold, event, storm or association has been calculated.**
+- **Input audit:** the 2026-09-29 run passes all 19 binding input contracts.
+  It counts candidate p99 episodes and storms as feasibility information, not
+  chapter results. No exposure–outcome association has been estimated.
 
 ## 7. July 2021 treatment
 

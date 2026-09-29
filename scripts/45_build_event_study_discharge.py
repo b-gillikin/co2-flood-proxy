@@ -1,20 +1,14 @@
 """Build the hourly discharge outcome series for the event study (protocol §3).
 
 The four-quarter-hour rule, the documented-failure mask and the aggregation
-are implemented and unit-tested (`tests/test_event_study_discharge.py`). What
-is NOT implemented is a silent choice of timezone or zero semantics: Waterschap's
-2026-09-07 reply gave the 15-minute mean convention and the blank-cell meaning,
-but not whether the source's stated "GMT+1" is a fixed offset or Dutch civil
-time, and not what a delivered zero means (`docs/data-requests.md`). The
-protocol requires a *verified* timezone conversion (§3); guessing one into the
-core file would let a wrong hour label pass every downstream gate silently.
+are implemented and unit-tested (`tests/test_event_study_discharge.py`).
+Waterschap's 2026-09-29 follow-up confirms fixed GMT+1 without daylight saving
+and genuine zero discharge (`docs/waterschap-source-metadata.md`).
 
-So this script always requires an explicit `--timezone` and `--zero` choice,
-and always writes to `results/discharge_ingest_candidates/`, never to the core
-gate file `data/interim/event_study_discharge_hourly.csv`. `--commit` writes
-the core file too, but only once `data/interim/event_study_gauges.csv` records
-`timezone_verified` and `zero_semantics_verified` as true for every cohort
-gauge, which they are not yet (D3/D5, `scripts/44_build_event_study_gauges.py`).
+The script still requires explicit `--timezone` and `--zero` choices and first
+writes a candidate under `results/discharge_ingest_candidates/`. `--commit`
+also writes `data/interim/event_study_discharge_hourly.csv` when the gauge QA
+table verifies both source semantics for every cohort gauge.
 
 Reads only the six cohort series named in `config/event_study_cohort.csv`
 from the raw 15-minute delivery already parsed by
@@ -22,7 +16,7 @@ from the raw 15-minute delivery already parsed by
 than re-parsing.
 
 Example (candidate output only):
-    python scripts/45_build_event_study_discharge.py --timezone civil_amsterdam --zero true_zero
+    python scripts/45_build_event_study_discharge.py --timezone fixed_utc_plus_1 --zero true_zero --commit
 """
 
 from __future__ import annotations
@@ -48,6 +42,8 @@ ZERO_ASSUMPTIONS = {
     "true_zero": "a delivered 0.0 means zero discharge",
     "missing_sentinel": "a delivered 0.0 means no reliable reading, like a blank cell",
 }
+VERIFIED_TIMEZONE = "fixed_utc_plus_1"
+VERIFIED_ZERO = "true_zero"
 
 # Dated intervals to mask regardless of timezone/zero assumption, keyed by
 # gauge code. None of the six cohort gauges have a documented outright failure
@@ -99,16 +95,18 @@ def mask_failure_intervals(values, gauge):
 
 
 def four_quarter_hour_mean(quarter_hourly, utc_index):
-    """Protocol §3: an hour is populated only when all four quarters are present.
+    """Protocol §3: the hour labelled t averages (t - 1 h, t].
 
     `quarter_hourly` is a Series on the original 15-minute grid, already under
     one zero assumption; `utc_index` gives each row's converted UTC timestamp.
-    A quarter that fell on a DST-ambiguous or nonexistent civil-time instant is
-    NaT and its hour is dropped, not silently reassigned.
+    Values are preceding-15-minute means, so a reading stamped exactly at t
+    belongs to the hour ending at t. An hour is populated only when all four
+    quarters are present. A DST-ambiguous or nonexistent civil-time instant is
+    NaT and its quarter is dropped, not silently reassigned.
     """
     frame = pd.DataFrame({"value": quarter_hourly.to_numpy(), "utc": utc_index})
     frame = frame.dropna(subset=["utc"])
-    frame["hour"] = frame.utc.dt.floor("h")
+    frame["hour"] = frame.utc.dt.ceil("h")
     grouped = frame.groupby("hour")
     complete = grouped.value.count().eq(4)
     mean = grouped.value.mean()
@@ -154,6 +152,10 @@ def gauges_fully_verified():
     return True, "verified"
 
 
+def commit_choices_verified(timezone_assumption, zero_assumption):
+    return (timezone_assumption, zero_assumption) == (VERIFIED_TIMEZONE, VERIFIED_ZERO)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--timezone", choices=TIMEZONE_ASSUMPTIONS, required=True)
@@ -173,6 +175,11 @@ def main():
     print(frame.describe().T[["count", "mean", "min", "max"]].to_string())
 
     if args.commit:
+        if not commit_choices_verified(args.timezone, args.zero):
+            sys.exit(
+                "Refusing --commit: provider verified only "
+                f"--timezone {VERIFIED_TIMEZONE} --zero {VERIFIED_ZERO}"
+            )
         ok, reason = gauges_fully_verified()
         if not ok:
             sys.exit(f"Refusing --commit: {reason}")

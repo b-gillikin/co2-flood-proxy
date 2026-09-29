@@ -57,20 +57,21 @@ def test_true_zero_keeps_zeros_and_missing_sentinel_blanks_them():
 
 
 def test_an_hour_is_populated_only_when_all_four_quarters_are_present():
-    index = quarter_hours(8, "2020-06-01 00:00")
-    values = pd.Series([1.0, 1.0, 1.0, 1.0, 2.0, np.nan, 2.0, 2.0], index=index)
-    utc = pd.Series(index, index=index).dt.tz_localize("UTC")
+    index = quarter_hours(9, "2020-06-01 00:00")
+    values = pd.Series([99.0, 1.0, 1.0, 1.0, 1.0, 2.0, np.nan, 2.0, 2.0], index=index)
+    utc = pd.Series(index.tz_localize("UTC"), index=index)
 
     hourly = INGEST.four_quarter_hour_mean(values, utc)
 
-    assert hourly.iloc[0] == pytest.approx(1.0)
-    assert pd.isna(hourly.iloc[1])
+    assert pd.isna(hourly.loc[pd.Timestamp("2020-06-01 00:00", tz="UTC")])
+    assert hourly.loc[pd.Timestamp("2020-06-01 01:00", tz="UTC")] == pytest.approx(1.0)
+    assert pd.isna(hourly.loc[pd.Timestamp("2020-06-01 02:00", tz="UTC")])
 
 
 def test_a_missing_utc_timestamp_drops_its_quarter_from_the_hour():
     index = quarter_hours(4, "2020-06-01 00:00")
     values = pd.Series([1.0, 1.0, 1.0, 1.0], index=index)
-    utc = pd.Series(index, index=index).dt.tz_localize("UTC")
+    utc = pd.Series(index.tz_localize("UTC"), index=index).copy(deep=True)
     utc.iloc[0] = pd.NaT
 
     hourly = INGEST.four_quarter_hour_mean(values, utc)
@@ -105,3 +106,9 @@ def test_commit_is_refused_before_the_gauges_table_is_fully_verified(tmp_path, m
 
     assert not ok
     assert "not both true" in reason
+
+
+def test_commit_refuses_the_two_disproved_source_interpretations():
+    assert INGEST.commit_choices_verified("fixed_utc_plus_1", "true_zero")
+    assert not INGEST.commit_choices_verified("civil_amsterdam", "true_zero")
+    assert not INGEST.commit_choices_verified("fixed_utc_plus_1", "missing_sentinel")

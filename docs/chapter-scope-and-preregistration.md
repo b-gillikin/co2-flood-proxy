@@ -60,7 +60,6 @@ the summer half-year but most extreme flows in winter (decision D4,
   beyond rainfall;
 - S3: watercourse-specific cumulative associations and their sign count;
 - S4: temporal stability, 2010–2017 against 2018–2025;
-- S5: the Fase comparison, conditional on receiving the thresholds (§9.2).
 
 The seasonal contrast is the planned primary estimand when both seasons have
 adequate information; otherwise lead with the pooled association and describe
@@ -357,17 +356,14 @@ Refit S1 with a natural-spline exposure dimension, knots at the pooled 50th and
 rainfall accumulations at which onset association rises steeply. It does not
 propose, calibrate or evaluate a warning trigger.
 
-### 9.2 Fase comparison (conditional)
+### 9.2 Current warning thresholds (context only)
 
-This analysis is conditional on Waterschap supplying current and historical
-Fase thresholds for their exact crisis-plan leading gauges. Where a cohort gauge
-is such a leading gauge:
-
-1. locate each Fase threshold on that gauge's within-era discharge distribution
-   relative to p99; and
-2. refit S1 with Fase-crossing onsets as the outcome, as a sensitivity analysis.
-
-Thresholds are never transferred to gauges they were not defined for.
+Waterschap supplied current H1/H2/H3 discharge thresholds on 2026-09-29 but
+states that historical thresholds are not retained. They may identify the
+current operational meaning of a named gauge and be displayed as a current
+snapshot. They cannot define 2010–2025 historical warning onsets or support
+the previously proposed Fase-crossing refit. The primary within-era p99 outcome
+is unchanged. Do not transfer thresholds between gauges.
 
 ### 9.3 Temporal stability
 
@@ -412,7 +408,6 @@ does not converge.
 | watercourse estimates share sign | descriptive consistency across the observed watercourses; shared storms preclude an independent-sign p-value |
 | watercourse estimates heterogeneous | the association depends on the watercourse and is not a network-wide regularity |
 | lag structure differs between periods | the relationship is not stable over 2010–2025 |
-| Fase thresholds lie well above or below p99 | statistically defined and operationally defined high water differ at that gauge |
 
 Null or heterogeneous results do not trigger new lags, bases, thresholds or
 model families. No success threshold is imposed.
@@ -467,7 +462,8 @@ such as DeepWaive are case context, not validation or comparators.
 
 ## 13. Lock and amendments
 
-Current state: **unlocked**. Discharge source semantics remain unresolved. A
+Current state: **unlocked**. Fixed GMT+1 and true-zero semantics were confirmed
+by the provider on 2026-09-29; discharge preparation and input audit can run. A
 version record is internal documentation, not formal preregistration.
 
 At lock, record:

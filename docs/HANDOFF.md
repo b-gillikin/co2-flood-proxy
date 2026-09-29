@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-24. Session state only; use the synthesis and protocol for
+Updated 2026-09-29. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -57,16 +57,18 @@ trailing 15-minute means, unavailable blank cells, no validation flags and no
 relocations. It also supplies rating curves and station-specific July 2021
 failure and range evidence.
 
-Still open:
-
-- timezone/DST and zero semantics;
-- whether historical discharge was computed with the contemporaneous rating
-  relation or later recomputed; and
-- stage records and Fase thresholds, neither of which has arrived and both of
-  which are conditional extras.
+René's answers relayed on 2026-09-29 confirm fixed GMT+1 without DST, true
+zero discharge, and period-applicable rating relations with any retrospective
+corrections documented in the data file. The current H1/H2/H3 threshold CSV is
+archived; historical thresholds are unavailable. No stage datum or sensor
+history was supplied. The six-gauge hourly discharge series has been built,
+including a correction to align trailing quarter-hour means to their hour-end
+label. The input audit passes all 19 binding contracts. This is readiness for
+analysis, not an estimated association or validation of every extreme value.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
-the existing thread. Its sent-message export is not yet archived. The earlier
+the existing thread. Its sent-message export and the native reply are not archived;
+the reply text was pasted by the researcher. The earlier
 2026-09-17 follow-up also remains recorded in `docs/data-requests.md`.
 Jens Hammersen supplied four LANUK station packages on 2026-09-23; the
 researcher confirmed download and asked on 2026-09-24 for the continuous
@@ -135,9 +137,10 @@ regression test protects that scientific rule.
 ## Next work
 
 Decisions D1–D8, catchment polygons, RADOLAN RW catchment rainfall, public
-weather and the guarded hourly discharge ingest are built. Await Waterschap's
-three source-semantics answers; then run the ingest and blinded feasibility
-audit, record the frozen floors, lock the protocol and only then run analysis.
+weather and the verified hourly discharge ingest are built. Review the input
+audit and event/era validity, then proceed to the transparent analysis. Record
+any analysis choices or exclusions in `decisions.md`; the protocol is internal
+documentation, not formal preregistration.
 LANUK's separate follow-up may inform the conditional distance module before
 lock but does not replace the core discharge source.
 
@@ -154,8 +157,8 @@ Interpreter:
 - ERA5 raw archive: **300/300 months complete**; all NetCDF checks passed;
   recomputed and cloud manifests byte-identical; 300 unique hashes;
   backfill-only Function App stopped;
-- regional gate report: expected **FAIL**, with the discharge file absent and
-  the other six contracted inputs present (2026-09-24);
+- input audit: **19/19 binding contracts PASS** (2026-09-29); information
+  benchmarks are descriptive and no association estimate exists;
 - Waterschap delivery: 561,024 requested-period quarter-hours on an exact grid;
   15 series, 14 station IDs, eight named watercourse labels; XLSX/CSV values
   equivalent; no outcomes inspected;

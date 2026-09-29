@@ -1,7 +1,7 @@
 # Analysis Inventory — Prospective Case-Crossover Study
 
-Status: 2026-09-24, protocol draft 0.10. There is no chapter result. Discharge
-source semantics remain unresolved; numerical benchmarks do not stop the study.
+Status: 2026-09-29, protocol draft 0.10. There is no chapter result. Discharge
+source semantics are resolved; numerical benchmarks do not stop the study.
 
 ## Prospective chapter
 
@@ -9,16 +9,16 @@ source semantics remain unresolved; numerical benchmarks do not stop the study.
 | --- | --- | --- |
 | literature notes, evidence matrix and BibTeX | verified source corpus | 44 sources; case-crossover and distributed-lag design references still to be added |
 | Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
-| `31_event_study_gates.py` | audits input validity and information | aligned with draft 0.10; numerical benchmarks are nonbinding, rating-era validity remains binding |
+| `31_event_study_gates.py` | audits input validity and information | 2026-09-29 run: 19/19 binding inputs pass; episode/storm counts are feasibility information, not chapter findings |
 | `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
-| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | implemented; timezone and zero semantics unresolved (cohort decided, D3) |
+| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | regenerated with provider-confirmed fixed GMT+1 and true-zero semantics |
 | ERA5-Land weather table | already-built S2 humidity and pressure-change inputs; not required for the primary rainfall contrast | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
 | `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
 | radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
 | cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |
 | rating eras | per-era p99 and rating domain | built under D8 (`43_build_rating_eras.py`); merge validity checked in the gate audit |
 | gauge metadata | cohort, coordinates, QA, July 2021 status | built (`44_build_event_study_gauges.py`) |
-| hourly discharge ingest | outcome series | scaffolded and unit-tested (`45_build_event_study_discharge.py`); blocked on verified timezone and zero semantics |
+| hourly discharge ingest | outcome series | built for six gauges with trailing-hour alignment and verified source semantics (`45_build_event_study_discharge.py`) |
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
 | synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
 | July 2021 regional anchor | descriptive trajectory | not run |
