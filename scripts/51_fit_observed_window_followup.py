@@ -56,16 +56,19 @@ def main() -> None:
     fit_rows.loc[fit_rows.onset.eq(1)].nsmallest(20, "conditional_probability").to_csv(
         OUT / "observed_window_least_expected_onsets.csv", index=False
     )
-    labels = pd.factorize(frame.block.to_numpy())[1]
-    if len(labels) != problem["n_blocks"]:
+    labels = pd.read_csv(OUT / "observed_window_all_blocks.csv").block.to_numpy()
+    local_labels = pd.factorize(frame.block.to_numpy())[1]
+    if len(local_labels) != problem["n_blocks"]:
         raise AssertionError("bootstrap block indexing differs from prepared problem")
+    global_index = {int(block): i for i, block in enumerate(labels)}
+    local_to_global = np.array([global_index[int(block)] for block in local_labels])
     rng = np.random.default_rng(SEED)
     draws = np.full((REPLICATES, len(NAMES)), np.nan)
     failures = []
     for i in range(REPLICATES):
         sampled = rng.integers(0, len(labels), len(labels))
         counts = np.bincount(sampled, minlength=len(labels))
-        weights = counts[problem["stratum_block"]].astype(float)
+        weights = counts[local_to_global[problem["stratum_block"]]].astype(float)
         try:
             draws[i] = fit_problem(problem, weights)["coef"]
             failures.append("")
@@ -123,6 +126,7 @@ def main() -> None:
         "n_rows": fit["n_rows"],
         "n_onsets": fit["n_onsets"],
         "n_strata": fit["n_strata"],
+        "n_global_blocks": len(labels),
         "dispersion": fit["dispersion"],
         "log_likelihood": fit["loglik"],
         "onset_probability_minimum": float(probability[problem["onset"] > 0].min()),

@@ -2150,3 +2150,31 @@ check are labelled as such. The event review gained two additional
 peak-domain concern flags after the initial computational fit, although their
 onset pairs remained valid; this amendment is explicitly recorded rather
 than backdated.
+
+# 2026-09-29 — Retrospective interpretation after observed-support review
+
+This is an outcome-informed **interpretation decision**, not a prospective
+protocol change. The six-gauge cohort, p99 threshold-crossing outcome, matched
+at-risk hours, 72 h history and original model results remain recorded.
+
+An observed-history audit and four source-sum checks find a strong 1–24 h
+case-minus-matched-hour rainfall difference in both seasons. The corresponding
+25–72 h descriptive contrast is weak. About 74% of onsets have more 1–24 h
+rainfall than every matched non-onset hour in their own stratum, so large
+conditional-model rate ratios depend on sparse comparable exposures. The
+original sustained-72-hour contrast is outside observed histories; the
+two-window refit has a plausible exposure shape but does not cure that overlap
+problem. It remains exploratory. The original seasonal median-lag contrast
+remains uncertain. Humidity is an exploratory adjusted association, and the
+pressure-change result is unresolved; neither establishes a forecast signal.
+
+Lead the internal results interpretation with the observed matched histories,
+joint-block descriptive intervals and variation across tributaries. Report the
+original lag estimate with its null seasonal interval as secondary model-based
+evidence. Do not headline the original or two-window cumulative/per-10-mm risk
+ratios. This claim scale is supported by the observed data and is also more
+consistent with hydrological event studies that distinguish immediate rainfall
+from antecedent catchment state. The diagnostic figures, overlap table,
+bootstrap results and full reasoning are in
+`limburg-next-pass-method-note.md`; the underlying result files are in the
+ignored local `results/event_study/real_data_v1/` directory.

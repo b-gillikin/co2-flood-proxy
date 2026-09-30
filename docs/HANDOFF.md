@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-29 after the observed-history diagnostic. Session state only; use the synthesis and protocol for
+Updated 2026-09-29 after the literature-checked retrospective review. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -18,7 +18,8 @@ Read in this order:
 8. `dissertation-research-and-code-guidelines.md` — reusable standard for
    scoping, evidence, coding and review across the remaining chapters.
 9. `limburg-next-pass-method-note.md` — observed-rainfall diagnostic and the
-   bounded simulated-storm prospect; neither changes the current estimand.
+   literature-checked interpretation decision and bounded simulated-storm
+   prospect; the original estimand remains documented.
 
 ## Current chapter
 
@@ -76,6 +77,12 @@ and an observed maximum 72 h case total about half of the fixed model
 contrast. An explicitly exploratory two-window fit, with 999 joint-block
 bootstrap draws, is documented there too. Neither replaces the original
 estimand or constitutes a forecast exercise.
+The subsequent matched-support review finds roughly 74% of onsets above every
+control hour for 1–24 h rain, but only 11% for 25–72 h rain. Source sums,
+selected hydrographs and joint 192-month descriptive intervals are checked.
+Interpret the observed matched contrast first; retain the original null
+seasonal median-lag comparison and weather block as qualified model results.
+The outcome-informed interpretation decision is recorded in `decisions.md`.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;

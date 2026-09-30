@@ -53,6 +53,7 @@ def main() -> None:
         raise AssertionError("a complete 72-hour history lacks a window total")
     frame = frame.loc[frame.complete_rain].copy()
     frame["rain_1_72_mm"] = frame.rain_1_24_mm + frame.rain_25_72_mm
+    all_blocks = sorted(frame.block.unique())
 
     # Restrict comparisons to the same informative strata used by the fit.
     counts = frame.groupby("stratum").onset.transform("sum")
@@ -92,6 +93,9 @@ def main() -> None:
             )
     output = study.OUT
     output.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame({"block": all_blocks}).to_csv(
+        output / "observed_window_all_blocks.csv", index=False
+    )
     frame.to_csv(output / "observed_rainfall_windows_matched_rows.csv", index=False)
     pd.DataFrame(records).to_csv(output / "observed_rainfall_windows_by_site.csv", index=False)
     cases.to_csv(output / "observed_rainfall_windows_onsets.csv", index=False)

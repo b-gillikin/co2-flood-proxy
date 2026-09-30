@@ -1,11 +1,13 @@
 # Chapter Synthesis — Prospective Design
 
-Status: **first real-data fit complete; interpretation remains provisional** (2026-09-29). This is the
+Status: **first real-data fit and observed-support review complete** (2026-09-29). This is the
 canonical description of the chapter. Estimator details belong in
 `chapter-scope-and-preregistration.md` (draft 0.10); session state belongs in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
-The measurement review and first-fit interpretation are in
-`limburg-first-fit-review.md` and `limburg-first-fit-results-guide.md`.
+The measurement review, first-fit results and outcome-informed interpretation
+are in `limburg-first-fit-review.md`, `limburg-first-fit-results-guide.md` and
+`limburg-next-pass-method-note.md`. The last is a research aid, not a change
+to the original protocol or dissertation prose.
 
 ## 1. Research question
 
@@ -113,8 +115,22 @@ binomial test. See protocol §2.
   reconstruction flags and provisional rating periods. LANUK remains
   conditional and does not unblock the Waterschap core.
 - **Input audit:** the 2026-09-29 run passes all 19 binding input contracts.
-  It counts candidate p99 episodes and storms as feasibility information, not
-  chapter results. No exposure–outcome association has been estimated.
+  The reviewed sample contains 724 exact onsets in 240 regional storms; 721
+  onsets in 239 storms have complete 72 h rainfall histories.
+
+**Current interpretation:** The observed 1–24 h rainfall history is clearly
+different before high-water onsets than at matched at-risk hours across the
+six tributaries. Earlier 25–72 h rainfall differs much less. The original
+warm-minus-cold median association lag is not resolved, and its literal
+constant-rainfall cumulative contrast is outside observed exposure histories.
+About 74% of onsets have more recent rain than every control hour in their
+own stratum; large fitted per-mm associations therefore should not be treated
+as broadly supported risk multipliers. Lead the internal results reading with
+observed matched contrasts and block intervals; keep the original lag model
+and the outcome-informed two-window refit as qualified secondary evidence.
+Relative humidity has an exploratory adjusted association; pressure change is
+unresolved. See the dated entry in `decisions.md` and the method note for
+figures, support counts, numerical intervals and scientific limitations.
 
 ## 7. July 2021 treatment
 
@@ -152,3 +168,6 @@ bootstrap tables, and five figures:
 5. network-state event-time profiles.
 
 Every manuscript number must regenerate from those tidy artifacts.
+Two additional internal diagnostic figures show observed rainfall overlap and
+selected onset hydrographs; they are reproducible research aids rather than
+new required chapter figures.

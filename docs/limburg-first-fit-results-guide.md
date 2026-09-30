@@ -1,5 +1,10 @@
 # Limburg first real-data fit: internal results guide
 
+For the later literature-checked support audit and the current interpretation
+hierarchy, read `limburg-next-pass-method-note.md`. This file preserves the
+first fit and its original estimands; its model indices are not headline
+event-scale effect sizes.
+
 Analysis date: 2026-09-29. This is a research aid for Brian, not dissertation
 prose or a formal preregistration. The reproducible run manifest and all
 machine-readable tables/figures are in the ignored local directory
@@ -28,7 +33,7 @@ machine-readable tables/figures are in the ignored local directory
 | Warm median lag 17 h (95% bootstrap interval 12–21); cold 19 h (15–25); difference −2 h (−10 to +4) | No clear seasonal difference in *where the observed rainfall association is concentrated* across lags 1–72. This is not a warning lead-time comparison. |
 | The fixed-contrast cumulative log association is 24.40 warm, 49.23 cold; warm-minus-cold −24.83 (−39.77 to −13.63) | The fitted index is stronger in cold months, but its literal exposure contrast lies outside observed 72-hour rainfall histories. Do not exponentiate or describe these as realistic storm risk ratios. |
 | Pooled rainfall and all six watercourse-specific cumulative indices are positive | Rainfall preceding onset departs strongly from same-site comparison hours. Shared storms prevent interpreting six same-signed site estimates as six independent replications. |
-| Adjusted humidity index positive; pressure-change interval includes zero and its median lag is undefined in the point fit (only 29% of bootstrap draws define it) | Humidity adds model association beyond rainfall; no clear added pressure-change association or timing. The pressure median-lag interval spans its full admissible range (1–72 h). |
+| Adjusted humidity index positive; pressure-change interval includes zero and its median lag is undefined in the point fit (only 29% of bootstrap draws define it) | The fitted humidity index is positive after rainfall adjustment, but the later support audit cautions against treating it as an independent mechanism. There is no clear added pressure-change association or timing; its median-lag interval spans 1–72 h. |
 | 2010–17 versus 2018–25 cumulative difference interval includes zero | No detectable change in that model summary between record halves. |
 | Omitting 58 measurement-concern events leaves 663 fitted onsets; median-lag difference becomes +1 h (−7 to +7) | The absence of a clear seasonal timing difference is stable. The flagged-event comparison is exploratory because two peak-domain flags were added after the first fit. |
 | Literal rating eras, 168-hour window and six-degree lag basis give median-lag difference intervals that all include zero | The central timing conclusion survives the specified sensitivity analyses; the point difference varies from −8 to +1 h. |
