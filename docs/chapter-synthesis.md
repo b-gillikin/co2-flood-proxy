@@ -110,10 +110,11 @@ binomial test. See protocol §2.
 - **Estimator:** implemented in Python. On synthetic data it reproduces the R
   reference to within 1e-13, and coverage of the primary estimand is close to
   nominal (93–97.5%).
-- **LANUK:** four station packages were received on 2026-09-23. A follow-up
-  went to Jens Hammersen on 2026-09-24 about the sparse Honsdorf stage file,
-  reconstruction flags and provisional rating periods. LANUK remains
-  conditional and does not unblock the Waterschap core.
+- **LANUK:** four station packages were received on 2026-09-23. Jens replaced
+  the erroneous sparse Honsdorf stage upload with a continuous 15-minute
+  export on 2026-10-01. Reconstruction flags/periods and provisional rating
+  answers remain pending. LANUK remains conditional and does not change the
+  Waterschap core.
 - **Input audit:** the 2026-09-29 run passes all 19 binding input contracts.
   The reviewed sample contains 724 exact onsets in 240 regional storms; 721
   onsets in 239 storms have complete 72 h rainfall histories.

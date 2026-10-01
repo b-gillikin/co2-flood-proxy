@@ -91,7 +91,10 @@ the reply text was pasted by the researcher. The earlier
 Jens Hammersen supplied four LANUK station packages on 2026-09-23; the
 researcher confirmed download and asked on 2026-09-24 for the continuous
 Honsdorf stage series, reconstruction flags/periods and provisional discharge
-curve history. Await both replies; neither request should be resent now.
+curve history. Jens supplied the missing continuous Honsdorf stage export on
+2026-10-01 and expects to answer the other questions next week. See
+`lanuk-honsdorf-stage-audit-2026-10-01.md`. Await the remaining LANUK answers;
+do not resend the request now.
 
 Candidate cohort: Eyserbeek, Geul (Cottessen), Gulp, Voer, Worm (Rimburg), and
 Geleenbeek or Vloedgraaf. Those two count once if their high flows are shared

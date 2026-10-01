@@ -1,6 +1,6 @@
 # Data Requests and Delivery Contracts
 
-Status: 2026-09-29 (protocol draft 0.10). The native Waterschap discharge
+Status: 2026-10-01 (protocol draft 0.10). The native Waterschap discharge
 delivery is preserved and audited. René's reply resolves fixed GMT+1 and true
 zero semantics; the six-gauge hourly ingest and input audit now run. The candidate cohort, cross-border
 catchments, ERA5-Land weather table and operational RADOLAN RW catchment series
@@ -39,9 +39,13 @@ the researcher replied confirming download and asking for the Honsdorf
 continuous 15-minute stage export, row-level reconstruction flags or
 affected periods (especially July 2021), and the provisional periods
 and date-applicable rating curves for Herzogenrath 1 and Randerath.
-The Honsdorf stage file contains 36 dated measurements from 2012–2025,
-despite its 15-minute-average filename. Await Jens’s reply; the sent
-message itself has not been archived here.
+The initial Honsdorf stage file contains only 36 isolated measurements from
+2012–2025 despite its 15-minute-average filename. On 2026-10-01 Jens
+supplied a replacement continuous export and said he would try to answer the
+other questions next week. The replacement and email are preserved under
+`data/raw/external_deliveries/lanuk_nrw/2026-10-01/honsdorf/`; see
+`lanuk-honsdorf-stage-audit-2026-10-01.md`. The sent 2026-09-24 message itself
+has not been archived here.
 
 ## Current gate state
 
@@ -54,7 +58,7 @@ message itself has not been archived here.
 | core | gauge QA | numerical coordinates, rating eras, sampling semantics, timezone, units, zero semantics and affected-hour validity | Source semantics confirmed in René's 2026-09-29 reply and built into gauge QA. Rating eras are transcribed (D8); provider map pins match provisional coordinates within one DEM cell. Rating-domain validity and local high-flow reliability still require event-specific interpretation |
 | conditional | stage records | Waterschap water level with datum and sensor history, for onset-timing recovery only | not supplied; René cannot provide datum or sensor history, so no stage-based recovery is planned |
 | context only | current warning thresholds | H1/H2/H3 discharge thresholds at named gauges | received as a 14-station CSV; historical thresholds are not retained, so historical Fase-crossing analysis is inactive |
-| conditional | LANUK export | 15-minute averages with reconstructed values flagged, for a separately labelled distance module if comparable | four station packages received 2026-09-23; Honsdorf stage export is sparse (36 measurements); reconstruction and rating-curve questions sent to Jens 2026-09-24; re-audit pending |
+| conditional | LANUK export | 15-minute averages with reconstructed values identified, for a separately labelled distance module if comparable | four station packages received 2026-09-23; continuous Honsdorf stage replacement received 2026-10-01; reconstruction and rating-curve answers pending; re-audit of the new exports still needed |
 
 Run `python scripts/31_event_study_gates.py --report-only` for the executable
 **regional** audit. Input-validity failures block affected estimates; numerical
