@@ -317,6 +317,17 @@ the source. The evidence-question IDs connect each entry to
 - **Author-stated limitations:** The analysis uses annual maximum dates and therefore does not retain all high-flow episodes or their magnitudes. Station density and record availability vary, and synchrony denotes timing coincidence rather than physical propagation or gauge substitutability. The continental trend analysis does not provide a local all-donor contrast for Limburg.
 - **Locators/questions:** Abstract; network and synchrony definitions; European maps; temporal-trend analysis; discussion and supporting information. Q12, Q13.
 
+### YangEtAl2026Synchronization — Yang, Villarini and Yang (2026)
+
+- **Citation:** Yixin Yang, Gabriele Villarini and Long Yang. “Systematic Overestimation of Global Peak Runoff Synchronization in CMIP6 Models.” *Geophysical Research Letters* 53 (2026): e2026GL122766. DOI: <https://doi.org/10.1029/2026GL122766>.
+- **Type/status:** Peer-reviewed research letter; supporting spatial-dependence background, not a method source for the live Limburg analysis.
+- **Objective and setting:** Evaluate whether 13 CMIP6 models reproduce global synchronization patterns in annual maximum daily runoff against a gridded reference.
+- **Outcome and method:** Complex-network summaries distinguish connectivity, local clustering and average link distance among synchronized gridded runoff peaks.
+- **Author-reported findings:** Models tend to overstate connectivity and local clustering and understate average link distance; the authors link much of the bias to peak-timing and seasonality errors.
+- **Limitations for this chapter:** Both the model output and gridded reference differ from observed Limburg tributary discharge. Annual maxima and global network statistics cannot estimate the chapter's hourly precursor associations or determine a local distance effect.
+- **Use:** Optional context if discussing why local clustering and long-range synchrony should not be conflated. Does not revive the former distance design or change the conditional distance module.
+- **Locators/questions:** Abstract; introduction and network-method description; results on connectivity, clustering and link length. Q12, Q13.
+
 ### BrunnerEtAl2019 — Brunner et al. (2019)
 
 - **Citation:** Manuela I. Brunner, Reinhard Furrer and Anne-Catherine Favre. “Modeling the Spatial Dependence of Floods Using the Fisher Copula.” *Hydrology and Earth System Sciences* 23 (2019): 107–124. DOI: <https://doi.org/10.5194/hess-23-107-2019>.
@@ -451,6 +462,17 @@ the source. The evidence-question IDs connect each entry to
 - **Author-reported findings:** Estimated uncertainty differs materially among methods, especially at high flows and beyond measured gaugings. Differences can be traced to assumptions as well as to data. The authors do not identify one method as universally best; they call for matching the uncertainty method to station characteristics and the intended use.
 - **Author-stated limitations:** Three stations cannot represent all rating controls, and the true continuous discharge is unavailable for direct validation. Methods may omit changing channel geometry, hysteresis or other errors. The intercomparison supports explicit station-level QA but does not transform censored July 2021 evidence into an observed peak.
 - **Locators/questions:** Abstract; method-comparison design; station descriptions; uncertainty plots; discussion of assumptions and recommendations. Q07, Q21.
+
+### SaxenaSen2026 — Saxena and Sen (2026)
+
+- **Citation:** Nishant Saxena and Sumit Sen. “Comparative Evaluation of Rating Curve Estimation Methods for Data-Scarce Mountainous Rivers in the Indian Himalayas.” *Scientific Reports* (2026), early citable article pending final production version. DOI: <https://doi.org/10.1038/s41598-026-71941-0>.
+- **Type/status:** Peer-reviewed three-station method comparison; supporting measurement-validity source.
+- **Objective and setting:** Compare power-law, heteroscedastic maximum-likelihood and Bayesian stage–discharge rating methods at two main-stem gauges and one dynamic tributary in a 307 km² Himalayan catchment.
+- **Outcome and method:** Leave-one-out validation and real-space/log-space fit measures are contrasted with high-flow extrapolation behavior.
+- **Author-reported findings:** The preferred method changes with station stability and evaluation metric. A good low-flow/log-space fit can yield physically implausible high-flow extrapolation.
+- **Limitations for this chapter:** Three Indian stations do not quantify uncertainty at any Limburg gauge. The delivered Limburg records use provider-maintained, period-applicable relations; this paper does not override the documented rating eras or event review.
+- **Use:** Contemporary illustration of why rating-domain and high-water measurement checks matter; no rating refit or new data requirement.
+- **Locators/questions:** Abstract; method comparison and high-flow extrapolation discussion. Q21.
 
 ## Long-record public weather
 
