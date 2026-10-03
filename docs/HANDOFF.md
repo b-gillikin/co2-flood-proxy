@@ -1,6 +1,6 @@
 # Session Handoff
 
-Updated 2026-09-29 after the literature-checked retrospective review. Session state only; use the synthesis and protocol for
+Updated 2026-10-03 after the first rainfall-defined cross-tributary analysis. Session state only; use the synthesis and protocol for
 chapter claims.
 
 Read in this order:
@@ -23,6 +23,9 @@ Read in this order:
 10. `cross-tributary-pilot-2026-10-03.md` — exploratory return to regional
     high-water footprint and onset timing, including the new LANUK export audit;
     it does not yet replace the live protocol.
+11. `cross-tributary-rainfall-analysis-2026-10-03.md` — reproducible first
+    rainfall-defined six-site footprint results and sensitivity; exploratory,
+    not a replacement for the live protocol or dissertation prose.
 
 ## Current chapter
 
@@ -86,6 +89,14 @@ selected hydrographs and joint 192-month descriptive intervals are checked.
 Interpret the observed matched contrast first; retain the original null
 seasonal median-lag comparison and weather block as qualified model results.
 The outcome-informed interpretation decision is recorded in `decisions.md`.
+The 2026-10-03 rainfall-defined pilot uses the held RADOLAN and six Dutch
+discharge series to compare high-water **states** across tributaries; it keeps
+new-onset timing separate. Among 360 episodes with six-site observability,
+146 have at least two sites above their era-specific p99 and 35 have all six.
+Rainfall footprint and initial flow both show descriptive associations with
+the high-water footprint. See the new analysis note and ignored outputs before
+using these exploratory numbers. This is a promising return to the original
+cross-tributary interest, not yet a committed chapter redesign.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;
