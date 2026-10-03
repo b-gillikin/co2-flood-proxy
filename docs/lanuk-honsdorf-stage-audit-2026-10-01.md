@@ -30,13 +30,14 @@ usable continuous local stage trajectory and a direct time-index crosswalk;
 it does not validate peak discharge or the stage–discharge relation.
 
 The header gives a **current** gauge zero of 54.368 m NHN2016. It does not
-establish historical datum or sensor stability. The regular clock grid and
-right-edge interval convention do not establish the UTC offset or daylight-
-saving treatment. Retain source timestamps as supplied until LANUK confirms
-their timezone. Do not convert historical stage to absolute elevation on the
-basis of the current gauge zero alone.
+establish historical datum or sensor stability. Jens's 2026-09-23 covering
+email states that the timezone for all delivered data is UTC+1. The continuous
+quarter-hour grid through clock-change dates is consistent with a fixed
+offset; use UTC+1 for provisional cross-provider alignment while preserving
+the source timestamps. Do not convert historical stage to absolute elevation
+on the basis of the current gauge zero alone.
 
-Honsdorf is on Beeckfließ. It remains conditional evidence for the separately
-labelled LANUK module, not a seventh core tributary or a Wurm gauge. Await
+Honsdorf is on Beeckfließ. It remains conditional evidence for a separately
+labelled German extension, not a seventh core tributary or a Wurm gauge. Await
 Jens's answers before judging reconstructed periods or provisional rating
 eras. No main-analysis event, exposure or model table changes from this file.

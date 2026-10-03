@@ -20,6 +20,9 @@ Read in this order:
 9. `limburg-next-pass-method-note.md` — observed-rainfall diagnostic and the
    literature-checked interpretation decision and bounded simulated-storm
    prospect; the original estimand remains documented.
+10. `cross-tributary-pilot-2026-10-03.md` — exploratory return to regional
+    high-water footprint and onset timing, including the new LANUK export audit;
+    it does not yet replace the live protocol.
 
 ## Current chapter
 

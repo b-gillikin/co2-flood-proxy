@@ -20,19 +20,22 @@ gauges (D3, 2026-09-18) pass the provisional availability rule
 (`data/processed/waterschap_discharge_qc.csv`). The 2026-09-07 follow-up
 defines trailing 15-minute means and blank semantics, supplies rating curves
 and documents July 2021 failures and range exceedances. It also confirms that
-no validation flags exist. Timezone and zero meanings remain unresolved.
+no validation flags exist. René's 2026-09-29 reply resolves fixed UTC+1 and
+genuine-zero semantics.
 Availability does not establish usability on its own; see
 `waterschap-source-metadata.md`.
 
-The eventual analytical input is
-`data/interim/event_study_discharge_hourly.csv`. `scripts/45_build_event_study_discharge.py`
-builds it, but refuses to write it until timezone and zero-value semantics
-are verified; see `docs/student-next-actions.md` for the outstanding
-questions. Do not rename a raw delivery or rolling public export to satisfy
-that contract.
+The analytical input is `data/interim/event_study_discharge_hourly.csv`.
+`scripts/45_build_event_study_discharge.py` built it after source semantics
+were verified. Do not rename a raw delivery or rolling public export to
+satisfy that contract.
 
-The reproducible German-route decision is in `lanuk-feasibility.md`. Official
+The older public-archive German-route decision is in `lanuk-feasibility.md`;
+its sparse-record conclusion does not apply to the four continuous 15-minute
+exports delivered 2026-09-23. See `cross-tributary-pilot-2026-10-03.md` for
+their preliminary compatibility audit. Official
 HYGON metadata place `herzogenrath_2` on Broicher Bach and `honsdorf` on
-Beeckflies. The held Wurm series are `herzogenrath_1` and `randerath`; neither
-provides both the July 2021 event window and later-IoT overlap. Archive gaps
-alone are not onset-censoring bounds.
+Beeckflies. The Wurm stations are `herzogenrath_1` and `randerath`; they are
+nested observations of one watercourse, not two independent tributaries. The
+old public-archive gaps are not onset-censoring bounds; assess the new
+quarter-hour deliveries on their own terms.
