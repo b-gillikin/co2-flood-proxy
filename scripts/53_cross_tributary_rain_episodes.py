@@ -1,7 +1,7 @@
 """Exploratory rainfall-defined Limburg event-footprint analysis.
 
 Rain episodes are defined without discharge. This is an internal diagnostic,
-not a replacement for the registered case-crossover design or manuscript text.
+not a replacement for the documented case-crossover design or manuscript text.
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ def read_hourly(path):
     return table.set_axis(index).apply(pd.to_numeric, errors="coerce")
 
 
-def rain_episodes(rain, dry_gap_hours=12, material_mm_24h=10.0):
+def rain_episodes(rain, dry_gap_hours=12, material_mm_24h=10.0, response_hours=RESPONSE_HOURS):
     """Cluster regional wet hours; qualify by within-cluster site 24 h rainfall."""
     wet = rain.max(axis=1, skipna=True).ge(WET_MM_H).to_numpy()
     positions = np.flatnonzero(wet)
@@ -65,7 +65,7 @@ def rain_episodes(rain, dry_gap_hours=12, material_mm_24h=10.0):
             if right < len(positions)
             else len(rain)
         )
-        response_end = min(end + RESPONSE_HOURS, next_start - 1, len(rain) - 1)
+        response_end = min(end + response_hours, next_start - 1, len(rain) - 1)
         if peak >= material_mm_24h:
             candidates.append(
                 {
@@ -93,8 +93,20 @@ def site_states(discharge, ratings):
         eras = assign_eras(series.index, era_table)
         _, threshold = era_thresholds(series, eras)
         valid = rating_domain_admissible(series, eras, era_table, threshold)
-        states[site] = pd.DataFrame({"q": series, "p99": threshold, "valid": valid})
+        limits = era_table.drop_duplicates("era_id").set_index("era_id")
+        upper = eras.map(limits.domain_max_m3s).astype(float)
+        states[site] = pd.DataFrame(
+            {"q": series, "p99": threshold, "valid": valid, "rating_max": upper}
+        )
     return states
+
+
+def longest_true_run(flags):
+    values = np.asarray(flags, dtype=bool)
+    if not values.any():
+        return 0
+    edges = np.diff(np.r_[False, values, False].astype(int))
+    return int(np.max(np.flatnonzero(edges == -1) - np.flatnonzero(edges == 1)))
 
 
 def footprint(episodes, reviewed, states, rain):
@@ -112,7 +124,8 @@ def footprint(episodes, reviewed, states, rain):
             observed = window.valid & window.q.notna() & window.p99.notna()
             above = observed & window.q.gt(window.p99)
             first = matches.iloc[0] if len(matches) else None
-            start = window.iloc[0] if len(window) else None
+            prior_time = episode.rain_start_utc - pd.Timedelta(hours=1)
+            prior = states[site].loc[prior_time] if prior_time in states[site].index else None
             rows.append(
                 {
                     "episode_id": episode.episode_id,
@@ -120,18 +133,26 @@ def footprint(episodes, reviewed, states, rain):
                     "first_onset_utc": first.onset_utc if first is not None else pd.NaT,
                     "n_reviewed_onsets": len(matches),
                     "any_high_water": bool(above.any()),
+                    "n_high_hours": int(above.sum()),
+                    "longest_high_run_hours": longest_true_run(above),
                     "first_high_utc": window.index[above.to_numpy()][0] if above.any() else pd.NaT,
+                    "any_high_outside_rating_domain": bool(
+                        (above & window.q.gt(window.rating_max)).any()
+                    ),
+                    "any_high_above_gulp_calibration": bool(
+                        site == "Gulp" and (above & window.q.gt(3.0)).any()
+                    ),
                     "site_rain_total_mm": float(rain_window.sum(min_count=1)),
                     "site_rain_peak_24h_mm": float(
                         rain_window.rolling(24, min_periods=1).sum().max()
                     ),
                     "rain_hour_fraction": float(rain_window.notna().mean()),
                     "measurement_concern": bool(matches.measurement_concern.any()),
-                    "start_already_high": bool(start.valid and start.q > start.p99)
-                    if start is not None
+                    "pre_rain_already_high": bool(prior.valid and prior.q > prior.p99)
+                    if prior is not None
                     else False,
-                    "start_q_over_p99": float(start.q / start.p99)
-                    if start is not None and start.valid and start.p99 > 0
+                    "pre_rain_q_over_p99": float(prior.q / prior.p99)
+                    if prior is not None and prior.valid and prior.p99 > 0
                     else np.nan,
                     "valid_hour_fraction": float(observed.mean()) if len(window) else np.nan,
                     "peak_q_over_p99": float((window.q[observed] / window.p99[observed]).max())
@@ -146,7 +167,8 @@ def summarize(episodes, sites):
     per = sites.groupby("episode_id").agg(
         n_sites_high=("any_high_water", "sum"),
         n_sites_with_onset=("first_onset_utc", lambda x: int(x.notna().sum())),
-        n_sites_preexisting=("start_already_high", "sum"),
+        n_sites_preexisting=("pre_rain_already_high", "sum"),
+        n_sites_missing_pre_rain=("pre_rain_q_over_p99", lambda x: int(x.isna().sum())),
         n_sites_low_coverage=("valid_hour_fraction", lambda x: int((x < 0.9).sum())),
         n_sites_incomplete_rain=("rain_hour_fraction", lambda x: int((x < 1.0).sum())),
         any_measurement_concern=("measurement_concern", "any"),
@@ -156,8 +178,8 @@ def summarize(episodes, sites):
         lambda x: int((x >= 10.0).sum())
     )
     per["n_sites_rain_10mm"] = per.episode_id.map(rainy_sites)
-    initial_flow = sites.groupby("episode_id").start_q_over_p99.median()
-    per["median_start_q_over_p99"] = per.episode_id.map(initial_flow)
+    initial_flow = sites.groupby("episode_id").pre_rain_q_over_p99.median()
+    per["median_pre_rain_q_over_p99"] = per.episode_id.map(initial_flow)
     spread = (
         sites.loc[sites.first_onset_utc.notna()]
         .groupby("episode_id")

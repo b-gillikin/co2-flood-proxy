@@ -2178,3 +2178,24 @@ from antecedent catchment state. The diagnostic figures, overlap table,
 bootstrap results and full reasoning are in
 `limburg-next-pass-method-note.md`; the underlying result files are in the
 ignored local `results/event_study/real_data_v1/` directory.
+
+# 2026-10-03 — Exploratory cross-tributary high-water footprint
+
+After reviewing the first case-crossover result, Brian directed a return to
+the chapter's cross-tributary question using the data already held. This is
+an outcome-informed alternative analysis, not a prospective redesign or
+formal preregistration. Keep the original case-crossover protocol and its
+results available while deciding the final chapter claim with supervisors.
+
+Define precipitation episodes without using discharge, then describe the
+number of six Dutch watercourses above their era-specific p99 threshold.
+Use the hour **before** first wet rain as antecedent discharge. A bounded
+event-level working mean relates high-water footprint to spatial rainfall
+extent, regional rainfall amount, antecedent discharge and season; dependent
+sites require calendar-year block uncertainty, not naive binomial errors.
+Measurement audit, alternate event definitions, phase and duration checks
+are documented in `cross-tributary-current-data-analysis-2026-10-03.md`.
+Because complete-event rainfall can occur after a threshold crossing,
+associations are retrospective and do not establish forecast lead time or
+causal effects. The German LANUK files pass a basic clock and coverage audit
+but are not pooled without source clarification and matching catchment rain.

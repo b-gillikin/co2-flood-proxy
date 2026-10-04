@@ -1,6 +1,7 @@
 # Limburg cross-tributary rainfall analysis: first empirical pass
 
-Status: internal exploratory analysis, 2026-10-03. Brian writes dissertation
+Status: internal first-pass analysis, corrected for pre-rain discharge timing
+on 2026-10-03. See the subsequent full-audit note for adjusted results. Brian writes dissertation
 prose. This does not replace the completed case-crossover fit or make a new
 protocol claim. Reproduce with `python3.12 scripts/53_cross_tributary_rain_episodes.py`;
 the ignored outputs, source hashes, script hash, and year-block draws are in
@@ -10,8 +11,8 @@ the ignored outputs, source hashes, script hash, and year-block draws are in
 
 For rainfall episodes defined without looking at discharge, how many of the
 six Dutch watercourses exceed their own era-specific p99 discharge threshold,
-and how does that footprint vary with the spatial rainfall footprint and the
-flow state at rain onset? This is a high-discharge comparison, not an analysis
+and how does that footprint vary with the spatial precipitation footprint and the
+flow state in the hour before the first wet hour? This is a high-discharge comparison, not an analysis
 of water-level warning thresholds or forecast skill. The sites are not all
 hydrologically independent: Gulp and Eyserbeek belong to the Geul network,
 though the selected Geul gauge at Cottessen is above their confluence. Do not
@@ -35,15 +36,15 @@ event although it has no new reviewed onset in that rainfall window.
 
 ## Observed result
 
-The main rule finds 444 rainfall episodes over 2010–2025. There are 360 with
+The main rule finds 444 precipitation episodes over 2010–2025. There are 359 with
 at least 90% admissible discharge hours at each of the six sites, complete
 rainfall for all six, and no site already above p99 at the start. This
 observability screen allows a clean comparison; the all-episode and fully
 observed counts remain available in the outputs.
 
-| Sites above p99 | Episodes among 360 observable episodes |
+| Sites above p99 | Episodes among 359 observable episodes |
 | ---: | ---: |
-| 0 | 150 |
+| 0 | 149 |
 | 1 | 64 |
 | 2 | 31 |
 | 3 | 33 |
@@ -51,7 +52,7 @@ observed counts remain available in the outputs.
 | 5 | 19 |
 | 6 | 35 |
 
-Thus 146/360 episodes (41%) show high water at two or more sites, and 35/360
+Thus 146/359 episodes (41%) show high water at two or more sites, and 35/359
 (10%) at all six. New reviewed onsets occur at two or more sites in 132 of
 these episodes. Where at least two such onsets occur, the median spread from
 first to last onset is 4 hours. These times are threshold crossings affected
@@ -59,10 +60,10 @@ by catchment and threshold differences; they are not storm arrival or
 independently measured flood-wave travel times.
 
 The number of sites receiving at least 10 mm in 24 hours and the number with
-high water have descriptive Spearman correlation 0.513 (calendar-year block
-bootstrap percentile interval 0.434–0.596, 999 draws). Within the 175
+high water have descriptive Spearman correlation 0.504 (calendar-year block
+bootstrap percentile interval 0.425–0.590, 999 draws). Within the 175
 episodes with a mixed high-water footprint (one to five sites), high-water
-sites received a median 2.26 mm more peak 24-hour rain than other sites; the
+sites received a median 2.24 mm more peak 24-hour precipitation than other sites; the
 difference is positive in 139/175 episodes (79%; year-block interval 73–86%;
 median-difference interval 1.53–2.94 mm). This is an event-level spatial
 association, not a causal estimate. Overlapping catchments, threshold
@@ -71,10 +72,10 @@ differences, and radar error complicate attribution.
 Rain alone does not determine the footprint. Among 165 clean episodes with
 at least 10 mm at all six sites, 34 have no site above p99 and 31 have all
 six above p99. Their median regional peak site-24-hour rainfall is 16.72
-versus 23.77 mm; the median six-site discharge/p99 ratio at rain start is
-0.136 versus 0.241. Across all 360 episodes, initial-flow ratio has Spearman
-correlation 0.381 with high-water footprint, while initial flow and peak rain
-have correlation −0.029. Initial flow is an observed state proxy; it does not
+versus 23.77 mm; the median six-site discharge/p99 ratio in the preceding hour is
+0.138 versus 0.244. Across all 359 episodes, prior-hour flow ratio has Spearman
+correlation 0.377 with high-water footprint, while prior-hour flow and peak precipitation
+have correlation −0.053. Initial flow is an observed state proxy; it does not
 directly measure soil moisture or establish a causal antecedent-wetness
 mechanism. Season and storm severity remain possible confounders.
 
@@ -93,8 +94,8 @@ Raw counts change with event definition, as expected; multi-site high water
 persists. A 24-hour separation can merge rain for up to 358 hours, so the
 12-hour rule is easier to interpret. Even it has episodes lasting up to 122
 hours; inspect long and multi-pulse episodes before formal inference. Under
-the main rule, 326 episodes have 100% admissible discharge coverage at all six
-sites; their footprint distribution is 0:131, 1:61, 2:25, 3:31, 4:26,
+the main rule, 325 episodes have 100% admissible discharge coverage at all six
+sites; their footprint distribution is 0:130, 1:61, 2:25, 3:31, 4:26,
 5:18, 6:34. Perfect coverage is not required to see the pattern, but avoids
 mistaking a data gap for no flood.
 
@@ -117,18 +118,16 @@ reconstructed periods and provisional rating validity await Jens's answer;
 Herzogenrath 1 and Randerath also share the Wurm rather than adding two
 independent tributaries.
 
-## Interpretation and bounded next step
+## Interpretation and subsequent analysis
 
 This pass finds substantial variation in cross-tributary high-water footprint
 during independently defined rain episodes. Spatial rainfall and initial
 observed flow each carry descriptive information; a simple “it rained, so
 streams rose” account misses the all-rain/no-high and all-rain/all-high
-contrast. The bounded next analysis is to check whether initial flow and
-rainfall footprint retain distinct associations with the number of high-water
-sites in a parsimonious event-level model, with year-block uncertainty and
-episode-definition sensitivity. Inspect long multi-pulse episodes and
-observability first. This uses held data and does not require a predictive
-model or another data request.
+contrast. The subsequent event-level adjusted model, long multi-pulse episode
+review, measurement audit and event-definition sensitivities are complete in
+`cross-tributary-current-data-analysis-2026-10-03.md`. They use held data and
+do not require a predictive model or another data request.
 
 The event-footprint framing is consistent with flood spatial-dependence work
 that treats co-occurrence and timing across catchments as substantive

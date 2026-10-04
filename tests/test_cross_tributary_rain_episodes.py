@@ -14,6 +14,11 @@ analysis = module_from_spec(spec)
 spec.loader.exec_module(analysis)
 
 
+def test_longest_high_run_uses_consecutive_hours():
+    assert analysis.longest_true_run([False, True, True, False, True]) == 2
+    assert analysis.longest_true_run([False, False]) == 0
+
+
 def test_episode_separation_and_response_capped_by_next_rain():
     index = pd.date_range("2020-01-01", periods=60, freq="h", tz="UTC")
     values = np.zeros(60)
@@ -43,10 +48,18 @@ def test_footprint_distinguishes_missing_and_preexisting_from_no_onset():
     )
     rain = pd.DataFrame({site: [0, 6, 6, 0, 0] for site in analysis.SITES}, index=index)
     states = {
-        site: pd.DataFrame({"q": [0.5] * 5, "p99": [1.0] * 5, "valid": [True] * 5}, index=index)
+        site: pd.DataFrame(
+            {
+                "q": [0.5] * 5,
+                "p99": [1.0] * 5,
+                "valid": [True] * 5,
+                "rating_max": [5.0] * 5,
+            },
+            index=index,
+        )
         for site in analysis.SITES
     }
-    states["Geul"].loc[index[1], "q"] = 1.2
+    states["Geul"].loc[index[0] : index[1], "q"] = 1.2
     states["Gulp"].loc[index[1] :, "valid"] = False
     reviewed = pd.DataFrame(
         [
@@ -60,7 +73,7 @@ def test_footprint_distinguishes_missing_and_preexisting_from_no_onset():
     )
     sites = analysis.footprint(episodes, reviewed, states, rain).set_index("watercourse")
     assert sites.loc["Eyserbeek", "n_reviewed_onsets"] == 1
-    assert sites.loc["Geul", "start_already_high"]
+    assert sites.loc["Geul", "pre_rain_already_high"]
     assert sites.loc["Geul", "any_high_water"]
     assert sites.loc["Geul", "n_reviewed_onsets"] == 0
     assert sites.loc["Gulp", "valid_hour_fraction"] == 0

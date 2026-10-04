@@ -10,14 +10,13 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import os
 import shutil
 import subprocess
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-import json
-
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "recovery" / "config.json"

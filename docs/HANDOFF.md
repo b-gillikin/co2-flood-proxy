@@ -1,7 +1,7 @@
 # Session Handoff
 
-Updated 2026-10-03 after the first rainfall-defined cross-tributary analysis. Session state only; use the synthesis and protocol for
-chapter claims.
+Updated 2026-10-03 after the current-data cross-tributary analysis. Session
+state only; use the synthesis and protocol for the original chapter design.
 
 Read in this order:
 
@@ -26,6 +26,9 @@ Read in this order:
 11. `cross-tributary-rainfall-analysis-2026-10-03.md` — reproducible first
     rainfall-defined six-site footprint results and sensitivity; exploratory,
     not a replacement for the live protocol or dissertation prose.
+12. `cross-tributary-current-data-analysis-2026-10-03.md` — event and
+    measurement audit, adjusted event-level fit, robustness checks and the
+    separate German source-compatibility audit; current exploratory result.
 
 ## Current chapter
 
@@ -89,14 +92,19 @@ selected hydrographs and joint 192-month descriptive intervals are checked.
 Interpret the observed matched contrast first; retain the original null
 seasonal median-lag comparison and weather block as qualified model results.
 The outcome-informed interpretation decision is recorded in `decisions.md`.
-The 2026-10-03 rainfall-defined pilot uses the held RADOLAN and six Dutch
+The 2026-10-03 rainfall-defined analysis uses held RADOLAN and six Dutch
 discharge series to compare high-water **states** across tributaries; it keeps
-new-onset timing separate. Among 360 episodes with six-site observability,
+new-onset timing separate. Among 359 episodes with six-site observability,
 146 have at least two sites above their era-specific p99 and 35 have all six.
-Rainfall footprint and initial flow both show descriptive associations with
-the high-water footprint. See the new analysis note and ignored outputs before
-using these exploratory numbers. This is a promising return to the original
-cross-tributary interest, not yet a committed chapter redesign.
+The adjusted event-level analysis uses 357 episodes in 16 years. Rainfall
+footprint and amount and discharge in the hour before rain show descriptive
+associations with the high-water footprint across the main measurement and
+event-rule sensitivities. The 20-mm-only subset does not resolve the
+antecedent-flow association. See `cross-tributary-current-data-analysis-2026-10-03.md`
+and ignored outputs for estimates, audit and limits. This is outcome-informed
+exploratory work, not a committed replacement of the original protocol or a
+forecast assessment. Four LANUK exports pass a basic clock/coverage audit but
+remain separate pending source questions and matching German rainfall areas.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;

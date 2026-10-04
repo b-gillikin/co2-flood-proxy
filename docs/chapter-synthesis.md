@@ -6,8 +6,10 @@ canonical description of the chapter. Estimator details belong in
 `HANDOFF.md`; the redesign rationale is in `decisions.md` (2026-09-18).
 The measurement review, first-fit results and outcome-informed interpretation
 are in `limburg-first-fit-review.md`, `limburg-first-fit-results-guide.md` and
-`limburg-next-pass-method-note.md`. The last is a research aid, not a change
-to the original protocol or dissertation prose.
+`limburg-next-pass-method-note.md`. A distinct, outcome-informed exploratory
+cross-tributary result is in `cross-tributary-current-data-analysis-2026-10-03.md`;
+it has not silently replaced this original design. These are research aids,
+not dissertation prose.
 
 ## 1. Research question
 

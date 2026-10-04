@@ -1,7 +1,9 @@
 # Analysis Inventory — Prospective Case-Crossover Study
 
-Status: 2026-09-29, protocol draft 0.10. There is no chapter result. Discharge
-source semantics are resolved; numerical benchmarks do not stop the study.
+Status: 2026-10-03. The original case-crossover protocol remains documented;
+the real-data fit and an outcome-informed exploratory cross-tributary analysis
+now have internal results. Discharge source semantics are resolved; numerical
+benchmarks do not stop the study.
 
 ## Prospective chapter
 
@@ -21,12 +23,30 @@ source semantics are resolved; numerical benchmarks do not stop the study.
 | hourly discharge ingest | outcome series | built for six gauges with trailing-hour alignment and verified source semantics (`45_build_event_study_discharge.py`) |
 | `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
 | synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
-| July 2021 regional anchor | descriptive trajectory | not run |
+| July 2021 regional anchor | descriptive trajectory | examined in the first-fit and cross-tributary audits; measurement concerns limit timing and peak-magnitude claims |
 | conditional distance module | separate ordered-pair slope if LANUK data are comparable | inactive |
 
-No prospective figure or outcome table exists. The protocol is unlocked.
-LANUK products under `results/feasibility/` are input-QA artifacts, not chapter
-findings.
+The original case-crossover fit and interpretation are in
+`limburg-first-fit-results-guide.md` and `limburg-next-pass-method-note.md`.
+The protocol is internal documentation, not a formal preregistration or a
+chapter-stopping gate. LANUK products under `results/feasibility/` are input-QA
+artifacts, not chapter findings.
+
+## Exploratory rainfall-defined cross-tributary analysis
+
+| component | purpose | state |
+| --- | --- | --- |
+| `53_cross_tributary_rain_episodes.py` | rain-defined six-site episodes, discharge footprint, source hashes | run on 2010–2025 held data; 359 descriptive comparable episodes |
+| `54_audit_cross_tributary_episodes.py` | long multi-pulse rain episodes, high-water concerns and residual plots | all 16 episodes at least 72 hours and eight largest residuals inspected |
+| `55_fit_cross_tributary_footprint.py` | bounded six-site event-level working mean, whole-year bootstrap and event-rule sensitivities | 357 primary events, 999 draws; no forecast or causal claim |
+| `56_audit_precipitation_phase.py` | sensitivity using held ERA5-Land 2 m temperature as coarse freezing proxy | run; positive adjusted rain and pre-rain-flow terms persist after exclusions |
+| `57_audit_german_candidate.py` | separate four-export LANUK clock and coverage audit | run; German sites not pooled into the Dutch model |
+
+The numbers, exceptions and limitations are in
+`cross-tributary-current-data-analysis-2026-10-03.md`; the ignored reproducible
+tables and plots are under `results/event_study/cross_tributary_rain_v1/`.
+This alternative was developed after inspecting the earlier outcome. It is
+exploratory and has not been adopted as the final chapter design.
 
 ## Supporting data acquisition
 
