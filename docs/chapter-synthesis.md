@@ -10,6 +10,11 @@ are in `limburg-first-fit-review.md`, `limburg-first-fit-results-guide.md` and
 cross-tributary result is in `cross-tributary-current-data-analysis-2026-10-03.md`;
 it has not silently replaced this original design. These are research aids,
 not dissertation prose.
+An additional issue-time retrospective test is documented in
+`limburg-retrospective-prediction-test-2026-10-03.md`; it finds limited
+incremental ranking information from observed river state and does not claim
+operational warning skill. The final chapter framing remains for Brian and
+supervisors to decide.
 
 ## 1. Research question
 

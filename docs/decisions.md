@@ -2199,3 +2199,24 @@ Because complete-event rainfall can occur after a threshold crossing,
 associations are retrospective and do not establish forecast lead time or
 causal effects. The German LANUK files pass a basic clock and coverage audit
 but are not pooled without source clarification and matching catchment rain.
+
+# 2026-10-03 — Held-data issue-time prediction comparison
+
+Following the exploratory footprint result, Brian asked whether antecedent
+river state adds out-of-sample predictive information and directed a test
+using currently held data. This analysis uses a decision at the end of the
+sixth observed rain hour, with no future rainfall in features or trigger.
+Compare rainfall-only and rainfall-plus-current-flow models on identical
+site outcomes, fitting each 2014–2025 test year from earlier years only.
+The 2-mm rain trigger was chosen after inspecting event/outcome counts,
+before fitting these models; treat it as exploratory rather than an
+independently validated action threshold.
+
+The added flow term improves ranking but does not resolve the main Brier
+score difference. The July 2021 crisis does not pass the main six-site
+future-coverage screen. Verified discharge, era-p99, and archived RADOLAN
+are not established as the exact as-issued data, so no operational-warning
+claim follows. The full methods, scores, uncertainty and sensitivities are
+in `limburg-retrospective-prediction-test-2026-10-03.md`. Keep the earlier
+case-crossover and footprint results intact while the chapter framing is
+decided.

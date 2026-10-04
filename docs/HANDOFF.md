@@ -29,6 +29,10 @@ Read in this order:
 12. `cross-tributary-current-data-analysis-2026-10-03.md` — event and
     measurement audit, adjusted event-level fit, robustness checks and the
     separate German source-compatibility audit; current exploratory result.
+13. `limburg-retrospective-prediction-test-2026-10-03.md` — forward-year
+    six-hour rain-trigger comparison of rainfall alone versus rainfall plus
+    observed river state; limited retrospective predictive gain, not an
+    as-issued warning evaluation.
 
 ## Current chapter
 
@@ -105,6 +109,17 @@ and ignored outputs for estimates, audit and limits. This is outcome-informed
 exploratory work, not a committed replacement of the original protocol or a
 forecast assessment. Four LANUK exports pass a basic clock/coverage audit but
 remain separate pending source questions and matching German rainfall areas.
+
+A separate issue-time test asks whether discharge observed six hours after a
+rain spell begins improves next-24-hour tributary high-discharge prediction
+beyond rainfall already observed. For 2014–2025 forward-year tests, 584
+six-site decisions yield 291 positive site outcomes. Adding issue-time flow
+improves ROC AUC from 0.628 to 0.679 and average precision from 0.144 to
+0.184; the Brier improvement is small and its main year-block interval
+includes zero. The July 2021 crisis misses the main outcome-coverage rule.
+Read `limburg-retrospective-prediction-test-2026-10-03.md` for sampling,
+site/year variation and caveats. This is exploratory retrospective skill using
+verified historical data; it does not demonstrate an operational warning.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;

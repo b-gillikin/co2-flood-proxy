@@ -41,12 +41,16 @@ artifacts, not chapter findings.
 | `55_fit_cross_tributary_footprint.py` | bounded six-site event-level working mean, whole-year bootstrap and event-rule sensitivities | 357 primary events, 999 draws; no forecast or causal claim |
 | `56_audit_precipitation_phase.py` | sensitivity using held ERA5-Land 2 m temperature as coarse freezing proxy | run; positive adjusted rain and pre-rain-flow terms persist after exclusions |
 | `57_audit_german_candidate.py` | separate four-export LANUK clock and coverage audit | run; German sites not pooled into the Dutch model |
+| `58_test_tributary_prediction.py` | fixed six-hour rain trigger, site-level next-day high-water prediction with earlier-year fitting | run; incremental ranking gain from issue-time discharge, unresolved main Brier gain |
 
 The numbers, exceptions and limitations are in
 `cross-tributary-current-data-analysis-2026-10-03.md`; the ignored reproducible
 tables and plots are under `results/event_study/cross_tributary_rain_v1/`.
 This alternative was developed after inspecting the earlier outcome. It is
 exploratory and has not been adopted as the final chapter design.
+The separate issue-time retrospective prediction test and its limits are in
+`limburg-retrospective-prediction-test-2026-10-03.md`; it uses held data and
+does not establish as-issued forecast or alert performance.
 
 ## Supporting data acquisition
 
