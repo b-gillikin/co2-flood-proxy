@@ -42,6 +42,7 @@ artifacts, not chapter findings.
 | `56_audit_precipitation_phase.py` | sensitivity using held ERA5-Land 2 m temperature as coarse freezing proxy | run; positive adjusted rain and pre-rain-flow terms persist after exclusions |
 | `57_audit_german_candidate.py` | separate four-export LANUK clock and coverage audit | run; German sites not pooled into the Dutch model |
 | `58_test_tributary_prediction.py` | fixed six-hour rain trigger, site-level next-day high-water prediction with earlier-year fitting | run; incremental ranking gain from issue-time discharge, unresolved main Brier gain |
+| `59_test_atmospheric_increment.py` | pressure-change and humidity increments on the same forward-year prediction sample | run; pressure improves pooled storm ranking, not within-storm site ranking; humidity adds little |
 
 The numbers, exceptions and limitations are in
 `cross-tributary-current-data-analysis-2026-10-03.md`; the ignored reproducible
@@ -51,6 +52,8 @@ exploratory and has not been adopted as the final chapter design.
 The separate issue-time retrospective prediction test and its limits are in
 `limburg-retrospective-prediction-test-2026-10-03.md`; it uses held data and
 does not establish as-issued forecast or alert performance.
+The bounded atmospheric follow-up and its storm-versus-site distinction are
+in `limburg-atmospheric-increment-2026-10-03.md`.
 
 ## Supporting data acquisition
 

@@ -33,6 +33,9 @@ Read in this order:
     six-hour rain-trigger comparison of rainfall alone versus rainfall plus
     observed river state; limited retrospective predictive gain, not an
     as-issued warning evaluation.
+14. `limburg-atmospheric-increment-2026-10-03.md` — bounded issue-time
+    pressure-change and humidity comparison on that same sample; pressure
+    improves pooled storm ranking but not within-storm tributary ranking.
 
 ## Current chapter
 
@@ -120,6 +123,12 @@ includes zero. The July 2021 crisis misses the main outcome-coverage rule.
 Read `limburg-retrospective-prediction-test-2026-10-03.md` for sampling,
 site/year variation and caveats. This is exploratory retrospective skill using
 verified historical data; it does not demonstrate an operational warning.
+Adding held ERA5-Land six-hour pressure change to the rain-plus-flow model
+raises held-out pooled ROC AUC from 0.679 to 0.729, while the Brier gain
+remains uncertain. Humidity alone adds little; adding it to pressure does not
+resolve further gain. Pressure does not improve ranking tributaries within
+the same mixed-outcome storm. See `limburg-atmospheric-increment-2026-10-03.md`;
+the weather is reanalysis and these are exploratory, not as-issued forecasts.
 
 A targeted follow-up covering these items went to René Mols on 2026-09-21 in
 the existing thread. Its sent-message export and the native reply are not archived;

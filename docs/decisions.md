@@ -2220,3 +2220,21 @@ claim follows. The full methods, scores, uncertainty and sensitivities are
 in `limburg-retrospective-prediction-test-2026-10-03.md`. Keep the earlier
 case-crossover and footprint results intact while the chapter framing is
 decided.
+
+# 2026-10-03 — Bounded atmospheric increment to the prediction test
+
+Brian asked whether pressure or other atmospheric variables matter in the
+six-hour retrospective test. Use only the chapter's already-built
+ERA5-Land six-hour pressure change and relative humidity. Compare each and
+their joint block with the same rain-plus-flow model, the same forward-year
+sample and exact issue-time weather joins; do not start a broader atmospheric
+feature search.
+
+Pressure change improves pooled held-out ranking across storm decisions,
+but not high-versus-low tributary ranking within the same mixed-outcome
+decision. Humidity alone adds little, and the joint block does not resolve
+an increment over pressure. Main Brier improvement remains uncertain.
+This outcome-informed, multiple-specification analysis uses retrospective
+reanalysis and verified discharge, so it does not establish as-issued
+forecast or warning skill. Methods, estimates and limits are in
+`limburg-atmospheric-increment-2026-10-03.md`.

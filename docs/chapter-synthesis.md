@@ -15,6 +15,11 @@ An additional issue-time retrospective test is documented in
 incremental ranking information from observed river state and does not claim
 operational warning skill. The final chapter framing remains for Brian and
 supervisors to decide.
+A bounded atmospheric increment is documented in
+`limburg-atmospheric-increment-2026-10-03.md`: pressure change improves pooled
+retrospective storm ranking but not selection of the affected tributary
+within a storm; humidity adds little. This does not alter the original
+case-crossover protocol.
 
 ## 1. Research question
 
