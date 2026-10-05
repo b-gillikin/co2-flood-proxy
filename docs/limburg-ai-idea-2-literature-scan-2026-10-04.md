@@ -4,9 +4,9 @@ This note tests the candidate Limburg AI idea against adjacent research. It is n
 
 ## Candidate research question
 
-In retrospective Wurm/Worm high-water cases, does adding explicit river-network, jurisdiction, and time-valid measurement provenance to a document-and-data retrieval assistant reduce factual and source-use errors, including unsupported answers, relative to an otherwise identical assistant without those structured facts?
+Does knowledge of the river basin help AI assess high-water events more accurately across the Dutch–German border?
 
-The experiment compares two systems using the same model, documents, observations, basic time-series calculations, and questions. Only the source-linked structured basin/agency/validity layer changes. A no-retrieval general LLM can be a secondary reference. This design tests the value of basin-specific structure more cleanly than comparing a fully equipped system to a text-only LLM.
+This is an evaluation of basin-grounded AI reasoning. “Knowledge of the river basin” includes river and station connections, agency responsibility, and the dates and quality limits of measurements and rules. The experiment compares two systems using the same model, documents, observations, basic time-series calculations, and questions. Only that source-linked basin context changes. A no-retrieval general LLM can be a secondary reference. Score both correct answers and recognition that the evidence is insufficient.
 
 ## Closest work and what it means
 

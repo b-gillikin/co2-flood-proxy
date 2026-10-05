@@ -6,11 +6,11 @@ These are candidate directions, not additions to the live chapter design or diss
 
 Test whether a modest nonlinear model can identify which of the six monitored tributaries will respond unusually strongly, using rainfall and river state already observed at a defined decision time. Compare with persistence and the existing logistic baseline on whole held-out storms and years. The scientific target is within-storm response heterogeneity, not the generic result that rain precedes high water. This idea has not been run. See `limburg-retrospective-prediction-test-2026-10-03.md` and `limburg-atmospheric-increment-2026-10-03.md` for relevant baselines.
 
-## Idea 2 — Basin-aware AI evidence assistant
+## Idea 2 — An evaluation of basin-grounded AI reasoning
 
-**Candidate research question (refined after the 2026-10-04 literature scan).** In retrospective Wurm/Worm high-water cases, does adding explicit river-network, jurisdiction, and time-valid measurement provenance to a document-and-data retrieval assistant reduce factual and source-use errors, including unsupported answers, relative to an otherwise identical assistant without those structured facts?
+**Candidate research question.** Does knowledge of the river basin help AI assess high-water events more accurately across the Dutch–German border?
 
-The comparison should give both arms the same underlying documents, observations, model, and basic time-series calculations. The intervention is the explicit, source-linked basin/agency/validity layer, rather than a bundle of extra data and tools. Score supported answers and justified abstentions separately. This is a candidate RQ for a potential later study, not a replacement for the live Limburg chapter RQs. The targeted literature scan and its limits are in `limburg-ai-idea-2-literature-scan-2026-10-04.md`.
+Here, “knowledge of the river basin” means knowing which gauges belong to which rivers, how the stations connect, which agency produced each record, and when a measurement or rule was valid. The comparison should give both arms the same underlying documents, observations, model, and basic time-series calculations; only this explicit, source-linked basin context changes. Score both correct assessments and recognition that the evidence is insufficient. This is a candidate RQ for a potential later study, not a replacement for the live Limburg chapter RQs. The targeted literature scan and its limits are in `limburg-ai-idea-2-literature-scan-2026-10-04.md`.
 
 **Initial geography.** The Dutch Limburg Meuse reach, the six monitored tributaries, and a focused Netherlands–Germany comparison around the Wurm/Worm and directly relevant German tributary records. Belgian Meuse information can supply context, but the held data do not support a symmetric three-country evaluation. This is not a system for the entire international Maas basin or every national FEWS.
 
