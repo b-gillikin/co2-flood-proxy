@@ -1,0 +1,30 @@
+# Limburg AI ideas (internal research notes)
+
+These are candidate directions, not additions to the live chapter design or dissertation prose. Brian writes the manuscript text.
+
+## Idea 1 — Uneven tributary response to the same storm
+
+Test whether a modest nonlinear model can identify which of the six monitored tributaries will respond unusually strongly, using rainfall and river state already observed at a defined decision time. Compare with persistence and the existing logistic baseline on whole held-out storms and years. The scientific target is within-storm response heterogeneity, not the generic result that rain precedes high water. This idea has not been run. See `limburg-retrospective-prediction-test-2026-10-03.md` and `limburg-atmospheric-increment-2026-10-03.md` for relevant baselines.
+
+## Idea 2 — Basin-aware AI evidence assistant
+
+**Research question.** Can a system that combines retrieved documents, a curated river-network and agency map, and checked time-series tools produce more accurate and appropriately cautious high-water situation assessments than generic AI or document-only retrieval?
+
+**Initial geography.** The Dutch Limburg Meuse reach, the six monitored tributaries, and relevant German/Belgian interfaces. This is not a system for the entire international Maas basin or every national FEWS. The case should expose differences that matter for the selected gauges and decisions.
+
+**Architecture.**
+
+1. A curated relational/graph layer stores station identity, river and catchment membership, upstream/downstream links, responsible agency, measurement type, rating-era and known quality metadata, each with provenance and validity dates. A graph database is optional; ordinary tables are sufficient initially.
+2. A versioned document store holds official agency manuals, warning conventions, reports, and station notes, indexed by source, jurisdiction, publication/effective date, and cited passage. Research papers such as Busker et al. explain the problem and help formulate questions; they do not supersede primary agency rules.
+3. Deterministic tools read rainfall and discharge, align timestamps, compute trends, apply source quality codes and rating-domain checks, and answer topological queries. Numerical and geographic facts are computed here, not inferred by a language model.
+4. Hybrid exact-term/semantic retrieval supplies relevant passages. A general generative model selects tools and synthesizes a structured, cited evidence brief. A checker rejects unsupported numbers, wrong-period rules, incorrect upstream/downstream statements, and unsupported equivalence between countries' warning colours. Unknown or unavailable information is reported as such.
+
+This is **RAG plus structured basin facts and tools**, rather than a bare chatbot over PDFs. No fine-tuning is part of the initial design. Fine-tuning could later be tested for a narrow, repeatable extraction or formatting task if evaluation exposes a stable failure; the model would still retrieve current facts at answer time.
+
+**Concrete test case.** For a July 2021 Venlo question, the system should find that much of the held high-water discharge series carries RWS code `25` (interpolated in space and time), cite the source record, and distinguish this from direct measurement. For a historical Waterschap Fase-threshold question, it should not apply today's threshold to 2021 when the provider has said historical thresholds are unavailable. The system should describe what the evidence supports and what needs human verification; it should not issue an automated public warning.
+
+**Evaluation evidence is separate from the corpus.** Construct hand-adjudicated, source-linked answers for historical event questions. Compare a general model, document-only RAG, and basin-aware RAG plus tools on factual correctness, missed quality flags, wrong jurisdiction or topology, temporal/version errors, unsupported claims, useful abstention, and time to assemble an answer. Documents and observations are source evidence; the independently checked answers are the evaluation reference. A retrospective archive test can establish situation-assessment quality, not live warning effectiveness. An operational shadow test would later need as-issued data and current agency interfaces.
+
+**Why this matters.** The [2026 comparison of northwestern European FEWS](https://nhess.copernicus.org/articles/26/1457/2026/nhess-26-1457-2026.html) reports differing warning levels and codes, challenges translating forecasts into actions, and a specific gap in cross-border warning exchange even where data exchange is relatively well organized. The [international Meuse flood-risk plan](https://www.meuse-maas.be/CIM/media/PGRI-dec-2021-en-anglais/Roof_Report_Mregie_21_1def_en.pdf) documents different institutional roles and message contents. The novelty to test is correct, source-grounded synthesis across basin relationships, agencies and measurement quality—not simply building an AI agent.
+
+**Status.** Saved as Idea 2 on 2026-10-04. This note records an option for later assessment; no implementation or change to the chapter's live research questions was made.
