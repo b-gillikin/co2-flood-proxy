@@ -10,7 +10,15 @@
     "bands": 64,
     "license": "CC-BY-4.0",
     "primary_time_rule": "For event year Y use Y-1; for Y after 2024 use 2024; events before 2018 are outside the AlphaEarth primary comparison.",
-    "export": "catchment-year means and valid-pixel count; no raster export"
+    "export": "catchment-year means and valid-pixel count; no raster export",
+    "delivery": {
+      "status": "validated",
+      "earth_engine_task_id": "E6474NF3XDGDJEDEHNM7B7XO",
+      "local_path": "data/raw/foundation_assets/alphaearth/limburg_alphaearth_catchment_year_v1.csv",
+      "sha256": "0aad11a43befdd5e80138962728a865428d75e2fc45a143992f5e32928fab463",
+      "rows": 72,
+      "catchments": 9
+    }
   },
   "ttm": {
     "model_id": "ibm-granite/granite-timeseries-ttm-r2",

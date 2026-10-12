@@ -62,8 +62,11 @@ AlphaEarth comparison can itself be called cross-border.
 
 ## Next decision sequence
 
-1. **Prepared:** authenticated AlphaEarth aggregation for the Dutch catchments
-   and Herzogenrath 1/Randerath; event year `Y` uses the prior-year embedding.
+1. **Completed and validated 2026-10-12:** AlphaEarth aggregation for the seven
+   Dutch catchments and Herzogenrath 1/Randerath. The delivery contains the
+   complete 9-catchment by 8-year grid (72 rows), 64 embedding dimensions, no
+   missing values and stable geometry hashes. Event year `Y` uses the prior-year
+   embedding.
 2. Test whether those embeddings add retrieval signal; do not infer physical
    meaning from individual embedding axes.
 3. **Fixed:** TTM-R2 `512-96-r2`, frozen last-layer patch-mean representation,

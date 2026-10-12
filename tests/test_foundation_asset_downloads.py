@@ -21,6 +21,9 @@ def test_manifest_is_bounded_and_pinned():
     assert "training_args.bin" in ttm["excluded_files"]
     assert manifest["alphaearth"]["years"] == list(range(2017, 2025))
     assert manifest["alphaearth"]["bands"] == 64
+    assert manifest["alphaearth"]["delivery"]["status"] == "validated"
+    assert manifest["alphaearth"]["delivery"]["rows"] == 72
+    assert len(manifest["alphaearth"]["delivery"]["sha256"]) == 64
     weights = next(asset for asset in manifest["downloads"] if asset["id"] == "ttm_weights")
     assert weights["hf_revision"] == ttm["revision"]
     assert weights["hf_filename"] == "model.safetensors"
