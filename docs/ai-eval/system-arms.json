@@ -1,0 +1,34 @@
+[
+  {
+    "arm_id": "A0_GENERAL_LLM",
+    "label": "General LLM",
+    "document_access": false,
+    "checked_tools": false,
+    "basin_graph": false,
+    "purpose": "Reference performance from the same frozen model without study evidence."
+  },
+  {
+    "arm_id": "A1_DOCUMENT_RAG",
+    "label": "Document-only RAG",
+    "document_access": true,
+    "checked_tools": false,
+    "basin_graph": false,
+    "purpose": "Tests retrieval and synthesis from the versioned document corpus."
+  },
+  {
+    "arm_id": "A2_RAG_TOOLS",
+    "label": "RAG plus checked gauge tools",
+    "document_access": true,
+    "checked_tools": true,
+    "basin_graph": false,
+    "purpose": "Separates the contribution of deterministic observation and quality calculations."
+  },
+  {
+    "arm_id": "A3_BASIN_GROUNDED",
+    "label": "RAG plus checked tools and curated basin graph",
+    "document_access": true,
+    "checked_tools": true,
+    "basin_graph": true,
+    "purpose": "Tests whether explicit river, station, jurisdiction and agency relations reduce applicability errors."
+  }
+]

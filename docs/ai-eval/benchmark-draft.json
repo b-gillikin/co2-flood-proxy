@@ -1,0 +1,897 @@
+[
+  {
+    "case_id": "B001",
+    "split": "pilot",
+    "task_family": "time_semantics",
+    "question": "Do the Waterschap Limburg discharge timestamps switch between CET and daylight-saving time?",
+    "reference_answer": "No. The provider states that the timestamps use a fixed GMT+1 offset throughout the year and do not switch for daylight saving.",
+    "required_claims": [
+      "fixed UTC+1/GMT+1 all year",
+      "no daylight-saving shift"
+    ],
+    "forbidden_claims": [
+      "Dutch civil time",
+      "automatic CET/CEST conversion"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B002",
+    "split": "pilot",
+    "task_family": "missingness",
+    "question": "In the Waterschap delivery, can a value of 0.000 mean that the station was down?",
+    "reference_answer": "No. The provider says 0.000 means zero discharge. A blank cell means the reading was unavailable because it was unreliable or the station was not operating; those two blank-cell causes cannot be distinguished.",
+    "required_claims": [
+      "zero is a real zero",
+      "blank is unavailable",
+      "blank causes not distinguished"
+    ],
+    "forbidden_claims": [
+      "zero is missing",
+      "fill blanks with zero"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B003",
+    "split": "pilot",
+    "task_family": "historical_rule",
+    "question": "What official H1, H2 and H3 discharge thresholds applied at Cottessen during the July 2021 flood?",
+    "reference_answer": "The historical July 2021 thresholds cannot be established from the held records. Waterschap supplied only current thresholds and stated that historical thresholds are not retained. The current Cottessen values are 10, 20 and 27.5 m3/s, but they must not be assigned retrospectively to 2021.",
+    "required_claims": [
+      "historical thresholds unavailable",
+      "current values cannot be back-applied",
+      "current values 10/20/27.5 only if clearly labelled current"
+    ],
+    "forbidden_claims": [
+      "10/20/27.5 definitely applied in July 2021"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_CURRENT_THRESHOLDS"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "calibrated_abstention",
+      "answer_completeness"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "current_thresholds",
+        "args": {
+          "gauge": "10.Q.29"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B004",
+    "split": "development",
+    "task_family": "current_rule",
+    "question": "What are the currently supplied Cottessen warning thresholds and what does H3 mean?",
+    "reference_answer": "The current supplied thresholds for Cottessen 10.Q.29 are H1 10, H2 20 and H3 27.5 m3/s. H3 is labelled flooding. The table is a current snapshot without a historical effective-date series.",
+    "required_claims": [
+      "H1 10",
+      "H2 20",
+      "H3 27.5 m3/s",
+      "H3 flooding",
+      "current snapshot"
+    ],
+    "forbidden_claims": [
+      "valid for every historical event"
+    ],
+    "gold_source_ids": [
+      "WL_CURRENT_THRESHOLDS",
+      "WL_PROVIDER_20260929"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": [
+      {
+        "name": "current_thresholds",
+        "args": {
+          "gauge": "10.Q.29"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B005",
+    "split": "pilot",
+    "task_family": "measurement_quality",
+    "question": "Can the delivered Cottessen discharge series verify the exact July 2021 peak discharge?",
+    "reference_answer": "No. The stage sensor continued, but discharge exceeded the documented 27.5 m3/s rating range and was disturbed by inundation and deposits. The series can document that a severe event occurred, but not an exact measured peak discharge from the delivered rating relation.",
+    "required_claims": [
+      "stage continued",
+      "discharge outside rating range",
+      "inundation/deposit disturbance",
+      "exact peak not supported"
+    ],
+    "forbidden_claims": [
+      "exact peak is verified",
+      "all values are direct measurements"
+    ],
+    "gold_source_ids": [
+      "WL_JULY_REPORT_20210907",
+      "WL_SOURCE_AUDIT",
+      "WL_RATING_ERAS"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention",
+      "answer_completeness"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "gauge_metadata",
+        "args": {
+          "query": "10.Q.29"
+        }
+      },
+      {
+        "name": "rating_era",
+        "args": {
+          "gauge": "10.Q.29",
+          "timestamp": "2021-07-14T12:00:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B006",
+    "split": "development",
+    "task_family": "measurement_quality",
+    "question": "Should the July 2021 Rimburg peak discharge be treated as an exact observation?",
+    "reference_answer": "No. The sensor was reported operational, but the observed peak stage exceeded the documented rating-domain limit. The peak discharge should be censored or described as outside the supported rating range rather than treated as exact.",
+    "required_claims": [
+      "sensor operational",
+      "stage outside rating domain",
+      "peak discharge not exact"
+    ],
+    "forbidden_claims": [
+      "operational sensor guarantees valid peak discharge"
+    ],
+    "gold_source_ids": [
+      "WL_JULY_REPORT_20210907",
+      "WL_SOURCE_AUDIT",
+      "WL_GAUGE_REGISTER"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "gauge_metadata",
+        "args": {
+          "query": "18.Q.45"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B007",
+    "split": "pilot",
+    "task_family": "station_identity",
+    "question": "Is the LANUK Honsdorf station a Wurm/Worm gauge that can be pooled with Herzogenrath 1 and Randerath?",
+    "reference_answer": "No. Honsdorf is on Beeckflies. Herzogenrath 1 and Randerath are the two nested Wurm stations. Honsdorf must not be relabelled as another Wurm observation.",
+    "required_claims": [
+      "Honsdorf on Beeckflies",
+      "Herzogenrath 1 and Randerath on Wurm",
+      "do not pool Honsdorf as Wurm"
+    ],
+    "forbidden_claims": [
+      "Honsdorf is on Wurm",
+      "four independent Wurm gauges"
+    ],
+    "gold_source_ids": [
+      "LANUK_PACKAGES_20260923",
+      "LANUK_HONSDORF_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B008",
+    "split": "development",
+    "task_family": "independence",
+    "question": "Do Herzogenrath 1 and Randerath provide two independent German tributaries?",
+    "reference_answer": "No. They are nested observations on the Wurm and therefore represent one watercourse, not two independent tributaries. Their exact upstream/downstream order is not asserted in the curated pilot graph.",
+    "required_claims": [
+      "same Wurm watercourse",
+      "nested",
+      "not independent tributaries",
+      "order not asserted"
+    ],
+    "forbidden_claims": [
+      "two independent tributaries",
+      "invented station order"
+    ],
+    "gold_source_ids": [
+      "LANUK_PACKAGES_20260923"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B009",
+    "split": "pilot",
+    "task_family": "datum_history",
+    "question": "Can the current Honsdorf gauge zero of 54.368 m NHN2016 be used to convert the entire 2010\u20132025 stage series to absolute elevation?",
+    "reference_answer": "Not defensibly. The current gauge zero is known, but historical datum and sensor stability are not established. Applying it to the full history would require the missing datum/sensor history.",
+    "required_claims": [
+      "current zero known",
+      "historical stability unknown",
+      "do not convert full history"
+    ],
+    "forbidden_claims": [
+      "current zero is valid for all years"
+    ],
+    "gold_source_ids": [
+      "LANUK_HONSDORF_20261001",
+      "LANUK_HONSDORF_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B010",
+    "split": "pilot",
+    "task_family": "interpolation",
+    "question": "Does the held Venlo discharge series provide directly measured evidence for the July 12\u201320, 2021 high-water wave?",
+    "reference_answer": "Mostly no. The held ten-minute Venlo discharge values for that period are almost entirely RWS code 25, meaning interpolation in space and time. They can show the published interpolated series but cannot verify a directly measured peak from that record.",
+    "required_claims": [
+      "almost entirely code 25",
+      "code 25 interpolated in space and time",
+      "direct measured peak not verified"
+    ],
+    "forbidden_claims": [
+      "all values directly measured",
+      "interpolation is a validation flag showing high quality"
+    ],
+    "gold_source_ids": [
+      "RWS_MAAS_PILOT_AUDIT",
+      "RWS_QUALITY_GUIDE"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention",
+      "answer_completeness"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "maas_quality",
+        "args": {
+          "site": "Venlo",
+          "start": "2021-07-12",
+          "end": "2021-07-20"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B011",
+    "split": "development",
+    "task_family": "agency_routing",
+    "question": "Which held providers should be consulted for Worm/Rimburg, Herzogenrath 1 and Venlo observations?",
+    "reference_answer": "Waterschap Limburg provides Worm/Rimburg, LANUK NRW provides Herzogenrath 1, and Rijkswaterstaat provides the Venlo Maas series. The records use different source semantics and must not be treated as one homogeneous feed.",
+    "required_claims": [
+      "Rimburg Waterschap Limburg",
+      "Herzogenrath 1 LANUK NRW",
+      "Venlo Rijkswaterstaat",
+      "source semantics differ"
+    ],
+    "forbidden_claims": [
+      "one agency owns all three"
+    ],
+    "gold_source_ids": [
+      "WL_GAUGE_REGISTER",
+      "LANUK_PACKAGES_20260923",
+      "RWS_QUALITY_GUIDE"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "basin_station_identity"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B012",
+    "split": "development",
+    "task_family": "event_tool",
+    "question": "For the checked onset at Cottessen on 2010-01-17 14:00 UTC, was the onset pair inside the rating domain and was the event marked with a measurement concern?",
+    "reference_answer": "Yes, the checked onset pair was inside the documented discharge domain, and this event was not marked with a measurement concern. That event-specific result does not validate July 2021 or all Cottessen peaks.",
+    "required_claims": [
+      "onset pair admissible",
+      "inside domain",
+      "no event-specific measurement concern",
+      "does not generalize to July 2021"
+    ],
+    "forbidden_claims": [
+      "Cottessen always valid"
+    ],
+    "gold_source_ids": [
+      "WL_EVENT_REVIEW",
+      "WL_RATING_ERAS"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": [
+      {
+        "name": "event_review",
+        "args": {
+          "gauge": "10.Q.29",
+          "timestamp": "2010-01-17T14:00:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B013",
+    "split": "development",
+    "task_family": "cross_border_rule",
+    "question": "Is Dutch H2 directly equivalent to a German warning category for the Wurm/Worm in July 2021?",
+    "reference_answer": "The held evidence does not establish a direct equivalence. The systems use different warning codes, roles and source rules, and the held Waterschap historical thresholds are unavailable. A crosswalk would need dated Dutch and German operational definitions rather than colour or label similarity.",
+    "required_claims": [
+      "no direct equivalence established",
+      "different systems and roles",
+      "historical Dutch thresholds unavailable",
+      "dated definitions required"
+    ],
+    "forbidden_claims": [
+      "H2 equals a named German category without evidence"
+    ],
+    "gold_source_ids": [
+      "FEWS_NW_EUROPE_2026",
+      "WL_PROVIDER_20260929",
+      "CIM_MAAS_PLAN_2021"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B014",
+    "split": "development",
+    "task_family": "rating_history",
+    "question": "Were all delivered Dutch discharge values recomputed with the newest rating curve?",
+    "reference_answer": "No. The provider says values correspond to the rating relation applicable during the relevant period. Check measurements can later cause documented retrospective corrections; that is different from applying the newest relation to the entire history.",
+    "required_claims": [
+      "period-applicable relation",
+      "possible documented retrospective corrections",
+      "not newest curve for all history"
+    ],
+    "forbidden_claims": [
+      "single current curve applied to all dates"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "measurement_provenance"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B015",
+    "split": "pilot",
+    "task_family": "controlled_branch",
+    "question": "If Molentak Selzerbeek records 0.000, does that prove natural zero flow in the Selzerbeek?",
+    "reference_answer": "No. A delivered zero is a real zero at that series, but Molentak is an automatically controlled branch whose weir can close. It is excluded from the natural-tributary cohort, so its zero must not be generalized to natural zero flow in the Selzerbeek system.",
+    "required_claims": [
+      "recorded zero is real",
+      "Molentak is controlled by automatic weir",
+      "does not prove natural system zero"
+    ],
+    "forbidden_claims": [
+      "zero is missing",
+      "zero proves whole Selzerbeek dry"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_JULY_REPORT_20210907",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B016",
+    "split": "development",
+    "task_family": "rating_quality",
+    "question": "Can the Gulp Azijnfabriek series establish an exact July 2021 peak above 3 m3/s?",
+    "reference_answer": "Not from the held rating evidence. The station was reported operational, but the rating documentation reports poor accuracy and calibration only to about 3 m3/s. An exact higher peak should therefore be withheld or explicitly qualified.",
+    "required_claims": [
+      "station operational",
+      "rating accuracy poor",
+      "calibrated only to about 3 m3/s",
+      "exact higher peak unsupported"
+    ],
+    "forbidden_claims": [
+      "operational means exact discharge"
+    ],
+    "gold_source_ids": [
+      "WL_JULY_REPORT_20210907",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "gauge_metadata",
+        "args": {
+          "query": "13.Q.34"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B017",
+    "split": "development",
+    "task_family": "current_rule",
+    "question": "What are the currently supplied Rimburg warning thresholds, and can they be assumed to be the July 2021 thresholds?",
+    "reference_answer": "The current Rimburg 18.Q.45 thresholds are H1 25, H2 32 and H3 40 m3/s. They cannot be assumed to have applied in July 2021 because Waterschap does not retain historical threshold versions.",
+    "required_claims": [
+      "current H1/H2/H3 are 25/32/40 m3/s",
+      "historical applicability unknown"
+    ],
+    "forbidden_claims": [
+      "25/32/40 definitely applied in July 2021"
+    ],
+    "gold_source_ids": [
+      "WL_CURRENT_THRESHOLDS",
+      "WL_PROVIDER_20260929"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": [
+      {
+        "name": "current_thresholds",
+        "args": {
+          "gauge": "18.Q.45"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B018",
+    "split": "development",
+    "task_family": "current_rule",
+    "question": "What current H1, H2 and H3 thresholds are held for Eyserbeek at Eys?",
+    "reference_answer": "The current table lists 5.25, 6.2 and 7.5 m3/s for Eys 11.Q.32. These are current supplied values, not a historical series.",
+    "required_claims": [
+      "H1 5.25",
+      "H2 6.2",
+      "H3 7.5 m3/s",
+      "current values"
+    ],
+    "forbidden_claims": [
+      "valid for every historical event"
+    ],
+    "gold_source_ids": [
+      "WL_CURRENT_THRESHOLDS"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": [
+      {
+        "name": "current_thresholds",
+        "args": {
+          "gauge": "11.Q.32"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "B019",
+    "split": "development",
+    "task_family": "missingness",
+    "question": "Can a blank Waterschap discharge cell tell us whether the reading was unreliable or the station was down?",
+    "reference_answer": "No. A blank means the value was unavailable because it was unreliable or the station was not operating, but the delivered cell alone does not distinguish those causes.",
+    "required_claims": [
+      "blank means unavailable",
+      "cause cannot be distinguished"
+    ],
+    "forbidden_claims": [
+      "blank means zero",
+      "specific failure cause is known"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B020",
+    "split": "development",
+    "task_family": "time_semantics",
+    "question": "What UTC time corresponds to a Waterschap timestamp of 14 July 2021 13:00?",
+    "reference_answer": "Because the files use fixed GMT+1 all year, 13:00 in the file corresponds to 12:00 UTC. It must not be shifted as Dutch daylight-saving civil time.",
+    "required_claims": [
+      "12:00 UTC",
+      "fixed GMT+1",
+      "no daylight-saving conversion"
+    ],
+    "forbidden_claims": [
+      "11:00 UTC",
+      "CEST assumption"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B021",
+    "split": "development",
+    "task_family": "datum_history",
+    "question": "Do the held Waterschap records establish reference-datum and sensor histories for the Dutch gauges?",
+    "reference_answer": "No. The provider explicitly could not supply reference-datum or sensor-history information. Conclusions requiring those histories must be withheld or narrowed.",
+    "required_claims": [
+      "datum history unavailable",
+      "sensor history unavailable"
+    ],
+    "forbidden_claims": [
+      "histories are established"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B022",
+    "split": "development",
+    "task_family": "measurement_quality",
+    "question": "Does Cottessen's approximately 26 m3/s flume capacity make a larger delivered discharge an exact measurement?",
+    "reference_answer": "No. The provider says the flume capacity is about 26 m3/s and inundation occurs above it; the July report also documents rating-range and disturbance problems. A larger number does not become an exact measured discharge merely because it appears in the delivered series.",
+    "required_claims": [
+      "flume capacity about 26 m3/s",
+      "inundation above capacity",
+      "larger exact discharge unsupported"
+    ],
+    "forbidden_claims": [
+      "all delivered values are exact"
+    ],
+    "gold_source_ids": [
+      "WL_PROVIDER_20260929",
+      "WL_JULY_REPORT_20210907"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B023",
+    "split": "development",
+    "task_family": "station_identity",
+    "question": "Is Herzogenrath 2 another Wurm gauge?",
+    "reference_answer": "No. The held LANUK package identifies Herzogenrath 2 with Broicher Bach, while Herzogenrath 1 and Randerath are the nested Wurm stations.",
+    "required_claims": [
+      "Herzogenrath 2 on Broicher Bach",
+      "Herzogenrath 1 and Randerath on Wurm"
+    ],
+    "forbidden_claims": [
+      "Herzogenrath 2 on Wurm"
+    ],
+    "gold_source_ids": [
+      "LANUK_PACKAGES_20260923"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B024",
+    "split": "development",
+    "task_family": "independence",
+    "question": "Do the four delivered LANUK station packages represent four independent Wurm tributary records?",
+    "reference_answer": "No. Herzogenrath 1 and Randerath are nested on the Wurm, Herzogenrath 2 is on Broicher Bach, and Honsdorf is on Beeckflies. They cannot be counted as four independent Wurm tributaries.",
+    "required_claims": [
+      "two nested Wurm stations",
+      "Herzogenrath 2 Broicher Bach",
+      "Honsdorf Beeckflies",
+      "not four independent Wurm records"
+    ],
+    "forbidden_claims": [
+      "four independent Wurm tributaries"
+    ],
+    "gold_source_ids": [
+      "LANUK_PACKAGES_20260923",
+      "LANUK_HONSDORF_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B025",
+    "split": "development",
+    "task_family": "cross_border_identity",
+    "question": "Are Rimburg, Herzogenrath 1 and Randerath observations from the same named Wurm/Worm watercourse?",
+    "reference_answer": "Yes. Rimburg is the Dutch Worm gauge in the Waterschap register, while Herzogenrath 1 and Randerath are German Wurm stations. This shared watercourse identity does not by itself establish exact station order or homogeneous measurement semantics.",
+    "required_claims": [
+      "same Wurm/Worm watercourse",
+      "different jurisdictions/providers",
+      "order or homogeneous semantics not implied"
+    ],
+    "forbidden_claims": [
+      "independent rivers",
+      "exact station order without evidence"
+    ],
+    "gold_source_ids": [
+      "WL_GAUGE_REGISTER",
+      "LANUK_PACKAGES_20260923"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "temporal_jurisdiction_applicability"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B026",
+    "split": "development",
+    "task_family": "measurement_quality",
+    "question": "Do matching Honsdorf stage and discharge maximum timestamps in July 2021 validate the peak discharge?",
+    "reference_answer": "No. The audit finds that both maxima share the source timestamp, but this crosswalk does not validate the peak discharge or the stage-discharge relation.",
+    "required_claims": [
+      "timestamps match",
+      "matching timestamps do not validate discharge",
+      "rating relation remains unvalidated"
+    ],
+    "forbidden_claims": [
+      "timestamp match proves peak accuracy"
+    ],
+    "gold_source_ids": [
+      "LANUK_HONSDORF_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B027",
+    "split": "development",
+    "task_family": "interpolation",
+    "question": "In the held RWS Maas work, what distinction is made between quality codes 00 and 25?",
+    "reference_answer": "Code 00 is used for the strict controlled-observation screen. Code 25 means interpolation in space and time and is excluded when the question requires directly measured discharge.",
+    "required_claims": [
+      "00 controlled observation screen",
+      "25 interpolated in space and time",
+      "25 excluded for direct-measurement analysis"
+    ],
+    "forbidden_claims": [
+      "25 means directly measured"
+    ],
+    "gold_source_ids": [
+      "RWS_MAAS_PILOT_AUDIT",
+      "RWS_QUALITY_GUIDE"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "measurement_provenance"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B028",
+    "split": "development",
+    "task_family": "topology_abstention",
+    "question": "Which is upstream, Herzogenrath 1 or Randerath, according to the currently curated pilot evidence?",
+    "reference_answer": "The currently curated pilot evidence identifies them as nested Wurm stations but does not assert their exact upstream/downstream order. The system should abstain until that relation is verified from an authoritative map or station source.",
+    "required_claims": [
+      "nested Wurm stations",
+      "exact order not established",
+      "abstain on order"
+    ],
+    "forbidden_claims": [
+      "invented station order"
+    ],
+    "gold_source_ids": [
+      "LANUK_PACKAGES_20260923"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B029",
+    "split": "development",
+    "task_family": "station_identity",
+    "question": "Which six Dutch tributary gauges form the held natural-tributary register?",
+    "reference_answer": "The register contains Eys on the Eyserbeek (11.Q.32), Cottessen on the Geul (10.Q.29), Gulp/Azijnfabriek on the Gulp (13.Q.34), the Voer gauge (15.Q.41), Rimburg on the Worm (18.Q.45), and the Geleenbeek gauge (6.Q.18). Molentak is not one of these six natural-tributary gauges.",
+    "required_claims": [
+      "all six gauge-watercourse identities",
+      "Molentak excluded"
+    ],
+    "forbidden_claims": [
+      "Molentak included in six"
+    ],
+    "gold_source_ids": [
+      "WL_GAUGE_REGISTER",
+      "WL_SOURCE_AUDIT"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "basin_station_identity",
+      "answer_completeness"
+    ],
+    "expected_abstention": false,
+    "tool_calls": []
+  },
+  {
+    "case_id": "B030",
+    "split": "development",
+    "task_family": "scope_boundary",
+    "question": "Can the checked Dutch onset table tell us what official warning was issued for an event?",
+    "reference_answer": "No. It supports event-specific calculations and measurement checks, but it does not contain official warning decisions. A claim about an issued warning requires a separate dated warning archive.",
+    "required_claims": [
+      "table supports event calculations",
+      "no official warning decisions",
+      "separate warning archive required"
+    ],
+    "forbidden_claims": [
+      "p99 onset equals issued warning"
+    ],
+    "gold_source_ids": [
+      "WL_EVENT_REVIEW"
+    ],
+    "applicable_dimensions": [
+      "factual_correctness",
+      "source_entailment",
+      "temporal_jurisdiction_applicability",
+      "calibrated_abstention"
+    ],
+    "expected_abstention": true,
+    "tool_calls": []
+  }
+]

@@ -43,4 +43,9 @@ Earth-observation foundation models such as [Prithvi-EO-2.0](https://doi.org/10.
 
 **Why this matters.** The [2026 comparison of northwestern European FEWS](https://nhess.copernicus.org/articles/26/1457/2026/nhess-26-1457-2026.html) reports differing warning levels and codes, challenges translating forecasts into actions, and a specific gap in cross-border warning exchange even where data exchange is relatively well organized. The [international Meuse flood-risk plan](https://www.meuse-maas.be/CIM/media/PGRI-dec-2021-en-anglais/Roof_Report_Mregie_21_1def_en.pdf) documents different institutional roles and message contents. Flood knowledge graphs and flood RAG systems already exist, including [a 2025 flood-KG/RAG evaluation](https://www.mdpi.com/1999-4893/18/11/713). Similarity to that work is not disqualifying: the contribution can come from a different, well-evaluated task and setting, careful use of Dutch–German river relationships and measurement provenance, and a clearer account of when the AI should refrain from a conclusion. These are claims to test, not assumed results.
 
-**Status.** Saved as Idea 2 on 2026-10-04. This note records an option for later assessment; no implementation or change to the chapter's live research questions was made.
+**Status.** Saved as Idea 2 on 2026-10-04. A bounded evidence-path pilot was
+implemented on 2026-10-11: 14 source records, a 30-case draft benchmark, four
+fixed arms, a seven-dimension rubric, a small curated basin graph and 32 prompt
+packets for eight pilot cases. No language-model answers have been generated or
+scored, and the live chapter research questions have not changed. See
+`limburg-basin-ai-pilot-2026-10-11.md`.

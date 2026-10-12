@@ -30,6 +30,7 @@ There is no analysis framework or model registry.
 | `47_run_real_event_study.py` | primary, S1–S4, specified sensitivities, 999-draw joint-month bootstrap and tidy outputs | first real-data fit run 2026-09-29 |
 | `48_render_real_event_study.py` | five protocol figures from fitted outputs and the fixed catchment GeoPackage | run |
 | `49_diagnose_real_event_study.py` | fitted-onset diagnostics, July 2021 point-estimate influence and rainfall-contrast support | run; diagnostic only |
+| `63_build_basin_ai_pilot.py` | validate the Idea 2 source inventory, question bank, four evidence-access arms, rubric and curated basin graph; build prompt packets and test retrieval without calling an LLM | implemented; bounded evidence-path pilot run 2026-10-11 |
 
 Safe input-only commands:
 
@@ -56,6 +57,18 @@ python scripts/47_run_real_event_study.py --replicates 999
 python scripts/48_render_real_event_study.py
 python scripts/49_diagnose_real_event_study.py
 ```
+
+Bounded basin-AI evidence-path pilot:
+
+```bash
+python scripts/63_build_basin_ai_pilot.py
+pytest -q tests/test_basin_ai_pilot.py
+```
+
+This creates ignored prompt packets and retrieval diagnostics under
+`results/basin_ai_pilot/`. It deliberately does not call a language model or
+score answers. The design and initial finding are recorded in
+`docs/limburg-basin-ai-pilot-2026-10-11.md`.
 
 The review is completed before the fit. `results/event_study/real_data_v1/`
 holds ignored local analytical artifacts; `docs/limburg-first-fit-results-guide.md`

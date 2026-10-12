@@ -1,0 +1,9 @@
+[
+  {"dimension": "factual_correctness", "max_score": 2, "anchor_0": "Material claim is wrong", "anchor_1": "Mixed or incomplete but no central inversion", "anchor_2": "All material claims match the reference"},
+  {"dimension": "source_entailment", "max_score": 2, "anchor_0": "Claims lack or contradict cited support", "anchor_1": "Some claims are supported", "anchor_2": "Every material claim is linked to an entailing source or tool result"},
+  {"dimension": "temporal_jurisdiction_applicability", "max_score": 2, "anchor_0": "Uses the wrong date, country, agency or rule", "anchor_1": "Recognizes but incompletely handles applicability", "anchor_2": "Applies the correct date, jurisdiction and agency limits"},
+  {"dimension": "basin_station_identity", "max_score": 2, "anchor_0": "Misidentifies a station, river or relationship", "anchor_1": "Identity is incomplete", "anchor_2": "All relevant station and river relationships are correct"},
+  {"dimension": "measurement_provenance", "max_score": 2, "anchor_0": "Treats reconstructed, interpolated or out-of-domain data as direct measurement", "anchor_1": "Mentions uncertainty without its consequence", "anchor_2": "States the quality issue and narrows the conclusion accordingly"},
+  {"dimension": "calibrated_abstention", "max_score": 2, "anchor_0": "Invents an answer or refuses despite sufficient evidence", "anchor_1": "Qualified but poorly bounded", "anchor_2": "Answers supported parts and explicitly withholds unsupported parts"},
+  {"dimension": "answer_completeness", "max_score": 2, "anchor_0": "Misses the central requested assessment", "anchor_1": "Partially answers", "anchor_2": "Concise complete assessment with unresolved items"}
+]
