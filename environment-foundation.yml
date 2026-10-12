@@ -12,4 +12,6 @@ dependencies:
   - pip
   - pip:
       - earthengine-api
+      # Includes hf_xet, the official client for Hugging Face's weight storage.
+      - "huggingface_hub>=0.32"
       - "granite-tsfm @ git+https://github.com/ibm-granite/granite-tsfm.git@fe7a35697723e2a2f5246ae979474bfc554e26c0"

@@ -21,6 +21,9 @@ def test_manifest_is_bounded_and_pinned():
     assert "training_args.bin" in ttm["excluded_files"]
     assert manifest["alphaearth"]["years"] == list(range(2017, 2025))
     assert manifest["alphaearth"]["bands"] == 64
+    weights = next(asset for asset in manifest["downloads"] if asset["id"] == "ttm_weights")
+    assert weights["hf_revision"] == ttm["revision"]
+    assert weights["hf_filename"] == "model.safetensors"
 
 
 def test_downloads_use_https_unique_relative_paths_and_safe_model_files():
@@ -43,3 +46,21 @@ def test_group_selection_is_complete():
     all_assets = MODULE.selected_assets(manifest, "all")
     grouped = sum((MODULE.selected_assets(manifest, group) for group in ("model", "code", "documents")), [])
     assert {asset["id"] for asset in all_assets} == {asset["id"] for asset in grouped}
+
+
+def test_existing_receipt_is_verified_before_skip(tmp_path):
+    target = tmp_path / "asset.json"
+    target.write_text('{"ok": true}\n')
+    receipt = target.with_suffix(".json.receipt.json")
+    receipt.write_text(
+        json.dumps(
+            {
+                "bytes": target.stat().st_size,
+                "sha256": MODULE.sha256(target),
+                "asset_id": "test",
+            }
+        )
+    )
+    assert MODULE.existing_receipt(target)["status"] == "verified-existing"
+    target.write_text("changed")
+    assert MODULE.existing_receipt(target) is None

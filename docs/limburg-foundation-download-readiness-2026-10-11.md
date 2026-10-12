@@ -91,7 +91,11 @@ rainfall, antecedent conditions or hydrographs.
 list, source-code revision, public documents and AlphaEarth export definition.
 `scripts/66_download_limburg_foundation_assets.py` downloads public files
 atomically and writes a SHA-256 receipt beside each file. It deliberately
-excludes the unnecessary pickle-based `training_args.bin` file.
+excludes the unnecessary pickle-based `training_args.bin` file. Reruns verify
+and skip completed assets, retain resumable `.part` files, and continue to the
+remaining assets if one host is temporarily unavailable. Hugging Face stores
+the weight file through Xet; `environment-foundation.yml` therefore includes
+its official `huggingface_hub`/`hf_xet` client for subsequent model use.
 
 `scripts/39_delineate_catchments.py` now also generates a separate nine-feature
 cross-border catchment layer: seven held Dutch polygons and the delivered
