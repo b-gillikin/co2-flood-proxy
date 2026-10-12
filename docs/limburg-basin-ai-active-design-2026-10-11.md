@@ -157,3 +157,19 @@ The first library contains 724 reviewed Dutch tributary onsets and 174,484
 hourly event rows. German records have not yet been converted into equivalent
 event objects; cross-border evaluation remains a required later step, not an
 implicit property of the Dutch library.
+
+## Locked literature basis
+
+The targeted foundation-model review is recorded in
+`docs/limburg-foundation-model-literature-2026-10-11.md`. The core literature
+now covers Earth-FM selection criteria, controlled remote-sensing benchmarks,
+independent Earth-system evaluation, hydrometeorological use boundaries,
+zero-shot streamflow TSFMs and geospatial embeddings as catchment descriptors.
+
+The literature narrows rather than expands the experiment. AlphaEarth remains
+the single geospatial representation product and one open TSFM remains the
+single temporal challenger. Each must beat or add useful retrieval behavior to
+the same conventional hydrological baseline on held-out Limburg events.
+AlphaEarth represents catchment context; it does not replace event-scale rain,
+antecedent state or hydrographs. A model review, leaderboard or new pretraining
+effort is outside scope.
