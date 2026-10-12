@@ -1,0 +1,33 @@
+[
+  {
+    "arm_id": "R0_TEXT_RAG",
+    "label": "Text and document retrieval",
+    "required": true,
+    "purpose": "Conventional evidence-retrieval baseline."
+  },
+  {
+    "arm_id": "R1_BASIN_PROVENANCE",
+    "label": "Text RAG plus basin graph and provenance",
+    "required": true,
+    "purpose": "Tests the contribution of verified river, station, jurisdiction and evidence-quality structure."
+  },
+  {
+    "arm_id": "R2_HYDRO_ANALOGUES",
+    "label": "Basin grounding plus conventional hydrological analogues",
+    "required": true,
+    "purpose": "Tests whether interpretable rainfall-runoff and hydrograph signatures add useful event evidence."
+  },
+  {
+    "arm_id": "R3_FOUNDATION_REPRESENTATIONS",
+    "label": "Basin grounding plus pretrained event and catchment representations",
+    "required": true,
+    "purpose": "Tests one time-series foundation-model challenger and AlphaEarth catchment embeddings against conventional representations."
+  },
+  {
+    "arm_id": "R4_FUSED",
+    "label": "Fused conventional and foundation representations",
+    "required": false,
+    "condition": "Run only if R2 and R3 show different and individually useful retrieval behavior.",
+    "purpose": "Tests complementarity without making fusion a dissertation requirement."
+  }
+]

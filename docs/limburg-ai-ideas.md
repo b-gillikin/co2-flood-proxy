@@ -6,7 +6,17 @@ These are candidate directions, not additions to the live chapter design or diss
 
 Test whether a modest nonlinear model can identify which of the six monitored tributaries will respond unusually strongly, using rainfall and river state already observed at a defined decision time. Compare with persistence and the existing logistic baseline on whole held-out storms and years. The scientific target is within-storm response heterogeneity, not the generic result that rain precedes high water. This idea has not been run. See `limburg-retrospective-prediction-test-2026-10-03.md` and `limburg-atmospheric-increment-2026-10-03.md` for relevant baselines.
 
-## Idea 2 — An evaluation of basin-grounded AI reasoning
+## Idea 2 — Basin-aware cross-border high-water assessment
+
+**Current working RQ.** Can basin-aware AI produce reliable cross-border
+high-water assessments from fragmented Dutch and German data?
+
+This is now the active Limburg development direction. The fuller architecture,
+policy experiment, operationalization boundary and scope guard are in
+`limburg-basin-ai-active-design-2026-10-11.md`. The earlier question-answering
+pilot below remains a useful evidence-path test, but document RAG is now a
+baseline within a larger comparison of basin structure, conventional
+hydrological analogues and bounded foundation-model representations.
 
 **Candidate research question.** Does grounding AI in river-basin structure and data provenance make its assessments of Limburg high-water events more reliable?
 

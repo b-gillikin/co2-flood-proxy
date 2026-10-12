@@ -31,6 +31,8 @@ There is no analysis framework or model registry.
 | `48_render_real_event_study.py` | five protocol figures from fitted outputs and the fixed catchment GeoPackage | run |
 | `49_diagnose_real_event_study.py` | fitted-onset diagnostics, July 2021 point-estimate influence and rainfall-contrast support | run; diagnostic only |
 | `63_build_basin_ai_pilot.py` | validate the Idea 2 source inventory, question bank, four evidence-access arms, rubric and curated basin graph; build prompt packets and test retrieval without calling an LLM | implemented; bounded evidence-path pilot run 2026-10-11 |
+| `64_build_basin_ai_event_library.py` | build aligned historical high-water windows with assessment-time history separated from withheld post-onset outcomes | implemented; representation-feasibility input only |
+| `65_hydrological_analogue_baseline.py` | build interpretable rainfall/discharge event signatures and evaluate prior-storm analogue retrieval against a historical median | implemented; baseline for foundation-representation tests, not forecast validation |
 
 Safe input-only commands:
 
@@ -63,6 +65,10 @@ Bounded basin-AI evidence-path pilot:
 ```bash
 python scripts/63_build_basin_ai_pilot.py
 pytest -q tests/test_basin_ai_pilot.py
+python scripts/64_build_basin_ai_event_library.py
+pytest -q tests/test_basin_ai_event_library.py
+python scripts/65_hydrological_analogue_baseline.py
+pytest -q tests/test_hydrological_analogue_baseline.py
 ```
 
 This creates ignored prompt packets and retrieval diagnostics under
