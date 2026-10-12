@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "prepared_utc": "2026-10-11",
+  "alphaearth": {
+    "collection_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+    "dataset_version": "1.1",
+    "model_version": "2.1",
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "scale_m": 10,
+    "bands": 64,
+    "license": "CC-BY-4.0",
+    "primary_time_rule": "For event year Y use Y-1; for Y after 2024 use 2024; events before 2018 are outside the AlphaEarth primary comparison.",
+    "export": "catchment-year means and valid-pixel count; no raster export"
+  },
+  "ttm": {
+    "model_id": "ibm-granite/granite-timeseries-ttm-r2",
+    "revision": "b2a0242647492d2652b44135c2529333ac13e007",
+    "variant": "512-96-r2",
+    "context_length": 512,
+    "prediction_length": 96,
+    "license": "Apache-2.0",
+    "files": ["README.md", "config.json", "generation_config.json", "model.safetensors"],
+    "excluded_files": ["training_args.bin"],
+    "representation": "Frozen zero-shot univariate discharge; last hidden layer mean-pooled over patches and L2-normalized.",
+    "comparison_sample": "Events with complete 512-hour discharge, rainfall and weather histories; n=570 in the 2026-10-11 audit."
+  },
+  "downloads": [
+    {
+      "group": "model",
+      "id": "ttm_readme",
+      "url": "https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/b2a0242647492d2652b44135c2529333ac13e007/README.md",
+      "destination": "models/granite-timeseries-ttm-r2/README.md",
+      "kind": "text"
+    },
+    {
+      "group": "model",
+      "id": "ttm_config",
+      "url": "https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/b2a0242647492d2652b44135c2529333ac13e007/config.json",
+      "destination": "models/granite-timeseries-ttm-r2/config.json",
+      "kind": "json"
+    },
+    {
+      "group": "model",
+      "id": "ttm_generation_config",
+      "url": "https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/b2a0242647492d2652b44135c2529333ac13e007/generation_config.json",
+      "destination": "models/granite-timeseries-ttm-r2/generation_config.json",
+      "kind": "json"
+    },
+    {
+      "group": "model",
+      "id": "ttm_weights",
+      "url": "https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/b2a0242647492d2652b44135c2529333ac13e007/model.safetensors",
+      "destination": "models/granite-timeseries-ttm-r2/model.safetensors",
+      "kind": "safetensors"
+    },
+    {
+      "group": "code",
+      "id": "granite_tsfm_source",
+      "url": "https://github.com/ibm-granite/granite-tsfm/archive/fe7a35697723e2a2f5246ae979474bfc554e26c0.tar.gz",
+      "destination": "code/granite-tsfm-fe7a356.tar.gz",
+      "kind": "gzip"
+    },
+    {
+      "group": "code",
+      "id": "streamflow_benchmark_reference",
+      "url": "https://github.com/dialuser/tsfm_study/archive/refs/heads/main.tar.gz",
+      "destination": "code/tsfm-study-main.tar.gz",
+      "kind": "gzip",
+      "note": "Reference implementation only; receipt hash freezes the retrieved archive."
+    },
+    {
+      "group": "documents",
+      "id": "rws_bulk_quality_guide",
+      "url": "https://rijkswaterstaatdata.nl/publish/pages/244515/uitleg-attributen-bij-bulkwaarnemingenservice-dd-06-11-2023-.pdf",
+      "destination": "documents/rws-bulk-quality-guide-2023.pdf",
+      "kind": "pdf"
+    },
+    {
+      "group": "documents",
+      "id": "busker_fews_article",
+      "url": "https://nhess.copernicus.org/articles/26/1457/2026/nhess-26-1457-2026.pdf",
+      "destination": "documents/busker-et-al-2026-fews.pdf",
+      "kind": "pdf"
+    },
+    {
+      "group": "documents",
+      "id": "international_meuse_flood_plan",
+      "url": "https://www.meuse-maas.be/CIM/media/PGRI-dec-2021-en-anglais/Roof_Report_Mregie_21_1def_en.pdf",
+      "destination": "documents/international-meuse-flood-plan-2021.pdf",
+      "kind": "pdf"
+    }
+  ]
+}

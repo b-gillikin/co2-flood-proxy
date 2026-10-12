@@ -62,12 +62,16 @@ AlphaEarth comparison can itself be called cross-border.
 
 ## Next decision sequence
 
-1. Add an authenticated, reproducible AlphaEarth aggregation path for the held
-   Dutch catchments.
+1. **Prepared:** authenticated AlphaEarth aggregation for the Dutch catchments
+   and Herzogenrath 1/Randerath; event year `Y` uses the prior-year embedding.
 2. Test whether those embeddings add retrieval signal; do not infer physical
    meaning from individual embedding axes.
-3. Select one open time-series foundation model and freeze one extraction
-   method before seeing its comparative results.
+3. **Fixed:** TTM-R2 `512-96-r2`, frozen last-layer patch-mean representation,
+   tested against conventional signatures and a raw 512-hour hydrograph
+   baseline on the same 570 complete events.
 4. Define the German event/catchment extension and masked-observation task.
 5. Return to generative synthesis only after at least one event-retrieval
    method has a defensible evaluation.
+
+The model justification, 512-hour completeness audit and download commands are
+in `docs/limburg-foundation-download-readiness-2026-10-11.md`.

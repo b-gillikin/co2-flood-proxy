@@ -1,0 +1,15 @@
+name: chapter1-foundation
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - geopandas
+  - pandas
+  - pyarrow
+  - pytorch
+  - transformers
+  - pytest
+  - pip
+  - pip:
+      - earthengine-api
+      - "granite-tsfm @ git+https://github.com/ibm-granite/granite-tsfm.git@fe7a35697723e2a2f5246ae979474bfc554e26c0"

@@ -147,9 +147,11 @@ contribution.
    top-five analogue mean did not improve on an expanding historical median,
    so useful analogue evidence is an empirical target rather than an assumed
    property of the architecture.
-3. Run a bounded AlphaEarth catchment-embedding feasibility check.
-4. Test one open time-series foundation model against the conventional event
-   representation.
+3. **Prepared 2026-10-11:** export prior-year AlphaEarth catchment summaries
+   for the held Dutch catchments and two delivered German Wurm gauges.
+4. **Model and protocol fixed 2026-10-11:** test pinned TTM-R2 `512-96-r2`
+   against the conventional signature and raw 512-hour hydrograph controls on
+   the same 570 complete events. No fine-tuning or model sweep is planned.
 5. Proceed to LLM synthesis only after the retrieval and masked-observation
    tasks have meaningful baselines.
 
@@ -173,3 +175,6 @@ the same conventional hydrological baseline on held-out Limburg events.
 AlphaEarth represents catchment context; it does not replace event-scale rain,
 antecedent state or hydrographs. A model review, leaderboard or new pretraining
 effort is outside scope.
+
+The scientific selection, time-boundary rule and reproducible download path
+are fixed in `docs/limburg-foundation-download-readiness-2026-10-11.md`.

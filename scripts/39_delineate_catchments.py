@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEM_DIR = ROOT / "data/raw/dem/glo30"
 DEM_SOURCE = "Copernicus GLO-30 DSM (AWS open data, 1 arc-second)"
 OUTPUT = ROOT / "data/interim/event_study_catchments.gpkg"
+FOUNDATION_OUTPUT = ROOT / "data/interim/foundation_model_catchments.gpkg"
 REPORT = ROOT / "results/catchments"
 BBOX = (5.45, 50.50, 6.45, 51.15)
 EQUAL_AREA = "EPSG:3035"
@@ -57,6 +58,13 @@ CHECKS = [
     ("Geul, Sippenaeken (BEWA0140)", 5.940755, 50.750476, 121.00),
     ("Wurm, Kalkofen (DENW1131)", 6.111801, 50.782571, 33.63),
     ("Wurm, Herzogenrath 1 (DENW1116)", 6.094843, 50.866518, 96.29),
+]
+
+# German Wurm gauges used in the cross-border representation experiment.
+# Coordinates are from the delivered LANUK packages as parsed by script 25.
+FOUNDATION_GERMAN = [
+    ("herzogenrath_1", "Herzogenrath 1", "Wurm", 6.09484341079236, 50.866518002165336),
+    ("randerath", "Randerath", "Wurm", 6.179431271021075, 51.01494140678465),
 ]
 
 
@@ -201,6 +209,36 @@ def main():
     catchments.drop(columns="geometry").to_csv(REPORT / "catchments.csv", index=False)
     print(catchments.drop(columns="geometry").to_string(index=False))
     print("overlaps:", overlaps)
+
+    # Keep the original seven-catchment output stable and create a separate
+    # cross-border layer for the foundation-model experiment.
+    foundation = catchments.copy()
+    foundation["jurisdiction"] = "NL"
+    foundation["experiment_role"] = np.where(
+        foundation["watercourse"].eq("Vloedgraaf"), "inventory", "core_dutch"
+    )
+    german_rows = []
+    for gauge, gauge_name, watercourse, lon, lat in FOUNDATION_GERMAN:
+        polygon, area, moved = delineate(grid, direction, accumulation, lon, lat)
+        german_rows.append(
+            {
+                "watercourse": watercourse,
+                "gauge": gauge,
+                "gauge_name": gauge_name,
+                "pour_point_source": "LANUK delivered station metadata",
+                "snap_distance_m": round(moved),
+                "area_km2": round(area, 2),
+                "dem_source": DEM_SOURCE,
+                "jurisdiction": "DE",
+                "experiment_role": "cross_border_wurm",
+                "geometry": polygon,
+            }
+        )
+    german = gpd.GeoDataFrame(german_rows, crs="EPSG:4326").to_crs(EQUAL_AREA)
+    foundation = pd.concat([foundation, german], ignore_index=True)
+    foundation = gpd.GeoDataFrame(foundation, geometry="geometry", crs=EQUAL_AREA)
+    foundation.to_file(FOUNDATION_OUTPUT, driver="GPKG")
+    print(f"foundation-model catchments: {FOUNDATION_OUTPUT} ({len(foundation)} features)")
     (REPORT / "manifest.json").write_text(
         json.dumps(
             {
