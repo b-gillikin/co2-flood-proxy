@@ -198,7 +198,7 @@ class CheckedTools:
             "quality_result": "ten-minute discharge values are almost entirely code 25",
             "code_25_meaning": "interpolated in space and time",
             "consequence": "strict direct-measurement analysis excludes the July 2021 rise",
-            "source": "docs/limburg-maas-tributary-pilot-2026-10-04.md",
+            "source": "archive/retired-directions/2026-retrospective-high-water/docs/limburg-maas-tributary-pilot-2026-10-04.md",
         }
 
     def graph_facts(self, query: str) -> dict:

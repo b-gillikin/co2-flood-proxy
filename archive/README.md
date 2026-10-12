@@ -1,9 +1,12 @@
 # Archive
 
-This directory is a historical record of analyses retired between 2026-08-05
-and 2026-08-07. Nothing here is imported, tested or expected to run against the
-current data layout. Archived outputs document what was tried; they are not
-chapter findings.
+This directory is a historical record of retired analyses. Nothing here is
+imported, tested or expected to run against the current data layout. Archived
+outputs document what was tried; they are not active chapter findings.
+
+`retired-directions/2026-retrospective-high-water/` indexes the case-crossover,
+cross-tributary, prediction, atmospheric, CO2/pressure, Maas and early
+basin-AI branches retired when the basin-aware AI design became active.
 
 Retired directions include:
 
@@ -29,7 +32,8 @@ On 2026-09-18, `01_ingest_iot.py` and `33_ingest_viefhues_iot.py` were added.
 These normalise the later Kerkrade IoT stream and the Viefhues thesis package.
 They are untested at the chapter level and no longer read by the live
 pipeline: draft 0.9 (2026-09-18) removed the conditional Kerkrade CO2 case
-they served, and the chapter analyses no CO2 (`docs/chapter-synthesis.md`).
+they served, and the active chapter analyses no CO2 (see the archived
+`retired-directions/2026-retrospective-high-water/docs/chapter-synthesis.md`).
 Viefhues and Eryilmaz remain the chapter's motivation in prose; the code that
 reproduced their source data as a provenance check is preserved here, not
 deleted, because it documents real findings (K4 is the usable sensor; the
@@ -40,8 +44,9 @@ is a maintained asset independent of this chapter. This move does not affect
 the Azure collection infrastructure in `kerkrade_data/` and `iot-device-data/`.
 
 The reasons and numerical history are preserved in `docs/decisions.md`. The
-live design is `docs/chapter-synthesis.md`; the live file inventory is
-`docs/analysis-inventory.md`. Ruff intentionally excludes this directory.
+live design is `docs/limburg-basin-ai-active-design-2026-10-11.md`; the live
+file inventory is `docs/analysis-inventory.md`. Ruff intentionally excludes
+this directory.
 
 The five dated peer-review passes from 2026-08-06 through 2026-08-08 are under
 `archive/docs/reviews/`. They informed the live reset but are not competing

@@ -6,15 +6,17 @@ not dissertation results or operational forecast claims.
 ## Event library
 
 `scripts/64_build_basin_ai_event_library.py` transforms the reviewed Dutch
-events into fixed hourly windows. Each event contains 168 hours of history
+events into fixed hourly windows. Each event contains 512 hours of history
 through its onset and 72 later hours marked as withheld outcomes. The run
 contains:
 
-- 724 events and 174,484 event-hour rows;
+- 724 events and 423,540 event-hour rows;
 - 721 events previously marked usable for the primary retrospective analysis;
 - 58 events with a retained measurement concern;
-- 694 complete discharge histories, 711 complete rainfall histories and 724
-  complete weather histories; and
+- 629 complete discharge histories, 655 complete rainfall histories and 724
+  complete weather histories;
+- 570 primary-usable events complete across all three histories and 558 of
+  those with all 72 withheld discharge hours; and
 - SHA-256 hashes for all four input files.
 
 The current event library covers Eyserbeek, Geul, Gulp, Voer, Worm and
@@ -31,12 +33,13 @@ discharge relative to the event's rating-era p99 threshold, and six- and
 24-hour discharge changes. A candidate analogue must occur strictly earlier
 and belong to another storm.
 
-Of 724 events, 708 have complete signatures and 687 have at least 20 prior
+The fixed representation-input frame contains 570 events. Outcome scoring uses
+the 558 with complete withheld response windows; 534 have at least 20 prior
 candidate events. With five nearest historical events:
 
 - analogue mean absolute error for the subsequent 72-hour peak/p99 ratio:
-  **0.701**; and
-- expanding historical-median mean absolute error: **0.697**.
+  **0.658**; and
+- expanding historical-median mean absolute error: **0.642**.
 
 The simple analogue representation therefore did not beat the historical
 median on this initial diagnostic. This does not establish that analogue
@@ -55,10 +58,11 @@ so a bounded first test can aggregate the 64 dimensions by catchment and year,
 then ask whether they improve donor-catchment or event retrieval beyond area
 and conventional hydrological signatures.
 
-The Earth Engine Python package is not installed in the current project
-environment and no authenticated project was detected in this pass. No data
-download has been started. German catchment polygons will be needed before an
-AlphaEarth comparison can itself be called cross-border.
+The authenticated export has completed. The validated local table contains 72
+rows: nine catchments by eight annual layers, 64 embedding dimensions, no
+missing values and stable geometry hashes. It includes the delivered
+Herzogenrath 1 and Randerath Wurm catchments. Event linkage still needs a
+deterministic prior-year join before the representation can be evaluated.
 
 ## Next decision sequence
 

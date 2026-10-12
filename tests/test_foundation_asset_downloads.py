@@ -17,7 +17,12 @@ def test_manifest_is_bounded_and_pinned():
     assert ttm["context_length"] == 512
     assert ttm["prediction_length"] == 96
     assert len(ttm["revision"]) == 40
-    assert ttm["files"] == ["README.md", "config.json", "generation_config.json", "model.safetensors"]
+    assert ttm["files"] == [
+        "README.md",
+        "config.json",
+        "generation_config.json",
+        "model.safetensors",
+    ]
     assert "training_args.bin" in ttm["excluded_files"]
     assert manifest["alphaearth"]["years"] == list(range(2017, 2025))
     assert manifest["alphaearth"]["bands"] == 64
@@ -47,7 +52,9 @@ def test_downloads_use_https_unique_relative_paths_and_safe_model_files():
 def test_group_selection_is_complete():
     manifest = json.loads(MANIFEST_PATH.read_text())
     all_assets = MODULE.selected_assets(manifest, "all")
-    grouped = sum((MODULE.selected_assets(manifest, group) for group in ("model", "code", "documents")), [])
+    grouped = sum(
+        (MODULE.selected_assets(manifest, group) for group in ("model", "code", "documents")), []
+    )
     assert {asset["id"] for asset in all_assets} == {asset["id"] for asset in grouped}
 
 

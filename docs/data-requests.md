@@ -20,7 +20,9 @@ is a fixed offset or Dutch civil time; (2) whether a delivered 0.000 can mean
 an unreliable reading rather than zero discharge; (3) whether any delivered
 discharge history was recomputed with a later rating relation. Fase thresholds
 and stage records were included as non-blocking extras. Questions 1 and 2 block
-the discharge ingest. Draft text is in `student-next-actions.md`; archive the
+the discharge ingest. Historical draft text is archived in
+`archive/retired-directions/2026-retrospective-high-water/docs/student-next-actions.md`;
+archive the
 sent copy under `data/raw/external_deliveries/waterschap_limburg/` when
 convenient. This paragraph records what was sent, not the current blocker.
 
@@ -99,8 +101,9 @@ civil-time hours, a duplicated DST clock-hour and 550/744 July hours. The
 pre-May R workflow depends on four absent source/intermediate files. The K3
 filename also says `livingroom` while the thesis states that both sensors were
 in the basement. Sensor hardware identity, calibration history, row-level ABC
-changes and reuse conditions remain undocumented. See `iot-sources.md` for the
-audit and `student-next-actions.md` §4 for the precise follow-up.
+changes and reuse conditions remain undocumented. See the archived
+`archive/retired-directions/2026-retrospective-high-water/docs/iot-sources.md`
+and `student-next-actions.md` for the historical audit and follow-up.
 
 Request from Jan-Philipp Viefhues, sustainably.io and/or the Maastricht thesis
 data holder only for the unresolved material:
@@ -406,5 +409,5 @@ numerical floors are not automatic chapter-stopping rules. Kerkrade materials
 are outside the live analysis.
 
 The detailed five-task handoff, verified institutional addresses and message
-texts are in `student-next-actions.md`. The student reports that the contact
+texts are in the archived `student-next-actions.md`. The student reports that the contact
 messages have been sent; preserve the sent messages and replies on receipt.

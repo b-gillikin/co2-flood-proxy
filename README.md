@@ -1,116 +1,58 @@
-# Pre-High-Water Signals Across Limburg Tributaries
+# Basin-Aware AI for Cross-Border High-Water Assessment
 
-Prospective research question (protocol draft 0.9):
+Research question:
 
-> Across natural Limburg tributaries, how are public hydrometeorological
-> signals in the 72 hours before independently defined high-water onset
-> associated with that onset, and does the timing of that association differ
-> between warm-season and cold-season events?
+> **Can basin-aware AI produce reliable cross-border high-water assessments
+> from fragmented Dutch and German data?**
 
-Design: a **time-stratified case-crossover study**, analysed with conditional
-quasi-Poisson distributed-lag models. The draft 0.8 distance slope and
-conditional Kerkrade CO2 case were dropped on 2026-09-18; see `decisions.md`.
-The repository keeps its historical `chapter1-co2` name.
+The chapter tests whether explicit river structure, measurement provenance and
+historical event representations improve source-grounded AI assessments. It is
+a retrospective evaluation of evidence use. It is not an automatic warning
+system, an operational forecast evaluation or a model leaderboard.
 
-Status: **data-gated; no chapter result exists**. The 2001--2025 ERA5-Land
-archive is complete and audited. The 2010--2025 Waterschap discharge delivery
-has passed an outcome-blind availability audit. Timezone, zero semantics,
-coordinates and cohort classification remain open. Cross-border catchments
-are delineated (provisional pour points), the ERA5-Land weather table is built,
-operational RADOLAN RW radar rainfall is being acquired, and the Python
-estimator reproduces the R reference on synthetic data. The protocol is
-unlocked and no outcome analysis has been run.
-
-Viefhues's Kerkrade CO2 observation and Eryilmaz's public-weather explanation
-motivate the question. The chapter analyses no CO2.
+The repository name `chapter1-co2` is historical. CO2, case-crossover,
+cross-tributary prediction and pressure diagnostics are preserved under
+`archive/retired-directions/2026-retrospective-high-water/`; they are not the
+active chapter design.
 
 ## Read first
 
 | document | role |
 | --- | --- |
-| `docs/chapter-synthesis.md` | canonical question, contribution, design and status |
-| `docs/chapter-scope-and-preregistration.md` | draft 0.9 case-crossover protocol; lock only after gates pass and floors are recorded |
-| `docs/scope-decisions.md` | concise live choices |
-| `docs/analysis-inventory.md` | prospective, supporting and stopped work |
-| `docs/data-requests.md` | exact blockers and delivery contracts |
-| `docs/supervisor-decision-memo.md` | 2026-08 supervisor response (historical record) |
-| `docs/student-next-actions.md` | student tasks and send-ready requests |
-| `docs/literature-source-notes.md` | source-by-source notes without synthesis |
-| `docs/literature-evidence-matrix.csv` | evidence-question/source relationships |
-| `docs/chapter-references.bib` | verified retained bibliography |
-| `docs/dissertation-research-and-code-guidelines.md` | reusable scoping, evidence and data-science coding standard for all chapters |
-| `docs/HANDOFF.md` | current session state only |
+| `docs/limburg-basin-ai-active-design-2026-10-11.md` | canonical question, comparisons, policy experiment and scope |
+| `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
+| `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
+| `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | targeted literature update and bounded improvements |
+| `docs/analysis-inventory.md` | live code, inputs and completed supporting work |
+| `docs/data-requests.md` | provider deliveries and remaining source questions |
+| `docs/decisions.md` | dated design history; earlier entries remain historical |
+| `docs/HANDOFF.md` | concise current state and next actions |
 
-`chapter-prework/` retains the two supplied predecessor PDFs and its README.
-The Viefhues delivery is external raw material and is ignored by Git.
-
-## Run the input audits
+## Active workflow
 
 ```bash
 conda env create -f environment.yml
 conda activate chapter1-co2
-python scripts/31_event_study_gates.py --report-only
-python scripts/32_lanuk_feasibility.py
-python scripts/35_audit_waterschap_delivery.py
+
+python scripts/39_delineate_catchments.py
+python scripts/46_review_events.py
+python scripts/63_build_basin_ai_pilot.py
+python scripts/64_build_basin_ai_event_library.py
+python scripts/65_hydrological_analogue_baseline.py
+python scripts/66_download_limburg_foundation_assets.py
 ```
 
-`--report-only` writes the known failed regional audit without treating it as a
-chapter result. Omit that flag only when all six contracted regional inputs
-exist. The gate script encodes the draft 0.9 floors (see
-`docs/draft-0.9-implementation-plan.md`).
-
-ERA5-Land was backfilled through the dedicated Azure Function documented in
-`infrastructure/era5_backfill/README.md`. The archive is complete and the timer
-is disabled because the backfill-only Function App is stopped. A complete
-ignored working copy is in `data/raw/era5_land/`; its
-small checksum manifest is versioned as `data/processed/era5_land_manifest.csv`.
-The local command remains a restart-safe fallback:
-
-```bash
-python scripts/34_fetch_era5_land.py
-```
-
-The script writes one validated monthly NetCDF plus a checksum manifest.
-
-The Kerkrade IoT and Viefhues ingests (`01_ingest_iot.py`,
-`33_ingest_viefhues_iot.py`) belonged to the retired conditional CO2 case. They
-remain in the repository as provenance for the motivating observation and are
-not part of the draft 0.9 analysis.
-
-## Planned analysis
-
-High-water onsets are adjacent-hour crossings of each watercourse's own p99.
-Each onset hour is compared with at-risk hours from the same watercourse, year,
-month and hour of day. For each exposure, a conditional quasi-Poisson model with
-a distributed-lag cross-basis over lags 1–72 hours estimates how the onset rate
-relates to the signal at each preceding hour. The primary estimand is the
-warm-minus-cold-season difference in the rainfall lag-response. Uncertainty
-comes from a calendar year-month block bootstrap.
-
-There is no classifier, predictive validation, SARIMAX, Kalman filter,
-model-family search or degree-of-freedom search.
+The event-library default is the fixed 512-hour assessment history required by
+TTM-R2, followed by 72 withheld hours. AlphaEarth export is an authenticated
+Earth Engine step documented in the download-readiness note.
 
 ## Verify
 
 ```bash
 python -m pytest -q
-python -m pytest infrastructure_tests -q  # only when legacy collection changes
 ruff check .
 ruff format --check .
 ```
 
-## Working conventions
-
-- Hourly UTC; missing hours remain missing and crossings never bridge gaps.
-- One predeclared gauge per natural, hydrologically independent watercourse;
-  branches of one split system count once.
-- Receiver flow defines onset and is never its own signal.
-- Hourly catchment rainfall is the principal exposure; ERA5-Land relative
-  humidity and six-hour pressure change form the atmospheric block.
-- Every hydrological quantity is a within-gauge, within-rating-era rank.
-- Censor an onset only when the onset hour itself is missing, failed or outside
-  the rating domain.
-- Null and heterogeneous results are final results, not invitations to add
-  models, lags or thresholds.
-- No flood-prediction, causal, FEWS, warning-lead, trigger, monitoring-placement
-  or ungauged-basin claim.
+Historical code is retained for reproducibility but excluded from live lint
+and tests.

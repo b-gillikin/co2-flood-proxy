@@ -71,7 +71,7 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
             "catchment_rainfall_mm",
         ]
         outcome = group.loc[
-            group.relative_hour.ge(0) & group.relative_hour.le(72),
+            group.relative_hour.gt(0) & group.relative_hour.le(72),
             ["relative_hour", "target_discharge_m3s"],
         ].dropna()
         if outcome.empty:
@@ -84,6 +84,12 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
             hours_above = int(normalized.ge(1).sum())
             excess = float(normalized.sub(1).clip(lower=0).sum())
 
+        common_representation_sample = bool(
+            meta.primary_usable
+            and np.isclose(meta.history_discharge_fraction, 1.0)
+            and np.isclose(meta.history_rainfall_fraction, 1.0)
+            and np.isclose(meta.history_weather_fraction, 1.0)
+        )
         rows.append(
             {
                 "event_id": event_id,
@@ -93,6 +99,11 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
                 "onset_utc": meta.onset_utc,
                 "measurement_concern": bool(meta.measurement_concern),
                 "primary_usable": bool(meta.primary_usable),
+                "common_representation_sample": common_representation_sample,
+                "complete_scoring_sample": bool(
+                    common_representation_sample
+                    and np.isclose(meta.outcome_discharge_fraction, 1.0)
+                ),
                 "rain_sum_6h_mm": _rain_sum(group, 6),
                 "rain_sum_24h_mm": _rain_sum(group, 24),
                 "rain_sum_72h_mm": _rain_sum(group, 72),
@@ -121,7 +132,11 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
 def retrieve_prior_analogues(
     signatures: pd.DataFrame, top_k: int = 5, min_candidates: int = 20
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    complete = signatures.dropna(subset=FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"]).copy()
+    complete = (
+        signatures[signatures.complete_scoring_sample]
+        .dropna(subset=FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"])
+        .copy()
+    )
     neighbors = []
     predictions = []
     for query in complete.itertuples(index=False):
@@ -216,7 +231,14 @@ def main() -> None:
         "top_k": args.top_k,
         "minimum_candidates": args.min_candidates,
         "event_count": int(len(signatures)),
-        "complete_signature_count": int(signatures[FEATURE_COLUMNS].notna().all(axis=1).sum()),
+        "common_representation_sample_count": int(signatures.common_representation_sample.sum()),
+        "complete_scoring_sample_count": int(signatures.complete_scoring_sample.sum()),
+        "complete_signature_count": int(
+            (
+                signatures.complete_scoring_sample
+                & signatures[FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"]].notna().all(axis=1)
+            ).sum()
+        ),
         "evaluated_query_count": int(len(predictions)),
         "analogue_peak_ratio_mae": (
             float(predictions.analogue_absolute_error.mean()) if len(predictions) else None

@@ -32,7 +32,8 @@ satisfy that contract.
 
 The older public-archive German-route decision is in `lanuk-feasibility.md`;
 its sparse-record conclusion does not apply to the four continuous 15-minute
-exports delivered 2026-09-23. See `cross-tributary-pilot-2026-10-03.md` for
+exports delivered 2026-09-23. See the archived
+`archive/retired-directions/2026-retrospective-high-water/docs/cross-tributary-pilot-2026-10-03.md` for
 their preliminary compatibility audit. Official
 HYGON metadata place `herzogenrath_2` on Broicher Bach and `honsdorf` on
 Beeckflies. The Wurm stations are `herzogenrath_1` and `randerath`; they are

@@ -127,7 +127,7 @@
     "agency": "Rijkswaterstaat",
     "effective_from": "2017-01-01",
     "effective_to": "2024-12-31",
-    "local_path": "docs/limburg-maas-tributary-pilot-2026-10-04.md",
+    "local_path": "archive/retired-directions/2026-retrospective-high-water/docs/limburg-maas-tributary-pilot-2026-10-04.md",
     "availability": "held_derived",
     "retrieval_text": "RWS quality code 25 means interpolation in space and time. Venlo discharge from 12 to 20 July 2021 is almost entirely code 25, so the apparent rise in the permissive series is largely interpolated and is excluded from the strict measured-discharge analysis. Code 00 is the strict controlled observation screen."
   },

@@ -59,7 +59,7 @@ def _read_inputs() -> tuple[pd.DataFrame, ...]:
     return events, discharge, rainfall, weather
 
 
-def build_event_library(history_hours: int = 168, outcome_hours: int = 72):
+def build_event_library(history_hours: int = 512, outcome_hours: int = 72):
     events, discharge, rainfall, weather = _read_inputs()
     offsets = relative_hours(history_hours, outcome_hours)
     windows = []
@@ -159,7 +159,7 @@ def build_event_library(history_hours: int = 168, outcome_hours: int = 72):
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--history-hours", type=int, default=168)
+    parser.add_argument("--history-hours", type=int, default=512)
     parser.add_argument("--outcome-hours", type=int, default=72)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUT)
     args = parser.parse_args()

@@ -2238,3 +2238,31 @@ This outcome-informed, multiple-specification analysis uses retrospective
 reanalysis and verified discharge, so it does not establish as-issued
 forecast or warning skill. Methods, estimates and limits are in
 `limburg-atmospheric-increment-2026-10-03.md`.
+
+# 2026-10-11 — Basin-aware AI becomes the active Limburg direction
+
+Use the simple research question: “Can basin-aware AI produce reliable
+cross-border high-water assessments from fragmented Dutch and German data?”
+Evaluate documents, checked hydrological tools, a curated basin/provenance
+graph and historical event representations in controlled arms. Keep one fixed
+generator, one frozen time-series foundation-model challenger and AlphaEarth as
+the single catchment-embedding product. Compare fragmented, harmonized and
+provenance-complete evidence environments to connect technical errors with
+cross-border information-governance recommendations.
+
+The completed case-crossover and exploratory tributary analyses remain
+historical evidence, not parallel chapter components. Do not add a dashboard,
+automatic warning, operator-effectiveness claim, fine-tuning programme or model
+sweep. German event conversion remains necessary before calling the empirical
+result cross-border.
+
+# 2026-10-12 — Tighten evaluation without enlarging the architecture
+
+Following a targeted RAG, flood-ontology and geospatial-reasoning literature
+refresh, separate retrieval, checked-tool, factual, citation-support and
+abstention outcomes. Score material claims as fully, partly or not supported;
+retain wrong-jurisdiction, wrong-river, wrong-era and unsupported cases. Add one
+gold-evidence oracle packet as a diagnostic ceiling, not another system arm.
+Keep the existing data and model roster. The live event-library default is 512
+hours so it matches the pinned TTM-R2 context rather than silently producing an
+incompatible 168-hour library.

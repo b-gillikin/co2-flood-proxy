@@ -44,7 +44,9 @@ def geometry_hash(geometry) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--project", required=True, help="Google Cloud project enabled for Earth Engine")
+    parser.add_argument(
+        "--project", required=True, help="Google Cloud project enabled for Earth Engine"
+    )
     parser.add_argument("--catchments", type=Path, default=DEFAULT_CATCHMENTS)
     parser.add_argument("--drive-folder", default="limburg_foundation_assets")
     parser.add_argument("--description", default="limburg_alphaearth_catchment_year_v1")
@@ -65,6 +67,7 @@ def main() -> int:
 
     annual_tables = []
     for year in YEARS:
+
         def add_embedding_year(feature, embedding_year=year):
             return feature.set("embedding_year", embedding_year)
 
@@ -93,7 +96,8 @@ def main() -> int:
         )
         joined = ee.FeatureCollection(joined).map(
             lambda feature: feature.set(
-                "valid_pixel_count", ee.Feature(feature.get("count_feature")).get("valid_pixel_count")
+                "valid_pixel_count",
+                ee.Feature(feature.get("count_feature")).get("valid_pixel_count"),
             ).select(expected_output_columns())
         )
         annual_tables.append(joined)

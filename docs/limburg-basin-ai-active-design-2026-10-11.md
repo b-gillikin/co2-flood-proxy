@@ -178,3 +178,9 @@ effort is outside scope.
 
 The scientific selection, time-boundary rule and reproducible download path
 are fixed in `docs/limburg-foundation-download-readiness-2026-10-11.md`.
+
+The 2026-10-12 RAG and geospatial-reasoning refresh is recorded in
+`docs/limburg-basin-ai-literature-refresh-2026-10-12.md`. It adds no model or
+dataset. It sharpens the evaluation by separating retrieval from synthesis,
+using claim-level citation support, preserving hard unanswerable cases and
+adding a gold-evidence oracle packet as a diagnostic ceiling.

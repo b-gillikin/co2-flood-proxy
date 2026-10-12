@@ -1,123 +1,55 @@
-# Analysis Inventory — Prospective Case-Crossover Study
+# Limburg analysis inventory
 
-Status: 2026-10-03. The original case-crossover protocol remains documented;
-the real-data fit and an outcome-informed exploratory cross-tributary analysis
-now have internal results. Discharge source semantics are resolved; numerical
-benchmarks do not stop the study.
+Status: 2026-10-12. The basin-aware AI design is the only active chapter
+direction. Earlier empirical branches remain reproducible in the archive.
 
-## Prospective chapter
+## Live evidence preparation
 
-| component | purpose | state |
+| code | output or role |
+| --- | --- |
+| `scripts/25_ingest_lanuk_nrw.py` | held German station-package ingest support |
+| `scripts/31_event_study_gates.py` | historical input-contract audit; supporting QA only |
+| `scripts/32_lanuk_feasibility.py` | German source semantics and coverage audit |
+| `scripts/34_fetch_era5_land.py` | fallback acquisition for the completed weather archive |
+| `scripts/35_audit_waterschap_delivery.py` | Dutch provider-delivery audit |
+| `scripts/37_fetch_radar.py` | RADOLAN/RADKLIM acquisition and crop |
+| `scripts/39_delineate_catchments.py` | Dutch and German catchment geometry |
+| `scripts/40_build_event_study_weather.py` | hourly catchment weather |
+| `scripts/41_radar_catchment_rainfall.py` | hourly catchment rainfall |
+| `scripts/42_check_rating_transcription.py` | rating-document transcription QA |
+| `scripts/43_build_rating_eras.py` | dated rating domains |
+| `scripts/44_build_event_study_gauges.py` | gauge identity and provider metadata |
+| `scripts/45_build_event_study_discharge.py` | verified hourly Dutch discharge |
+| `scripts/46_review_events.py` | checked Dutch high-water onsets and concerns |
+| `src/event_study.py` | shared event, rating-era and continuity functions |
+
+Historical `event_study_*` names remain in derived files to preserve
+provenance. They do not make the archived case-crossover model active.
+
+## Live basin-aware AI experiment
+
+| code or contract | purpose | state |
 | --- | --- | --- |
-| literature notes, evidence matrix and BibTeX | verified source corpus | 44 sources; case-crossover and distributed-lag design references still to be added |
-| Viefhues and Eryilmaz source reading | motivation for the regional question | incorporated; no CO2 analysis in draft 0.9 |
-| `31_event_study_gates.py` | audits input validity and information | 2026-09-29 run: 19/19 binding inputs pass; episode/storm counts are feasibility information, not chapter findings |
-| `32_lanuk_feasibility.py` | audits the German route | implemented; relevant only to the conditional distance module |
-| `35_audit_waterschap_delivery.py` | raw availability and provider-sourced station QA | regenerated with provider-confirmed fixed GMT+1 and true-zero semantics |
-| ERA5-Land weather table | already-built S2 humidity and pressure-change inputs; not required for the primary rainfall contrast | built for all candidates, 2001–2025 (`40_build_event_study_weather.py`) |
-| `src/event_study.py` | eras, thresholds, crossings, censoring, episodes, storms, at-risk hours, strata | implemented and unit-tested |
-| radar rainfall | principal exposure | built from RADOLAN RW 2010–2025; timing checked against DWD gauges |
-| cross-border catchments | rainfall areas and weather centroids | delineated from GLO-30; seven area checks within ±4.4%; provisional pour points |
-| rating eras | per-era p99 and rating domain | built under D8 (`43_build_rating_eras.py`); merge validity checked in the gate audit |
-| gauge metadata | cohort, coordinates, QA, July 2021 status | built (`44_build_event_study_gauges.py`) |
-| hourly discharge ingest | outcome series | built for six gauges with trailing-hour alignment and verified source semantics (`45_build_event_study_discharge.py`) |
-| `src/case_crossover.py` | lag basis, conditional Poisson, block bootstrap, summaries | implemented; reproduces R to within 1e-13 |
-| synthetic estimator validation | agreement, recovery and coverage (protocol §12) | run: 800 datasets; coverage 93–93.5% (cumulative difference), 98.5–99.5% (median-lag difference, D7) |
-| July 2021 regional anchor | descriptive trajectory | examined in the first-fit and cross-tributary audits; measurement concerns limit timing and peak-magnitude claims |
-| conditional distance module | separate ordered-pair slope if LANUK data are comparable | inactive |
+| `docs/ai-eval/source-inventory.json` | source and provenance inventory | pilot-ready |
+| `docs/ai-eval/basin-graph.json` | verified basin and agency relations | pilot-ready |
+| `docs/ai-eval/benchmark-draft.json` | answerable and unanswerable cases | human gold review pending |
+| `docs/ai-eval/system-arms.json` | evidence-access ablation A0–A3 | fixed |
+| `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | R4 conditional |
+| `scripts/63_build_basin_ai_pilot.py` | validates evidence and builds prompt packets | complete |
+| `scripts/64_build_basin_ai_event_library.py` | 512-hour histories and 72 withheld hours | complete |
+| `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval | complete |
+| `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |
+| `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
 
-The original case-crossover fit and interpretation are in
-`limburg-first-fit-results-guide.md` and `limburg-next-pass-method-note.md`.
-The protocol is internal documentation, not a formal preregistration or a
-chapter-stopping gate. LANUK products under `results/feasibility/` are input-QA
-artifacts, not chapter findings.
+The A and R labels describe different experiments. A0–A3 isolate access to
+documents, checked tools and basin structure. R0–R3 compare historical-event
+representations after basin/provenance grounding is fixed. R4 runs only if the
+conventional and pretrained representations are individually useful and
+complementary.
 
-## Exploratory rainfall-defined cross-tributary analysis
+## Archived directions
 
-| component | purpose | state |
-| --- | --- | --- |
-| `53_cross_tributary_rain_episodes.py` | rain-defined six-site episodes, discharge footprint, source hashes | run on 2010–2025 held data; 359 descriptive comparable episodes |
-| `54_audit_cross_tributary_episodes.py` | long multi-pulse rain episodes, high-water concerns and residual plots | all 16 episodes at least 72 hours and eight largest residuals inspected |
-| `55_fit_cross_tributary_footprint.py` | bounded six-site event-level working mean, whole-year bootstrap and event-rule sensitivities | 357 primary events, 999 draws; no forecast or causal claim |
-| `56_audit_precipitation_phase.py` | sensitivity using held ERA5-Land 2 m temperature as coarse freezing proxy | run; positive adjusted rain and pre-rain-flow terms persist after exclusions |
-| `57_audit_german_candidate.py` | separate four-export LANUK clock and coverage audit | run; German sites not pooled into the Dutch model |
-| `58_test_tributary_prediction.py` | fixed six-hour rain trigger, site-level next-day high-water prediction with earlier-year fitting | run; incremental ranking gain from issue-time discharge, unresolved main Brier gain |
-| `59_test_atmospheric_increment.py` | pressure-change and humidity increments on the same forward-year prediction sample | run; pressure improves pooled storm ranking, not within-storm site ranking; humidity adds little |
-
-The numbers, exceptions and limitations are in
-`cross-tributary-current-data-analysis-2026-10-03.md`; the ignored reproducible
-tables and plots are under `results/event_study/cross_tributary_rain_v1/`.
-This alternative was developed after inspecting the earlier outcome. It is
-exploratory and has not been adopted as the final chapter design.
-The separate issue-time retrospective prediction test and its limits are in
-`limburg-retrospective-prediction-test-2026-10-03.md`; it uses held data and
-does not establish as-issued forecast or alert performance.
-The bounded atmospheric follow-up and its storm-versus-site distinction are
-in `limburg-atmospheric-increment-2026-10-03.md`.
-
-## Supporting data acquisition
-
-- `25_ingest_lanuk_nrw.py`: held German source needed to reproduce the failed
-  route;
-- `infrastructure/era5_backfill/`: completed unattended acquisition for the
-  sole regional public-weather source; Function App stopped after final audit;
-- `34_fetch_era5_land.py`: stopped local fallback for the same fixed requests;
-- Waterschap Limburg's native 2010--2025 discharge delivery and the compact
-  availability audit produced by `35_audit_waterschap_delivery.py`;
-- Provincie Limburg's native Willem/Willem Oud delivery: ignored raw evidence
-  for the conditional case, not yet analysis-ready;
-- source PDFs, source notes, evidence matrix, bibliography and append-only
-  decision log.
-
-The Azure code in `kerkrade_data/` and `infrastructure/era5_backfill/` is
-collection infrastructure, not chapter analysis. It is outside routine
-scientific verification. The scripts that once normalised the Kerkrade IoT
-stream (`01_ingest_iot.py`, `33_ingest_viefhues_iot.py`) moved to `archive/`
-on 2026-09-18; see `docs/iot-sources.md`. `src/io_iot.py` stays in `src/`,
-still exercised by `infrastructure_tests/test_io_data.py` for the deployed
-Azure function.
-
-## Removed from the live analysis
-
-In draft 0.9 (2026-09-18): the log-distance slope over ordered pairs (except as
-a conditional module), the conditional Kerkrade CO2 case, the mine-water
-evidence, five-nearest-quiet-hour controls with seven-day exclusions,
-temperature and pressure level as signals, and donor-flow pairs as signals.
-
-Earlier:
-
-- the later-era Eryilmaz model re-fit and its Visual Crossing join;
-- rolling two-year Dutch discharge, RWS main-stem and DWD point-rain pipelines;
-- all-pairs prediction matrices, Mantel and catchment-signature analyses;
-- best-lag search, correlation radii and monitoring-location inference;
-- Fase thresholds outside their exact crisis-plan gauges;
-- water-level expansion as a substitute for discharge history;
-- anomaly detectors, SARIMAX, Kalman filters and fun-model comparisons;
-- hourly transfer classifiers, alert metrics and operational interpretations;
-- generic model/substitution frameworks and generated prose reports.
-
-The Eryilmaz paper remains predecessor evidence. Removing its later-era re-fit
-does not remove that intellectual step; it prevents a second same-site model
-from competing with the chapter's actual estimands. Deleted code remains in Git
-history.
-
-## Code standard
-
-The planned analysis should read as an auditable data-science script:
-
-`load -> check -> define events/controls -> estimate -> tidy tables -> figures`
-
-Keep transformations visible in pandas. Draft 0.9 uses one distributed-lag
-conditional Poisson model per prespecified specification, not an extensible
-modelling interface. This is a deliberate, recorded change from the earlier
-"one simple equation per signal" standard (`decisions.md`, 2026-09-18). Comment scientific decisions
-such as censoring, completeness and aggregation rather than obvious syntax.
-Add a helper only when a definition is reused or needs an isolated scientific
-check. Do not build a pipeline framework, configuration system, report
-generator, model registry or application layer.
-
-The default test suite protects event definitions, leakage-prone source
-semantics and gate calculations. It should grow only when a possible error
-could alter a reported number or scientific claim. Parsers should first be
-checked against real delivered files and tidy QC artifacts, not automatically
-given fixture suites.
+The case-crossover fit, observed-rainfall follow-up, cross-tributary footprint,
+retrospective prediction, atmospheric increment, Wurm CO2/pressure diagnostic,
+Maas increment and early AI brainstorming are under
+`archive/retired-directions/2026-retrospective-high-water/`.

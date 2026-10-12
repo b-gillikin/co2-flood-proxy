@@ -70,6 +70,11 @@ input and tests whether pretraining adds value beyond hydrograph shape. Layer,
 pooling and model selection will not be tuned after comparative results are
 opened. Direct 96-hour forecasting is outside the primary experiment.
 
+Representation inputs are compared on those 570 events. Response-based
+retrieval scores use the 558 events that also have all 72 withheld discharge
+hours; the 12 partial-response events remain in the inventory but do not
+receive incomplete outcome labels.
+
 ## Frozen catchment comparison
 
 AlphaEarth is used only as a catchment descriptor. The official annual product

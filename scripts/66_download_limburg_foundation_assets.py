@@ -152,9 +152,13 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--group", choices=["documents", "model", "code", "all"], default="all")
     parser.add_argument("--asset", help="download one manifest asset by ID")
-    parser.add_argument("--download", action="store_true", help="perform downloads; otherwise print plan")
+    parser.add_argument(
+        "--download", action="store_true", help="perform downloads; otherwise print plan"
+    )
     parser.add_argument("--force", action="store_true")
-    parser.add_argument("--fail-fast", action="store_true", help="stop after the first failed asset")
+    parser.add_argument(
+        "--fail-fast", action="store_true", help="stop after the first failed asset"
+    )
     args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text())
     assets = selected_assets(manifest, args.group)

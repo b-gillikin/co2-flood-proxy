@@ -540,3 +540,23 @@ the source. The evidence-question IDs connect each entry to
 - **Use in this chapter:** Supports strict separation of retrospective association from prediction, warning value and deployment readiness. It reinforces the need to anchor event definitions to observations and disclose the consequences of timing and threshold choices.
 - **Limitations:** The assessment concerns a global AI forecasting system, not Limburg public-signal recurrence. Its disputed performance estimates are not transferred to this chapter.
 - **Locators/questions:** Framework and §§2–3; deployment-readiness discussion. Q24.
+# 2026-10-12 basin-aware AI evaluation refresh
+
+- **Du et al. (2025), OFPO/KGFPO:** formal flood-observation ontology linking
+  events, tasks, data, methods and sensors. Supports explicit basin/provenance
+  relations; does not make a knowledge graph itself novel.
+- **Ru et al. (2024), RAGChecker:** claim-level, component-level RAG diagnosis.
+  Supports separate retrieval and synthesis reporting and warns that more
+  context can also increase noise sensitivity.
+- **Zhang et al. (2024):** full/partial/no citation support and human judgments
+  are not consistently reproduced by one automated metric. Supports manual
+  claim-level evidence scoring as primary.
+- **Thakur et al. (2024), NoMIRACL:** relevant and non-relevant retrieval cases
+  are both required to assess robust refusal. Supports wrong-jurisdiction,
+  wrong-date and unsupported hard negatives.
+- **Russo et al. (2025):** reliable but heterogeneous knowledge bases remain
+  difficult for RAG systems. Supports the fixed-generator comparison across
+  fragmented and harmonized evidence environments.
+- **Dihan et al. (2025), MapEval:** map-based relational reasoning needs direct
+  evaluation. Supports deterministic topology plus explicit spatial-relation
+  benchmark cases rather than assumed LLM basin knowledge.

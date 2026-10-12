@@ -1,7 +1,8 @@
 # Limburg basin-grounded AI: bounded feasibility pilot
 
-**Status:** internal research aid, 2026-10-11. This does not replace the live
-Limburg chapter protocol or supply dissertation prose.
+**Status:** internal research aid, 2026-10-11; retained as the evidence-path
+pilot for the active basin-aware AI design. It does not supply dissertation
+prose.
 
 ## Question and boundary
 
