@@ -2266,3 +2266,22 @@ gold-evidence oracle packet as a diagnostic ceiling, not another system arm.
 Keep the existing data and model roster. The live event-library default is 512
 hours so it matches the pinned TTM-R2 context rather than silently producing an
 incompatible 168-hour library.
+
+# 2026-10-13 — Record LANUK continuity and provisional high-flow semantics
+
+LANUK re-examined the four delivered German series and states that no gaps were
+created through reconstruction from neighbouring stations. Each station has a
+redundant water-level sensor, which allowed priority-1 sensor gaps to be closed
+locally. Represent this as redundant-sensor continuity, not neighbour-gauge
+reconstruction; individual sensor substitutions remain unflagged by row.
+
+Treat discharge after the July 2021 flood as provisional. Mean and low water
+levels have supporting discharge measurements, while uncertainty is greatest
+above warning levels 2 and 3 at Randerath and Herzogenrath. Randerath foreland
+inundation above reporting level 3 is an additional high-flow limitation. Use
+the delivered curve-validity documents for rating eras and do not use exact
+post-flood high-flow discharge as an unqualified target. Academic-use,
+publication and third-party disclosure terms remain outstanding.
+
+Source: `lanuk-provider-clarification-2026-10-13.md` and the preserved LANUK
+email under `data/raw/external_deliveries/lanuk_nrw/2026-10-13/`.

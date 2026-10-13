@@ -24,9 +24,13 @@ provenance-complete information conditions.
 
 - Six Dutch tributary series, provider semantics, rating eras, catchments,
   RADOLAN rainfall and ERA5-Land weather are held and audited.
-- Four German LANUK station packages are held. They still require conversion
-  into event objects equivalent to the Dutch library before the central result
-  can be described as cross-border.
+- Four German LANUK station packages are held. LANUK has confirmed that
+  priority-sensor gaps were closed from redundant local sensors rather than
+  neighbouring-gauge reconstruction. Post-July-2021 discharge remains
+  provisional, especially above warning levels 2 and 3 at Randerath and
+  Herzogenrath. The records still require conversion into event objects
+  equivalent to the Dutch library before the central result can be described
+  as cross-border.
 - The event-review source contains 724 Dutch onsets. With the fixed 512-hour
   history, 570 events are complete across discharge, rainfall and weather; 558
   also have a complete 72-hour withheld discharge response for scoring.
@@ -43,8 +47,10 @@ provenance-complete information conditions.
    by the prior-year rule already fixed in the protocol.
 2. Implement the raw 512-hour nearest-neighbour control and frozen TTM-R2
    representation on the same 570-event frame.
-3. Convert the held German Wurm records into the common event schema, preserving
-   provisional/reconstructed status and unresolved source semantics.
+3. Convert the held German Wurm records into the common event schema. Preserve
+   redundant-sensor continuity, curve-validity eras and post-July-2021
+   provisional high-flow status; do not label the series as neighbour-gauge
+   reconstruction.
 4. Complete human review of gold answers, claim-level evidence and genuinely
    unanswerable cases before running the fixed LLM.
 5. Run the evidence-access arms, then the three information-governance

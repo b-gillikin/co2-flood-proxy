@@ -17,12 +17,13 @@ built without adding new data requests or a user interface.
 
 ## 1. Evidence inventory
 
-`docs/ai-eval/source-inventory.json` contains 14 versioned source records:
+`docs/ai-eval/source-inventory.json` contains 15 versioned source records:
 
 - Waterschap Limburg provider correspondence, the July 2021 technical report,
   current thresholds, rating eras, gauge identities and checked event records;
-- four LANUK station packages plus the replacement Honsdorf stage delivery and
-  its audit;
+- four LANUK station packages, the replacement Honsdorf stage delivery, its
+  audit and LANUK's 2026-10-13 clarification of redundant-sensor continuity
+  and provisional post-flood high flows;
 - the RWS Maas quality audit and official quality-code guide; and
 - the northwestern-European FEWS comparison and International Meuse plan for
   institutional context.

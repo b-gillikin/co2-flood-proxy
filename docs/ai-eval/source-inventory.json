@@ -105,7 +105,7 @@
     "effective_to": "2025-12-31",
     "local_path": "data/raw/external_deliveries/lanuk_nrw/2026-10-01/honsdorf",
     "availability": "held_primary_package",
-    "retrieval_text": "Honsdorf is on Beeckflies. Replacement stage data are 15-minute means on a complete fixed grid. The current gauge zero is 54.368 m NHN2016, but this does not establish historical datum or sensor stability. Remaining reconstruction and provisional-rating questions were still pending."
+    "retrieval_text": "Honsdorf is on Beeckflies. Replacement stage data are 15-minute means on a complete fixed grid. The current gauge zero is 54.368 m NHN2016, but this does not establish historical datum or sensor stability. LANUK later clarified that redundant local sensors, not neighbouring-gauge reconstruction, closed priority-sensor gaps."
   },
   {
     "source_id": "LANUK_HONSDORF_AUDIT",
@@ -118,6 +118,18 @@
     "local_path": "docs/lanuk-honsdorf-stage-audit-2026-10-01.md",
     "availability": "held_derived",
     "retrieval_text": "The replacement Honsdorf stage export has 534,721 quarter-hour rows and 12 blanks. July 2021 stage and discharge maxima share the source timestamp 2021-07-14 13:15. That crosswalk does not validate peak discharge or the stage-discharge relation. The current gauge zero cannot be applied to historical records without datum-history evidence."
+  },
+  {
+    "source_id": "LANUK_PROVIDER_20261013",
+    "title": "LANUK clarification on redundant sensors and provisional post-flood discharge",
+    "source_class": "provider_correspondence",
+    "jurisdiction": "DE",
+    "agency": "LANUK NRW",
+    "effective_from": "2021-07-01",
+    "effective_to": null,
+    "local_path": "data/raw/external_deliveries/lanuk_nrw/2026-10-13/AW_ Academic question about timestamps and gaps in verified discharge data.eml",
+    "availability": "held_primary_email",
+    "retrieval_text": "LANUK re-examined the four delivered series and states that no gaps were reconstructed from neighbouring stations. Redundant water-level sensors at each station allowed gaps in priority-1 sensors to be closed. Discharge after the July 2021 flood is provisional; uncertainty is greatest above warning levels 2 and 3 at Randerath and Herzogenrath, and Randerath foreland inundation above reporting level 3 adds high-flow uncertainty. Curve validity periods, including provisional curves, are in the supplied Kurvengültigkeiten documents."
   },
   {
     "source_id": "RWS_MAAS_PILOT_AUDIT",

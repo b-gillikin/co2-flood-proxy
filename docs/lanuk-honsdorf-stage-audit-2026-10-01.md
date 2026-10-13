@@ -4,12 +4,15 @@ Status: internal source audit, 2026-10-01. This is not a new chapter result or
 an addition to the six-gauge Waterschap cohort.
 
 Jens Hammersen's 2026-10-01 message says the prior Honsdorf stage upload was
-erroneous and supplies the missing 15-minute file. He expects to answer the
-remaining questions about reconstructed values and provisional discharge
-curves next week. The message and CSV are preserved unchanged under
-`data/raw/external_deliveries/lanuk_nrw/2026-10-01/honsdorf/`, with SHA-256
-checksums in `receipt.tsv`. The BSCW link in the email expires 2026-12-24;
-the preserved copy does not depend on that link.
+erroneous and supplies the missing 15-minute file. His 2026-10-13 follow-up
+confirms that gaps in the delivered station series were not reconstructed from
+neighbouring gauges: redundant water-level sensors at each station allowed
+priority-1 sensor gaps to be closed. It also identifies post-July-2021
+discharge as provisional, with the greatest uncertainty above warning levels
+2 and 3 at Randerath and Herzogenrath. The message and CSV are preserved
+unchanged under `data/raw/external_deliveries/lanuk_nrw/2026-10-01/honsdorf/`,
+with SHA-256 checksums in `receipt.tsv`. The BSCW link in the email expires
+2026-12-24; the preserved copy does not depend on that link.
 
 | Check | Replacement stage export |
 | --- | --- |
@@ -38,6 +41,7 @@ the source timestamps. Do not convert historical stage to absolute elevation
 on the basis of the current gauge zero alone.
 
 Honsdorf is on Beeckfließ. It remains conditional evidence for a separately
-labelled German extension, not a seventh core tributary or a Wurm gauge. Await
-Jens's answers before judging reconstructed periods or provisional rating
-eras. No main-analysis event, exposure or model table changes from this file.
+labelled German extension, not a seventh core tributary or a Wurm gauge. The
+provider clarification and its implications are recorded in
+`lanuk-provider-clarification-2026-10-13.md`. No main-analysis event, exposure
+or model table changes from this file.
