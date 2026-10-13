@@ -41,9 +41,11 @@ The curve-validity documents remain the authoritative era record.
 
 Conditions for academic citation, derived publication and third-party
 disclosure were promised after departmental review in the 2026-09-23 message
-and were not supplied in this reply. Analysis can continue, but those terms
-remain outstanding before publishing or redistributing LANUK data or derived
-material where permission is required.
+and were not supplied in this reply. This is not a chapter dependency: the
+research does not plan to redistribute LANUK's raw files, and analysis and
+derived reporting can proceed. Preserve the source files privately, cite
+LANUK, and incorporate any later citation or acknowledgement preference before
+submission if one is supplied.
 
 The preserved email and checksum are under
 `data/raw/external_deliveries/lanuk_nrw/2026-10-13/`.

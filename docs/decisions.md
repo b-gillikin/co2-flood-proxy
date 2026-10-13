@@ -2281,7 +2281,10 @@ above warning levels 2 and 3 at Randerath and Herzogenrath. Randerath foreland
 inundation above reporting level 3 is an additional high-flow limitation. Use
 the delivered curve-validity documents for rating eras and do not use exact
 post-flood high-flow discharge as an unqualified target. Academic-use,
-publication and third-party disclosure terms remain outstanding.
+publication and third-party disclosure wording remains outstanding but is not
+a research gate. Raw LANUK files will not be redistributed; analysis and
+derived reporting proceed, with any later citation or acknowledgement
+preference incorporated before submission.
 
 Source: `lanuk-provider-clarification-2026-10-13.md` and the preserved LANUK
 email under `data/raw/external_deliveries/lanuk_nrw/2026-10-13/`.
