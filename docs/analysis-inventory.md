@@ -41,12 +41,15 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/70_ttm_analogue_comparison.py` | pinned frozen backbone representation on identical histories | executed; 534 paired queries |
 | `scripts/71_alphaearth_analogue_increment.py` | fixed TTM + prior-year context, with area control | executed; 276 common-subset queries |
 | `scripts/72_german_wurm_analogue_extension.py` | delivered Wurm stage/Q conversion and pooled Q-only R1/R2 | executed; 338 German episodes, 774 pooled queries |
+| `scripts/73_analogue_uncertainty_review.py` | paired sampling intervals, river-removal refits, provenance and visual review packet | executed; 14 AI-inspected illustrations; human verdicts pending |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
-`limburg-analogue-steps-3-5-2026-10-13.md`. Step 6 uncertainty and hydrological
-relevance review remain. No learned arm has yet beaten its historical-median
-benchmark on average peak-response error.
+`limburg-analogue-steps-3-5-2026-10-13.md` and
+`limburg-analogue-step6-2026-10-13.md`. Computational uncertainty checks and
+AI-assisted relevance review are complete; independent human verdicts remain
+unfilled. No learned arm has a lower point MAE than its historical-median
+benchmark; the context-versus-median interval includes zero.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3

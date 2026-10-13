@@ -1,8 +1,9 @@
 # Session handoff
 
-Updated 2026-10-13 after implementing and executing Steps 1–5.
+Updated 2026-10-13 after implementing and executing Steps 1–6.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
+Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
 
 ## Active question
 
@@ -42,14 +43,31 @@ No RAG-arm experiment, model training or operational forecast claim.
   Raw provider files remain local. Pinned inference runtime is installed in
   ignored `.venv-foundation`; use Python 3.11, not the shell's Python 3.9.
 - The earlier source-card/RAG pilot is optional evidence QA/history only.
-- Validation: 97 tests passed; repository lint and changed-file formatting
-  passed; all 54 outputs reproduced byte for byte in a separate directory.
+- Step 6: 9,999 paired query-storm resamples, year-block sensitivity, and
+  six physical-river removals per cohort/sensitivity. TTM-minus-raw Dutch
+  difference -0.0003, 95% interval [-0.0582, 0.0583]; pooled difference
+  +0.0218 [-0.0250, 0.0679]. No temporal representation advantage established.
+- AlphaEarth-minus-TTM difference -0.0315 [-0.0836, 0.0204]. Main point
+  improvements survive all six river removals, but same-gauge donor share
+  rises from 27.1% to 83.6%. Catchment identity is not response suitability.
+- Every selected pair was audited for provenance; fourteen illustrative
+  cards were inspected with AI assistance. Human verdicts remain blank.
+  Conditional sampling intervals do not cover donor/measurement uncertainty.
+- Validation: 102 tests passed. The earlier 54 Step 3–5 outputs and all ten
+  Step 6 scientific/review CSV tables reproduced exactly in separate runs.
 
-## Next work: Step 6
+## Next work: interpretation and Brian's review
 
-Evaluate paired storm-aware uncertainty, watercourse/catchment dependence and
-hydrological relevance of selected analogues. Review provenance failures and
-uncertain measurements before making cross-border evidence recommendations.
+The computational pass and AI-assisted relevance/provenance inspection are
+complete. Brian can inspect `results/basin_ai_step6/human_review_cases.csv`
+and its fourteen plots, using the separate observations in
+`reviews/limburg-analogue-visual-review-2026-10-13.md`. Independent human
+validation has not been claimed. Brian writes the chapter interpretation.
+
+Discuss the fixed mean-of-five aggregation versus a median benchmark under
+MAE, the distinction between peak error and full-response relevance, and the
+limited independent catchment support. No change of aggregator or model has
+been made in response to these results.
 
 Preserve null/mixed results. Do not select new models, tune distance weights,
 expand outcomes, add fine-tuning or create a dashboard to improve the answer.

@@ -23,6 +23,8 @@ active chapter design.
 | --- | --- |
 | `docs/limburg-historical-analogue-active-design-2026-10-13.md` | canonical question, comparison, cross-border limits and scope |
 | `docs/limburg-analogue-steps-3-5-2026-10-13.md` | executed representations, German extension, results and reproduction |
+| `docs/limburg-analogue-step6-2026-10-13.md` | paired uncertainty, river influence, provenance and interpretation limits |
+| `docs/reviews/limburg-analogue-visual-review-2026-10-13.md` | AI-assisted observations on fourteen illustrative cases; human review pending |
 | `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
 | `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
@@ -58,6 +60,7 @@ Steps 3–5 execution note:
 python scripts/70_ttm_analogue_comparison.py
 python scripts/71_alphaearth_analogue_increment.py
 python scripts/72_german_wurm_analogue_extension.py
+python scripts/73_analogue_uncertainty_review.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

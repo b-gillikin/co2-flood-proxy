@@ -93,7 +93,7 @@ the scope was narrowed.
 
 ## Next work
 
-Steps 1–5 are implemented and executed. TTM has no average peak-error advantage
+Steps 1–6 are implemented and executed. TTM has no average peak-error advantage
 over raw Q on 534 Dutch queries (0.7489 versus 0.7492). On 276 common-subset
 queries, AlphaEarth lowers TTM error from 0.6955 to 0.6641, but remains above
 the historical median's 0.6103. The German extension preserves 338 episodes,
@@ -102,7 +102,16 @@ Its Q-only pooled R1/R2 comparison uses 774 identical queries from 236 storms.
 The execution note `limburg-analogue-steps-3-5-2026-10-13.md` records all choices,
 counts, sensitivity results and source hashes.
 
-Step 6 remains: paired storm-aware uncertainty, watercourse/catchment dependence
-checks and hydrological relevance/provenance review. Interpret positive, null
-and unstable results within this retrospective scope; do not infer usefulness
-from a small descriptive error difference or add models because of nulls.
+Step 6 results are in `limburg-analogue-step6-2026-10-13.md`: paired storm/year
+sampling intervals, river-removal refits, all-pair provenance and fourteen
+AI-inspected case cards. The temporal advantage is not established; the small
+context improvement remains uncertain despite surviving main river-removal
+checks. Context greatly increases same-gauge retrieval, which can help or
+harm response similarity. Intervals are conditional on the held archive.
+
+Independent human verdicts remain blank in the review packet. Brian's
+interpretation should distinguish close peak aggregates from full-response
+relevance and address the fixed mean aggregation versus a median benchmark
+under MAE. No new outcome or model has been added. Interpret positive, null
+and unstable results within the retrospective scope; do not infer usefulness
+from a small descriptive error difference.

@@ -4,6 +4,10 @@ Internal results and implementation aid, 2026-10-13. Brian writes dissertation
 text. This follows the active analogue design; it adds no RAG experiment,
 fine-tuning, forecast target, data request or empirical chapter.
 
+Subsequent uncertainty and relevance checks are now complete as documented in
+`limburg-analogue-step6-2026-10-13.md`. The descriptive results below preserve
+the state at completion of Steps 3–5.
+
 ## What ran
 
 | Step | Runner | Local outputs |

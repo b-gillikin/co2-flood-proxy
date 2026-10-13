@@ -2369,3 +2369,55 @@ Record these descriptive results without choosing new models or tuning weights.
 Step 6 uncertainty and relevance review remain. All 97 tests pass and 54
 output files reproduce exactly; detailed tables and reproduction instructions
 are in `limburg-analogue-steps-3-5-2026-10-13.md`.
+
+# 2026-10-13 — Step 6 uncertainty and relevance review
+
+Keep the Step 3–5 outcomes, arms, cohorts, weights and donor rules fixed.
+Quantify paired mean absolute-error differences with 9,999 joint resamples of
+query storms (seed 20261013), retaining all event rows within each sampled
+storm and the original event-weighted estimand. Repeat using the year of each
+storm's first query as a coarser dependence check. These are conditional
+fixed-archive sampling intervals, not full uncertainty in donor observations,
+model choice, long-term nonstationarity or unseen catchments. Do not describe
+them as operational forecast confidence intervals or use them to select arms.
+
+Remove each physical river group from both queries and donors and rerun the
+same retrieval; compare with the full run on identical surviving query IDs.
+Use Wurm/Worm as one group in NL/DE. This is an influence check, not a held-out
+catchment prediction experiment. Report country/river differences and donor
+reuse. Do not treat six AlphaEarth catchments as hundreds of independent sites.
+
+Produce an automated provenance audit of every selected pair. For visual
+review, select four illustrative query cases per cohort: largest challenger
+improvement, largest deterioration, closest-to-median paired difference, and a
+measurement-concern case (or a cross-country case if no flagged query exists).
+Resolve ties chronologically; these outcome-informed examples illustrate
+behavior and cannot estimate relevance accuracy. Inspect both arms' histories
+and withheld responses. AI-assisted interpretation is recorded separately from
+blank human-review fields; no human validation or operator-benefit claim is
+implied. No extra model, target, data acquisition or chapter requirement.
+
+The initial 12 automatic examples were all Dutch. Add two explicitly
+illustrative German query cases (closest to the German median paired
+contrast and largest absolute paired contrast) to cover the delivered German
+extension. This is an outcome-informed presentation addition, not a new
+estimator or an independent relevance sample. Fourteen cards will be reviewed.
+
+# 2026-10-13 — Step 6 results and interpretation status
+
+The paired uncertainty and river-removal pass is complete. Dutch TTM-minus-raw
+MAE difference is -0.0003 (95% query-storm interval -0.0582 to +0.0583);
+pooled NL/DE difference is +0.0218 (-0.0250 to +0.0679). AlphaEarth-minus-TTM
+is -0.0315 (-0.0836 to +0.0204). Its main point improvement survives each
+physical-river removal, but same-gauge donor share rises from 27.1% to 83.6%.
+These results do not establish an AI performance advantage or identify the
+context mechanism separately from catchment identity.
+
+Every selected pair has a provenance audit; fourteen illustrative cards have
+AI-assisted visual observations, separately recorded from blank human verdicts.
+Do not turn the outcome-informed illustrations into a relevance success rate.
+The comparison's fixed mean-of-five aggregation versus a median benchmark
+under MAE is an interpretation limitation, not a reason to silently change
+the aggregator. Brian retains dissertation prose writing. No model, data
+request, empirical outcome, RAG experiment or operational claim was added.
+See `limburg-analogue-step6-2026-10-13.md` and its linked case-review note.
