@@ -3,6 +3,13 @@
 **Status:** internal analysis note, 2026-10-11. These are pipeline diagnostics,
 not dissertation results or operational forecast claims.
 
+**Latest status, 2026-10-13:** Steps 3–5 are executed: frozen TTM on 534 Dutch
+queries, prior-year AlphaEarth/area controls on 276 common-subset queries,
+and 338 German Wurm episodes converted for a 774-query pooled Q-only test.
+See `limburg-analogue-steps-3-5-2026-10-13.md` for the current results. The
+older feasibility chronology below is retained as dated history; its pending
+implementation and retired RAG actions do not describe current tasks.
+
 **Update, 2026-10-13:** The initial baseline numbers below used up to five
 events, which could include several gauges from the same regional storm. The
 current baseline selects at most one event per prior storm and requires its

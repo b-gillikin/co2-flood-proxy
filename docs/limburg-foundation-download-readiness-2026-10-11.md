@@ -3,6 +3,12 @@
 **Status:** fixed internal implementation note, 2026-10-11. It prepares one
 bounded representation comparison; it does not report a dissertation result.
 
+**Execution update, 2026-10-13:** Steps 3–5 have run. The pinned frozen backbone,
+fixed TTM-based AlphaEarth/area comparison and German Q-only extension are
+documented in `limburg-analogue-steps-3-5-2026-10-13.md`. Its reproduction section
+supplies the tested dependency pins and local editable-source installation.
+The design choices below remain unchanged; uncertainty/relevance are Step 6.
+
 ## Scientific decision
 
 The experiment will use **IBM Granite Tiny Time Mixers R2 (TTM-R2), variant

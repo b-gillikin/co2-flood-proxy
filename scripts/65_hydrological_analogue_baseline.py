@@ -91,6 +91,10 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
             and np.isclose(meta.history_rainfall_fraction, 1.0)
             and np.isclose(meta.history_weather_fraction, 1.0)
         )
+        # German Q-only extension: missing rain/weather remain missing. This
+        # explicit metadata override is only used in its separate temporal run.
+        if "temporal_input_sample" in metadata.columns and pd.notna(meta.temporal_input_sample):
+            common_representation_sample = bool(meta.temporal_input_sample)
         rows.append(
             {
                 "event_id": event_id,
@@ -104,6 +108,7 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
                 "complete_scoring_sample": bool(
                     common_representation_sample
                     and np.isclose(meta.outcome_discharge_fraction, 1.0)
+                    and bool(meta.get("outcome_score_admissible", True))
                 ),
                 "rain_sum_6h_mm": _rain_sum(group, 6),
                 "rain_sum_24h_mm": _rain_sum(group, 24),
@@ -130,28 +135,76 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
     return signatures.sort_values(["onset_utc", "gauge"]).reset_index(drop=True)
 
 
+def block_distances(candidates, query, distance_blocks):
+    """Equal-weight distances scaled by prior candidates' RMS pair distance.
+
+    Unique vectors determine each block's scale: repeated event rows must not
+    inflate the catchment-context scale. Neither query nor outcomes set it.
+    A constant prior block uses unit scale, retaining any query difference.
+    """
+    components = {}
+    for name, vectors in distance_blocks.items():
+        prior = vectors.loc[candidates.event_id].to_numpy(dtype=float)
+        unique = np.unique(prior, axis=0)
+        scale = (
+            np.sqrt(2 * len(unique) / (len(unique) - 1) * unique.var(axis=0).sum())
+            if len(unique) > 1
+            else 0.0
+        )
+        scale = float(scale) if scale > 0 else 1.0
+        distance = np.linalg.norm(prior - vectors.loc[query.event_id].to_numpy(dtype=float), axis=1)
+        components[f"{name}_distance"] = distance
+        components[f"{name}_prior_scale"] = np.full(len(prior), scale)
+    normalized = [
+        components[f"{name}_distance"] / components[f"{name}_prior_scale"]
+        for name in distance_blocks
+    ]
+    distances = np.sqrt(np.mean(np.square(normalized), axis=0))
+    return pd.Series(distances, index=candidates.index), pd.DataFrame(
+        components, index=candidates.index
+    )
+
+
 def retrieve_prior_analogues(
     signatures: pd.DataFrame,
     top_k: int = 5,
     min_candidates: int = 20,
     exclude_measurement_concerns: bool = False,
     representation_vectors: pd.DataFrame | None = None,
+    distance_blocks: dict[str, pd.DataFrame] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    if representation_vectors is not None and distance_blocks is not None:
+        raise ValueError("Choose vectors or distance blocks, not both")
+    if distance_blocks is not None and not distance_blocks:
+        raise ValueError("At least one distance block is required")
     eligible = signatures.complete_scoring_sample.copy()
     if exclude_measurement_concerns:
         eligible &= ~signatures.measurement_concern
     complete = (
         signatures.loc[eligible]
-        .dropna(subset=FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"])
+        .dropna(
+            subset=(
+                ["outcome_peak_over_p99_72h"]
+                if representation_vectors is not None or distance_blocks is not None
+                else FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"]
+            )
+        )
         .copy()
     )
-    if representation_vectors is not None:
-        if not representation_vectors.index.is_unique:
+    vector_sets = (
+        [representation_vectors]
+        if representation_vectors is not None
+        else list(distance_blocks.values())
+        if distance_blocks is not None
+        else []
+    )
+    for vectors in vector_sets:
+        if not vectors.index.is_unique:
             raise ValueError("Duplicate representation event IDs")
-        missing = set(complete.event_id).difference(representation_vectors.index)
+        missing = set(complete.event_id).difference(vectors.index)
         if missing:
             raise ValueError(f"Missing representations for {len(missing)} scored events")
-        if not np.isfinite(representation_vectors.loc[complete.event_id].to_numpy()).all():
+        if not np.isfinite(vectors.loc[complete.event_id].to_numpy()).all():
             raise ValueError("Non-finite event representations")
     neighbors = []
     predictions = []
@@ -166,7 +219,10 @@ def retrieve_prior_analogues(
         if len(candidates) < min_candidates or candidate_storm_count < top_k:
             continue
 
-        if representation_vectors is None:
+        details = pd.DataFrame(index=candidates.index)
+        if distance_blocks is not None:
+            distances, details = block_distances(candidates, query, distance_blocks)
+        elif representation_vectors is None:
             center = candidates[FEATURE_COLUMNS].median()
             scale = candidates[FEATURE_COLUMNS].quantile(0.75) - candidates[
                 FEATURE_COLUMNS
@@ -192,6 +248,7 @@ def retrieve_prior_analogues(
             distances = pd.Series(np.linalg.norm(differences, axis=1), index=candidates.index)
         selected = (
             candidates.assign(distance=distances)
+            .join(details)
             .sort_values(["distance", "onset_utc", "event_id"])
             .drop_duplicates("storm_id")
             .head(top_k)
@@ -228,6 +285,9 @@ def retrieve_prior_analogues(
                     "analogue_watercourse": row.watercourse,
                     "analogue_onset_utc": row.onset_utc,
                     "distance": row.distance,
+                    **{
+                        key: value for key, value in row._asdict().items() if key in details.columns
+                    },
                 }
             )
     return pd.DataFrame(predictions), pd.DataFrame(neighbors)

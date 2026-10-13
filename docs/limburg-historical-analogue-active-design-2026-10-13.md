@@ -62,9 +62,8 @@ from this design.
 
 ## Cross-border and policy interpretation
 
-The current event library is Dutch. Convert the held German Wurm records into
-the common event schema before describing the representation result as
-cross-border. Preserve the provider's redundant-local-sensor continuity,
+The Dutch library remains unchanged; script 72 now supplies a separate German
+Wurm library and pooled common-Q comparison. Preserve the provider's redundant-local-sensor continuity,
 rating validity and provisional post-July-2021 high-flow status. Keep the two
 Wurm stations nested within one watercourse; do not count them as independent
 tributaries. Use only inputs that can be aligned on both sides, or report the
@@ -94,18 +93,16 @@ the scope was narrowed.
 
 ## Next work
 
-Steps 1--2 are implemented. The AlphaEarth join reproduces 304 complete-input
-and 296 complete-outcome Dutch events. R1 uses within-event mean/population-SD
-standardization and Euclidean distance; its 534-query peak-ratio MAE is 0.7492
-versus 0.6423 for R0. Query and candidate pools are identical. The raw result
-is descriptive until the planned uncertainty and relevance evaluation.
+Steps 1–5 are implemented and executed. TTM has no average peak-error advantage
+over raw Q on 534 Dutch queries (0.7489 versus 0.7492). On 276 common-subset
+queries, AlphaEarth lowers TTM error from 0.6955 to 0.6641, but remains above
+the historical median's 0.6103. The German extension preserves 338 episodes,
+including 98 provisional ones, with 237 eligible exact-Q scoring responses.
+Its Q-only pooled R1/R2 comparison uses 774 identical queries from 236 storms.
+The execution note `limburg-analogue-steps-3-5-2026-10-13.md` records all choices,
+counts, sensitivity results and source hashes.
 
-3. Run frozen TTM-R2 R2 on the same standardized histories and query/donor
-   pools, alongside R0, R1 and the historical-median benchmark.
-4. Test AlphaEarth's increment on the common 2018+ sample with the same event
-   representation and catchment-area control.
-5. Convert the held German records and assess what comparison is valid on
-   common inputs, reporting Dutch and German results distinctly.
-6. Review retrieved analogues and provenance-related failure cases, then
-   interpret positive, null and unstable results within this retrospective
-   scope.
+Step 6 remains: paired storm-aware uncertainty, watercourse/catchment dependence
+checks and hydrological relevance/provenance review. Interpret positive, null
+and unstable results within this retrospective scope; do not infer usefulness
+from a small descriptive error difference or add models because of nulls.

@@ -38,6 +38,15 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
 | `scripts/68_import_alphaearth_embeddings.py` | validated prior-year event join; fixed geometry receipt | complete; 304 input and 296 outcome events |
 | `scripts/69_raw_hydrograph_analogue_baseline.py` | R1 raw 512-hour control on the same R0 query/donor pools | executed; 534 paired queries |
+| `scripts/70_ttm_analogue_comparison.py` | pinned frozen backbone representation on identical histories | executed; 534 paired queries |
+| `scripts/71_alphaearth_analogue_increment.py` | fixed TTM + prior-year context, with area control | executed; 276 common-subset queries |
+| `scripts/72_german_wurm_analogue_extension.py` | delivered Wurm stage/Q conversion and pooled Q-only R1/R2 | executed; 338 German episodes, 774 pooled queries |
+| `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
+
+Execution choices, results and reproduction commands are in
+`limburg-analogue-steps-3-5-2026-10-13.md`. Step 6 uncertainty and hydrological
+relevance review remain. No learned arm has yet beaten its historical-median
+benchmark on average peak-response error.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3

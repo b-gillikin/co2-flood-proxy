@@ -22,6 +22,7 @@ active chapter design.
 | document | role |
 | --- | --- |
 | `docs/limburg-historical-analogue-active-design-2026-10-13.md` | canonical question, comparison, cross-border limits and scope |
+| `docs/limburg-analogue-steps-3-5-2026-10-13.md` | executed representations, German extension, results and reproduction |
 | `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
 | `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
@@ -48,6 +49,15 @@ python scripts/65_hydrological_analogue_baseline.py
 python scripts/66_download_limburg_foundation_assets.py
 python scripts/68_import_alphaearth_embeddings.py
 python scripts/69_raw_hydrograph_analogue_baseline.py
+```
+
+With the pinned foundation environment/source installed as described in the
+Steps 3–5 execution note:
+
+```bash
+python scripts/70_ttm_analogue_comparison.py
+python scripts/71_alphaearth_analogue_increment.py
+python scripts/72_german_wurm_analogue_extension.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

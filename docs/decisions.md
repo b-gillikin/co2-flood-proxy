@@ -2327,3 +2327,45 @@ storms: peak-ratio MAE 0.6423 for R0 and 0.7492 for R1. The existing
 measurement-concern sensitivity uses 497 paired queries and gives 0.5555 and
 0.6282. These descriptive comparisons do not choose a new model or revise
 the outcomes; uncertainty and hydrological relevance remain Step 6 work.
+
+# 2026-10-13 — Freeze Steps 3–5 implementation choices
+
+TTM uses the pinned 512-96-r2 checkpoint's last backbone hidden layer, mean
+pooling across eight patches and L2 normalization. Run on CPU in evaluation
+mode with no trainable parameters; its standard scaler remains unchanged.
+The forecasting decoder and head are not called. R1/R2 see identical inputs.
+
+Before evaluating the context increment, fix R2 as its event backbone, not
+whichever temporal arm scores best. Compare R2, R2 plus log catchment area,
+and R2 plus the L2-normalized prior-year 64-dimensional AlphaEarth mean on
+the same 2018+ query/donor subset. Give distance blocks equal weight after
+scaling by RMS pair distance among unique prior candidate vectors. Neither
+query values nor outcomes determine scales; no weight search or fine-tuning.
+
+The German extension uses delivered Wurm Q/stage quarter-hour records, fixed
+UTC+1, complete trailing-hour means and literal provider curve-validity
+periods. Threshold groups pool repeated identical curves but separate the
+provisional regime from 2021-07-01, the first affected validity period. This
+is a conservative quality boundary, not the asserted flood start. Preserve
+all episodes, including censored, out-of-domain and provisional entries.
+Exact-Q scoring requires a known onset, complete response, one literal curve
+period throughout onset/response, and in-domain observed stage and Q. All
+post-boundary German high-water Q responses remain flagged and outside that
+exact-Q score; their measured stage stays available for evidence review.
+
+German rainfall/weather are unavailable in this common-input pass. Compare
+R1 and R2 using Q only, reporting country separately; do not fabricate rain
+or compare a rain-equipped R0 against German Q-only inputs. Recluster storms
+across the entire NL/DE inventory to prevent same-storm cross-country donors.
+Herzogenrath 1, Randerath and Dutch Worm belong to one Wurm/Worm river group.
+No new model, data request or forecast claim is introduced.
+
+Execution of these choices is complete. TTM is effectively tied with raw Q
+on 534 Dutch queries and does not beat R0. AlphaEarth modestly lowers TTM
+error on 276 common-subset queries but does not beat the historical median.
+The 338 German Wurm episodes provide 237 exact-Q eligible responses; the
+774-query pooled temporal comparison likewise has no overall TTM advantage.
+Record these descriptive results without choosing new models or tuning weights.
+Step 6 uncertainty and relevance review remain. All 97 tests pass and 54
+output files reproduce exactly; detailed tables and reproduction instructions
+are in `limburg-analogue-steps-3-5-2026-10-13.md`.
