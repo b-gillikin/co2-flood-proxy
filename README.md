@@ -25,6 +25,7 @@ active chapter design.
 | `docs/limburg-analogue-steps-3-5-2026-10-13.md` | executed representations, German extension, results and reproduction |
 | `docs/limburg-analogue-step6-2026-10-13.md` | paired uncertainty, river influence, provenance and interpretation limits |
 | `docs/limburg-analogue-census-2026-10-13.md` | full actual-analogue census: response shape, timing, context, complete prior pools and atlas |
+| `docs/limburg-representation-strengthening-2026-10-13.md` | latest exploratory TTM readout/state and AlphaEarth context/projection controls |
 | `docs/reviews/limburg-analogue-visual-review-2026-10-13.md` | AI-assisted observations on fourteen illustrative cases; human review pending |
 | `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
@@ -63,11 +64,17 @@ python scripts/71_alphaearth_analogue_increment.py
 python scripts/72_german_wurm_analogue_extension.py
 python scripts/73_analogue_uncertainty_review.py
 python scripts/74_review_analogue_census.py
+python scripts/75_strengthen_foundation_representations.py
+python scripts/77_plot_representation_checks.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
 TTM-R2, followed by 72 withheld hours. AlphaEarth export is an authenticated
 Earth Engine step documented in the download-readiness note.
+The separate metric-grid QA table is retrieved with
+`python scripts/76_check_alphaearth_metric_grid.py --download`; the original
+export remains preserved. The latest checks note documents the tested
+representation variations and keeps them separate from the original run.
 
 ## Verify
 

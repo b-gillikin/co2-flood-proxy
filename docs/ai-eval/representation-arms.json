@@ -40,7 +40,16 @@
     "relative_hour_start": -511,
     "relative_hour_end": 0,
     "history_standardization": "Within-event assessment-history mean and population standard deviation (ddof=0); zero-variance histories map to zero and are flagged.",
-    "support_unit": "event"
+    "support_unit": "event",
+    "exploratory_checks_2026_10_13": {
+      "runner": "scripts/75_strengthen_foundation_representations.py",
+      "readouts": [
+        "original patch mean",
+        "ordered patch concatenation"
+      ],
+      "state_control": "onset, history mean and population standard deviation / own-era p99; equally added to raw and TTM; prior-candidate-only scaling",
+      "status": "executed after census; no trained or automatically selected winner"
+    }
   },
   {
     "arm_id": "R3_ALPHAEARTH_CONTEXT",
@@ -49,7 +58,17 @@
     "input_scope": "Fixed event representation plus prior-year catchment embedding on the common 2018+ subset",
     "purpose": "Bounded incremental context test against the same event representation without learned catchment context and with catchment area as a simple held-data control. Event rows do not create independent catchment evidence.",
     "first_event_year": 2018,
-    "support_unit": "catchment_year"
+    "support_unit": "catchment_year",
+    "exploratory_checks_2026_10_13": {
+      "runner": "scripts/75_strengthen_foundation_representations.py",
+      "controls": [
+        "common-frame conventional rain/Q",
+        "one-hot gauge identity",
+        "static 2017 context",
+        "10-m EPSG:3035 aggregation"
+      ],
+      "status": "executed; original mean-TTM backbone retained"
+    }
   },
   {
     "arm_id": "R4_FUSED",

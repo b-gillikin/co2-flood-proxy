@@ -130,3 +130,13 @@ quality-sensitivity selections appear in the diagnostics. No representation
 was retrained or selected using these expanded outcomes. Treat the full
 response as historical evidence to inspect, keeping shape, magnitude and
 timing separate rather than reducing usefulness to a single mean-peak score.
+
+The latest authorized exploratory pass is recorded in
+`limburg-representation-strengthening-2026-10-13.md`. It keeps original
+controls while comparing ordered TTM readout and matched discharge-state
+blocks; AlphaEarth is checked against common-frame rain/Q, gauge identity,
+static 2017 context and a separately validated metric-grid export. The
+original pooling freeze was a first-pass implementation choice, not a
+scientific ban on testing a motivated alternative. These variations leave the
+research question, held observations, donor timing rules and source-quality
+treatment intact. No best-score search or model training is introduced.

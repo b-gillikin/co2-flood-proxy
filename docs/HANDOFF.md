@@ -1,10 +1,11 @@
 # Session handoff
 
-Updated 2026-10-13 after Steps 1–6 and Brian's requested full analogue census.
+Updated 2026-10-13 after the census and authorized representation checks.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
 Census: `limburg-analogue-census-2026-10-13.md`.
+Latest checks: `limburg-representation-strengthening-2026-10-13.md`.
 
 ## Active question
 
@@ -73,8 +74,34 @@ No RAG-arm experiment, model training or operational forecast claim.
   is over. No numerical metric becomes an automatic human relevance verdict.
 - Census validation: 108 tests passed; ten scientific CSV tables reproduced
   exactly. All 55 input/code hashes and every atlas/query index entry checked.
+- Scripts 75–77 now execute exploratory, fixed pooling/state and context
+  controls. Ordered TTM preserves all eight patch states. A matched observed
+  state block is supplied equally to raw/mean/ordered controls using only
+  prior-pool scaling. No training, architecture change or weight sweep.
+- Dutch ordered TTM + state: peak MAE 0.6389, shape RMSE 0.2008; rain/Q
+  benchmark 0.6423/0.1997. Point proximity is not an equivalence result.
+  Against matched raw + state, ordered TTM adds a shape increment -0.0064
+  Dutch / -0.0057 pooled, with favorable storm/year intervals and quality
+  sensitivity. Pooling alone improves timing; state accounts for much of
+  the peak gain in both raw and learned representations.
+- AlphaEarth's common-frame rain/Q benchmark now runs on identical 276-query
+  pools. Gauge identity nearly matches its shape gain; the residual difference
+  and annual-versus-static difference remain uncertain. Do not claim that
+  the six-site result uniquely establishes learned hydrological attributes.
+- Projection check complete: explicit 10-m EPSG:3035 table downloaded and
+  compared with the original angular-grid export. Direction changes <0.000314;
+  no main or quality donor set changes. Original CSV preserved.
+- Latest validation: 112 tests passed; all 51 scientific CSV outputs reproduced
+  exactly, 56 input/code hashes checked, 588 finite interval rows, and all donor
+  sets verified as five distinct eligible prior storms. Repo lint/format passed.
 
-## Next work: interpretation and Brian's review
+## Next work: event interpretation and cross-river application
+
+Read the latest checks note before interpreting the original model scores.
+All 102,645 new selected slots / 20,529 sets have census diagnostics; all
+seven outcomes have paired intervals and river summaries. Sixteen original
+control configurations replay their previous predictions. The new tables and
+comparison figures are under `results/basin_ai_representation_checks/`.
 
 The census corrects the earlier narrow relevance assessment. Open
 `results/basin_ai_analogue_census/index.html` for all main-run actual analogue
@@ -82,11 +109,19 @@ sets; browser Find locates a date or gauge. Detailed tables also cover every
 quality-sensitivity selection. The fourteen older case cards remain historical
 illustrations, not the basis of the census. Brian writes the interpretation;
 independent human validation has not been claimed or made a new requirement.
+That atlas depicts the original settings; the latest donor identities are in
+the new selected-pair tables.
 
 Discuss the fixed mean-of-five aggregation versus a median benchmark under
 MAE, the distinction between peak error and full-response relevance, and the
 limited independent catchment support. No change of aggregator or model has
 been made in response to these results.
+
+A purposeful possible next AlphaEarth scenario excludes same-river donors,
+asking about finding other-river analogues when a local archive is absent.
+It retains observed query histories, so it is not an ungauged-flow prediction
+test. This is not yet run or a chapter requirement. Interpretation of actual
+event successes/failures can continue independently. No extra data request.
 
 Preserve null/mixed results alongside the exploratory shape evidence. The
 expanded relevance assessment was explicitly requested by Brian; earlier

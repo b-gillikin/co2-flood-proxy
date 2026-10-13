@@ -2454,3 +2454,59 @@ the coverage inventory without inventing exact-Q relevance scores. This is a
 census of the held/retrieved archive, not all possible Limburg floods; repeated
 events, storms and donors still limit generalization. No human relevance
 verdict is inferred from a numerical metric. Brian writes dissertation prose.
+
+# 2026-10-13 — Authorized representation-strengthening pass
+
+Brian approved making better use of both TTM and AlphaEarth after reviewing
+their settings and the census. These are exploratory, mechanism-motivated
+comparisons after earlier outcomes; no settings will be promoted solely by a
+best-score search. Preserve the existing mean-pooled and annual-context runs.
+
+TTM: compare mean pooling with ordered concatenation of all eight patch
+states, using the same checkpoint, input histories and L2 normalization.
+Keep raw Q and mean TTM controls. Add a separate discharge-state block
+(onset Q/p99, history mean/p99, history standard deviation/p99) equally to
+raw, mean TTM and ordered TTM. State columns use prior-candidate median/IQR
+scaling before the existing equal-block distance normalization. No query or
+future outcome determines these scales. Apply the tests to Dutch and pooled
+NL/DE cohorts with their existing quality sensitivity and donor eligibility.
+
+AlphaEarth: retain the same 276-query context frame and donor pool; add the
+conventional rain/Q and raw controls on exactly that frame. Compare annual
+context with a one-hot gauge-identity block and fixed pre-evaluation 2017
+context, using the same scaled block distance. Identity is a control, not a
+new foundation model. Keep area as its existing control. Use all six census
+diagnostics plus the original peak score, paired storm/year sampling intervals,
+river-specific results and source-quality sensitivity. Do not switch the TTM
+backbone for AlphaEarth based on the pooling results in this pass.
+
+Verify the actual Earth Engine calculation projection and compare a separate
+10-m metric-grid aggregation with the original export. The original mosaic
+was confirmed as EPSG:4326; local source tiles have native 10-m UTM grids.
+Preserve original export bytes and geometry receipts. Re-export a small table,
+not raster imagery, and record projection, scale, geometry and input hashes.
+Projection correction is input QA, not performance tuning. Defer weight/layer
+sweeps, recent-patch weighting and fine-tuning; the first comparisons already
+address the specific issues raised by the census.
+
+# 2026-10-13 — Representation checks executed
+
+Ordered readout improves TTM timing relative to mean pooling; retaining
+observed state improves magnitude in both learned and raw-history controls.
+Ordered TTM + state retains a modest shape increment over matched raw + state,
+with consistent quality sensitivity. Dutch point errors are close to the
+rain/Q benchmark, not demonstrated equivalent. Mean-only TTM is therefore
+an incomplete assessment of useful frozen representations in this archive.
+
+AlphaEarth's residual gain beyond gauge identity and its annual-versus-static
+gain remain uncertain. On its matched 276-query frame, rain/Q has closer
+shapes. Explicit metric-grid aggregation leaves all 276/257 donor sets intact.
+The projection concern is resolved for these outcomes, not a chapter blocker.
+
+Report all 102,645 assessed slots / 20,529 sets and all seven outcomes rather
+than selecting a favorable score. Fifty-one scientific CSVs reproduce exactly;
+sixteen original controls replay. Next interpretation may use ordered TTM +
+state as a better-supported candidate, retaining the old and matched raw
+controls. A cross-river-only donor scenario would test AlphaEarth where local
+identity cannot supply a historical analogue; it has not been run or made a
+requirement. No automatic model winner, fine-tuning or operational claim.

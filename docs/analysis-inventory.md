@@ -43,6 +43,9 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/72_german_wurm_analogue_extension.py` | delivered Wurm stage/Q conversion and pooled Q-only R1/R2 | executed; 338 German episodes, 774 pooled queries |
 | `scripts/73_analogue_uncertainty_review.py` | paired sampling intervals, river-removal refits, provenance and visual review packet | executed; 14 AI-inspected illustrations; human verdicts pending |
 | `scripts/74_review_analogue_census.py` | every selected pair/set, whole response and complete prior-pool reference; chronological atlas | executed; 38,540 selected slots, 774 distinct queries; explicitly exploratory |
+| `scripts/75_strengthen_foundation_representations.py` | ordered patch/state comparisons, common-frame rainfall control, identity/static/metric-grid context controls | executed; 102,645 selected slots / 20,529 sets; original controls replayed |
+| `scripts/76_check_alphaearth_metric_grid.py` | separate 10-m EPSG:3035 catchment aggregation and projection QA | complete; 72-row table; no donor set changes |
+| `scripts/77_plot_representation_checks.py` | main and quality comparison figures from tidy summaries | complete |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
@@ -56,6 +59,11 @@ Brian then authorized the richer full-response census in
 TTM versus raw and with AlphaEarth versus TTM/area, despite peak and timing
 limitations; conventional rain/Q remains stronger in the Dutch comparison.
 The census adds no model arm or data requirement.
+The subsequent user-authorized checks are in
+`limburg-representation-strengthening-2026-10-13.md`: better-supported TTM
+readout/state usage, and a more limited AlphaEarth increment beyond locality.
+These are variations/controls of the same two foundation models, not a model
+leaderboard. No hyperparameter winner or training regimen was selected.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3

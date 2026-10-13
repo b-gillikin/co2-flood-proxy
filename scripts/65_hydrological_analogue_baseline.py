@@ -135,7 +135,7 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
     return signatures.sort_values(["onset_utc", "gauge"]).reset_index(drop=True)
 
 
-def block_distances(candidates, query, distance_blocks):
+def block_distances(candidates, query, distance_blocks, robust_blocks=()):
     """Equal-weight distances scaled by prior candidates' RMS pair distance.
 
     Unique vectors determine each block's scale: repeated event rows must not
@@ -145,6 +145,13 @@ def block_distances(candidates, query, distance_blocks):
     components = {}
     for name, vectors in distance_blocks.items():
         prior = vectors.loc[candidates.event_id].to_numpy(dtype=float)
+        query_vector = vectors.loc[query.event_id].to_numpy(dtype=float)
+        if name in robust_blocks:
+            center = np.median(prior, axis=0)
+            scale = np.quantile(prior, 0.75, axis=0) - np.quantile(prior, 0.25, axis=0)
+            scale = np.where(scale == 0, 1.0, scale)
+            prior = (prior - center) / scale
+            query_vector = (query_vector - center) / scale
         unique = np.unique(prior, axis=0)
         scale = (
             np.sqrt(2 * len(unique) / (len(unique) - 1) * unique.var(axis=0).sum())
@@ -152,7 +159,7 @@ def block_distances(candidates, query, distance_blocks):
             else 0.0
         )
         scale = float(scale) if scale > 0 else 1.0
-        distance = np.linalg.norm(prior - vectors.loc[query.event_id].to_numpy(dtype=float), axis=1)
+        distance = np.linalg.norm(prior - query_vector, axis=1)
         components[f"{name}_distance"] = distance
         components[f"{name}_prior_scale"] = np.full(len(prior), scale)
     normalized = [
@@ -172,11 +179,16 @@ def retrieve_prior_analogues(
     exclude_measurement_concerns: bool = False,
     representation_vectors: pd.DataFrame | None = None,
     distance_blocks: dict[str, pd.DataFrame] | None = None,
+    robust_distance_blocks: tuple[str, ...] = (),
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     if representation_vectors is not None and distance_blocks is not None:
         raise ValueError("Choose vectors or distance blocks, not both")
     if distance_blocks is not None and not distance_blocks:
         raise ValueError("At least one distance block is required")
+    if robust_distance_blocks and (
+        distance_blocks is None or not set(robust_distance_blocks).issubset(distance_blocks)
+    ):
+        raise ValueError("Robust scaling names must identify supplied distance blocks")
     eligible = signatures.complete_scoring_sample.copy()
     if exclude_measurement_concerns:
         eligible &= ~signatures.measurement_concern
@@ -221,7 +233,9 @@ def retrieve_prior_analogues(
 
         details = pd.DataFrame(index=candidates.index)
         if distance_blocks is not None:
-            distances, details = block_distances(candidates, query, distance_blocks)
+            distances, details = block_distances(
+                candidates, query, distance_blocks, robust_distance_blocks
+            )
         elif representation_vectors is None:
             center = candidates[FEATURE_COLUMNS].median()
             scale = candidates[FEATURE_COLUMNS].quantile(0.75) - candidates[

@@ -33,7 +33,25 @@ def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def extract_embeddings(histories: pd.DataFrame, model_dir=MODEL_DIR, batch_size=32):
+def pool_patch_states(hidden, pooling="mean"):
+    """Keep the original mean readout or preserve ordered patch positions."""
+    import torch
+
+    if hidden.ndim != 4 or hidden.shape[1] != 1:
+        raise ValueError(f"Unexpected backbone shape: {tuple(hidden.shape)}")
+    if pooling == "mean":
+        pooled = hidden.mean(dim=2).squeeze(1)
+    elif pooling == "ordered":
+        pooled = hidden.squeeze(1).flatten(start_dim=1)
+    else:
+        raise ValueError("Use mean or ordered pooling")
+    norms = torch.linalg.vector_norm(pooled, dim=1, keepdim=True)
+    if not torch.isfinite(pooled).all() or (norms == 0).any():
+        raise ValueError("Undefined frozen TTM representation")
+    return pooled / norms
+
+
+def extract_embeddings(histories: pd.DataFrame, model_dir=MODEL_DIR, batch_size=32, pooling="mean"):
     import torch
     from tsfm_public import TinyTimeMixerForPrediction
 
@@ -81,17 +99,12 @@ def extract_embeddings(histories: pd.DataFrame, model_dir=MODEL_DIR, batch_size=
             # Call only the backbone. The forecasting decoder/head and any
             # withheld outcomes have no role in this representation.
             hidden = model.backbone(past_values=batch, return_dict=True).last_hidden_state
-            if hidden.ndim != 4 or hidden.shape[1] != 1:
-                raise ValueError(f"Unexpected backbone shape: {tuple(hidden.shape)}")
-            pooled = hidden.mean(dim=2).squeeze(1)
-            norms = torch.linalg.vector_norm(pooled, dim=1, keepdim=True)
-            if not torch.isfinite(pooled).all() or (norms == 0).any():
-                raise ValueError("Undefined frozen TTM representation")
-            vectors.append((pooled / norms).numpy())
+            vectors.append(pool_patch_states(hidden, pooling).numpy())
     result = pd.DataFrame(np.concatenate(vectors), index=histories.index)
     result.columns = [f"ttm_{i:03d}" for i in range(result.shape[1])]
     return result, {
         "seed": 20261013,
+        "pooling": pooling,
         "runtime_versions": {
             p: importlib.metadata.version(p)
             for p in ["torch", "transformers", "granite-tsfm", "numpy", "pandas", "pyarrow"]
