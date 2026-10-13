@@ -44,7 +44,7 @@ whose 72-hour responses have finished by the query cutoff. Select at most one
 event per prior storm so one multi-gauge storm cannot fill the top-k list.
 Hold the eligible queries and candidate pool fixed across paired comparisons.
 Score retrieved events against the withheld
-72-hour response and human-reviewed hydrological relevance. Report sample
+72-hour response and reviewed hydrological relevance. Report archive
 counts, watercourse-specific results, paired storm-clustered uncertainty and
 leave-one-watercourse-out behavior. On the corrected distinct-storm selection,
 the conventional top-five analogue mean and expanding historical median are
@@ -53,7 +53,12 @@ an honest baseline rather than a reason to search for new models after results.
 Retain the existing measurement-concern flags in the main run and repeat the
 paired comparison without flagged queries or donor events as a sensitivity.
 An uncertain peak need not erase a known onset, but it may weaken a
-response-based score.
+response-based score. Following Brian's explicit request after the peak-only
+results, relevance is now examined across every saved selection with whole
+response shape, timing, duration, terminal behavior, rainfall and provenance.
+The extension is exploratory and separately dated in the decision log. Its
+census does not require a new human-labeling experiment; it cannot be described
+as independent human validation. The earlier peak outcome remains reported.
 
 The full-rating-era p99 event labels and normalization are retrospective.
 They must not be described as values known at each historical onset. No
@@ -115,3 +120,13 @@ relevance and address the fixed mean aggregation versus a median benchmark
 under MAE. No new outcome or model has been added. Interpret positive, null
 and unstable results within the retrospective scope; do not infer usefulness
 from a small descriptive error difference.
+
+The subsequent full-census note `limburg-analogue-census-2026-10-13.md` records
+a richer result: modest TTM-versus-raw and AlphaEarth-versus-TTM/area shape
+increments across the fixed actual analogue sets. Timing and high-water
+duration have different readings; rain/Q signatures remain a strong Dutch
+comparator. Every main-run set appears in the chronological atlas, while all
+quality-sensitivity selections appear in the diagnostics. No representation
+was retrained or selected using these expanded outcomes. Treat the full
+response as historical evidence to inspect, keeping shape, magnitude and
+timing separate rather than reducing usefulness to a single mean-peak score.

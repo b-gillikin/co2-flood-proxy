@@ -42,6 +42,7 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/71_alphaearth_analogue_increment.py` | fixed TTM + prior-year context, with area control | executed; 276 common-subset queries |
 | `scripts/72_german_wurm_analogue_extension.py` | delivered Wurm stage/Q conversion and pooled Q-only R1/R2 | executed; 338 German episodes, 774 pooled queries |
 | `scripts/73_analogue_uncertainty_review.py` | paired sampling intervals, river-removal refits, provenance and visual review packet | executed; 14 AI-inspected illustrations; human verdicts pending |
+| `scripts/74_review_analogue_census.py` | every selected pair/set, whole response and complete prior-pool reference; chronological atlas | executed; 38,540 selected slots, 774 distinct queries; explicitly exploratory |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
@@ -50,6 +51,11 @@ Execution choices, results and reproduction commands are in
 AI-assisted relevance review are complete; independent human verdicts remain
 unfilled. No learned arm has a lower point MAE than its historical-median
 benchmark; the context-versus-median interval includes zero.
+Brian then authorized the richer full-response census in
+`limburg-analogue-census-2026-10-13.md`. Shape matching improves modestly with
+TTM versus raw and with AlphaEarth versus TTM/area, despite peak and timing
+limitations; conventional rain/Q remains stronger in the Dutch comparison.
+The census adds no model arm or data requirement.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3

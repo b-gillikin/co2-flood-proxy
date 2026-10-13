@@ -35,3 +35,26 @@ only the held gauge and source audits can establish which particular analogue
 pairs are comparable. Keep any policy recommendation tied to documented
 identity or measurement failures in the evaluated pairs. This retrospective
 test does not establish as-issued forecast skill or operator benefit.
+
+## Whole-archive relevance review, 2026-10-13
+
+Brian authorized extending the assessment beyond the peak score and selected
+cases. Wendi et al. (2019), §1, explicitly distinguishes peak, volume, duration,
+peak timing and limb behavior from continuous hydrograph similarity. This
+supports examining the whole response and several transparent descriptors;
+it does not require adding their cross-recurrence algorithm. The census uses
+existing retrievals with level and peak-scaled shape distances, timing,
+threshold duration, excess area and terminal behavior, keeping these separate
+rather than tuning a composite score. Its fixed onset-centered 72 hours are
+response segments, not automatically complete flood hydrographs.
+
+[Tarasova et al. (2019), *Causative classification of river flood
+events*](https://doi.org/10.1002/wat2.1353), §2.3, cautions that hydrograph
+features alone may not uniquely identify flood-generating processes. Held
+rainfall before and after the onset can contextualize a mismatch; these
+comparisons do not establish its cause. No process labels are inferred from
+shape alone and no extra snow/soil dataset is required for this review.
+
+The Wendi (2019) BibTeX author was corrected to Dadiyorto Wendi, as shown on
+the publication's publisher record. Findings from the expanded review remain
+explicitly exploratory after the peak results. See the census execution note.

@@ -4,6 +4,11 @@ Internal interpretation aid, 2026-10-13. Brian writes dissertation prose.
 Code: `scripts/73_analogue_uncertainty_review.py`.
 Outputs: `results/basin_ai_step6/`.
 
+Subsequent user-authorized full-response census:
+`limburg-analogue-census-2026-10-13.md`. It extends usefulness beyond the peak
+score and the fourteen illustrations. The conclusions below retain their
+original scope; they do not rule out improvements in response-shape retrieval.
+
 ## Current conclusion
 
 The tested frozen TTM representation does not establish a useful average

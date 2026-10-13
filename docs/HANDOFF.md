@@ -1,9 +1,10 @@
 # Session handoff
 
-Updated 2026-10-13 after implementing and executing Steps 1–6.
+Updated 2026-10-13 after Steps 1–6 and Brian's requested full analogue census.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
+Census: `limburg-analogue-census-2026-10-13.md`.
 
 ## Active question
 
@@ -55,21 +56,42 @@ No RAG-arm experiment, model training or operational forecast claim.
   Conditional sampling intervals do not cover donor/measurement uncertainty.
 - Validation: 102 tests passed. The earlier 54 Step 3–5 outputs and all ten
   Step 6 scientific/review CSV tables reproduced exactly in separate runs.
+- User-authorized exploratory extension: script 74 reviews every saved
+  selected slot (38,540; 14,318 distinct query–donor pairs), all 774 distinct
+  queries, and the full eligible reference pools without sampling. All 1,062
+  held episodes remain in a coverage table. The complete main-run atlas has
+  133 chronological pages, indexed by gauge/date in a local HTML document.
+- Full-response shape differs from mean-peak prediction: TTM improves average
+  peak-scaled shape mismatch by 2.7% Dutch / 3.4% pooled versus raw history,
+  with favorable conditional storm/year intervals and mean directions on
+  every river. AlphaEarth improves shape by 6.4% versus TTM and 2.9% versus
+  the area control. These are exploratory, modest increments.
+- Timing/duration do not consistently improve; Dutch TTM timing is worse.
+  Conventional rain/Q remains better on Dutch shape and level. Census
+  diagnostics distinguish individual donors from averages, rainfall context,
+  and response segments that may start in recession or end before high water
+  is over. No numerical metric becomes an automatic human relevance verdict.
+- Census validation: 108 tests passed; ten scientific CSV tables reproduced
+  exactly. All 55 input/code hashes and every atlas/query index entry checked.
 
 ## Next work: interpretation and Brian's review
 
-The computational pass and AI-assisted relevance/provenance inspection are
-complete. Brian can inspect `results/basin_ai_step6/human_review_cases.csv`
-and its fourteen plots, using the separate observations in
-`reviews/limburg-analogue-visual-review-2026-10-13.md`. Independent human
-validation has not been claimed. Brian writes the chapter interpretation.
+The census corrects the earlier narrow relevance assessment. Open
+`results/basin_ai_analogue_census/index.html` for all main-run actual analogue
+sets; browser Find locates a date or gauge. Detailed tables also cover every
+quality-sensitivity selection. The fourteen older case cards remain historical
+illustrations, not the basis of the census. Brian writes the interpretation;
+independent human validation has not been claimed or made a new requirement.
 
 Discuss the fixed mean-of-five aggregation versus a median benchmark under
 MAE, the distinction between peak error and full-response relevance, and the
 limited independent catchment support. No change of aggregator or model has
 been made in response to these results.
 
-Preserve null/mixed results. Do not select new models, tune distance weights,
-expand outcomes, add fine-tuning or create a dashboard to improve the answer.
+Preserve null/mixed results alongside the exploratory shape evidence. The
+expanded relevance assessment was explicitly requested by Brian; earlier
+peak-only conclusions must not be generalized to every meaning of usefulness.
+Keep the existing retrievals and report all diagnostics, rather than choosing
+a favorable metric or tuning weights after the census.
 The rating-era p99 labels/scaling remain retrospective; neither these scores
 nor a relevant analogue establish live warning skill or operator benefit.

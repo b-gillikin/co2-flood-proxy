@@ -2421,3 +2421,36 @@ under MAE is an interpretation limitation, not a reason to silently change
 the aggregator. Brian retains dissertation prose writing. No model, data
 request, empirical outcome, RAG experiment or operational claim was added.
 See `limburg-analogue-step6-2026-10-13.md` and its linked case-review note.
+
+# 2026-10-13 — User-authorized census of actual analogue relevance
+
+Brian judged the peak-only assessment and selected visual cases too narrow
+for the original analogue question and requested review of the actual sets.
+Expand the evaluation of the existing fixed retrievals, not the model roster.
+This is an exploratory extension after the peak results, explicitly dated;
+earlier results remain valid for their narrower estimand.
+
+Review all held 1,062 episodes for coverage and all 38,540 existing selected
+slots, including the existing quality sensitivity. Compare individual donor
+and query response trajectories in hours 1–72 using own-era Q/p99 level RMSE,
+peak-scaled shape RMSE, peak-time difference, high-water-hour difference,
+threshold-excess-area difference and terminal/peak ratio difference. Peak
+scaling is separate from level comparison, so magnitude is not hidden.
+Show assessment-history similarity and held pre/post-onset rainfall totals
+where complete. Post-onset rainfall is explanatory evidence only.
+
+For each evaluated query/cohort/sensitivity, census the entire original
+eligible prior donor pool, preserving response completion, distinct query
+storm, source-quality and common-input rules. Summarize reference distances
+with equal total weight per donor storm (equal event weights within a storm)
+and report selected donors' weighted percentile ranks with half-weight ties.
+Use no sampled reference pool and no combined relevance score or tuned cutoffs.
+Report individual-donor, best-of-five and ensemble behavior separately;
+best-of-five is retrospective set coverage, not an oracle retrieval method.
+
+Produce a complete chronological main-run hydrograph atlas and an evidence
+row for every evaluated query set. Keep incomplete/provisional episodes in
+the coverage inventory without inventing exact-Q relevance scores. This is a
+census of the held/retrieved archive, not all possible Limburg floods; repeated
+events, storms and donors still limit generalization. No human relevance
+verdict is inferred from a numerical metric. Brian writes dissertation prose.
