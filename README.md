@@ -26,6 +26,7 @@ active chapter design.
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
 | `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
 | `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | targeted literature update and bounded improvements |
+| `docs/limburg-analogue-literature-bridge-2026-10-13.md` | direct event-similarity and cross-border literature for current scope |
 | `docs/reviews/limburg-scientific-readiness-audit-2026-10-13.md` | dated scientific audit; RAG requirements superseded |
 | `docs/reviews/limburg-second-pass-2026-10-13.md` | dated audit that exposed the extra RAG scope |
 | `docs/analysis-inventory.md` | live code, inputs and completed supporting work |

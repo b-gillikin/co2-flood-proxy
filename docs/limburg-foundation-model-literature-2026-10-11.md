@@ -4,6 +4,12 @@
 bounded review for model selection and evaluation, not a systematic review of
 all Earth foundation models.
 
+**Scope update, 2026-10-13:** The RAG and three-condition policy experiment
+language below is historical. The active analogue design and its direct
+hydrograph-similarity literature link are in
+`limburg-historical-analogue-active-design-2026-10-13.md` and
+`limburg-analogue-literature-bridge-2026-10-13.md`.
+
 ## What was reviewed
 
 The search covered four literatures that meet in the proposed experiment:
