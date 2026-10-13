@@ -45,22 +45,36 @@ quality before the LLM receives an evidence packet. Checked tools perform all
 numerical calculations. Outputs identify supporting sources, calculations,
 unresolved conflicts and insufficient evidence.
 
-## Core comparison
+## Core comparisons
 
-The principal comparison is about evidence representation, not a sweep of
-language models:
+Two experiments answer different questions and must not be collapsed into one
+arm ladder.
+
+The **evidence-access ablation** uses A0--A3 from `system-arms.json`: the same
+fixed generator receives no study evidence, retrieved documents, documents
+plus checked tools, or those components plus the curated basin graph. This
+isolates what explicit evidence access and basin structure add to the 30-case
+source-grounded benchmark.
+
+The **historical-representation comparison** uses R0--R4 from
+`representation-arms.json`:
 
 | Arm | Evidence available | Purpose |
 | --- | --- | --- |
-| R0 | Text/document retrieval | Conventional RAG baseline |
-| R1 | R0 plus basin graph and provenance | Value of structured basin and institutional knowledge |
-| R2 | R1 plus conventional hydrological analogue retrieval | Value of observed event dynamics |
-| R3 | R1 plus foundation-model event/catchment representations | Whether pretrained representations improve retrieval |
+| R0 | Conventional discharge-and-rainfall signatures | Interpretable practical analogue baseline |
+| R1 | Raw standardized 512-observation discharge history | Same-input hydrograph-shape control |
+| R2 | Frozen TTM-R2 representation of the identical discharge history | Isolated test of temporal pretraining |
+| R3 | Prior-year AlphaEarth context on the common 2018+ subset | Bounded test of learned catchment context |
 
-A fused R2+R3 arm is conditional: run it only if the two representations show
-different, individually useful retrieval behavior. A question-only LLM may be
-retained as a small negative control. The generator model, prompt and decoding
-settings stay fixed across the core arms.
+The causal representation contrast is R1 versus R2 because those arms receive
+identical inputs. R0 is a practical hydrological benchmark with additional
+rainfall information, so a difference involving R0 cannot be attributed only
+to pretraining. R3 compares the same event representation with and without
+learned catchment context and includes catchment area as a simple held-data
+control. Its effective support is catchment/catchment-year, not the number of
+event rows. A fused R0+R2 arm is conditional on different, individually useful
+retrieval behavior. The generator model, prompt and decoding settings stay
+fixed across evidence-access arms.
 
 ## Evaluation tasks
 
@@ -98,11 +112,13 @@ Evaluate the same tasks under three information environments:
    datum history, threshold versions and measured/reconstructed/interpolated/
    provisional status.
 
-The performance differences estimate the value of information governance. The
-remaining failures and justified abstentions identify fields that agencies
-would need to preserve or exchange. The potential policy product is a minimum
-cross-border evidence standard for AI-supported assessment, derived from
-observed errors rather than asserted in advance.
+Within this fixed benchmark, the performance differences estimate how the AI
+system responds to improved information governance. They do not estimate the
+effect of harmonization on real agency decisions or flood outcomes. The
+remaining failures and justified abstentions identify candidate fields that
+agencies would need to preserve or exchange. The potential policy product is a
+minimum cross-border evidence standard for AI-supported assessment, derived
+from observed system errors rather than asserted in advance.
 
 ## Operationalization recommendation to retain
 
@@ -147,16 +163,20 @@ contribution.
    top-five analogue mean did not improve on an expanding historical median,
    so useful analogue evidence is an empirical target rather than an assumed
    property of the architecture.
-3. **Prepared 2026-10-11:** export prior-year AlphaEarth catchment summaries
-   for the held Dutch catchments and two delivered German Wurm gauges.
+3. **Completed 2026-10-12:** export and validate prior-year AlphaEarth
+   catchment summaries for the held Dutch catchments and two delivered German
+   Wurm gauges. Because the product begins in 2017, its fair comparison uses a
+   common event subset from 2018 onward rather than all 570 temporal events.
 4. **Model and protocol fixed 2026-10-11:** test pinned TTM-R2 `512-96-r2`
    against the conventional signature and raw 512-hour hydrograph controls on
    the same 570 complete events. No fine-tuning or model sweep is planned.
 5. Proceed to LLM synthesis only after the retrieval and masked-observation
    tasks have meaningful baselines.
 
-The first library contains 724 reviewed Dutch tributary onsets and 174,484
-hourly event rows. German records have not yet been converted into equivalent
+The corrected library contains 724 reviewed Dutch tributary onsets and 422,816
+event-hour rows: exactly 512 assessment observations and 72 withheld outcome
+hours per event. The earlier 174,484-row statement described the retired
+168-hour library. German records have not yet been converted into equivalent
 event objects; cross-border evaluation remains a required later step, not an
 implicit property of the Dutch library.
 

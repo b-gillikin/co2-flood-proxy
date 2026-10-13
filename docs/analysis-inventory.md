@@ -42,10 +42,11 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
 
 The A and R labels describe different experiments. A0–A3 isolate access to
-documents, checked tools and basin structure. R0–R3 compare historical-event
-representations after basin/provenance grounding is fixed. R4 runs only if the
-conventional and pretrained representations are individually useful and
-complementary.
+documents, checked tools and basin structure. R0 is the practical conventional
+signature baseline; R1 versus R2 is the same-input raw-hydrograph versus TTM
+test; R3 adds prior-year AlphaEarth context only on the common 2018+ subset.
+R4 runs only if conventional and pretrained event representations are
+individually useful and complementary.
 
 ## Archived directions
 

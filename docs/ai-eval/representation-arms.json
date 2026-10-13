@@ -1,33 +1,58 @@
 [
   {
-    "arm_id": "R0_TEXT_RAG",
-    "label": "Text and document retrieval",
+    "arm_id": "R0_HYDRO_SIGNATURES",
+    "label": "Conventional hydrological signatures",
     "required": true,
-    "purpose": "Conventional evidence-retrieval baseline."
+    "input_scope": "Assessment-time discharge and rainfall summaries",
+    "purpose": "Interpretable practical analogue baseline. Because it includes rainfall, it is not the isolated test of temporal pretraining.",
+    "input_channels": [
+      "discharge",
+      "rainfall"
+    ],
+    "support_unit": "event"
   },
   {
-    "arm_id": "R1_BASIN_PROVENANCE",
-    "label": "Text RAG plus basin graph and provenance",
+    "arm_id": "R1_RAW_Q_512",
+    "label": "Raw 512-observation discharge history",
     "required": true,
-    "purpose": "Tests the contribution of verified river, station, jurisdiction and evidence-quality structure."
+    "input_scope": "Standardized hourly discharge at relative hours -511 through 0",
+    "purpose": "Same-input nearest-neighbour control for the frozen TTM representation.",
+    "input_channels": [
+      "discharge"
+    ],
+    "history_observations": 512,
+    "relative_hour_start": -511,
+    "relative_hour_end": 0,
+    "support_unit": "event"
   },
   {
-    "arm_id": "R2_HYDRO_ANALOGUES",
-    "label": "Basin grounding plus conventional hydrological analogues",
+    "arm_id": "R2_TTM_R2_Q_512",
+    "label": "Frozen TTM-R2 discharge representation",
     "required": true,
-    "purpose": "Tests whether interpretable rainfall-runoff and hydrograph signatures add useful event evidence."
+    "input_scope": "The identical standardized 512-observation discharge history used by R1",
+    "purpose": "Primary isolated test of whether frozen temporal pretraining improves retrieval beyond raw hydrograph shape.",
+    "input_channels": [
+      "discharge"
+    ],
+    "history_observations": 512,
+    "relative_hour_start": -511,
+    "relative_hour_end": 0,
+    "support_unit": "event"
   },
   {
-    "arm_id": "R3_FOUNDATION_REPRESENTATIONS",
-    "label": "Basin grounding plus pretrained event and catchment representations",
+    "arm_id": "R3_ALPHAEARTH_CONTEXT",
+    "label": "Prior-year AlphaEarth catchment context",
     "required": true,
-    "purpose": "Tests one time-series foundation-model challenger and AlphaEarth catchment embeddings against conventional representations."
+    "input_scope": "Fixed event representation plus prior-year catchment embedding on the common 2018+ subset",
+    "purpose": "Bounded incremental context test against the same event representation without learned catchment context and with catchment area as a simple held-data control. Event rows do not create independent catchment evidence.",
+    "first_event_year": 2018,
+    "support_unit": "catchment_year"
   },
   {
     "arm_id": "R4_FUSED",
-    "label": "Fused conventional and foundation representations",
+    "label": "Fused conventional and TTM event representations",
     "required": false,
-    "condition": "Run only if R2 and R3 show different and individually useful retrieval behavior.",
+    "condition": "Run only if R0 and R2 show different and individually useful retrieval behavior on the common temporal sample.",
     "purpose": "Tests complementarity without making fusion a dissertation requirement."
   }
 ]

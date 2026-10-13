@@ -10,7 +10,8 @@ events into fixed hourly windows. Each event contains 512 hours of history
 through its onset and 72 later hours marked as withheld outcomes. The run
 contains:
 
-- 724 events and 423,540 event-hour rows;
+- 724 events and 422,816 event-hour rows after enforcing exactly 512
+  assessment observations plus 72 withheld outcome hours;
 - 721 events previously marked usable for the primary retrospective analysis;
 - 58 events with a retained measurement concern;
 - 629 complete discharge histories, 655 complete rainfall histories and 724
@@ -62,7 +63,12 @@ The authenticated export has completed. The validated local table contains 72
 rows: nine catchments by eight annual layers, 64 embedding dimensions, no
 missing values and stable geometry hashes. It includes the delivered
 Herzogenrath 1 and Randerath Wurm catchments. Event linkage still needs a
-deterministic prior-year join before the representation can be evaluated.
+deterministic prior-year join before the representation can be evaluated. The
+prior-year rule limits the fair AlphaEarth comparison to events from 2018
+onward; it is not a 570-event arm. In the corrected Dutch library that subset
+contains 304 complete-input events and 296 complete-outcome events across six
+watercourses. Those event counts do not turn six watercourses or their
+catchment-year embeddings into hundreds of independent catchment observations.
 
 ## Next decision sequence
 

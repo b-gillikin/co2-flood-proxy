@@ -63,12 +63,14 @@ The primary learned representation is frozen in advance:
 6. score retrieval using the held 72-hour response properties already used by
    the conventional baseline.
 
-All representation arms use the same 570-event complete-case frame. Alongside
+All temporal representation arms use the same complete-case frame. Alongside
 the existing hydrological-signature baseline, a standardized raw 512-hour
 hydrograph nearest-neighbor baseline is required. It controls for the longer
-input and tests whether pretraining adds value beyond hydrograph shape. Layer,
-pooling and model selection will not be tuned after comparative results are
-opened. Direct 96-hour forecasting is outside the primary experiment.
+input and tests whether pretraining adds value beyond hydrograph shape. The
+512 observations include the assessment-cutoff hour and therefore span
+relative hours -511 through 0. Layer, pooling and model selection will not be
+tuned after comparative results are opened. Direct 96-hour forecasting is
+outside the primary experiment.
 
 Representation inputs are compared on those 570 events. Response-based
 retrieval scores use the 558 events that also have all 72 withheld discharge
@@ -84,6 +86,11 @@ catchment-year means and valid-pixel counts rather than imagery.
 To prevent same-year future imagery from entering an event assessment, event
 year `Y` uses the `Y-1` embedding. Events before 2018 are outside the primary
 AlphaEarth comparison; events after 2024 use the latest available 2024 layer.
+Consequently, AlphaEarth is evaluated on a separate common post-2018 subset,
+not represented as if it covered the full temporal-comparison frame. The
+corrected 512-step library contains 304 complete-input and 296
+complete-outcome Dutch events in this subset; the importer must reproduce and
+record those counts.
 A 2017–2024 catchment mean may be reported only as a static-similarity
 sensitivity analysis, with its retrospective nature stated explicitly.
 Individual embedding axes receive no physical interpretation. AlphaEarth is

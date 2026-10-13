@@ -38,7 +38,9 @@ def sha256(path: Path) -> str:
 def relative_hours(history_hours: int, outcome_hours: int) -> np.ndarray:
     if history_hours < 1 or outcome_hours < 1:
         raise ValueError("history_hours and outcome_hours must both be positive")
-    return np.arange(-history_hours, outcome_hours + 1, dtype=int)
+    # The assessment cutoff is one of the history observations. A 512-step
+    # model context therefore runs from -511 through 0, not -512 through 0.
+    return np.arange(-(history_hours - 1), outcome_hours + 1, dtype=int)
 
 
 def _read_inputs() -> tuple[pd.DataFrame, ...]:

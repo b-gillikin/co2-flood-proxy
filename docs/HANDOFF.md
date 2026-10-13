@@ -44,7 +44,8 @@ provenance-complete information conditions.
 ## Immediate work
 
 1. Add a deterministic importer for the validated AlphaEarth table and join it
-   by the prior-year rule already fixed in the protocol.
+   by the prior-year rule already fixed in the protocol. Evaluate it on the
+   common event subset from 2018 onward rather than the full temporal frame.
 2. Implement the raw 512-hour nearest-neighbour control and frozen TTM-R2
    representation on the same 570-event frame.
 3. Convert the held German Wurm records into the common event schema. Preserve
@@ -56,6 +57,14 @@ provenance-complete information conditions.
 5. Run the evidence-access arms, then the three information-governance
    conditions. Keep retrieval, citation support, factual correctness and
    abstention as separate outcomes.
+
+Before any generated answers are inspected, pin the single generator and
+decoding contract, blind arm labels for scoring and freeze the reviewed case
+bank. Representation comparisons use paired queries with storm-clustered
+uncertainty; AlphaEarth uses its smaller 2018+ common subset and is interpreted
+at catchment/catchment-year support rather than event-row sample size. The full
+scientific audit is in
+`reviews/limburg-scientific-readiness-audit-2026-10-13.md`.
 
 Do not add another foundation model, fine-tuning programme, forecast target,
 dashboard, operator study or data source merely because it is available. A new

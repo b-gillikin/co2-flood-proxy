@@ -19,10 +19,12 @@ def test_default_history_matches_frozen_ttm_context():
 
 def test_relative_hours_include_one_cutoff_and_no_future_in_history():
     offsets = MODULE.relative_hours(168, 72)
-    assert len(offsets) == 241
-    assert offsets[0] == -168
+    assert len(offsets) == 240
+    assert offsets[0] == -167
     assert offsets[-1] == 72
     assert (offsets == 0).sum() == 1
+    assert (offsets <= 0).sum() == 168
+    assert (offsets > 0).sum() == 72
 
 
 def test_real_event_library_has_complete_identity_and_phase_boundary():
