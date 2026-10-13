@@ -2307,3 +2307,23 @@ recommendations should follow documented identity and provenance failures in
 the analogue analysis, without a second AI-system experiment. The earlier
 2026-10-11 and 2026-10-12 decisions remain dated history; the new active
 contract is `limburg-historical-analogue-active-design-2026-10-13.md`.
+
+# 2026-10-13 — Implement prior-year context and the raw hydrograph control
+
+At Brian's request, implement Steps 1--2. Script 68 validates the original
+AlphaEarth delivery, station identities and native-geometry receipt, then
+joins event year Y to Y-1 context under the existing capped-year rule. The
+eligible Dutch sample remains 304 complete inputs and 296 complete outcomes.
+The original export's PROJ 9.3.0 geometry hashes replay exactly; the analysis
+environment's PROJ 9.7.1 gives tiny coordinate differences that change byte
+hashes. Freeze the verified native/export mapping rather than treating this
+software difference as an imagery-data failure.
+
+Script 69 standardizes each 512-hour history using that history's mean and
+population SD, then retrieves by Euclidean distance through the same R0
+eligibility and distinct-prior-storm function. It saves the standardized
+inputs for the TTM comparison. R0 and R1 have 534 paired queries from 186
+storms: peak-ratio MAE 0.6423 for R0 and 0.7492 for R1. The existing
+measurement-concern sensitivity uses 497 paired queries and gives 0.5555 and
+0.6282. These descriptive comparisons do not choose a new model or revise
+the outcomes; uncertainty and hydrological relevance remain Step 6 work.

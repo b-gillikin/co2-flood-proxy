@@ -13,6 +13,14 @@ retained as dated diagnostics, not the active result. The masked-observation
 and generative steps in the old sequence below were retired with the RAG
 experiment. See `limburg-historical-analogue-active-design-2026-10-13.md`.
 
+**Steps 1--2 completed, 2026-10-13:** Script 68 has joined the prior-year
+AlphaEarth context, reproducing 304 complete-input and 296 complete-outcome
+events. Script 69 has executed raw 512-hour R1 on the same 534 R0 queries;
+R1's peak-ratio MAE is 0.7492, versus 0.6423 for R0. The quality-sensitivity
+comparison uses 497 identical queries and gives 0.6282 versus 0.5555. TTM,
+the AlphaEarth-effect comparison, German conversion and uncertainty remain
+the next work in the current handoff.
+
 ## Event library
 
 `scripts/64_build_basin_ai_event_library.py` transforms the reviewed Dutch

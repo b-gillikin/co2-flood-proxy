@@ -3,6 +3,11 @@
 **Date:** 2026-10-13. Internal review of live code, literature and planning
 documents; no dissertation prose was written.
 
+**Subsequent implementation, 2026-10-13:** Steps 1--2 have since been executed
+in scripts 68 and 69. The remaining-work discussion below describes the audit
+state before that implementation; the current handoff records completed R1
+and AlphaEarth joins and the pending R2/R3 comparisons.
+
 ## Result
 
 The chapter now has one active empirical spine: retrieve prior high-water

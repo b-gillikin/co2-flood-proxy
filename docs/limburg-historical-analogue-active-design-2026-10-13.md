@@ -94,12 +94,18 @@ the scope was narrowed.
 
 ## Next work
 
-1. Join the validated AlphaEarth catchment-year table by the prior-year rule
-   and verify the common 2018+ sample.
-2. Run raw-discharge R1 and frozen TTM-R2 R2 on the same Dutch event frame,
-   alongside R0 and the historical-median benchmark.
-3. Convert the held German records and assess what comparison is valid on
+Steps 1--2 are implemented. The AlphaEarth join reproduces 304 complete-input
+and 296 complete-outcome Dutch events. R1 uses within-event mean/population-SD
+standardization and Euclidean distance; its 534-query peak-ratio MAE is 0.7492
+versus 0.6423 for R0. Query and candidate pools are identical. The raw result
+is descriptive until the planned uncertainty and relevance evaluation.
+
+3. Run frozen TTM-R2 R2 on the same standardized histories and query/donor
+   pools, alongside R0, R1 and the historical-median benchmark.
+4. Test AlphaEarth's increment on the common 2018+ sample with the same event
+   representation and catchment-area control.
+5. Convert the held German records and assess what comparison is valid on
    common inputs, reporting Dutch and German results distinctly.
-4. Review retrieved analogues and provenance-related failure cases, then
+6. Review retrieved analogues and provenance-related failure cases, then
    interpret positive, null and unstable results within this retrospective
    scope.

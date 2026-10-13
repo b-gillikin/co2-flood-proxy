@@ -16,6 +16,7 @@ def test_temporal_pretraining_contrast_has_identical_inputs():
         "history_observations",
         "relative_hour_start",
         "relative_hour_end",
+        "history_standardization",
         "support_unit",
     ):
         assert raw[field] == ttm[field]

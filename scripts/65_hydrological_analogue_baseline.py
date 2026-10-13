@@ -135,6 +135,7 @@ def retrieve_prior_analogues(
     top_k: int = 5,
     min_candidates: int = 20,
     exclude_measurement_concerns: bool = False,
+    representation_vectors: pd.DataFrame | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     eligible = signatures.complete_scoring_sample.copy()
     if exclude_measurement_concerns:
@@ -144,6 +145,14 @@ def retrieve_prior_analogues(
         .dropna(subset=FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"])
         .copy()
     )
+    if representation_vectors is not None:
+        if not representation_vectors.index.is_unique:
+            raise ValueError("Duplicate representation event IDs")
+        missing = set(complete.event_id).difference(representation_vectors.index)
+        if missing:
+            raise ValueError(f"Missing representations for {len(missing)} scored events")
+        if not np.isfinite(representation_vectors.loc[complete.event_id].to_numpy()).all():
+            raise ValueError("Non-finite event representations")
     neighbors = []
     predictions = []
     for query in complete.itertuples(index=False):
@@ -157,18 +166,30 @@ def retrieve_prior_analogues(
         if len(candidates) < min_candidates or candidate_storm_count < top_k:
             continue
 
-        center = candidates[FEATURE_COLUMNS].median()
-        scale = candidates[FEATURE_COLUMNS].quantile(0.75) - candidates[FEATURE_COLUMNS].quantile(
-            0.25
-        )
-        scale = scale.mask(scale.eq(0), 1.0)
-        query_values = pd.Series({column: getattr(query, column) for column in FEATURE_COLUMNS})
-        distances = np.sqrt(
-            (
-                ((candidates[FEATURE_COLUMNS] - center) / scale - (query_values - center) / scale)
-                ** 2
-            ).sum(axis=1)
-        )
+        if representation_vectors is None:
+            center = candidates[FEATURE_COLUMNS].median()
+            scale = candidates[FEATURE_COLUMNS].quantile(0.75) - candidates[
+                FEATURE_COLUMNS
+            ].quantile(0.25)
+            scale = scale.mask(scale.eq(0), 1.0)
+            query_values = pd.Series({column: getattr(query, column) for column in FEATURE_COLUMNS})
+            distances = np.sqrt(
+                (
+                    (
+                        (candidates[FEATURE_COLUMNS] - center) / scale
+                        - (query_values - center) / scale
+                    )
+                    ** 2
+                ).sum(axis=1)
+            )
+        else:
+            # Each vector was constructed from that event's assessment history.
+            # Eligibility and scoring remain identical to the R0 comparison.
+            differences = (
+                representation_vectors.loc[candidates.event_id].to_numpy()
+                - representation_vectors.loc[query.event_id].to_numpy()
+            )
+            distances = pd.Series(np.linalg.norm(differences, axis=1), index=candidates.index)
         selected = (
             candidates.assign(distance=distances)
             .sort_values(["distance", "onset_utc", "event_id"])

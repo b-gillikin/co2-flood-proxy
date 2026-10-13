@@ -1,0 +1,59 @@
+{
+  "source_sha256": "ced1703aefe38ac36957939485a470c70abbd0df1b8773149873ff547f7b075f",
+  "source_crs": "EPSG:3035",
+  "export_crs": "EPSG:4326",
+  "projection_version": "9.3.0",
+  "geopandas_version": "1.0.1",
+  "shapely_version": "2.0.7",
+  "verification": "Original export geometry hashes replayed exactly in the export environment on 2026-10-13.",
+  "catchments": [
+    {
+      "gauge": "11.Q.32",
+      "native_geometry_sha256": "cee756f5618925263340defd2f59c8aa56d72f7a6a133389d3a05b03c78c71e0",
+      "export_geometry_sha256": "e9dad7aea95ea2b40702e673aa750ee2823a102ae4132fdc8b29b37da48604c5"
+    },
+    {
+      "gauge": "10.Q.29",
+      "native_geometry_sha256": "c5d8cea8ac0e80fa44333581aaedbdcb3b55a6cc5701676b35e5a36692b0582c",
+      "export_geometry_sha256": "4aff5d259951193b7e8cdf8f2e8386d7418f20b232ff3f76ec25a516b3e9658e"
+    },
+    {
+      "gauge": "13.Q.34",
+      "native_geometry_sha256": "dfd43b7f60434b070aa3cf5d326ba4b05a51d90392d3d6c84a465e612b864cf0",
+      "export_geometry_sha256": "477b9398f6d913abd869c5430b421e41cef05e75e28706e9ac39825fc594e7bf"
+    },
+    {
+      "gauge": "15.Q.41",
+      "native_geometry_sha256": "9faa12b78f622cc71bdc017ff2b182dd22b3c14ad6dfb91a2fd1f948e5e199d7",
+      "export_geometry_sha256": "6a3837312abeb0dd49527c1be26167e2ab7a47183c6b4a67bfd89fd900524a03"
+    },
+    {
+      "gauge": "18.Q.45",
+      "native_geometry_sha256": "2cc0a4c0b2fa78e794a786cbe09709f5fdb68880304a77aea818f149d6a0a01c",
+      "export_geometry_sha256": "0ec9e45c604e4bcb4987276c2bdd45590ea8a7cda24d1e82369ee06b18a67044"
+    },
+    {
+      "gauge": "6.Q.18",
+      "native_geometry_sha256": "961f624e360c3023a4d8441822ba45531e6b4ff3942b7921fdfe1a06306280bf",
+      "export_geometry_sha256": "0d8abc0d657c1f25570bbb94175f86c4827dd18f0c40ab6365c1d8865522fa34"
+    },
+    {
+      "gauge": "6.Q.25",
+      "native_geometry_sha256": "ef47e552c00c6ff19859e9333db6917aea7d082de9cfd1b872e8cf28c74d2175",
+      "export_geometry_sha256": "c0d7ab876c6e8726ab4f7d1abd035abff4e540be9d053587d9ee1aee072b90ce"
+    },
+    {
+      "gauge": "herzogenrath_1",
+      "native_geometry_sha256": "05f61b2d6c82be07274c2e5ae9d8a344455c7a0bdded80c2720fa401dfc46ec4",
+      "export_geometry_sha256": "d07b8252bb8d9c95f1409cc314a5c49170288f09920678549a383dd3712fe934"
+    },
+    {
+      "gauge": "randerath",
+      "native_geometry_sha256": "7313a16edf43bc495a4f68fea0a6bc48ef4b0fae725d63799bfae73297ad0ffb",
+      "export_geometry_sha256": "e07b2bfb500595e7a4e942e0ba0898156fc5763432d007cad7d7b8c5d2102f00"
+    }
+  ],
+  "analysis_projection_version_observed": "9.7.1",
+  "maximum_original_vs_analysis_coordinate_difference_degrees": 2.938527643436828e-09,
+  "hash_portability_note": "Exact WGS84 WKB hashes differ across the verified export and analysis projection environments despite unchanged native catchment geometries. Validate native geometry plus original-export hashes, not a newly reprojected hash."
+}

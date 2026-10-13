@@ -23,6 +23,8 @@
     "history_observations": 512,
     "relative_hour_start": -511,
     "relative_hour_end": 0,
+    "history_standardization": "Within-event assessment-history mean and population standard deviation (ddof=0); zero-variance histories map to zero and are flagged.",
+    "distance": "Euclidean distance between standardized 512-hour discharge vectors.",
     "support_unit": "event"
   },
   {
@@ -37,6 +39,7 @@
     "history_observations": 512,
     "relative_hour_start": -511,
     "relative_hour_end": 0,
+    "history_standardization": "Within-event assessment-history mean and population standard deviation (ddof=0); zero-variance histories map to zero and are flagged.",
     "support_unit": "event"
   },
   {

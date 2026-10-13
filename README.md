@@ -46,6 +46,8 @@ python scripts/46_review_events.py
 python scripts/64_build_basin_ai_event_library.py
 python scripts/65_hydrological_analogue_baseline.py
 python scripts/66_download_limburg_foundation_assets.py
+python scripts/68_import_alphaearth_embeddings.py
+python scripts/69_raw_hydrograph_analogue_baseline.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

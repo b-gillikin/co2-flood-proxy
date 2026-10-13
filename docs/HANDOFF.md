@@ -1,7 +1,7 @@
 # Session handoff
 
-Updated 2026-10-13 after Brian removed the four-arm RAG experiment from the
-Limburg chapter. The canonical plan is
+Updated 2026-10-13 after implementing Steps 1--2 of the analogue study.
+The canonical plan is
 `limburg-historical-analogue-active-design-2026-10-13.md`.
 
 ## Active question
@@ -40,22 +40,30 @@ work is retrospective, with no forecast-skill or operator-benefit claim.
 - TTM-R2 assets and documents are downloaded and verified. The AlphaEarth
   catchment-year export is validated: 72 rows, nine catchments, eight years
   and 64 embedding dimensions.
+- Step 1 is implemented: script 68 validates the delivery and native-geometry
+  receipt and joins prior-year context. It reproduces 304 complete-input and
+  296 complete-outcome events across six Dutch watercourses. Earlier events
+  remain in the inventory with an explicit unsupported-period status.
+- Step 2 is executed: script 69 builds 570 standardized raw discharge vectors
+  and compares R1 with R0 on 534 identical queries from 186 storms. Raw
+  peak-ratio MAE is 0.7492 versus 0.6423 for R0; on the 497-query quality
+  sensitivity it is 0.6282 versus 0.5555. These are descriptive results;
+  storm-aware uncertainty and relevance review remain for step 6.
 - The 30-case source-card benchmark and four-arm prompt builder are retained
   as evidence-QA aids only. No LLM answers have been generated or scored, and
   no generator or RAG-arm evaluation is required for this chapter.
 
 ## Immediate work
 
-1. Add a deterministic importer for the validated AlphaEarth table and join
-   it by the prior-year rule. Evaluate on the common 2018+ event subset.
-2. Implement the raw 512-hour nearest-neighbour control and frozen TTM-R2
-   representation on the same Dutch event frame; compare both with the
-   conventional and historical-median baselines.
-3. Convert the held German Wurm records into the common event schema.
+3. Implement frozen TTM-R2 using the identical standardized histories saved
+   by script 69; compare R2 with R1 and R0 on the same query/donor pools.
+4. Evaluate the bounded AlphaEarth increment on the common 2018+ subset,
+   including the catchment-area control.
+5. Convert the held German Wurm records into the common event schema.
    Preserve redundant-sensor continuity, curve-validity eras and provisional
    post-July-2021 high-flow status. Report Dutch and German results distinctly
    where input coverage differs.
-4. Review retrieved analogues for hydrological relevance and provenance
+6. Review retrieved analogues for hydrological relevance and provenance
    failures, and derive only the cross-border evidence recommendations that
    those cases support.
 

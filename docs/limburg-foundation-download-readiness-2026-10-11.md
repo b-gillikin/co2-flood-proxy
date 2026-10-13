@@ -66,7 +66,8 @@ The primary learned representation is frozen in advance:
 All temporal representation arms use the same complete-case frame. Alongside
 the existing hydrological-signature baseline, a standardized raw 512-hour
 hydrograph nearest-neighbor baseline is required. It controls for the longer
-input and tests whether pretraining adds value beyond hydrograph shape. The
+input and tests whether the frozen TTM representation adds value beyond
+hydrograph shape. The
 512 observations include the assessment-cutoff hour and therefore span
 relative hours -511 through 0. Layer, pooling and model selection will not be
 tuned after comparative results are opened. Direct 96-hour forecasting is
@@ -96,6 +97,16 @@ sensitivity analysis, with its retrospective nature stated explicitly.
 Individual embedding axes receive no physical interpretation. AlphaEarth is
 compared against ordinary catchment attributes and cannot replace observed
 rainfall, antecedent conditions or hydrographs.
+
+**Implementation, 2026-10-13:** Script 68 has validated and joined the held
+export, reproducing the 304/296 sample. The exported WGS84 geometry hashes
+replay exactly under the original PROJ 9.3.0 environment; PROJ 9.7.1 changes
+coordinate values by at most about 2.94e-9 degrees and therefore changes WKB
+hashes. `config/alphaearth_geometry_receipt.json` freezes the verified mapping
+between the unchanged native geometries and original export hashes. The
+importer checks that mapping instead of rejecting a numerically equivalent
+reprojection. Script 69 has executed the raw 512-hour control and saves its
+standardized histories for identical R2 input.
 
 ## Assets and reproducibility
 

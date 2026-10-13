@@ -36,6 +36,8 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval; one selected event per prior storm | complete; tied historical median |
 | `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |
 | `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
+| `scripts/68_import_alphaearth_embeddings.py` | validated prior-year event join; fixed geometry receipt | complete; 304 input and 296 outcome events |
+| `scripts/69_raw_hydrograph_analogue_baseline.py` | R1 raw 512-hour control on the same R0 query/donor pools | executed; 534 paired queries |
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3
