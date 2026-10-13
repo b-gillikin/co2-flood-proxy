@@ -1,7 +1,8 @@
 # Limburg analysis inventory
 
-Status: 2026-10-12. The basin-aware AI design is the only active chapter
-direction. Earlier empirical branches remain reproducible in the archive.
+Status: 2026-10-13. The historical-analogue representation comparison is the
+active chapter direction. Earlier empirical branches remain reproducible in
+the archive.
 
 ## Live evidence preparation
 
@@ -26,27 +27,30 @@ direction. Earlier empirical branches remain reproducible in the archive.
 Historical `event_study_*` names remain in derived files to preserve
 provenance. They do not make the archived case-crossover model active.
 
-## Live basin-aware AI experiment
+## Live historical-analogue experiment
 
 | code or contract | purpose | state |
 | --- | --- | --- |
-| `docs/ai-eval/source-inventory.json` | source and provenance inventory | pilot-ready |
-| `docs/ai-eval/basin-graph.json` | verified basin and agency relations | pilot-ready |
-| `docs/ai-eval/benchmark-draft.json` | answerable and unanswerable cases | human gold review pending |
-| `docs/ai-eval/system-arms.json` | evidence-access ablation A0–A3 | fixed |
 | `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | R4 conditional |
-| `scripts/63_build_basin_ai_pilot.py` | validates evidence and builds prompt packets | complete |
 | `scripts/64_build_basin_ai_event_library.py` | 512-hour histories and 72 withheld hours | complete |
 | `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval | complete |
 | `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |
 | `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
 
-The A and R labels describe different experiments. A0–A3 isolate access to
-documents, checked tools and basin structure. R0 is the practical conventional
-signature baseline; R1 versus R2 is the same-input raw-hydrograph versus TTM
-test; R3 adds prior-year AlphaEarth context only on the common 2018+ subset.
-R4 runs only if conventional and pretrained event representations are
-individually useful and complementary.
+R0 is the practical conventional signature baseline; R1 versus R2 compares
+raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3
+adds prior-year AlphaEarth context only on the common 2018+ subset. R4 is
+optional if conventional and pretrained representations are individually
+useful and complementary.
+
+## Retained evidence QA, outside the core experiment
+
+`docs/ai-eval/source-inventory.json`, `basin-graph.json`,
+`benchmark-draft.json`, `system-arms.json` and
+`scripts/63_build_basin_ai_pilot.py` preserve the earlier four-arm feasibility
+pilot. They may support factual and source-link checks. Running or scoring the
+RAG arms, selecting a generator, and human-reviewing all 30 cases are not
+chapter requirements.
 
 ## Archived directions
 

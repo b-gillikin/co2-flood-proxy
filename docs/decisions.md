@@ -2288,3 +2288,22 @@ preference incorporated before submission.
 
 Source: `lanuk-provider-clarification-2026-10-13.md` and the preserved LANUK
 email under `data/raw/external_deliveries/lanuk_nrw/2026-10-13/`.
+
+# 2026-10-13 — Remove the four-arm RAG experiment from Limburg
+
+Brian confirmed that the four-arm RAG experiment is not needed. The active
+chapter asks whether basin-aware AI representations retrieve useful historical
+high-water analogues and when measurement and river-identity evidence make an
+analogue uncertain or inapplicable. Its fixed comparison is conventional
+hydrological signatures, raw 512-hour discharge similarity, frozen TTM-R2 and
+a bounded AlphaEarth catchment-context increment. The German event extension
+is needed for a cross-border representation result.
+
+The 30-case source-card benchmark, four-arm prompt builder, graph and source
+inventory remain optional evidence-QA and historical feasibility artifacts.
+Do not treat generated-answer scoring, a fixed LLM, masked-observation cases,
+or fragmented/harmonized/provenance-complete packets as chapter gates. Policy
+recommendations should follow documented identity and provenance failures in
+the analogue analysis, without a second AI-system experiment. The earlier
+2026-10-11 and 2026-10-12 decisions remain dated history; the new active
+contract is `limburg-historical-analogue-active-design-2026-10-13.md`.

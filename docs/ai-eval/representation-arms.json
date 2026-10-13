@@ -30,7 +30,7 @@
     "label": "Frozen TTM-R2 discharge representation",
     "required": true,
     "input_scope": "The identical standardized 512-observation discharge history used by R1",
-    "purpose": "Primary isolated test of whether frozen temporal pretraining improves retrieval beyond raw hydrograph shape.",
+    "purpose": "Same-input test of the frozen TTM representation's incremental value beyond raw hydrograph similarity; it does not causally isolate pretraining.",
     "input_channels": [
       "discharge"
     ],

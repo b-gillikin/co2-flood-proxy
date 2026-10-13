@@ -1,7 +1,13 @@
 # Limburg scientific readiness audit
 
 **Audit date:** 2026-10-13  
-**Scope:** active basin-aware AI design only
+**Scope:** then-active basin-aware AI design only
+
+**Scope update, 2026-10-13:** This audit predates Brian's decision to remove
+the four-arm RAG and three-condition policy experiments. Its representation,
+data and cross-border checks remain useful; its evidence-access benchmark
+requirements are historical. The current contract is
+`../limburg-historical-analogue-active-design-2026-10-13.md`.
 
 ## Verdict
 

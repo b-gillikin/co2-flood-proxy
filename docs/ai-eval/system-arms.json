@@ -9,15 +9,15 @@
   },
   {
     "arm_id": "A1_DOCUMENT_RAG",
-    "label": "Document-only RAG",
+    "label": "Curated source-card retrieval",
     "document_access": true,
     "checked_tools": false,
     "basin_graph": false,
-    "purpose": "Tests retrieval and synthesis from the versioned document corpus."
+    "purpose": "Tests retrieval and synthesis from researcher-written, source-linked cards summarizing the held corpus."
   },
   {
     "arm_id": "A2_RAG_TOOLS",
-    "label": "RAG plus checked gauge tools",
+    "label": "Source cards plus checked gauge tools",
     "document_access": true,
     "checked_tools": true,
     "basin_graph": false,
@@ -25,7 +25,7 @@
   },
   {
     "arm_id": "A3_BASIN_GROUNDED",
-    "label": "RAG plus checked tools and curated basin graph",
+    "label": "Source cards, checked tools and curated basin graph",
     "document_access": true,
     "checked_tools": true,
     "basin_graph": true,

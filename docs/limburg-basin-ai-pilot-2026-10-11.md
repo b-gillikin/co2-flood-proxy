@@ -1,8 +1,10 @@
 # Limburg basin-grounded AI: bounded feasibility pilot
 
-**Status:** internal research aid, 2026-10-11; retained as the evidence-path
-pilot for the active basin-aware AI design. It does not supply dissertation
-prose.
+**Status:** historical feasibility pilot, 2026-10-11; retained as optional
+evidence QA. The four-arm RAG comparison below was removed from the active
+chapter on 2026-10-13. See
+`limburg-historical-analogue-active-design-2026-10-13.md`. It does not supply
+dissertation prose.
 
 ## Question and boundary
 
@@ -112,7 +114,16 @@ with held evidence and that arm separation can be enforced. It does not show
 that basin grounding improves AI answers, because no model outputs have been
 generated or scored.
 
-## Smallest credible next experiment
+**2026-10-13 source-inventory refresh:** Adding LANUK's clarification changed
+the lexical ranking. Rerunning the same pilot retrieves at least one listed
+gold source for all eight cases, but retrieves every listed gold source for
+only two of eight at top three and four of eight at top five. “All listed gold
+sources” is a strict diagnostic, not yet a measure of answer sufficiency:
+some cases list overlapping sources, and Brian has not reviewed which are
+actually necessary. The retriever and the necessary-evidence labels both need
+review before final model comparisons.
+
+## Historical proposed next experiment, no longer required
 
 1. Brian reviews the 30 reference answers, especially what each case requires
    and when abstention is expected.

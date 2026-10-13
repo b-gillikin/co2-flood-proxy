@@ -1,14 +1,16 @@
-# Basin-Aware AI for Cross-Border High-Water Assessment
+# Basin-Aware AI for Historical High-Water Analogues
 
 Research question:
 
-> **Can basin-aware AI produce reliable cross-border high-water assessments
-> from fragmented Dutch and German data?**
+> **Can basin-aware AI find useful past high-water events across Limburg's
+> Dutch and German tributaries, and identify when the evidence is too
+> uncertain to use?**
 
-The chapter tests whether explicit river structure, measurement provenance and
-historical event representations improve source-grounded AI assessments. It is
-a retrospective evaluation of evidence use. It is not an automatic warning
-system, an operational forecast evaluation or a model leaderboard.
+The chapter compares conventional hydrological summaries, raw hydrograph
+similarity, a frozen time-series foundation-model representation and bounded
+AlphaEarth catchment context. It reviews whether river identity and measurement
+provenance make retrieved analogues usable. It is a retrospective archive
+study, not an automatic warning system or operational forecast evaluation.
 
 The repository name `chapter1-co2` is historical. CO2, case-crossover,
 cross-tributary prediction and pressure diagnostics are preserved under
@@ -19,11 +21,13 @@ active chapter design.
 
 | document | role |
 | --- | --- |
-| `docs/limburg-basin-ai-active-design-2026-10-11.md` | canonical question, comparisons, policy experiment and scope |
+| `docs/limburg-historical-analogue-active-design-2026-10-13.md` | canonical question, comparison, cross-border limits and scope |
+| `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
 | `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
 | `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | targeted literature update and bounded improvements |
-| `docs/reviews/limburg-scientific-readiness-audit-2026-10-13.md` | final construct, comparison, inference and claim audit |
+| `docs/reviews/limburg-scientific-readiness-audit-2026-10-13.md` | dated scientific audit; RAG requirements superseded |
+| `docs/reviews/limburg-second-pass-2026-10-13.md` | dated audit that exposed the extra RAG scope |
 | `docs/analysis-inventory.md` | live code, inputs and completed supporting work |
 | `docs/data-requests.md` | provider deliveries and remaining source questions |
 | `docs/decisions.md` | dated design history; earlier entries remain historical |
@@ -37,7 +41,6 @@ conda activate chapter1-co2
 
 python scripts/39_delineate_catchments.py
 python scripts/46_review_events.py
-python scripts/63_build_basin_ai_pilot.py
 python scripts/64_build_basin_ai_event_library.py
 python scripts/65_hydrological_analogue_baseline.py
 python scripts/66_download_limburg_foundation_assets.py

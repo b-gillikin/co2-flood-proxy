@@ -1,8 +1,10 @@
 # Limburg basin-aware AI: active development design
 
-**Status:** internal research design, 2026-10-11. Brian writes all dissertation
-text. This design builds on, but does not silently rewrite, the completed
-retrospective event-study work.
+**Status:** historical internal research design, 2026-10-11; superseded on
+2026-10-13 by `limburg-historical-analogue-active-design-2026-10-13.md`.
+The four-arm RAG and three-condition policy experiments below are no longer
+chapter requirements. Brian writes all dissertation text. This dated document
+is retained to show the design's development.
 
 ## Research question
 
@@ -51,10 +53,12 @@ Two experiments answer different questions and must not be collapsed into one
 arm ladder.
 
 The **evidence-access ablation** uses A0--A3 from `system-arms.json`: the same
-fixed generator receives no study evidence, retrieved documents, documents
+fixed generator receives no study evidence, curated source cards, source cards
 plus checked tools, or those components plus the curated basin graph. This
-isolates what explicit evidence access and basin structure add to the 30-case
-source-grounded benchmark.
+tests the incremental effect of each evidence route on the 30-case
+source-grounded benchmark. The general-LLM arm is a diagnostic reference;
+the main evidence-access comparisons are A1--A3. The current source cards are
+researcher-written summaries of held material, not raw-document retrieval.
 
 The **historical-representation comparison** uses R0--R4 from
 `representation-arms.json`:
@@ -66,10 +70,12 @@ The **historical-representation comparison** uses R0--R4 from
 | R2 | Frozen TTM-R2 representation of the identical discharge history | Isolated test of temporal pretraining |
 | R3 | Prior-year AlphaEarth context on the common 2018+ subset | Bounded test of learned catchment context |
 
-The causal representation contrast is R1 versus R2 because those arms receive
-identical inputs. R0 is a practical hydrological benchmark with additional
-rainfall information, so a difference involving R0 cannot be attributed only
-to pretraining. R3 compares the same event representation with and without
+The cleanest representation contrast is R1 versus R2 because those arms receive
+identical inputs. It tests the incremental value of the frozen TTM
+representation relative to raw-sequence similarity; it does not isolate the
+effect of pretraining from every other difference in representation and
+distance. R0 is a practical hydrological benchmark with additional rainfall
+information. R3 compares the same event representation with and without
 learned catchment context and includes catchment area as a simple held-data
 control. Its effective support is catchment/catchment-year, not the number of
 event rows. A fused R0+R2 arm is conditional on different, individually useful
@@ -81,8 +87,12 @@ fixed across evidence-access arms.
 ### Source-grounded assessment
 
 The existing 30-case question bank tests station identity, applicable rules,
-measurement provenance and justified abstention. It remains useful, but is no
-longer the entire scientific contribution.
+measurement provenance and justified abstention. It is a focused
+evidence-handling benchmark, not yet a test of complete high-water situation
+assessments. Before claiming that historical analogues improve AI assessments,
+add a small, source-checked set of event-level tasks drawn from the held event
+library. Keep those tasks separate from the original 30 factual cases and
+review their gold answers before generation.
 
 ### Historical analogue retrieval
 
@@ -99,6 +109,9 @@ Ask the system to characterize the event from the remaining Dutch and German
 evidence. Score the recovered high-water state, provenance, river identity,
 uncertainty and decision to abstain. Artificial masks must be labelled as such;
 they do not turn the retrospective experiment into a live forecast evaluation.
+The hidden fact must be removed from every accessible source card, tool result,
+graph annotation and event packet for that case, not only from the displayed
+time series.
 
 ## Policy experiment
 
@@ -119,6 +132,12 @@ remaining failures and justified abstentions identify candidate fields that
 agencies would need to preserve or exchange. The potential policy product is a
 minimum cross-border evidence standard for AI-supported assessment, derived
 from observed system errors rather than asserted in advance.
+
+These are constructed evidence conditions, not historical agency states. Hold
+questions, underlying facts and the generator fixed across conditions; document
+exactly which identifiers or provenance fields were made available. A condition
+with less information must not be scored against facts it could not establish
+without treating justified abstention as a correct response.
 
 ## Operationalization recommendation to retain
 
@@ -179,6 +198,12 @@ hours per event. The earlier 174,484-row statement described the retired
 168-hour library. German records have not yet been converted into equivalent
 event objects; cross-border evaluation remains a required later step, not an
 implicit property of the Dutch library.
+
+The p99 event definition and p99 normalization were calculated retrospectively
+from each full rating era. They are fixed archive labels for this study, not
+thresholds that were known at each historical onset. Event-history features
+exclude observations after onset, but this design does not constitute a
+prospective forecast backtest.
 
 ## Locked literature basis
 

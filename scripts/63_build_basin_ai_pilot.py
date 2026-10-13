@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Build source-grounded prompt packets for the Limburg basin-AI pilot.
+"""Build source-grounded prompt packets for the optional historical AI pilot.
 
 This script does not call a language model and does not score generated
-answers. It validates the corpus, benchmark, graph and deterministic tools;
-then it builds identical question packets for the four evidence-access arms.
-The first pilot therefore tests whether the evidence can be retrieved and
-computed before model behavior is introduced.
+answers. It validates the source cards, benchmark, graph and deterministic
+tools; then it builds question packets for the four evidence-access arms.
+Tool calls and arguments are supplied by the benchmark case. This controlled
+pilot tests evidence availability, not whether an agent can select tools.
+The four-arm RAG comparison is not part of the active Limburg chapter.
 """
 
 from __future__ import annotations
@@ -305,6 +306,7 @@ def build(top_k: int = 3) -> dict:
                     "question": case["question"],
                     "documents": retrieved if arm["document_access"] else [],
                     "tool_results": tool_results if arm["checked_tools"] else [],
+                    "tool_routing": "benchmark_specified" if arm["checked_tools"] else "none",
                     "basin_graph": basin if arm["basin_graph"] else {},
                     "output_contract": {
                         "assessment": "string",
@@ -331,6 +333,8 @@ def build(top_k: int = 3) -> dict:
         "arm_count": len(arms),
         "prompt_packet_count": len(packets),
         "top_k": top_k,
+        "retrieval_material": "researcher-written source-linked cards",
+        "tool_routing": "benchmark-specified calls and arguments; autonomous tool selection untested",
         "any_gold_retrieval_rate": float(retrieval.gold_hit.mean()),
         "all_gold_retrieval_rate": float(retrieval.all_gold_retrieved.mean()),
         "next_human_step": "Review reference answers and applicable scoring dimensions before any model run.",
