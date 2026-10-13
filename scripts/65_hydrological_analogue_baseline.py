@@ -2,8 +2,9 @@
 """Build and evaluate an interpretable historical-event analogue baseline.
 
 Only observations at or before each onset form retrieval features. Candidate
-analogues must precede the query and belong to another storm. Post-onset values
-are labels used to test whether retrieved events had similar subsequent shapes.
+analogues must come from distinct prior storms and have a complete outcome
+before the query. Post-onset values are labels used to test whether retrieved
+events had similar subsequent shapes.
 This is a representation baseline, not an operational forecast.
 """
 
@@ -130,10 +131,16 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
 
 
 def retrieve_prior_analogues(
-    signatures: pd.DataFrame, top_k: int = 5, min_candidates: int = 20
+    signatures: pd.DataFrame,
+    top_k: int = 5,
+    min_candidates: int = 20,
+    exclude_measurement_concerns: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    eligible = signatures.complete_scoring_sample.copy()
+    if exclude_measurement_concerns:
+        eligible &= ~signatures.measurement_concern
     complete = (
-        signatures[signatures.complete_scoring_sample]
+        signatures.loc[eligible]
         .dropna(subset=FEATURE_COLUMNS + ["outcome_peak_over_p99_72h"])
         .copy()
     )
@@ -142,10 +149,12 @@ def retrieve_prior_analogues(
     for query in complete.itertuples(index=False):
         candidates = complete[
             complete.onset_utc.lt(query.onset_utc)
+            & complete.onset_utc.add(pd.Timedelta(hours=72)).le(query.onset_utc)
             & complete.storm_id.ne(query.storm_id)
             & complete.event_id.ne(query.event_id)
         ].copy()
-        if len(candidates) < min_candidates:
+        candidate_storm_count = candidates.storm_id.nunique()
+        if len(candidates) < min_candidates or candidate_storm_count < top_k:
             continue
 
         center = candidates[FEATURE_COLUMNS].median()
@@ -160,7 +169,12 @@ def retrieve_prior_analogues(
                 ** 2
             ).sum(axis=1)
         )
-        selected = candidates.assign(distance=distances).nsmallest(top_k, "distance")
+        selected = (
+            candidates.assign(distance=distances)
+            .sort_values(["distance", "onset_utc", "event_id"])
+            .drop_duplicates("storm_id")
+            .head(top_k)
+        )
         if len(selected) < top_k:
             continue
         baseline = float(candidates.outcome_peak_over_p99_72h.median())
@@ -173,6 +187,7 @@ def retrieve_prior_analogues(
                 "query_watercourse": query.watercourse,
                 "query_onset_utc": query.onset_utc,
                 "candidate_count": len(candidates),
+                "candidate_storm_count": candidate_storm_count,
                 "observed_peak_over_p99_72h": observed,
                 "analogue_prediction": analogue,
                 "expanding_median_prediction": baseline,
@@ -218,18 +233,33 @@ def main() -> None:
     predictions, neighbors = retrieve_prior_analogues(
         signatures, top_k=args.top_k, min_candidates=args.min_candidates
     )
+    quality_predictions, quality_neighbors = retrieve_prior_analogues(
+        signatures,
+        top_k=args.top_k,
+        min_candidates=args.min_candidates,
+        exclude_measurement_concerns=True,
+    )
+    paired_quality = quality_predictions.merge(
+        predictions[["query_event_id", "analogue_absolute_error", "median_absolute_error"]],
+        on="query_event_id",
+        suffixes=("_quality", "_main"),
+        validate="one_to_one",
+    )
     args.output_dir.mkdir(parents=True, exist_ok=True)
     signatures.to_csv(args.output_dir / "event_signatures.csv", index=False)
     predictions.to_csv(args.output_dir / "analogue_predictions.csv", index=False)
     neighbors.to_csv(args.output_dir / "analogue_neighbors.csv", index=False)
+    quality_predictions.to_csv(args.output_dir / "quality_sensitivity_predictions.csv", index=False)
+    quality_neighbors.to_csv(args.output_dir / "quality_sensitivity_neighbors.csv", index=False)
 
     summary = {
         "status": "interpretable analogue baseline complete; no foundation model used",
         "feature_columns": FEATURE_COLUMNS,
         "feature_time_boundary": "relative_hour <= 0 only",
-        "candidate_boundary": "strictly earlier onset and different storm",
+        "candidate_boundary": "complete 72-hour outcome by query onset; different storm; one selected event per storm",
+        "minimum_candidate_events": args.min_candidates,
+        "minimum_distinct_storms": args.top_k,
         "top_k": args.top_k,
-        "minimum_candidates": args.min_candidates,
         "event_count": int(len(signatures)),
         "common_representation_sample_count": int(signatures.common_representation_sample.sum()),
         "complete_scoring_sample_count": int(signatures.complete_scoring_sample.sum()),
@@ -246,6 +276,26 @@ def main() -> None:
         "expanding_median_peak_ratio_mae": (
             float(predictions.median_absolute_error.mean()) if len(predictions) else None
         ),
+        "quality_sensitivity": {
+            "rule": "exclude events with existing measurement_concern flag as queries and candidates",
+            "evaluated_query_count": int(len(quality_predictions)),
+            "paired_query_count": int(len(paired_quality)),
+            "analogue_peak_ratio_mae": (
+                float(quality_predictions.analogue_absolute_error.mean())
+                if len(quality_predictions)
+                else None
+            ),
+            "paired_quality_analogue_mae": (
+                float(paired_quality.analogue_absolute_error_quality.mean())
+                if len(paired_quality)
+                else None
+            ),
+            "paired_main_analogue_mae": (
+                float(paired_quality.analogue_absolute_error_main.mean())
+                if len(paired_quality)
+                else None
+            ),
+        },
         "interpretation": "A feasibility baseline for later representation comparisons; not forecast skill or operational validation.",
     }
     (args.output_dir / "summary.json").write_text(

@@ -60,10 +60,62 @@ def test_retrieval_uses_only_prior_events_from_other_storms():
     assert len(predictions) > 0
     assert len(neighbors) == 3 * len(predictions)
     assert neighbors.analogue_onset_utc.lt(neighbors.query_onset_utc).all()
+    assert (
+        neighbors.analogue_onset_utc.add(pd.Timedelta(hours=72)).le(neighbors.query_onset_utc).all()
+    )
     assert neighbors.analogue_storm_id.ne(neighbors.query_storm_id).all()
+    assert neighbors.groupby("query_event_id").analogue_storm_id.nunique().eq(3).all()
+    assert predictions.candidate_count.ge(10).all()
+    assert predictions.candidate_storm_count.ge(3).all()
     common_ids = set(signatures.loc[signatures.common_representation_sample, "event_id"])
     scoring_ids = set(signatures.loc[signatures.complete_scoring_sample, "event_id"])
     assert set(predictions.query_event_id).issubset(common_ids)
     assert set(neighbors.analogue_event_id).issubset(common_ids)
     assert set(predictions.query_event_id).issubset(scoring_ids)
     assert set(neighbors.analogue_event_id).issubset(scoring_ids)
+
+
+def test_measurement_concern_sensitivity_excludes_flagged_queries_and_donors():
+    event_index = pd.read_csv(
+        ROOT / "results/basin_ai_event_library/event_index.csv",
+        parse_dates=["onset_utc"],
+    )
+    windows = pd.read_parquet(ROOT / "results/basin_ai_event_library/event_windows.parquet")
+    signatures = MODULE.build_signatures(event_index, windows)
+    flagged_ids = set(signatures.loc[signatures.measurement_concern, "event_id"])
+    predictions, neighbors = MODULE.retrieve_prior_analogues(
+        signatures, top_k=3, min_candidates=10, exclude_measurement_concerns=True
+    )
+    assert predictions.query_event_id.isin(flagged_ids).sum() == 0
+    assert neighbors.analogue_event_id.isin(flagged_ids).sum() == 0
+
+
+def test_prior_storm_selection_waits_for_known_outcomes_and_deduplicates_storms():
+    rows = []
+    for event_id, storm, onset, value in (
+        ("a", "s1", "2020-01-01T00:00:00Z", 1.0),
+        ("b", "s1", "2020-01-01T01:00:00Z", 1.01),
+        ("c", "s2", "2020-01-02T00:00:00Z", 2.0),
+        ("d", "s3", "2020-01-04T00:00:00Z", 1.01),
+        ("query", "s4", "2020-01-06T00:00:00Z", 1.01),
+    ):
+        rows.append(
+            {
+                "event_id": event_id,
+                "storm_id": storm,
+                "watercourse": "test_river",
+                "onset_utc": pd.Timestamp(onset),
+                "complete_scoring_sample": True,
+                "measurement_concern": False,
+                "outcome_peak_over_p99_72h": value,
+                **dict.fromkeys(MODULE.FEATURE_COLUMNS, value),
+            }
+        )
+    predictions, neighbors = MODULE.retrieve_prior_analogues(
+        pd.DataFrame(rows), top_k=2, min_candidates=2
+    )
+    selected = neighbors.loc[neighbors.query_event_id.eq("query")]
+    assert len(selected) == 2
+    assert set(selected.analogue_event_id) == {"b", "c"}
+    assert selected.analogue_storm_id.nunique() == 2
+    assert "query" in set(predictions.query_event_id)

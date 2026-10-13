@@ -33,7 +33,7 @@ provenance. They do not make the archived case-crossover model active.
 | --- | --- | --- |
 | `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | R4 conditional |
 | `scripts/64_build_basin_ai_event_library.py` | 512-hour histories and 72 withheld hours | complete |
-| `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval | complete |
+| `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval; one selected event per prior storm | complete; tied historical median |
 | `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |
 | `scripts/67_export_alphaearth_embeddings.py` | Earth Engine catchment-year export | delivered |
 

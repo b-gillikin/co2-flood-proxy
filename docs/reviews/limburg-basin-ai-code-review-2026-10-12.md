@@ -2,6 +2,10 @@
 
 **Review date:** 2026-10-12
 
+**Scope update, 2026-10-13:** The evidence-access and generator tasks in this
+dated review are historical. The active chapter is the analogue representation
+comparison in `../limburg-historical-analogue-active-design-2026-10-13.md`.
+
 ## Findings corrected
 
 1. **The repository advertised the wrong chapter.** Root, handoff, inventory

@@ -28,8 +28,15 @@ work is retrospective, with no forecast-skill or operator-benefit claim.
 - The event-review source contains 724 Dutch onsets. With a fixed 512-hour
   history, 570 events have complete discharge, rainfall and weather; 558 also
   have a complete 72-hour withheld discharge response.
-- The conventional top-five analogue mean did not beat an expanding
-  historical median. This is a baseline result, not a reason to add models.
+- After selecting at most one event per prior storm, the conventional top-five
+  analogue mean and expanding historical median are effectively tied on 534
+  evaluated queries (peak-ratio MAE 0.6423 versus 0.6424). This is a baseline
+  result, not evidence that analogue retrieval already adds value.
+- The existing measurement-concern flags affect 37 of those queries and 189
+  of the 2,670 originally selected donor slots. A sensitivity that removes
+  flagged queries and donors retains 497 paired queries; analogue MAE changes
+  from 0.5816 on those queries in the main run to 0.5555. This is a
+  measurement-decision sensitivity, not proof that the concerns are errors.
 - TTM-R2 assets and documents are downloaded and verified. The AlphaEarth
   catchment-year export is validated: 72 rows, nine catchments, eight years
   and 64 embedding dimensions.
@@ -52,10 +59,16 @@ work is retrospective, with no forecast-skill or operator-benefit claim.
    failures, and derive only the cross-border evidence recommendations that
    those cases support.
 
+R1--R3 must use the same query frame and donor eligibility as R0. Repeat the
+existing measurement-concern sensitivity for paired representation results;
+do not choose an arm or exclusion rule from the direction of its result.
+
 The rating-era p99 event definition and normalization are retrospective. The
 raw-versus-TTM result tests the frozen representation against raw similarity,
 not the causal effect of pretraining. AlphaEarth uses its smaller common
 subset and has catchment/catchment-year support, not event-row independence.
+Every arm must use the same prior-storm eligibility rule and select no more
+than one event from a given storm among its top five analogues.
 
 The 2026-10-11 RAG-centered design and earlier audit remain dated historical
 records. Do not add a new model, fine-tuning programme, forecast target,

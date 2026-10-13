@@ -25,10 +25,11 @@ active chapter design.
 | `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
 | `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
 | `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
-| `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | targeted literature update and bounded improvements |
+| `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | historical RAG literature update; no active tasks |
 | `docs/limburg-analogue-literature-bridge-2026-10-13.md` | direct event-similarity and cross-border literature for current scope |
 | `docs/reviews/limburg-scientific-readiness-audit-2026-10-13.md` | dated scientific audit; RAG requirements superseded |
 | `docs/reviews/limburg-second-pass-2026-10-13.md` | dated audit that exposed the extra RAG scope |
+| `docs/reviews/limburg-analogue-alignment-audit-2026-10-13.md` | current code, literature and documentation alignment audit |
 | `docs/analysis-inventory.md` | live code, inputs and completed supporting work |
 | `docs/data-requests.md` | provider deliveries and remaining source questions |
 | `docs/decisions.md` | dated design history; earlier entries remain historical |

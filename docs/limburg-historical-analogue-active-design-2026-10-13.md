@@ -39,14 +39,21 @@ support is limited by catchments and years, not by the count of event rows.
 R4 fusion remains optional only if R0 and R2 have useful, distinct behavior;
 it is not necessary to complete the chapter.
 
-For each query event, eligible analogues precede the query and belong to a
-different regional storm. Hold the eligible queries and candidate pool fixed
-across paired comparisons. Score retrieved events against the withheld
+For each query event, eligible analogues come from earlier regional storms
+whose 72-hour responses have finished by the query cutoff. Select at most one
+event per prior storm so one multi-gauge storm cannot fill the top-k list.
+Hold the eligible queries and candidate pool fixed across paired comparisons.
+Score retrieved events against the withheld
 72-hour response and human-reviewed hydrological relevance. Report sample
 counts, watercourse-specific results, paired storm-clustered uncertainty and
-leave-one-watercourse-out behavior. The existing conventional top-five
-analogue mean underperformed an expanding historical median; that remains an
-honest baseline rather than a reason to search for new models after results.
+leave-one-watercourse-out behavior. On the corrected distinct-storm selection,
+the conventional top-five analogue mean and expanding historical median are
+effectively tied (peak-ratio MAE 0.6423 versus 0.6424 on 534 queries). That is
+an honest baseline rather than a reason to search for new models after results.
+Retain the existing measurement-concern flags in the main run and repeat the
+paired comparison without flagged queries or donor events as a sensitivity.
+An uncertain peak need not erase a known onset, but it may weaken a
+response-based score.
 
 The full-rating-era p99 event labels and normalization are retrospective.
 They must not be described as values known at each historical onset. No

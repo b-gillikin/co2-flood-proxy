@@ -3,6 +3,16 @@
 **Status:** internal analysis note, 2026-10-11. These are pipeline diagnostics,
 not dissertation results or operational forecast claims.
 
+**Update, 2026-10-13:** The initial baseline numbers below used up to five
+events, which could include several gauges from the same regional storm. The
+current baseline selects at most one event per prior storm and requires its
+72-hour outcome to end by the query onset. On the same 534 queries, the
+top-five analogue peak-ratio MAE is **0.6423** and the expanding historical
+median MAE is **0.6424**: effectively a tie. The original figures below are
+retained as dated diagnostics, not the active result. The masked-observation
+and generative steps in the old sequence below were retired with the RAG
+experiment. See `limburg-historical-analogue-active-design-2026-10-13.md`.
+
 ## Event library
 
 `scripts/64_build_basin_ai_event_library.py` transforms the reviewed Dutch

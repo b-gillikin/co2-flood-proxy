@@ -1,8 +1,10 @@
 # Limburg basin-aware AI literature refresh
 
-**Status:** targeted update, 2026-10-12. This pass tests and tightens the active
-design. It is not a systematic review and does not create new model or data
-requirements.
+**Status:** historical targeted update, 2026-10-12. This pass tightened the
+then-active four-arm RAG design; its generator and RAG evaluation tasks were
+retired on 2026-10-13. It is not a systematic review and does not create new
+model or data requirements for the current analogue chapter. See
+`limburg-analogue-literature-bridge-2026-10-13.md`.
 
 ## Question used for the pass
 
