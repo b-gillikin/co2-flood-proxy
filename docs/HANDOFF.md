@@ -1,6 +1,6 @@
 # Session handoff
 
-Updated 2026-10-13 after tightening the event-level preparation.
+Updated 2026-10-13 after the expanded event-level evidence pass.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
@@ -9,6 +9,7 @@ Latest checks: `limburg-representation-strengthening-2026-10-13.md`.
 Latest application/results: `limburg-cross-river-checks-2026-10-13.md`.
 Consistency/next-pass definitions: `limburg-consistency-audit-2026-10-13.md`.
 Current preparation: `limburg-event-interpretation-readiness-2026-10-13.md`.
+Latest execution: `limburg-expanded-event-pass-2026-10-13.md`.
 
 ## Active question
 
@@ -113,7 +114,7 @@ own history. R0 is itself an analogue method, not a history-only reference.
 The audit inventory identifies 58 extra usable Q histories, 56 with complete
 responses, outside the shared rain/Q cohort. Script 80 has now extracted their
 frozen mean/ordered vectors. The broader Q-only inputs total 964 histories
-and 851 scorable responses; expanded retrieval remains pending. Keep the matched
+and 851 scorable responses; expanded retrieval is now executed by script 81. Keep the matched
 rain/Q comparison separate. No additional data request or training needed. Metrics describe
 72h response segments; donor timing is not a predicted peak-time error.
 
@@ -182,3 +183,27 @@ Keep the existing retrievals and report all diagnostics, rather than choosing
 a favorable metric or tuning weights after the census.
 The rating-era p99 labels/scaling remain retrospective; neither these scores
 nor a relevant analogue establish live warning skill or operator benefit.
+
+## Expanded event-level execution
+
+Script 81 scores 845 pooled / 610 Dutch Q-only queries with available earlier
+completed groups; six pooled/four Dutch scorable queries have no eligible
+archive and remain explicit. Short archives use available groups rather than
+become a blanket exclusion. 33,888 score sets / 166,410 selected slots and
+416 paired interval rows are independently verified. Full tests: 126 pass.
+
+Five-donor pooled all-river TTM + state shape improves about 2.2% versus raw
++ state; cross-river about 1.5%. All-river final-24h level error also improves
+modestly, with favorable group/year/quality checks. Peak and duration do not
+show a reliable TTM advantage. Dutch cross-river shape is less certain in the
+broader census than the narrower comparison. Ten-donor peak averaging improves
+both learned and raw arms; no universal AI winner. Current cutoff discharge
+remains a strong magnitude reference; flat persistence is weak for recession.
+
+All-event browser and twelve explicitly outcome-selected benefit/failure
+illustrations distinguish complete cutoff histories from observed verification
+responses. Four illustrations received AI-assisted visual inspection; no human
+verdicts have been entered. Existing rain/Q and AlphaEarth populations/results
+remain preserved and separately labeled. Read `limburg-expanded-event-pass-2026-10-13.md`
+for exact results, limitations and next interpretation work. Raw records stay
+local; no additional model/data request or dissertation prose.

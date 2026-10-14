@@ -182,6 +182,7 @@ def retrieve_prior_analogues(
     robust_distance_blocks: tuple[str, ...] = (),
     exclude_same_river: bool = False,
     min_candidate_storms: int | None = None,
+    allow_short_archive: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     if exclude_same_river and (
         "physical_river_group" not in signatures or signatures.physical_river_group.isna().any()
@@ -238,9 +239,12 @@ def retrieve_prior_analogues(
                 candidates.physical_river_group.ne(query.physical_river_group)
             ].copy()
         candidate_storm_count = candidates.storm_id.nunique()
-        if len(candidates) < min_candidates or candidate_storm_count < max(
-            top_k, min_candidate_storms or top_k
-        ):
+        required_groups = (
+            max(1, min_candidate_storms or 1)
+            if allow_short_archive
+            else max(top_k, min_candidate_storms or top_k)
+        )
+        if len(candidates) < min_candidates or candidate_storm_count < required_groups:
             continue
 
         details = pd.DataFrame(index=candidates.index)
@@ -279,7 +283,7 @@ def retrieve_prior_analogues(
             .drop_duplicates("storm_id")
             .head(top_k)
         )
-        if len(selected) < top_k:
+        if len(selected) < top_k and not allow_short_archive:
             continue
         baseline = float(candidates.outcome_peak_over_p99_72h.median())
         analogue = float(selected.outcome_peak_over_p99_72h.mean())

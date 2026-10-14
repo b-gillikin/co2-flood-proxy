@@ -2574,3 +2574,18 @@ and response-phase descriptors remain explicit. No new calibrated uncertainty
 or jurisdiction-effect claim. Review fields are blank and preserve edits.
 See `limburg-event-interpretation-readiness-2026-10-13.md`; no new data request,
 training, RAG experiment, dissertation prose or human verdict was introduced.
+
+# 2026-10-13 — Expanded event-level analogue execution
+
+Brian authorized proceeding after tightening. Run the prepared 851-response
+Q-only census with unchanged raw/state and frozen ordered-TTM/state methods,
+using at most five/ten distinct prior groups and keeping short/unavailable
+archives visible. No new model, training, requests, ranking by query outcomes,
+RAG task or human verdict. Preserve original conventional/context comparisons.
+
+Report the modest shape and all-river late-level increments alongside uncertain
+peak/duration benefits and the weaker expanded Dutch cross-river result. Flat
+persistence is a minimal own-history reference, not the strongest possible
+history-only method. Census numerical evidence and outcome-selected illustrations
+stay distinct from human relevance validation. See
+`limburg-expanded-event-pass-2026-10-13.md`. Brian writes dissertation prose.

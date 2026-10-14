@@ -171,3 +171,12 @@ entering retrieval. Blank, editable review fields separate the history-only
 assessment, donor information added, observed verification and uncertainty.
 The extra vectors are ready; broader retrieval and those verdicts remain
 pending. See `limburg-event-interpretation-readiness-2026-10-13.md`.
+
+## Subsequent execution
+
+The preparation described above is followed by the completed expanded event
+pass in `limburg-expanded-event-pass-2026-10-13.md`. Earlier pending statements
+record the preparation stage. Script 81 uses available short archives and
+keeps unavailable queries explicit; no original comparison or human review
+field is replaced. Quantitative verification is complete; human relevance
+judgments remain unfilled.

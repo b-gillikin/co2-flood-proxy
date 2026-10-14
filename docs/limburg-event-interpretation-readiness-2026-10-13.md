@@ -123,3 +123,12 @@ A test-copy review note survives rerunning preparation; real review fields
 remain blank. Every scorable response has a positive maximum, so the existing
 peak-scaled shape definition is available for the expanded pass. Repository
 lint, changed-Python formatting and whitespace checks pass.
+
+## Subsequent execution
+
+The preparation described above is followed by the completed expanded event
+pass in `limburg-expanded-event-pass-2026-10-13.md`. Earlier pending statements
+record the preparation stage. Script 81 uses available short archives and
+keeps unavailable queries explicit; no original comparison or human review
+field is replaced. Quantitative verification is complete; human relevance
+judgments remain unfilled.

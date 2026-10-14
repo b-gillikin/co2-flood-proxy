@@ -48,7 +48,8 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/77_plot_representation_checks.py` | main and quality comparison figures from tidy summaries | complete |
 | `scripts/78_cross_river_analogue_checks.py` | cross-physical-river donors, fixed 3/5/10 neighborhoods, disagreement census, donor-spread checks and matched conventional/TTM fusion | user-authorized exploratory extension; separate outputs |
 | `scripts/79_audit_analogue_consistency.py` | independent input/window, representation, identity, candidate-pool and metric audit | consistency checks pass; no new empirical model |
-| `scripts/80_prepare_event_interpretation.py` | full Q-only inventory/vectors, persistence and group-balanced references, archive availability and editable review fields | prepared; 964 inputs / 851 scorable responses; expanded retrieval and interpretation pending |
+| `scripts/80_prepare_event_interpretation.py` | full Q-only inventory/vectors, persistence and group-balanced references, archive availability and editable review fields | prepared; 964 inputs / 851 scorable responses; expanded execution follows in script 81 |
+| `scripts/81_run_expanded_event_analogues.py` | expanded Q-only retrieval, available short archives, phase evidence and own-history references | executed; see `limburg-expanded-event-pass-2026-10-13.md`; existing rain/Q and AlphaEarth comparisons preserved |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in

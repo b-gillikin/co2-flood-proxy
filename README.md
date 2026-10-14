@@ -69,6 +69,7 @@ python scripts/77_plot_representation_checks.py
 python scripts/78_cross_river_analogue_checks.py
 python scripts/79_audit_analogue_consistency.py
 python scripts/80_prepare_event_interpretation.py
+python scripts/81_run_expanded_event_analogues.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -87,7 +88,9 @@ The pre-interpretation audit is in
 windows, representations, identities, candidate pools and response metrics.
 `docs/limburg-event-interpretation-readiness-2026-10-13.md` documents the
 broader Q-only inputs, explicit reference measures and blank event-review
-packet. Preparing those inputs does not rerun expanded analogue retrieval.
+packet. Script 81 runs the expanded Q-only census and writes a local event
+browser, phase evidence, paired intervals and explicit unavailable-archive rows.
+See `docs/limburg-expanded-event-pass-2026-10-13.md` for the resulting evidence.
 
 ## Verify
 
