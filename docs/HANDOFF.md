@@ -1,6 +1,6 @@
 # Session handoff
 
-Updated 2026-10-13 after the independent pre-interpretation consistency audit.
+Updated 2026-10-13 after tightening the event-level preparation.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
@@ -8,6 +8,7 @@ Census: `limburg-analogue-census-2026-10-13.md`.
 Latest checks: `limburg-representation-strengthening-2026-10-13.md`.
 Latest application/results: `limburg-cross-river-checks-2026-10-13.md`.
 Consistency/next-pass definitions: `limburg-consistency-audit-2026-10-13.md`.
+Current preparation: `limburg-event-interpretation-readiness-2026-10-13.md`.
 
 ## Active question
 
@@ -110,10 +111,20 @@ are unchanged because all held Dutch weather windows are complete.
 Before the event-level pass, distinguish what analogues add beyond the query's
 own history. R0 is itself an analogue method, not a history-only reference.
 The audit inventory identifies 58 extra usable Q histories, 56 with complete
-responses, outside the shared rain/Q cohort. Their frozen vectors still need
-extraction for a broader Q-only census; keep the matched rain/Q comparison
-separate. No additional data request or training needed. Metrics describe
+responses, outside the shared rain/Q cohort. Script 80 has now extracted their
+frozen mean/ordered vectors. The broader Q-only inputs total 964 histories
+and 851 scorable responses; expanded retrieval remains pending. Keep the matched
+rain/Q comparison separate. No additional data request or training needed. Metrics describe
 72h response segments; donor timing is not a predicted peak-time error.
+
+The preparation now gives every old scored set explicit cutoff-persistence
+and group-balanced median references. Persistence is a strong magnitude
+reference and a weak full-curve reference; no timing estimate is invented for
+its flat curve. All scorable events appear in archive-availability tables,
+including no/short archives. Review fields remain blank and editable. All
+original vectors, state blocks, scores and result hashes are preserved;
+twelve new scientific files reproduce exactly. This is preparation, not a
+completed event-understanding analysis or an independent human validation.
 
 Script 78 has executed the authorized cross-physical-river donor scenario,
 complete disagreement census, fixed k=3/5/10 comparison, spread/error audit,

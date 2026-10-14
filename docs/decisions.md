@@ -2555,3 +2555,22 @@ original results and distinguish 72h response segments, individual donor
 metrics, onset-linkage groups and event-weighted medians from stronger claims.
 See `limburg-consistency-audit-2026-10-13.md`. No new model/data requirement,
 interview task or dissertation prose.
+
+# 2026-10-13 — Tightened event-level preparation
+
+Brian authorized implementation of the audit recommendations. Script 80
+prepares a full held-event inventory and broader Q-only inputs using the
+same frozen TTM, extracting 58 additional histories while preserving every
+original vector/state block. There are 851 scorable responses, including
+56 additional Dutch episodes. Expanded retrieval has not yet been run.
+
+Add cutoff persistence as an explicit own-history reference (no uniquely
+estimated peak time), retain the event-weighted median, and add an equal-
+onset-group-mass median. Do not select a reference by favorable outcomes.
+All original scored sets match their prior candidate counts/groups/medians.
+Short and unavailable archives remain in the availability inventory; comparison
+cutoffs are not interpretation gates. Source concerns, physical-river identity
+and response-phase descriptors remain explicit. No new calibrated uncertainty
+or jurisdiction-effect claim. Review fields are blank and preserve edits.
+See `limburg-event-interpretation-readiness-2026-10-13.md`; no new data request,
+training, RAG experiment, dissertation prose or human verdict was introduced.

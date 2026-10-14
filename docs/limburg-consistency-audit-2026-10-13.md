@@ -121,3 +121,13 @@ the final replay-metadata adjustment. Repository lint, changed-Python formatting
 and whitespace checks pass. No additional data or event-level experiment was
 run. Additional Q-only episodes and shorter archives remain explicitly pending
 interpretation rather than silently labeled analyzed.
+
+## Subsequent tightening
+
+Brian authorized implementation of these preparation changes. Script 80 now
+extracts the 58 extra frozen histories, prepares all 851 scorable Q-only
+responses, adds explicit persistence and group-balanced references, records
+short/unavailable archives and preserves editable blank review fields.
+Expanded analogue retrieval and event interpretation have not been run. See
+`limburg-event-interpretation-readiness-2026-10-13.md`; the audit observations
+above remain the dated basis for this work.

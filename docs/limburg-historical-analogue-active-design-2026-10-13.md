@@ -153,3 +153,21 @@ holds k comparisons on the same queries; it does not replace the original
 five-storm run or create a new chapter-wide gate. All archives, k values,
 quality sensitivities and mixed results remain reported. See
 `limburg-cross-river-checks-2026-10-13.md`; no additional data or training.
+
+## Tightened preparation for event-level interpretation
+
+Script 80 prepares the full held-event inventory, 964 Q-only input histories
+and 851 complete admissible responses, including 58 additional frozen inputs
+and 56 additional complete responses. Original matched rain/Q and AlphaEarth
+comparisons remain separate and unchanged. Short/no donor archives remain
+visible rather than being excluded from interpretation by a comparison cutoff.
+
+The own-history reference is cutoff persistence with undefined peak timing;
+the added historical reference is an equal-group-mass median with a midpoint
+half-mass rule. Both are joined to every original scored query set. They are
+explicit reference checks, not new trained models or proof of added event
+understanding. Response-phase fields verify what followed cutoff, without
+entering retrieval. Blank, editable review fields separate the history-only
+assessment, donor information added, observed verification and uncertainty.
+The extra vectors are ready; broader retrieval and those verdicts remain
+pending. See `limburg-event-interpretation-readiness-2026-10-13.md`.

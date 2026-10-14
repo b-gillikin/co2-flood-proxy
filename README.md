@@ -68,6 +68,7 @@ python scripts/75_strengthen_foundation_representations.py
 python scripts/77_plot_representation_checks.py
 python scripts/78_cross_river_analogue_checks.py
 python scripts/79_audit_analogue_consistency.py
+python scripts/80_prepare_event_interpretation.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -84,6 +85,9 @@ conventional/TTM fusion. See
 The pre-interpretation audit is in
 `docs/limburg-consistency-audit-2026-10-13.md`; it independently checks event
 windows, representations, identities, candidate pools and response metrics.
+`docs/limburg-event-interpretation-readiness-2026-10-13.md` documents the
+broader Q-only inputs, explicit reference measures and blank event-review
+packet. Preparing those inputs does not rerun expanded analogue retrieval.
 
 ## Verify
 
