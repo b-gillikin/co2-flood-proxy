@@ -180,3 +180,14 @@ record the preparation stage. Script 81 uses available short archives and
 keeps unavailable queries explicit; no original comparison or human review
 field is replaced. Quantitative verification is complete; human relevance
 judgments remain unfilled.
+
+## Subsequent detailed geographic-context review — 2026-10-14
+
+AlphaEarth remains an explicit landscape-context arm. Its controlled donor
+changes and actual event cases are evaluated in
+`limburg-alphaearth-detailed-review-2026-10-14.md`, including geographic blocks
+with the existing strengthened temporal/state readout. The original paired
+mean-readout comparison remains preserved. Annual/static, area/identity and
+five/ten/quality sensitivities distinguish routing and donor timing from
+claims of overall predictive superiority or causal landscape change. No model
+training, new data requirement or chapter gate; Brian writes all prose.

@@ -71,6 +71,7 @@ python scripts/79_audit_analogue_consistency.py
 python scripts/80_prepare_event_interpretation.py
 python scripts/81_run_expanded_event_analogues.py
 python scripts/82_review_analogue_information.py
+python scripts/83_review_alphaearth_event_information.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -97,6 +98,10 @@ The information and policy interpretation is in
 `docs/limburg-analogue-information-review-2026-10-14.md`: generic-archive
 reference checks, actual benefit/failure cases and separately attributed AI
 notes. Independent human review fields remain untouched.
+
+AlphaEarth’s detailed matched review is in
+`docs/limburg-alphaearth-detailed-review-2026-10-14.md`: donor replacements,
+area/identity/static controls and geographic context alongside strengthened TTM.
 
 ## Verify
 

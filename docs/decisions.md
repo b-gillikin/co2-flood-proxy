@@ -2606,3 +2606,20 @@ verdict or operational-effectiveness claim. Preserve the existing editable
 human fields. Record exact case notes and policy/claim evidence in
 `limburg-analogue-information-review-2026-10-14.md` and the attributed JSON.
 Brian writes dissertation prose; the active RQ and model roster stay intact.
+
+# 2026-10-14 — Detailed matched AlphaEarth review
+
+Brian requested equal attention to geographic context. Retain AlphaEarth as an
+explicit chapter comparison. Review exact donor changes and existing
+area/identity/static controls on the same context events; add the geographic
+blocks to the already-held ordered-TTM/state representation to test residual
+context value without training or new data. Preserve original controls/results.
+
+Use available short archives and retain six no-archive events. Report original
+mean-readout gains, weaker strengthened-readout shape evidence, conditional
+cross-river donor-timing increments, and donor-count/quality sensitivity of
+annual versus fixed context. No automatic promotion/elimination, new gate,
+preregistration or warning-skill claim. Review all 26 described illustrations
+with AI assistance; no independent human labels. Context results here are six
+Dutch catchments, with held German exports inventoried for an available future
+extension. Brian writes dissertation prose. See the detailed AlphaEarth note.

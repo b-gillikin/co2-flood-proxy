@@ -1,6 +1,6 @@
 # Session handoff
 
-Updated 2026-10-14 after the analogue-information interpretation pass.
+Updated 2026-10-14 after the detailed AlphaEarth review.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
@@ -11,6 +11,7 @@ Consistency/next-pass definitions: `limburg-consistency-audit-2026-10-13.md`.
 Current preparation: `limburg-event-interpretation-readiness-2026-10-13.md`.
 Latest execution: `limburg-expanded-event-pass-2026-10-13.md`.
 Latest interpretation: `limburg-analogue-information-review-2026-10-14.md`.
+Latest spatial review: `limburg-alphaearth-detailed-review-2026-10-14.md`.
 
 ## Active question
 
@@ -236,3 +237,33 @@ Validation of the information pass: 130 tests; all 3,294 group-balanced
 reference curves independently checked; repeated scientific tables identical.
 The one-row-per-event evidence census includes all 851 scorable episodes,
 including six unavailable archives.
+
+## Detailed AlphaEarth review
+
+Script 83 explicitly reviews AlphaEarth on the existing context population:
+304 inputs, 296 responses, 290 available main queries / 271 quality queries.
+All controls share candidate pools and five/ten prefixes; short archives remain.
+Original mean-TTM controls replay; geographic blocks are also tested alongside
+the already-held ordered TTM/state readout with matched area/identity/static
+controls. No training, weight search, new checkpoint or data request.
+
+AlphaEarth changes about three of five donors and increases same-gauge routing.
+With the stronger temporal readout, no clear broad shape/peak/duration increment.
+Cross-river donor peak-time mismatch improves about 1.14h at five donors;
+group/year/quality checks support it, with differing river directions. Fixed
+2017 context supplies much of this. At ten donors an additional annual/static
+timing increment is about 0.63h in the main run, but is weaker under quality/year
+sensitivity. Keep these conditional results; no universal annual-context winner
+or forecast lead-time interpretation.
+
+All 26 selected case figures were AI-inspected (18 outcome-independent
+selections, eight outcome-selected illustrations), with separately attributed
+notes. 118,503 donor slots, 24,684 score sets and 1,120 interval rows independently
+verified; 20 old cross-river configurations and static controls replayed.
+Human fields remain untouched. Direct matched context conclusions cover six
+Dutch catchments. German catchment embeddings are held, explicitly inventoried,
+but not tested in this specific paired cohort; that extension needs no assumed
+new satellite download. See `limburg-alphaearth-detailed-review-2026-10-14.md`.
+
+AlphaEarth review validation: 133 tests pass; all current output hashes verify;
+previous scientific tables and the separate human-review fields are unchanged.

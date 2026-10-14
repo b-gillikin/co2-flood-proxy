@@ -51,6 +51,7 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/80_prepare_event_interpretation.py` | full Q-only inventory/vectors, persistence and group-balanced references, archive availability and editable review fields | prepared; 964 inputs / 851 scorable responses; expanded execution follows in script 81 |
 | `scripts/81_run_expanded_event_analogues.py` | expanded Q-only retrieval, available short archives, phase evidence and own-history references | executed; see `limburg-expanded-event-pass-2026-10-13.md`; existing rain/Q and AlphaEarth comparisons preserved |
 | `scripts/82_review_analogue_information.py` | specificity versus the group-balanced eligible archive, outcome-independent case selection and separately attributed AI interpretation | executed; 19,764 pooled score sets; 24 sentinels; see `limburg-analogue-information-review-2026-10-14.md` |
+| `scripts/83_review_alphaearth_event_information.py` | matched geographic donor changes, original/strengthened temporal families, area/identity/static/annual controls and case review | executed; 296 context responses / 290 main queries; no training or new download |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
