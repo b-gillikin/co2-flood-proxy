@@ -1,5 +1,15 @@
 # Session handoff
 
+## Current readout — 2026-10-14
+
+Start with [the evidence index](limburg-analogue-evidence-index-2026-10-14.md).
+Main results are scripts 81–83; scripts 75–78 retain useful matched benchmarks,
+ablations and sensitivity evidence. Original Steps 3–6 and the first census
+are development history, not equally current headline results. Mean pooling
+was not found invalid. Do not discard unfavorable comparisons or claim the
+later outcome-informed refinements are confirmatory. The stage-by-stage
+ledger below is retained for provenance, including dated test counts.
+
 Updated 2026-10-14 after the detailed AlphaEarth review.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.

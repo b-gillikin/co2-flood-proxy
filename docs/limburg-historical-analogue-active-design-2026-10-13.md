@@ -1,5 +1,14 @@
 # Limburg high-water analogues: active research design
 
+## Current evidence hierarchy — 2026-10-14
+
+Use the [evidence index](limburg-analogue-evidence-index-2026-10-14.md) for the
+current readout: expanded temporal census (81), information/reference review
+(82), and matched AlphaEarth review (83). Earlier execution sections below
+remain dated development history. Keep meaningful mean/ordered/state controls,
+matched rain/Q and fusion sensitivities; do not treat every stage as equally
+current evidence. Outcome-informed refinements remain exploratory.
+
 **Decision date:** 2026-10-13. Internal research plan; Brian writes dissertation text.
 This supersedes the four-arm RAG and three-condition information-governance
 experiments in the 2026-10-11 basin-AI design. Those files remain as dated

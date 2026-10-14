@@ -1,5 +1,11 @@
 # Reviewing the actual Limburg analogue sets
 
+**Development archive — superseded as the main readout on 2026-10-14.**
+Preserved as a dated execution/preparation record and reproduction dependency.
+Valid controls remain usable within their original scope; this is not a blanket
+invalidity finding. Current evidence and retained roles are in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md).
+
 Internal results and interpretation aid, 2026-10-13. Brian writes dissertation
 prose. Runner: `scripts/74_review_analogue_census.py`. Local outputs:
 `results/basin_ai_analogue_census/`.

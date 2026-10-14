@@ -1,5 +1,11 @@
 # Making fuller use of the held foundation representations
 
+**Supporting controls and sensitivities — status updated 2026-10-14.**
+Retain the matched benchmarks/ablations described in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md). Latest temporal
+and spatial main results are reported separately; cohort scores are not a
+single leaderboard.
+
 Internal execution and interpretation aid, 2026-10-13. Brian writes
 dissertation prose. Explicitly exploratory after the earlier outcomes.
 Runners: `scripts/75_strengthen_foundation_representations.py`,

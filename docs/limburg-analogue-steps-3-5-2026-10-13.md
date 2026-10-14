@@ -1,5 +1,11 @@
 # Limburg analogue study: Steps 3–5 execution
 
+**Development archive — superseded as the main readout on 2026-10-14.**
+Preserved as a dated execution/preparation record and reproduction dependency.
+Valid controls remain usable within their original scope; this is not a blanket
+invalidity finding. Current evidence and retained roles are in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md).
+
 Internal results and implementation aid, 2026-10-13. Brian writes dissertation
 text. This follows the active analogue design; it adds no RAG experiment,
 fine-tuning, forecast target, data request or empirical chapter.

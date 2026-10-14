@@ -1,5 +1,13 @@
 # Limburg analysis inventory
 
+**Evidence status updated 2026-10-14:** scripts 81–83 are the main current
+readout; 75–78 retain specified supporting controls/sensitivities; 70–74 are
+development/reproduction stages and 80 is preparation. Detailed roles and
+interpretation limits are in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md). All dependency
+code remains in place and tested. The inventory below includes historical
+execution counts, not a list of equally current chapter findings.
+
 Status: 2026-10-13. The historical-analogue representation comparison is the
 active chapter direction. Earlier empirical branches remain reproducible in
 the archive.

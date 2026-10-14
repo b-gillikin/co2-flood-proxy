@@ -21,26 +21,26 @@ active chapter design.
 
 | document | role |
 | --- | --- |
-| `docs/limburg-historical-analogue-active-design-2026-10-13.md` | canonical question, comparison, cross-border limits and scope |
-| `docs/limburg-analogue-steps-3-5-2026-10-13.md` | executed representations, German extension, results and reproduction |
-| `docs/limburg-analogue-step6-2026-10-13.md` | paired uncertainty, river influence, provenance and interpretation limits |
-| `docs/limburg-analogue-census-2026-10-13.md` | full actual-analogue census: response shape, timing, context, complete prior pools and atlas |
-| `docs/limburg-representation-strengthening-2026-10-13.md` | latest exploratory TTM readout/state and AlphaEarth context/projection controls |
-| `docs/reviews/limburg-analogue-visual-review-2026-10-13.md` | AI-assisted observations on fourteen illustrative cases; human review pending |
-| `docs/limburg-basin-ai-active-design-2026-10-11.md` | superseded RAG-centered design retained as history |
-| `docs/limburg-foundation-download-readiness-2026-10-11.md` | fixed TTM-R2 and AlphaEarth implementation contract |
-| `docs/limburg-representation-feasibility-2026-10-11.md` | empirical sample and representation feasibility |
-| `docs/limburg-basin-ai-literature-refresh-2026-10-12.md` | historical RAG literature update; no active tasks |
-| `docs/limburg-analogue-literature-bridge-2026-10-13.md` | direct event-similarity and cross-border literature for current scope |
-| `docs/reviews/limburg-scientific-readiness-audit-2026-10-13.md` | dated scientific audit; RAG requirements superseded |
-| `docs/reviews/limburg-second-pass-2026-10-13.md` | dated audit that exposed the extra RAG scope |
-| `docs/reviews/limburg-analogue-alignment-audit-2026-10-13.md` | current code, literature and documentation alignment audit |
-| `docs/analysis-inventory.md` | live code, inputs and completed supporting work |
-| `docs/data-requests.md` | provider deliveries and remaining source questions |
-| `docs/decisions.md` | dated design history; earlier entries remain historical |
-| `docs/HANDOFF.md` | concise current state and next actions |
+| [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
+| [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
+| [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
+| [Information review](docs/limburg-analogue-information-review-2026-10-14.md) | generic-archive references and event interpretation |
+| [AlphaEarth review](docs/limburg-alphaearth-detailed-review-2026-10-14.md) | main matched spatial-context evidence |
+| [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
+| [Inventory](docs/analysis-inventory.md) | code, dependencies and supporting work |
+| [Handoff](docs/HANDOFF.md) | current state followed by historical execution ledger |
+| `docs/data-requests.md`, `docs/decisions.md` | provider status and append-only design history |
 
-## Active workflow
+Earlier execution notes and controls are indexed separately rather than
+presented as equally current main findings. Numerical outputs remain local;
+no raw provider data is published.
+
+## Reproduction chain
+
+The commands below preserve the upstream dependency chain. They are not a
+list of separate active experiments. For analysis and interpretation, use the
+evidence index to start with scripts 81–83 and their existing held inputs;
+rerun upstream stages only when rebuilding or checking provenance.
 
 ```bash
 conda env create -f environment.yml

@@ -2623,3 +2623,19 @@ preregistration or warning-skill claim. Review all 26 described illustrations
 with AI assistance; no independent human labels. Context results here are six
 Dutch catchments, with held German exports inventoried for an available future
 extension. Brian writes dissertation prose. See the detailed AlphaEarth note.
+
+# 2026-10-14 — Separate main evidence from analogue development history
+
+Brian authorized an indexed development archive. Promote scripts 81–83 as
+the main temporal, reference/interpretation and spatial readout. Preserve
+matched mean/ordered/state ablations, rain/Q, fusion, area/identity/static and
+quality/donor-count controls for their specified comparisons. Mark Steps 3–6,
+the first census and interpretation preparation as superseded main readouts.
+Do not move reproduction dependencies or delete ignored local outputs.
+
+No audited evidence makes mean pooling numerically invalid; weaker valid
+representations are controls, not errors. Preserve genuine corrections and
+unfavorable/different-cohort results separately. Later outcome-informed
+refinements remain exploratory, without a newly independent test population.
+No new results, data requirements, gates, models or dissertation prose. See
+`limburg-analogue-evidence-index-2026-10-14.md`.

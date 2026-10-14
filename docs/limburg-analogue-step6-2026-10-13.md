@@ -1,5 +1,11 @@
 # Limburg analogue evaluation: Step 6
 
+**Development archive — superseded as the main readout on 2026-10-14.**
+Preserved as a dated execution/preparation record and reproduction dependency.
+Valid controls remain usable within their original scope; this is not a blanket
+invalidity finding. Current evidence and retained roles are in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md).
+
 Internal interpretation aid, 2026-10-13. Brian writes dissertation prose.
 Code: `scripts/73_analogue_uncertainty_review.py`.
 Outputs: `results/basin_ai_step6/`.

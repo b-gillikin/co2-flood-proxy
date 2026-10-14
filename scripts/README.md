@@ -1,5 +1,14 @@
 # Live scripts
 
+## Evidence and execution roles
+
+Main analysis/interpretation runners: **81–83**. Supporting controls: **75–78**;
+independent audit: **79**. Scripts **70–74** are original execution/development
+and **80** prepares expanded inputs. Preserve them in place because later
+runners depend on their code or artifacts; they are not independent chapter
+experiments to present by default. See the
+[evidence index](../docs/limburg-analogue-evidence-index-2026-10-14.md).
+
 The active code prepares audited basin evidence and evaluates one bounded
 basin-aware AI design. Number gaps identify scripts moved to the historical
 archive; they are not missing dependencies.

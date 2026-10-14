@@ -1,5 +1,11 @@
 # Tightened preparation for the event-level pass
 
+**Development archive — superseded as the main readout on 2026-10-14.**
+Preserved as a dated execution/preparation record and reproduction dependency.
+Valid controls remain usable within their original scope; this is not a blanket
+invalidity finding. Current evidence and retained roles are in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md).
+
 Internal research aid; Brian writes dissertation prose. Script 80 prepares the
 census, frozen representations and reference measures. It does not rerank
 expanded analogues, assign interpretation verdicts, train a model or issue a

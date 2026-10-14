@@ -44,7 +44,7 @@ is a maintained asset independent of this chapter. This move does not affect
 the Azure collection infrastructure in `kerkrade_data/` and `iot-device-data/`.
 
 The reasons and numerical history are preserved in `docs/decisions.md`. The
-live design is `docs/limburg-basin-ai-active-design-2026-10-11.md`; the live
+live design is `docs/limburg-historical-analogue-active-design-2026-10-13.md`; the live
 file inventory is `docs/analysis-inventory.md`. Ruff intentionally excludes
 this directory.
 
@@ -52,3 +52,11 @@ The five dated peer-review passes from 2026-08-06 through 2026-08-08 are under
 `archive/docs/reviews/`. They informed the live reset but are not competing
 chapter specifications. Their criticisms and resulting decisions remain
 traceable in the append-only decisions log.
+
+## Analogue development archive — 2026-10-14
+
+The [analogue evidence index](../docs/limburg-analogue-evidence-index-2026-10-14.md)
+archives earlier analogue stages by status in place. Those scripts and outputs
+remain reproduction dependencies, so they are not moved into this retired-code
+directory or removed from testing. This differs from the retired directions
+above: valid mean-readout ablations remain supporting evidence.

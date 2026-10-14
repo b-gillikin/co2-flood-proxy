@@ -1,5 +1,11 @@
 # Cross-river analogue and retrieval checks
 
+**Supporting controls and sensitivities — status updated 2026-10-14.**
+Retain the matched benchmarks/ablations described in the
+[evidence index](limburg-analogue-evidence-index-2026-10-14.md). Latest temporal
+and spatial main results are reported separately; cohort scores are not a
+single leaderboard.
+
 Internal research aid; Brian retains dissertation prose writing.
 User-authorized exploratory extension of the historical analogue experiment.
 No new model, model training, data request or operational forecast claim.
