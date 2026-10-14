@@ -71,3 +71,69 @@ def test_fusion_controls_receive_identical_conventional_features():
             a["distance_blocks"]["conventional"], b["distance_blocks"]["conventional"]
         )
         assert a["robust_distance_blocks"] == b["robust_distance_blocks"] == ("conventional",)
+
+
+def test_replay_rejects_changed_inputs_but_does_not_freeze_code(tmp_path):
+    import hashlib
+
+    import pytest
+
+    upstream = tmp_path / "results/basin_ai_representation_checks/summary.json"
+    upstream.parent.mkdir(parents=True)
+    upstream.write_text("{}")
+    data = tmp_path / "observations.csv"
+    data.write_text("value\n1\n")
+    manifest = {
+        "upstream_manifest_sha256": hashlib.sha256(upstream.read_bytes()).hexdigest(),
+        "input_sha256": {"observations.csv": hashlib.sha256(data.read_bytes()).hexdigest()},
+    }
+    assert M.verified_run_inputs(manifest, tmp_path) == manifest["input_sha256"]
+    (tmp_path / "code.py").write_text("changed code is allowed in a separately recorded audit")
+    upstream.write_text('{"code_revision":"updated"}')
+    assert M.verified_run_inputs(manifest, tmp_path) == manifest["input_sha256"]
+    data.write_text("value\n2\n")
+    with pytest.raises(ValueError, match="Changed input"):
+        M.verified_run_inputs(manifest, tmp_path)
+
+
+def test_replay_rejects_changed_upstream_manifest(tmp_path):
+    import hashlib
+
+    import pytest
+
+    upstream = tmp_path / "results/basin_ai_representation_checks/summary.json"
+    upstream.parent.mkdir(parents=True)
+    upstream.write_text("{}")
+    manifest = {
+        "upstream_manifest_sha256": hashlib.sha256(upstream.read_bytes()).hexdigest(),
+    }
+    upstream.write_text('{"new":"run"}')
+    with pytest.raises(ValueError, match="Upstream manifest changed"):
+        M.verified_run_inputs(manifest, tmp_path)
+
+
+def test_mean_donor_peak_is_not_peak_of_mean_curve_and_timing_is_individual():
+    metadata = pd.DataFrame(
+        {
+            "event_id": ["q", "a", "b"],
+            "physical_river_group": ["Wurm/Worm", "Geul", "Gulp"],
+            "country": ["DE", "NL", "NL"],
+            "measurement_concern": [False] * 3,
+        }
+    ).set_index("event_id")
+    values = np.ones((3, 72))
+    values[0, 0] = 2
+    values[1, 0] = 3
+    values[2, -1] = 3
+    response = pd.DataFrame(values, index=metadata.index)
+    scores = pd.DataFrame({"query_event_id": ["q"], "query_storm_id": ["sq"]})
+    donors = pd.DataFrame(
+        {"query_event_id": ["q", "q"], "analogue_event_id": ["a", "b"], "rank": [1, 2]}
+    )
+    result, _ = M.assess(scores, donors, response, metadata)
+    row = result.iloc[0]
+    assert row.analogue_prediction == 3
+    assert response.loc[["a", "b"]].mean(axis=0).max() == 2
+    assert row.mean_donor_peak_absolute_error == 1
+    assert row.mean_peak_time_difference_h == 35.5
+    np.testing.assert_allclose(row.ensemble_curve_level_rmse, 1 / np.sqrt(72))

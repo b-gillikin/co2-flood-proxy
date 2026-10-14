@@ -67,6 +67,7 @@ python scripts/74_review_analogue_census.py
 python scripts/75_strengthen_foundation_representations.py
 python scripts/77_plot_representation_checks.py
 python scripts/78_cross_river_analogue_checks.py
+python scripts/79_audit_analogue_consistency.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -80,6 +81,9 @@ The cross-river checks use other physical rivers as donors, compare fixed
 3/5/10-storm neighborhoods, and test matched conventional/raw and
 conventional/TTM fusion. See
 `docs/limburg-cross-river-checks-2026-10-13.md` for interpretation boundaries.
+The pre-interpretation audit is in
+`docs/limburg-consistency-audit-2026-10-13.md`; it independently checks event
+windows, representations, identities, candidate pools and response metrics.
 
 ## Verify
 

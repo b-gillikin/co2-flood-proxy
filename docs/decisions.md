@@ -2535,3 +2535,23 @@ all fixed-k and archive results rather than selecting a favorable window.
 Twelve extremal response cards are illustrative and outcome-selected; a
 lower relative shape score can still miss a large late peak. Findings and
 boundaries: `limburg-cross-river-checks-2026-10-13.md`.
+
+# 2026-10-13 — Pre-interpretation consistency audit
+
+Brian requested an audit before the event-level pass. Independent response,
+identity, UTC, raw-history, context-year and candidate-pool checks confirm the
+saved results. Replay now fingerprints prepared inputs/vectors/weights before
+postprocessing; code changes remain allowed and recorded. Removed unused
+weather completeness from shared rain/Q eligibility; current samples do not
+change because all held weather histories are complete. Unknown physical-river
+identities cannot silently pass a cross-river exclusion.
+
+The audit identifies 58 extra usable Dutch Q histories, 56 with complete
+responses, outside the shared rain/Q cohort. Their broader Q-only scoring has
+not been run. The 20-event/ten-group comparison minimum is not a universal
+interpretation gate. R0 is itself an analogue method; quantitative added-value
+claims over the query's own history need a history-only reference. Preserve
+original results and distinguish 72h response segments, individual donor
+metrics, onset-linkage groups and event-weighted medians from stronger claims.
+See `limburg-consistency-audit-2026-10-13.md`. No new model/data requirement,
+interview task or dissertation prose.

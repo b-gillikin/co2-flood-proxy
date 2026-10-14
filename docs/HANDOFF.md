@@ -1,12 +1,13 @@
 # Session handoff
 
-Updated 2026-10-13 after cross-river, donor-count and matched fusion checks.
+Updated 2026-10-13 after the independent pre-interpretation consistency audit.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
 Census: `limburg-analogue-census-2026-10-13.md`.
 Latest checks: `limburg-representation-strengthening-2026-10-13.md`.
 Latest application/results: `limburg-cross-river-checks-2026-10-13.md`.
+Consistency/next-pass definitions: `limburg-consistency-audit-2026-10-13.md`.
 
 ## Active question
 
@@ -18,7 +19,7 @@ raw 512-hour Q shape, frozen TTM-R2, and a bounded prior-year AlphaEarth
 increment. River identity and measurement provenance determine applicability.
 No RAG-arm experiment, model training or operational forecast claim.
 
-## Executed state
+## Executed stages, original settings followed by extensions
 
 - Dutch inventory: 724 events; 570 complete common inputs, 558 complete
   responses. R0/R1/R2 share 534 queries from 186 storms. Peak-ratio MAE:
@@ -97,6 +98,22 @@ No RAG-arm experiment, model training or operational forecast claim.
   sets verified as five distinct eligible prior storms. Repo lint/format passed.
 
 ## Latest application and interpretation
+
+Independent consistency audit: every saved donor-slot response metric and
+score-set aggregate agrees with direct event-window calculations; all actual
+candidate pools, IDs and UTC offsets match. Replay now binds prepared data,
+vectors and weights to input fingerprints before reading/rewriting results;
+code updates remain allowed and recorded. Weather completeness is no longer
+an eligibility condition for methods that do not use weather; current counts
+are unchanged because all held Dutch weather windows are complete.
+
+Before the event-level pass, distinguish what analogues add beyond the query's
+own history. R0 is itself an analogue method, not a history-only reference.
+The audit inventory identifies 58 extra usable Q histories, 56 with complete
+responses, outside the shared rain/Q cohort. Their frozen vectors still need
+extraction for a broader Q-only census; keep the matched rain/Q comparison
+separate. No additional data request or training needed. Metrics describe
+72h response segments; donor timing is not a predicted peak-time error.
 
 Script 78 has executed the authorized cross-physical-river donor scenario,
 complete disagreement census, fixed k=3/5/10 comparison, spread/error audit,

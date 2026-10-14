@@ -47,14 +47,17 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/76_check_alphaearth_metric_grid.py` | separate 10-m EPSG:3035 catchment aggregation and projection QA | complete; 72-row table; no donor set changes |
 | `scripts/77_plot_representation_checks.py` | main and quality comparison figures from tidy summaries | complete |
 | `scripts/78_cross_river_analogue_checks.py` | cross-physical-river donors, fixed 3/5/10 neighborhoods, disagreement census, donor-spread checks and matched conventional/TTM fusion | user-authorized exploratory extension; separate outputs |
+| `scripts/79_audit_analogue_consistency.py` | independent input/window, representation, identity, candidate-pool and metric audit | consistency checks pass; no new empirical model |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
 `limburg-analogue-steps-3-5-2026-10-13.md` and
-`limburg-analogue-step6-2026-10-13.md`. Computational uncertainty checks and
-AI-assisted relevance review are complete; independent human verdicts remain
-unfilled. No learned arm has a lower point MAE than its historical-median
-benchmark; the context-versus-median interval includes zero.
+`limburg-analogue-step6-2026-10-13.md`. The original computational uncertainty
+checks and AI-assisted illustration review are complete; event-level added
+understanding remains to be evaluated. Independent human verdicts remain
+unfilled. In that original mean-readout/five-donor run, no learned arm has a
+lower point MAE than its historical-median benchmark; later donor-count
+results are reported separately in the cross-river checks note.
 Brian then authorized the richer full-response census in
 `limburg-analogue-census-2026-10-13.md`. Shape matching improves modestly with
 TTM versus raw and with AlphaEarth versus TTM/area, despite peak and timing
@@ -65,6 +68,10 @@ The subsequent user-authorized checks are in
 readout/state usage, and a more limited AlphaEarth increment beyond locality.
 These are variations/controls of the same two foundation models, not a model
 leaderboard. No hyperparameter winner or training regimen was selected.
+`limburg-consistency-audit-2026-10-13.md` records the independent numerical
+checks, stronger replay provenance, metric definitions and remaining
+event-interpretation questions. The extra Q-only inventory is prepared;
+its events have not yet been embedded or scored in the broader census.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3

@@ -155,3 +155,47 @@ def test_cross_river_filter_excludes_both_national_sides_of_one_river():
         frame, top_k=1, min_candidates=2, exclude_same_river=True, min_candidate_storms=3
     )
     assert "query" not in set(scores.query_event_id)
+
+
+def test_cross_river_retrieval_rejects_unknown_physical_relationships():
+    import pytest
+
+    with pytest.raises(ValueError, match="mapped physical rivers"):
+        MODULE.retrieve_prior_analogues(
+            pd.DataFrame({"physical_river_group": [None]}), exclude_same_river=True
+        )
+
+
+def test_unused_weather_coverage_does_not_exclude_rain_discharge_comparison():
+    import numpy as np
+
+    index = pd.DataFrame(
+        [
+            {
+                "event_id": "event",
+                "storm_id": "storm",
+                "gauge": "g",
+                "watercourse": "river",
+                "onset_utc": "2021-01-01T00:00:00Z",
+                "p99_m3s": 2.0,
+                "measurement_concern": False,
+                "primary_usable": True,
+                "history_discharge_fraction": 1.0,
+                "history_rainfall_fraction": 1.0,
+                "history_weather_fraction": 0.0,
+                "outcome_discharge_fraction": 1.0,
+            }
+        ]
+    )
+    hours = np.arange(-511, 73)
+    windows = pd.DataFrame(
+        {
+            "event_id": "event",
+            "relative_hour": hours,
+            "target_discharge_m3s": np.ones(len(hours)) * 2,
+            "catchment_rainfall_mm": np.zeros(len(hours)),
+        }
+    )
+    result = MODULE.build_signatures(index, windows).iloc[0]
+    assert result.common_representation_sample
+    assert result.complete_scoring_sample

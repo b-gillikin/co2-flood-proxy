@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build and evaluate an interpretable historical-event analogue baseline.
 
-Only observations at or before each onset form retrieval features. Candidate
+Discharge/rainfall windows end at onset; rating-era p99 scaling is retrospective.
+Candidate
 analogues must come from distinct prior storms and have a complete outcome
 before the query. Post-onset values are labels used to test whether retrieved
 events had similar subsequent shapes.
@@ -89,7 +90,6 @@ def build_signatures(index: pd.DataFrame, windows: pd.DataFrame) -> pd.DataFrame
             meta.primary_usable
             and np.isclose(meta.history_discharge_fraction, 1.0)
             and np.isclose(meta.history_rainfall_fraction, 1.0)
-            and np.isclose(meta.history_weather_fraction, 1.0)
         )
         # German Q-only extension: missing rain/weather remain missing. This
         # explicit metadata override is only used in its separate temporal run.
@@ -183,6 +183,10 @@ def retrieve_prior_analogues(
     exclude_same_river: bool = False,
     min_candidate_storms: int | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    if exclude_same_river and (
+        "physical_river_group" not in signatures or signatures.physical_river_group.isna().any()
+    ):
+        raise ValueError("Cross-river retrieval requires mapped physical rivers")
     if representation_vectors is not None and distance_blocks is not None:
         raise ValueError("Choose vectors or distance blocks, not both")
     if distance_blocks is not None and not distance_blocks:

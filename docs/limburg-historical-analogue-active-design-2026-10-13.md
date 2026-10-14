@@ -36,8 +36,8 @@ mechanism. R0 includes rainfall, so it is the practical comparator, not a
 same-input control. R3 must be compared with the same event representation
 without AlphaEarth and with a simple catchment-area control. Its independent
 support is limited by catchments and years, not by the count of event rows.
-R4 fusion remains optional only if R0 and R2 have useful, distinct behavior;
-it is not necessary to complete the chapter.
+R4 has been tested as a fixed exploratory conventional/TTM fusion with a
+matched raw-history fusion control. It is not necessary to complete the chapter.
 
 For each query event, eligible analogues come from earlier regional storms
 whose 72-hour responses have finished by the query cutoff. Select at most one
@@ -96,7 +96,7 @@ check factual statements or source links, but their completion is not a gate
 for the core analysis. The prior design and audits remain dated records of why
 the scope was narrowed.
 
-## Next work
+## Original execution and subsequent extensions
 
 Steps 1–6 are implemented and executed. TTM has no average peak-error advantage
 over raw Q on 534 Dutch queries (0.7489 versus 0.7492). On 276 common-subset
@@ -109,7 +109,8 @@ counts, sensitivity results and source hashes.
 
 Step 6 results are in `limburg-analogue-step6-2026-10-13.md`: paired storm/year
 sampling intervals, river-removal refits, all-pair provenance and fourteen
-AI-inspected case cards. The temporal advantage is not established; the small
+AI-inspected case cards. For the original mean-readout peak score, the temporal
+advantage is not established; the small
 context improvement remains uncertain despite surviving main river-removal
 checks. Context greatly increases same-gauge retrieval, which can help or
 harm response similarity. Intervals are conditional on the held archive.

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Exploratory cross-river, donor-count, disagreement and matched fusion checks.
 
-No outcomes enter retrieval. Fixed k=3/5/10, equal block weights, same queries
+Held-out response arrays do not rank donors; era-p99 scaling is retrospective.
+Fixed k=3/5/10, equal block weights, same queries
 within each donor-availability scenario. Historical assessment, not forecasting.
 """
 
@@ -35,6 +36,51 @@ METRICS = [
     "ensemble_curve_level_rmse",
     "mean_peak_time_difference_h",
 ]
+
+
+def verified_run_inputs(manifest=None, root=ROOT):
+    """Bind replays to data, while allowing explicitly recorded code revisions.
+
+    Legacy runs link their prepared inputs through the hashed upstream manifest.
+    The ordered-readout receipt additionally identifies its vectors and weights.
+    A data mismatch requires a new prepared run, not reusing an old result label.
+    """
+    upstream = root / "results/basin_ai_representation_checks/summary.json"
+    if (
+        manifest
+        and "input_sha256" not in manifest
+        and hashlib.sha256(upstream.read_bytes()).hexdigest()
+        != manifest["upstream_manifest_sha256"]
+    ):
+        raise ValueError("Upstream manifest changed; cannot replay the recorded run")
+    if manifest and "input_sha256" in manifest:
+        expected = manifest["input_sha256"]
+    else:
+        expected = {
+            name: digest
+            for name, digest in json.loads(upstream.read_text())["input_sha256"].items()
+            if Path(name).suffix in {".csv", ".parquet"}
+        }
+        receipt_path = root / "results/basin_ai_representation_checks/ordered_patch_receipt.json"
+        receipt = json.loads(receipt_path.read_text())
+        expected.update(
+            {
+                name: digest
+                for name, digest in receipt["input_sha256"].items()
+                if Path(name).suffix != ".py"
+            }
+        )
+        expected["results/basin_ai_representation_checks/ordered_patch_embeddings.parquet"] = (
+            receipt["output_sha256"]
+        )
+        expected[str(receipt_path.relative_to(root))] = hashlib.sha256(
+            receipt_path.read_bytes()
+        ).hexdigest()
+    for name, digest in expected.items():
+        path = root / name
+        if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise ValueError(f"Changed input: {name}; prepare a new run instead of replaying")
+    return expected
 
 
 def assess(scores, donors, response, metadata):
@@ -309,6 +355,25 @@ def spread_audit(sets):
 
 def additional_checks(sets, donors, response, history, coverage, out):
     keys = ["cohort", "scenario", "analysis", "arm", "query_event_id"]
+    if sets.duplicated(keys + ["k"]).any() or donors.duplicated(keys + ["k", "rank"]).any():
+        raise ValueError("Duplicate query scores or donor ranks")
+    shared_keys = ["cohort", "scenario", "analysis", "query_event_id"]
+    for column in [
+        "query_storm_id",
+        "candidate_count",
+        "candidate_storm_count",
+        "observed_peak_over_p99_72h",
+        "expanding_median_prediction",
+        "median_absolute_error",
+    ]:
+        if sets.groupby(shared_keys)[column].nunique(dropna=False).ne(1).any():
+            raise ValueError(f"Paired arms or k values differ in {column}")
+    query_time = pd.to_datetime(donors.query_onset_utc, utc=True)
+    donor_time = pd.to_datetime(donors.analogue_onset_utc, utc=True)
+    if (donor_time + pd.Timedelta(hours=72)).gt(query_time).any():
+        raise ValueError("Donor response unfinished at query cutoff")
+    if donors.analogue_storm_id.eq(donors.query_storm_id).any():
+        raise ValueError("Same-storm donor in saved results")
     if not donors.groupby(keys + ["k"]).size().eq(donors.groupby(keys + ["k"])["k"].first()).all():
         raise ValueError("Wrong prefix size")
     if (
@@ -554,11 +619,13 @@ def main():
     args = parser.parse_args()
     out = args.output_dir
     out.mkdir(parents=True, exist_ok=True)
+    manifest = json.loads((out / "manifest.json").read_text()) if args.audit_existing else None
+    input_hashes = verified_run_inputs(manifest)
+    if args.audit_existing:
+        for name, expected in manifest["outputs_sha256"].items():
+            if hashlib.sha256((out / name).read_bytes()).hexdigest() != expected:
+                raise ValueError(f"Changed result file: {name}")
     samples, representations, index, windows = REVIEW.load_inputs()
-    arms = S.build_arms(
-        samples, representations, index, windows, ROOT / "results/basin_ai_representation_checks"
-    )
-    configs = configurations(arms, samples)
     meta = index.set_index("event_id")
     for cohort in samples:
         samples[cohort]["physical_river_group"] = samples[cohort].event_id.map(
@@ -568,15 +635,15 @@ def main():
             raise ValueError("Unmapped physical river")
     response, history, coverage = CENSUS.load_curves(index, windows)
     if args.audit_existing:
-        manifest = json.loads((out / "manifest.json").read_text())
-        for name, expected in manifest["outputs_sha256"].items():
-            if hashlib.sha256((out / name).read_bytes()).hexdigest() != expected:
-                raise ValueError(f"Changed result file: {name}")
-        sets = pd.read_csv(out / "query_diagnostics.csv")
-        donors = pd.read_csv(out / "selected_donors.csv")
+        sets = pd.read_csv(out / "query_diagnostics.csv", float_precision="round_trip")
+        donors = pd.read_csv(out / "selected_donors.csv", float_precision="round_trip")
         additional_checks(sets, donors, response, history, coverage, out)
         manifest["postprocessing_source_sha256"] = hashlib.sha256(
             Path(__file__).read_bytes()
+        ).hexdigest()
+        manifest["input_sha256"] = input_hashes
+        manifest["current_upstream_manifest_sha256"] = hashlib.sha256(
+            (ROOT / "results/basin_ai_representation_checks/summary.json").read_bytes()
         ).hexdigest()
         manifest["outputs_sha256"] = {
             p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.glob("*.csv"))
@@ -584,6 +651,11 @@ def main():
         (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
         print("Hashed retrieval outputs verified; additional audits completed")
         return
+    arms = S.build_arms(
+        samples, representations, index, windows, ROOT / "results/basin_ai_representation_checks"
+    )
+    input_hashes = verified_run_inputs()
+    configs = configurations(arms, samples)
     sets, selected, eligibility = [], [], []
     for cohort, configurations_ in configs.items():
         for scenario in ["all_rivers", "other_rivers"]:
@@ -690,6 +762,7 @@ def main():
         "source_sha256": {
             str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths
         },
+        "input_sha256": input_hashes,
         "upstream_manifest_sha256": hashlib.sha256(
             (ROOT / "results/basin_ai_representation_checks/summary.json").read_bytes()
         ).hexdigest(),
