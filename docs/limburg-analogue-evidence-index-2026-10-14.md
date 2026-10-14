@@ -28,6 +28,7 @@ reported, including null, unfavorable and quality-sensitive results.
 | --- | --- | --- |
 | [Representation strengthening](limburg-representation-strengthening-2026-10-13.md), scripts 75–77 | Matched raw/state control; mean versus ordered patch and state ablations; projection QA | Mean pooling is a valid, less informative readout, not an established implementation error. State benefits both raw and TTM. Older cohort scores do not replace the expanded census. |
 | [Cross-river checks](limburg-cross-river-checks-2026-10-13.md), script 78 | Rain/Q benchmark, matched conventional/raw and conventional/TTM fusion, fixed 3/5/10 donor and river-removal checks | Fixed-archive eligibility and cohorts differ from latest available-archive runs. Keep the smaller-context fusion failure alongside the broader Dutch timing benefit. |
+| [Event-definition robustness](limburg-event-definition-results-2026-10-14.md), scripts 88–89 | p95/72h and p99/120h, fixed p99 normalizers and 72h responses; full and shared-onset populations | Tests definition dependence without changing model weights or selecting a favorable threshold; separate from official H1 escalation. |
 | [Consistency audit](limburg-consistency-audit-2026-10-13.md), script 79 | Independent chronology, inputs, identities, candidate pools and metric reconstruction | Supporting verification, not a new model or empirical finding. Dated pending statements describe its execution stage. |
 
 Mean TTM and fixed AlphaEarth remain useful ablations in the latest matched

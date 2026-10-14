@@ -2677,3 +2677,22 @@ never fill crossings or future outcomes. Keep maximal conventional-feature
 coverage separate from matched 512h model comparisons. No new checkpoint,
 training, data request or dissertation prose. Design refinements followed
 coverage inspection and are documented, not described as preregistered.
+
+## 2026-10-14 — One-factor event-definition robustness
+
+At Brian's request, compare p95/72h and p99/120h against the held p99/72h
+catalogue. Keep p99 normalization, 512h history, 72h verification, regional
+72h grouping, frozen representations, prior-archive rules and pooled donor
+policy fixed. Preserve every candidate, censored case and input exclusion in
+separate outputs; retain inherited eligibility conventions to isolate the
+requested factors. Compare models within each run and distinguish shared
+onsets from changed populations. Official H1/H2/H3 analyses remain separate.
+Use the local Geul paper and Tuel/Martius for percentile/separation precedents,
+without claiming they implement our exact hourly rating-era method.
+
+An exact unique-row cache removes repeated wide-vector deduplication, with
+prior-only scales and unchanged robust-state arithmetic. Its baseline replay
+checks donor IDs, distances and metrics against the held pooled script-84
+results. The script-84 archive-policy argument is optional; defaults preserve
+its original three-policy behavior. No training, new data request, threshold
+search, formal preregistration or dissertation prose.

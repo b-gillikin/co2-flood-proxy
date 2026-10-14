@@ -1,5 +1,25 @@
 # Session handoff
 
+## Event-definition robustness — 2026-10-14
+
+[Both requested sensitivity analyses](limburg-event-definition-results-2026-10-14.md)
+are complete: p95/72h and p99/120h against the held p99/72h baseline, with
+fixed p99 state/response scaling and all available candidate cases. The small
+TTM/state shape increment over raw/state remains favorable in direction in both
+countries; Dutch five-day group uncertainty includes zero. Conventional rain/Q
+beats TTM/state shape on the broader matched p95 cohorts. AlphaEarth timing
+benefits vary with population, country and control, so no universal geographic
+improvement is established. Generic archive duration/mean-trajectory limits
+remain; this is case retrieval rather than demonstrated warning prediction.
+
+Retain p99/72h as the main definition, with alternatives and common-onset/mapped
+episode evidence visible. Earlier p95 assessment starts are not operational lead
+time. Scripts 88/89 preserve prior results, replay the baseline and independently
+audit all source catalogues and numerical results; 160 tests pass. No new model,
+training, data request, dissertation prose or human verdict. The remaining work
+is synthesis and Brian's case review/writing, not another required model run.
+
+
 ## Warning-threshold progression — 2026-10-14
 
 The user-authorized [full analysis](limburg-warning-threshold-results-2026-10-14.md) adds a census of

@@ -64,6 +64,8 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/85_audit_cross_border_results.py` | independent pair-metric and country-summary reconstruction with input/output/source fingerprints | 780,312 pair slots and 528 summary rows verified |
 | `scripts/86_analyse_warning_threshold_progression.py` | all native threshold episodes, H1-started frozen analogue analysis and p99 bridge; quality/history/follow-up sensitivities | full run; see warning-threshold results note |
 | `scripts/87_audit_warning_threshold_results.py` | independent native labels, donor-share and summary reconstruction, input/output hashes and whole-record low-flow masking check | separate audit receipt |
+| `scripts/88_event_definition_sensitivity.py` | full alternative percentile/local-linkage catalogues and pooled temporal/rain/context comparisons; baseline replay and exact unique-row cache | separate one-factor results; see event-definition readout |
+| `scripts/89_audit_event_definition_sensitivity.py` | independent source catalogue, fixed-normalizer, input/response, pair/set and archive-reference reconstruction | separate audit receipt |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in

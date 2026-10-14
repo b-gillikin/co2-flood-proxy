@@ -24,6 +24,7 @@ active chapter design.
 | [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
 | [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
 | [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
+| [Event-definition robustness](docs/limburg-event-definition-results-2026-10-14.md) | p95 selection and five-day local linkage, one factor at a time; fixed p99 response scale |
 | [Warning-threshold progression](docs/limburg-warning-threshold-results-2026-10-14.md) | full native-record census and H1-started escalation evidence; current thresholds applied retrospectively |
 | [Cross-border completion](docs/limburg-cross-border-completion-2026-10-14.md) | country/archive effects, German rainfall benchmark and pooled geographic context |
 | [Information review](docs/limburg-analogue-information-review-2026-10-14.md) | generic-archive references and event interpretation |
@@ -78,6 +79,8 @@ python scripts/84_complete_cross_border_analogues.py
 python scripts/85_audit_cross_border_results.py
 python scripts/86_analyse_warning_threshold_progression.py
 python scripts/87_audit_warning_threshold_results.py
+python scripts/88_event_definition_sensitivity.py
+python scripts/89_audit_event_definition_sensitivity.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

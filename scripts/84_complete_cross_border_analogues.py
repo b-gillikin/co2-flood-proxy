@@ -170,7 +170,9 @@ def context_settings(sample, ordered, state, years):
     return arms
 
 
-def run_comparisons(sample, arms, cohort, response, meta):
+def run_comparisons(
+    sample, arms, cohort, response, meta, policies=("pooled", "domestic", "foreign")
+):
     rows, slots, coverage = [], [], []
     for scenario in ["all_rivers", "other_rivers"]:
         for quality in [False, True]:
@@ -178,7 +180,7 @@ def run_comparisons(sample, arms, cohort, response, meta):
             eligible = sample[
                 sample.complete_scoring_sample & (~sample.measurement_concern if quality else True)
             ]
-            for policy in ["pooled", "domestic", "foreign"]:
+            for policy in policies:
                 expected_ids = None
                 for arm, settings in arms.items():
                     scores, donors = B.retrieve_prior_analogues(
