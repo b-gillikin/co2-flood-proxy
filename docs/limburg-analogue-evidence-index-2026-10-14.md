@@ -1,12 +1,13 @@
 # Limburg analogue evidence: current results and development archive
 
 Updated 2026-10-14. Internal evidence organization, not dissertation prose.
-No new result, exclusion, representation, training or data requirement.
+Organization updated to include the authorized threshold analysis; no new training or data request.
 
 ## Main evidence
 
 | Analysis | Current role | Local outputs |
 | --- | --- | --- |
+| [Warning-threshold progression](limburg-warning-threshold-results-2026-10-14.md), scripts 86–87 | Full current-threshold census and H1-started escalation evidence; native crossings, measurement uncertainty, observed-history sensitivity and independent audit | `results/warning_threshold_progression/` |
 | [Expanded event pass](limburg-expanded-event-pass-2026-10-13.md), script 81 | Main temporal comparison: raw history, matched raw/state and ordered TTM/state; 845 pooled queries with available donors, explicit short/no archives, all/cross-river and quality checks | `results/basin_ai_expanded_event_pass/` |
 | [Analogue information review](limburg-analogue-information-review-2026-10-14.md), script 82 | Main interpretation checks against generic eligible archives; persistence and group-balanced references, actual cases and separately attributed AI notes | `results/basin_ai_information_review/` |
 | [Cross-border completion](limburg-cross-border-completion-2026-10-14.md), script 84 | Country-restricted versus pooled archives; held German AlphaEarth extension, rainfall-matched benchmark and country/measurement breakdowns | `results/basin_ai_cross_border_completion/` |

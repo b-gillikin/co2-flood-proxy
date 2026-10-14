@@ -1,5 +1,18 @@
 # Limburg high-water analogues: active research design
 
+## Warning-threshold progression — 2026-10-14
+
+The user-authorized [full analysis](limburg-warning-threshold-results-2026-10-14.md) adds a census of
+all native Dutch threshold records and every held p99 event, plus an H1-started
+analogue application. It preserves the existing research question, frozen
+representations and earlier numerical runs. Current H1/H2/H3 threshold names
+are provider categories, not verified inundation or historical warning labels.
+German events remain in the broader analogue analysis; no equivalent German
+thresholds are invented. Internal design, missing-history sensitivity and
+reproduction details are in `limburg-warning-threshold-analysis-2026-10-14.md`.
+Brian retains all dissertation prose and independent human-review fields.
+
+
 ## Cross-border completion — 2026-10-14
 
 [The completed country readout](limburg-cross-border-completion-2026-10-14.md)

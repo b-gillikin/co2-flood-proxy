@@ -2663,3 +2663,17 @@ unfavorable and quality-sensitive results. No warning skill or operator benefit
 claim, formal preregistration, new dataset request or human review label.
 Provider files stay local. Scripts 84/85, 138 tests and independent pair/summary
 reconstruction document the work. Brian writes all dissertation prose.
+
+## 2026-10-14 — Full warning-threshold progression analysis
+
+At Brian's request, analyze every available event rather than a sample. Preserve
+all 724 Dutch p99 episodes and census the supplied native threshold series.
+Use first H1 entry, rounded forward to an hourly assessment, for the primary
+escalation application; retain saved p99 donor sets as a separate bridge.
+Do not equate current provider H3 labels with observed inundation or historical
+warnings. Retain unknown outcomes and range concerns. Permit only logged,
+isolated old low-flow input repairs with an observed-history-only sensitivity;
+never fill crossings or future outcomes. Keep maximal conventional-feature
+coverage separate from matched 512h model comparisons. No new checkpoint,
+training, data request or dissertation prose. Design refinements followed
+coverage inspection and are documented, not described as preregistered.
