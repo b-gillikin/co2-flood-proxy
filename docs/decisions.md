@@ -2639,3 +2639,27 @@ unfavorable/different-cohort results separately. Later outcome-informed
 refinements remain exploratory, without a newly independent test population.
 No new results, data requirements, gates, models or dissertation prose. See
 `limburg-analogue-evidence-index-2026-10-14.md`.
+
+# 2026-10-14 — Complete held-data Dutch–German comparisons
+
+Brian authorized domestic-versus-pooled comparison, held German AlphaEarth
+context and all remaining country/rainfall/measurement checks. Add a default-
+preserving country filter to the existing retriever; run pooled/domestic/foreign
+archives with existing all/other-river, main/quality and five/ten settings.
+Keep identical query IDs and an equal-actual-donor-count comparison, alongside
+all-shared-query sensitivity and explicit absent archives. No new model.
+
+Derive full German catchment rain from held verified RADOLAN crops. Run R0
+on matched rainfall-complete Dutch/German events. Join held prior-year context
+to prepared German station IDs and compare strengthened TTM/state with area,
+identity, fixed and annual controls. Retain original cohorts as historical
+comparisons; do not relabel countries as independent national river samples.
+
+The completed trade-offs are in the cross-border note: German pooled timing
+improves while peak error worsens; country-specific TTM shape gains remain
+modest; conventional German rain/Q is a strong benchmark; the Dutch context
+timing finding does not clearly replicate at German sites. Preserve all
+unfavorable and quality-sensitive results. No warning skill or operator benefit
+claim, formal preregistration, new dataset request or human review label.
+Provider files stay local. Scripts 84/85, 138 tests and independent pair/summary
+reconstruction document the work. Brian writes all dissertation prose.

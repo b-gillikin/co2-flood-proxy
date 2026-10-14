@@ -24,6 +24,7 @@ active chapter design.
 | [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
 | [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
 | [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
+| [Cross-border completion](docs/limburg-cross-border-completion-2026-10-14.md) | country/archive effects, German rainfall benchmark and pooled geographic context |
 | [Information review](docs/limburg-analogue-information-review-2026-10-14.md) | generic-archive references and event interpretation |
 | [AlphaEarth review](docs/limburg-alphaearth-detailed-review-2026-10-14.md) | main matched spatial-context evidence |
 | [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
@@ -39,7 +40,7 @@ no raw provider data is published.
 
 The commands below preserve the upstream dependency chain. They are not a
 list of separate active experiments. For analysis and interpretation, use the
-evidence index to start with scripts 81–83 and their existing held inputs;
+evidence index to start with scripts 81–84 and their existing held inputs;
 rerun upstream stages only when rebuilding or checking provenance.
 
 ```bash
@@ -72,6 +73,8 @@ python scripts/80_prepare_event_interpretation.py
 python scripts/81_run_expanded_event_analogues.py
 python scripts/82_review_analogue_information.py
 python scripts/83_review_alphaearth_event_information.py
+python scripts/84_complete_cross_border_analogues.py
+python scripts/85_audit_cross_border_results.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

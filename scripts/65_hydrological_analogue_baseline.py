@@ -183,7 +183,14 @@ def retrieve_prior_analogues(
     exclude_same_river: bool = False,
     min_candidate_storms: int | None = None,
     allow_short_archive: bool = False,
+    donor_country: str = "pooled",
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    if donor_country not in {"pooled", "domestic", "foreign"}:
+        raise ValueError("Unknown donor country policy")
+    if donor_country != "pooled" and (
+        "country" not in signatures or signatures.country.isna().any()
+    ):
+        raise ValueError("Country-restricted retrieval requires mapped countries")
     if exclude_same_river and (
         "physical_river_group" not in signatures or signatures.physical_river_group.isna().any()
     ):
@@ -237,6 +244,11 @@ def retrieve_prior_analogues(
         if exclude_same_river:
             candidates = candidates.loc[
                 candidates.physical_river_group.ne(query.physical_river_group)
+            ].copy()
+        if donor_country != "pooled":
+            same_country = candidates.country.eq(query.country)
+            candidates = candidates.loc[
+                same_country if donor_country == "domestic" else ~same_country
             ].copy()
         candidate_storm_count = candidates.storm_id.nunique()
         required_groups = (

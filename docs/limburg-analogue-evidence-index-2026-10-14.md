@@ -9,12 +9,14 @@ No new result, exclusion, representation, training or data requirement.
 | --- | --- | --- |
 | [Expanded event pass](limburg-expanded-event-pass-2026-10-13.md), script 81 | Main temporal comparison: raw history, matched raw/state and ordered TTM/state; 845 pooled queries with available donors, explicit short/no archives, all/cross-river and quality checks | `results/basin_ai_expanded_event_pass/` |
 | [Analogue information review](limburg-analogue-information-review-2026-10-14.md), script 82 | Main interpretation checks against generic eligible archives; persistence and group-balanced references, actual cases and separately attributed AI notes | `results/basin_ai_information_review/` |
+| [Cross-border completion](limburg-cross-border-completion-2026-10-14.md), script 84 | Country-restricted versus pooled archives; held German AlphaEarth extension, rainfall-matched benchmark and country/measurement breakdowns | `results/basin_ai_cross_border_completion/` |
 | [Detailed AlphaEarth review](limburg-alphaearth-detailed-review-2026-10-14.md), script 83 | Main spatial comparison: 290 matched Dutch context queries; temporal-only, area, identity, fixed and annual context on original and strengthened TTM families | `results/basin_ai_alphaearth_information_review/` |
 
 These populations differ. Report counts, donor availability, metric definitions
 and uncertainty with each result; do not rank scores across populations.
 Conventional rain/Q remains a required practical benchmark on matched Dutch
-rainfall-covered events, not an arm of the expanded pooled Q-only run.
+rainfall-covered events, not an arm of the expanded pooled Q-only run. Script 84 supplies a separate
+matched rain/Q cohort using newly derived German rainfall from held crops.
 The latest context review includes its matched conventional comparator.
 Five-donor results and the already-executed ten-donor sensitivity remain
 reported, including null, unfavorable and quality-sensitive results.

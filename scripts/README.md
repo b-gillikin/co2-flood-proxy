@@ -2,7 +2,7 @@
 
 ## Evidence and execution roles
 
-Main analysis/interpretation runners: **81–83**. Supporting controls: **75–78**;
+Main analysis/interpretation runners: **81–84**. Supporting controls: **75–78**;
 independent audit: **79**. Scripts **70–74** are original execution/development
 and **80** prepares expanded inputs. Preserve them in place because later
 runners depend on their code or artifacts; they are not independent chapter
@@ -45,3 +45,13 @@ Raw data, weights and generated results remain outside Git; contracts,
 manifests and receipts are versioned. Historical scripts and tests are under
 `archive/retired-directions/2026-retrospective-high-water/` and excluded from
 live lint/test discovery.
+
+Script 84 completes the held-data country comparison in separate outputs:
+pooled/domestic/foreign archives; matched country-specific temporal and context
+controls; German rainfall derived from the held radar crop; coverage and paired
+quality/donor-count sensitivities. Its default country policy in the shared
+retriever preserves earlier runs. No training or download.
+
+Script 85 independently audits script 84's saved six pair metrics and country
+summary means. It verifies numerical input, source and output fingerprints
+before reading; it does not rerank donors or assign human judgments.

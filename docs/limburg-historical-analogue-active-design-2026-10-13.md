@@ -1,5 +1,26 @@
 # Limburg high-water analogues: active research design
 
+## Cross-border completion — 2026-10-14
+
+[The completed country readout](limburg-cross-border-completion-2026-10-14.md)
+now tests pooled/domestic/foreign archives, derives German rainfall from held
+radar crops and extends strengthened TTM/state geographic controls to German
+catchments. Main pooled populations: Q-only 610 NL / 235 DE, rain-matched
+554 NL / 210 DE, context 294 NL / 71 DE. Earlier stage statements about
+unavailable German rainfall or an unexecuted geographic extension are historical.
+
+Pooling improves German donor peak-time similarity but worsens peak magnitude;
+Dutch primary archive effects are small/uncertain. TTM's main shape increment
+over matched raw/state appears in both countries, with quality uncertainty
+for the Dutch group interval. The new German conventional rain/Q benchmark
+has lower main peak error than TTM; quality makes that difference uncertain.
+Dutch AlphaEarth timing benefit is not clearly established at the German sites.
+All quality/count sensitivities, provider flags and coverage losses are retained.
+No national causal comparison, live forecast claim, training or new data request.
+
+Scripts 84/85 and the evidence index document execution and numerical audit.
+Independent human fields remain unchanged; Brian writes dissertation prose.
+
 ## Current evidence hierarchy — 2026-10-14
 
 Use the [evidence index](limburg-analogue-evidence-index-2026-10-14.md) for the

@@ -1,6 +1,6 @@
 # Limburg analysis inventory
 
-**Evidence status updated 2026-10-14:** scripts 81–83 are the main current
+**Evidence status updated 2026-10-14:** scripts 81–84 are the main current
 readout; 75–78 retain specified supporting controls/sensitivities; 70–74 are
 development/reproduction stages and 80 is preparation. Detailed roles and
 interpretation limits are in the
@@ -60,6 +60,8 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/81_run_expanded_event_analogues.py` | expanded Q-only retrieval, available short archives, phase evidence and own-history references | executed; see `limburg-expanded-event-pass-2026-10-13.md`; existing rain/Q and AlphaEarth comparisons preserved |
 | `scripts/82_review_analogue_information.py` | specificity versus the group-balanced eligible archive, outcome-independent case selection and separately attributed AI interpretation | executed; 19,764 pooled score sets; 24 sentinels; see `limburg-analogue-information-review-2026-10-14.md` |
 | `scripts/83_review_alphaearth_event_information.py` | matched geographic donor changes, original/strengthened temporal families, area/identity/static/annual controls and case review | executed; 296 context responses / 290 main queries; no training or new download |
+| `scripts/84_complete_cross_border_analogues.py` | pooled/domestic/foreign archive effects, German geographic context and held-radar rain/Q benchmark | country-specific main/quality results and explicit unavailable archives; see cross-border completion note |
+| `scripts/85_audit_cross_border_results.py` | independent pair-metric and country-summary reconstruction with input/output/source fingerprints | 780,312 pair slots and 528 summary rows verified |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
