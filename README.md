@@ -66,6 +66,7 @@ python scripts/73_analogue_uncertainty_review.py
 python scripts/74_review_analogue_census.py
 python scripts/75_strengthen_foundation_representations.py
 python scripts/77_plot_representation_checks.py
+python scripts/78_cross_river_analogue_checks.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -75,6 +76,10 @@ The separate metric-grid QA table is retrieved with
 `python scripts/76_check_alphaearth_metric_grid.py --download`; the original
 export remains preserved. The latest checks note documents the tested
 representation variations and keeps them separate from the original run.
+The cross-river checks use other physical rivers as donors, compare fixed
+3/5/10-storm neighborhoods, and test matched conventional/raw and
+conventional/TTM fusion. See
+`docs/limburg-cross-river-checks-2026-10-13.md` for interpretation boundaries.
 
 ## Verify
 

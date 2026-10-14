@@ -140,3 +140,15 @@ original pooling freeze was a first-pass implementation choice, not a
 scientific ban on testing a motivated alternative. These variations leave the
 research question, held observations, donor timing rules and source-quality
 treatment intact. No best-score search or model training is introduced.
+
+## Authorized cross-river and retrieval extension
+
+Brian subsequently authorized script 78's other-physical-river donor scenario,
+actual-disagreement census, fixed 3/5/10-storm neighborhoods, donor-spread/error
+assessment and one equal-block conventional/TTM fusion with matched raw fusion.
+The scenario retains observed query histories and uses completed distinct prior
+storms. It is a retrospective donor-availability test. The ten-storm minimum
+holds k comparisons on the same queries; it does not replace the original
+five-storm run or create a new chapter-wide gate. All archives, k values,
+quality sensitivities and mixed results remain reported. See
+`limburg-cross-river-checks-2026-10-13.md`; no additional data or training.

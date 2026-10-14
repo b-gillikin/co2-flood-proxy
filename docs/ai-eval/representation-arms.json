@@ -74,7 +74,14 @@
     "arm_id": "R4_FUSED",
     "label": "Fused conventional and TTM event representations",
     "required": false,
-    "condition": "Run only if R0 and R2 show different and individually useful retrieval behavior on the common temporal sample.",
-    "purpose": "Tests complementarity without making fusion a dissertation requirement."
+    "purpose": "Tests complementarity without making fusion a dissertation requirement.",
+    "historical_condition": "Run only if R0 and R2 show different and individually useful retrieval behavior on the common temporal sample.",
+    "status": "User authorized bounded equal-block fusion and matched raw-history control on 2026-10-13; script 78 executes this exploratory check.",
+    "runner": "scripts/78_cross_river_analogue_checks.py",
+    "controls": [
+      "same conventional columns + standardized raw Q",
+      "conventional signatures alone"
+    ],
+    "weights": "equal prior-scaled blocks; no tuning"
   }
 ]

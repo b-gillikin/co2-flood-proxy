@@ -180,6 +180,8 @@ def retrieve_prior_analogues(
     representation_vectors: pd.DataFrame | None = None,
     distance_blocks: dict[str, pd.DataFrame] | None = None,
     robust_distance_blocks: tuple[str, ...] = (),
+    exclude_same_river: bool = False,
+    min_candidate_storms: int | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     if representation_vectors is not None and distance_blocks is not None:
         raise ValueError("Choose vectors or distance blocks, not both")
@@ -227,8 +229,14 @@ def retrieve_prior_analogues(
             & complete.storm_id.ne(query.storm_id)
             & complete.event_id.ne(query.event_id)
         ].copy()
+        if exclude_same_river:
+            candidates = candidates.loc[
+                candidates.physical_river_group.ne(query.physical_river_group)
+            ].copy()
         candidate_storm_count = candidates.storm_id.nunique()
-        if len(candidates) < min_candidates or candidate_storm_count < top_k:
+        if len(candidates) < min_candidates or candidate_storm_count < max(
+            top_k, min_candidate_storms or top_k
+        ):
             continue
 
         details = pd.DataFrame(index=candidates.index)

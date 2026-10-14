@@ -1,11 +1,12 @@
 # Session handoff
 
-Updated 2026-10-13 after the census and authorized representation checks.
+Updated 2026-10-13 after cross-river, donor-count and matched fusion checks.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
 Census: `limburg-analogue-census-2026-10-13.md`.
 Latest checks: `limburg-representation-strengthening-2026-10-13.md`.
+Latest application/results: `limburg-cross-river-checks-2026-10-13.md`.
 
 ## Active question
 
@@ -95,7 +96,31 @@ No RAG-arm experiment, model training or operational forecast claim.
   exactly, 56 input/code hashes checked, 588 finite interval rows, and all donor
   sets verified as five distinct eligible prior storms. Repo lint/format passed.
 
-## Next work: event interpretation and cross-river application
+## Latest application and interpretation
+
+Script 78 has executed the authorized cross-physical-river donor scenario,
+complete disagreement census, fixed k=3/5/10 comparison, spread/error audit,
+and equal-block conventional/TTM fusion with a matched raw fusion control.
+Outputs: `results/basin_ai_cross_river_checks/`. Computational counts are
+87,987 repeated query/configuration sets and 527,922 selected slots, not
+independent event sample sizes. Main other-river queries: Dutch 530,
+pooled 757, context 264. Original settings remain preserved.
+
+Cross-river TTM + state improves shape over matched raw + state by 2.4%
+Dutch / 1.8% pooled, supported by storm/year and quality sensitivity; it
+does not clearly beat conventional rain/Q overall. AlphaEarth improves
+donor peak timing versus mean-TTM on the context sample, but shape and
+magnitude increments remain uncertain and conventional remains strong.
+Ten donors often improve mean-response magnitude while exemplar shape
+matching can worsen. Donor spread modestly tracks error, with river-specific
+exceptions; this is an uncertainty diagnostic, not calibrated warning skill.
+
+Fusion improves Dutch cross-river donor timing by approximately one hour
+relative to conventional, but that advantage reverses with the smaller
+context archive. The common-query archive audit exposes this limitation.
+Report both archives and all fixed-k results; no automatic winner selected.
+Twelve outcome-selected response cards have AI-assisted visual review;
+companion input-history plots are available. No independent human labels.
 
 Read the latest checks note before interpreting the original model scores.
 All 102,645 new selected slots / 20,529 sets have census diagnostics; all
@@ -117,11 +142,10 @@ MAE, the distinction between peak error and full-response relevance, and the
 limited independent catchment support. No change of aggregator or model has
 been made in response to these results.
 
-A purposeful possible next AlphaEarth scenario excludes same-river donors,
-asking about finding other-river analogues when a local archive is absent.
-It retains observed query histories, so it is not an ungauged-flow prediction
-test. This is not yet run or a chapter requirement. Interpretation of actual
-event successes/failures can continue independently. No extra data request.
+The cross-river scenario retains observed query histories; it is not an
+ungauged-flow prediction test. Its interpretation can now use actual donor
+histories, outcomes, uncertainty and source concerns without extra data or
+training. Earlier atlases remain illustrations of their original settings.
 
 Preserve null/mixed results alongside the exploratory shape evidence. The
 expanded relevance assessment was explicitly requested by Brian; earlier

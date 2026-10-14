@@ -2510,3 +2510,28 @@ state as a better-supported candidate, retaining the old and matched raw
 controls. A cross-river-only donor scenario would test AlphaEarth where local
 identity cannot supply a historical analogue; it has not been run or made a
 requirement. No automatic model winner, fine-tuning or operational claim.
+
+# 2026-10-13 — Cross-river application and retrieval checks
+
+Brian authorized cross-river retrieval and all four follow-on checks. Script
+78 excludes full physical-river donors while retaining observed query inputs;
+Wurm/Worm spans both countries. Fixed k=3/5/10 uses the same eligible queries
+within each scenario (20 prior events, ten prior storms). This comparison
+condition does not supersede the original chapter inclusion rules. No new
+model, training, request or dissertation prose.
+
+Ordered TTM + state retains a modest cross-river shape increment over matched
+raw, but conventional rain/Q remains competitive. AlphaEarth adds cross-river
+donor timing information relative to TTM; its shape/magnitude increment is
+uncertain. Removing local donors worsens matching on paired query overlaps.
+More donors improves mean-response magnitude at some cost to individual
+exemplar relevance. Donor disagreement modestly tracks response error, with
+river-specific exceptions and no calibrated probability or abstention rule.
+
+One equal-block conventional/TTM fusion, matched against conventional/raw,
+improves Dutch full-archive donor timing. This reverses in the smaller context
+archive, and a same-query archive comparison records that limitation. Preserve
+all fixed-k and archive results rather than selecting a favorable window.
+Twelve extremal response cards are illustrative and outcome-selected; a
+lower relative shape score can still miss a large late peak. Findings and
+boundaries: `limburg-cross-river-checks-2026-10-13.md`.

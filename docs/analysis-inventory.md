@@ -31,7 +31,7 @@ provenance. They do not make the archived case-crossover model active.
 
 | code or contract | purpose | state |
 | --- | --- | --- |
-| `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | R4 conditional |
+| `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | bounded exploratory R4 and matched raw fusion executed |
 | `scripts/64_build_basin_ai_event_library.py` | 512-hour histories and 72 withheld hours | complete |
 | `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval; one selected event per prior storm | complete; tied historical median |
 | `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |
@@ -46,6 +46,7 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/75_strengthen_foundation_representations.py` | ordered patch/state comparisons, common-frame rainfall control, identity/static/metric-grid context controls | executed; 102,645 selected slots / 20,529 sets; original controls replayed |
 | `scripts/76_check_alphaearth_metric_grid.py` | separate 10-m EPSG:3035 catchment aggregation and projection QA | complete; 72-row table; no donor set changes |
 | `scripts/77_plot_representation_checks.py` | main and quality comparison figures from tidy summaries | complete |
+| `scripts/78_cross_river_analogue_checks.py` | cross-physical-river donors, fixed 3/5/10 neighborhoods, disagreement census, donor-spread checks and matched conventional/TTM fusion | user-authorized exploratory extension; separate outputs |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in
@@ -67,9 +68,10 @@ leaderboard. No hyperparameter winner or training regimen was selected.
 
 R0 is the practical conventional signature baseline; R1 versus R2 compares
 raw-hydrograph similarity with frozen TTM on identical discharge inputs; R3
-adds prior-year AlphaEarth context only on the common 2018+ subset. R4 is
-optional if conventional and pretrained representations are individually
-useful and complementary.
+adds prior-year AlphaEarth context only on the common 2018+ subset. Brian
+authorized a bounded exploratory R4 check in script 78: equal conventional
+and temporal blocks, with matched raw-history fusion. It is not a dissertation
+requirement or a new trained model.
 
 ## Retained evidence QA, outside the core experiment
 
