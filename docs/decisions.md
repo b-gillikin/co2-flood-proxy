@@ -2589,3 +2589,20 @@ persistence is a minimal own-history reference, not the strongest possible
 history-only method. Census numerical evidence and outcome-selected illustrations
 stay distinct from human relevance validation. See
 `limburg-expanded-event-pass-2026-10-13.md`. Brian writes dissertation prose.
+
+# 2026-10-14 — Interpret actual analogue information
+
+Brian authorized the event-assessment interpretation pass. Compare fixed donor
+sets with their group-balanced eligible prior archive to distinguish specific
+precedents from generic recession. No new representation, fitting, ranking,
+input requirement or chapter gate. Preserve all prior results and report the
+stronger generic duration/mean-curve reference alongside learned shape and
+late-level increments.
+
+Select four outcome-independent sentinel cases per river using dates and
+prior donor spread; interpret all 24 with AI assistance and review the twelve
+existing outcome-selected illustrations separately. No independent human
+verdict or operational-effectiveness claim. Preserve the existing editable
+human fields. Record exact case notes and policy/claim evidence in
+`limburg-analogue-information-review-2026-10-14.md` and the attributed JSON.
+Brian writes dissertation prose; the active RQ and model roster stay intact.

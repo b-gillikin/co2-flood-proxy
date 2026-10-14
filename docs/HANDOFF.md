@@ -1,6 +1,6 @@
 # Session handoff
 
-Updated 2026-10-13 after the expanded event-level evidence pass.
+Updated 2026-10-14 after the analogue-information interpretation pass.
 Canonical design: `limburg-historical-analogue-active-design-2026-10-13.md`.
 Execution/results: `limburg-analogue-steps-3-5-2026-10-13.md`.
 Uncertainty/review: `limburg-analogue-step6-2026-10-13.md`.
@@ -10,6 +10,7 @@ Latest application/results: `limburg-cross-river-checks-2026-10-13.md`.
 Consistency/next-pass definitions: `limburg-consistency-audit-2026-10-13.md`.
 Current preparation: `limburg-event-interpretation-readiness-2026-10-13.md`.
 Latest execution: `limburg-expanded-event-pass-2026-10-13.md`.
+Latest interpretation: `limburg-analogue-information-review-2026-10-14.md`.
 
 ## Active question
 
@@ -207,3 +208,31 @@ verdicts have been entered. Existing rain/Q and AlphaEarth populations/results
 remain preserved and separately labeled. Read `limburg-expanded-event-pass-2026-10-13.md`
 for exact results, limitations and next interpretation work. Raw records stay
 local; no additional model/data request or dissertation prose.
+
+## Information and policy interpretation pass
+
+Script 82 checks fixed selected responses against the generic group-balanced
+eligible archive, with no reranking or training. For five-donor pooled main,
+TTM selects individual shapes about 14.3% closer all-river / 13.6% closer
+cross-river than the archive in general; raw + state already accounts for
+most of this gain. Generic averaging has lower duration error and often lower
+mean-curve error. TTM's modest unique shape increment survives, and all-river
+late-level information improves; no overall continuation-prediction winner.
+
+AI-assisted interpretation covers 24 outcome-independently selected sentinel
+cases and the 12 earlier outcome-selected illustrations (35 distinct events).
+It distinguishes useful elevated-background/recession comparisons, redundant
+cutoff facts, false renewed-rise implications, averaging away peak timing,
+low-spread failures and source/coverage constraints. No independent human
+labels or operator effectiveness claim. Existing human fields are untouched.
+
+The policy inference is an inspectable casebook for analyst training/post-event
+review, with individual prior paths, a generic reference, controls and provenance.
+Operational decisions and warning benefits remain unevaluated, not a new
+chapter prerequisite. See `limburg-analogue-information-review-2026-10-14.md`
+and `reviews/limburg-ai-case-notes-2026-10-14.json`. Brian writes chapter prose.
+
+Validation of the information pass: 130 tests; all 3,294 group-balanced
+reference curves independently checked; repeated scientific tables identical.
+The one-row-per-event evidence census includes all 851 scorable episodes,
+including six unavailable archives.

@@ -70,6 +70,7 @@ python scripts/78_cross_river_analogue_checks.py
 python scripts/79_audit_analogue_consistency.py
 python scripts/80_prepare_event_interpretation.py
 python scripts/81_run_expanded_event_analogues.py
+python scripts/82_review_analogue_information.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by
@@ -91,6 +92,11 @@ broader Q-only inputs, explicit reference measures and blank event-review
 packet. Script 81 runs the expanded Q-only census and writes a local event
 browser, phase evidence, paired intervals and explicit unavailable-archive rows.
 See `docs/limburg-expanded-event-pass-2026-10-13.md` for the resulting evidence.
+
+The information and policy interpretation is in
+`docs/limburg-analogue-information-review-2026-10-14.md`: generic-archive
+reference checks, actual benefit/failure cases and separately attributed AI
+notes. Independent human review fields remain untouched.
 
 ## Verify
 
