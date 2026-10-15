@@ -82,3 +82,8 @@ It recommends distributional validation of the existing analogue sets as the
 smallest useful extension, distinguishing that from a past-only forecasting
 reconstruction. This is a review recommendation, not an implemented analysis
 or a new requirement for the chapter. Existing empirical results remain unchanged.
+
+The [implementation plan](limburg-analogue-distribution-implementation-plan-2026-10-15.md)
+specifies the 24h distributional evaluation, 6h/12h/24h readouts, saved cohorts,
+weighted CRPS, interval diagnostics, validation and outputs. It is a plan;
+scripts 90/91 and new numerical results have not yet been implemented.
