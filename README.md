@@ -39,6 +39,7 @@ active chapter design.
 | [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
 | [Inventory](docs/analysis-inventory.md) | code, dependencies and supporting work |
 | [Handoff](docs/HANDOFF.md) | current state followed by historical execution ledger |
+| [Current ideas](docs/limburg-ideas-2026-10-15.md) | saved Idea 1: past-only event-divergence prediction; not implemented |
 | `docs/data-requests.md`, `docs/decisions.md` | provider status and append-only design history |
 
 Earlier execution notes and controls are indexed separately rather than

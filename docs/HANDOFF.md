@@ -1,5 +1,15 @@
 # Session handoff
 
+## Saved Idea 1 and dynamic foundation-model review — 2026-10-15
+
+Brian requested saving the past-only event-divergence prediction extension as
+[Idea 1](limburg-ideas-2026-10-15.md). It is proposed, not implemented. Its
+numbering is distinct from the archived October 4 ideas. The [current model
+shortlist](reviews/limburg-dynamic-foundation-model-shortlist-2026-10-15.md)
+reviews dated EO, weather and hydrological representations. OlmoEarth Tiny,
+Galileo and AnySat are plausible antecedent-state candidates, not validated
+hourly wetness estimators. No new weights/images downloaded or model arm added.
+
 ## Storm-response explanation — 2026-10-15
 
 Brian authorized all three paths in the event-insight review. Scripts 92–94

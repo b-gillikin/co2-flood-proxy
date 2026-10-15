@@ -77,6 +77,11 @@ for changes; do not select a headline configuration solely for its best score.
 
 ## Advisory forecasting review — 2026-10-15
 
+The separate [saved Idea 1](limburg-ideas-2026-10-15.md) proposes past-only
+event-divergence prediction. The [dynamic foundation-model shortlist](reviews/limburg-dynamic-foundation-model-shortlist-2026-10-15.md)
+assesses complementary dated EO and hydrometeorological representations.
+Neither is an executed new model comparison or a requirement for the chapter.
+
 The subsequent [event-insight literature review](reviews/limburg-event-insight-literature-review-2026-10-15.md)
 assesses storm-centered contrasts, dynamic inter-river similarity and escalation
 as possible explanatory extensions. It reviews held-data feasibility and prior
