@@ -1,5 +1,14 @@
 # Session handoff
 
+## 2026-10-15 shared satellite acquisition
+
+Brian chose acquisition before model-compatibility screening. The full dated
+Sentinel-1, Sentinel-2 SR/TOA and Landsat optical archive is downloading in a
+background worker; see [acquisition record](limburg-satellite-acquisition-2026-10-15.md).
+Check the local progress/log before starting another worker. This is not a
+completed archive or an empirical model comparison.
+
+
 ## Saved Idea 1 and dynamic foundation-model review — 2026-10-15
 
 Brian requested saving the past-only event-divergence prediction extension as
@@ -8,7 +17,9 @@ numbering is distinct from the archived October 4 ideas. The [current model
 shortlist](reviews/limburg-dynamic-foundation-model-shortlist-2026-10-15.md)
 reviews dated EO, weather and hydrological representations. OlmoEarth Tiny,
 Galileo and AnySat are plausible antecedent-state candidates, not validated
-hourly wetness estimators. No new weights/images downloaded or model arm added.
+hourly wetness estimators. No weights/images were downloaded during that
+review; the subsequently authorised imagery acquisition is recorded above.
+No new model arm was added.
 
 ## Storm-response explanation — 2026-10-15
 

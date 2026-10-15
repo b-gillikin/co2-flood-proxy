@@ -1,8 +1,10 @@
 # Foundation models for changing storm and catchment conditions
 
 2026-10-15. Targeted primary-source review and internal advice, not dissertation
-prose, an exhaustive census or an executed benchmark. No weights/images were
-downloaded. [Idea 1](../limburg-ideas-2026-10-15.md) is saved and remains unrun.
+prose, an exhaustive census or an executed benchmark. This review itself
+downloaded no weights/images. Subsequently Brian chose
+shared imagery acquisition before model-compatibility screening; see the
+[acquisition record](../limburg-satellite-acquisition-2026-10-15.md). [Idea 1](../limburg-ideas-2026-10-15.md) is saved and remains unrun.
 
 ## Assessment
 
@@ -70,7 +72,7 @@ encoding, released weights and examples. This is a separately checked lab
 resource, not asserted here to appear in the perspective's model comparison.
 It merits an access/input-contract check alongside Galileo/AnySat if sensor
 flexibility matters. A timestamp-aware encoder is not automatically a temporal
-hydrological model. No download or benchmark was started.
+hydrological model. No Copernicus-FM download or benchmark was started.
 
 ## Important temporal check
 
@@ -119,7 +121,9 @@ cross-basin transfer.
 
 Held: annual AlphaEarth, terrain/catchments, hourly RADOLAN, gauge records and
 ERA5-Land temperature/dewpoint/pressure. This review did not establish a held
-event-aligned S1/S2 scene archive. Most EO candidates need open imagery pulls,
+event-aligned S1/S2 scene archive at review time. The subsequently authorised
+shared archive is now being acquired (see the linked acquisition record), not
+yet complete or model-ready. Most EO candidates need open imagery pulls,
 calibration/masking/alignment and frozen inference, not another agency email.
 Historical Sentinel availability does not cover the complete 2010–2025 record;
 retain a common observed subset and acquisition-age/cloud/revisit metadata.
