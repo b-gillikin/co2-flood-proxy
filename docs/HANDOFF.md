@@ -1,5 +1,28 @@
 # Session handoff
 
+## Storm-response explanation — 2026-10-15
+
+Brian authorized all three paths in the event-insight review. Scripts 92–94
+execute the [storm-response census](limburg-storm-response-results-2026-10-15.md):
+468 rainfall episodes, 3,744 eight-gauge rows, 3,491 exact numeric windows,
+retaining nonresponses and uncertainties. The 24h sensitivity has 461 episodes.
+Both independent audits pass; all 180 chapter tests pass. Outputs remain ignored.
+
+Actual cases exposed regional-clock/local-rainfall phase mismatches. The
+strengthened forcing comparator includes early and response-window rain;
+the initial episode-only arm and development artifacts remain. This
+outcome-informed refinement improves matching. TTM improves on raw history but
+remains worse than forcing-only matching. Peer-state additions are generally
+unhelpful after rainfall/local controls. Recovery-pulse evidence is segmentation-
+sensitive and does not establish a mechanism. Do not oversell the negative
+early-rise coefficient: its outcome shares landmark Q with that predictor.
+
+Use the all-case curve browser and illustrative pairs for Brian's interpretation.
+No new data request, RAG, neural training, scenario model, inundation label,
+dissertation prose or independent human verdict. Earlier results remain intact.
+Next work is assessing the event diagnoses and contribution, not automatically
+adding another model family.
+
 ## Analogue distributions — 2026-10-15
 
 The [24h distributional analysis](limburg-analogue-distribution-results-2026-10-15.md)

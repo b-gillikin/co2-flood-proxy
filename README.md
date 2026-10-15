@@ -12,6 +12,11 @@ AlphaEarth catchment context. It reviews whether river identity and measurement
 provenance make retrieved analogues usable. It is a retrospective archive
 study, not an automatic warning system or operational forecast evaluation.
 
+The latest [storm-response analysis](docs/limburg-storm-response-results-2026-10-15.md)
+examines individual-event divergence, conditional information from other gauges
+and repeated rainfall/recovery using a rainfall-defined census with nonresponses.
+It includes actual event curves, quality checks and a storm-separation sensitivity.
+
 The repository name `chapter1-co2` is historical. CO2, case-crossover,
 cross-tributary prediction and pressure diagnostics are preserved under
 `archive/retired-directions/2026-retrospective-high-water/`; they are not the
@@ -23,6 +28,7 @@ active chapter design.
 | --- | --- |
 | [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
 | [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
+| [Storm-response explanation](docs/limburg-storm-response-results-2026-10-15.md) | three linked event/relationship/escalation analyses, all-case browser, retrospective forcing controls and 12h/24h separation |
 | [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
 | [Analogue distributions](docs/limburg-analogue-distribution-results-2026-10-15.md) | 24h distribution accuracy and uncertainty coverage; fixed five/ten donors, conventional and AlphaEarth controls |
 | [Event-definition robustness](docs/limburg-event-definition-results-2026-10-14.md) | p95 selection and five-day local linkage, one factor at a time; fixed p99 response scale |
@@ -84,6 +90,9 @@ python scripts/88_event_definition_sensitivity.py
 python scripts/89_audit_event_definition_sensitivity.py
 python scripts/90_evaluate_analogue_distributions.py
 python scripts/91_audit_analogue_distributions.py
+python scripts/92_build_storm_response_catalogue.py
+python scripts/93_analyse_storm_responses.py
+python scripts/94_audit_storm_response_analysis.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

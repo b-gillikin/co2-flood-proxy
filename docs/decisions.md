@@ -2713,3 +2713,25 @@ Avoid assuming iid members for a fair-score correction, interpreting empirical
 donor agreement as calibrated confidence, or fitting another model to obtain
 a favorable result. Scripts 90/91, internal results and source-bound audit
 receipts document execution. Brian writes all dissertation prose.
+
+## 2026-10-15 — Three linked storm-response analyses
+
+Brian authorized all three paths in the event-insight literature review.
+Scripts 92–94 add a rainfall-defined census with nonresponses, event divergence,
+conditional peer-gauge information and repeat-pulse/recovery associations.
+The initial specification records practical storm/landmark definitions;
+24h separation is a sensitivity, not a replacement selected for its result.
+
+Actual-case inspection exposed local-rainfall phase and subsequent-weather
+mismatches in episode-only matching. Retain that arm and its local development
+artifacts, and strengthen the explanatory forcing control with first-six-hour
+and response-window rainfall. This is explicitly an outcome-informed refinement.
+It does not establish operational skill or explain every earlier p99 failure.
+TTM has a modest increment over raw history but loses to forcing-only matching;
+peer-state increments are generally unhelpful and recovery-pulse evidence is
+segmentation-sensitive. All prior empirical results remain intact.
+
+No new acquisition, neural weight training, generative/RAG model, hydraulic
+solver or simulated storm. Scripts, scientific tests, internal results and
+independent audits are versioned; source curves/results stay local. Brian
+writes dissertation prose and supplies independent human interpretation.

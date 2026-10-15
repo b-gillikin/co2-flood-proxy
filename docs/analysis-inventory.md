@@ -1,7 +1,8 @@
 # Limburg analysis inventory
 
-**Evidence status updated 2026-10-15:** scripts 81–84 and the distributional
-extension 90–91 are the main current readout; 75–78 retain specified supporting controls/sensitivities; 70–74 are
+**Evidence status updated 2026-10-15:** scripts 92–94 add the three linked
+storm-response analyses; scripts 81–84 and the distributional extension 90–91
+remain the main analogue readout. Scripts 75–78 retain supporting controls/sensitivities; 70–74 are
 development/reproduction stages and 80 is preparation. Detailed roles and
 interpretation limits are in the
 [evidence index](limburg-analogue-evidence-index-2026-10-14.md). All dependency
@@ -36,6 +37,13 @@ Historical `event_study_*` names remain in derived files to preserve
 provenance. They do not make the archived case-crossover model active.
 
 ## Live historical-analogue experiment
+
+The [storm-response extension](limburg-storm-response-results-2026-10-15.md)
+is executed: script 92 builds the rainfall-defined eight-gauge census and
+spatial summaries, 93 runs event/peer/recovery analyses, and 94 independently
+audits their numerical outputs. Both 12h/24h separation catalogues are complete.
+This is exploratory explanation conditional on realized rainfall; its results
+do not supersede earlier p99 scores or establish operational warning skill.
 
 | code or contract | purpose | state |
 | --- | --- | --- |

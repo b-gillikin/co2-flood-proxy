@@ -1,5 +1,18 @@
 # Limburg high-water analogues: active research design
 
+## Three linked explanatory analyses — 2026-10-15
+
+Brian authorized the divergence, relationship and escalation paths from the
+literature review. The [executed storm-response census](limburg-storm-response-results-2026-10-15.md)
+adds rainfall-defined episodes and nonresponses to investigate when comparisons
+are useful or misleading. Scripts 92–94 preserve earlier empirical results.
+The initial [specification](limburg-storm-response-design-2026-10-15.md) and
+results distinguish prospective choices from an outcome-informed forcing-window
+refinement. Both 12h/24h catalogues are executed and independently audited.
+These are realized-rainfall-conditioned explanatory analyses. There is no
+general peer-state or AI advantage, and recovery evidence is segmentation-
+sensitive. Brian retains all dissertation writing.
+
 ## Analogue distributions — 2026-10-15
 
 Brian authorized the [distributional extension](limburg-analogue-distribution-results-2026-10-15.md)

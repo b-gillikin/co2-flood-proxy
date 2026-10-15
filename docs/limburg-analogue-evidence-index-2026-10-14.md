@@ -7,6 +7,7 @@ Organization updated to include the authorized threshold analysis; no new traini
 
 | Analysis | Current role | Local outputs |
 | --- | --- | --- |
+| [Storm-response explanation](limburg-storm-response-results-2026-10-15.md), scripts 92–94 | Three rainfall-defined census analyses: divergence, conditional peer information and repeat-pulse/recovery associations; 12h/24h separation and independent audits | `results/storm_response/`, `results/storm_response_24h/` |
 | [Analogue distributions](limburg-analogue-distribution-results-2026-10-15.md), scripts 90–91 | Complete saved-cohort 24h empirical CRPS, interval coverage/width and group-balanced archives; primary five-donor and supporting ten-donor comparisons | `results/basin_ai_analogue_distributions/` |
 | [Warning-threshold progression](limburg-warning-threshold-results-2026-10-14.md), scripts 86–87 | Full current-threshold census and H1-started escalation evidence; native crossings, measurement uncertainty, observed-history sensitivity and independent audit | `results/warning_threshold_progression/` |
 | [Expanded event pass](limburg-expanded-event-pass-2026-10-13.md), script 81 | Main temporal comparison: raw history, matched raw/state and ordered TTM/state; 845 pooled queries with available donors, explicit short/no archives, all/cross-river and quality checks | `results/basin_ai_expanded_event_pass/` |
