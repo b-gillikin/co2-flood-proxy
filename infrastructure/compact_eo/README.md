@@ -73,7 +73,10 @@ Deallocation stops compute billing; disk, IP and stored blobs still incur charge
 The absolute timer is 2026-10-29 22:53:25 UTC. The worker also requests
 deallocation on completion, error, deadline or storage limit. Systemd invokes
 deallocation on service failure. Restarting later does not extend that deadline.
-The archive ceiling is 70 decimal GB; this is a storage limit, **not a dollar
+Brian raised the Azure archive ceiling to 200 decimal GB on 2026-10-15.
+The service explicitly passes `--max-gb 200`; the original pinned local manifest
+retains its historical 70 GB limit. The dataset and absolute deadline are unchanged.
+This is a storage limit, **not a dollar
 spending cap**. The planning target is USD 20–40 acquisition plus roughly USD
 1.50–4/month retained storage, depending on volume and transactions. Fourteen
 days is a maximum compute window, not a promise of completion.

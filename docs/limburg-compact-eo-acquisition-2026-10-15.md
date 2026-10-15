@@ -81,7 +81,9 @@ size before lossless compression is **322.45 GB**. This is not a promise that
 the compressed package fits 20–50 GB. Spatial masking/compression will reduce
 it; the downloader enforces the budget rather than trusting an extrapolation.
 
-- **70 GB imagery-archive ceiling**, including its metadata and receipts.
+- **70 GB original local imagery-archive ceiling**, including metadata and receipts.
+  Brian raised the Azure service ceiling to **200 GB** on 2026-10-15; this is an
+  explicit runtime override, preserving the pinned original acquisition manifest.
 - **100 GB budget for the new work**, reserving space for weights/processing.
   The downloader counts the retained legacy archive and the designated
   `data/raw/limburg_dynamic_model_weights` folder against this budget; future

@@ -17,7 +17,7 @@ User=eo
 WorkingDirectory=$TASK_ROOT
 Environment=AZURE_VM_RESOURCE_ID=$AZURE_VM_RESOURCE_ID
 Environment=PYTHONUNBUFFERED=1
-ExecStart=$TASK_ROOT/.venv-cloud/bin/python -u $TASK_ROOT/infrastructure/compact_eo/cloud_worker.py --deadline-epoch $EO_DEADLINE_EPOCH --defer-list $TASK_ROOT/data/raw/limburg_compact_eo/seed_pending.json --deallocate
+ExecStart=$TASK_ROOT/.venv-cloud/bin/python -u $TASK_ROOT/infrastructure/compact_eo/cloud_worker.py --max-gb 200 --deadline-epoch $EO_DEADLINE_EPOCH --defer-list $TASK_ROOT/data/raw/limburg_compact_eo/seed_pending.json --deallocate
 Restart=no
 TimeoutStopSec=60
 
