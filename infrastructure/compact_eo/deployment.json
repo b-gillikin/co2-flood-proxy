@@ -1,0 +1,19 @@
+{
+  "subscription": "c7729fd0-7b35-4ec4-b1a3-ec7079b776fa",
+  "resource_group": "rg-limburg-eo",
+  "vm": "vm-limburg-eo",
+  "location": "westus3",
+  "zone": "1",
+  "vm_size": "Standard_B2s_v2",
+  "vm_resource_id": "/subscriptions/c7729fd0-7b35-4ec4-b1a3-ec7079b776fa/resourceGroups/rg-limburg-eo/providers/Microsoft.Compute/virtualMachines/vm-limburg-eo",
+  "storage_account": "stkerkradeprod01bg",
+  "storage_region": "eastus",
+  "container": "limburg-compact-eo",
+  "prefix": "v1",
+  "identity_principal_id": "c30df222-b553-443b-acaa-bc46f379a571",
+  "archive_cap_gb": 70,
+  "cost_target_usd": 40,
+  "compute_deadline_utc": "2026-10-29T22:53:25.142862+00:00",
+  "compute_deadline_epoch": 1793314405,
+  "status": "auth_transfer_pending_deallocation_requested"
+}

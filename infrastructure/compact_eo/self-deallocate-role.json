@@ -1,0 +1,10 @@
+{
+  "Name": "Limburg EO Self Deallocate",
+  "IsCustom": true,
+  "Description": "Permits only deallocation; assigned solely to the dedicated EO downloader VM.",
+  "Actions": ["Microsoft.Compute/virtualMachines/deallocate/action"],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": ["/subscriptions/c7729fd0-7b35-4ec4-b1a3-ec7079b776fa/resourceGroups/rg-limburg-eo"]
+}
