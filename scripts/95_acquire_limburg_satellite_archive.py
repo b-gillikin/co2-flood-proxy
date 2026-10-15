@@ -170,7 +170,7 @@ def archive_order(jobs):
     return ordered
 
 
-def download_job(job, destination, minimum_free_gib, region=None):
+def download_job(job, destination, minimum_free_gib, region=None, image_override=None):
     import ee
     import requests
 
@@ -187,7 +187,9 @@ def download_job(job, destination, minimum_free_gib, region=None):
     partial = target.with_suffix(".tif.part")
     x, y, xmax, ymax = job["bounds"]
     resolution = job["resolution"]
-    image = ee.Image(job["asset_id"]).select(job["bands"])
+    image = (ee.Image(job["asset_id"]) if image_override is None else image_override).select(
+        job["bands"]
+    )
     if region is not None:
         image = image.clip(region)
     # Preserve stored optical DN/QA and SAR dB/angle values. No radiometric
@@ -199,7 +201,11 @@ def download_job(job, destination, minimum_free_gib, region=None):
         .rename("valid_bits")
     )
     image = image.unmask(0, sameFootprint=False).addBands(validity.unmask(0, sameFootprint=False))
-    image = image.toFloat() if job["source"] == "s1" else image.toUint16()
+    image = (
+        image.toFloat()
+        if job.get("dtype") == "float32" or job["source"] == "s1"
+        else image.toUint16()
+    )
     last_error = None
     for attempt in range(4):
         try:
@@ -248,12 +254,21 @@ def main():
     parser.add_argument("--end-year", type=int, default=2025)
     parser.add_argument("--destination", type=Path, default=DEST)
     parser.add_argument("--download", action="store_true")
+    parser.add_argument(
+        "--allow-full-archive",
+        action="store_true",
+        help="Explicit override for the superseded full-archive acquisition",
+    )
     parser.add_argument("--workers", type=int, default=3)
     parser.add_argument("--minimum-free-gib", type=float, default=60)
     parser.add_argument(
         "--limit", type=int, help="Optional smoke-test job limit; omit for full archive"
     )
     args = parser.parse_args()
+    if args.download and not args.allow_full_archive:
+        raise SystemExit(
+            "Full archive superseded for storage reasons. Use script 96 for the compact acquisition; --allow-full-archive is an explicit override."
+        )
     # Some local venvs inherit conda pyproj but not its data-directory setting.
     proj = Path(sys.base_prefix) / "share/proj"
     if "PROJ_DATA" not in os.environ and (proj / "proj.db").exists():

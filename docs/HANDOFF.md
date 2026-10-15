@@ -1,6 +1,20 @@
 # Session handoff
 
+## 2026-10-15 compact EO download — current
+
+Brian approved the compact path. [Current acquisition record](limburg-compact-eo-acquisition-2026-10-15.md).
+Script 96 is running with a 70 GB image ceiling / 100 GB new-work budget;
+script 95's full-archive worker stays paused. Check compact progress/log before
+starting any worker. All 468 events are mapped; usable satellite coverage and
+model compatibility are not assumed. No new empirical result or model ranking.
+
+
 ## 2026-10-15 shared satellite acquisition
+
+**PAUSED at Brian's storage concern.** The background worker was suspended
+with SIGSTOP; do not resume or launch another full-archive worker. About
+614 MiB is held, including inventories and imagery. Revise storage scope first.
+The downloading status below records the earlier launch.
 
 Brian chose acquisition before model-compatibility screening. The full dated
 Sentinel-1, Sentinel-2 SR/TOA and Landsat optical archive is downloading in a

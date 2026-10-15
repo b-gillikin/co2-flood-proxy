@@ -1,5 +1,10 @@
 # Shared Limburg satellite acquisition
 
+**Superseded later on 2026-10-15 for storage reasons.** The full-archive worker
+is paused. Use the [compact acquisition](limburg-compact-eo-acquisition-2026-10-15.md).
+The description below preserves the original launch record, not current
+instructions to resume that worker.
+
 2026-10-15. Internal acquisition record, not dissertation prose or a new result.
 Brian requested acquiring the shared data first, then assessing model
 compatibility. The archive is not restricted to whichever encoder is easiest.
