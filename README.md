@@ -24,6 +24,7 @@ active chapter design.
 | [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
 | [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
 | [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
+| [Analogue distributions](docs/limburg-analogue-distribution-results-2026-10-15.md) | 24h distribution accuracy and uncertainty coverage; fixed five/ten donors, conventional and AlphaEarth controls |
 | [Event-definition robustness](docs/limburg-event-definition-results-2026-10-14.md) | p95 selection and five-day local linkage, one factor at a time; fixed p99 response scale |
 | [Warning-threshold progression](docs/limburg-warning-threshold-results-2026-10-14.md) | full native-record census and H1-started escalation evidence; current thresholds applied retrospectively |
 | [Cross-border completion](docs/limburg-cross-border-completion-2026-10-14.md) | country/archive effects, German rainfall benchmark and pooled geographic context |
@@ -42,7 +43,7 @@ no raw provider data is published.
 
 The commands below preserve the upstream dependency chain. They are not a
 list of separate active experiments. For analysis and interpretation, use the
-evidence index to start with scripts 81–84 and their existing held inputs;
+evidence index to start with scripts 81–84 and 90–91 and their existing held inputs;
 rerun upstream stages only when rebuilding or checking provenance.
 
 ```bash
@@ -81,6 +82,8 @@ python scripts/86_analyse_warning_threshold_progression.py
 python scripts/87_audit_warning_threshold_results.py
 python scripts/88_event_definition_sensitivity.py
 python scripts/89_audit_event_definition_sensitivity.py
+python scripts/90_evaluate_analogue_distributions.py
+python scripts/91_audit_analogue_distributions.py
 ```
 
 The event-library default is the fixed 512-hour assessment history required by

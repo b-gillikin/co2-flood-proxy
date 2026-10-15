@@ -3,7 +3,9 @@
 Date: 2026-10-15. Internal analysis plan for Brian; Brian writes dissertation
 prose. This implements the smallest extension recommended by the
 [scientific review](reviews/limburg-analogue-forecasting-review-2026-10-15.md).
-Planning only: no new empirical result or model execution in this document.
+Execution update: implemented in scripts 90–91; see the
+[results memo](limburg-analogue-distribution-results-2026-10-15.md). The design
+choices below preserve the pre-execution plan.
 
 ## Purpose and scope
 

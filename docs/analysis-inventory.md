@@ -1,7 +1,7 @@
 # Limburg analysis inventory
 
-**Evidence status updated 2026-10-14:** scripts 81–84 are the main current
-readout; 75–78 retain specified supporting controls/sensitivities; 70–74 are
+**Evidence status updated 2026-10-15:** scripts 81–84 and the distributional
+extension 90–91 are the main current readout; 75–78 retain specified supporting controls/sensitivities; 70–74 are
 development/reproduction stages and 80 is preparation. Detailed roles and
 interpretation limits are in the
 [evidence index](limburg-analogue-evidence-index-2026-10-14.md). All dependency
@@ -66,6 +66,9 @@ provenance. They do not make the archived case-crossover model active.
 | `scripts/87_audit_warning_threshold_results.py` | independent native labels, donor-share and summary reconstruction, input/output hashes and whole-record low-flow masking check | separate audit receipt |
 | `scripts/88_event_definition_sensitivity.py` | full alternative percentile/local-linkage catalogues and pooled temporal/rain/context comparisons; baseline replay and exact unique-row cache | separate one-factor results; see event-definition readout |
 | `scripts/89_audit_event_definition_sensitivity.py` | independent source catalogue, fixed-normalizer, input/response, pair/set and archive-reference reconstruction | separate audit receipt |
+| `src/analogue_distributions.py` | exact finite weighted CRPS, inverse-CDF ranges and joint cluster resampling | tested against hand calculations and independent CDF-gap scoring |
+| `scripts/90_evaluate_analogue_distributions.py` | saved pooled-policy cohorts and donor sets, 24h probability-score/coverage census, fixed five/ten donors and geographic controls | executed; 88,560 distribution sets and 2,125,440 hourly scores |
+| `scripts/91_audit_analogue_distributions.py` | independent archive membership/weight, CDF-gap score, summary and multinomial-bootstrap reconstruction | separate audit receipt; source records remain local |
 | `config/lanuk_rating_periods.csv` | hashed provider curve-validity transcription | complete; literal boundaries and provisional regime explicit |
 
 Execution choices, results and reproduction commands are in

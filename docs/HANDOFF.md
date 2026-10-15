@@ -1,5 +1,30 @@
 # Session handoff
 
+## Analogue distributions — 2026-10-15
+
+The [24h distributional analysis](limburg-analogue-distribution-results-2026-10-15.md)
+is implemented and executed on the saved script-84 pooled donor sets. Primary
+available populations remain 845 discharge-history, 764 rainfall-matched and
+365 context queries. All 1,062 held events, exclusions and short/no archives
+remain visible. Scripts 90/91 add empirical CRPS and pointwise range diagnostics
+with the existing five/ten donors and geographic controls.
+
+Five-donor TTM has no clear distributional advantage over raw/state or the
+generic archive. Ten-donor retrieval improves several archive comparisons;
+its AI-specific increment remains modest and uncertain. Conventional rain/Q
+is strong. Annual AlphaEarth has no clear incremental all-river advantage,
+and worsens ten-donor cross-river CRPS versus temporal/state under group and
+year intervals. Coverage is lead-, cohort- and donor-count-dependent, not
+calibrated operational confidence. Full-era p99 and inherited 72h eligibility
+remain retrospective. No training, new dataset, changed trajectory mapping,
+future-rain input or human verdict. Brian writes dissertation text.
+
+The independent audit verifies every score and all 3,840 intervals (maximum
+discrepancy 1.46e-13). All 39 existing scientific data files reproduce byte for
+byte. The chapter suite passes 173 tests; lint/format checks pass. Large local
+outputs remain ignored; code, tests, internal results and receipts describe
+the analysis without publishing source records.
+
 ## Event-definition robustness — 2026-10-14
 
 [Both requested sensitivity analyses](limburg-event-definition-results-2026-10-14.md)

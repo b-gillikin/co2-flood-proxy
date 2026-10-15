@@ -1,5 +1,24 @@
 # Limburg high-water analogues: active research design
 
+## Analogue distributions — 2026-10-15
+
+Brian authorized the [distributional extension](limburg-analogue-distribution-results-2026-10-15.md)
+after the scientific review and implementation plan. Scripts 90/91 score the
+saved script-84 pooled donor sets over hours 1–24, preserving the RQ, full
+eligible census, current representations, full-era normalization and fixed
+five/ten-donor settings. All-river and other-river, measurement-quality and
+country/river evidence remain visible. This extends retrospective evidence
+evaluation; it does not reconstruct as-issued forecasts.
+
+The declared five-donor primary has no clear TTM distributional advantage.
+Ten-donor support can improve on the generic archive while conventional
+rain/Q remains competitive. AlphaEarth's geographic increment is conditional
+and can hurt cross-river distribution scores. Range coverage and width are
+empirically checked, without fitting a calibration model or treating donor
+agreement as a guarantee. The source-bound manifest, independent numerical
+audit and reproduction receipt document execution. Brian retains all prose
+and independent human-review fields.
+
 ## Event-definition robustness — 2026-10-14
 
 [Both requested sensitivity analyses](limburg-event-definition-results-2026-10-14.md)

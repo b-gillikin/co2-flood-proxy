@@ -2696,3 +2696,20 @@ checks donor IDs, distances and metrics against the held pooled script-84
 results. The script-84 archive-policy argument is optional; defaults preserve
 its original three-policy behavior. No training, new data request, threshold
 search, formal preregistration or dissertation prose.
+
+## 2026-10-15 — Distributional validation of the saved analogues
+
+Brian requested implementation of the reviewed, bounded 24h distributional
+plan. Preserve the saved script-84 pooled-policy donor sets and cohorts,
+existing p99 trajectory mapping, representations and five/ten-donor settings.
+Evaluate exact finite empirical CRPS, pointwise quantile coverage/width and
+the group-balanced eligible archive, with existing raw/state, rain/Q and
+geographic controls. Retain all eligible events and explicit short/no archives.
+Keep five donors primary and ten donors supporting regardless of results.
+
+The separate past-only forecasting reconstruction is not implemented here.
+Full-era p99 and inherited complete-72h scoring eligibility remain explicit.
+Avoid assuming iid members for a fair-score correction, interpreting empirical
+donor agreement as calibrated confidence, or fitting another model to obtain
+a favorable result. Scripts 90/91, internal results and source-bound audit
+receipts document execution. Brian writes all dissertation prose.
