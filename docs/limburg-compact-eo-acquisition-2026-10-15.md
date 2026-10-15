@@ -106,11 +106,12 @@ cd /Users/briangillikin/Desktop/floods/chapter1-co2
 .venv-foundation/bin/python -u scripts/96_acquire_limburg_compact_eo.py --download
 ```
 
-The compact worker is running locally while the Azure handoff is prepared.
-Cloud authentication and the cloud export check remain pending; the laptop
-cannot yet be closed without interrupting local acquisition/seed uploads.
+The compact worker now runs independently on Azure. Four cloud product exports
+passed SHA-256 readback checks; all 3,341 completed local files were uploaded,
+and the local worker was retired. Production acquisition is continuing; this
+does not mean that all 35,442 planned files are complete. The laptop can close.
 See the [Azure operating instructions](../infrastructure/compact_eo/README.md).
-Do not start a duplicate;
+Do not restart the local worker or start a duplicate cloud worker;
 there is also an archive lock. Local paths (all git-ignored):
 
 - `data/raw/limburg_compact_eo/plan.json`: design, hashes, sized manifest summary.

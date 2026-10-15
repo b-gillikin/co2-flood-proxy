@@ -11,13 +11,21 @@ The VM is `vm-limburg-eo` in `rg-limburg-eo`, West US 3, zone 1. The private
 archive is `https://stkerkradeprod01bg.blob.core.windows.net/limburg-compact-eo`,
 prefix `v1`. Storage is in East US. Cross-region transfers add a small charge.
 
-As of 2026-10-15, the VM, pinned environment, managed identity, private container
-and shutdown services are installed. Source hashes match the local scripts.
-The acquisition service is **not started**: Earth Engine authentication awaits
-explicit credential-transfer approval or authentication performed by Brian on
-the VM. Existing local imagery is being seeded separately. A seeded upload is
-not yet a cloud-verified completed acquisition. Keep the local worker and files
-until the cloud export check and seed handoff have been verified.
+As of 2026-10-15, the acquisition service is **running independently on Azure**.
+Brian explicitly approved the private Earth Engine credential transfer. All four
+product export checks passed, including SHA-256 readback, and production has
+downloaded further files successfully. All 3,341 completed local TIFF/receipt
+pairs were uploaded; the worker was restarted after the last upload to refresh
+its archive inventory. The local compact worker was retired and its files
+retained. The laptop can close. Seeded files have transport MD5 validation and
+matching local SHA-256 receipts; production performs full SHA-256 readback when
+it reaches those jobs. Upload completion is not a claim that all planned imagery
+has been acquired or all seeded files have finished cloud readback.
+
+All twelve deployed source/input hashes were checked. A nonsecret reproducibility
+bundle is stored at `v1/_control/acquisition-inputs.tar.gz`; its SHA-256 is in
+`deployment.json`. It contains only the explicitly listed scripts/manifests and
+input receipt, never credentials or raw gauge files.
 
 No raw gauge files, SSH private keys or Earth Engine credentials enter the Blob
 archive or Git. SSH is restricted to the researcher's configured public IP.
@@ -83,5 +91,5 @@ Fifteen focused tests pass across cloud publication, compact acquisition and
 the source archive helpers. They cover hash corruption, immutable conflicts,
 restart behavior, storage limits, temporal/orbit filtering and source provenance.
 These checks establish transport and scheduling correctness, not model
-compatibility or scientific results. The actual cloud export check remains
-pending authentication.
+compatibility or scientific results. Actual cloud export checks passed for
+all four product groups with zero failures.
