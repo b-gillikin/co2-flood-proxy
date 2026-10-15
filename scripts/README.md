@@ -25,8 +25,8 @@ python scripts/68_import_alphaearth_embeddings.py
 python scripts/69_raw_hydrograph_analogue_baseline.py
 ```
 
-Script 63 is retained as an optional evidence-QA pilot; its four-arm RAG
-comparison is no longer part of the active chapter. Script 64 defaults to the
+Script 63 and its four-arm RAG pilot are archived under
+`../archive/retired-basin-ai-pilot/`. Script 64 defaults to the
 fixed 512-hour TTM-R2 history and 72 withheld hours. Script
 65 retrieves strictly earlier events from different storms. Script 66 is a dry
 run unless `--download` is supplied.

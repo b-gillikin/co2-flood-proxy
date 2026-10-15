@@ -39,9 +39,16 @@ reproduced their source data as a provenance check is preserved here, not
 deleted, because it documents real findings (K4 is the usable sensor; the
 pre-15-May-2021 lineage cannot be reconstructed from the delivered package).
 `src/io_iot.py` stays in `src/`, not here: `infrastructure_tests/test_io_data.py`
-still exercises it to protect the deployed daily-summary Azure function, which
-is a maintained asset independent of this chapter. This move does not affect
-the Azure collection infrastructure in `kerkrade_data/` and `iot-device-data/`.
+still exercises retained IoT ingestion.
+
+On 2026-10-15 the disabled Kerkrade daily email and hourly/monthly weather
+collectors, their historical deployment scripts and daily-summary test moved
+to `retired-kerkrade-alert-weather/`. The Azure Function App still runs the
+IoT timer from `kerkrade_data/`; its storage and raw records remain in place.
+
+The completed four-arm RAG feasibility pilot and its pilot-only contracts
+moved to `retired-basin-ai-pilot/`. The basin graph and representation contract
+remain live because the analogue analysis reads them.
 
 The reasons and numerical history are preserved in `docs/decisions.md`. The
 live design is `docs/limburg-historical-analogue-active-design-2026-10-13.md`; the live

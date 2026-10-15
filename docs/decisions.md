@@ -2735,3 +2735,17 @@ No new acquisition, neural weight training, generative/RAG model, hydraulic
 solver or simulated storm. Scripts, scientific tests, internal results and
 independent audits are versioned; source curves/results stay local. Brian
 writes dissertation prose and supplies independent human interpretation.
+
+## 2026-10-15 — Disable retired Kerkrade weather and daily email timers
+
+Decision: Disable `daily_summary_email_timer`, `hourly_pull_timer`, and
+`monthly_pull_timer` in `func-kerkrade-monthly-pull-bg`. The daily Kerkrade
+Weather Alert email was still being sent although Visual Crossing collection
+was retired from the live chapter on 2026-08-11. Keep `air_quality_timer`
+enabled because the Kerkrade IoT record is still being collected.
+
+Verification: Azure reported the three retired functions as disabled and
+`air_quality_timer` as enabled. The `air-quality-device-data-1` container
+contains a blob updated on 2026-10-15. The Function App and source storage
+remain in place because the IoT timer uses them. The separate KNMI and ERA5
+backfill Function Apps were already stopped.

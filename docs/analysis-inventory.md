@@ -113,12 +113,11 @@ requirement or a new trained model.
 
 ## Retained evidence QA, outside the core experiment
 
-`docs/ai-eval/source-inventory.json`, `basin-graph.json`,
-`benchmark-draft.json`, `system-arms.json` and
-`scripts/63_build_basin_ai_pilot.py` preserve the earlier four-arm feasibility
-pilot. They may support factual and source-link checks. Running or scoring the
-RAG arms, selecting a generator, and human-reviewing all 30 cases are not
-chapter requirements.
+The earlier four-arm RAG feasibility pilot, its script, test and pilot-only
+design files are preserved in `archive/retired-basin-ai-pilot/`. The live
+`docs/ai-eval/basin-graph.json` and `representation-arms.json` remain because
+current analogue scripts and tests use them. RAG scoring and generator
+selection are not chapter requirements.
 
 ## Archived directions
 
