@@ -72,3 +72,13 @@ test set or independent confirmatory evidence. Conditional sampling intervals
 do not account for the full development process, reused donors, measurement
 uncertainty or multiple comparisons. Preserve unfavorable results and reasons
 for changes; do not select a headline configuration solely for its best score.
+
+## Advisory forecasting review — 2026-10-15
+
+The [analogue-forecasting review](reviews/limburg-analogue-forecasting-review-2026-10-15.md)
+checks added value, cross-gauge transfer, AlphaEarth, temporal information
+boundaries and probability evaluation against the current code and literature.
+It recommends distributional validation of the existing analogue sets as the
+smallest useful extension, distinguishing that from a past-only forecasting
+reconstruction. This is a review recommendation, not an implemented analysis
+or a new requirement for the chapter. Existing empirical results remain unchanged.
