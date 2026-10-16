@@ -1,4 +1,4 @@
-"""Check local checkpoint/architecture binding only; no forward pass or event data."""
+"""Check local model loading; optionally probe Copernicus normalization on synthetic data."""
 
 import argparse
 import importlib.util
@@ -19,7 +19,19 @@ def module_at(name, path):
     return module
 
 
-def load(name):
+def validate_copernicus_output_norm(model, mismatch):
+    """Permit only the exact output layer intentionally absent in the release."""
+    import torch
+
+    if set(mismatch.missing_keys) != {"fc_norm.weight", "fc_norm.bias"} or mismatch.unexpected_keys:
+        raise ValueError(str(mismatch))
+    if not torch.equal(model.fc_norm.weight, torch.ones_like(model.fc_norm.weight)):
+        raise ValueError("Output LayerNorm scale is not the deterministic default")
+    if not torch.equal(model.fc_norm.bias, torch.zeros_like(model.fc_norm.bias)):
+        raise ValueError("Output LayerNorm bias is not the deterministic default")
+
+
+def load(name, probe=False):
     import torch
 
     torch.set_num_threads(2)
@@ -88,21 +100,54 @@ def load(name):
         sys.path = [str(code), str(code / "src")] + [p for p in sys.path if p != str(ROOT)]
         from src.model_vit import vit_base_patch16
 
-        model = vit_base_patch16(num_classes=0, global_pool=False)
+        model = vit_base_patch16(num_classes=0, global_pool=True)
         state = torch.load(
             weights / "CopernicusFM_ViT_base_varlang_e100.pth",
             map_location="cpu",
             weights_only=True,
         )
         mismatch = model.load_state_dict(state.get("model", state), strict=False)
-        if mismatch.missing_keys or mismatch.unexpected_keys:
-            raise ValueError(str(mismatch))
+        # The official benchmark explicitly expects this newly added output
+        # LayerNorm, not missing Transformer/block or patch-embedding weights.
+        validate_copernicus_output_norm(model, mismatch)
     model.eval().requires_grad_(False)
-    return {
+    result = {
         "status": "checkpoint_loaded_no_forward_test",
         "torch": torch.__version__,
         "parameters": sum(p.numel() for p in model.parameters()),
     }
+    if probe:
+        captured = []
+        handle = model.fc_norm.register_forward_pre_hook(
+            lambda module, inputs: captured.append(inputs[0])
+        )
+        image = torch.randn(1, 4, 224, 224, generator=torch.Generator().manual_seed(1729))
+        metadata = torch.full((1, 4), float("nan"))  # Publisher's unknown-metadata example.
+        inputs = (image, metadata, [490, 560, 665, 842], [65, 35, 30, 115], None, "spectral", 16)
+        with torch.inference_mode():
+            _, first = model(*inputs)
+            _, second = model(*inputs)
+            expected = torch.nn.functional.layer_norm(captured[0], (768,), eps=model.fc_norm.eps)
+        handle.remove()
+        if first.shape != (1, 768) or not torch.isfinite(first).all():
+            raise ValueError("Invalid synthetic embedding")
+        if not torch.equal(first, second) or not torch.allclose(
+            first, expected, atol=1e-6, rtol=1e-6
+        ):
+            raise ValueError("Synthetic normalization/repeatability check failed")
+        result.update(
+            status="checkpoint_loaded_synthetic_probe_passed",
+            synthetic_probe={
+                "seed": 1729,
+                "input_shape": list(image.shape),
+                "embedding_shape": list(first.shape),
+                "finite": True,
+                "repeatable": True,
+                "matches_nonaffine_layernorm": True,
+                "layernorm_eps": model.fc_norm.eps,
+            },
+        )
+    return result
 
 
 def main():
@@ -112,9 +157,14 @@ def main():
         required=True,
         choices=["olmoearth", "galileo", "prithvi", "anysat", "croma", "dofa", "copernicus_fm"],
     )
+    parser.add_argument(
+        "--probe", action="store_true", help="Synthetic Copernicus normalization check only"
+    )
     args = parser.parse_args()
+    if args.probe and args.model != "copernicus_fm":
+        parser.error("--probe is only implemented for copernicus_fm")
     try:
-        result = load(args.model)
+        result = load(args.model, probe=args.probe)
     except Exception as error:
         result = {"status": "adapter_review_needed", "error": f"{type(error).__name__}: {error}"}
     result.update(
@@ -127,7 +177,7 @@ def main():
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
-    return int(result["status"] != "checkpoint_loaded_no_forward_test")
+    return int(not result["status"].startswith("checkpoint_loaded"))
 
 
 if __name__ == "__main__":

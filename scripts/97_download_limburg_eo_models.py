@@ -188,7 +188,7 @@ def main():
     for source in manifest.get("support_sources", []):
         acquire_source(source, ROOT / source["path"])
     for case in manifest["unresolved"]:
-        if case.get("source"):
+        if case.get("source") and not case.get("status", "").startswith("excluded"):
             acquire_source(case["source"], destination / "code" / case["id"])
     records = []
     with ThreadPoolExecutor(max_workers=3) as pool:

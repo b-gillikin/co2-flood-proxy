@@ -13,10 +13,10 @@ The explicit source/weight lock is
 It records official repositories, immutable revisions, exact selected files,
 publisher hashes/byte counts, licences and input contracts. The earlier planning
 note's count of "nine" did not reconcile its later additions. All eleven named
-EO families are now accounted for: ten selected public checkpoints and SkySense,
-whose official Notion checkpoint page returns a site shell without usable
-checkpoint links. Its official code and research-use terms are retained; no
-unofficial replacement or automatic email request has been introduced.
+EO families are now accounted for: ten selected public checkpoints and SkySense.
+Brian excluded SkySense from the usable screen after its official checkpoint
+page did not expose accessible weights. Its official code and research-use
+terms are retained for provenance; no further retrieval work is planned.
 
 Files live in `data/raw/limburg_dynamic_model_weights/`, outside Git:
 
@@ -84,13 +84,15 @@ python3.11 -m venv .venvs-eo/legacy
 ## Actual loading checks and remaining adaptation
 
 `check_load.py` binds local publisher weights to the pinned architecture, sets
-evaluation/frozen mode and records versions. It performs no forward pass, uses
-no event data and produces no embeddings. Run it in the corresponding runtime:
+evaluation/frozen mode and records versions. Its optional Copernicus `--probe`
+runs a synthetic normalization check. It uses no event data and produces no
+event embeddings. Run it in the corresponding runtime:
 
 ```sh
 .venvs-eo/modern/bin/python environments/eo-screen/check_load.py --model olmoearth
 .venvs-eo/galileo/bin/python environments/eo-screen/check_load.py --model galileo
 .venvs-eo/legacy/bin/python environments/eo-screen/check_load.py --model dofa
+.venvs-eo/legacy/bin/python environments/eo-screen/check_load.py --model copernicus_fm --probe
 ```
 
 | Family / selected checkpoint | Preparation check | Input work before imagery inference |
@@ -101,11 +103,11 @@ no event data and produces no embeddings. Run it in the corresponding runtime:
 | Prithvi EO 2.0 Tiny TL | Strict checkpoint load passed, using publisher position-grid handling. | Six HLS bands match. Convert held physical reflectance to the released normalization units and preserve time/location coordinates. |
 | CROMA base, SAR branch | Encoder load passed. | Source supports SAR-only. Check source per-image normalization and masks. The optical branch expects twelve S2 bands, two more than held. |
 | DOFA v1 base | Complete backbone load passed with `global_pool=False`, no classifier. | Excluded only pretraining `mask_token` and projector tensors; no missing backbone keys. Verify wavelengths and sensor-specific preprocessing. v2 is a different architecture, not an automatic substitute. |
-| Copernicus-FM base | Adapter review needed. | Official example leaves `norm.weight`/`norm.bias` missing. Resolve backbone normalization before inference; do not silently accept partial loading. Also check TOA-to-SR transfer. |
+| Copernicus-FM base | Loading and synthetic normalization probe passed. | Official benchmark mean-patch pooling adds output LayerNorm with deterministic scale one/bias zero; its two absent keys are expected. All pretrained backbone keys must match. Input normalization and TOA-to-SR transfer are documented in the [review](../../docs/reviews/limburg-copernicus-normalization-2026-10-15.md). |
 | TerraMind 1.0 Tiny | Weight/source preparation; load not attempted. | Model card explicitly supports S1GRD and S2L2A band subsets. Use that contract rather than requiring RTC or extra bands by default. Resolve TerraTorch runtime separately. |
 | Presto default | Weight/source preparation; load not attempted. | Official input helper supports missing channels/modalities. Use its masks and normalization; do not make absent environmental inputs mandatory. Its legacy package imports also need an inference-dependency check. |
 | SatMAE multispectral ViT base e199 | Weight/source preparation; load not attempted. | This is the multispectral S2 checkpoint, not temporal RGB SatMAE. Check legacy timm API, channel selection and TOA-to-SR transfer. |
-| SkySense | Official code/access route retained; weights not obtained. | Author page did not expose an accessible checkpoint. No model is represented as acquired or tested. |
+| SkySense | Outside the usable screen per Brian. | Code retained as provenance; weights were not obtained and no further retrieval is planned. |
 
 These differences affect adapter design and interpretation, not whether the
 chapter proceeds. Use supported subsets where justified; request no additional
