@@ -53,22 +53,23 @@ separately rather than assumed identical.
 
 ## Environments
 
-Three isolated runtimes are installed under `.venvs-eo/` (Git-ignored). Existing
+Six isolated runtimes are installed under `.venvs-eo/` (Git-ignored). Existing
 `.venv-foundation` and the Azure acquisition runtime are unchanged. Requirements
-and the actual macOS ARM64 resolved package locks are stored in this directory.
+and macOS ARM64 resolved package locks are stored here.
 
 | Runtime | Python | Purpose |
 | --- | --- | --- |
-| `modern` | 3.12 | OlmoEarth inference-only, Prithvi Tiny, AnySat, CROMA; Torch 2.9.1/timm 1.0.22. |
-| `galileo` | 3.11 | Minimal Galileo single-file loader; upstream Torch 2.2.1/NumPy 1.26.4/einops 0.7.0. |
-| `legacy` | 3.11 | Older timm API for DOFA and Copernicus-FM checks; Torch 2.2.1/timm 0.9.2. |
+| `modern` | 3.12 | OlmoEarth, Prithvi Tiny, AnySat, CROMA; Torch 2.9.1/timm 1.0.22. |
+| `galileo` | 3.11 | Galileo single-file loader; Torch 2.2.1/NumPy 1.26.4. |
+| `legacy` | 3.11 | DOFA and Copernicus-FM; Torch 2.2.1/timm 0.9.2. |
+| `terramind` | 3.12 | Pinned TerraTorch source; NumPy 2.2.6, independent geospatial stack. |
+| `presto` | 3.11 | Official source; openmapflow 0.2.4/Pandas 1.5.3 resolve legacy import dependencies. |
+| `satmae` | 3.11 | Original timm API/NumPy 1.23.5 for published np.float use; no upstream code patch. |
 
-All three pass `pip check`. These are inference preparation runtimes, not copies
-of each paper's training environment. In particular, the legacy runtime is not
-a claimed SatMAE reproduction environment. TerraMind's full TerraTorch stack
-also needs its own resolved environment: the pinned current source requires
-NumPy >=2.2, whereas the modern runtime deliberately retains NumPy 1.26.4.
-Do not upgrade the common runtime in place to satisfy that one model.
+All six pass `pip check`. These are inference runtimes, not claimed paper training
+reproductions. TerraTorch is installed from the pinned downloaded repository;
+its source dependency constraints differ from the same-version PyPI release.
+No inference requires new Earth Engine authentication or a training dataset.
 
 Example recreation (substitute your Python 3.12/3.11 executables):
 
@@ -85,8 +86,7 @@ python3.11 -m venv .venvs-eo/legacy
 
 `check_load.py` binds local publisher weights to the pinned architecture, sets
 evaluation/frozen mode and records versions. Its optional Copernicus `--probe`
-runs a synthetic normalization check. It uses no event data and produces no
-event embeddings. Run it in the corresponding runtime:
+runs a synthetic normalization check. It produces loading diagnostics; the separate real-input runner produces patch embeddings. Run it in the corresponding runtime:
 
 ```sh
 .venvs-eo/modern/bin/python environments/eo-screen/check_load.py --model olmoearth
@@ -95,23 +95,34 @@ event embeddings. Run it in the corresponding runtime:
 .venvs-eo/legacy/bin/python environments/eo-screen/check_load.py --model copernicus_fm --probe
 ```
 
-| Family / selected checkpoint | Preparation check | Input work before imagery inference |
-| --- | --- | --- |
-| OlmoEarth v1.2 Tiny | Strict checkpoint load passed. | Twelve S2 channels expected; held S2 lacks B01/B09. Check explicit missing-band treatment against v1.2's band-dropout training, or the supported SAR route. Training dropout is not by itself a validated missing-band inference adapter. |
-| Galileo Nano encoder | Strict checkpoint load passed. | Ten held S2 bands match; combine grids, published normalization and masks for unused modalities. |
-| AnySat base | Strict checkpoint load passed, flash attention disabled. | Band order, same spatial extent, normalization and day-of-year companions. Composite pixel dates require a documented temporal adapter. |
-| Prithvi EO 2.0 Tiny TL | Strict checkpoint load passed, using publisher position-grid handling. | Six HLS bands match. Convert held physical reflectance to the released normalization units and preserve time/location coordinates. |
-| CROMA base, SAR branch | Encoder load passed. | Source supports SAR-only. Check source per-image normalization and masks. The optical branch expects twelve S2 bands, two more than held. |
-| DOFA v1 base | Complete backbone load passed with `global_pool=False`, no classifier. | Excluded only pretraining `mask_token` and projector tensors; no missing backbone keys. Verify wavelengths and sensor-specific preprocessing. v2 is a different architecture, not an automatic substitute. |
-| Copernicus-FM base | Loading and synthetic normalization probe passed. | Official benchmark mean-patch pooling adds output LayerNorm with deterministic scale one/bias zero; its two absent keys are expected. All pretrained backbone keys must match. Input normalization and TOA-to-SR transfer are documented in the [review](../../docs/reviews/limburg-copernicus-normalization-2026-10-15.md). |
-| TerraMind 1.0 Tiny | Weight/source preparation; load not attempted. | Model card explicitly supports S1GRD and S2L2A band subsets. Use that contract rather than requiring RTC or extra bands by default. Resolve TerraTorch runtime separately. |
-| Presto default | Weight/source preparation; load not attempted. | Official input helper supports missing channels/modalities. Use its masks and normalization; do not make absent environmental inputs mandatory. Its legacy package imports also need an inference-dependency check. |
-| SatMAE multispectral ViT base e199 | Weight/source preparation; load not attempted. | This is the multispectral S2 checkpoint, not temporal RGB SatMAE. Check legacy timm API, channel selection and TOA-to-SR transfer. |
-| SkySense | Outside the usable screen per Brian. | Code retained as provenance; weights were not obtained and no further retrieval is planned. |
+All ten accessible families now have real-input adapters. See the
+[input-readiness note](../../docs/reviews/limburg-eo-input-readiness-2026-10-16.md)
+for routes, normalization sources, masks, dates, limitations and actual checks.
+SkySense remains excluded by Brian because official weights were inaccessible.
 
-These differences affect adapter design and interpretation, not whether the
-chapter proceeds. Use supported subsets where justified; request no additional
-imagery merely because a pretraining dataset used it. No empirical screen has
-yet compared these representations. Later extraction must retain past-only
-windows, masks, acquisition age and the matched-event cohort, and distinguish
-pretrained model exposure from a genuine historically available forecast.
+Recreate the extra runtimes using their matching Python versions and lock files.
+For TerraMind, install the pinned architecture source after the lock:
+
+```sh
+.venvs-eo/terramind/bin/python -m pip install --no-deps data/raw/limburg_dynamic_model_weights/code/terratorch
+```
+
+## Real-input checks and resumable extraction
+
+```sh
+# Print all ten isolated check commands without executing models.
+.venvs-eo/legacy/bin/python environments/eo-screen/check_real_inputs.py
+# Engineering fixture, repeatability, then verified cache resume for all ten.
+.venvs-eo/legacy/bin/python environments/eo-screen/check_real_inputs.py --run
+# Inventory only, then one model's full locally available patch census.
+.venvs-eo/galileo/bin/python scripts/98_extract_limburg_eo_embeddings.py --model galileo
+.venvs-eo/galileo/bin/python scripts/98_extract_limburg_eo_embeddings.py --model galileo --run
+```
+
+Use the runtime listed above for each model. Full extraction is resumable but is
+not automatically launched by preparation. Files still arriving in Azure do not
+need to finish for these engineering checks. The runner processes locally staged
+TIFFs and receipts, not an automatic full cloud mirror. It reports pending jobs.
+Embeddings/masks/date surfaces and JSON provenance stay outside Git under
+`data/processed/limburg_eo_embeddings/`. No flood-event performance comparison has
+yet used these new embeddings. Sequence/event assembly remains separate work.

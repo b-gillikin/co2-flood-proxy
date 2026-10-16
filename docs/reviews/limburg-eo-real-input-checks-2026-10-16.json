@@ -1,0 +1,366 @@
+{
+  "checked_utc": "2026-10-16T14:47:13.424238+00:00",
+  "purpose": "Engineering only; one named real composite fixture per model, no scientific performance comparison",
+  "results": [
+    {
+      "model": "olmoearth",
+      "runtime": "modern",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "233a7cac55506b833fa3018229c058239c68b3f28253906975d3c0ef2d994a07",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7407,
+          "completed_utc": "2026-10-16T14:45:50.809815+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "233a7cac55506b833fa3018229c058239c68b3f28253906975d3c0ef2d994a07",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7407,
+          "completed_utc": "2026-10-16T14:45:53.466263+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 192,
+        "repeatable": true,
+        "sha256": "5c8158864c34a262c4ec8f713c24d49d30a6c51b374502348422e4ca2100e097",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    },
+    {
+      "model": "galileo",
+      "runtime": "galileo",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "0220c1e73676947ab22a7a2a09e434bc8a50178e13a16ca6ef49f74cdbc5ce5d",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:45:55.857173+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "0220c1e73676947ab22a7a2a09e434bc8a50178e13a16ca6ef49f74cdbc5ce5d",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:45:57.682837+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 128,
+        "repeatable": true,
+        "sha256": "0fcd390fb528133de8dcd75707e7c13ac42de6869ed8c8f81229544c2353700b",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    },
+    {
+      "model": "prithvi",
+      "runtime": "modern",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "b421a7b8b3ece3d54dde08c98db78cd5c78a3e98b8215b652ab437eeac1f0d71",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 9293,
+          "completed_utc": "2026-10-16T14:46:00.673597+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "b421a7b8b3ece3d54dde08c98db78cd5c78a3e98b8215b652ab437eeac1f0d71",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 9293,
+          "completed_utc": "2026-10-16T14:46:03.516648+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 192,
+        "repeatable": true,
+        "sha256": "e68875ddaa70a1a829f845813095bd47840630be711972529f8d1c371cc23bd9",
+        "valid_fraction": 0.5529934630102041
+      },
+      "passed": true
+    },
+    {
+      "model": "anysat",
+      "runtime": "modern",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "f9b59cf34b755926ad693e861068326e5558020405639c8f8cb42449c5555b92",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:09.604781+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "f9b59cf34b755926ad693e861068326e5558020405639c8f8cb42449c5555b92",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:13.173959+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 768,
+        "repeatable": true,
+        "sha256": "f28cf12ea8ba40a44a3fd1972f38b8a2f4e8d313eca4bdca7e71fc51322d33f2",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    },
+    {
+      "model": "croma",
+      "runtime": "modern",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "d0207a4947bb80f901f86089acfbe39186d63fc32427d0ffd433fd757685b13a",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7407,
+          "completed_utc": "2026-10-16T14:46:17.381245+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "d0207a4947bb80f901f86089acfbe39186d63fc32427d0ffd433fd757685b13a",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7407,
+          "completed_utc": "2026-10-16T14:46:21.134488+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 768,
+        "repeatable": true,
+        "sha256": "8dd925d8e641eb644ae048bb6b9849a88f32a3e6c789d6d12f77039917758f63",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    },
+    {
+      "model": "dofa",
+      "runtime": "legacy",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "20c1df247d2edd09d79da3eb2a2d294b0d1f2dd2fd05effd179aa50c6c09145a",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:24.874988+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "20c1df247d2edd09d79da3eb2a2d294b0d1f2dd2fd05effd179aa50c6c09145a",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:28.443107+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 768,
+        "repeatable": true,
+        "sha256": "e4f3ddaaaac57165149cf73945831d1dd5cdce8d7a8034b63746cf473a1bc861",
+        "valid_fraction": 0.9866669323979592
+      },
+      "passed": true
+    },
+    {
+      "model": "copernicus_fm",
+      "runtime": "legacy",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "369bdd3c7fbe84298333d0a1cfdfb2e24c3a2a54106b9c0fdcd46bfbe87a7b1b",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:32.594471+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "369bdd3c7fbe84298333d0a1cfdfb2e24c3a2a54106b9c0fdcd46bfbe87a7b1b",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:36.637915+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 768,
+        "repeatable": true,
+        "sha256": "1b5697378c28712a52de3b589ade63ee5b3a1b466f3d68001c9bbd5754f0277d",
+        "valid_fraction": 0.9866669323979592
+      },
+      "passed": true
+    },
+    {
+      "model": "terramind",
+      "runtime": "terramind",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "672d28d4c13ab25ccc10f102af6c547dad596149c5f0adb5800e25c756d80f02",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:45.235608+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "672d28d4c13ab25ccc10f102af6c547dad596149c5f0adb5800e25c756d80f02",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:53.511373+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 192,
+        "repeatable": true,
+        "sha256": "5ddf71d5819780cae7f7ca7bbbb35e0a984191deeafd2ecf21dfcfdfa55ef657",
+        "valid_fraction": 0.9866669323979592
+      },
+      "passed": true
+    },
+    {
+      "model": "presto",
+      "runtime": "presto",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "9b33e2a9ac7343881d454b233cf00e2e6859c6b279467d8087d279934f13d455",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:57.545299+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "9b33e2a9ac7343881d454b233cf00e2e6859c6b279467d8087d279934f13d455",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:46:59.763203+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 128,
+        "repeatable": true,
+        "sha256": "4ae7db1fe891ec9169f818bf827f9ded12362fbc280312acf3b0e0e11cf52148",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    },
+    {
+      "model": "satmae",
+      "runtime": "satmae",
+      "real_forward": {
+        "exit_code": 0,
+        "result": {
+          "run": "f5c697679318ed21df0d7dae5f36c8be41c8d2754cfbdbaa20c877c1ee2d8c74",
+          "written": 1,
+          "resumed": 0,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:47:06.792543+00:00"
+        }
+      },
+      "resume": {
+        "exit_code": 0,
+        "result": {
+          "run": "f5c697679318ed21df0d7dae5f36c8be41c8d2754cfbdbaa20c877c1ee2d8c74",
+          "written": 0,
+          "resumed": 1,
+          "no_observation": 0,
+          "errors": 0,
+          "pending_jobs": 7708,
+          "completed_utc": "2026-10-16T14:47:13.102084+00:00"
+        }
+      },
+      "embedding": {
+        "status": "finite_embedding",
+        "dimension": 768,
+        "repeatable": true,
+        "sha256": "a6065e96a697c7bdfe251b00107004e91470b98ac75b11291e48fdabfac584c3",
+        "valid_fraction": 1.0
+      },
+      "passed": true
+    }
+  ]
+}

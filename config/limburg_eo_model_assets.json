@@ -41,12 +41,13 @@
           "git_blob_sha1": "56fb335ac458dfe1e565904bdde6c3a0660504b5"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "modern",
       "input_contract": {
         "expected": "12-channel Sentinel-2 L2A and/or two-channel Sentinel-1 sequences; source modality masks and normalizer.",
         "held_data_adaptation": "Held S2 lacks B01/B09. Check v1.2 band-dropout/masking support before supplying partial S2; validate S1 units and compositing. Do not silently zero-fill missing channels.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -55,7 +56,8 @@
         "torch": "2.9.1",
         "parameters": 26786192,
         "checked_utc": "2026-10-16T03:06:01.042093+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "galileo",
@@ -89,12 +91,13 @@
           "git_blob_sha1": "dcf1aa48836ccd0d2ce5fdc1feb0d66ebdc84874"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "galileo",
       "input_contract": {
         "expected": "10-channel S2/S1 sequences, months, optional climate/static modalities with explicit masks.",
         "held_data_adaptation": "Held S2 spectral bands match. Regrid 20m bands and use published normalization; mask unavailable climate/static groups. Normalized hourly rainfall is not a substitute for monthly model climate inputs.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -103,7 +106,8 @@
         "torch": "2.2.1",
         "parameters": 1037856,
         "checked_utc": "2026-10-16T03:06:02.039928+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "anysat",
@@ -131,12 +135,13 @@
           "git_blob_sha1": "085574ec64e041b78598e529beb68bf1b2eeb5e5"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "modern",
       "input_contract": {
         "expected": "10-channel S2 and/or ascending VV/VH SAR, sequence day-of-year and matching spatial extents.",
         "held_data_adaptation": "Held spectral bands match. Supply consistent 10m grids, published normalization and timestamps. Composite per-pixel acquisition days differ from single-scene times; adapter needs an explicit rule.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -145,7 +150,8 @@
         "torch": "2.9.1",
         "parameters": 125905447,
         "checked_utc": "2026-10-16T03:06:05.671226+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "prithvi",
@@ -192,12 +198,13 @@
           "git_blob_sha1": "be99f7112ead282c80906159d0a83f5cd2bf4b80"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "modern",
       "input_contract": {
         "expected": "Six HLS bands blue/green/red/narrow-NIR/SWIR1/SWIR2, temporal/location coordinates and released normalization.",
         "held_data_adaptation": "Held HLS physical reflectance must be brought to checkpoint normalization units; its mean/std are in scaled-reflectance units. Use masks and actual timing; do not normalize unscaled floats as DN.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -206,7 +213,8 @@
         "torch": "2.9.1",
         "parameters": 31741444,
         "checked_utc": "2026-10-16T03:06:03.822551+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "croma",
@@ -234,12 +242,13 @@
           "git_blob_sha1": "32897cd3e640101ba184f8c4ccd896981de3804a"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "modern",
       "input_contract": {
         "expected": "Two-channel SAR and/or twelve-channel S2, source per-image channel normalization.",
         "held_data_adaptation": "Optical route lacks B1/B9 in current archive. SAR-only is supported by source; check radiometry/orbit, masking and normalization instead of adding optical bands by default.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -248,7 +257,8 @@
         "torch": "2.9.1",
         "parameters": 47337984,
         "checked_utc": "2026-10-16T03:06:07.090488+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "dofa",
@@ -276,12 +286,13 @@
           "git_blob_sha1": "b0fc7e5be2930edf8b7b64566eaeace23a4253c0"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "legacy",
       "input_contract": {
         "expected": "Wavelength-conditioned spectral input, published band preprocessing and spatial patch size.",
         "held_data_adaptation": "Selected v1 weight matches released dofa_v1.py. DOFAv2 weights are a separate architecture, not a drop-in upgrade. Test S2 SR transfer from pretraining convention explicitly.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_no_forward_test",
@@ -290,7 +301,8 @@
         "torch": "2.2.1",
         "parameters": 111312128,
         "checked_utc": "2026-10-16T03:06:09.039276+00:00"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "copernicus_fm",
@@ -336,7 +348,7 @@
           "sha256": "b8d17d57ea0cd5d4e74a2f11c5e0437da719758184bc3d4b78dbe3dcdd402061"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
       "environment": "legacy",
       "input_contract": {
         "expected": "Spectral wavelengths/bandwidths or variable-name embeddings, geolocation/time/resolution metadata.",
@@ -440,7 +452,8 @@
             "wavelength_nm": 2190,
             "bandwidth_nm": 180
           }
-        ]
+        ],
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
         "status": "checkpoint_loaded_synthetic_probe_passed",
@@ -468,7 +481,8 @@
         "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
         "detail": "Official benchmark global mean patch pooling and output LayerNorm, eps=1e-6, deterministic scale=1/bias=0. Only these two missing output parameters permitted; all pretrained backbone keys must match.",
         "review": "docs/reviews/limburg-copernicus-normalization-2026-10-15.md"
-      }
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "terramind",
@@ -496,17 +510,20 @@
           "git_blob_sha1": "fbf1f3508dd8e1f33b84328e9a07d03df5184faa"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
-      "environment": "modern",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
+      "environment": "terramind",
       "input_contract": {
         "expected": "TerraMind supports S2L2A, S2L1C, S1GRD and S1RTC, explicitly selected bands/subsets and modality-specific normalization; single-timestep backbone.",
         "held_data_adaptation": "Pinned TerraTorch implementation retained. Published S2L2A band-subset and S1GRD routes match held products in principle; resolve its separate NumPy>=2.2 runtime before inference. No RTC or extra bands are made prerequisites. Generated modalities are predictions, not measurements.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
-        "status": "not_attempted",
-        "detail": "Weights/code preparation only; runtime/adapter check remains."
-      }
+        "status": "checkpoint_loaded_real_input_engineering_check_passed",
+        "checked_utc": "2026-10-16T14:47:13.424238+00:00",
+        "detail": "Relevant backbone loaded; frozen real-composite inference and checksum-verified resume passed. See real_input_check."
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "presto",
@@ -526,17 +543,20 @@
           "sha256": "559c9d76f525bdf2dd3774da8b1e7f1510769b73baacac12e9e4d8d5c67fbe65"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
-      "environment": "legacy",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
+      "environment": "presto",
       "input_contract": {
         "expected": "Monthly pixel time series; source band-specific normalization, months/latlon and per-channel missing-input masks.",
         "held_data_adaptation": "Use official input construction for held subset; mask absent S2 bands and optional environmental inputs. No new Dynamic World or climate dataset is made mandatory.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
-        "status": "not_attempted",
-        "detail": "Weights/code preparation only; runtime/adapter check remains."
-      }
+        "status": "checkpoint_loaded_real_input_engineering_check_passed",
+        "checked_utc": "2026-10-16T14:47:13.424238+00:00",
+        "detail": "Relevant backbone loaded; frozen real-composite inference and checksum-verified resume passed. See real_input_check."
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     },
     {
       "id": "satmae",
@@ -560,17 +580,20 @@
           "transport": "requests"
         }
       ],
-      "inference_status": "no_real_imagery_inference",
-      "environment": "legacy_adapter_pending",
+      "inference_status": "real_composite_engineering_fixture_checked_no_event_evaluation",
+      "environment": "satmae",
       "input_contract": {
         "expected": "Multispectral S2 ViT-base checkpoint with source band selection, crop and normalization.",
         "held_data_adaptation": "Official multispectral S2 dataset is TOA; held S2 is SR. This checkpoint is not temporal RGB SatMAE. Legacy timm API adaptation remains to be checked; no automatic environmental data additions.",
-        "normalization_source": "Pinned official source/model-card files stored with this asset"
+        "normalization_source": "Pinned official source/model-card files stored with this asset",
+        "resolved_adapter": "src/eo_encoders.py; routes and scientific limitations: docs/reviews/limburg-eo-input-readiness-2026-10-16.md. Earlier held_data_adaptation notes record the pre-adapter review."
       },
       "load_check": {
-        "status": "not_attempted",
-        "detail": "Weights/code preparation only; runtime/adapter check remains."
-      }
+        "status": "checkpoint_loaded_real_input_engineering_check_passed",
+        "checked_utc": "2026-10-16T14:47:13.424238+00:00",
+        "detail": "Relevant backbone loaded; frozen real-composite inference and checksum-verified resume passed. See real_input_check."
+      },
+      "real_input_check": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json"
     }
   ],
   "unresolved": [
@@ -608,6 +631,17 @@
     ],
     "excluded_models": [
       "skysense"
-    ]
+    ],
+    "scope": "Historical acquisition-time snapshot; see engineering_summary for subsequent inference checks."
+  },
+  "engineering_summary": {
+    "checked_utc": "2026-10-16T14:47:13.424238+00:00",
+    "real_input_models_passed": 10,
+    "repeatable_models_passed": 10,
+    "cache_resume_models_passed": 10,
+    "unit_tests_passed": 21,
+    "runtime_dependency_checks_passed": 6,
+    "report": "docs/reviews/limburg-eo-real-input-checks-2026-10-16.json",
+    "scientific_model_comparison_run": false
   }
 }

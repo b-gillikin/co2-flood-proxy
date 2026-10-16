@@ -1,6 +1,7 @@
 """Check local model loading; optionally probe Copernicus normalization on synthetic data."""
 
 import argparse
+import importlib
 import importlib.util
 import json
 import os
@@ -31,8 +32,11 @@ def validate_copernicus_output_norm(model, mismatch):
         raise ValueError("Output LayerNorm bias is not the deterministic default")
 
 
-def load(name, probe=False):
+def build_model(name):
     import torch
+
+    if name == "copernicus_fm":
+        importlib.import_module("timm")  # Before upstream namespace src exists.
 
     torch.set_num_threads(2)
     code, weights = ASSETS / "code" / name, ASSETS / "models" / name
@@ -53,6 +57,7 @@ def load(name, probe=False):
     elif name == "prithvi":
         module = module_at("prithvi_mae", weights / "prithvi_mae.py")
         config = json.loads((weights / "config.json").read_text())["pretrained_cfg"]
+        config["num_frames"] = 1
         model = module.PrithviMAE(**config)
         state = torch.load(
             weights / "Prithvi_EO_V2_tiny_TL.pt", map_location="cpu", weights_only=True
@@ -66,6 +71,11 @@ def load(name, probe=False):
         model.load_state_dict(state, strict=True)
     elif name == "anysat":
         os.chdir(code)
+        # Upstream repositories also name their package src. Each CLI process
+        # hosts one encoder; remove the already imported dissertation package.
+        for key in list(sys.modules):
+            if key == "src" or key.startswith("src."):
+                del sys.modules[key]
         sys.path = [str(code)] + [p for p in sys.path if p != str(ROOT)]
         module = module_at("hubconf", code / "hubconf.py")
         model = module.AnySat(model_size="base", flash_attn=False)
@@ -94,9 +104,72 @@ def load(name, probe=False):
             "projector.bias",
         }:
             raise ValueError(str(mismatch))
-    else:
+    elif name == "terramind":
+        from terratorch import BACKBONE_REGISTRY
+        from terratorch.models.backbones.terramind.model.terramind_register import (
+            PRETRAINED_BANDS,
+            select_modality_patch_embed_weights,
+        )
+
+        model = BACKBONE_REGISTRY.build("terramind_v1_tiny", pretrained=False, modalities=["S2L2A"])
+        state = torch.load(weights / "TerraMind_v1_tiny.pt", map_location="cpu", weights_only=True)
+        # Unlike the upstream filter, never fill a missing trained key randomly.
+        model.load_state_dict({k: state[k] for k in model.state_dict()}, strict=True)
+        model = select_modality_patch_embed_weights(
+            model,
+            {
+                "S2L2A": [
+                    "BLUE",
+                    "GREEN",
+                    "RED",
+                    "RED_EDGE_1",
+                    "RED_EDGE_2",
+                    "RED_EDGE_3",
+                    "NIR_BROAD",
+                    "NIR_NARROW",
+                    "SWIR_1",
+                    "SWIR_2",
+                ]
+            },
+            PRETRAINED_BANDS,
+        )
+    elif name == "presto":
+        sys.path.insert(0, str(code))
+        from presto import Presto
+
+        model = Presto.construct()
+        model.load_state_dict(
+            torch.load(weights / "default_model.pt", map_location="cpu", weights_only=True),
+            strict=True,
+        )
+    elif name == "satmae":
+        sys.path.insert(0, str(code))
+        import models_vit_group_channels
+
+        model = models_vit_group_channels.vit_base_patch16(
+            img_size=96, patch_size=8, in_chans=10, num_classes=0, global_pool=False
+        )
+        with torch.serialization.safe_globals([argparse.Namespace]):
+            state = torch.load(
+                weights / "pretrain-vit-base-e199.pth", map_location="cpu", weights_only=True
+            )["model"]
+        mismatch = model.load_state_dict(state, strict=False)
+        # MAE pretraining appends its CLS token without a channel position.
+        # The classifier's extra channel_cls_embed therefore has the exact zero default.
+        if set(mismatch.missing_keys) != {"channel_cls_embed"} or not torch.equal(
+            model.channel_cls_embed, torch.zeros_like(model.channel_cls_embed)
+        ):
+            raise ValueError(str(mismatch))
+        if any(k != "mask_token" and not k.startswith("decoder") for k in mismatch.unexpected_keys):
+            raise ValueError(str(mismatch))
+    elif name == "copernicus_fm":
         code = code / "Copernicus-FM"
         os.chdir(code)
+        # Upstream repositories also name their package src. Each CLI process
+        # hosts one encoder; remove the already imported dissertation package.
+        for key in list(sys.modules):
+            if key == "src" or key.startswith("src."):
+                del sys.modules[key]
         sys.path = [str(code), str(code / "src")] + [p for p in sys.path if p != str(ROOT)]
         from src.model_vit import vit_base_patch16
 
@@ -110,7 +183,15 @@ def load(name, probe=False):
         # The official benchmark explicitly expects this newly added output
         # LayerNorm, not missing Transformer/block or patch-embedding weights.
         validate_copernicus_output_norm(model, mismatch)
-    model.eval().requires_grad_(False)
+    else:
+        raise ValueError(name)
+    return model.eval().requires_grad_(False)
+
+
+def load(name, probe=False):
+    import torch
+
+    model = build_model(name)
     result = {
         "status": "checkpoint_loaded_no_forward_test",
         "torch": torch.__version__,
@@ -155,7 +236,18 @@ def main():
     parser.add_argument(
         "--model",
         required=True,
-        choices=["olmoearth", "galileo", "prithvi", "anysat", "croma", "dofa", "copernicus_fm"],
+        choices=[
+            "olmoearth",
+            "galileo",
+            "prithvi",
+            "anysat",
+            "croma",
+            "dofa",
+            "copernicus_fm",
+            "terramind",
+            "presto",
+            "satmae",
+        ],
     )
     parser.add_argument(
         "--probe", action="store_true", help="Synthetic Copernicus normalization check only"

@@ -1,0 +1,2 @@
+# See resolved lock and README for pinned architecture source.
+-r terramind-macos-arm64.lock.txt
