@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-10-16T15:20:09.733789+00:00",
+  "reason": "Cover completed windows of all 1062 held high-water events, preserving original 468 rainfall-episode request population and spatial grid.",
+  "original_files": 35442,
+  "additional_files": 862,
+  "expanded_files": 36304,
+  "original_jobs_sha256": "3a1df4e8ce9aa5463f5748b619317dd4fd45e35153314aa1f58307f9878e4929",
+  "expanded_jobs_sha256": "2b344dec77d0765c52b3495e79613ceffd9699cea0a3b69d9146c8add9f944ef",
+  "supplement_jobs_sha256": "41390f37a65f817f9142c82e2a262364ca5019aa173010729b4379010f5d9dfb",
+  "estimated_additional_bytes_using_local_product_medians": 1847360882,
+  "uncompressed_additional_pixel_bytes": 8172953600,
+  "archive_cap_gb": 200,
+  "cap_change_required_now": false,
+  "event_input_preparation_manifest": {
+    "created_utc": "2026-10-16T15:18:59.760392+00:00",
+    "observations_by_cohort": {
+      "high_water": 1062,
+      "rainfall_episode": 3744
+    },
+    "scorable_by_cohort": {
+      "high_water": 851,
+      "rainfall_episode": 3491
+    },
+    "unique_contexts": 570,
+    "unique_windows": 930,
+    "original_jobs": 35442,
+    "additional_windows_considered": 48,
+    "supplement_jobs": 862,
+    "combined_jobs": 36304,
+    "local_coverage_status": {
+      "local_files_ready_unverified_pixels": 1366,
+      "no_catalogued_source_tiles": 3518,
+      "partial_local": 19,
+      "pending_local_or_cloud": 12665,
+      "pre_mission": 4752
+    },
+    "limitations": [
+      "Local-only inventory; cloud-only completed files are not errors.",
+      "Scene/file availability does not establish valid-pixel or full-sequence coverage.",
+      "Final comparisons wait for coverage checks; no outcomes scored here."
+    ],
+    "input_sha256": {
+      "results/basin_ai_event_interpretation_ready/event_inventory.csv": "b5967bba1228ab18603bb26e4b65df2e54dab9bf3566d1bbf8bb79c6a465cb3b",
+      "results/storm_response/storm_gauge_responses.parquet": "3255e4f1346f46897656bf05dd50e0cc8ac604f2306b0493abca95b06edfa832",
+      "data/interim/foundation_model_catchments.gpkg": "ced1703aefe38ac36957939485a470c70abbd0df1b8773149873ff547f7b075f",
+      "data/raw/limburg_compact_eo/jobs.json": "3a1df4e8ce9aa5463f5748b619317dd4fd45e35153314aa1f58307f9878e4929",
+      "data/raw/limburg_compact_eo/plan.json": "94f69c5beb019ab6b2962b52818b833296ee93f7b080020af88eac04fdfff968"
+    },
+    "git_commit": "7aa79dcfd2f9444df9fa768808da306b9808ef8d"
+  }
+}

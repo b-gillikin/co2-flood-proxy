@@ -139,6 +139,8 @@ def test_hls_physical_reflectance_is_scaled_once():
     encoder.name = "prithvi"
 
     class Capture:
+        encoder = type("EncoderConfig", (), {"num_frames": 1})()
+
         def forward_features(self, x, temporal, location):
             expected = (1000.0 - np.array([1087, 1342, 1433, 2734, 1958, 1363])) / np.array(
                 [2248, 2179, 2178, 1850, 1242, 1049]

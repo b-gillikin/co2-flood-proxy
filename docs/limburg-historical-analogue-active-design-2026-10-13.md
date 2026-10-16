@@ -1,5 +1,17 @@
 # Limburg high-water analogues: active research design
 
+## EO comparison preparation — 2026-10-16
+
+[Preparation](reviews/limburg-eo-comparison-preparation-2026-10-16.md) now links
+all held high-water and rainfall-episode observations to completed imagery
+windows, preserves actual local area/age coverage, supports native temporal
+encoders and connects catchment representations to the existing analogue
+retrieval/scoring. The acquisition expands by 862 files to cover high-water
+assessment dates, preserving the original spatial/product design. These are
+engineering/readiness changes, not new empirical findings. Longer contexts are
+separate from the one-month snapshot control; no universal twelve-month gate.
+Final comparisons await completed inputs/coverage review. Brian retains all prose.
+
 ## Three linked explanatory analyses — 2026-10-15
 
 Brian authorized the divergence, relationship and escalation paths from the

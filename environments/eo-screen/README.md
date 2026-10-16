@@ -126,3 +126,19 @@ TIFFs and receipts, not an automatic full cloud mirror. It reports pending jobs.
 Embeddings/masks/date surfaces and JSON provenance stay outside Git under
 `data/processed/limburg_eo_embeddings/`. No flood-event performance comparison has
 yet used these new embeddings. Sequence/event assembly remains separate work.
+
+## Event-level comparison preparation
+
+Scripts 99–102 now link both event censuses, assemble native temporal inputs,
+aggregate exact observed catchment areas and connect to the existing analogue
+evaluation. See [the preparation readout](../../docs/reviews/limburg-eo-comparison-preparation-2026-10-16.md)
+for commands, coverage, input choices and limitations.
+
+```sh
+.venvs-eo/legacy/bin/python environments/eo-screen/check_temporal_inputs.py --run
+```
+
+This checks ten two-frame inputs and five native twelve-frame inputs, each with
+repeatability and resume. Galileo's current route is 32 spatial pixels with an
+8-pixel projection patch, matching a released twelve-frame training layout.
+Full extraction/evaluation is explicit; engineering checks do not launch it.

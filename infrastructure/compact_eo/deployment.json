@@ -20,5 +20,14 @@
   "seeded_local_files": 3341,
   "smoke_products_verified": 4,
   "input_bundle_blob": "v1/_control/acquisition-inputs.tar.gz",
-  "input_bundle_sha256": "374538ebc4ab9f0eee773b9445f3cd882ae75b128d4caef7701ad983ff540f30"
+  "input_bundle_sha256": "374538ebc4ab9f0eee773b9445f3cd882ae75b128d4caef7701ad983ff540f30",
+  "coverage_extension_2026_10_16": {
+    "created_utc": "2026-10-16T15:20:09.733789+00:00",
+    "original_files": 35442,
+    "additional_files": 862,
+    "expanded_files": 36304,
+    "original_jobs_sha256": "3a1df4e8ce9aa5463f5748b619317dd4fd45e35153314aa1f58307f9878e4929",
+    "expanded_jobs_sha256": "2b344dec77d0765c52b3495e79613ceffd9699cea0a3b69d9146c8add9f944ef",
+    "estimated_additional_bytes_using_local_product_medians": 1847360882
+  }
 }

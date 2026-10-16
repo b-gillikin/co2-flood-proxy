@@ -15,7 +15,7 @@ from rasterio.warp import reproject, transform
 
 ROUTES = {
     "olmoearth": ("s1_ascending", 64, "modern"),
-    "galileo": ("s2_10m", 64, "galileo"),
+    "galileo": ("s2_10m", 32, "galileo"),
     "prithvi": ("hls", 224, "modern"),
     "anysat": ("s2_10m", 64, "modern"),
     "croma": ("s1_ascending", 120, "modern"),
@@ -221,8 +221,25 @@ def get_patch(tile, row, col, size):
 
 def standardize(values, valid, mean, std):
     """Missing pixels become normalized mean imputation, never observed zeros."""
-    mean = np.asarray(mean, np.float32)[:, None, None]
-    std = np.asarray(std, np.float32)[:, None, None]
+    mean = np.asarray(mean, np.float32).reshape((-1,) + (1,) * (values.ndim - 1))
+    std = np.asarray(std, np.float32).reshape((-1,) + (1,) * (values.ndim - 1))
     if np.any(std <= 0):
         raise ValueError("Nonpositive normalization scale")
     return np.where(valid[None], (values - mean) / std, 0).astype(np.float32)
+
+
+def validate_frames(patches):
+    if not patches:
+        raise ValueError("Empty sequence")
+    dates = []
+    first = patches[0]["metadata"]
+    for p in patches:
+        meta = p["metadata"]
+        if any(meta[k] != first[k] for k in ("bounds", "bands", "crs", "resolution_m")):
+            raise ValueError("Sequence grid/bands differ")
+        if not p["valid"].any():
+            raise ValueError("Missing frame: retain as incomplete, never fabricate it")
+        dates.append(datetime.fromisoformat(meta["window"]["end"]))
+    if dates != sorted(dates) or len(set(dates)) != len(dates):
+        raise ValueError("Sequence must be strictly chronological")
+    return dates

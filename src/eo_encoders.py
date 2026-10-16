@@ -8,7 +8,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .eo_inputs import standardize
+from .eo_inputs import standardize, validate_frames
+
+NATIVE_TEMPORAL = {"olmoearth", "galileo", "anysat", "prithvi", "presto"}
 
 HERE = Path(__file__).resolve().parents[1]
 ASSETS = HERE / "data/raw/limburg_dynamic_model_weights"
@@ -40,10 +42,23 @@ class Encoder:
             raise ValueError("Nonfinite or empty embedding")
         return result
 
+    def sequence(self, patches):
+        validate_frames(patches)
+        if self.name in NATIVE_TEMPORAL:
+            return self({**patches[0], "frames": patches})
+        # Snapshot encoders have no temporal attention. Equal frame mean is an
+        # explicit order-invariant summary, never called a native sequence model.
+        return np.stack([self(p) for p in patches]).mean(0)
+
     def forward(self, patch):
         v, mask, meta = patch["values"], patch["valid"], patch["metadata"]
-        date = datetime.fromisoformat(meta["representative_date"])
         name, m = self.name, self.model
+        frames = patch.get("frames", [patch])
+        dates = [datetime.fromisoformat(p["metadata"]["representative_date"]) for p in frames]
+        if name in NATIVE_TEMPORAL:
+            v = np.stack([p["values"] for p in frames], axis=1)
+            mask = np.stack([p["valid"] for p in frames])
+        nt = len(frames)
         if name == "croma":
             # Official CROMA SAR example: mean +/- 2 SD -> clipped eight-bit.
             observed = v[:, mask]
@@ -64,9 +79,11 @@ class Encoder:
             std = np.array([10.840350299936597, 10.216274681392647])
             x = standardize(v, mask, mean - 2 * std, 4 * std)
             sample = MaskedOlmoEarthSample(
-                timestamps=torch.tensor([[[date.day, date.month - 1, date.year]]]),
-                sentinel1=tensor(x).permute(1, 2, 0)[None, :, :, None, :],
-                sentinel1_mask=torch.where(torch.from_numpy(mask), 0, 3)[None, :, :, None, None],
+                timestamps=torch.tensor([[[d.day, d.month - 1, d.year] for d in dates]]),
+                sentinel1=tensor(x).permute(2, 3, 1, 0)[None],
+                sentinel1_mask=torch.where(torch.from_numpy(mask), 0, 3).permute(1, 2, 0)[
+                    None, :, :, :, None
+                ],
             )
             return pool_instance_wise(
                 m.encoder(sample, patch_size=4)["tokens_and_masks"], PoolingType.MEAN
@@ -78,11 +95,16 @@ class Encoder:
                 [1087, 1342, 1433, 2734, 1958, 1363],
                 [2248, 2179, 2178, 1850, 1242, 1049],
             )
-            temporal = torch.tensor([[[date.year, date.timetuple().tm_yday]]], dtype=torch.float32)
-            location = torch.tensor([[meta["latitude"], meta["longitude"]]], dtype=torch.float32)
-            return m.forward_features(tensor(x)[None, :, None], temporal, location)[-1][:, 1:].mean(
-                1
+            temporal = torch.tensor(
+                [[[d.year, d.timetuple().tm_yday] for d in dates]], dtype=torch.float32
             )
+            location = torch.tensor([[meta["latitude"], meta["longitude"]]], dtype=torch.float32)
+            original = m.encoder.num_frames
+            try:
+                m.encoder.num_frames = nt
+                return m.forward_features(tensor(x)[None], temporal, location)[-1][:, 1:].mean(1)
+            finally:
+                m.encoder.num_frames = original
         if name == "dofa":
             # Non-TCI Satlas bands have a documented exact DN // 32 conversion.
             # Do not approximate missing TCI RGB from physical reflectance.
@@ -142,8 +164,8 @@ class Encoder:
             )
             return m(
                 {
-                    "s2": tensor(x)[None, None],
-                    "s2_dates": torch.tensor([[date.timetuple().tm_yday - 1]]),
+                    "s2": tensor(x).permute(1, 0, 2, 3)[None],
+                    "s2_dates": torch.tensor([[d.timetuple().tm_yday - 1 for d in dates]]),
                 },
                 patch_size=20,
                 output="tile",
@@ -218,45 +240,54 @@ class Encoder:
                 np.array(norm["mean"][2:12]) - 2 * np.array(norm["std"][2:12]),
                 np.array(norm["std"][2:12]) * 4,
             )
-            h, w = mask.shape
-            st = torch.zeros(1, h, w, 1, 13)
-            st[0, :, :, 0, 2:12] = tensor(x).permute(1, 2, 0)
-            stm = torch.ones(1, h, w, 1, 7)
-            stm[0, :, :, 0, 1:6] = torch.from_numpy(~mask)[:, :, None].float()
+            h, w = mask.shape[-2:]
+            st = torch.zeros(1, h, w, nt, 13)
+            st[0, :, :, :, 2:12] = tensor(x).permute(2, 3, 1, 0)
+            stm = torch.ones(1, h, w, nt, 7)
+            stm[0, :, :, :, 1:6] = torch.from_numpy(~mask).permute(1, 2, 0)[:, :, :, None].float()
             out = m(
                 st,
                 torch.zeros(1, h, w, 16),
-                torch.zeros(1, 1, 6),
+                torch.zeros(1, nt, 6),
                 torch.zeros(1, 18),
                 stm,
                 torch.ones(1, h, w, 3),
-                torch.ones(1, 1, 3),
+                torch.ones(1, nt, 3),
                 torch.ones(1, 4),
-                torch.tensor([[date.month - 1]]),
-                patch_size=4,
+                torch.tensor([[d.month - 1 for d in dates]]),
+                patch_size=8,  # Published max patch size; 32px -> 4x4 tokens, matching 12-frame training shape.
                 input_resolution_m=10,
             )
             return m.average_tokens(*out[:8])
         if name == "presto":
             from presto import construct_batch_presto_input
+            from rasterio.warp import transform
 
-            pixels = tensor(v[:, mask].T)[:, None, :]
+            union = mask.any(0)
+            pixels = tensor(v.transpose(2, 3, 1, 0)[union])
+            pixel_missing = ~mask[:, union].T
+            rows, cols = np.nonzero(union)
+            xmin, _, _, ymax = meta["bounds"]
+            res = meta["resolution_m"]
+            lons, lats = transform(
+                meta["crs"],
+                "EPSG:4326",
+                (xmin + (cols + 0.5) * res).tolist(),
+                (ymax - (rows + 0.5) * res).tolist(),
+            )
+            locations_all = np.asarray([lats, lons], dtype=np.float32).T
             results = []
-            # Census of observed pixels, bounded RAM, no spatial subsample.
             for offset, batch in enumerate(pixels.split(128)):
                 x, missing, dw = construct_batch_presto_input(
                     s2=batch, s2_bands=meta["bands"], normalize=True
                 )
-                locations = tensor(
-                    patch["observed_latlons"][offset * 128 : offset * 128 + len(batch)]
-                )
+                absent = torch.from_numpy(pixel_missing[offset * 128 : offset * 128 + len(batch)])
+                missing[absent] = 1
+                locations = tensor(locations_all[offset * 128 : offset * 128 + len(batch)])
+                months = torch.tensor([[d.month - 1 for d in dates]]).repeat(len(batch), 1)
                 results.append(
                     m.encoder(
-                        x=x,
-                        mask=missing,
-                        dynamic_world=dw.long(),
-                        latlons=locations,
-                        month=date.month - 1,
+                        x=x, mask=missing, dynamic_world=dw.long(), latlons=locations, month=months
                     )
                 )
             return torch.cat(results).mean(0, keepdim=True)

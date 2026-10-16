@@ -1,5 +1,7 @@
 # Frozen EO input preparation, 16 October 2026
 
+Subsequent temporal/catchment work is recorded in [comparison preparation](limburg-eo-comparison-preparation-2026-10-16.md), including the revised Galileo token layout. The table below records the initial single-frame fixture.
+
 This implements the four preparation tasks while the compact Azure archive is
 being acquired: isolated runtimes, explicit input adapters, real-input engineering
 checks and resumable patch extraction. It creates no flood-event result, model

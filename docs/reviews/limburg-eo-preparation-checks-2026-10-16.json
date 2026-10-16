@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-10-16T15:50:51.827686+00:00",
+  "purpose": "Preparation/engineering checks only; no new scientific comparison finding",
+  "observations": {
+    "high_water": 1062,
+    "rainfall_episode": 3744
+  },
+  "existing_scorable": {
+    "high_water": 851,
+    "rainfall_episode": 3491
+  },
+  "observation_model_context_rows": 144180,
+  "source_pixel_scan": {
+    "verified_primary_tiles": 2700,
+    "window_catchment_product_rows": 1385,
+    "errors": [],
+    "scope": "Local held tiles only; cloud-only files remain pending locally, not failed acquisitions."
+  },
+  "temporal_checks_report": "docs/reviews/limburg-eo-temporal-checks-2026-10-16.json",
+  "all_ten_temporal_checks_passed": true,
+  "native_twelve_frame_checks_passed": 5,
+  "engineering_aggregation_models_passed": 10,
+  "pytest_checks_passed": 35,
+  "projection_test_functions_passed_in_isolated_geospatial_runtime": 2,
+  "download_expansion_replay_sha256_matches": true,
+  "expanded_jobs_sha256": "2b344dec77d0765c52b3495e79613ceffd9699cea0a3b69d9146c8add9f944ef",
+  "evaluation_plumbing_fixture": {
+    "purpose": "engineering_only_synthetic_vectors",
+    "scored_configurations": 312,
+    "location": "logs/eo-evaluation-plumbing-fixture/scored",
+    "not_a_scientific_result": true
+  },
+  "scientific_comparison_run": false,
+  "bulk_model_extraction_started": false,
+  "code_sha256": {
+    "scripts/99_prepare_limburg_eo_comparison.py": "c8c024ca3c685109329dd52b8f024bd8c7675ced844acb82cb737ba534b1ed18",
+    "scripts/100_extract_limburg_eo_sequences.py": "cefd5a324dafd33dc68a324ce583b455fae9458f35322b9206a744c9720b1d26",
+    "scripts/101_aggregate_limburg_eo_catchments.py": "3f48fd7ea65240088325f427dd2ba41d9552af643e69df7418bf3af09a90d69a",
+    "scripts/102_connect_limburg_eo_experiments.py": "1c0e4254b433cdabed1af777da59e0d97c69da7feeefe78be04ec470e237ce23",
+    "src/eo_inputs.py": "3c0b1eb40223e945b960eadcb0114dd5fa8112cd0e46b3abdcbeed3858d28916",
+    "src/eo_encoders.py": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "src/eo_event_inputs.py": "43e6ec5488ef83383fb6cdb7573a86faeb05a6f82918006ca6540983b8ce0335",
+    "src/eo_comparison.py": "32da2d1711b0e6c4b9e254fcb1a5aa8066d5e90e4d70eab23ae5d1c5e779b500"
+  }
+}
