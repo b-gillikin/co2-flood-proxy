@@ -37,6 +37,7 @@ active chapter design.
 | [Information review](docs/limburg-analogue-information-review-2026-10-14.md) | generic-archive references and event interpretation |
 | [AlphaEarth review](docs/limburg-alphaearth-detailed-review-2026-10-14.md) | main matched spatial-context evidence |
 | [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
+| [October literature update](docs/limburg-weekly-literature-2026-10-16.md) | global event-to-event response variability as interpretation context; German pooling correction |
 | [Inventory](docs/analysis-inventory.md) | code, dependencies and supporting work |
 | [Handoff](docs/HANDOFF.md) | current state followed by historical execution ledger |
 | [Current ideas](docs/limburg-ideas-2026-10-15.md) | saved Idea 1: past-only event-divergence prediction; not implemented |
