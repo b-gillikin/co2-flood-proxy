@@ -15,6 +15,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .venv-foundation/
+.venvs-eo/
 kerkrade_data/.venv/
 kerkrade_data/.python_packages/
 kerkrade_data/build/

@@ -132,7 +132,9 @@ past-only/deduplicated windows, spatial coverage, source selection/orbits,
 HLS merging, float preservation, immutable scientific specifications,
 lossless compression and transient/working-budget accounting. Ruff passes.
 
-Next: check the nine EO candidates against the prepared input contracts, choose
-one frozen checkpoint/configuration each where feasible, and document exact
-normalization, spatial/temporal adapters and any missing modality. No model
-has been fitted or ranked, and no dissertation finding has changed.
+Model source/weight preparation now explicitly accounts for the named shortlist
+and its later additions; the earlier "nine" count was inconsistent. See the
+[local asset and environment record](../environments/eo-screen/README.md) for
+selected checkpoints, loading checks and input contracts. Next: resolve exact
+normalization and spatial/temporal adapters before embedding extraction. No
+model has been fitted or ranked, and no dissertation finding has changed.

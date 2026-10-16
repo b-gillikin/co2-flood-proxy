@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "purpose": "Preparation only; frozen encoders, no fine-tuning or benchmark results",
+  "destination": "data/raw/limburg_dynamic_model_weights",
+  "models": [
+    {
+      "id": "olmoearth",
+      "checkpoint": "OlmoEarth v1.2 Tiny",
+      "hf_repository": "allenai/OlmoEarth-v1_2-Tiny",
+      "weight_revision": "12a9fdbfeff905d7e147e7497f9f7a95c518eefc",
+      "weight_license": "other",
+      "source": {
+        "repository": "allenai/olmoearth_pretrain",
+        "revision": "c66a12c0688af332ef307bdfd8f1825e1110d789",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth"
+      },
+      "assets": [
+        {
+          "path": "weights.pth",
+          "url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Tiny/resolve/12a9fdbfeff905d7e147e7497f9f7a95c518eefc/weights.pth",
+          "bytes": 107394275,
+          "sha256": "835c0b21ab010c4c4515faafa44dc1a41c9bc512d3a30af184803c4f4257697d"
+        },
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Tiny/resolve/12a9fdbfeff905d7e147e7497f9f7a95c518eefc/config.json",
+          "bytes": 19604,
+          "git_blob_sha1": "526280b4d7d8b67c9ec62ddecff52b93557acc53"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Tiny/resolve/12a9fdbfeff905d7e147e7497f9f7a95c518eefc/README.md",
+          "bytes": 1625,
+          "git_blob_sha1": "458a09aeb7e1af3078dd72b80607d3a2fb940b12"
+        },
+        {
+          "path": "LICENSE.txt",
+          "url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Tiny/resolve/12a9fdbfeff905d7e147e7497f9f7a95c518eefc/LICENSE.txt",
+          "bytes": 7090,
+          "git_blob_sha1": "56fb335ac458dfe1e565904bdde6c3a0660504b5"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "modern",
+      "input_contract": {
+        "expected": "12-channel Sentinel-2 L2A and/or two-channel Sentinel-1 sequences; source modality masks and normalizer.",
+        "held_data_adaptation": "Held S2 lacks B01/B09. Check v1.2 band-dropout/masking support before supplying partial S2; validate S1 units and compositing. Do not silently zero-fill missing channels.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": 26786192,
+        "detail": "Strict load of relevant encoder/backbone; no predictions or real imagery tested.",
+        "torch": "2.9.1",
+        "parameters": 26786192,
+        "checked_utc": "2026-10-16T03:06:01.042093+00:00"
+      }
+    },
+    {
+      "id": "galileo",
+      "checkpoint": "Galileo Nano encoder",
+      "hf_repository": "nasaharvest/galileo",
+      "weight_revision": "f039dd5dde966a931baeda47eb680fa89b253e4e",
+      "weight_license": "mit",
+      "source": {
+        "repository": "nasaharvest/galileo",
+        "revision": "0f0b5b95ac81acef4b74cf4686dc877202f4541b",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/galileo"
+      },
+      "assets": [
+        {
+          "path": "models/nano/encoder.pt",
+          "url": "https://huggingface.co/nasaharvest/galileo/resolve/f039dd5dde966a931baeda47eb680fa89b253e4e/models/nano/encoder.pt",
+          "bytes": 4189406,
+          "sha256": "eab6acacf527886a508a555bc24efe4b4a2cf91b162e84cd1c4a1807e942180c"
+        },
+        {
+          "path": "models/nano/config.json",
+          "url": "https://huggingface.co/nasaharvest/galileo/resolve/f039dd5dde966a931baeda47eb680fa89b253e4e/models/nano/config.json",
+          "bytes": 2245,
+          "git_blob_sha1": "14c5e23dd3e06426c9263b22e4bce7d514c66258"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/nasaharvest/galileo/resolve/f039dd5dde966a931baeda47eb680fa89b253e4e/README.md",
+          "bytes": 2499,
+          "git_blob_sha1": "dcf1aa48836ccd0d2ce5fdc1feb0d66ebdc84874"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "galileo",
+      "input_contract": {
+        "expected": "10-channel S2/S1 sequences, months, optional climate/static modalities with explicit masks.",
+        "held_data_adaptation": "Held S2 spectral bands match. Regrid 20m bands and use published normalization; mask unavailable climate/static groups. Normalized hourly rainfall is not a substitute for monthly model climate inputs.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": 1037856,
+        "detail": "Strict load of relevant encoder/backbone; no predictions or real imagery tested.",
+        "torch": "2.2.1",
+        "parameters": 1037856,
+        "checked_utc": "2026-10-16T03:06:02.039928+00:00"
+      }
+    },
+    {
+      "id": "anysat",
+      "checkpoint": "AnySat base inference checkpoint",
+      "hf_repository": "g-astruc/AnySat",
+      "weight_revision": "63f252119babfe896d200f88631496f86eddacd3",
+      "weight_license": "mit",
+      "source": {
+        "repository": "gastruc/AnySat",
+        "revision": "5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/anysat"
+      },
+      "assets": [
+        {
+          "path": "models/AnySat.pth",
+          "url": "https://huggingface.co/g-astruc/AnySat/resolve/63f252119babfe896d200f88631496f86eddacd3/models/AnySat.pth",
+          "bytes": 503756453,
+          "sha256": "ce1246527a28bade624048c448a1fa473ca85791b998f562ce2bcc3dcac93d4f"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/g-astruc/AnySat/resolve/63f252119babfe896d200f88631496f86eddacd3/README.md",
+          "bytes": 10473,
+          "git_blob_sha1": "085574ec64e041b78598e529beb68bf1b2eeb5e5"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "modern",
+      "input_contract": {
+        "expected": "10-channel S2 and/or ascending VV/VH SAR, sequence day-of-year and matching spatial extents.",
+        "held_data_adaptation": "Held spectral bands match. Supply consistent 10m grids, published normalization and timestamps. Composite per-pixel acquisition days differ from single-scene times; adapter needs an explicit rule.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": 125905447,
+        "detail": "Strict load of relevant encoder/backbone; no predictions or real imagery tested.",
+        "torch": "2.9.1",
+        "parameters": 125905447,
+        "checked_utc": "2026-10-16T03:06:05.671226+00:00"
+      }
+    },
+    {
+      "id": "prithvi",
+      "checkpoint": "Prithvi EO 2.0 Tiny TL",
+      "hf_repository": "ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL",
+      "weight_revision": "335eadc2c45ad5abe7bd307223e1c48c5b60c41b",
+      "weight_license": "apache-2.0",
+      "source": null,
+      "assets": [
+        {
+          "path": "Prithvi_EO_V2_tiny_TL.pt",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/Prithvi_EO_V2_tiny_TL.pt",
+          "bytes": 129258736,
+          "sha256": "d47326db9bad502b611f73e3e3f3a0e68b7b82640d67c22c795417f7209f8d70"
+        },
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/config.json",
+          "bytes": 768,
+          "git_blob_sha1": "c6c30fc3d7d7446a6c63c90d39ccbb05452c534c"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/README.md",
+          "bytes": 8092,
+          "git_blob_sha1": "2ff227d5e58df2a89bb459a52501bf938030dad3"
+        },
+        {
+          "path": "inference.py",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/inference.py",
+          "bytes": 16455,
+          "git_blob_sha1": "7b4fceb96474b967495e56a692799b898c3a8bdf"
+        },
+        {
+          "path": "prithvi_mae.py",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/prithvi_mae.py",
+          "bytes": 30027,
+          "git_blob_sha1": "ca95177f3a510961618d8ce4c5755b56a61e626a"
+        },
+        {
+          "path": "requirements.txt",
+          "url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/resolve/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/requirements.txt",
+          "bytes": 38,
+          "git_blob_sha1": "be99f7112ead282c80906159d0a83f5cd2bf4b80"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "modern",
+      "input_contract": {
+        "expected": "Six HLS bands blue/green/red/narrow-NIR/SWIR1/SWIR2, temporal/location coordinates and released normalization.",
+        "held_data_adaptation": "Held HLS physical reflectance must be brought to checkpoint normalization units; its mean/std are in scaled-reflectance units. Use masks and actual timing; do not normalize unscaled floats as DN.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": 31741444,
+        "detail": "Strict load of relevant encoder/backbone; no predictions or real imagery tested.",
+        "torch": "2.9.1",
+        "parameters": 31741444,
+        "checked_utc": "2026-10-16T03:06:03.822551+00:00"
+      }
+    },
+    {
+      "id": "croma",
+      "checkpoint": "CROMA base",
+      "hf_repository": "antofuller/CROMA",
+      "weight_revision": "0dd28e3d633bd6715856ae9890e8c49360040598",
+      "weight_license": "mit",
+      "source": {
+        "repository": "antofuller/CROMA",
+        "revision": "59505a6bcadbf36ba20767270154bf9f3067c5e7",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/croma"
+      },
+      "assets": [
+        {
+          "path": "CROMA_base.pt",
+          "url": "https://huggingface.co/antofuller/CROMA/resolve/0dd28e3d633bd6715856ae9890e8c49360040598/CROMA_base.pt",
+          "bytes": 777563846,
+          "sha256": "0238d814b53108f3574bf1ea240e38a0a6edd46173816d9a6962070561893b63"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/antofuller/CROMA/resolve/0dd28e3d633bd6715856ae9890e8c49360040598/README.md",
+          "bytes": 21,
+          "git_blob_sha1": "32897cd3e640101ba184f8c4ccd896981de3804a"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "modern",
+      "input_contract": {
+        "expected": "Two-channel SAR and/or twelve-channel S2, source per-image channel normalization.",
+        "held_data_adaptation": "Optical route lacks B1/B9 in current archive. SAR-only is supported by source; check radiometry/orbit, masking and normalization instead of adding optical bands by default.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": 47337984,
+        "detail": "Strict load of relevant encoder/backbone; no predictions or real imagery tested.",
+        "torch": "2.9.1",
+        "parameters": 47337984,
+        "checked_utc": "2026-10-16T03:06:07.090488+00:00"
+      }
+    },
+    {
+      "id": "dofa",
+      "checkpoint": "DOFA v1 ViT base e100 (matches released dofa_v1.py)",
+      "hf_repository": "XShadow/DOFA",
+      "weight_revision": "7a5219e48d2f8848511b0fabea7920a8836bc480",
+      "weight_license": "cc-by-4.0",
+      "source": {
+        "repository": "zhu-xlab/DOFA",
+        "revision": "0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/dofa"
+      },
+      "assets": [
+        {
+          "path": "DOFA_ViT_base_e100.pth",
+          "url": "https://huggingface.co/XShadow/DOFA/resolve/7a5219e48d2f8848511b0fabea7920a8836bc480/DOFA_ViT_base_e100.pth",
+          "bytes": 447669164,
+          "sha256": "4720985e42b918ac0307009eb06121a3435d9bbce6fd95446f84824a538165b1"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/XShadow/DOFA/resolve/7a5219e48d2f8848511b0fabea7920a8836bc480/README.md",
+          "bytes": 6987,
+          "git_blob_sha1": "b0fc7e5be2930edf8b7b64566eaeace23a4253c0"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "legacy",
+      "input_contract": {
+        "expected": "Wavelength-conditioned spectral input, published band preprocessing and spatial patch size.",
+        "held_data_adaptation": "Selected v1 weight matches released dofa_v1.py. DOFAv2 weights are a separate architecture, not a drop-in upgrade. Test S2 SR transfer from pretraining convention explicitly.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "checkpoint_loaded_no_forward_test",
+        "parameter_count": null,
+        "detail": "global_pool=False, num_classes=0: no missing backbone keys; excluded only mask_token, projector.weight and projector.bias from pretraining.",
+        "torch": "2.2.1",
+        "parameters": 111312128,
+        "checked_utc": "2026-10-16T03:06:09.039276+00:00"
+      }
+    },
+    {
+      "id": "copernicus_fm",
+      "checkpoint": "Copernicus-FM base backbone",
+      "hf_repository": "wangyi111/Copernicus-FM",
+      "weight_revision": "e1db406d517a122c8373802e1c130c5fc4789f84",
+      "weight_license": "cc-by-4.0",
+      "source": {
+        "repository": "zhu-xlab/Copernicus-FM",
+        "revision": "da95635d76a1feef3006eba474f6175325b4037b",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm"
+      },
+      "assets": [
+        {
+          "path": "CopernicusFM_ViT_base_varlang_e100.pth",
+          "url": "https://huggingface.co/wangyi111/Copernicus-FM/resolve/e1db406d517a122c8373802e1c130c5fc4789f84/CopernicusFM_ViT_base_varlang_e100.pth",
+          "bytes": 557931327,
+          "sha256": "085350e4fa0ebc6047a501aed1307394c4fcc23c013dd026db65af06411d6bee"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/wangyi111/Copernicus-FM/resolve/e1db406d517a122c8373802e1c130c5fc4789f84/README.md",
+          "bytes": 1566,
+          "git_blob_sha1": "cafda74c9fe54c573ea46ecd6a4ae181b2f9cc67"
+        },
+        {
+          "path": "varname_embed/LICENSE.txt",
+          "url": "https://huggingface.co/wangyi111/Copernicus-FM/resolve/e1db406d517a122c8373802e1c130c5fc4789f84/varname_embed/LICENSE.txt",
+          "bytes": 7712,
+          "git_blob_sha1": "085b47c1575cb889b7024030e60b78f54f0b8c9e"
+        },
+        {
+          "path": "varname_embed/varname_embed_llama3.2_1B.csv",
+          "url": "https://huggingface.co/wangyi111/Copernicus-FM/resolve/e1db406d517a122c8373802e1c130c5fc4789f84/varname_embed/varname_embed_llama3.2_1B.csv",
+          "bytes": 491184,
+          "git_blob_sha1": "a60dee405f4a243adf68549b51325c2caa0e7b06"
+        },
+        {
+          "path": "varname_embed/varname_embed_llama3.2_1B.pt",
+          "url": "https://huggingface.co/wangyi111/Copernicus-FM/resolve/e1db406d517a122c8373802e1c130c5fc4789f84/varname_embed/varname_embed_llama3.2_1B.pt",
+          "bytes": 116962,
+          "sha256": "b8d17d57ea0cd5d4e74a2f11c5e0437da719758184bc3d4b78dbe3dcdd402061"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "legacy",
+      "input_contract": {
+        "expected": "Spectral wavelengths/bandwidths or variable-name embeddings, geolocation/time/resolution metadata.",
+        "held_data_adaptation": "Small supplied variable-name embeddings are downloaded. They are not Limburg event embeddings. Check pretraining S2 TOA vs held SR and use sensor-specific normalization.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "adapter_review_needed",
+        "detail": "Official example with global_pool=False yields missing norm.weight/norm.bias. Do not ignore missing encoder normalization weights or claim a ready encoder.",
+        "error": "ValueError: _IncompatibleKeys(missing_keys=['norm.weight', 'norm.bias'], unexpected_keys=[])",
+        "checked_utc": "2026-10-16T03:06:10.961469+00:00"
+      }
+    },
+    {
+      "id": "terramind",
+      "checkpoint": "TerraMind 1.0 Tiny",
+      "hf_repository": "ibm-esa-geospatial/TerraMind-1.0-tiny",
+      "weight_revision": "2b5ac0a3ed7dd7e922ccfd595b56607f342df343",
+      "weight_license": "apache-2.0",
+      "source": {
+        "repository": "IBM/terramind",
+        "revision": "53d61da09213c2c3629931b6322f94cce617886a",
+        "code_license": "Apache-2.0",
+        "path": "data/raw/limburg_dynamic_model_weights/code/terramind"
+      },
+      "assets": [
+        {
+          "path": "TerraMind_v1_tiny.pt",
+          "url": "https://huggingface.co/ibm-esa-geospatial/TerraMind-1.0-tiny/resolve/2b5ac0a3ed7dd7e922ccfd595b56607f342df343/TerraMind_v1_tiny.pt",
+          "bytes": 211873402,
+          "sha256": "e56ea9ebcd4451078b9ca4893d5cd8a89bbee376ae16829c3e7fbbbc76de0eba"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/ibm-esa-geospatial/TerraMind-1.0-tiny/resolve/2b5ac0a3ed7dd7e922ccfd595b56607f342df343/README.md",
+          "bytes": 8138,
+          "git_blob_sha1": "fbf1f3508dd8e1f33b84328e9a07d03df5184faa"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "modern",
+      "input_contract": {
+        "expected": "TerraMind supports S2L2A, S2L1C, S1GRD and S1RTC, explicitly selected bands/subsets and modality-specific normalization; single-timestep backbone.",
+        "held_data_adaptation": "Pinned TerraTorch implementation retained. Published S2L2A band-subset and S1GRD routes match held products in principle; resolve its separate NumPy>=2.2 runtime before inference. No RTC or extra bands are made prerequisites. Generated modalities are predictions, not measurements.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "not_attempted",
+        "detail": "Weights/code preparation only; runtime/adapter check remains."
+      }
+    },
+    {
+      "id": "presto",
+      "checkpoint": "Presto default pretrained model",
+      "source": {
+        "repository": "nasaharvest/presto",
+        "revision": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/presto"
+      },
+      "weight_license": "MIT (repository LICENSE; no separate weight licence supplied)",
+      "assets": [
+        {
+          "path": "default_model.pt",
+          "url": "https://raw.githubusercontent.com/nasaharvest/presto/11e207a668a34336ced1d8e492a1bd5849b96c4a/data/default_model.pt",
+          "bytes": 3321716,
+          "sha256": "559c9d76f525bdf2dd3774da8b1e7f1510769b73baacac12e9e4d8d5c67fbe65"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "legacy",
+      "input_contract": {
+        "expected": "Monthly pixel time series; source band-specific normalization, months/latlon and per-channel missing-input masks.",
+        "held_data_adaptation": "Use official input construction for held subset; mask absent S2 bands and optional environmental inputs. No new Dynamic World or climate dataset is made mandatory.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "not_attempted",
+        "detail": "Weights/code preparation only; runtime/adapter check remains."
+      }
+    },
+    {
+      "id": "satmae",
+      "checkpoint": "SatMAE multispectral ViT base pretrained e199; not temporal RGB variant",
+      "source": {
+        "repository": "sustainlab-group/SatMAE",
+        "revision": "0b210aceb37a14bbbd897110db5b104b3271d818",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/satmae"
+      },
+      "weight_revision": "zenodo:7338613",
+      "weight_license": {
+        "id": "cc-by-4.0"
+      },
+      "assets": [
+        {
+          "path": "pretrain-vit-base-e199.pth",
+          "url": "https://zenodo.org/records/7338613/files/pretrain-vit-base-e199.pth?download=1",
+          "bytes": 1338694433,
+          "md5": "1269e6a8255cee0affdeb6bb75776c86",
+          "transport": "requests"
+        }
+      ],
+      "inference_status": "no_real_imagery_inference",
+      "environment": "legacy_adapter_pending",
+      "input_contract": {
+        "expected": "Multispectral S2 ViT-base checkpoint with source band selection, crop and normalization.",
+        "held_data_adaptation": "Official multispectral S2 dataset is TOA; held S2 is SR. This checkpoint is not temporal RGB SatMAE. Legacy timm API adaptation remains to be checked; no automatic environmental data additions.",
+        "normalization_source": "Pinned official source/model-card files stored with this asset"
+      },
+      "load_check": {
+        "status": "not_attempted",
+        "detail": "Weights/code preparation only; runtime/adapter check remains."
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "skysense",
+      "source": {
+        "repository": "Jack-bo1220/SkySense",
+        "revision": "58f2c979019c743c1a7c3a842af0aa9bfa16e870",
+        "code_license": "custom/noncommercial research; see README",
+        "path": "data/raw/limburg_dynamic_model_weights/code/skysense"
+      },
+      "checkpoint_page": "https://www.notion.so/SkySense-Checkpoints-a7fcff6ce29a4647a08c7fe416910509",
+      "status": "official_page_returns_notion_site_shell_no_checkpoint_links_found",
+      "weight_license": "non-commercial research per official README"
+    }
+  ],
+  "support_sources": [
+    {
+      "repository": "IBM/terratorch",
+      "revision": "f967ef77b00fe9097157a29d1dad4fda93aba4f9",
+      "path": "data/raw/limburg_dynamic_model_weights/code/terratorch",
+      "code_license": "Apache-2.0",
+      "purpose": "TerraMind architecture/configuration, not an additional candidate"
+    }
+  ],
+  "acquisition_summary": {
+    "verified_utc": "2026-10-16T03:17:35.926456+00:00",
+    "selected_checkpoints_verified": 10,
+    "selected_asset_bytes": 4082384244,
+    "load_checks_passed": 6,
+    "no_real_imagery_inference": true,
+    "unresolved_checkpoint_access": [
+      "skysense"
+    ]
+  }
+}

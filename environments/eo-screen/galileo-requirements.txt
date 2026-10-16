@@ -1,0 +1,4 @@
+# Minimal single_file_galileo.py inference dependencies, from pinned source.
+torch==2.2.1
+numpy==1.26.4
+einops==0.7.0

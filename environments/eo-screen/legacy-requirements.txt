@@ -1,0 +1,7 @@
+# Separate older timm API used by DOFA; not a SatMAE reproduction environment.
+torch==2.2.1
+torchvision==0.17.1
+timm==0.9.2
+numpy==1.26.4
+einops==0.7.0
+PyYAML==6.0.3
