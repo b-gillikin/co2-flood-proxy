@@ -175,3 +175,11 @@ and documented gauge-zero changes, if readily available. That would support
 German threshold-progression interpretation, not prove inundation onset. Do not
 re-request the historical Dutch thresholds or datum/sensor histories René said
 he could not provide. Held measurement uncertainty remains explicit.
+
+## Full archive follow-up — 17 October 2026
+
+The [completed full-archive audit](limburg-eo-full-coverage-audit-2026-10-17.md)
+supersedes the partial local pixel counts above for current coverage. All planned
+files are local; 27,766 primary tiles passed the scan with zero errors. Context
+availability and observed area remain distinct; no model-performance result or
+new exclusion was introduced.
