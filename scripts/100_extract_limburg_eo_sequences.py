@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import runpy
+import shutil
 import sys
 import tempfile
 from datetime import datetime, timezone
@@ -146,7 +147,26 @@ def main():
         "no_observation": 0,
         "errors": 0,
     }
+    started = datetime.now(timezone.utc).isoformat()
+    visited = 0
+
+    def progress(status, context=None):
+        snapshot = {
+            "run": run,
+            **counts,
+            "status": status,
+            "started_utc": started,
+            "updated_utc": datetime.now(timezone.utc).isoformat(),
+            "contexts_total": len(contexts),
+            "current_context": context,
+            "patches_visited": visited,
+        }
+        atomic_json(target / "status.json", snapshot)
+        print(json.dumps(snapshot), flush=True)
+
+    progress("running")
     for context in contexts:
+        progress("running", context["context_id"])
         keys = [w["id"] for w in context["windows"]]
         bounds_set = set().union(*(set(by_window.get(k, {})) for k in keys))
         if args.smoke:
@@ -176,6 +196,12 @@ def main():
                         )
                     ]
                 for row, col in origins:
+                    visited += 1
+                    if visited % 100 == 1:
+                        progress("running", context["context_id"])
+                        if shutil.disk_usage(args.output).free < 60 * 2**30:
+                            progress("paused_free_space", context["context_id"])
+                            raise SystemExit(75)
                     patches = [get_patch(t, row, col, size) for t in tiles]
                     key = f"{int(bounds[0])}_{int(bounds[1])}/{row}_{col}"
                     path = target / context["context_id"] / (key + ".npz")
@@ -239,7 +265,7 @@ def main():
                     flush=True,
                 )
     counts["updated_utc"] = datetime.now(timezone.utc).isoformat()
-    atomic_json(target / "status.json", counts)
+    progress("completed" if not counts["errors"] else "completed_with_errors")
     print(json.dumps({"run": run, **counts}), flush=True)
     return int(counts["errors"] > 0 or (args.smoke and counts["written"] + counts["resumed"] == 0))
 

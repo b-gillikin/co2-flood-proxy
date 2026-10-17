@@ -142,3 +142,37 @@ This checks ten two-frame inputs and five native twelve-frame inputs, each with
 repeatability and resume. Galileo's current route is 32 spatial pixels with an
 8-pixel projection patch, matching a released twelve-frame training layout.
 Full extraction/evaluation is explicit; engineering checks do not launch it.
+
+## Full local census execution — 17 October 2026
+
+The full archive pixel/date audit is complete. Script 105 now queues all ten
+models sequentially using their pinned runtimes and scripts 100–101. It performs
+frozen feature extraction and exact observed-area catchment pooling, not fitting
+or analogue scoring. All 742 prepared contexts are visited per model; missing
+slots and pixel sequences remain explicit. There is no event sample or new
+coverage threshold.
+
+```sh
+.venvs-eo/terramind/bin/python -u scripts/105_run_limburg_eo_census.py
+```
+
+Only one queue may run (filesystem lock). Do not launch another while it is
+active. The queue is local: keep the laptop awake. No Azure VM is started.
+Rerunning resumes checksum-/identity-verified patches; it rechecks model queues
+rather than trusting a prior completed label. Script 100 pauses with exit 75
+below the existing 60 GiB free-space reserve; the queue then stops. Source data
+and existing outputs are not deleted. Models are frozen and their fixed inputs,
+patch sizes, normalization and temporal readouts are unchanged.
+
+- Queue: `logs/eo-census/progress.json`; per-model logs beside it.
+- Live model: `data/processed/limburg_eo_sequences/<model>/<run>/status.json`.
+- Per-model aggregates: `results/eo_catchment_representations/per_model/<model>/census/`.
+- Merged model tables and provenance: `results/eo_catchment_representations/census/`,
+  published after the queue. Errors remain explicit; incomplete outputs are not
+  reported as a successful ten-model census. Unexpected stale model tables or
+  differing catchment geometries stop the merge.
+
+Inference/repeatability and verified resume were rechecked for the Prithvi
+engineering fixture after adding progress/storage controls. Two merge checks
+cover model/provenance retention, corruption and differing geometries. Actual
+census completion and counts belong in the live status, not this launch note.
