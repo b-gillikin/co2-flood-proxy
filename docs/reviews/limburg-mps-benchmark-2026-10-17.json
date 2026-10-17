@@ -1,0 +1,337 @@
+{
+  "date": "2026-10-17",
+  "hardware": {
+    "cpu_cores": 12,
+    "unified_memory_gib": 36,
+    "mps_available": true
+  },
+  "source_adapter_unchanged_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+  "cpu_job_resumed": true,
+  "automatic_cpu_fallback": false,
+  "scope": "Engineering fixtures only; one/12 real frames, most-observed and partial patches, cold and three warm repetitions. No production device migration.",
+  "models": [
+    {
+      "model": "terramind",
+      "exit_code": 0,
+      "torch": "2.9.1",
+      "min_speedup": 1.8535507463071195,
+      "max_speedup": 2.215977940651018,
+      "max_relative_l2": 5.305166155267216e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 3.3298118751190486e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 7.152557373046875e-07,
+          "allclose": true,
+          "warm_speedup": 2.215977940651018
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 5.305166155267216e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 1.3113021850585938e-06,
+          "allclose": true,
+          "warm_speedup": 1.8535507463071195
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 2.9269523338371073e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 4.76837158203125e-07,
+          "allclose": true,
+          "warm_speedup": 2.1791695350551197
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 2.663445570760814e-07,
+          "cosine": 0.9999998807907104,
+          "max_absolute_difference": 3.8743019104003906e-07,
+          "allclose": true,
+          "warm_speedup": 2.078319184633098
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "dofa",
+      "exit_code": 0,
+      "torch": "2.2.1",
+      "min_speedup": 4.102026524268001,
+      "max_speedup": 5.206366406186094,
+      "max_relative_l2": 2.047652463177981e-05,
+      "all_coordinate_checks_close": false,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 1.7322500108432383e-05,
+          "cosine": 1.0000000819831596,
+          "max_absolute_difference": 0.000202178955078125,
+          "allclose": false,
+          "warm_speedup": 4.102026524268001
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 1.9427009826158207e-05,
+          "cosine": 1.0000000623176197,
+          "max_absolute_difference": 0.00010395050048828125,
+          "allclose": false,
+          "warm_speedup": 4.807991585428164
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 2.047652463177981e-05,
+          "cosine": 1.0,
+          "max_absolute_difference": 0.00019979476928710938,
+          "allclose": false,
+          "warm_speedup": 4.412440889472314
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 1.9298185353721155e-05,
+          "cosine": 1.0,
+          "max_absolute_difference": 0.000133514404296875,
+          "allclose": false,
+          "warm_speedup": 5.206366406186094
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "croma",
+      "exit_code": 0,
+      "torch": "2.9.1",
+      "min_speedup": 6.1979874828902854,
+      "max_speedup": 7.829409626842982,
+      "max_relative_l2": 2.201754345010488e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 2.201754345010488e-07,
+          "cosine": 0.99999993243314,
+          "max_absolute_difference": 2.682209014892578e-07,
+          "allclose": true,
+          "warm_speedup": 6.1979874828902854
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 2.1372866500435224e-07,
+          "cosine": 1.000000067110315,
+          "max_absolute_difference": 2.980232238769531e-07,
+          "allclose": true,
+          "warm_speedup": 7.411893379378993
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 1.2657245166835455e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 1.7881393432617188e-07,
+          "allclose": true,
+          "warm_speedup": 7.829409626842982
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 1.3455187899585516e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 2.384185791015625e-07,
+          "allclose": true,
+          "warm_speedup": 7.577717072282384
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "prithvi",
+      "exit_code": 1,
+      "error": "CPU/MPS positional-embedding device mismatch"
+    },
+    {
+      "model": "copernicus_fm",
+      "exit_code": 1,
+      "error": "Upstream float64 operation unsupported on MPS"
+    },
+    {
+      "model": "satmae",
+      "exit_code": 0,
+      "torch": "2.9.1",
+      "min_speedup": 6.049384748325724,
+      "max_speedup": 6.6317187725217455,
+      "max_relative_l2": 7.852185726021751e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 7.852185726021751e-07,
+          "cosine": 0.9999999046535276,
+          "max_absolute_difference": 5.7220458984375e-06,
+          "allclose": true,
+          "warm_speedup": 6.6317187725217455
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 7.309533670125314e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 4.76837158203125e-06,
+          "allclose": true,
+          "warm_speedup": 6.049384748325724
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 2.209143669657139e-07,
+          "cosine": 0.9999999051306394,
+          "max_absolute_difference": 1.9073486328125e-06,
+          "allclose": true,
+          "warm_speedup": 6.4656668130177355
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 2.954345593783204e-07,
+          "cosine": 0.9999999041755229,
+          "max_absolute_difference": 2.86102294921875e-06,
+          "allclose": true,
+          "warm_speedup": 6.5043648185796865
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "olmoearth",
+      "exit_code": 0,
+      "torch": "2.9.1",
+      "min_speedup": 1.2911491447597707,
+      "max_speedup": 3.567971818181665,
+      "max_relative_l2": 1.5484636050604916e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 1.2252442385748768e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 9.5367431640625e-07,
+          "allclose": true,
+          "warm_speedup": 1.7064783742695377
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 1.5484636050604916e-07,
+          "cosine": 0.9999998895556537,
+          "max_absolute_difference": 1.9073486328125e-06,
+          "allclose": true,
+          "warm_speedup": 1.2911491447597707
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 1.0106781738422218e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 4.172325134277344e-07,
+          "allclose": true,
+          "warm_speedup": 3.0259725472417136
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 1.5268880394506507e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 1.9073486328125e-06,
+          "allclose": true,
+          "warm_speedup": 3.567971818181665
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "galileo",
+      "exit_code": 0,
+      "torch": "2.2.1",
+      "min_speedup": 0.12773155934390323,
+      "max_speedup": 2.6525214486765423,
+      "max_relative_l2": 4.0016485470766425e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 4.0016485470766425e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 2.2351741790771484e-07,
+          "allclose": true,
+          "warm_speedup": 0.12773155934390323
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 3.0237894562967405e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 2.384185791015625e-07,
+          "allclose": true,
+          "warm_speedup": 0.1701387937709507
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 2.4040208526816264e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 1.4901161193847656e-07,
+          "allclose": true,
+          "warm_speedup": 2.6525214486765423
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 3.063568970751673e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 8.335337042808533e-08,
+          "allclose": true,
+          "warm_speedup": 2.3155494665069027
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "anysat",
+      "exit_code": 0,
+      "torch": "2.9.1",
+      "min_speedup": 5.504943805278284,
+      "max_speedup": 6.856371359842278,
+      "max_relative_l2": 9.202323473731097e-07,
+      "all_coordinate_checks_close": true,
+      "case_metrics": {
+        "1_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 9.202323473731097e-07,
+          "cosine": 0.9999998721598309,
+          "max_absolute_difference": 8.046627044677734e-07,
+          "allclose": true,
+          "warm_speedup": 6.607189737384062
+        },
+        "1_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 9.122289840395001e-07,
+          "cosine": 0.9999999315812242,
+          "max_absolute_difference": 7.897615432739258e-07,
+          "allclose": true,
+          "warm_speedup": 6.856371359842278
+        },
+        "12_frames_most_observed": {
+          "same_shape": true,
+          "relative_l2": 8.042839088805582e-07,
+          "cosine": 1.0,
+          "max_absolute_difference": 8.344650268554688e-07,
+          "allclose": true,
+          "warm_speedup": 5.504943805278284
+        },
+        "12_frames_partial": {
+          "same_shape": true,
+          "relative_l2": 8.41922301563805e-07,
+          "cosine": 1.000000115342023,
+          "max_absolute_difference": 8.940696716308594e-07,
+          "allclose": true,
+          "warm_speedup": 5.6835953711190195
+        }
+      },
+      "all_repeat_differences_zero": true
+    },
+    {
+      "model": "presto",
+      "exit_code": 1,
+      "error": "MPS placeholder-storage/device error in channel embedding"
+    }
+  ]
+}

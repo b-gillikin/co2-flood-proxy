@@ -189,3 +189,11 @@ is running. GPU quota is zero, so cloud preparation is not a completed deploymen
 Brian cancelled the cloud inference plan. All models remain local, with three
 concurrent jobs. The live plan sets Azure workers and budget to zero and disables
 cloud launch/payload entry points. Existing imagery in Azure is retained.
+
+### Apple GPU test — 17 October
+
+[Actual-input MPS benchmarks](../../docs/reviews/limburg-mps-benchmark-2026-10-17.md)
+are complete: seven models executed on GPU, with device/precision limitations
+recorded for the others. This was an isolated engineering test. The production
+CPU adapters and three-job census have not changed; DOFA resumed after testing.
+No Azure work was restarted.
