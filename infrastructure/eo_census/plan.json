@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "local_workers": 3,
+  "azure_workers": 1,
+  "azure_status": "blocked_gpu_quota",
+  "azure_subscription": "c7729fd0-7b35-4ec4-b1a3-ec7079b776fa",
+  "azure_region": "eastus",
+  "azure_vm_size": "Standard_NC4as_T4_v3",
+  "azure_hourly_usd": 0.526,
+  "budget_usd": 30,
+  "noncompute_reserve_usd": 5,
+  "benchmark_ceiling_usd": 5,
+  "benchmark_included_in_compute": true,
+  "compute_spent_usd": 0,
+  "not_before_full_run": "Successful GPU input/numerical/throughput benchmark; supported research GPU quota",
+  "cloud_candidates": ["galileo", "anysat", "presto"],
+  "owners": {
+    "prithvi": "local", "croma": "local", "terramind": "local",
+    "dofa": "local", "copernicus_fm": "local", "satmae": "local",
+    "olmoearth": "local", "galileo": "local", "anysat": "local", "presto": "local"
+  },
+  "ownership_note": "All jobs remain local until cloud is executable. Reassign only pending models, before starting cloud jobs. One whole model has one owner; no unvalidated mixing of CPU/GPU patches.",
+  "midnight_review_utc": "2026-10-18T04:00:00Z"
+}

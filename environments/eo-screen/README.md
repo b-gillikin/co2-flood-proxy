@@ -176,3 +176,10 @@ Inference/repeatability and verified resume were rechecked for the Prithvi
 engineering fixture after adding progress/storage controls. Two merge checks
 cover model/provenance retention, corruption and differing geometries. Actual
 census completion and counts belong in the live status, not this launch note.
+
+### Three-job local scheduler and bounded cloud preparation
+
+The [17 October queue update](../../infrastructure/eo_census/README.md) supersedes
+the sequential launch instructions above: three total local jobs, one proposed
+GPU cloud job, and a $30 cloud-task budget including its pilot. The local queue
+is running. GPU quota is zero, so cloud preparation is not a completed deployment.
