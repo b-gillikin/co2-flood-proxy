@@ -71,6 +71,10 @@ def main():
     args = p.parse_args()
     plan_path = ROOT / "infrastructure/eo_census/plan.json"
     plan = json.loads(plan_path.read_text())
+    if plan["azure_status"] == "cancelled_by_brian" or plan["azure_workers"] != 1:
+        raise RuntimeError(
+            "Cloud inference cancelled; no cloud execution is authorized by the live plan"
+        )
     import torch
 
     if not torch.cuda.is_available():

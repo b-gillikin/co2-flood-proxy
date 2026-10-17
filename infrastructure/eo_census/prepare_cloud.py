@@ -45,6 +45,9 @@ def tensor(x):
 
 
 def main():
+    plan = json.loads((ROOT / "infrastructure/eo_census/plan.json").read_text())
+    if plan["azure_status"] == "cancelled_by_brian":
+        raise RuntimeError("Cloud plan cancelled; payload generation disabled")
     files = [
         "scripts/97_download_limburg_eo_models.py",
         "scripts/100_extract_limburg_eo_sequences.py",

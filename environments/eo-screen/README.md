@@ -183,3 +183,9 @@ The [17 October queue update](../../infrastructure/eo_census/README.md) supersed
 the sequential launch instructions above: three total local jobs, one proposed
 GPU cloud job, and a $30 cloud-task budget including its pilot. The local queue
 is running. GPU quota is zero, so cloud preparation is not a completed deployment.
+
+### Cloud inference cancelled — 17 October
+
+Brian cancelled the cloud inference plan. All models remain local, with three
+concurrent jobs. The live plan sets Azure workers and budget to zero and disables
+cloud launch/payload entry points. Existing imagery in Azure is retained.

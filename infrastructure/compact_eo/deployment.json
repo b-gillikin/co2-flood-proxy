@@ -15,7 +15,7 @@
   "cost_target_usd": 40,
   "compute_deadline_utc": "2026-10-29T22:53:25.142862+00:00",
   "compute_deadline_epoch": 1793314405,
-  "status": "running_cloud_acquisition",
+  "status": "acquisition_completed_vm_deallocated",
   "handoff_utc": "2026-10-15T23:26:09.123980+00:00",
   "seeded_local_files": 3341,
   "smoke_products_verified": 4,
@@ -29,5 +29,13 @@
     "original_jobs_sha256": "3a1df4e8ce9aa5463f5748b619317dd4fd45e35153314aa1f58307f9878e4929",
     "expanded_jobs_sha256": "2b344dec77d0765c52b3495e79613ceffd9699cea0a3b69d9146c8add9f944ef",
     "estimated_additional_bytes_using_local_product_medians": 1847360882
+  },
+  "completion": {
+    "completed_utc": "2026-10-17T06:58:37.563585+00:00",
+    "committed_files": 36304,
+    "failed": 0,
+    "archive_bytes": 58985109083,
+    "vm_state_checked_2026_10_17": "deallocated",
+    "inference_cloud_plan": "cancelled; all inference local"
   }
 }

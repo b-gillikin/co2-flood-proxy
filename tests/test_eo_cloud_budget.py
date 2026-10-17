@@ -6,7 +6,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 M = runpy.run_path(str(ROOT / "infrastructure/eo_census/budget.py"))
-PLAN = json.loads((ROOT / "infrastructure/eo_census/plan.json").read_text())
+LIVE_PLAN = json.loads((ROOT / "infrastructure/eo_census/plan.json").read_text())
+# Historical approved-budget fixture; the live cloud plan is now cancelled.
+PLAN = dict(LIVE_PLAN, budget_usd=30, noncompute_reserve_usd=5, benchmark_ceiling_usd=5)
 
 
 def test_budget_includes_pilot_and_prior_compute():
@@ -34,3 +36,10 @@ def test_pilot_does_not_reset_across_restarts():
     paid = dict(PLAN, compute_spent_usd=4)
     assert M["benchmark_seconds"](paid) == 1 / PLAN["azure_hourly_usd"] * 3600
     assert M["benchmark_seconds"](paid, 3) == 0
+
+
+def test_cloud_plan_cancelled_and_all_jobs_local():
+    assert LIVE_PLAN["azure_status"] == "cancelled_by_brian"
+    assert LIVE_PLAN["azure_workers"] == 0
+    assert LIVE_PLAN["budget_usd"] == 0
+    assert set(LIVE_PLAN["owners"].values()) == {"local"}

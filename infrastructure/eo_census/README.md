@@ -1,4 +1,10 @@
-# Local/cloud model queue — 17 October 2026
+# Local model queue — 17 October 2026
+
+**Cloud inference cancelled by Brian on 17 October.** Live cloud budget and workers
+are zero; all models remain assigned locally. GPU worker/payload entry points
+reject execution. Cloud sections below preserve the earlier preparation history,
+not an active deployment plan. The research download VM was confirmed deallocated;
+no new inference VM was provisioned. Existing Azure imagery/results are retained.
 
 Internal engineering instructions; no model-performance claim or dissertation prose.
 
