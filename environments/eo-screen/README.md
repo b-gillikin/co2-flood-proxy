@@ -197,3 +197,10 @@ are complete: seven models executed on GPU, with device/precision limitations
 recorded for the others. This was an isolated engineering test. The production
 CPU adapters and three-job census have not changed; DOFA resumed after testing.
 No Azure work was restarted.
+
+### Active extraction: one MPS plus two CPU workers
+
+Brian authorized the mixed device scheduler after the MPS benchmarks. See the
+[active queue policy](../../infrastructure/eo_census/README.md). CROMA runs on
+MPS in a separate fingerprinted output root; TerraMind and DOFA CPU processes
+were adopted without restart. Prithvi is retained. Cloud inference stays cancelled.

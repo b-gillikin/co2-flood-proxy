@@ -91,7 +91,7 @@ def merge_aggregates(base, models):
     atomic_json(target / "manifest.json", merged)
 
 
-def completed_aggregate(base, model):
+def completed_aggregate(base, model, device=None):
     folder = base / "per_model" / model / "census"
     path = folder / "manifest.json"
     if not path.exists():
@@ -111,6 +111,8 @@ def completed_aggregate(base, model):
             return False
         if source.name == "manifest.json":
             identity = json.loads(source.read_text())
+            if device is not None and identity.get("execution_device", "cpu") != device:
+                return False
             if any(sha256(ROOT / name) != value for name, value in identity["code"].items()):
                 return False
     return True
@@ -130,6 +132,9 @@ def main():
     workers = plan["local_workers"]
     if workers not in (1, 2, 3):
         raise ValueError("Local scheduler supports one to three workers")
+    limits = {"cpu": plan.get("cpu_workers", workers), "mps": plan.get("mps_workers", 0)}
+    if min(limits.values()) < 0 or sum(limits.values()) != workers:
+        raise ValueError("Device slots must equal the total worker count")
     adopted = dict(item.split(":", 1) for item in args.adopt)
     logdir = ROOT / "logs/eo-census"
     logdir.mkdir(parents=True, exist_ok=True)
@@ -147,6 +152,7 @@ def main():
         "models": {},
         "active_models": [],
         "local_workers": workers,
+        "device_limits": limits,
         "scope": "Frozen extraction and exact-area aggregation only; no analogue scoring.",
     }
     env = os.environ.copy()
@@ -158,10 +164,18 @@ def main():
         state["updated_utc"] = datetime.now(timezone.utc).isoformat()
         atomic_json(logdir / "progress.json", state)
 
-    def run_model(model):
+    def run_model(model, device):
         model_lock = (logdir / f".{model}.lock").open("a")
         fcntl.flock(model_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         runtime = ROOT / f".venvs-eo/{ROUTES[model][2]}/bin/python"
+        model_env = dict(env)
+        if device == "mps":
+            model_env["PYTORCH_ENABLE_MPS_FALLBACK"] = "0"
+        sequence_root = (
+            ROOT
+            / "data/processed"
+            / ("limburg_eo_mps_sequences" if device == "mps" else "limburg_eo_sequences")
+        )
         with (logdir / f"{model}.log").open("a") as output:
             if model in adopted:
                 pid = int(adopted[model])
@@ -172,9 +186,7 @@ def main():
                         break
                     time.sleep(5)
                 statuses = []
-                for manifest in (ROOT / f"data/processed/limburg_eo_sequences/{model}").glob(
-                    "*/manifest.json"
-                ):
+                for manifest in (sequence_root / model).glob("*/manifest.json"):
                     identity = json.loads(manifest.read_text())
                     status = manifest.parent / "status.json"
                     if identity.get("purpose") == "context_census" and status.exists():
@@ -186,13 +198,15 @@ def main():
                     [
                         str(runtime),
                         "-u",
-                        "scripts/100_extract_limburg_eo_sequences.py",
+                        "scripts/107_extract_limburg_mps_sequences.py"
+                        if device == "mps"
+                        else "scripts/100_extract_limburg_eo_sequences.py",
                         "--model",
                         model,
                         "--run",
                     ],
                     cwd=ROOT,
-                    env=env,
+                    env=model_env,
                     stdout=output,
                     stderr=subprocess.STDOUT,
                 ).returncode
@@ -203,13 +217,15 @@ def main():
                     str(ROOT / ".venvs-eo/terramind/bin/python"),
                     "-u",
                     "scripts/101_aggregate_limburg_eo_catchments.py",
+                    "--sequences",
+                    str(sequence_root),
                     "--model",
                     model,
                     "--out",
                     str(base / "per_model" / model),
                 ],
                 cwd=ROOT,
-                env=env,
+                env=model_env,
                 stdout=output,
                 stderr=subprocess.STDOUT,
             ).returncode
@@ -221,31 +237,45 @@ def main():
     with ThreadPoolExecutor(max_workers=workers) as pool:
         while pending or futures:
             live_plan = json.loads(args.plan.read_text())
-            while pending and len(futures) < workers and not paused:
-                model = pending.pop(0)
+            counts = {device: sum(d == device for _, d in futures.values()) for device in limits}
+            for model in list(pending):
+                if paused or len(futures) >= workers:
+                    break
+                device = live_plan.get("execution_devices", {}).get(model, "cpu")
+                if device not in limits:
+                    raise ValueError("Unknown execution device: " + device)
                 if live_plan["owners"][model] != "local":
                     state["models"][model] = {"status": "assigned_azure"}
+                    pending.remove(model)
                     continue
-                if model not in adopted and completed_aggregate(base, model):
+                if model not in adopted and completed_aggregate(base, model, device):
                     completed.append(model)
                     state["models"][model] = {
                         "status": "completed_verified",
                         "extraction_exit": 0,
                         "aggregation_exit": 0,
+                        "device": device,
                     }
+                    pending.remove(model)
                     continue
-                futures[pool.submit(run_model, model)] = model
-            state["active_models"] = list(futures.values())
+                if counts[device] >= limits[device]:
+                    continue
+                futures[pool.submit(run_model, model, device)] = (model, device)
+                counts[device] += 1
+                pending.remove(model)
+            state["active_models"] = [model for model, _ in futures.values()]
+            state["active_devices"] = {model: device for model, device in futures.values()}
             save()
             if not futures:
                 break
             done, _ = wait(futures, timeout=10, return_when=FIRST_COMPLETED)
             for future in done:
-                model = futures.pop(future)
+                model, device = futures.pop(future)
                 try:
                     result = future.result()
                 except Exception as exc:
                     result = {"extraction_exit": 1, "aggregation_exit": 1, "error": str(exc)}
+                result["device"] = device
                 state["models"][model] = result
                 paused |= result["extraction_exit"] == 75
                 if result.get("aggregation_exit") == 0:

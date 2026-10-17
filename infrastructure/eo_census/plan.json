@@ -28,5 +28,20 @@
   },
   "ownership_note": "All jobs remain local until cloud is executable. Reassign only pending models, before starting cloud jobs. One whole model has one owner; no unvalidated mixing of CPU/GPU patches.",
   "midnight_review_utc": "2026-10-18T04:00:00Z",
-  "cancellation_note": "2026-10-17: user scrapped cloud inference; all ten models remain local. Existing completed imagery archive retained."
+  "cancellation_note": "2026-10-17: user scrapped cloud inference; all ten models remain local. Existing completed imagery archive retained.",
+  "cpu_workers": 2,
+  "mps_workers": 1,
+  "execution_devices": {
+    "prithvi": "cpu",
+    "croma": "mps",
+    "terramind": "cpu",
+    "dofa": "cpu",
+    "copernicus_fm": "cpu",
+    "satmae": "mps",
+    "olmoearth": "mps",
+    "galileo": "cpu",
+    "anysat": "mps",
+    "presto": "cpu"
+  },
+  "device_note": "Prithvi complete; retain running TerraMind/DOFA on CPU. CROMA/SatMAE/AnySat/OlmoEarth use validated MPS route. Other models retain CPU."
 }

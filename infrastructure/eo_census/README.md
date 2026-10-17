@@ -96,3 +96,35 @@ Expected SHA-256:
 `3d3cb919525543712c80893a8d245b401fa0b7bd173283705be864208e3bc502`.
 Download and check hashes before merging into the local analysis; do not publish
 unsigned complete-census claims from a partial set of models.
+
+## Active device policy — 17 October, supersedes three-CPU policy
+
+Brian authorized **one MPS worker plus two CPU workers**, three jobs total.
+`plan.json` records those lane limits and the per-model devices; the scheduler
+checks lane capacity as well as total capacity. Current adoption retains
+TerraMind/DOFA CPU processes unchanged. Prithvi's completed CPU aggregate is
+verified and retained. CROMA's partial CPU run was interrupted only after the MPS
+production smoke and aggregation check passed; its outputs remain on disk.
+
+MPS lane: CROMA, SatMAE, OlmoEarth and AnySat. CPU lane: Prithvi, TerraMind,
+DOFA, Copernicus-FM, Galileo and Presto. DOFA stays on its existing CPU run;
+Galileo stays CPU because MPS performance depends strongly on input length.
+The model/readout/event census itself is unchanged.
+
+Script 107 injects the tested device overlay without changing script 100 or the
+live CPU adapter. It adds device/platform and wrapper/overlay-helper source
+hashes to the run identity. GPU outputs reside separately under
+`data/processed/limburg_eo_mps_sequences/`; only that root is aggregated for
+MPS-assigned models. CPU outputs are not silently used to fill a GPU run.
+Production MPS fallback is disabled. The overlay uses the existing tested helper
+function; it does not call the cancelled cloud launch or payload entry point.
+
+Live status includes `device_limits` and `active_devices`. No more than one GPU
+job is admitted. Existing free-space safeguards remain. Do not edit the frozen
+MPS wrapper/helper while the run is active, because its source hashes define
+resume validity. Handoff evidence is `logs/eo-census/mps-handoff.json` and the
+previous CPU-only scheduler snapshot remains `progress-before-mps.json`.
+Actual MPS extraction/area aggregation was checked on the real CROMA engineering
+fixture with zero errors. A regression test rejects substituting a CPU aggregate
+for an explicitly MPS-assigned model. Full-run throughput must be measured;
+patch-level speedups are not an end-to-end ETA.

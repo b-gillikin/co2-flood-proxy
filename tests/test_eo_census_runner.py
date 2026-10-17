@@ -56,3 +56,22 @@ def test_merge_rejects_corruption_and_geometry_mismatch():
         (first / "first.parquet").write_bytes(b"corrupt")
         with pytest.raises(ValueError, match="checksum"):
             M["merge_aggregates"](base, ["first"])
+
+
+def test_completed_aggregate_cannot_substitute_cpu_for_mps(tmp_path, monkeypatch):
+    root = tmp_path
+    geometry = root / "results/eo_comparison_preparation/catchments.gpkg"
+    geometry.parent.mkdir(parents=True)
+    geometry.write_bytes(b"held geometry")
+    source = root / "data/processed/run/manifest.json"
+    source.parent.mkdir(parents=True)
+    source.write_text(json.dumps({"execution_device": "cpu", "code": {}}))
+    base = root / "results/eo_catchment_representations"
+    folder = make_model(base, "example", M["sha256"](geometry))
+    saved = json.loads((folder / "manifest.json").read_text())
+    saved["source_sha256"] = {str(source.relative_to(root)): M["sha256"](source)}
+    (folder / "manifest.json").write_text(json.dumps(saved))
+    fn = M["completed_aggregate"]
+    monkeypatch.setitem(fn.__globals__, "ROOT", root)
+    assert fn(base, "example", "cpu")
+    assert not fn(base, "example", "mps")
