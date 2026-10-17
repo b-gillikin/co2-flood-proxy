@@ -96,3 +96,16 @@ restart behavior, storage limits, temporal/orbit filtering and source provenance
 These checks establish transport and scheduling correctness, not model
 compatibility or scientific results. Actual cloud export checks passed for
 all four product groups with zero failures.
+
+## Local staging after cloud completion — 17 October 2026
+
+`103_stage_limburg_eo_archive.py` uses Azure CLI login and the CLI Python's
+storage SDK to stage the existing immutable archive; it never starts the VM.
+Default is inventory only. `--run` processes the full ledger in 5 GB batches,
+with four transfers, a 100 decimal GB archive-plus-model-weights limit and
+60 GiB free-disk reserve. Existing TIFFs are hash-checked and retained; conflicts
+are reported, not overwritten. Downloaded receipts must match the job and remote
+hash metadata; TIFFs are published only after SHA-256/size checks. No cache
+ eviction is performed. Rerunning retries missing/failed pairs and verifies held
+ones. Status is `data/raw/limburg_compact_eo/staging-progress.json`; completion
+here describes transport, not usable-pixel coverage or completed analysis.
