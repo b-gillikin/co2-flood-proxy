@@ -1,0 +1,316 @@
+{
+  "fixture": {
+    "row": 576,
+    "col": 128,
+    "months": [
+      "monthly_20180101_20180201",
+      "monthly_20180201_20180301",
+      "monthly_20180301_20180401",
+      "monthly_20180401_20180501",
+      "monthly_20180501_20180601",
+      "monthly_20180601_20180701",
+      "monthly_20180701_20180801",
+      "monthly_20180801_20180901",
+      "monthly_20180901_20181001",
+      "monthly_20181001_20181101",
+      "monthly_20181101_20181201",
+      "monthly_20181201_20190101"
+    ],
+    "sha256": "66f9517085d2611cfabf36f466c324899afb832528a5dbfded2d131ec1a9db34",
+    "preparation_seconds": 2.2654170829919167,
+    "observed_pixels": [
+      3870,
+      4096,
+      4096,
+      4084,
+      4090,
+      4090,
+      4096,
+      4090,
+      4090,
+      4096,
+      4096,
+      4073
+    ]
+  },
+  "torch221": {
+    "torch": "2.2.1",
+    "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+    "fixture_sha256": "66f9517085d2611cfabf36f466c324899afb832528a5dbfded2d131ec1a9db34",
+    "source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "cases": [
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          1.0990945840021595,
+          0.31139487499604
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 1,
+        "seconds": [
+          0.3547996660345234,
+          0.3639969170326367
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 1,
+        "batch": 512,
+        "threads": 2,
+        "seconds": [
+          0.3140500410227105,
+          0.31934566696872935
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 1,
+        "batch": 512,
+        "threads": 1,
+        "seconds": [
+          0.3761937919771299,
+          0.4032094999565743
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          2.6502128330175765,
+          2.6549263750202954
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 1,
+        "seconds": [
+          3.752621999999974,
+          3.8456144999945536
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 512,
+        "threads": 2,
+        "seconds": [
+          3.229108917003032,
+          3.3541757499915548
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 512,
+        "threads": 1,
+        "seconds": [
+          4.83384329098044,
+          4.885334332997445
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      }
+    ],
+    "scope": "Engineering only; production worker unchanged; no sampled scientific comparison"
+  },
+  "torch221-fourthreads": {
+    "torch": "2.2.1",
+    "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+    "fixture_sha256": "66f9517085d2611cfabf36f466c324899afb832528a5dbfded2d131ec1a9db34",
+    "source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "cases": [
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          1.2728864999953657,
+          0.3644190829945728
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 4,
+        "seconds": [
+          0.3462468330399133,
+          0.3445820829947479
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          4.306747250026092,
+          5.681626082980074
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 4,
+        "seconds": [
+          4.302921709022485,
+          3.859260750003159
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      }
+    ],
+    "scope": "Engineering only; production worker unchanged; no sampled scientific comparison"
+  },
+  "torch291-isolated": {
+    "torch": "2.9.1",
+    "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+    "fixture_sha256": "66f9517085d2611cfabf36f466c324899afb832528a5dbfded2d131ec1a9db34",
+    "source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "cases": [
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          1.3135675829835236,
+          0.22826666699256748
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 1,
+        "batch": 128,
+        "threads": 4,
+        "seconds": [
+          0.2047856659628451,
+          0.2018822079990059
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 2,
+        "seconds": [
+          2.592646082979627,
+          2.4512813750188798
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      },
+      {
+        "frames": 12,
+        "batch": 128,
+        "threads": 4,
+        "seconds": [
+          1.9416548750014044,
+          1.9193883329862729
+        ],
+        "finite": true,
+        "exact_repeat": true,
+        "relative_l2": 0.0,
+        "allclose": true
+      }
+    ],
+    "scope": "Engineering only; production worker unchanged; no sampled scientific comparison"
+  },
+  "cross-runtime": [
+    {
+      "frames": 1,
+      "relative_l2": 6.915678341101739e-08,
+      "max_abs": 4.76837158203125e-07,
+      "allclose": true
+    },
+    {
+      "frames": 12,
+      "relative_l2": 6.244532357868593e-08,
+      "max_abs": 2.384185791015625e-07,
+      "allclose": true
+    }
+  ],
+  "controller": {
+    "pid": 52376,
+    "paused": true,
+    "runs": [
+      {
+        "label": "torch221",
+        "exit": 0
+      },
+      {
+        "label": "torch291",
+        "exit": 1
+      }
+    ],
+    "resumed": true
+  },
+  "controller-followup": {
+    "pid": 52376,
+    "runs": [
+      {
+        "label": "torch221-fourthreads",
+        "exit": 0
+      },
+      {
+        "label": "torch291-isolated",
+        "exit": 0
+      }
+    ],
+    "resumed": true
+  },
+  "benchmark_code_sha256": "a630a418e9ac899eb728f51f12f3e58d29092357c054d33bcc7f8c0ad97bf5d9",
+  "production_change": "None; original worker resumed and production code hashes verified unchanged."
+}
