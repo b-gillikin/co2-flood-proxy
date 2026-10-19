@@ -91,7 +91,7 @@ def merge_aggregates(base, models):
     atomic_json(target / "manifest.json", merged)
 
 
-def completed_aggregate(base, model, device=None):
+def completed_aggregate(base, model, device=None, runtime_profile=None):
     folder = base / "per_model" / model / "census"
     path = folder / "manifest.json"
     if not path.exists():
@@ -113,9 +113,34 @@ def completed_aggregate(base, model, device=None):
             identity = json.loads(source.read_text())
             if device is not None and identity.get("execution_device", "cpu") != device:
                 return False
+            if runtime_profile is not None and identity.get("runtime_profile") != runtime_profile:
+                return False
             if any(sha256(ROOT / name) != value for name, value in identity["code"].items()):
                 return False
     return True
+
+
+def execution_settings(model, device, plan):
+    profile = plan.get("runtime_profiles", {}).get(model)
+    if profile is not None:
+        if (model, device, profile) != ("presto", "cpu", "presto-torch291-cpu4"):
+            raise ValueError("Unsupported explicit runtime profile")
+        return dict(
+            runtime=ROOT / ".venvs-eo/presto-torch291/bin/python",
+            runner="scripts/109_extract_presto_cpu_sequences.py",
+            sequences=ROOT / "data/processed/limburg_eo_presto_torch291_sequences",
+            profile=profile,
+        )
+    return dict(
+        runtime=ROOT / f".venvs-eo/{ROUTES[model][2]}/bin/python",
+        runner="scripts/107_extract_limburg_mps_sequences.py"
+        if device == "mps"
+        else "scripts/100_extract_limburg_eo_sequences.py",
+        sequences=ROOT
+        / "data/processed"
+        / ("limburg_eo_mps_sequences" if device == "mps" else "limburg_eo_sequences"),
+        profile=None,
+    )
 
 
 def main():
@@ -153,6 +178,7 @@ def main():
         "active_models": [],
         "local_workers": workers,
         "device_limits": limits,
+        "runtime_profiles": plan.get("runtime_profiles", {}),
         "scope": "Frozen extraction and exact-area aggregation only; no analogue scoring.",
     }
     env = os.environ.copy()
@@ -167,15 +193,12 @@ def main():
     def run_model(model, device):
         model_lock = (logdir / f".{model}.lock").open("a")
         fcntl.flock(model_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        runtime = ROOT / f".venvs-eo/{ROUTES[model][2]}/bin/python"
+        settings = execution_settings(model, device, plan)
+        runtime = settings["runtime"]
         model_env = dict(env)
         if device == "mps":
             model_env["PYTORCH_ENABLE_MPS_FALLBACK"] = "0"
-        sequence_root = (
-            ROOT
-            / "data/processed"
-            / ("limburg_eo_mps_sequences" if device == "mps" else "limburg_eo_sequences")
-        )
+        sequence_root = settings["sequences"]
         with (logdir / f"{model}.log").open("a") as output:
             if model in adopted:
                 pid = int(adopted[model])
@@ -198,9 +221,7 @@ def main():
                     [
                         str(runtime),
                         "-u",
-                        "scripts/107_extract_limburg_mps_sequences.py"
-                        if device == "mps"
-                        else "scripts/100_extract_limburg_eo_sequences.py",
+                        settings["runner"],
                         "--model",
                         model,
                         "--run",
@@ -231,9 +252,12 @@ def main():
             ).returncode
         return {"extraction_exit": extraction_exit, "aggregation_exit": aggregation_exit}
 
-    pending = list(ORDER)
+    # A newly selected runtime may start while completed models' many receipts
+    # are reverified. Their verification still precedes acceptance/merging.
+    pending = sorted(ORDER, key=lambda model: model not in plan.get("runtime_profiles", {}))
     futures = {}
     paused = False
+    save()
     with ThreadPoolExecutor(max_workers=workers) as pool:
         while pending or futures:
             live_plan = json.loads(args.plan.read_text())
@@ -242,13 +266,20 @@ def main():
                 if paused or len(futures) >= workers:
                     break
                 device = live_plan.get("execution_devices", {}).get(model, "cpu")
+                if model in live_plan.get("deferred_models", []):
+                    state["models"][model] = {"status": "deferred_paused"}
+                    pending.remove(model)
+                    continue
                 if device not in limits:
                     raise ValueError("Unknown execution device: " + device)
                 if live_plan["owners"][model] != "local":
                     state["models"][model] = {"status": "assigned_azure"}
                     pending.remove(model)
                     continue
-                if model not in adopted and completed_aggregate(base, model, device):
+                settings = execution_settings(model, device, live_plan)
+                if model not in adopted and completed_aggregate(
+                    base, model, device, settings["profile"]
+                ):
                     completed.append(model)
                     state["models"][model] = {
                         "status": "completed_verified",

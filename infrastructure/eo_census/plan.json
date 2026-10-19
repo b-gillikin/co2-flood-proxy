@@ -43,5 +43,12 @@
     "anysat": "mps",
     "presto": "cpu"
   },
-  "device_note": "Prithvi complete; retain running TerraMind/DOFA on CPU. CROMA/SatMAE/AnySat/OlmoEarth use validated MPS route. Other models retain CPU."
+  "device_note": "Prithvi complete; retain running TerraMind/DOFA on CPU. CROMA/SatMAE/AnySat/OlmoEarth use validated MPS route. Other models retain CPU.",
+  "runtime_profiles": {
+    "presto": "presto-torch291-cpu4"
+  },
+  "deferred_models": [
+    "galileo"
+  ],
+  "presto_runtime_note": "2026-10-18: Brian authorized fresh torch 2.9.1 CPU4 / batch128 census; separate output identity, previous torch 2.2.1 outputs retained."
 }
