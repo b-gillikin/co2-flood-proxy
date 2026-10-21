@@ -1,0 +1,50 @@
+{
+  "resource_group": "rg-limburg-eo",
+  "vm": "vm-limburg-eo",
+  "vm_size": "Standard_B2s_v2",
+  "vm_resource_id": "/subscriptions/c7729fd0-7b35-4ec4-b1a3-ec7079b776fa/resourceGroups/rg-limburg-eo/providers/Microsoft.Compute/virtualMachines/vm-limburg-eo",
+  "storage_account": "stkerkradeprod01bg",
+  "container": "limburg-compact-eo",
+  "compute_deadline_utc": "2026-10-29T22:53:25.142862+00:00",
+  "compute_deadline_epoch": 1793314405,
+  "prefix": "expansion-v1",
+  "task_root": "/home/eo/limburg-eo-expansion",
+  "service": "limburg-eo-expansion.service",
+  "status": "running",
+  "updated_utc": "2026-10-21T17:25:43.985377+00:00",
+  "archive_cap_gb": 300,
+  "bundle_sha256": "adb6d490894ed398e417a256e2aac466d03ee498362dc780084cd1637d1e92a4",
+  "bundle_bytes": 8039837,
+  "jobs_sha256": "f498c678c67d760e49cf9141485e83b33d0d483a45ab12de9135524a8eaa9241",
+  "cloud_worker_sha256": "905b86dd022a7e029b15dffe1b513b7ddd8a32bdbe0179f9961c793eef76ac87",
+  "service_config_sha256": "1e566acbdfcdadb7aeb392c57ec7af356a9e8be75749c84614835457ed23f8f7",
+  "cloud_smoke": {
+    "archive_bytes": 13603948,
+    "committed_files": 13,
+    "failed": 0,
+    "max_archive_bytes": 300000000000,
+    "new_downloads": 13,
+    "planned_files": 13,
+    "seed_verified": 0,
+    "status": "completed",
+    "updated_utc": "2026-10-21T17:21:08.272042+00:00"
+  },
+  "seed_handoff": {
+    "status": "cloud_acquires_remaining_directly",
+    "local_pairs_retained": 3418,
+    "uploaded_pairs_for_cloud_readback": 137,
+    "local_only_pairs_cloud_will_reacquire": 3281
+  },
+  "production_observed": {
+    "archive_bytes": 560731078,
+    "committed_files": 28,
+    "failed": 0,
+    "max_archive_bytes": 300000000000,
+    "new_downloads": 15,
+    "planned_files": 66913,
+    "seed_verified": 0,
+    "status": "running",
+    "updated_utc": "2026-10-21T17:25:14.378522+00:00"
+  },
+  "local_inference": "Unchanged; Mac CPU/GPU jobs remain local."
+}

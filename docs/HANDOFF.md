@@ -1,5 +1,20 @@
 # Session handoff
 
+## 2026-10-21 supplemental download moved to Azure — current
+
+[Cloud handoff](../infrastructure/eo_expansion/README.md) is live on the existing
+small acquisition VM, service `limburg-eo-expansion.service`, private Blob prefix
+`expansion-v1`. All 13 cloud product exports/readbacks passed; production has
+committed new files with zero failures. The prior Azure acquisition service is
+disabled. Local script-114 downloader and seed uploader are retired; 3,418 local
+pairs are retained, 137 uploaded pairs will receive cloud readback, and Azure
+fetches the remaining 3,281 local-only pairs directly so no laptop upload is needed.
+Original archive/inference jobs are unchanged. Keep the existing October 29
+shutdown timer; service also deallocates on completion/error. Supplemental storage
+headroom is 300 decimal GB, separate from original `v1`. For live status use
+Azure CLI Python with script 115 `--status` (writes `cloud-progress.json`); local
+`progress.json` deliberately records `retired_to_azure`, not current acquisition.
+
 ## 2026-10-21 broader EO acquisition — running
 
 Brian prefers more useful data over download economy. [Expanded acquisition](reviews/limburg-eo-acquisition-expansion-2026-10-21.md)
