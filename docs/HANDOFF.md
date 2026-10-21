@@ -1,5 +1,16 @@
 # Session handoff
 
+## 2026-10-21 broader EO acquisition — running
+
+Brian prefers more useful data over download economy. [Expanded acquisition](reviews/limburg-eo-acquisition-expansion-2026-10-21.md)
+adds 66,913 separate files across the existing 930 windows: other SAR orbits,
+Landsat 5/7/8/9 SR and S2 TOA/QA. Script 114 is running locally with three network
+workers; check `data/raw/limburg_eo_expansion/progress.json` and `worker.json`
+before starting another worker. Thirteen actual product exports passed. All jobs
+passed date/orbit provenance checks. Do not edit its fingerprinted script while
+running. Current encoder runs and original archive are unchanged. Additional
+data are not automatically compatible encoder inputs or completed comparisons.
+
 ## 2026-10-21 readout coverage and conventional-reference contrasts
 
 [Exact snapshot–weekly loss decomposition](reviews/limburg-eo-readout-diagnostics-2026-10-21.md)

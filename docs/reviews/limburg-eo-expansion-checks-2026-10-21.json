@@ -1,0 +1,36 @@
+{
+  "plan_sha256": "b8e88a8985535b6cda8ab1a9e3ef3d27de7c67d4fec5bfc4e018e1279517cfc0",
+  "jobs_sha256": "f498c678c67d760e49cf9141485e83b33d0d483a45ab12de9135524a8eaa9241",
+  "runner_sha256": "64b4e0f787ec6868a148223d633ceaa5acece753c9501ad8198301135e463667",
+  "files": 66913,
+  "files_by_product": {
+    "landsat5_sr": 1106,
+    "landsat7_sr": 7452,
+    "landsat8_sr": 7676,
+    "landsat9_sr": 2499,
+    "s1_ascending_15": 1644,
+    "s1_ascending_161": 1231,
+    "s1_descending_139": 8493,
+    "s1_descending_141": 32,
+    "s1_descending_37": 8317,
+    "s1_descending_39": 32,
+    "s2_toa_10m": 9477,
+    "s2_toa_20m": 9477,
+    "s2_toa_qa60": 9477
+  },
+  "windows": 930,
+  "uncompressed_bytes": 589616691200,
+  "plan_audit_issues": [],
+  "smoke": {
+    "downloaded": 13,
+    "existing": 0,
+    "failed": 0,
+    "failed_jobs": [],
+    "planned_files": 13,
+    "started_utc": "2026-10-21T14:22:24.191946+00:00",
+    "status": "completed",
+    "updated_utc": "2026-10-21T14:22:48.491909+00:00"
+  },
+  "unit_tests": "7 passed with explicit existing PROJ_DATA directory",
+  "scope": "Original archive and extraction sources unchanged; supplemental acquisition, not model-ready representations."
+}
