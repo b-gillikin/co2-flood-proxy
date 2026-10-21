@@ -1,5 +1,17 @@
 # Session handoff
 
+## 2026-10-21 readout coverage and conventional-reference contrasts
+
+[Exact snapshot–weekly loss decomposition](reviews/limburg-eo-readout-diagnostics-2026-10-21.md)
+is complete. Radar losses are all missing catalogue source weeks; optical losses
+combine source absence, zero-valid-pixel weeks and sequence support. There are
+no incomplete local-download losses. Script 113 retains every observation/slot,
+country, gauge and year. It cannot attribute all masking specifically to clouds.
+Script 102 now reports direct conventional-reference paired intervals wherever
+the rainfall comparator exists, preserving TTM references and existing equal-count
+storm/year resampling. This supersedes the preceding note that this runner change
+is still needed. No scientific scores were run; active workers are unchanged.
+
 ## 2026-10-21 completed-model coverage and comparison review
 
 [Eight-model audit and comparison choices](reviews/limburg-eo-comparability-2026-10-21.md)

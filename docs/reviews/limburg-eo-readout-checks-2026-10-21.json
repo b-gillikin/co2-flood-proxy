@@ -1,0 +1,273 @@
+{
+  "scope": "All held observation rows for eight completed models. No performance scoring, new data or changed eligibility. Masked pixels cannot be assigned specifically to clouds from these retained products.",
+  "input_sha256": {
+    "results/eo_completed_coverage_review/observation_coverage.parquet": "f3ac5d01bef88f06b1ad534c9746988012f139ea5de4eb238bc57e8ce547c349",
+    "results/eo_comparison_preparation/observation_windows.parquet": "8cca22e1b234de479d72e260d3e2ede3ca808b5ca2ede46f37cf1fdb129db8ca",
+    "results/eo_comparison_preparation/observed_window_coverage.parquet": "bb32d8f12006b78af1fdffc8d34239b56cdef6e476d5b922923125ec2000a645",
+    "results/eo_comparison_preparation/window_coverage.parquet": "be92c0e34320c4668a02901931a7131fccb86309f39c8f8e455a4a7655f0d6f2",
+    "scripts/113_explain_eo_readout_coverage.py": "843ae2d29284b12fdbce212cf62e2cc8c31e5e7167922d20a20be82e396513ce",
+    "src/eo_window_diagnostics.py": "a619b6ec3d8e01e7e4d210ca66947dbc41feeddd56f4713520d635af8f4d503f",
+    "scripts/102_connect_limburg_eo_experiments.py": "8f90a22fdfc4abd5e9603a8063234c1436f4a026f4098d29b038feae464b491d",
+    "tests/test_eo_readout_and_pairing.py": "ef18a6d4215ae89f47234df16f2aab9d56dc4bdb03c31e9a78b1e31487b503ae"
+  },
+  "outputs_sha256": {
+    "paired_readout_membership.parquet": "3dc8f7d0fcb955c10a961bc39a8e5c0ce53ba571114f70c1a9673c9491b0a000",
+    "window_reasons.parquet": "e2e7be1a646daedb0743cc774e7f08125f9aad7feb532d734c17418feaed436a",
+    "high_water_reason_counts.parquet": "77734f3d4b4dbb72bc16ae9c4981fffa437e792bba3027f193c478596c54b33a",
+    "reason_summary.parquet": "25c9ca1cdb23a9a583885071b292415db8629b20be0745042da6fe03e808e45c",
+    "observation_reasons.parquet": "cf5f31190a26c7d13478bf47605d4aaeae4cb20667732dec91b0725179cb84dd"
+  },
+  "high_water_reasons": [
+    {
+      "model": "anysat",
+      "kind": "monthly_snapshot",
+      "encoded": 485,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 355,
+      "no_valid_catchment_pixels": 11
+    },
+    {
+      "model": "anysat",
+      "kind": "recent",
+      "encoded": 270,
+      "encoder_sequence_support_loss": 28,
+      "no_catalogued_source": 444,
+      "no_valid_catchment_pixels": 109
+    },
+    {
+      "model": "copernicus_fm",
+      "kind": "monthly_snapshot",
+      "encoded": 485,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 355,
+      "no_valid_catchment_pixels": 11
+    },
+    {
+      "model": "copernicus_fm",
+      "kind": "recent",
+      "encoded": 281,
+      "encoder_sequence_support_loss": 17,
+      "no_catalogued_source": 444,
+      "no_valid_catchment_pixels": 109
+    },
+    {
+      "model": "croma",
+      "kind": "monthly_snapshot",
+      "encoded": 576,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 275,
+      "no_valid_catchment_pixels": 0
+    },
+    {
+      "model": "croma",
+      "kind": "recent",
+      "encoded": 243,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 608,
+      "no_valid_catchment_pixels": 0
+    },
+    {
+      "model": "dofa",
+      "kind": "monthly_snapshot",
+      "encoded": 485,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 355,
+      "no_valid_catchment_pixels": 11
+    },
+    {
+      "model": "dofa",
+      "kind": "recent",
+      "encoded": 281,
+      "encoder_sequence_support_loss": 17,
+      "no_catalogued_source": 444,
+      "no_valid_catchment_pixels": 109
+    },
+    {
+      "model": "olmoearth",
+      "kind": "monthly_snapshot",
+      "encoded": 576,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 275,
+      "no_valid_catchment_pixels": 0
+    },
+    {
+      "model": "olmoearth",
+      "kind": "recent",
+      "encoded": 243,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 608,
+      "no_valid_catchment_pixels": 0
+    },
+    {
+      "model": "prithvi",
+      "kind": "monthly_snapshot",
+      "encoded": 637,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 163,
+      "no_valid_catchment_pixels": 51
+    },
+    {
+      "model": "prithvi",
+      "kind": "recent",
+      "encoded": 211,
+      "encoder_sequence_support_loss": 14,
+      "no_catalogued_source": 381,
+      "no_valid_catchment_pixels": 245
+    },
+    {
+      "model": "satmae",
+      "kind": "monthly_snapshot",
+      "encoded": 485,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 355,
+      "no_valid_catchment_pixels": 11
+    },
+    {
+      "model": "satmae",
+      "kind": "recent",
+      "encoded": 269,
+      "encoder_sequence_support_loss": 29,
+      "no_catalogued_source": 444,
+      "no_valid_catchment_pixels": 109
+    },
+    {
+      "model": "terramind",
+      "kind": "monthly_snapshot",
+      "encoded": 485,
+      "encoder_sequence_support_loss": 0,
+      "no_catalogued_source": 355,
+      "no_valid_catchment_pixels": 11
+    },
+    {
+      "model": "terramind",
+      "kind": "recent",
+      "encoded": 281,
+      "encoder_sequence_support_loss": 17,
+      "no_catalogued_source": 444,
+      "no_valid_catchment_pixels": 109
+    }
+  ],
+  "paired_transitions": [
+    {
+      "model": "anysat",
+      "transition": "both",
+      "events": 270
+    },
+    {
+      "model": "anysat",
+      "transition": "neither",
+      "events": 366
+    },
+    {
+      "model": "anysat",
+      "transition": "snapshot_only",
+      "events": 215
+    },
+    {
+      "model": "copernicus_fm",
+      "transition": "both",
+      "events": 281
+    },
+    {
+      "model": "copernicus_fm",
+      "transition": "neither",
+      "events": 366
+    },
+    {
+      "model": "copernicus_fm",
+      "transition": "snapshot_only",
+      "events": 204
+    },
+    {
+      "model": "croma",
+      "transition": "both",
+      "events": 243
+    },
+    {
+      "model": "croma",
+      "transition": "neither",
+      "events": 275
+    },
+    {
+      "model": "croma",
+      "transition": "snapshot_only",
+      "events": 333
+    },
+    {
+      "model": "dofa",
+      "transition": "both",
+      "events": 281
+    },
+    {
+      "model": "dofa",
+      "transition": "neither",
+      "events": 366
+    },
+    {
+      "model": "dofa",
+      "transition": "snapshot_only",
+      "events": 204
+    },
+    {
+      "model": "olmoearth",
+      "transition": "both",
+      "events": 243
+    },
+    {
+      "model": "olmoearth",
+      "transition": "neither",
+      "events": 275
+    },
+    {
+      "model": "olmoearth",
+      "transition": "snapshot_only",
+      "events": 333
+    },
+    {
+      "model": "prithvi",
+      "transition": "both",
+      "events": 211
+    },
+    {
+      "model": "prithvi",
+      "transition": "neither",
+      "events": 214
+    },
+    {
+      "model": "prithvi",
+      "transition": "snapshot_only",
+      "events": 426
+    },
+    {
+      "model": "satmae",
+      "transition": "both",
+      "events": 269
+    },
+    {
+      "model": "satmae",
+      "transition": "neither",
+      "events": 366
+    },
+    {
+      "model": "satmae",
+      "transition": "snapshot_only",
+      "events": 216
+    },
+    {
+      "model": "terramind",
+      "transition": "both",
+      "events": 281
+    },
+    {
+      "model": "terramind",
+      "transition": "neither",
+      "events": 366
+    },
+    {
+      "model": "terramind",
+      "transition": "snapshot_only",
+      "events": 204
+    }
+  ],
+  "validation": "18 focused tests passed; existing PROJ import warning only. No scientific scoring or active extraction change."
+}

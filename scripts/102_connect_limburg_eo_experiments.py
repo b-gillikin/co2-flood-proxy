@@ -27,36 +27,41 @@ def paired_intervals(frame, evaluator):
     keys = ["kind", "cohort", "scenario", "analysis", "policy", "target_k", "query_country"]
     output = []
     for config, group in frame.groupby(keys):
-        reference = group[group.arm.eq("ttm_state")]
-        for arm, challenger in group.groupby("arm"):
-            if arm == "ttm_state":
+        # Both controls use this exact cohort, donor policy and actual donor count.
+        # Conventional is present only on the explicitly rainfall-matched population.
+        for reference_arm in ["ttm_state", "conventional"]:
+            if reference_arm not in set(group.arm):
                 continue
-            for metric in evaluator.METRICS:
-                pair = evaluator.paired_differences(reference, challenger, metric, True)
-                if pair.empty:
+            reference = group[group.arm.eq(reference_arm)]
+            for arm, challenger in group.groupby("arm"):
+                if arm == reference_arm:
                     continue
-                for unit in ["query_storm_id", "storm_year"]:
-                    if pair[unit].nunique() < 2:
-                        result = {
-                            "difference": pair.difference.mean(),
-                            "query_count": len(pair),
-                            "cluster_count": pair[unit].nunique(),
-                            "draws": 0,
-                            "lower": np.nan,
-                            "upper": np.nan,
-                        }
-                    else:
-                        result = evaluator.C.REVIEW.cluster_interval(pair, unit)
-                    output.append(
-                        {
-                            **dict(zip(keys, config, strict=True)),
-                            "reference": "ttm_state",
-                            "challenger": arm,
-                            "metric": metric,
-                            "resampling_unit": unit,
-                            **result,
-                        }
-                    )
+                for metric in evaluator.METRICS:
+                    pair = evaluator.paired_differences(reference, challenger, metric, True)
+                    if pair.empty:
+                        continue
+                    for unit in ["query_storm_id", "storm_year"]:
+                        if pair[unit].nunique() < 2:
+                            result = {
+                                "difference": pair.difference.mean(),
+                                "query_count": len(pair),
+                                "cluster_count": pair[unit].nunique(),
+                                "draws": 0,
+                                "lower": np.nan,
+                                "upper": np.nan,
+                            }
+                        else:
+                            result = evaluator.C.REVIEW.cluster_interval(pair, unit)
+                        output.append(
+                            {
+                                **dict(zip(keys, config, strict=True)),
+                                "reference": reference_arm,
+                                "challenger": arm,
+                                "metric": metric,
+                                "resampling_unit": unit,
+                                **result,
+                            }
+                        )
     return pd.DataFrame(output)
 
 
