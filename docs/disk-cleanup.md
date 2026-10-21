@@ -48,3 +48,41 @@ rather than automatically mirroring the full expansion onto the Mac.
 
 This is a storage-management task, not a research eligibility rule or new gate.
 No new empirical result or scientific exclusion is created.
+
+## 21 October: weather and cross-chapter follow-up
+
+A targeted source/dependency review found **6.08 GiB of duplicate expanded radar
+files**. All 744 files in `radklim/probe/asc`, 744 in `radklim/probe/op` and
+342 unpacked supplement binaries were SHA-256-matched byte for byte to their
+retained compressed source archives before removal. Archive checksums and counts
+are in [the verification receipt](reviews/weather-cleanup-checks-2026-10-21.json).
+Only expanded copies were removed. The active RADOLAN crops, RADKLIM comparison
+crops, source archives and metadata remain. Current catchment rainfall reads the
+crop directories, not these probe expansions. This preserves the earlier product
+coverage assessment and the ability to reproduce the old files by extraction.
+
+The older weather inventory is much smaller than the embedding cache: KNMI
+Azure-slim files about 1 GiB, ERA5-Land about 299 MiB and four legacy weather
+exports about 54 MiB. Source files remain held; no cloud-backup completeness is
+assumed from a directory name. The archived pressure/CO2 direction itself has
+little raw-data footprint. Removing useful inputs wholesale would reclaim much
+less than retiring repeated patch metadata and superseded outputs.
+
+Other chapter **data-directory** totals are approximately 0.93 GiB Bukidnon,
+3.7 GiB Peja and 1.1 GiB Jordan; this is not a claim about all files in each repo.
+
+- Bukidnon's ~0.95 GB exploratory-swap folder contains compressed/extracted
+  HydroBASINS and a large PH administrative boundary. Its `hybas_au_lev12_v1c`
+  HydroBASINS level-12 shapefile is still the source for
+  `scripts/build_lipad_request_area.py`; the folder is not entirely obsolete.
+- Peja's ~2.3 GiB KCA original ZIP is an important source delivery. Its old
+  raster previews are only ~290 MiB; the current open-data archive is ~768 MiB.
+  No KCA source delivery or open hydraulic/exposure input was deleted.
+- Jordan's retained dust/flood/station material is current project evidence,
+  including the conditional flood track, not obsolete merely because modelling
+  is paused for review. No Jordan files were deleted.
+
+Other chapter worktrees were inspected without editing, staging or overwriting
+their existing changes. No scientific input value, event definition, active
+extraction file or empirical result changed. This pass uses exact archive
+verification rather than a model test because it removes only duplicated bytes.

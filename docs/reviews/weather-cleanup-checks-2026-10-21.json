@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "probe": {
+    "created_utc": "2026-10-21T19:55:01.325302+00:00",
+    "scope": "Remove only duplicate expanded probe files after byte-for-byte verification against retained source archives.",
+    "verified": [
+      {
+        "directory": "data/raw/radklim/probe/asc",
+        "files": 744,
+        "logical_bytes": 4643791488,
+        "retained_archive": "data/raw/radklim/probe/asc_202112.tar.gz",
+        "archive_sha256": "185fc18e09732f26d9e56e754df230c4a15e755fb94993cba9772567e774aab2"
+      },
+      {
+        "directory": "data/raw/radklim/probe/op",
+        "files": 744,
+        "logical_bytes": 1205385036,
+        "retained_archive": "data/raw/radklim/probe/rw_op_201507.tar.gz",
+        "archive_sha256": "f12f6be61fcc95b13e20e9f0a8d302eafae484c45301df67a4b29382fc568a40"
+      }
+    ],
+    "logical_bytes_removed": 5849176524,
+    "status": "completed",
+    "free_gib_after": 126.0743179321289
+  },
+  "supplement": {
+    "status": "completed",
+    "expanded_files_removed": 342,
+    "logical_bytes_removed": 677214044,
+    "retained_archive": "data/raw/radklim/supplement/RW2017.002_Supplement.tar.gz",
+    "archive_sha256": "8baaf4831f76605e399fb6487f81cc2f968d72e2c9e85167f04928c9d02db9e0"
+  },
+  "total_logical_bytes_removed": 6526390568,
+  "other_chapters": "Inspected; source data retained. No edits or deletions in other chapter repositories."
+}
