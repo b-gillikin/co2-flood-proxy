@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-21",
+  "reviewed_commit": "45c989a15028a8791811d49de50f1e23d7547f29",
+  "scope": "Limburg active analogue chapter; core analysis, EO acquisition/extraction/aggregation/comparison, maintained tests and front-door documentation. Not a line-by-line certification of every historical artifact.",
+  "source_sha256": {
+    "src/eo_inputs.py": "3c0b1eb40223e945b960eadcb0114dd5fa8112cd0e46b3abdcbeed3858d28916",
+    "scripts/96_acquire_limburg_compact_eo.py": "d1e50e157ac84f5e501693dc125f761ecb637ccb1100e0324523e21c240e88d8",
+    "scripts/100_extract_limburg_eo_sequences.py": "0f467d421f1b2b1d13e69966eb4b63c608ab602d50a9774588541ba8c33b11cb",
+    "scripts/101_aggregate_limburg_eo_catchments.py": "3f48fd7ea65240088325f427dd2ba41d9552af643e69df7418bf3af09a90d69a",
+    "scripts/102_connect_limburg_eo_experiments.py": "8f90a22fdfc4abd5e9603a8063234c1436f4a026f4098d29b038feae464b491d",
+    "scripts/105_run_limburg_eo_census.py": "c051f4f9237812cb5dd7b4bc1c93e06387906a324e82e19175ea4cb922bb297b",
+    "scripts/111_run_token_mask_recovery.py": "70e151ae58df24063097b978c5010056bf3a4f85b81898e950c6899d6299952a"
+  },
+  "tests": {
+    "passed": 243,
+    "seconds": 47.5,
+    "log": "logs/chapter-audit-tests-2026-10-21.log"
+  },
+  "lint": "passed",
+  "format": {
+    "would_reformat": [
+      "tools/disaster_recovery.py"
+    ],
+    "already_formatted": 137
+  },
+  "environment_checks": [
+    {
+      "environment": "legacy",
+      "exit": 0
+    },
+    {
+      "environment": "modern",
+      "exit": 0
+    },
+    {
+      "environment": "satmae",
+      "exit": 0
+    },
+    {
+      "environment": "terramind",
+      "exit": 0
+    },
+    {
+      "environment": "galileo",
+      "exit": 0
+    },
+    {
+      "environment": "presto",
+      "exit": 0
+    },
+    {
+      "environment": "presto-torch291",
+      "exit": 0
+    }
+  ],
+  "isolated_integration_reproductions": {
+    "errored_extraction_accepted_as_complete": true,
+    "stale_aggregate_exit": 0,
+    "stale_model_file_remains": true,
+    "stale_manifest_contexts": {},
+    "stale_file_recertified_in_output_hashes": true
+  },
+  "s2_diagnostic_tiles": [
+    {
+      "window": "monthly_20180701_20180801",
+      "bounds": [
+        268800,
+        5616000,
+        278400,
+        5625600
+      ],
+      "valid_pixels": 218683,
+      "different_band_acquisition_days": 139,
+      "max_day_difference": 25.0,
+      "observed_catchment_union_area_m2": 18118831.98149573,
+      "mixed_date_catchment_union_area_m2": 12500.0,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.0006898899450453489
+    },
+    {
+      "window": "monthly_20180701_20180801",
+      "bounds": [
+        268800,
+        5625600,
+        278400,
+        5635200
+      ],
+      "valid_pixels": 513976,
+      "different_band_acquisition_days": 503,
+      "max_day_difference": 25.0,
+      "observed_catchment_union_area_m2": 46258118.83395899,
+      "mixed_date_catchment_union_area_m2": 47500.0,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.0010268467719255657
+    },
+    {
+      "window": "monthly_20210701_20210801",
+      "bounds": [
+        268800,
+        5616000,
+        278400,
+        5625600
+      ],
+      "valid_pixels": 218683,
+      "different_band_acquisition_days": 11036,
+      "max_day_difference": 10.0,
+      "observed_catchment_union_area_m2": 18118831.98149573,
+      "mixed_date_catchment_union_area_m2": 896154.1002270312,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.04945981623662325
+    },
+    {
+      "window": "monthly_20210701_20210801",
+      "bounds": [
+        268800,
+        5625600,
+        278400,
+        5635200
+      ],
+      "valid_pixels": 513976,
+      "different_band_acquisition_days": 24176,
+      "max_day_difference": 10.0,
+      "observed_catchment_union_area_m2": 46258118.83395899,
+      "mixed_date_catchment_union_area_m2": 2159868.619325646,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.046691665674481436
+    },
+    {
+      "window": "recent_20210705_20210712",
+      "bounds": [
+        268800,
+        5616000,
+        278400,
+        5625600
+      ],
+      "valid_pixels": 183164,
+      "different_band_acquisition_days": 4130,
+      "max_day_difference": 2.0,
+      "observed_catchment_union_area_m2": 15514158.034234643,
+      "mixed_date_catchment_union_area_m2": 361965.90393208974,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.02333132762560173
+    },
+    {
+      "window": "recent_20210705_20210712",
+      "bounds": [
+        268800,
+        5625600,
+        278400,
+        5635200
+      ],
+      "valid_pixels": 359620,
+      "different_band_acquisition_days": 3729,
+      "max_day_difference": 2.0,
+      "observed_catchment_union_area_m2": 32658569.58746244,
+      "mixed_date_catchment_union_area_m2": 327618.40061330335,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.010031621248319321
+    },
+    {
+      "window": "recent_20210712_20210719",
+      "bounds": [
+        268800,
+        5616000,
+        278400,
+        5625600
+      ],
+      "valid_pixels": 71220,
+      "different_band_acquisition_days": 6,
+      "max_day_difference": 2.0,
+      "observed_catchment_union_area_m2": 5545716.012389257,
+      "mixed_date_catchment_union_area_m2": 0.0,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.0
+    },
+    {
+      "window": "recent_20210712_20210719",
+      "bounds": [
+        268800,
+        5625600,
+        278400,
+        5635200
+      ],
+      "valid_pixels": 64259,
+      "different_band_acquisition_days": 35,
+      "max_day_difference": 2.0,
+      "observed_catchment_union_area_m2": 5672693.273620096,
+      "mixed_date_catchment_union_area_m2": 0.0,
+      "mixed_date_fraction_of_observed_catchment_union_area": 0.0
+    }
+  ],
+  "s2_scope_limit": "Eight deliberately selected diagnostic tile/window pairs, not an archive prevalence estimate; catchment-union area fractions use the common-valid pixels and exact catchment intersections. Maximum day difference is over the valid tile, not restricted to catchments.",
+  "no_new_model_scores": true,
+  "active_worker_source_changed": false,
+  "retrieval_call_upper_bound": 8964,
+  "retrieval_count_assumptions": "All 10 models and every matched population nonempty: 249 arm evaluations per readout x 3 readouts x 2 river scenarios x 2 quality settings x 3 archive policies. Does not estimate runtime or count bootstrap work."
+}

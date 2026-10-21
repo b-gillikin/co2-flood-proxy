@@ -1,5 +1,19 @@
 # Session handoff
 
+## 2026-10-21 chapter/code audit — current corrections
+
+[Audit and prioritized findings](reviews/limburg-chapter-code-audit-2026-10-21.md):
+243 maintained tests and all seven runtime dependency checks pass. The audit
+reproduced stale/incomplete aggregate acceptance, identified the default merge's
+failure to select token-consistent recovery outputs, and confirmed mixed-date
+S2 bands in diagnostic held tiles. Quantify date agreement over the census and
+select/version corrected inputs before interpreting final EO rankings. Running
+jobs and fingerprinted source were not changed. Earlier results are not shown
+invalid; no new dataset, RQ, preregistration rule or scientific gate was added.
+See the audit for input-population fingerprints, comparison caching and current
+documentation corrections. It supersedes blanket readiness inferences from hash
+or finite-vector checks alone.
+
 ## 2026-10-21 supplemental download moved to Azure — current
 
 [Cloud handoff](../infrastructure/eo_expansion/README.md) is live on the existing
