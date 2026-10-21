@@ -1,5 +1,16 @@
 # Session handoff
 
+## 2026-10-20 token-mask recovery — current
+
+OlmoEarth/Galileo errors were reproduced and traced to pixel masks violating
+native token-block assumptions. [Diagnosis and recovery record](limburg-eo-token-mask-recovery-2026-10-20.md).
+Script 111 runs a separate serial MPS recovery (OlmoEarth then Galileo) using
+script 110. Check `logs/eo-token-recovery/progress.json` as well as the original
+queue. Presto continues unchanged. Old Galileo worker was terminated; outputs
+remain. Corrected aggregates are separate and not yet comparison inputs.
+Do not edit fingerprinted source files during extraction. Both corrected GPU
+smokes passed; the full repaired census is in progress, not complete.
+
 ## 2026-10-15 compact EO download — current
 
 Brian approved the compact path. [Current acquisition record](limburg-compact-eo-acquisition-2026-10-15.md).
