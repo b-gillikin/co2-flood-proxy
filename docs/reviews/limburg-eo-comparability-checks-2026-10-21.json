@@ -1,0 +1,137 @@
+{
+  "created_utc": "2026-10-21T13:08:49.652042+00:00",
+  "completed_models": [
+    "prithvi",
+    "croma",
+    "terramind",
+    "dofa",
+    "copernicus_fm",
+    "satmae",
+    "anysat",
+    "olmoearth"
+  ],
+  "pending_models": [
+    "galileo",
+    "presto"
+  ],
+  "baseline_events": 851,
+  "timing": {
+    "raw_pixel_links_checked": 163715,
+    "latest_raw_pixel_at_or_after_cutoff": 0,
+    "window_ends_after_cutoff": 0,
+    "source_jobs_checked": 36304,
+    "source_jobs_outside_window": 0
+  },
+  "scope": "Aggregate checksums, vector/coverage/calendar integrity and run source fingerprints rechecked. Patch receipts and raw imagery were verified by the held extraction/aggregation/full-pixel audit; not independently reread here.",
+  "input_sha256": {
+    "results/eo_catchment_representations/per_model/prithvi/census/manifest.json": "e9254d339bff22a5a5ea184e018aa9bcece1115af38bc20e48169234b9ddc7d4",
+    "results/eo_catchment_representations/per_model/croma/census/manifest.json": "f25303e55d2067f17e6c20674db03810ce23d116f46e5f39f3eec18fd5183704",
+    "results/eo_catchment_representations/per_model/terramind/census/manifest.json": "573e1e119a4a17c3ec57d161f495f0b75c4d1d912c207ebb5fb3cbf36e01a88e",
+    "results/eo_catchment_representations/per_model/dofa/census/manifest.json": "c8be22a8f6a3c3a9ad3f3452d2c0905a4be02612bc2c233717b246ed0a6dbf16",
+    "results/eo_catchment_representations/per_model/copernicus_fm/census/manifest.json": "baddfd6aaf1d87933ce2a1532a9fa1e9a8fab28bc7c7dcdb41bcd15067b836aa",
+    "results/eo_catchment_representations/per_model/satmae/census/manifest.json": "8b6157d68f1ac2c77403344b8b2e82581534a93c8abdb2bb8599f8f063bc9c0a",
+    "results/eo_catchment_representations/per_model/anysat/census/manifest.json": "15f7ecb9495a0f7552c2f7c051ec9a30c7305b34aae94b8fb2d5037eddbfa5dd",
+    "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/manifest.json": "9c77a2f202a869be76353b0b13f0567fb5938f1112fd9734eb9784bc37e30294",
+    "results/eo_comparison_preparation/observations.parquet": "8dc8dc43385299c09a06f8cd5e2c9b69c24dbe89be31378e7f1de5be4cc7977a",
+    "results/eo_comparison_preparation/observation_windows.parquet": "8cca22e1b234de479d72e260d3e2ede3ca808b5ca2ede46f37cf1fdb129db8ca",
+    "results/eo_comparison_preparation/contexts.json": "bdfc181e1084cb67c4f80e41111b42cf1fdf5519f857f9cc43d6e5fd9c266a45",
+    "results/eo_comparison_preparation/observed_window_coverage.parquet": "bb32d8f12006b78af1fdffc8d34239b56cdef6e476d5b922923125ec2000a645",
+    "results/eo_comparison_preparation/catchments.gpkg": "1cc8947dfc5d1378b5c33d89ae53b0caf086e59db79d1264c7a3d11c5b895e44",
+    "scripts/112_audit_completed_eo_comparability.py": "3fc4c99b42a838438674e90a89ba0784275ddc076ed6e578843a661a6e4a0b1f",
+    "src/eo_coverage_review.py": "1227b19c5ffa50c7b8c4bc51deeed87b748bacafa189f3a20953e181ac73b56f",
+    "data/raw/limburg_compact_eo/jobs.json": "2b344dec77d0765c52b3495e79613ceffd9699cea0a3b69d9146c8add9f944ef",
+    "results/basin_ai_event_interpretation_ready/event_inventory.csv": "b5967bba1228ab18603bb26e4b65df2e54dab9bf3566d1bbf8bb79c6a465cb3b",
+    "results/basin_ai_event_interpretation_ready/q_only_signatures.csv": "3e7255c2e19e4420a940f8976f0018c3fd5d99b218e6eabd13a1828cf22c569f",
+    "results/basin_ai_event_interpretation_ready/q_only_standardized_histories.parquet": "a30d51a17ffbac6109a2db2ed6b09d569714a1760bb7d26b51efd75339e2e80b",
+    "results/basin_ai_event_interpretation_ready/q_only_ttm_ordered.parquet": "a252103022477adce3ffe66cf78b31222dd02527c9cfcae490a531e318ecce0f",
+    "results/basin_ai_event_interpretation_ready/q_only_discharge_state.parquet": "4a89429d4222e6e93bc639372a2c332b95e7257e60657f93bd97bd2b5a42c74e"
+  },
+  "outputs_sha256": {
+    "donor_support.parquet": "5b6f0f1a978bd3ff284484dc65e80c2736eb56265de2d0dd934241e95e9ba134",
+    "window_age_summary.parquet": "c72d7454050fd55716526419045eb3f95b34edfc1ce0501b26f16a01bff1426f",
+    "coverage_summary.parquet": "c4a189345cd22d3f7a377eb1be18d57e62232aca346a3cb3ea4f799ba1975a13",
+    "pairwise_populations.parquet": "7b229c122ba3adc665e22c09249b4e720b8902ce25f90be6955d6a87bed94a66",
+    "high_water_membership.parquet": "3046de9c584f457e492ffde8ea22a63bde9a49d5510a91b9d32c984eb2065c17",
+    "observation_coverage.parquet": "f3ac5d01bef88f06b1ad534c9746988012f139ea5de4eb238bc57e8ce547c349"
+  },
+  "models": [
+    {
+      "model": "prithvi",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census",
+      "representation_rows": 2927,
+      "dimensions": 192,
+      "coverage_rows": 3137,
+      "receipt_hashes_recorded": 12904,
+      "issues": []
+    },
+    {
+      "model": "croma",
+      "aggregate": "results/eo_catchment_representations/per_model/croma/census",
+      "representation_rows": 2864,
+      "dimensions": 768,
+      "coverage_rows": 2864,
+      "receipt_hashes_recorded": 185803,
+      "issues": []
+    },
+    {
+      "model": "terramind",
+      "aggregate": "results/eo_catchment_representations/per_model/terramind/census",
+      "representation_rows": 2927,
+      "dimensions": 192,
+      "coverage_rows": 2994,
+      "receipt_hashes_recorded": 59184,
+      "issues": []
+    },
+    {
+      "model": "dofa",
+      "aggregate": "results/eo_catchment_representations/per_model/dofa/census",
+      "representation_rows": 2927,
+      "dimensions": 768,
+      "coverage_rows": 2994,
+      "receipt_hashes_recorded": 59184,
+      "issues": []
+    },
+    {
+      "model": "copernicus_fm",
+      "aggregate": "results/eo_catchment_representations/per_model/copernicus_fm/census",
+      "representation_rows": 2927,
+      "dimensions": 768,
+      "coverage_rows": 2994,
+      "receipt_hashes_recorded": 59184,
+      "issues": []
+    },
+    {
+      "model": "satmae",
+      "aggregate": "results/eo_catchment_representations/per_model/satmae/census",
+      "representation_rows": 2881,
+      "dimensions": 768,
+      "coverage_rows": 2913,
+      "receipt_hashes_recorded": 185003,
+      "issues": []
+    },
+    {
+      "model": "anysat",
+      "aggregate": "results/eo_catchment_representations/per_model/anysat/census",
+      "representation_rows": 2874,
+      "dimensions": 768,
+      "coverage_rows": 2894,
+      "receipt_hashes_recorded": 367090,
+      "issues": []
+    },
+    {
+      "model": "olmoearth",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census",
+      "representation_rows": 2864,
+      "dimensions": 192,
+      "coverage_rows": 2864,
+      "receipt_hashes_recorded": 588195,
+      "issues": []
+    }
+  ],
+  "eight_completed_common": {
+    "monthly": 357,
+    "monthly_snapshot": 479,
+    "recent": 115
+  },
+  "independent_donor_count_replay": "All 324 configurations exactly match initial loop implementation."
+}

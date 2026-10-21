@@ -1,5 +1,16 @@
 # Session handoff
 
+## 2026-10-21 completed-model coverage and comparison review
+
+[Eight-model audit and comparison choices](reviews/limburg-eo-comparability-2026-10-21.md)
+are complete. Corrected OlmoEarth is explicitly selected; all eight aggregate
+checks pass. Eight-model common populations are 479 snapshot / 357 monthly /
+115 weekly events, diagnostic only while Galileo/Presto finish. Keep per-model
+populations and matched query/donor archives; do not rank unmatched errors.
+Script 102 needs a direct conventional-reference paired contrast before any
+claim of EO improvement over rainfall/discharge. No model scoring or active
+worker/source change in this pass. Script 112 reproduces the coverage review.
+
 ## 2026-10-20 token-mask recovery — current
 
 OlmoEarth/Galileo errors were reproduced and traced to pixel masks violating
