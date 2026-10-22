@@ -3,7 +3,7 @@
   "implemented_findings": [
     "F1",
     "F2",
-    "F3 input correction and census tooling; full census running",
+    "F3 versioned input correction and full held date-agreement census",
     "F4",
     "F5",
     "F6"
@@ -64,15 +64,80 @@
     "scope": "One full eligible TTM/state cohort, pooled main all-river retrieval. Not an extrapolated total runtime or EO result."
   },
   "date_census_snapshot": {
-    "status": "running",
-    "visited": 7625,
+    "status": "completed",
+    "visited": 8538,
     "total": 8538,
     "errors": 0,
-    "updated_utc": "2026-10-22T02:20:13.679047+00:00"
+    "updated_utc": "2026-10-22T02:22:00.062913+00:00"
   },
   "active_original_sources_changed": false,
   "full_corrected_embeddings_recomputed": false,
   "new_scientific_scores": false,
-  "remaining": "Finish full date census; assess coverage/affected inputs, then explicitly version/select any required corrected embeddings. Finish existing aggregation/extraction before declaring the ten-model merge complete.",
-  "formatting_only_recovery_utility_ast_unchanged": true
+  "remaining": "Finish existing aggregation/extraction; use the measured coherence/coverage evidence to run and explicitly select any necessary corrected embedding version. Code/input-loader correction is implemented and smoke-tested; full corrected embedding sets and final ten-model scores are not claimed.",
+  "formatting_only_recovery_utility_ast_unchanged": true,
+  "date_census_summary": {
+    "jobs_total": 8538,
+    "successful_jobs": 8538,
+    "errors": [],
+    "union_window_summary": [
+      {
+        "kind": "monthly",
+        "held_windows": 121,
+        "observed_windows": 121,
+        "windows_with_mixed_day_area": 107,
+        "area_window_weighted_mixed_fraction": 0.011686300479373208,
+        "median_window_mixed_fraction": 0.008605848525058,
+        "p95_window_mixed_fraction": 0.031583921290562,
+        "maximum_window_mixed_fraction": 0.0417717479500099
+      },
+      {
+        "kind": "recent",
+        "held_windows": 426,
+        "observed_windows": 422,
+        "windows_with_mixed_day_area": 306,
+        "area_window_weighted_mixed_fraction": 0.0037796545961163493,
+        "median_window_mixed_fraction": 0.0005474193056858999,
+        "p95_window_mixed_fraction": 0.01311577995471237,
+        "maximum_window_mixed_fraction": 0.0230801207363535
+      }
+    ],
+    "largest_union_window_losses": [
+      {
+        "window": "monthly_20201101_20201201",
+        "observed_area_m2": 588711061.4818,
+        "mixed_day_area_m2": 24591490.07560058,
+        "mixed_day_fraction": 0.0417717479500099
+      },
+      {
+        "window": "monthly_20200101_20200201",
+        "observed_area_m2": 552032141.2760721,
+        "mixed_day_area_m2": 22234266.437254537,
+        "mixed_day_fraction": 0.0402771229694307
+      },
+      {
+        "window": "monthly_20210901_20211001",
+        "observed_area_m2": 588984764.3973342,
+        "mixed_day_area_m2": 23083883.53888677,
+        "mixed_day_fraction": 0.0391926666600737
+      },
+      {
+        "window": "monthly_20180101_20180201",
+        "observed_area_m2": 464762800.7636856,
+        "mixed_day_area_m2": 17568046.105331905,
+        "mixed_day_fraction": 0.0378000263284078
+      },
+      {
+        "window": "monthly_20181201_20190101",
+        "observed_area_m2": 491827092.12684715,
+        "mixed_day_area_m2": 16622465.639639284,
+        "mixed_day_fraction": 0.0337973769760373
+      }
+    ],
+    "interpretation": "Exact held S2 census. Fractions concern observed catchment-union area-window exposure. Overlapping windows are not independent, and these are not measured model-score effects."
+  },
+  "date_census_output_sha256": {
+    "results/eo_band_day_census/manifest.json": "a9c7fcef49ccf40ce2294f71e261bce9e38a6385bb351a4f1ff09c60cc778a73",
+    "results/eo_band_day_census/tile_catchment_areas.parquet": "fd83369b24b68ee8ca061f1268d139a8aed3d8b36d5034b41de7bf6cfdafe7d2",
+    "results/eo_band_day_census/catchment_window_coverage.csv": "2ab0f9aca9eb6ebe60e0bc53beedfac8a02988db7b7e6880d75900634e33cb5f"
+  }
 }

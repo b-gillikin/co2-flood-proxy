@@ -10,7 +10,7 @@ event census, model list, comparisons or dissertation text.
 | --- | --- | --- |
 | F1: repaired outputs omitted | Authoritative `config/limburg_eo_selected_runs.json`; script 117 explicitly checks each selected run and merges the ten selected aggregates. Script 102 defaults to that selected merge. | Finish existing Galileo aggregation and Presto work, then run script 117 `--merge`. An in-memory old controller can still write its old merge; that folder is not the new comparison default. |
 | F2: stale/incomplete output accepted | Script 101 preflights extraction status, rejects ambiguous runs, checks context identities/windows and publishes from a fresh staging directory. Previous destinations are preserved on replacement. Empty/error-bearing input cannot produce a complete result. `--allow-partial` explicitly labels useful partial research; complete-result validation excludes it. Final merge checks source selection, model/run rows, masks, geometry and output hashes; comparison checks the current selection and its source receipts. | The currently running Galileo aggregator loaded its original code before this change. It remains untouched; its completed output must pass the new independent finalizer. Future aggregators load the corrected implementation. |
-| F3: mixed-date S2 bands | `src/eo_coherent_inputs.py` implements same-UTC-day joining as an explicit mask, preserving source arrays. Script 116 measures every held S2 tile/window pair with exact catchment and union areas. | The full 8,538-pair census is running. Its coverage loss does not establish a change in model scores. Corrected embeddings require separate versioned extraction after the census; none were silently recomputed or relabelled. |
+| F3: mixed-date S2 bands | `src/eo_coherent_inputs.py` implements same-UTC-day joining as an explicit mask, preserving source arrays. Script 116 measures every held S2 tile/window pair with exact catchment and union areas. | The full 8,538-pair census completed with zero errors. Its coverage loss does not establish a change in model scores. Corrected embeddings require separate versioned extraction after the census; none were silently recomputed or relabelled. |
 | F4: scope missing from run identity | Script 118 binds job/context file hashes and paths, expected IDs, full-versus-single-context selection, input policy, source, runtime/device and token-mask policy. New output root prevents reuse of old IDs. | Existing run IDs remain immutable and are identified as legacy scope records. Their status count and actual aggregate contexts are checked, without inventing prospective input hashes. Use script 118 for future extraction. |
 | F5: repeated computation | A content-addressed retrieval cache binds sample rows/order, every representation block, policy/options and retrieval code; cached files have integrity receipts. Script 102 uses it without changing retrieval or scoring. | Profile completed on the full eligible TTM/state cohort; no total-ten-model runtime estimate is inferred. Final scoring remains pending selected inputs. |
 | F6: documentation/formatting | README, active design, representation-arm registry and handoff now point to the current chain. Dated historical sections remain. Formatted the one previously flagged recovery utility. | Keep status updates in the current handoff/selection rather than treating old dated sections as current commands. |
@@ -44,10 +44,38 @@ is known. Future corrected outputs have distinct identities and must be selected
 explicitly in a new selection-map version. The held map continues to describe
 actual completed/running inputs, including their original multi-day S2 policy.
 
+## Completed date-agreement census
+
+All **8,538 held S2 tile/window pairs** were checked, with zero failures.
+Using exact catchment-union area, after avoiding double-counting nested
+catchments:
+
+| Held window type | Windows with observed area | Windows with some mixed-day area | Area-window-weighted loss under same-day masking | Largest whole-union window loss |
+| --- | --- | --- | --- | --- |
+| Monthly | 121 | 107 | 1.169% | 4.177% |
+| Weekly (`recent`) | 422 | 306 | 0.378% | 2.308% |
+
+Four further weekly windows had no valid observed area; their mixed-day fraction
+is undefined, not zero. These are full held-window counts, not sampled events.
+The weighted ratio is total mixed-day area divided by total observed union area
+across the held windows. Windows overlap in time; this is an exposure summary,
+not independent replication, a significance test or a population probability.
+
+Monthly median loss was 0.861% (95th percentile 3.158%); weekly median was
+0.055% (95th percentile 1.312%). These quantify observed-area masking, not
+encoder token support, catchment representation availability or score changes.
+The same pixel change can affect a contextual patch beyond its exact catchment
+intersection. Assess the corrected representation version separately rather
+than inferring prediction/retrieval changes from these percentages.
+
+Local artifacts: `results/eo_band_day_census/{manifest.json,
+tile_catchment_areas.parquet,catchment_window_coverage.csv,summary.json}`.
+The compact check receipt embeds the census summary and output hashes.
+
 ## Current commands
 
 Run from the repository root, using the model-specific runtimes. The full date
-census is already running; its output lock rejects a duplicate worker.
+census is complete; its output lock rejects duplicate concurrent workers.
 
 ```bash
 # Full held-date census; no encoder or model score.

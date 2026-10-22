@@ -14,9 +14,10 @@ Script 117 verified/merged the eight completed models under `available/census`;
 script 102 planning validated that partial selection without running scores.
 Missing models remain visible; no full-model gate blocks completed-model work.
 
-The full 8,538-pair S2 date-agreement census is running at low priority with
-zero errors so far (`results/eo_band_day_census/progress.json`). Read its live
-status rather than treating this note as completion. Existing Galileo
+The full 8,538-pair S2 date-agreement census completed with zero errors.
+Same-day masking removes 1.169% of observed union area across monthly windows
+and 0.378% across weekly windows (area-window weighted; not score effects).
+The check receipt preserves window counts and output hashes. Existing Galileo
 aggregation and Presto extraction continue. Script 117 `--merge` will select
 the corrected recovery paths when all ten are ready; an old in-memory
 controller's legacy merge is not the new scoring default. Same-day masks have
