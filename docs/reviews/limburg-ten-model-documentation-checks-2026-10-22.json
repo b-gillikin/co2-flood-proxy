@@ -1,0 +1,554 @@
+{
+  "checked_utc": "2026-10-22T12:37:28.986710+00:00",
+  "scope": "Pinned documentation/example read-through plus targeted implementation inspection; no new learned-weight inference, model fitting, result ranking or corrected extraction.",
+  "reading_scope": "Full listed READMEs/model cards/quickstart; notebook markdown and relevant preprocessing/inference code, excluding rendered images and outputs; implementation/config sections for input contracts, not a claim of a line-by-line audit of whole upstream packages.",
+  "models": [
+    {
+      "id": "olmoearth",
+      "checkpoint": "OlmoEarth v1.2 Tiny",
+      "source": {
+        "repository": "allenai/olmoearth_pretrain",
+        "revision": "c66a12c0688af332ef307bdfd8f1825e1110d789",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth"
+      },
+      "weight_revision": "12a9fdbfeff905d7e147e7497f9f7a95c518eefc",
+      "assessment": "Reuse repaired SAR/token-mask run; no additional defect identified.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/README.md",
+          "sha256": "e91750b7e1073f9f8de749faa5b5330a52f019be53f46be2e560c5f2e45adbb1",
+          "bytes": 7212,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/olmoearth/README.md",
+          "sha256": "cfc365d106170755f2bda6219d23904fc1d026e2c8660b86d223c8fd6e1641ab",
+          "bytes": 1625,
+          "publisher_url": "https://huggingface.co/allenai/OlmoEarth-v1_2-Tiny/blob/12a9fdbfeff905d7e147e7497f9f7a95c518eefc/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/docs/Inference-Quickstart.md",
+          "sha256": "c3038ff25b47cd6f50baa75ac28820601a9de853e628376c3b8f8856b7f59fa5",
+          "bytes": 6683,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/docs/Inference-Quickstart.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/olmoearth_pretrain/data/normalize.py",
+          "sha256": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26",
+          "bytes": 4929,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/olmoearth_pretrain/data/normalize.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/olmoearth_pretrain/data/norm_configs/computed.json",
+          "sha256": "774e461babd2bd4cbe3591b46457d39054f8ac529cb57a052547501076ebaef7",
+          "bytes": 13305,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/olmoearth_pretrain/data/norm_configs/computed.json"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/olmoearth_pretrain/datatypes.py",
+          "sha256": "fb2765696075537cdedf58119fb5a4808c3bd3433eadd465a665f1f4ac8c390b",
+          "bytes": 24811,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/olmoearth_pretrain/datatypes.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth/olmoearth_pretrain/nn/pooling.py",
+          "sha256": "25e723d769338532edd1d84a4a1d158e1b2c7da52b30c3bc3094ea6afb59bd8d",
+          "bytes": 6105,
+          "publisher_url": "https://github.com/allenai/olmoearth_pretrain/blob/c66a12c0688af332ef307bdfd8f1825e1110d789/olmoearth_pretrain/nn/pooling.py"
+        }
+      ]
+    },
+    {
+      "id": "galileo",
+      "checkpoint": "Galileo Nano encoder",
+      "source": {
+        "repository": "nasaharvest/galileo",
+        "revision": "0f0b5b95ac81acef4b74cf4686dc877202f4541b",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/galileo"
+      },
+      "weight_revision": "f039dd5dde966a931baeda47eb680fa89b253e4e",
+      "assessment": "Published scaling/masks supported; bind normalizer JSON; re-extract for coherent S2 dates.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/galileo/README.md",
+          "sha256": "c36083a84fa713a202c9159bd450d28d90abadb020047f3ded961fe3dce9cae2",
+          "bytes": 8588,
+          "publisher_url": "https://github.com/nasaharvest/galileo/blob/0f0b5b95ac81acef4b74cf4686dc877202f4541b/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/galileo/README.md",
+          "sha256": "a600b9aa7832ed0019b1b4300a5079ff9dc7678a80e11621e17cea89f3e097ba",
+          "bytes": 2499,
+          "publisher_url": "https://huggingface.co/nasaharvest/galileo/blob/f039dd5dde966a931baeda47eb680fa89b253e4e/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/data/utils.py",
+          "sha256": "dfc27def3d8becf4a9498f9642ea9ad39fe7f61b6be8fe7a5e881eaaae3ef6f9",
+          "bytes": 10472,
+          "publisher_url": "https://github.com/nasaharvest/galileo/blob/0f0b5b95ac81acef4b74cf4686dc877202f4541b/src/data/utils.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/inference.py",
+          "sha256": "a7ae13dc8b98f2ad85b596c33f355a9e2f906ec6d494f94570459a85b71f03fa",
+          "bytes": 9791,
+          "publisher_url": "https://github.com/nasaharvest/galileo/blob/0f0b5b95ac81acef4b74cf4686dc877202f4541b/src/inference.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/galileo/config/normalization.json",
+          "sha256": "baea3828a8750e0b570cb2fad5cd30bb249f1f001988d842cc4246860e799ff3",
+          "bytes": 2277,
+          "publisher_url": "https://github.com/nasaharvest/galileo/blob/0f0b5b95ac81acef4b74cf4686dc877202f4541b/config/normalization.json"
+        }
+      ]
+    },
+    {
+      "id": "anysat",
+      "checkpoint": "AnySat base inference checkpoint",
+      "source": {
+        "repository": "gastruc/AnySat",
+        "revision": "5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/anysat"
+      },
+      "weight_revision": "63f252119babfe896d200f88631496f86eddacd3",
+      "assessment": "README zero-based DOY conflicts with demo/dated loaders; adopt explicit demo one-based convention in versioned correction; already needs coherent S2 extraction.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/README.md",
+          "sha256": "2a98356b76730e7d25692042319addac6e56190e059fe591b7364c32930669ab",
+          "bytes": 11480,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/anysat/README.md",
+          "sha256": "fd8826d23f36311f710899491a99067c59979e427008126dd1ff64e645f199f3",
+          "bytes": 10473,
+          "publisher_url": "https://huggingface.co/g-astruc/AnySat/blob/63f252119babfe896d200f88631496f86eddacd3/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/demo.ipynb",
+          "sha256": "a8776f045e9a07a48092dc89b28513306be193a6c95b40e711e4795dac0e1a15",
+          "bytes": 13696,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/demo.ipynb"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/TreeSAT.py",
+          "sha256": "763d00e27eaca8e299679eda5280ac5863a54286fd748fc9ae9c0ca480613d80",
+          "bytes": 13327,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/data/TreeSAT.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/FLAIR.py",
+          "sha256": "62446955b33d78c1a8564412ca5100ee5f984efd166da6abd5f35d5470cb9bfe",
+          "bytes": 12541,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/data/FLAIR.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/Planted.py",
+          "sha256": "c9a5fca78549a3f5e8f7afbc6cdfb3ad0ffe486591a299ffa886c45ec57855da",
+          "bytes": 7558,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/data/Planted.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/S2Naip.py",
+          "sha256": "6428805c46c019be3a53b90fbaf50481a1185195a7f42b46c9860c151709f7d8",
+          "bytes": 13816,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/data/S2Naip.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/Pastis.py",
+          "sha256": "9933e1d414bfb60ebf61283ec081462209ec583e5123c0c5c6c613e6b9b256f1",
+          "bytes": 14530,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/data/Pastis.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/anysat/src/models/networks/encoder/utils/ltae.py",
+          "sha256": "75b0738d45f86e8c3059e90b535c846833a06afc473a3a37a7b9ee367bdc1f81",
+          "bytes": 11855,
+          "publisher_url": "https://github.com/gastruc/AnySat/blob/5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a/src/models/networks/encoder/utils/ltae.py"
+        }
+      ]
+    },
+    {
+      "id": "prithvi",
+      "checkpoint": "Prithvi EO 2.0 Tiny TL",
+      "source": null,
+      "weight_revision": "335eadc2c45ad5abe7bd307223e1c48c5b60c41b",
+      "assessment": "Reuse; units/order/TL metadata agree. Four-frame pretraining versus twelve-frame transfer is an interpretation limit, not a new data requirement.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/prithvi/README.md",
+          "sha256": "543b6cd0d3ea1e85ec7d4a5dc84e0a8370adca73e76778d784fdbcbd2c0da5c3",
+          "bytes": 8092,
+          "publisher_url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/blob/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/prithvi/config.json",
+          "sha256": "d7f9e36d2253cb82d296bfd95a9a651f2af455c0cfe8a5ea775b2e3d196ad170",
+          "bytes": 768,
+          "publisher_url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/blob/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/config.json"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/prithvi/inference.py",
+          "sha256": "95d47f6d4b34b7c4f3195c4d40c89b295c22ddafbd4ed0571371403ab54be295",
+          "bytes": 16455,
+          "publisher_url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/blob/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/inference.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/prithvi/prithvi_mae.py",
+          "sha256": "9cee9a8cb17c3859d6365a7e58f723e0f4c08e3e29aa4b8e6523506db70321da",
+          "bytes": 30027,
+          "publisher_url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-tiny-TL/blob/335eadc2c45ad5abe7bd307223e1c48c5b60c41b/prithvi_mae.py"
+        }
+      ]
+    },
+    {
+      "id": "croma",
+      "checkpoint": "CROMA base",
+      "source": {
+        "repository": "antofuller/CROMA",
+        "revision": "59505a6bcadbf36ba20767270154bf9f3067c5e7",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/croma"
+      },
+      "weight_revision": "0dd28e3d633bd6715856ae9890e8c49360040598",
+      "assessment": "Confirmed omitted final /255; also sample/population SD difference; add CROMA to correction.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/croma/README.md",
+          "sha256": "c029b9a9f77d283f6290e1071480b1279feaf66885a9fa6a60e858bde77e3295",
+          "bytes": 3935,
+          "publisher_url": "https://github.com/antofuller/CROMA/blob/59505a6bcadbf36ba20767270154bf9f3067c5e7/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/croma/use_croma.py",
+          "sha256": "a38567beed29eb08108a47cdc97fe98aec50fd4be0bd98a5266bcd18aafb7c5b",
+          "bytes": 14556,
+          "publisher_url": "https://github.com/antofuller/CROMA/blob/59505a6bcadbf36ba20767270154bf9f3067c5e7/use_croma.py"
+        }
+      ]
+    },
+    {
+      "id": "dofa",
+      "checkpoint": "DOFA v1 ViT base e100 (matches released dofa_v1.py)",
+      "source": {
+        "repository": "zhu-xlab/DOFA",
+        "revision": "0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/dofa"
+      },
+      "weight_revision": "7a5219e48d2f8848511b0fabea7920a8836bc480",
+      "assessment": "Keep matched v1 checkpoint and non-TCI band subset; no extra defect found; re-extract for coherent S2.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/dofa/README.md",
+          "sha256": "4799d981e18f302d47f169e9b0978754d2ece59bb7f12e2ac7c42b17c07f792b",
+          "bytes": 11109,
+          "publisher_url": "https://github.com/zhu-xlab/DOFA/blob/0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/dofa/README.md",
+          "sha256": "da6a3e09bd7afd27f7d80d71b2bfd01883bb4e0be784b5a142af7219c038bc95",
+          "bytes": 6987,
+          "publisher_url": "https://huggingface.co/XShadow/DOFA/blob/7a5219e48d2f8848511b0fabea7920a8836bc480/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/dofa/dofa_v1.py",
+          "sha256": "f9aad1cd07ab03e7ba838e132a7c5a14ef82c62926f955dbdc738918ba62883e",
+          "bytes": 3984,
+          "publisher_url": "https://github.com/zhu-xlab/DOFA/blob/0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9/dofa_v1.py"
+        }
+      ]
+    },
+    {
+      "id": "copernicus_fm",
+      "checkpoint": "Copernicus-FM base backbone",
+      "source": {
+        "repository": "zhu-xlab/Copernicus-FM",
+        "revision": "da95635d76a1feef3006eba474f6175325b4037b",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm"
+      },
+      "weight_revision": "e1db406d517a122c8373802e1c130c5fc4789f84",
+      "assessment": "Current unknown-metadata encoding is supported; known lon/lat, epoch days and token km2 are optional underused capability; retain published benchmark pooling; re-extract for coherent S2.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-FM/README.md",
+          "sha256": "6a56f7f3f603e664d8509123fc690d47d276021f774eb2740661c934e536b853",
+          "bytes": 7365,
+          "publisher_url": "https://github.com/zhu-xlab/Copernicus-FM/blob/da95635d76a1feef3006eba474f6175325b4037b/Copernicus-FM/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-FM/demo.ipynb",
+          "sha256": "8cb608cde53e72d03825d9d7fb60c9502abd88a3c58c83f647b8f0f219d70610",
+          "bytes": 12991,
+          "publisher_url": "https://github.com/zhu-xlab/Copernicus-FM/blob/da95635d76a1feef3006eba474f6175325b4037b/Copernicus-FM/demo.ipynb"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/copernicus_fm/README.md",
+          "sha256": "39826156d03b99407f2f31c65bcde095d20753c3131f35b958a938ae3589fbdd",
+          "bytes": 1566,
+          "publisher_url": "https://huggingface.co/wangyi111/Copernicus-FM/blob/e1db406d517a122c8373802e1c130c5fc4789f84/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-FM/src/model_vit.py",
+          "sha256": "8e222c7cccd10cb5eb5ef8a8c0f62090302e626cdf88c3cd12c816b33ebcfe85",
+          "bytes": 10058,
+          "publisher_url": "https://github.com/zhu-xlab/Copernicus-FM/blob/da95635d76a1feef3006eba474f6175325b4037b/Copernicus-FM/src/model_vit.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py",
+          "sha256": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1",
+          "bytes": 19623,
+          "publisher_url": "https://github.com/zhu-xlab/Copernicus-FM/blob/da95635d76a1feef3006eba474f6175325b4037b/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/dataset/cobench_dfc2020_s2.yaml",
+          "sha256": "f93524f895d58e9fc371bac01ad3fb2bec52760a8345b3d8e47c2117d4b42b14",
+          "bytes": 1038,
+          "publisher_url": "https://github.com/zhu-xlab/Copernicus-FM/blob/da95635d76a1feef3006eba474f6175325b4037b/Copernicus-Bench/src/configs/dataset/cobench_dfc2020_s2.yaml"
+        }
+      ]
+    },
+    {
+      "id": "terramind",
+      "checkpoint": "TerraMind 1.0 Tiny",
+      "source": {
+        "repository": "IBM/terramind",
+        "revision": "53d61da09213c2c3629931b6322f94cce617886a",
+        "code_license": "Apache-2.0",
+        "path": "data/raw/limburg_dynamic_model_weights/code/terramind"
+      },
+      "weight_revision": "2b5ac0a3ed7dd7e922ccfd595b56607f342df343",
+      "assessment": "S2L2A subset/v1 statistics/external normalization valid; TiM/generation not required; re-extract for coherent S2.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/terramind/README.md",
+          "sha256": "089aae5d14f5f69997eab2673d12646511767f98225f7b53479790d9687d3a68",
+          "bytes": 8775,
+          "publisher_url": "https://github.com/IBM/terramind/blob/53d61da09213c2c3629931b6322f94cce617886a/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/models/terramind/README.md",
+          "sha256": "77b998870ab45b0748ce5a38472ec777ee5a40e1957f56d412ddff28bd4ad85c",
+          "bytes": 8138,
+          "publisher_url": "https://huggingface.co/ibm-esa-geospatial/TerraMind-1.0-tiny/blob/2b5ac0a3ed7dd7e922ccfd595b56607f342df343/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/terratorch/terratorch/models/backbones/terramind/README.md",
+          "sha256": "a83840ec2e7a652e5064fb38b9261b20f1296ca88502c6ed00f87cadc3edf102",
+          "bytes": 1034,
+          "publisher_url": "https://github.com/IBM/terratorch/blob/f967ef77b00fe9097157a29d1dad4fda93aba4f9/terratorch/models/backbones/terramind/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/terratorch/terratorch/models/backbones/terramind/model/terramind_register.py",
+          "sha256": "220580f5c4283eb8ccd3dedbca4fdd98462f7e63675ec7c15acc02a74a2ce127",
+          "bytes": 32746,
+          "publisher_url": "https://github.com/IBM/terratorch/blob/f967ef77b00fe9097157a29d1dad4fda93aba4f9/terratorch/models/backbones/terramind/model/terramind_register.py"
+        }
+      ]
+    },
+    {
+      "id": "presto",
+      "checkpoint": "Presto default pretrained model",
+      "source": {
+        "repository": "nasaharvest/presto",
+        "revision": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/presto"
+      },
+      "weight_revision": null,
+      "assessment": "Use official input helper and available pixel acquisition months; 1-24 steps supported; weekly cadence is transfer; re-extract for coherent S2.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/presto/README.md",
+          "sha256": "b023f4f2fc565e15100f50149c19dcd3581a5df8eeddce53be9dc044d7fb6836",
+          "bytes": 8722,
+          "publisher_url": "https://github.com/nasaharvest/presto/blob/11e207a668a34336ced1d8e492a1bd5849b96c4a/README.md"
+        },
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/presto/downstream_task_demo.ipynb",
+          "sha256": "ff3941e01c5da5b9419a240c6572e212e020ae9ccabc5a49f5e0cef28b5cb2e4",
+          "bytes": 25129,
+          "publisher_url": "https://github.com/nasaharvest/presto/blob/11e207a668a34336ced1d8e492a1bd5849b96c4a/downstream_task_demo.ipynb"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/presto/presto/presto.py",
+          "sha256": "12f1f17cb4acbf4a88209ff07e17dc41a1e2e1702e462502a9c3904b87396d85",
+          "bytes": 29627,
+          "publisher_url": "https://github.com/nasaharvest/presto/blob/11e207a668a34336ced1d8e492a1bd5849b96c4a/presto/presto.py"
+        }
+      ]
+    },
+    {
+      "id": "satmae",
+      "checkpoint": "SatMAE multispectral ViT base pretrained e199; not temporal RGB variant",
+      "source": {
+        "repository": "sustainlab-group/SatMAE",
+        "revision": "0b210aceb37a14bbbd897110db5b104b3271d818",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/satmae"
+      },
+      "weight_revision": "zenodo:7338613",
+      "assessment": "Confirmed z-score versus uint8 stretch/ToTensor mismatch; correct before planned multispectral re-extraction.",
+      "documents_and_examples": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/satmae/README.md",
+          "sha256": "901a9e380d3405dcb95883c989a68362f17ec9a4880dfbb7fb181b5100435e7d",
+          "bytes": 10432,
+          "publisher_url": "https://github.com/sustainlab-group/SatMAE/blob/0b210aceb37a14bbbd897110db5b104b3271d818/README.md"
+        }
+      ],
+      "implementation_or_config_sections": [
+        {
+          "path": "data/raw/limburg_dynamic_model_weights/code/satmae/util/datasets.py",
+          "sha256": "00a3bae4ef3780a514f66a6c053bad685b5fee1069f1c249c338671d8eb51431",
+          "bytes": 24227,
+          "publisher_url": "https://github.com/sustainlab-group/SatMAE/blob/0b210aceb37a14bbbd897110db5b104b3271d818/util/datasets.py"
+        }
+      ]
+    }
+  ],
+  "independent_input_captures": {
+    "croma": {
+      "model": "croma",
+      "checked_utc": "2026-10-22T12:31:18.028593+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "conforms_to_pinned_normalizer": false,
+      "actual_range": [
+        0.0,
+        255.0
+      ],
+      "reference_range": [
+        0.0,
+        1.0
+      ],
+      "actual_max_div_reference_max": 255.0,
+      "max_difference_after_only_dividing_255": 0.003921568393707275,
+      "reference": "data/raw/limburg_dynamic_model_weights/code/croma/README.md",
+      "reference_sha256": "c029b9a9f77d283f6290e1071480b1279feaf66885a9fa6a60e858bde77e3295",
+      "interpretation": "CROMA receives eight-bit values without the publisher's final float()/255. The reference also uses sample SD; our contrast stretch uses population SD. The fixture loads no weights and establishes no retrieval-performance effect."
+    },
+    "anysat": {
+      "model": "anysat",
+      "checked_utc": "2026-10-22T12:31:18.028597+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "matches_pinned_training_loader_dates": false,
+      "calendar_dates": [
+        "2020-01-01",
+        "2020-02-29",
+        "2020-12-31"
+      ],
+      "supplied_days_of_year": [
+        0,
+        59,
+        365
+      ],
+      "publisher_training_loader_days_of_year": [
+        1,
+        60,
+        366
+      ],
+      "reference": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/TreeSAT.py",
+      "reference_sha256": "763d00e27eaca8e299679eda5280ac5863a54286fd748fc9ae9c0ca480613d80",
+      "interpretation": "Publisher README prose says zero-based DOY, but its demo function and dated training loaders use one-based tm_yday. Our adapter follows the prose and is one day behind those training loaders. Use the training convention in the versioned correction; no weights or performance were tested."
+    },
+    "satmae": {
+      "model": "satmae",
+      "checked_utc": "2026-10-22T12:36:03.471735+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "conforms_to_pinned_normalizer": false,
+      "actual_at_channel_mean": 0.0,
+      "reference_at_channel_mean": 0.4980392156862745,
+      "actual_range": [
+        -3.000000238418579,
+        3.000000238418579
+      ],
+      "reference_range": [
+        0.0,
+        1.0
+      ],
+      "max_absolute_input_difference": 3.000000238418579,
+      "reference": "data/raw/limburg_dynamic_model_weights/code/satmae/util/datasets.py",
+      "reference_sha256": "00a3bae4ef3780a514f66a6c053bad685b5fee1069f1c249c338671d8eb51431",
+      "interpretation": "Current SatMAE z-score input differs from its publisher's clipped eight-bit stretch followed by /255. No model score inferred."
+    },
+    "presto": {
+      "model": "presto",
+      "checked_utc": "2026-10-22T12:36:03.485338+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "uses_actual_pixel_acquisition_months": false,
+      "supplied_months": [
+        [
+          7
+        ],
+        [
+          7
+        ]
+      ],
+      "actual_pixel_months_zero_based": [
+        [
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "interpretation": "Patch-median month is repeated for every pixel. Monthly bins have one month; cross-month weekly composites can mix actual months. This is a temporal approximation that available per-pixel dates can remove."
+    }
+  },
+  "recommended_reextract": [
+    "dofa",
+    "copernicus_fm",
+    "terramind",
+    "presto",
+    "satmae",
+    "anysat",
+    "galileo",
+    "croma"
+  ],
+  "reuse_unchanged_selected_runs": [
+    "prithvi",
+    "olmoearth"
+  ],
+  "controller_updated_or_launched": false,
+  "production_encoder_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+  "diagnostic_script_sha256": "e68c19ef1aebbeb7255679776710f191c7008343e87a608345077cd746a11b97",
+  "optional_improvement": "Known Copernicus-FM lon/lat, representative date in days since 1970-01-01, and patch-token area 0.0256 km2; no new data required, not implemented.",
+  "limitations": [
+    "Diagnostics capture inputs without weights, not retrieval-performance effects.",
+    "Model-specific cadence, sensor/TOA-SR, footprint and pretraining exposure remain transfer limitations.",
+    "Current script 122 still has seven-model list and correction is held.",
+    "Previous storage figures cover seven directories, not eight."
+  ],
+  "checks": {
+    "four_independent_input_captures_completed": true,
+    "lint": "ruff check and ruff format --check passed",
+    "production_numerical_source_changed": false,
+    "git_diff_check": "passed"
+  }
+}

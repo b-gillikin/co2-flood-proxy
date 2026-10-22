@@ -1,5 +1,23 @@
 # Session handoff
 
+## 2026-10-22 ten-model documentation review — correction still held
+
+The [documentation review](reviews/limburg-ten-model-documentation-review-2026-10-22.md)
+and its hashed source inventory supersede the earlier assumption that CROMA
+could be reused unchanged. Independent input captures show CROMA receives
+0–255 instead of the publisher's 0–1; it joins the correction, bringing the
+recommended rerun to **eight models**. AnySat's README says zero-based day of
+year, but its executable demo and several dated training loaders use one-based
+dates; the captured one-day mismatch should be resolved in the versioned adapter.
+SatMAE scaling and Presto pixel-month issues remain as previously documented.
+Copernicus-FM's known location/date/scale inputs are an optional underused
+capability, not missing required data. Prithvi and repaired OlmoEarth remain
+reusable on this review's evidence. Four no-weight input diagnostics completed;
+no production numerical source or active scoring was changed. Script 122 still
+contains the old seven-model list and must not simply be restarted unchanged.
+Consolidate the fixes and compact storage before the authorized two-CPU/one-MPS
+run. No additional imagery/checkpoint is required by this review.
+
 ## 2026-10-22 pre-correction audit — correction held
 
 The [full audit](reviews/limburg-pre-correction-full-audit-2026-10-22.md) found a
@@ -14,7 +32,7 @@ compact storage and verified cleanup before restarting two CPU/one MPS workers.
 conformance: the independent SatMAE input capture demonstrates the gap. No source
 imagery, selected result, provider delivery or other chapter's data was deleted.
 
-## 2026-10-22 S2 correction authorized and queued — current
+## 2026-10-22 S2 correction authorized and queued — earlier authorization; now held
 
 Brian authorized the seven-model same-day correction after current scoring,
 again with two CPU workers plus one MPS worker. Script 122 waits for the current

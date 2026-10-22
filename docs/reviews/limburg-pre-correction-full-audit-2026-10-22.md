@@ -1,5 +1,14 @@
 # Pre-correction pipeline audit — 22 October 2026
 
+**Later same-day documentation review:** the
+[ten-model read-through](limburg-ten-model-documentation-review-2026-10-22.md)
+found CROMA's omitted input `/255` and AnySat's prose-versus-training date
+inconsistency. CROMA also needs re-extraction; the correction list becomes eight
+models, reusing only Prithvi and repaired OlmoEarth on current evidence. The
+seven-model storage measurements below remain historical measurements, not an
+eight-model estimate. The earlier source-consistency/reuse conclusion for CROMA
+is superseded; the original audit text and evidence are preserved below.
+
 Internal engineering/scientific audit, not dissertation prose. Scope: the held
 imagery and ten encoder routes, extraction/resume, catchment aggregation, event
 comparison, actual-case review and the queued seven-model correction.

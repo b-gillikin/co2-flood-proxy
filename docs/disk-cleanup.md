@@ -2,6 +2,12 @@
 
 ## 22 October: correction held for storage redesign
 
+The later [ten-model documentation review](reviews/limburg-ten-model-documentation-review-2026-10-22.md)
+adds CROMA to the pending correction for its input scaling, increasing the planned
+extractions to eight. The following measured sizes cover the original seven
+selected directories only. Include CROMA when sizing the compact replacement;
+do not silently reuse its incorrectly scaled embeddings to save disk space.
+
 The [pre-correction audit](reviews/limburg-pre-correction-full-audit-2026-10-22.md)
 measured **285.659 GiB** allocated by the seven selected extraction directories,
 including **165.6 GiB** for Galileo. Their float32 vector payload is **2.830 GiB**;

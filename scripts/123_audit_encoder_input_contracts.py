@@ -8,6 +8,7 @@ Use the model's isolated runtime. No input, model, running score or result is ch
 import argparse
 import ast
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,6 +19,105 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_inputs import S2_BANDS, sha256
+
+
+def croma():
+    import torch
+
+    from src.eo_encoders import Encoder
+
+    source = ROOT / "data/raw/limburg_dynamic_model_weights/code/croma/README.md"
+    blocks = re.findall(r"```python\n(.*?)```", source.read_text(), flags=re.S)
+    normalize = next(
+        node
+        for block in blocks
+        for node in ast.parse(block).body
+        if isinstance(node, ast.FunctionDef) and node.name == "normalize"
+    )
+    namespace = {"torch": torch}
+    exec(compile(ast.Module(body=[normalize], type_ignores=[]), str(source), "exec"), namespace)
+    values = (
+        np.stack([np.linspace(-30, 5, 64), np.linspace(-35, -2, 64)])
+        .reshape(2, 8, 8)
+        .astype("float32")
+    )
+    values[:, 0, 0] -= 100
+    values[:, -1, -1] += 100
+    # Execute the pinned README function and its final float()/255 step.
+    expected = namespace["normalize"](torch.from_numpy(values)[None], True).float() / 255
+    captured = []
+
+    class Capture:
+        def __call__(self, **kwargs):
+            captured.append(kwargs["SAR_images"].clone())
+            return {"SAR_GAP": torch.ones(1, 768)}
+
+    encoder = Encoder.__new__(Encoder)
+    encoder.name, encoder.model = "croma", Capture()
+    encoder(
+        {
+            "values": values,
+            "valid": np.ones((8, 8), bool),
+            "metadata": {"representative_date": "2018-09-01T00:00:00+00:00"},
+        }
+    )
+    actual = captured[0]
+    return {
+        "conforms_to_pinned_normalizer": bool(torch.allclose(actual, expected)),
+        "actual_range": [float(actual.min()), float(actual.max())],
+        "reference_range": [float(expected.min()), float(expected.max())],
+        "actual_max_div_reference_max": float(actual.max() / expected.max()),
+        "max_difference_after_only_dividing_255": float((actual / 255 - expected).abs().max()),
+        "reference": str(source.relative_to(ROOT)),
+        "reference_sha256": sha256(source),
+        "interpretation": "CROMA receives eight-bit values without the publisher's final float()/255. The reference also uses sample SD; our contrast stretch uses population SD. The fixture loads no weights and establishes no retrieval-performance effect.",
+    }
+
+
+def anysat():
+    import torch
+
+    from src.eo_encoders import Encoder
+
+    source = ROOT / "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/TreeSAT.py"
+    normalize = next(
+        node
+        for node in ast.parse(source.read_text()).body
+        if isinstance(node, ast.FunctionDef) and node.name == "day_number_in_year"
+    )
+    namespace = {"torch": torch, "datetime": datetime}
+    exec(compile(ast.Module(body=[normalize], type_ignores=[]), str(source), "exec"), namespace)
+    dates = ["2020-01-01", "2020-02-29", "2020-12-31"]
+    expected = namespace["day_number_in_year"](
+        ["a_b_c_d_" + date.replace("-", "") for date in dates]
+    ).tolist()
+    captured = []
+
+    class Capture:
+        def __call__(self, data, **kwargs):
+            captured.append(data["s2_dates"].tolist()[0])
+            return torch.ones(1, 768)
+
+    frames = [
+        {
+            "values": np.ones((10, 2, 2), dtype="float32") * 1000,
+            "valid": np.ones((2, 2), bool),
+            "metadata": {"representative_date": date + "T00:00:00+00:00"},
+        }
+        for date in dates
+    ]
+    encoder = Encoder.__new__(Encoder)
+    encoder.name, encoder.model = "anysat", Capture()
+    encoder({**frames[0], "frames": frames})
+    return {
+        "matches_pinned_training_loader_dates": captured[0] == expected,
+        "calendar_dates": dates,
+        "supplied_days_of_year": captured[0],
+        "publisher_training_loader_days_of_year": expected,
+        "reference": str(source.relative_to(ROOT)),
+        "reference_sha256": sha256(source),
+        "interpretation": "Publisher README prose says zero-based DOY, but its demo function and dated training loaders use one-based tm_yday. Our adapter follows the prose and is one day behind those training loaders. Use the training convention in the versioned correction; no weights or performance were tested.",
+    }
 
 
 def satmae():
@@ -131,14 +231,15 @@ def presto():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", required=True, choices=["satmae", "presto"])
+    checks = {"croma": croma, "anysat": anysat, "satmae": satmae, "presto": presto}
+    parser.add_argument("--model", required=True, choices=sorted(checks))
     args = parser.parse_args()
     result = {
         "model": args.model,
         "checked_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
         "encoder_source_sha256": sha256(ROOT / "src/eo_encoders.py"),
-        **(satmae() if args.model == "satmae" else presto()),
+        **checks[args.model](),
     }
     out = ROOT / "logs/eo-pre-correction-audit" / (args.model + "-input-contract.json")
     out.parent.mkdir(parents=True, exist_ok=True)
