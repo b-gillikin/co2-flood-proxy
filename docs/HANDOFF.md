@@ -1,5 +1,15 @@
 # Session handoff
 
+## 2026-10-22 EO paper/appendix review; extraction unchanged
+
+The [literature/runtime review](reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md)
+records fifteen primary sources and all ten checkpoint routes. Frozen retrieval
+and per-date pooling have precedent; published GPU throughput is not a Mac ETA.
+No additional demonstrated input defect was found. Presto mean-plus-spread and
+Copernicus-FM known metadata are documented options, not required reruns or
+implemented changes. The corrected queue remains in charge; extraction code,
+weights, runtimes and scoring rules were not changed by this review.
+
 ## 2026-10-22 superseded EO caches retired; corrected restart
 
 Brian authorized discarding the eight superseded patch caches. Old scoring and

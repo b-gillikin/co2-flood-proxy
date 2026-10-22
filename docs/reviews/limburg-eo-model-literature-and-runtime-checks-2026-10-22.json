@@ -1,0 +1,292 @@
+{
+  "checked_utc": "2026-10-22T13:36:42.922895+00:00",
+  "kind": "primary_literature_and_runtime_review_no_empirical_results",
+  "scope": "ten_selected_frozen_EO_encoders",
+  "model_count": 10,
+  "models": [
+    {
+      "id": "olmoearth",
+      "checkpoint": "OlmoEarth v1.2 Tiny",
+      "weight_revision": "12a9fdbfeff905d7e147e7497f9f7a95c518eefc",
+      "source_revision": "c66a12c0688af332ef307bdfd8f1825e1110d789"
+    },
+    {
+      "id": "galileo",
+      "checkpoint": "Galileo Nano encoder",
+      "weight_revision": "f039dd5dde966a931baeda47eb680fa89b253e4e",
+      "source_revision": "0f0b5b95ac81acef4b74cf4686dc877202f4541b"
+    },
+    {
+      "id": "anysat",
+      "checkpoint": "AnySat base inference checkpoint",
+      "weight_revision": "63f252119babfe896d200f88631496f86eddacd3",
+      "source_revision": "5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a"
+    },
+    {
+      "id": "prithvi",
+      "checkpoint": "Prithvi EO 2.0 Tiny TL",
+      "weight_revision": "335eadc2c45ad5abe7bd307223e1c48c5b60c41b",
+      "source_revision": null
+    },
+    {
+      "id": "croma",
+      "checkpoint": "CROMA base",
+      "weight_revision": "0dd28e3d633bd6715856ae9890e8c49360040598",
+      "source_revision": "59505a6bcadbf36ba20767270154bf9f3067c5e7"
+    },
+    {
+      "id": "dofa",
+      "checkpoint": "DOFA v1 ViT base e100 (matches released dofa_v1.py)",
+      "weight_revision": "7a5219e48d2f8848511b0fabea7920a8836bc480",
+      "source_revision": "0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9"
+    },
+    {
+      "id": "copernicus_fm",
+      "checkpoint": "Copernicus-FM base backbone",
+      "weight_revision": "e1db406d517a122c8373802e1c130c5fc4789f84",
+      "source_revision": "da95635d76a1feef3006eba474f6175325b4037b"
+    },
+    {
+      "id": "terramind",
+      "checkpoint": "TerraMind 1.0 Tiny",
+      "weight_revision": "2b5ac0a3ed7dd7e922ccfd595b56607f342df343",
+      "source_revision": "53d61da09213c2c3629931b6322f94cce617886a"
+    },
+    {
+      "id": "presto",
+      "checkpoint": "Presto default pretrained model",
+      "weight_revision": null,
+      "source_revision": "11e207a668a34336ced1d8e492a1bd5849b96c4a"
+    },
+    {
+      "id": "satmae",
+      "checkpoint": "SatMAE multispectral ViT base pretrained e199; not temporal RGB variant",
+      "weight_revision": "zenodo:7338613",
+      "source_revision": "0b210aceb37a14bbbd897110db5b104b3271d818"
+    }
+  ],
+  "source_count": 15,
+  "primary_source_bytes": 19192599,
+  "sources": [
+    {
+      "id": "olmoearth-v1",
+      "url": "https://arxiv.org/html/2511.13655",
+      "resolved_url": "https://arxiv.org/html/2511.13655",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/olmoearth-v1.html",
+      "bytes": 525917,
+      "sha256": "a18fcfb53de6cbe81cb71cbc39d328b974da8579192ffc803254c854fea46fe5",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2511.13655v1 [cs.CV] 17 Nov 2025",
+      "text_extract_sha256": "d16c8a2ea1e08a34fd8a07d1dd36c14735e2352cb44957abbc692734cc394286"
+    },
+    {
+      "id": "olmoearth-v1-2",
+      "url": "https://arxiv.org/html/2605.20804v3",
+      "resolved_url": "https://arxiv.org/html/2605.20804v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/olmoearth-v1-2.html",
+      "bytes": 534305,
+      "sha256": "8b88d1df4c93f3a54899179c34e37fa9fbcafde002412cffee28c05ea1ddb3ff",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2605.20804v3 [cs.CV] 14 Aug 2026",
+      "text_extract_sha256": "a4076a491c3912eaccca93a515468dad7ad739945022908b26d3f4197c98029d"
+    },
+    {
+      "id": "galileo",
+      "url": "https://arxiv.org/html/2502.09356v3",
+      "resolved_url": "https://arxiv.org/html/2502.09356v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/galileo.html",
+      "bytes": 1033704,
+      "sha256": "d4a4c86465b03dd4bd58064f0429ab11e9ec52edabfc15826f0f075174ceaf10",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2502.09356v3 [cs.CV] 04 Jun 2025",
+      "text_extract_sha256": "06d3c6fe6a3786bcf3c03dad749d5a8fba7ec50472e812eb3d2b6a067198acff"
+    },
+    {
+      "id": "anysat",
+      "url": "https://arxiv.org/html/2412.14123v3",
+      "resolved_url": "https://arxiv.org/html/2412.14123v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/anysat.html",
+      "bytes": 849406,
+      "sha256": "fbbe6d63fda2f35b7b2cfcd4f9e7cc6f14316b21088ab2daea047ba63fa09e54",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2412.14123v3 [cs.CV] 09 May 2025",
+      "text_extract_sha256": "2afe02162b4a4bc0571998704d9bead83bf6739e8ebfbf59ff678683f7cee48d"
+    },
+    {
+      "id": "presto",
+      "url": "https://arxiv.org/html/2304.14065v4",
+      "resolved_url": "https://arxiv.org/html/2304.14065v4",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/presto.html",
+      "bytes": 347730,
+      "sha256": "b26160a5289f498091b9657ae18cf3d711bfcd819b6fe368f93c1bd3e6d4ff5a",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2304.14065v4 [cs.CV] 05 Feb 2024",
+      "text_extract_sha256": "27b8844c978f18b170a0b600aa0bc40794116b1b0d05540b02d6b72caba6853c"
+    },
+    {
+      "id": "prithvi-eo2",
+      "url": "https://arxiv.org/html/2412.02732v3",
+      "resolved_url": "https://arxiv.org/html/2412.02732v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/prithvi-eo2.html",
+      "bytes": 513547,
+      "sha256": "eb1116751aa256216885cca8d1484ffcb7dfe324b231b6a2c21f770269c528e7",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2412.02732v3 [cs.CV] 06 Mar 2026",
+      "text_extract_sha256": "ca00eba3bafedf4b60ff9bc39afdd61bf6f1345f55452c423c0b26abdf08afff"
+    },
+    {
+      "id": "dofa-v1",
+      "url": "https://arxiv.org/html/2403.15356v1",
+      "resolved_url": "https://arxiv.org/html/2403.15356v1",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/dofa-v1.html",
+      "bytes": 254468,
+      "sha256": "e4ce8092f3f9937f6b41df0da72e0c7659f499c240e1248c2c380bc1a3b401d6",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2403.15356v1 [cs.CV] 22 Mar 2024",
+      "text_extract_sha256": "5966eadb61895dd71ba20a4c19828e96def030149f95f0df60b2dd53428bc569"
+    },
+    {
+      "id": "copernicus-fm",
+      "url": "https://arxiv.org/html/2503.11849v3",
+      "resolved_url": "https://arxiv.org/html/2503.11849v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/copernicus-fm.html",
+      "bytes": 443015,
+      "sha256": "0fb84b752e79db277bf5a110d8e9201683c3869bd624e904c3b66a4f2a8a4b43",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2503.11849v3 [cs.CV] 31 Jul 2025",
+      "text_extract_sha256": "479dc2df8873f539e998a5dc5ee4c44ed9d7517708741fead0ceab7e786400b8"
+    },
+    {
+      "id": "terramind",
+      "url": "https://arxiv.org/html/2504.11171v5",
+      "resolved_url": "https://arxiv.org/html/2504.11171v5",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/terramind.html",
+      "bytes": 388893,
+      "sha256": "c2ebac0c2298120ca3e36614d3190460fe35cd4374c8cf3267588de61a87bad3",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2504.11171v5 [cs.CV] 17 Jun 2026",
+      "text_extract_sha256": "7ace2980efdde48299c004d4a4b810910f85c2595a1df68c5c9458d1a29d4503"
+    },
+    {
+      "id": "satmae",
+      "url": "https://arxiv.org/html/2207.08051v3",
+      "resolved_url": "https://arxiv.org/html/2207.08051v3",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/satmae.html",
+      "bytes": 310568,
+      "sha256": "dfef969df8f6759bdf1118134740f256adf32daf3f56d0bdae188e843b6c723b",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2207.08051v3 [cs.CV] 15 Jan 2023",
+      "text_extract_sha256": "a29ba361b50637dd596ddaecf9cb09e459b5889c4b67b91f25d250d25ee517a4"
+    },
+    {
+      "id": "pangaea",
+      "url": "https://arxiv.org/html/2412.04204",
+      "resolved_url": "https://arxiv.org/html/2412.04204",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/pangaea.html",
+      "bytes": 1189440,
+      "sha256": "c5ac8ee7e9a45a8b802f064192c22d8701379e2d8e28492b7a2e56dbebcdddc3",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2412.04204v2 [cs.CV] 30 Apr 2025",
+      "text_extract_sha256": "5e3a61e9a770d5076a8986b82d9daf22e695b2eafc5dd84642ec394426b52b0e"
+    },
+    {
+      "id": "geo-bench-2",
+      "url": "https://arxiv.org/html/2511.15658",
+      "resolved_url": "https://arxiv.org/html/2511.15658",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/geo-bench-2.html",
+      "bytes": 326568,
+      "sha256": "85d7bf22b0855f286c2d52e68a03dc5411be9b44f2d3dcd0587a52af5122f1e3",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2511.15658v2 [cs.CV] 02 Feb 2026",
+      "text_extract_sha256": "ff212ea8ffda92dbc29698fd12f38c22046fa4f5f8594cb475d2517bc0514480"
+    },
+    {
+      "id": "soil-moisture-comparison",
+      "url": "https://arxiv.org/html/2602.18083",
+      "resolved_url": "https://arxiv.org/html/2602.18083",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/soil-moisture-comparison.html",
+      "bytes": 126037,
+      "sha256": "7200f504017bb2432f829a1ec66063669c3260f47e493a918e8444580cbf984a",
+      "status": "acquired",
+      "retrieved_version": "arXiv:2602.18083v1 [cs.CV] 20 Feb 2026",
+      "text_extract_sha256": "a998471877e64a70295dba3c996fe7698787b1d649cd1ff63f3fe3ed16f469bf"
+    },
+    {
+      "id": "croma",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/11822e84689e631615199db3b75cd0e4-Paper-Conference.pdf",
+      "resolved_url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/11822e84689e631615199db3b75cd0e4-Paper-Conference.pdf",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/croma.pdf",
+      "bytes": 6813372,
+      "sha256": "aeea8cfdc5d3f4365c6745c91ca99a1aa1bc553b008504853355227c2161b08b",
+      "status": "acquired",
+      "retrieved_version": "NeurIPS 2023 proceedings, 33 pages",
+      "text_extract_sha256": "1a0e6a8dcce576de1aa51f1ecd2b364a3c82216b117a973f4268c26e33f1b886"
+    },
+    {
+      "id": "corley-preprocessing",
+      "url": "https://openaccess.thecvf.com/content/CVPR2024W/PBVS/papers/Corley_Revisiting_Pre-trained_Remote_Sensing_Model_Benchmarks_Resizing_and_Normalization_Matters_CVPRW_2024_paper.pdf",
+      "resolved_url": "https://openaccess.thecvf.com/content/CVPR2024W/PBVS/papers/Corley_Revisiting_Pre-trained_Remote_Sensing_Model_Benchmarks_Resizing_and_Normalization_Matters_CVPRW_2024_paper.pdf",
+      "path": "data/raw/foundation_assets/documents/eo-literature-2026-10-22/corley-preprocessing.pdf",
+      "bytes": 5535629,
+      "sha256": "9f57bad9ab1d303c3b9bf4ff65ae9177d6aa2447532a8d3ba1ecf3d7d4594f30",
+      "status": "acquired",
+      "retrieved_version": "CVPR 2024 Workshops proceedings, 11 pages",
+      "text_extract_sha256": "efebca3a5528d4096cf2243b0da2c8b7da670b10712bab7f2ea5b77b2f9cdeed"
+    }
+  ],
+  "frozen_file_count": 42,
+  "frozen_file_sha256": {
+    "src/eo_coherent_inputs.py": "50f2afbb218a6208c65df8a69272d0a2d2eb576d9a0f930a26f81acff06646d4",
+    "src/eo_comparison.py": "32da2d1711b0e6c4b9e254fcb1a5aa8066d5e90e4d70eab23ae5d1c5e779b500",
+    "src/eo_coverage_review.py": "1227b19c5ffa50c7b8c4bc51deeed87b748bacafa189f3a20953e181ac73b56f",
+    "src/eo_encoder_corrections.py": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30",
+    "src/eo_encoders.py": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "src/eo_event_inputs.py": "43e6ec5488ef83383fb6cdb7573a86faeb05a6f82918006ca6540983b8ce0335",
+    "src/eo_inputs.py": "3c0b1eb40223e945b960eadcb0114dd5fa8112cd0e46b3abdcbeed3858d28916",
+    "src/eo_integrity.py": "90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3",
+    "src/eo_mps.py": "a9c663bc4613157c4419c01ef6c821f45c4a7bb3a7ec59263281c28a2cd01e7c",
+    "src/eo_population.py": "ef1d35aa0c6ade41e0c3f84b371b066e399006ddd02faaa2e191992567ce1a52",
+    "src/eo_publication.py": "de26ed47bc99167556ecf978739abe63b24e3f172f975ee9c6826cdcc987e3c2",
+    "src/eo_retrieval_cache.py": "49cbf1b10240f6172024dd0f39211582aa6a06208db6fcef463f612f83d11384",
+    "src/eo_token_masks.py": "90fbb759179f35e999c637e9fe9d922c0625c6da66a5ea55087b63e2f8f756f6",
+    "src/eo_window_diagnostics.py": "a619b6ec3d8e01e7e4d210ca66947dbc41feeddd56f4713520d635af8f4d503f",
+    "scripts/100_extract_limburg_eo_sequences.py": "0f467d421f1b2b1d13e69966eb4b63c608ab602d50a9774588541ba8c33b11cb",
+    "scripts/101_aggregate_limburg_eo_catchments.py": "929d5ed5fbd953c796f0dc2db535f0b15610af3c433818c30962ad968f54454e",
+    "scripts/102_connect_limburg_eo_experiments.py": "ac6c37369fb07285c3faf39f35051d2f30fd1f61378765e95d976e7c66f5afd7",
+    "scripts/103_stage_limburg_eo_archive.py": "2af2e78b593c70db3ac4c5ae6db140bd836a9fad6aeec31a290a598cdb83304b",
+    "scripts/104_summarize_limburg_eo_coverage.py": "3bb5bc1c1ab21e3e6de0f41d2db2efc857b4202fead8ee80b6ea1e9421203f05",
+    "scripts/105_run_limburg_eo_census.py": "e15a1b0b0eb1c8346f4682be7f015ced9563b267c96fbf31fe1e9ea32bd8966e",
+    "scripts/106_benchmark_limburg_mps.py": "0c2481993bc70d90c050e5bbd7dfaec94f2bf32863fa81148745f599f16acbaa",
+    "scripts/107_extract_limburg_mps_sequences.py": "d1d94345c56b58521c34d273822e14fea77a7145859599278967db25e3dd6c3c",
+    "scripts/108_benchmark_presto_cpu.py": "a630a418e9ac899eb728f51f12f3e58d29092357c054d33bcc7f8c0ad97bf5d9",
+    "scripts/109_extract_presto_cpu_sequences.py": "e46147b0acd92d938c94fd80837b6765eb854197ac89fcbb22ca477a168f4bf3",
+    "scripts/110_extract_token_consistent_sequences.py": "81541b14f242d77c15a80544b099bb710ed5baa409bed39ec18ae581c6341da6",
+    "scripts/111_run_token_mask_recovery.py": "70e151ae58df24063097b978c5010056bf3a4f85b81898e950c6899d6299952a",
+    "scripts/112_audit_completed_eo_comparability.py": "3fc4c99b42a838438674e90a89ba0784275ddc076ed6e578843a661a6e4a0b1f",
+    "scripts/113_explain_eo_readout_coverage.py": "843ae2d29284b12fdbce212cf62e2cc8c31e5e7167922d20a20be82e396513ce",
+    "scripts/114_expand_limburg_eo_acquisition.py": "64b4e0f787ec6868a148223d633ceaa5acece753c9501ad8198301135e463667",
+    "scripts/115_handoff_eo_expansion_to_azure.py": "6f1fe5e96b1f772341afb229eaa0d2b29ab56f31b464a1bf23c4be716acd1334",
+    "scripts/116_audit_s2_band_day_census.py": "d83af2d50f1356a0e4784b9a0af117741c7b93a6ebc12ed79594295ea3d90a52",
+    "scripts/117_finalize_selected_eo_runs.py": "575066bbe545be54e0d6707b93037d218698c08879749d0d72ec29ccbb1b9ecd",
+    "scripts/118_extract_versioned_eo_sequences.py": "cfd0ab197687f84c29fdb08923e141c96171f23be2a0ea6b3fbfaff7d5a48b11",
+    "scripts/119_profile_eo_retrieval.py": "9eda9ebd7384016d1674e999df53a47e8678e2d35c95de9ca4affb3766d4ca68",
+    "scripts/120_review_eo_analogues.py": "44ae44111b0e0e1fc9f44f4d08d929b2bcd5bd01218c96f279554ee6fecada9f",
+    "scripts/121_finish_current_eo_workflow.py": "e5cd0c16ab838f1d8da10b84162d169aa7bfd1bccaf1d0c31678681376269f6c",
+    "scripts/122_run_coherent_eo_correction.py": "5275e0ab4322540544c8b6d1abed2e6de262de3edae45ff994a6632ecd61e0ac",
+    "scripts/123_audit_encoder_input_contracts.py": "519d738a83b8605d6649a44f5ab7f8a8fad8aebd01e71eeb8526a7a07e4a4be1",
+    "scripts/124_retire_superseded_eo_runs.py": "5d7def2c44bec3c2bd1b7554e94b4c02e2e58f80e513739754c03b2716acd88d",
+    "scripts/125_check_corrected_eo_readouts.py": "8095b3bbbebc07d1941709bcd8c85317e127b4c2a7a2d1a042868c19cbeeaf01",
+    "config/limburg_eo_model_assets.json": "a582506d6135eefc1bc90f45a76576f8a682b4f4491368b5224e53fa23fa06c4",
+    "config/limburg_eo_selected_runs.json": "28cf1093af91a023a06e493d989f0a387e36d02969714df53f168db5b60e508a"
+  },
+  "frozen_files_unchanged": true,
+  "local_markdown_links_checked": 48,
+  "tests": "Documentation-only pass; no code tests or inference rerun. Previous restart suite: 307 passed.",
+  "execution": "Existing corrected controller remains authoritative; no model/runtime/selection edits or relaunches in this pass.",
+  "new_empirical_result": false,
+  "generated_mendeley_bibliography_edited": false,
+  "optional_not_implemented": [
+    "Presto pixel-embedding mean-plus-standard-deviation pooling",
+    "Copernicus-FM known metadata inputs"
+  ]
+}

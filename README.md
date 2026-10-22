@@ -13,11 +13,14 @@ coverage and matched-population controls. It reviews whether river identity and 
 provenance make retrieved analogues usable. It is a retrospective archive
 study, not an automatic warning system or operational forecast evaluation.
 
-The [22 October execution](docs/reviews/limburg-eo-current-archive-execution-2026-10-22.md)
-has verified and merged all ten EO outputs and launched the full current-archive
-comparison, followed automatically by an actual-analogue review. The machine
-status file named in that record distinguishes running work from completed
-results. Coverage differences and held-input limitations remain explicit.
+The [22 October restart](docs/reviews/limburg-eo-retirement-and-restart-2026-10-22.md)
+is extracting eight corrected EO routes and reusing verified Prithvi/repaired
+OlmoEarth outputs. Earlier scoring was cancelled before completed scientific
+results were published; superseded patch caches were retired with compact
+provenance and catchment summaries preserved. The corrected selection will be
+aggregated, compared and reviewed automatically. The accompanying
+[paper/appendix review](docs/reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md)
+documents configuration and runtime evidence without changing the running setup.
 
 The latest [storm-response analysis](docs/limburg-storm-response-results-2026-10-15.md)
 examines individual-event divergence, conditional information from other gauges
@@ -29,22 +32,21 @@ cross-tributary prediction and pressure diagnostics are preserved under
 `archive/retired-directions/2026-retrospective-high-water/`; they are not the
 active chapter design.
 
-## Current EO execution — October 21
+## Current EO execution — October 22
 
 | Work | Current entry point and contract |
 | --- | --- |
-| Held extraction runs | Original jobs continue unchanged. Their immutable IDs and aggregate paths are selected in `config/limburg_eo_selected_runs.json`, including repaired OlmoEarth/Galileo and the separate Presto runtime. |
+| Corrected extraction | `scripts/122_run_coherent_eo_correction.py`: two CPU lanes and one MPS lane; replaces eight routes and reuses Prithvi/repaired OlmoEarth. Live state: `logs/eo-coherent-correction-v1/progress.json`. |
 | Date-coherence census | `scripts/116_audit_s2_band_day_census.py`: all 8,538 held S2 tile/window pairs; exact observed catchment areas, no model scoring. |
-| Selected handoff | `scripts/117_finalize_selected_eo_runs.py` checks readiness; `--merge` publishes a validated ten-model merge under `results/eo_catchment_representations/selected/census`. It never substitutes the old recovery paths. |
-| Future corrected extraction | `scripts/118_extract_versioned_eo_sequences.py`: separate output root, same-UTC-day S2 masks, bound job/context population and native token masks. Previous embeddings are not silently relabelled corrected. |
-| Final comparison | `scripts/102_connect_limburg_eo_experiments.py --run`: consumes the selected merge, verifies selection/provenance and caches identical retrievals. Planning without `--run` remains available. |
+| Selected handoff | The controller creates `config/limburg_eo_coherent_selected_runs.json` after corrected aggregation, verifies all ten, and merges under `results/eo_catchment_representations/coherent_v1/selected/census`. |
+| Versioned writer | `scripts/118_extract_versioned_eo_sequences.py`: same-day S2 bands, corrected publisher transforms/dates, bound population, masks and source hashes. Output: `data/processed/limburg_eo_coherent_census_v1`. |
+| Final comparison | The controller runs script 102 against the corrected merge, followed by script 120's actual-analogue review. Outputs are separate from the cancelled held-input comparison. |
 | Performance check | `scripts/119_profile_eo_retrieval.py`: full eligible TTM/state cohort, exact cold/cached equivalence; no new scientific score. |
 
-[Correction record and commands](docs/reviews/limburg-eo-audit-fixes-2026-10-21.md)
-distinguishes completed code changes from the running date census and any later
-corrected embeddings. The default selection currently names the held runs, not
-same-day reruns. The old script-105 controller already in memory may still write
-its legacy `census` folder; final scoring no longer consumes that folder by default.
+The original `config/limburg_eo_selected_runs.json` is a historical map: eight
+referenced runs are explicitly retired. Do not pass it to scientific scoring.
+Use the restart controller's corrected map/output paths after completion. The
+restart note records the preceding code checks and deliberately preserved history.
 
 Comparison planning now writes under `<out>/planning/`; executed result sets
 publish together with `manifest.json` and retain their preceding version. A
@@ -68,6 +70,7 @@ input locations, reviewed source compatibility and validation.
 | [AlphaEarth review](docs/limburg-alphaearth-detailed-review-2026-10-14.md) | main matched spatial-context evidence |
 | [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
 | [October literature update](docs/limburg-weekly-literature-2026-10-16.md) | global event-to-event response variability as interpretation context; German pooling correction |
+| [EO literature/runtime review](docs/reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md) | ten exact checkpoint routes, primary papers/appendices, compute evidence and optional adaptations |
 | [Inventory](docs/analysis-inventory.md) | code, dependencies and supporting work |
 | [Handoff](docs/HANDOFF.md) | current state followed by historical execution ledger |
 | [Current ideas](docs/limburg-ideas-2026-10-15.md) | saved Idea 1: past-only event-divergence prediction; not implemented |

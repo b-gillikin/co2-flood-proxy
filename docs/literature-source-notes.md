@@ -6,6 +6,13 @@ future results. Author-reported findings and limitations remain attributed to
 the source. The evidence-question IDs connect each entry to
 `literature-evidence-matrix.csv`.
 
+The [22 October EO literature/runtime supplement](reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md)
+records primary papers for the ten selected frozen encoders, configuration
+evidence, published compute information and differences from our inference
+routes. Its source inventory preserves retrieved versions and hashes. It adds
+research-aid notes; the evidence questions and historical source notes below
+remain intact.
+
 ## Evidence questions
 
 - **Q01:** What did Viefhues report about indoor CO2 around the July 2021 event?
