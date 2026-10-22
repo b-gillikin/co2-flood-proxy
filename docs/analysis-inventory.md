@@ -1,5 +1,18 @@
 # Limburg analysis inventory
 
+## Current EO execution — 2026-10-21
+
+[Audit corrections and commands](reviews/limburg-eo-audit-fixes-2026-10-21.md)
+supersede earlier EO readiness descriptions. Script 116 audits all held S2
+band dates; 117 validates explicit selected runs and publishes complete or
+explicit available-model merges; 118 is the separately versioned future
+extractor with bound input population and same-day S2 validity; 119 profiles
+unchanged retrieval with exact cache equivalence. Script 101 now publishes
+fresh aggregates and script 102 validates selected inputs and caches repeated
+retrievals. Original running extraction source remains unchanged. These are
+engineering corrections, not new findings or a change of RQ. Prior evidence
+and dated counts below remain historical records.
+
 **Evidence status updated 2026-10-15:** scripts 92–94 add the three linked
 storm-response analyses; scripts 81–84 and the distributional extension 90–91
 remain the main analogue readout. Scripts 75–78 retain supporting controls/sensitivities; 70–74 are
@@ -47,7 +60,7 @@ do not supersede earlier p99 scores or establish operational warning skill.
 
 | code or contract | purpose | state |
 | --- | --- | --- |
-| `docs/ai-eval/representation-arms.json` | representation comparison R0–R4 | bounded exploratory R4 and matched raw fusion executed |
+| `docs/ai-eval/representation-arms.json` | representation comparison R0–R5 | R0–R4 executed; R5 frozen EO comparison under input/coverage review |
 | `scripts/64_build_basin_ai_event_library.py` | 512-hour histories and 72 withheld hours | complete |
 | `scripts/65_hydrological_analogue_baseline.py` | conventional prior-event retrieval; one selected event per prior storm | complete; tied historical median |
 | `scripts/66_download_limburg_foundation_assets.py` | pinned asset acquisition and receipts | complete |

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "version": "held_archive_v1_with_token_repairs",
+  "purpose": "Explicit held-run selection; S2 mixed-day exposure is being quantified, not silently labelled corrected. Same-day reruns use a new map/version.",
+  "contexts": "results/eo_comparison_preparation/contexts.json",
+  "contexts_sha256": "bdfc181e1084cb67c4f80e41111b42cf1fdf5519f857f9cc43d6e5fd9c266a45",
+  "models": {
+    "prithvi": {
+      "run": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "croma": {
+      "run": "data/processed/limburg_eo_mps_sequences/croma/45d640621c355240936ca15db81fbd0b3476b772701e216dc5a187688f79aa9e",
+      "aggregate": "results/eo_catchment_representations/per_model/croma/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "terramind": {
+      "run": "data/processed/limburg_eo_sequences/terramind/add39907a64085e72a62f1910daf7302058213a5443941b2fd0218db20628a6b",
+      "aggregate": "results/eo_catchment_representations/per_model/terramind/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "dofa": {
+      "run": "data/processed/limburg_eo_sequences/dofa/b29e5b7df28c7ad2159f9f16d9ec678fc8d3cb08b1025c80b6064f99fcfc5242",
+      "aggregate": "results/eo_catchment_representations/per_model/dofa/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "copernicus_fm": {
+      "run": "data/processed/limburg_eo_sequences/copernicus_fm/1b01a837fc59a38a69336c9acc96862f882e8af81d67d37575987c44f7d6bc0a",
+      "aggregate": "results/eo_catchment_representations/per_model/copernicus_fm/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "satmae": {
+      "run": "data/processed/limburg_eo_mps_sequences/satmae/07734fb88f22416a74ef7bf7f8c20da67ef7c3e74e21f7ed6b6f6f6d90fffe5d",
+      "aggregate": "results/eo_catchment_representations/per_model/satmae/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "anysat": {
+      "run": "data/processed/limburg_eo_mps_sequences/anysat/b20d4a26d0b28a6b8059f860721c3f9c51b503404ad1975fae94a802debaf5f0",
+      "aggregate": "results/eo_catchment_representations/per_model/anysat/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "olmoearth": {
+      "run": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census",
+      "mask_policy": "all_pixels_observed_in_native_token_block_v1"
+    },
+    "galileo": {
+      "run": "data/processed/limburg_eo_token_consistent_sequences/galileo/281187daedc2ba11052633dcc65c8b5a2c8b225f5db8eed9e0ab573897abdd0e",
+      "aggregate": "results/eo_catchment_representations/per_model/galileo/token_consistent/census",
+      "mask_policy": "all_pixels_observed_in_native_token_block_v1"
+    },
+    "presto": {
+      "run": "data/processed/limburg_eo_presto_torch291_sequences/presto/69e43010176a90d56dd5249b9d298a05ab8560423c9a8011cc9093e2bbd7883e",
+      "aggregate": "results/eo_catchment_representations/per_model/presto/census",
+      "mask_policy": "native_pixel_mask_v1"
+    }
+  }
+}

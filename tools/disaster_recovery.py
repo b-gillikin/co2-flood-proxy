@@ -106,13 +106,9 @@ def verify(manifest: Path) -> int:
 def require_rclone(remote: str) -> None:
     if not shutil.which("rclone"):
         raise SystemExit("rclone is not installed; install it before backup or restore")
-    result = subprocess.run(
-        ["rclone", "listremotes"], capture_output=True, text=True, check=True
-    )
+    result = subprocess.run(["rclone", "listremotes"], capture_output=True, text=True, check=True)
     if f"{remote}:" not in result.stdout.splitlines():
-        raise SystemExit(
-            f"rclone remote '{remote}' is not configured. Run: rclone config"
-        )
+        raise SystemExit(f"rclone remote '{remote}' is not configured. Run: rclone config")
 
 
 def remote_base(config: dict) -> str:
@@ -127,8 +123,10 @@ def azure_base(config: dict) -> str:
 
 def azure_common(config: dict) -> list[str]:
     return [
-        "--account-name", config["azure_account"],
-        "--auth-mode", "login",
+        "--account-name",
+        config["azure_account"],
+        "--auth-mode",
+        "login",
         "--only-show-errors",
     ]
 
@@ -145,19 +143,25 @@ def require_azure(config: dict) -> None:
         raise SystemExit("Azure CLI is not authenticated; run: az login")
     expected = config.get("azure_subscription_id")
     if expected and result.stdout.strip() != expected:
-        raise SystemExit(
-            f"Wrong Azure subscription: {result.stdout.strip()}; expected {expected}"
-        )
+        raise SystemExit(f"Wrong Azure subscription: {result.stdout.strip()}; expected {expected}")
 
 
 def azure_blob_exists(config: dict, name: str) -> bool:
     result = subprocess.run(
         [
-            "az", "storage", "blob", "exists",
-            "--container-name", config["azure_container"],
-            "--name", name,
+            "az",
+            "storage",
+            "blob",
+            "exists",
+            "--container-name",
+            config["azure_container"],
+            "--name",
+            name,
             *azure_common(config),
-            "--query", "exists", "-o", "tsv",
+            "--query",
+            "exists",
+            "-o",
+            "tsv",
         ],
         capture_output=True,
         text=True,
@@ -170,35 +174,53 @@ def fetch_azure_manifest(config: dict, destination: Path) -> list[tuple[str, int
     name = f"{azure_base(config)}/_recovery/data-manifest.tsv"
     if not azure_blob_exists(config, name):
         return None
-    run([
-        "az", "storage", "blob", "download",
-        "--container-name", config["azure_container"],
-        "--name", name,
-        "--file", str(destination),
-        "--overwrite", "true",
-        "--no-progress",
-        *azure_common(config),
-        "-o", "none",
-    ])
+    run(
+        [
+            "az",
+            "storage",
+            "blob",
+            "download",
+            "--container-name",
+            config["azure_container"],
+            "--name",
+            name,
+            "--file",
+            str(destination),
+            "--overwrite",
+            "true",
+            "--no-progress",
+            *azure_common(config),
+            "-o",
+            "none",
+        ]
+    )
     return read_manifest(destination)
 
 
 def azure_upload_file(config: dict, source: Path, relative: str) -> None:
-    run([
-        "az", "storage", "blob", "upload",
-        "--container-name", config["azure_container"],
-        "--name", f"{azure_base(config)}/{relative}",
-        "--file", str(source),
-        "--overwrite", "true",
-        "--no-progress",
-        *azure_common(config),
-        "-o", "none",
-    ])
+    run(
+        [
+            "az",
+            "storage",
+            "blob",
+            "upload",
+            "--container-name",
+            config["azure_container"],
+            "--name",
+            f"{azure_base(config)}/{relative}",
+            "--file",
+            str(source),
+            "--overwrite",
+            "true",
+            "--no-progress",
+            *azure_common(config),
+            "-o",
+            "none",
+        ]
+    )
 
 
-def backup_azure(
-    config: dict, rows: list[tuple[str, int, str]], dry_run: bool
-) -> int:
+def backup_azure(config: dict, rows: list[tuple[str, int, str]], dry_run: bool) -> int:
     require_azure(config)
     with tempfile.TemporaryDirectory(prefix="dissertation-azure-manifest-") as temp_dir:
         remote_rows = fetch_azure_manifest(config, Path(temp_dir) / "data-manifest.tsv")
@@ -211,16 +233,26 @@ def backup_azure(
             if dry_run:
                 print(f"would upload initial path: {relative}")
             elif source.is_dir():
-                run([
-                    "az", "storage", "blob", "upload-batch",
-                    "--destination", config["azure_container"],
-                    "--destination-path", f"{azure_base(config)}/{relative}",
-                    "--source", str(source),
-                    "--overwrite", "true",
-                    "--no-progress",
-                    *azure_common(config),
-                    "-o", "none",
-                ])
+                run(
+                    [
+                        "az",
+                        "storage",
+                        "blob",
+                        "upload-batch",
+                        "--destination",
+                        config["azure_container"],
+                        "--destination-path",
+                        f"{azure_base(config)}/{relative}",
+                        "--source",
+                        str(source),
+                        "--overwrite",
+                        "true",
+                        "--no-progress",
+                        *azure_common(config),
+                        "-o",
+                        "none",
+                    ]
+                )
             else:
                 azure_upload_file(config, source, relative)
         changed = rows
@@ -254,16 +286,26 @@ def restore_azure(config: dict, overwrite: bool) -> int:
         remote_rows = fetch_azure_manifest(config, remote_manifest_path)
         if remote_rows is None:
             raise SystemExit("Azure recovery manifest is missing; run backup first")
-        run([
-            "az", "storage", "blob", "download-batch",
-            "--destination", str(temp),
-            "--source", config["azure_container"],
-            "--pattern", f"{azure_base(config)}/*",
-            "--max-connections", "8",
-            "--no-progress",
-            *azure_common(config),
-            "-o", "none",
-        ])
+        run(
+            [
+                "az",
+                "storage",
+                "blob",
+                "download-batch",
+                "--destination",
+                str(temp),
+                "--source",
+                config["azure_container"],
+                "--pattern",
+                f"{azure_base(config)}/*",
+                "--max-connections",
+                "8",
+                "--no-progress",
+                *azure_common(config),
+                "-o",
+                "none",
+            ]
+        )
         downloaded_root = temp / azure_base(config)
         for _digest, _size, relative in remote_rows:
             source = downloaded_root / relative
@@ -348,11 +390,19 @@ def backup(config: dict, dry_run: bool) -> int:
         if source.is_dir():
             run(["rclone", "copy", str(source), destination, *common, "--backup-dir", version_dir])
         else:
-            run(["rclone", "copyto", str(source), destination, *common, "--backup-dir", version_dir])
-    run([
-        "rclone", "copyto", str(MANIFEST_PATH), f"{base}/_recovery/data-manifest.tsv",
-        "--metadata", *(["--dry-run"] if dry_run else []),
-    ])
+            run(
+                ["rclone", "copyto", str(source), destination, *common, "--backup-dir", version_dir]
+            )
+    run(
+        [
+            "rclone",
+            "copyto",
+            str(MANIFEST_PATH),
+            f"{base}/_recovery/data-manifest.tsv",
+            "--metadata",
+            *(["--dry-run"] if dry_run else []),
+        ]
+    )
     total = sum(size for _digest, size, _path in rows)
     print(f"Inventory: {len(rows)} files, {total / (1024**3):.2f} GiB")
     return 0
@@ -400,10 +450,15 @@ def doctor(config: dict) -> int:
             require_azure(config)
             subprocess.run(
                 [
-                    "az", "storage", "container", "show",
-                    "--name", config["azure_container"],
+                    "az",
+                    "storage",
+                    "container",
+                    "show",
+                    "--name",
+                    config["azure_container"],
                     *azure_common(config),
-                    "-o", "none",
+                    "-o",
+                    "none",
                 ],
                 check=True,
             )
@@ -424,9 +479,7 @@ def doctor(config: dict) -> int:
     except (SystemExit, subprocess.CalledProcessError) as exc:
         print(f"Remote check: FAILED ({exc})")
         return 1
-    result = subprocess.run(
-        ["rclone", "lsd", f"{remote}:"], capture_output=True, text=True
-    )
+    result = subprocess.run(["rclone", "lsd", f"{remote}:"], capture_output=True, text=True)
     if result.returncode:
         print(f"Remote check: FAILED ({result.stderr.strip()})")
         return 1
@@ -442,9 +495,13 @@ def main() -> int:
     verify_parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
     backup_parser = subparsers.add_parser("backup", help="copy protected paths to remote storage")
     backup_parser.add_argument("--dry-run", action="store_true")
-    restore_parser = subparsers.add_parser("restore", help="restore protected paths from remote storage")
+    restore_parser = subparsers.add_parser(
+        "restore", help="restore protected paths from remote storage"
+    )
     restore_parser.add_argument(
-        "--overwrite", action="store_true", help="replace differing local files; default preserves them"
+        "--overwrite",
+        action="store_true",
+        help="replace differing local files; default preserves them",
     )
     subparsers.add_parser("doctor", help="check local tooling and remote connectivity")
     args = parser.parse_args()

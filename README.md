@@ -8,7 +8,8 @@ Research question:
 
 The chapter compares conventional hydrological summaries, raw hydrograph
 similarity, a frozen time-series foundation-model representation and bounded
-AlphaEarth catchment context. It reviews whether river identity and measurement
+AlphaEarth catchment context, extended by ten frozen EO encoders with explicit
+coverage and matched-population controls. It reviews whether river identity and measurement
 provenance make retrieved analogues usable. It is a retrospective archive
 study, not an automatic warning system or operational forecast evaluation.
 
@@ -21,6 +22,23 @@ The repository name `chapter1-co2` is historical. CO2, case-crossover,
 cross-tributary prediction and pressure diagnostics are preserved under
 `archive/retired-directions/2026-retrospective-high-water/`; they are not the
 active chapter design.
+
+## Current EO execution — October 21
+
+| Work | Current entry point and contract |
+| --- | --- |
+| Held extraction runs | Original jobs continue unchanged. Their immutable IDs and aggregate paths are selected in `config/limburg_eo_selected_runs.json`, including repaired OlmoEarth/Galileo and the separate Presto runtime. |
+| Date-coherence census | `scripts/116_audit_s2_band_day_census.py`: all 8,538 held S2 tile/window pairs; exact observed catchment areas, no model scoring. |
+| Selected handoff | `scripts/117_finalize_selected_eo_runs.py` checks readiness; `--merge` publishes a validated ten-model merge under `results/eo_catchment_representations/selected/census`. It never substitutes the old recovery paths. |
+| Future corrected extraction | `scripts/118_extract_versioned_eo_sequences.py`: separate output root, same-UTC-day S2 masks, bound job/context population and native token masks. Previous embeddings are not silently relabelled corrected. |
+| Final comparison | `scripts/102_connect_limburg_eo_experiments.py --run`: consumes the selected merge, verifies selection/provenance and caches identical retrievals. Planning without `--run` remains available. |
+| Performance check | `scripts/119_profile_eo_retrieval.py`: full eligible TTM/state cohort, exact cold/cached equivalence; no new scientific score. |
+
+[Correction record and commands](docs/reviews/limburg-eo-audit-fixes-2026-10-21.md)
+distinguishes completed code changes from the running date census and any later
+corrected embeddings. The default selection currently names the held runs, not
+same-day reruns. The old script-105 controller already in memory may still write
+its legacy `census` folder; final scoring no longer consumes that folder by default.
 
 ## Read first
 

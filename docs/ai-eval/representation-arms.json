@@ -83,5 +83,30 @@
       "conventional signatures alone"
     ],
     "weights": "equal prior-scaled blocks; no tuning"
+  },
+  {
+    "arm_id": "R5_DYNAMIC_EO",
+    "label": "Ten frozen dynamic EO representations",
+    "required": false,
+    "input_scope": "Completed one-month snapshot, twelve-month and four-week imagery contexts at each existing observation cutoff",
+    "purpose": "EO-only retrieval and EO increment to TTM/state, on explicitly matched event/donor populations with rainfall, area and identity controls; no tuning or operational warning claim.",
+    "models": [
+      "prithvi",
+      "croma",
+      "terramind",
+      "dofa",
+      "copernicus_fm",
+      "satmae",
+      "anysat",
+      "olmoearth",
+      "galileo",
+      "presto"
+    ],
+    "selection": "config/limburg_eo_selected_runs.json",
+    "finalizer": "scripts/117_finalize_selected_eo_runs.py",
+    "future_extractor": "scripts/118_extract_versioned_eo_sequences.py",
+    "input_version_note": "Held runs keep their original input policy. The versioned same-day S2 loader is a correction path, not evidence that held embeddings have already been recomputed.",
+    "support_unit": "event_context_and_catchment",
+    "status": "Engineering completion and coherence review; no final ten-model ranking yet"
   }
 ]

@@ -1,4 +1,6 @@
-"""Run all ten frozen EO extractions and catchment aggregates, with bounded local concurrency.
+"""Legacy queue for in-flight extraction and repaired selected-output handoff.
+
+Future versioned extraction uses script 118; selected finalization uses script 117.
 
 No model fitting/scoring, sampling, cloud compute or raw-data deletion. Each
 model uses its pinned runtime and full held contexts. Reruns verify/resume patches.
@@ -20,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_inputs import ROUTES, sha256
+from src.eo_integrity import merge_selected, validate_aggregate
 
 ORDER = [
     "prithvi",
@@ -42,82 +45,33 @@ def atomic_json(path, data):
 
 
 def merge_aggregates(base, models):
-    import pandas as pd
-
-    target = base / "census"
-    target.mkdir(parents=True, exist_ok=True)
-    expected = {f"{model}.parquet" for model in models} | {
-        "coverage.parquet",
-        "patch_areas.parquet",
-    }
-    if {p.name for p in target.glob("*.parquet")} - expected:
-        raise ValueError("Unexpected stale model outputs in merged census")
-    source_manifests = [
-        json.loads((base / "per_model" / model / "census/manifest.json").read_text())
-        for model in models
-    ]
-    if len({m["catchments_sha256"] for m in source_manifests}) != 1:
-        raise ValueError("Catchment geometries differ across models")
-    coverage, areas, manifests = [], [], []
-    for model in models:
-        folder = base / "per_model" / model / "census"
-        manifest = json.loads((folder / "manifest.json").read_text())
-        for name, digest in manifest["outputs_sha256"].items():
-            if sha256(folder / name) != digest:
-                raise ValueError("Aggregate checksum mismatch")
-        manifests.append(manifest)
-        source = folder / f"{model}.parquet"
-        if source.exists():
-            (target / source.name).write_bytes(source.read_bytes())
-        for name, frames in [("coverage.parquet", coverage), ("patch_areas.parquet", areas)]:
-            frame = pd.read_parquet(folder / name)
-            if len(frame):
-                frames.append(frame)
-    for name, frames in [("coverage.parquet", coverage), ("patch_areas.parquet", areas)]:
-        (pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()).to_parquet(
-            target / name, index=False
-        )
-    geometry_hashes = {m["catchments_sha256"] for m in manifests}
-    if len(geometry_hashes) != 1:
-        raise ValueError("Catchment geometries differ across models")
-    merged = dict(manifests[0])
-    merged.update(
-        created_utc=datetime.now(timezone.utc).isoformat(),
-        contexts_by_model={k: v for m in manifests for k, v in m["contexts_by_model"].items()},
-        source_sha256={k: v for m in manifests for k, v in m["source_sha256"].items()},
-        errors=[e for m in manifests for e in m["errors"]],
-        outputs_sha256={p.name: sha256(p) for p in target.glob("*.parquet")},
-    )
-    atomic_json(target / "manifest.json", merged)
+    selection = json.loads((ROOT / "config/limburg_eo_selected_runs.json").read_text())
+    if set(models) != set(selection["models"]):
+        raise ValueError("Incomplete model set; use script 117 to inspect selected readiness")
+    return merge_selected(ROOT, selection, base / "selected/census")
 
 
 def completed_aggregate(base, model, device=None, runtime_profile=None):
-    folder = base / "per_model" / model / "census"
-    path = folder / "manifest.json"
-    if not path.exists():
-        return False
-    saved = json.loads(path.read_text())
-    if saved["errors"] or model not in saved["contexts_by_model"]:
-        return False
-    if saved["catchments_sha256"] != sha256(
-        ROOT / "results/eo_comparison_preparation/catchments.gpkg"
-    ):
-        return False
-    if any(sha256(folder / name) != digest for name, digest in saved["outputs_sha256"].items()):
-        return False
-    for relative, digest in saved["source_sha256"].items():
-        source = ROOT / relative
-        if not source.exists() or sha256(source) != digest:
+    selection_path = ROOT / "config/limburg_eo_selected_runs.json"
+    selected = (
+        json.loads(selection_path.read_text())["models"].get(model)
+        if selection_path.exists()
+        else None
+    )
+    folder = ROOT / selected["aggregate"] if selected else base / "per_model" / model / "census"
+    try:
+        saved, identity, _ = validate_aggregate(ROOT, folder, model, selected=selected)
+        if saved["catchments_sha256"] != sha256(
+            ROOT / "results/eo_comparison_preparation/catchments.gpkg"
+        ):
             return False
-        if source.name == "manifest.json":
-            identity = json.loads(source.read_text())
-            if device is not None and identity.get("execution_device", "cpu") != device:
-                return False
-            if runtime_profile is not None and identity.get("runtime_profile") != runtime_profile:
-                return False
-            if any(sha256(ROOT / name) != value for name, value in identity["code"].items()):
-                return False
-    return True
+        if device is not None and identity.get("execution_device", "cpu") != device:
+            return False
+        if runtime_profile is not None and identity.get("runtime_profile") != runtime_profile:
+            return False
+        return True
+    except (ValueError, KeyError, FileNotFoundError):
+        return False
 
 
 def execution_settings(model, device, plan):
@@ -231,8 +185,8 @@ def main():
                     stdout=output,
                     stderr=subprocess.STDOUT,
                 ).returncode
-            if extraction_exit == 75:
-                return {"extraction_exit": 75, "aggregation_exit": None}
+            if extraction_exit != 0:
+                return {"extraction_exit": extraction_exit, "aggregation_exit": None}
             aggregation_exit = subprocess.run(
                 [
                     str(ROOT / ".venvs-eo/terramind/bin/python"),
@@ -309,16 +263,16 @@ def main():
                 result["device"] = device
                 state["models"][model] = result
                 paused |= result["extraction_exit"] == 75
-                if result.get("aggregation_exit") == 0:
+                if result.get("extraction_exit") == result.get("aggregation_exit") == 0:
                     completed.append(model)
             if paused and not futures:
                 break
-    if completed and not paused:
-        merge_aggregates(base, completed)
     state["active_models"] = []
     success = len(completed) == len(ROUTES) and all(
         v.get("extraction_exit") == v.get("aggregation_exit") == 0 for v in state["models"].values()
     )
+    if success and not paused:
+        merge_aggregates(base, completed)
     state["status"] = (
         "paused_free_space"
         if paused

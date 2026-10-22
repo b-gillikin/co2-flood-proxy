@@ -1,5 +1,17 @@
 # Limburg high-water analogues: active research design
 
+## EO integrity corrections — 2026-10-21, current
+
+[Current execution and correction record](reviews/limburg-eo-audit-fixes-2026-10-21.md)
+provides the authoritative held-run selection, fresh aggregation, date-coherence
+census and separately versioned same-day extraction. The RQ, models, full event
+population, comparator policies and uncertainty design are unchanged. Current
+held embeddings remain labelled with their actual input policy; corrected
+embeddings are not implied by code changes alone. Final scoring uses script 117
+selected outputs rather than the original queue's default merge. Identical
+retrievals are cached with content/code checks. Dated preparation/history below
+is retained and does not override this execution contract.
+
 ## EO comparison preparation — 2026-10-16
 
 [Preparation](reviews/limburg-eo-comparison-preparation-2026-10-16.md) now links

@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-21",
+  "implemented_findings": [
+    "F1",
+    "F2",
+    "F3 input correction and census tooling; full census running",
+    "F4",
+    "F5",
+    "F6"
+  ],
+  "source_sha256": {
+    "scripts/101_aggregate_limburg_eo_catchments.py": "02214db9e526da59076d26d844e136d2ff549e58dc7b38581875fa3c7856d756",
+    "scripts/102_connect_limburg_eo_experiments.py": "c655096bfcbbd4ebefb1a95934920c3e32da9a7ae726f04c3d81a91fa2d4e887",
+    "scripts/105_run_limburg_eo_census.py": "e15a1b0b0eb1c8346f4682be7f015ced9563b267c96fbf31fe1e9ea32bd8966e",
+    "scripts/116_audit_s2_band_day_census.py": "d83af2d50f1356a0e4784b9a0af117741c7b93a6ebc12ed79594295ea3d90a52",
+    "scripts/117_finalize_selected_eo_runs.py": "196c2dd170d0507dea507921b4eae755cc8eb814bfce352e58d86f70359e9749",
+    "scripts/118_extract_versioned_eo_sequences.py": "22572792663912796115fba6d8d7f036ff5db2c84b8d94b1c83a33b832ba672c",
+    "scripts/119_profile_eo_retrieval.py": "9eda9ebd7384016d1674e999df53a47e8678e2d35c95de9ca4affb3766d4ca68",
+    "src/eo_integrity.py": "fe26dfc20ac58f48970b78387ae19298d21c985f08e8859c7bb38c7086ff0ddb",
+    "src/eo_coherent_inputs.py": "50f2afbb218a6208c65df8a69272d0a2d2eb576d9a0f930a26f81acff06646d4",
+    "src/eo_retrieval_cache.py": "49cbf1b10240f6172024dd0f39211582aa6a06208db6fcef463f612f83d11384",
+    "tests/test_eo_audit_fixes.py": "37667322716d4c1117c24a728f137f80464e1b778a9f7bc92f517fe7dd9cc4f3",
+    "tests/test_eo_census_runner.py": "75d7c8cea7b6d210520bfe25283e664bacd53b6ee445c7c714026b21445d0b09",
+    "config/limburg_eo_selected_runs.json": "28cf1093af91a023a06e493d989f0a387e36d02969714df53f168db5b60e508a"
+  },
+  "tests": {
+    "maintained_suite": "261 passed in 48.88s",
+    "log": "logs/eo-audit-fixes-tests-2026-10-21.log",
+    "note": "Two tests of the removed unconfigured legacy merge were replaced by selected-merge geometry/corruption coverage; production no longer retains a test-only bypass."
+  },
+  "lint": "passed",
+  "format": "146 files already formatted",
+  "corrected_real_imagery_smoke": {
+    "run": "c111232a4dabb015fef5d4c73dc3d9bfa07dcf9c53745d994b09de4e4bd3ab70",
+    "status": "completed",
+    "errors": 0,
+    "repeatable": true,
+    "purpose": "engineering, two real monthly frames; not scientific scores"
+  },
+  "actual_selected_partial_merge": {
+    "models": [
+      "prithvi",
+      "croma",
+      "terramind",
+      "dofa",
+      "copernicus_fm",
+      "satmae",
+      "anysat",
+      "olmoearth"
+    ],
+    "partial": true,
+    "output": "results/eo_catchment_representations/available/census",
+    "planning_validated": true
+  },
+  "retrieval_profile": {
+    "events": 851,
+    "queries": 845,
+    "donor_rows": 8305,
+    "first_call_seconds": 17.807636916986667,
+    "cache_hit_seconds": 0.036403374979272485,
+    "cache_hits": 1,
+    "cache_misses": 1,
+    "exact_equivalence": true,
+    "scope": "One full eligible TTM/state cohort, pooled main all-river retrieval. Not an extrapolated total runtime or EO result."
+  },
+  "date_census_snapshot": {
+    "status": "running",
+    "visited": 7625,
+    "total": 8538,
+    "errors": 0,
+    "updated_utc": "2026-10-22T02:20:13.679047+00:00"
+  },
+  "active_original_sources_changed": false,
+  "full_corrected_embeddings_recomputed": false,
+  "new_scientific_scores": false,
+  "remaining": "Finish full date census; assess coverage/affected inputs, then explicitly version/select any required corrected embeddings. Finish existing aggregation/extraction before declaring the ten-model merge complete.",
+  "formatting_only_recovery_utility_ast_unchanged": true
+}

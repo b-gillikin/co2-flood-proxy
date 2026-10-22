@@ -7,6 +7,7 @@ measurements. Fixed native patch extents and missing coverage stay visible.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import sys
 from datetime import datetime, timezone
@@ -21,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_event_inputs import aggregate_vectors, observed_patch_area, pixel_area_weights
 from src.eo_inputs import sha256
+from src.eo_integrity import fresh_output, validate_run
 
 
 def main():
@@ -38,12 +40,25 @@ def main():
         help="Explicitly separate test fixtures; never join these to event analysis",
     )
     parser.add_argument("--model")
+    parser.add_argument("--run-directory", type=Path, help="One explicitly selected extraction run")
+    parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Label incomplete/error-bearing input as partial; never complete",
+    )
     args = parser.parse_args()
     args.preparation = args.preparation.resolve()
     args.sequences = args.sequences.resolve()
     args.out = args.out.resolve()
     target = args.out / ("engineering" if args.engineering else "census")
-    target.mkdir(parents=True, exist_ok=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with (target.parent / ("." + target.name + ".lock")).open("w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        with fresh_output(target) as stage:
+            return aggregate(args, stage)
+
+
+def aggregate(args, target):
     catchment_path = args.preparation / "catchments.gpkg"
     catchments = gpd.read_file(catchment_path)
     if str(catchments.crs) != "EPSG:32632":
@@ -55,7 +70,71 @@ def main():
     source_hashes = {}
     errors = []
     patch_areas = []
-    for manifest in sorted(args.sequences.glob("*/*/manifest.json")):
+    accepted = []
+    rejected = []
+    contracts = {}
+    context_path = args.preparation / "contexts.json"
+    expected_contexts = (
+        [c["context_id"] for c in json.loads(context_path.read_text())]
+        if context_path.exists()
+        else None
+    )
+    context_windows = (
+        {
+            c["context_id"]: [w["id"] for w in c["windows"]]
+            for c in json.loads(context_path.read_text())
+        }
+        if context_path.exists()
+        else {}
+    )
+    candidates = (
+        [args.run_directory.resolve() / "manifest.json"]
+        if args.run_directory
+        else sorted(args.sequences.glob("*/*/manifest.json"))
+    )
+    for manifest in candidates:
+        saved = json.loads(manifest.read_text())
+        if args.model and saved["model"] != args.model:
+            continue
+        if (saved["purpose"] == "engineering") != args.engineering:
+            continue
+        try:
+            if args.engineering:
+                if any(
+                    not (ROOT / p).exists() or sha256(ROOT / p) != digest
+                    for p, digest in saved["code"].items()
+                ):
+                    raise ValueError("Engineering source code changed")
+                status = {}
+            else:
+                saved, status = validate_run(
+                    ROOT,
+                    manifest.parent,
+                    model=args.model,
+                    expected_contexts=expected_contexts,
+                    allow_partial=args.allow_partial,
+                )
+        except (ValueError, FileNotFoundError) as exc:
+            rejected.append({"manifest": str(manifest), "reason": str(exc)})
+            continue
+        if saved["model"] in contracts:
+            raise ValueError("Multiple valid runs for one model; use --run-directory")
+        contracts[saved["model"]] = {
+            "run": manifest.parent.name,
+            "status": status,
+            "mask_policy": saved.get("mask_policy", "native_pixel_mask_v1"),
+            "input_population": saved.get("input_population"),
+            "legacy_scope": "status context count checked; input-ledger hashes were not recorded at extraction"
+            if not saved.get("input_population")
+            else None,
+        }
+        accepted.append(manifest)
+    if not accepted:
+        raise ValueError(
+            "No accepted extraction runs; existing outputs were not changed: "
+            + json.dumps(rejected)
+        )
+    for manifest in accepted:
         saved = json.loads(manifest.read_text())
         model = saved["model"]
         if args.model and model != args.model:
@@ -80,6 +159,15 @@ def main():
                 meta = r["identity"]
                 frames = meta["frames"]
                 first = frames[0]
+                if meta["run"] != manifest.parent.name:
+                    raise ValueError("Patch belongs to a different extraction run")
+                if not args.engineering and context_windows:
+                    if (
+                        meta["context_id"] not in context_windows
+                        or [f["window"]["id"] for f in frames]
+                        != context_windows[meta["context_id"]]
+                    ):
+                        raise ValueError("Patch context differs from intended input population")
                 with np.load(path) as data:
                     vector = data["embedding"].copy()
                     valid = data["valid"].copy()
@@ -195,6 +283,12 @@ def main():
                     **{f"e{i:04d}": float(v) for i, v in enumerate(vector)},
                 }
             )
+    if not representations:
+        raise ValueError("No usable representations; existing outputs were not changed")
+    if errors and not args.allow_partial:
+        raise ValueError(
+            "Aggregation errors; existing outputs were not changed: " + json.dumps(errors[:5])
+        )
     for model, rows in representations.items():
         pd.DataFrame(rows).to_parquet(target / f"{model}.parquet", index=False)
     pd.DataFrame(coverage).to_parquet(target / "coverage.parquet", index=False)
@@ -203,6 +297,9 @@ def main():
     report = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "engineering": args.engineering,
+        "partial": bool(args.allow_partial),
+        "selected_runs": contracts,
+        "rejected_runs": rejected,
         "outputs_sha256": outputs,
         "catchments_sha256": geometry_hash,
         "contexts_by_model": {m: len(v) for m, v in representations.items()},

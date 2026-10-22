@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_comparison import assess_selected, event_vectors, load_script, matched_pools, retrieve
 from src.eo_inputs import ROUTES, sha256
+from src.eo_integrity import validate_comparison_inputs
+from src.eo_retrieval_cache import RetrievalCache
 
 
 def paired_intervals(frame, evaluator):
@@ -71,10 +73,21 @@ def main():
         "--preparation", type=Path, default=ROOT / "results/eo_comparison_preparation"
     )
     parser.add_argument(
-        "--representations", type=Path, default=ROOT / "results/eo_catchment_representations/census"
+        "--representations",
+        type=Path,
+        default=ROOT / "results/eo_catchment_representations/selected/census",
     )
     parser.add_argument("--out", type=Path, default=ROOT / "results/eo_analogue_comparison")
     parser.add_argument("--run", action="store_true")
+    parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Explicitly score the verified completed-model subset; retain missing models and empty all-ten overlap",
+    )
+    parser.add_argument(
+        "--selection", type=Path, default=ROOT / "config/limburg_eo_selected_runs.json"
+    )
+    parser.add_argument("--cache", type=Path, default=ROOT / "data/processed/eo_retrieval_cache")
     parser.add_argument(
         "--plumbing-fixture",
         action="store_true",
@@ -84,6 +97,11 @@ def main():
     args.preparation = args.preparation.resolve()
     args.representations = args.representations.resolve()
     args.out = args.out.resolve()
+    if args.allow_partial:
+        if args.representations == ROOT / "results/eo_catchment_representations/selected/census":
+            args.representations = ROOT / "results/eo_catchment_representations/available/census"
+        if args.out == ROOT / "results/eo_analogue_comparison":
+            args.out = ROOT / "results/eo_analogue_comparison_available"
     if args.plumbing_fixture and args.out == ROOT / "results/eo_analogue_comparison":
         args.out = ROOT / "logs/eo_evaluation_plumbing"
     args.out.mkdir(parents=True, exist_ok=True)
@@ -150,13 +168,20 @@ def main():
         {"log_area": np.log(context_gauges.map(areas).to_numpy())}, index=sample.event_id
     )
     identity_vectors = pd.get_dummies(sample.set_index("event_id").gauge, dtype=float)
-    if args.run and args.representations.exists() and list(args.representations.glob("*.parquet")):
-        provenance = json.loads((args.representations / "manifest.json").read_text())
-        if provenance.get("engineering") and not args.plumbing_fixture:
-            raise ValueError("Engineering vectors cannot enter a scientific comparison")
-        for name, digest in provenance["outputs_sha256"].items():
-            if sha256(args.representations / name) != digest:
-                raise ValueError("Changed catchment representation: " + name)
+    provenance = None
+    if args.run or (args.representations / "manifest.json").exists():
+        provenance = validate_comparison_inputs(
+            ROOT,
+            args.representations,
+            engineering=args.plumbing_fixture,
+            allow_partial=args.allow_partial,
+            selection=None if args.plumbing_fixture else json.loads(args.selection.read_text()),
+        )
+    if provenance and provenance["catchments_sha256"] != sha256(
+        args.preparation / "catchments.gpkg"
+    ):
+        raise ValueError("Selected representation catchments differ from current preparation")
+    cached_retrieve = RetrievalCache(args.cache, retrieve)
     report = []
     scores = []
     donors = []
@@ -239,7 +264,7 @@ def main():
                     for policy in ["pooled", "domestic", "foreign"]:
                         expected = None
                         for arm, blocks in arms.items():
-                            predictions, selected = retrieve(
+                            predictions, selected = cached_retrieve(
                                 population,
                                 blocks,
                                 exclude_same_river=scenario == "other_rivers",
@@ -304,11 +329,16 @@ def main():
         ROOT / "scripts/84_complete_cross_border_analogues.py",
         ROOT / "scripts/102_connect_limburg_eo_experiments.py",
         ROOT / "src/eo_comparison.py",
+        ROOT / "src/eo_integrity.py",
+        ROOT / "src/eo_retrieval_cache.py",
     ]:
         model_inputs[str(path.relative_to(ROOT))] = sha256(path)
     plan = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "executed": args.run,
+        "partial_model_population": bool(provenance and provenance.get("partial")),
+        "retrieval_cache": {"hits": cached_retrieve.hits, "misses": cached_retrieve.misses},
+        "selected_input_contract": provenance.get("selected_runs") if provenance else None,
         "purpose": "engineering_only_synthetic_vectors"
         if args.plumbing_fixture
         else "retrospective_comparison_preparation_or_execution",

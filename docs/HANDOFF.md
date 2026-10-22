@@ -1,5 +1,28 @@
 # Session handoff
 
+## 2026-10-21 audit fixes implemented — current execution
+
+[Implementation record](reviews/limburg-eo-audit-fixes-2026-10-21.md) and
+[check receipt](reviews/limburg-eo-audit-fix-checks-2026-10-21.json).
+All six audit findings have code/documentation corrections. The original input
+loader and active model-run fingerprints are unchanged; corrected extraction
+is versioned separately in script 118. Its isolated real-imagery Galileo smoke
+is deterministic and complete. The maintained suite passes 261 tests; lint and
+format checks pass. Full-cohort retrieval caching exactly reproduces the
+uncached result (17.81s first call / 0.0364s hit for that one repeated retrieval).
+Script 117 verified/merged the eight completed models under `available/census`;
+script 102 planning validated that partial selection without running scores.
+Missing models remain visible; no full-model gate blocks completed-model work.
+
+The full 8,538-pair S2 date-agreement census is running at low priority with
+zero errors so far (`results/eo_band_day_census/progress.json`). Read its live
+status rather than treating this note as completion. Existing Galileo
+aggregation and Presto extraction continue. Script 117 `--merge` will select
+the corrected recovery paths when all ten are ready; an old in-memory
+controller's legacy merge is not the new scoring default. Same-day masks have
+not yet been applied to a full corrected embedding census, and no new EO
+scientific scores were run. Keep old results labelled with their actual policy.
+
 ## 2026-10-21 chapter/code audit — current corrections
 
 [Audit and prioritized findings](reviews/limburg-chapter-code-audit-2026-10-21.md):
