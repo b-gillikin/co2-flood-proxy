@@ -71,6 +71,7 @@ input locations, reviewed source compatibility and validation.
 | [Literature bridge](docs/limburg-analogue-literature-bridge-2026-10-13.md) | event-similarity and cross-border foundation |
 | [October literature update](docs/limburg-weekly-literature-2026-10-16.md) | global event-to-event response variability as interpretation context; German pooling correction |
 | [EO literature/runtime review](docs/reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md) | ten exact checkpoint routes, primary papers/appendices, compute evidence and optional adaptations |
+| [EO error/correction ledger](docs/reviews/limburg-eo-error-and-correction-ledger-2026-10-22.md) | defects, fixes, validation evidence, retired runs and remaining execution |
 | [Inventory](docs/analysis-inventory.md) | code, dependencies and supporting work |
 | [Handoff](docs/HANDOFF.md) | current state followed by historical execution ledger |
 | [Current ideas](docs/limburg-ideas-2026-10-15.md) | saved Idea 1: past-only event-divergence prediction; not implemented |

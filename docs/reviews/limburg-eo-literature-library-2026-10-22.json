@@ -1,0 +1,1118 @@
+{
+  "folder": "Chapter 1: CO2 (Limburg; historical name)",
+  "records": [
+    {
+      "key": "olmoearth-v1",
+      "arxiv": "2511.13655",
+      "title": "OlmoEarth: Stable Latent Image Modeling for Multimodal Earth Observation",
+      "authors": [
+        {
+          "first_name": "Henry",
+          "last_name": "Herzog"
+        },
+        {
+          "first_name": "Favyen",
+          "last_name": "Bastani"
+        },
+        {
+          "first_name": "Yawen",
+          "last_name": "Zhang"
+        },
+        {
+          "first_name": "Gabriel",
+          "last_name": "Tseng"
+        },
+        {
+          "first_name": "Joseph",
+          "last_name": "Redmon"
+        },
+        {
+          "first_name": "Hadrien",
+          "last_name": "Sablon"
+        },
+        {
+          "first_name": "Ryan",
+          "last_name": "Park"
+        },
+        {
+          "first_name": "Jacob",
+          "last_name": "Morrison"
+        },
+        {
+          "first_name": "Alexandra",
+          "last_name": "Buraczynski"
+        },
+        {
+          "first_name": "Karen",
+          "last_name": "Farley"
+        },
+        {
+          "first_name": "Joshua",
+          "last_name": "Hansen"
+        },
+        {
+          "first_name": "Andrew",
+          "last_name": "Howe"
+        },
+        {
+          "first_name": "Patrick Alan",
+          "last_name": "Johnson"
+        },
+        {
+          "first_name": "Mark",
+          "last_name": "Otterlee"
+        },
+        {
+          "first_name": "Ted",
+          "last_name": "Schmitt"
+        },
+        {
+          "first_name": "Hunter",
+          "last_name": "Pitelka"
+        },
+        {
+          "first_name": "Stephen",
+          "last_name": "Daspit"
+        },
+        {
+          "first_name": "Rachel",
+          "last_name": "Ratner"
+        },
+        {
+          "first_name": "Christopher",
+          "last_name": "Wilhelm"
+        },
+        {
+          "first_name": "Sebastian",
+          "last_name": "Wood"
+        },
+        {
+          "first_name": "Mike",
+          "last_name": "Jacobi"
+        },
+        {
+          "first_name": "Hannah",
+          "last_name": "Kerner"
+        },
+        {
+          "first_name": "Evan",
+          "last_name": "Shelhamer"
+        },
+        {
+          "first_name": "Ali",
+          "last_name": "Farhadi"
+        },
+        {
+          "first_name": "Ranjay",
+          "last_name": "Krishna"
+        },
+        {
+          "first_name": "Patrick",
+          "last_name": "Beukema"
+        }
+      ],
+      "year": 2025,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2511.13655",
+        "doi": "10.48550/arXiv.2511.13655"
+      },
+      "metadata_sha256": "a9f919ce91d0c011b113b1cd849235c25442987122f4909b62b35ce273fbfd8a",
+      "document_id": "c5aef887-bd6d-3337-af15-eb8feaf7ce0d",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "olmoearth-v1-2",
+      "arxiv": "2605.20804",
+      "title": "OlmoEarth v1.2: A more efficient family of OlmoEarth models",
+      "authors": [
+        {
+          "first_name": "Gabriel",
+          "last_name": "Tseng"
+        },
+        {
+          "first_name": "Yawen",
+          "last_name": "Zhang"
+        },
+        {
+          "first_name": "Favyen",
+          "last_name": "Bastani"
+        },
+        {
+          "first_name": "Henry",
+          "last_name": "Herzog"
+        },
+        {
+          "first_name": "Joseph",
+          "last_name": "Redmon"
+        },
+        {
+          "first_name": "Hadrien",
+          "last_name": "Sablon"
+        },
+        {
+          "first_name": "Piper",
+          "last_name": "Wolters"
+        },
+        {
+          "first_name": "Ando",
+          "last_name": "Shah"
+        },
+        {
+          "first_name": "Patrick Alan",
+          "last_name": "Johnson"
+        },
+        {
+          "first_name": "Christopher",
+          "last_name": "Wilhelm"
+        },
+        {
+          "first_name": "Patrick",
+          "last_name": "Beukema"
+        }
+      ],
+      "year": 2026,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2605.20804",
+        "doi": "10.48550/arXiv.2605.20804"
+      },
+      "metadata_sha256": "0edf5462f93b9039c33a24d09b645bfc6b6634a1f6d022909735b7ca1a571495",
+      "document_id": "c8c57b2e-58aa-31d3-9af9-de4f84b2eb80",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "galileo",
+      "arxiv": "2502.09356",
+      "title": "Galileo: Learning Global & Local Features of Many Remote Sensing Modalities",
+      "authors": [
+        {
+          "first_name": "Gabriel",
+          "last_name": "Tseng"
+        },
+        {
+          "first_name": "Anthony",
+          "last_name": "Fuller"
+        },
+        {
+          "first_name": "Marlena",
+          "last_name": "Reil"
+        },
+        {
+          "first_name": "Henry",
+          "last_name": "Herzog"
+        },
+        {
+          "first_name": "Patrick",
+          "last_name": "Beukema"
+        },
+        {
+          "first_name": "Favyen",
+          "last_name": "Bastani"
+        },
+        {
+          "first_name": "James R.",
+          "last_name": "Green"
+        },
+        {
+          "first_name": "Evan",
+          "last_name": "Shelhamer"
+        },
+        {
+          "first_name": "Hannah",
+          "last_name": "Kerner"
+        },
+        {
+          "first_name": "David",
+          "last_name": "Rolnick"
+        }
+      ],
+      "year": 2025,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2502.09356",
+        "doi": "10.48550/arXiv.2502.09356"
+      },
+      "metadata_sha256": "f68b599864f7cdb956cf5ac6dcc1f34be1a6d3297908aef7c09290dfb4f2332e",
+      "document_id": "220c7e55-19e0-37c3-bc4b-21877f337e52",
+      "action": "updated_existing",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "anysat",
+      "arxiv": "2412.14123",
+      "title": "AnySat: One Earth Observation Model for Many Resolutions, Scales, and Modalities",
+      "authors": [
+        {
+          "first_name": "Guillaume",
+          "last_name": "Astruc"
+        },
+        {
+          "first_name": "Nicolas",
+          "last_name": "Gonthier"
+        },
+        {
+          "first_name": "Clement",
+          "last_name": "Mallet"
+        },
+        {
+          "first_name": "Loic",
+          "last_name": "Landrieu"
+        }
+      ],
+      "year": 2024,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2412.14123",
+        "doi": "10.48550/arXiv.2412.14123"
+      },
+      "metadata_sha256": "1f2664a0e93fa996096b17efb687f3c68079999a22a6d83fee507eb48dfe8b3b",
+      "document_id": "cb638aa1-ac63-34a9-9684-2fae884211fb",
+      "action": "updated_existing",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "presto",
+      "arxiv": "2304.14065",
+      "title": "Lightweight, Pre-trained Transformers for Remote Sensing Timeseries",
+      "authors": [
+        {
+          "first_name": "Gabriel",
+          "last_name": "Tseng"
+        },
+        {
+          "first_name": "Ruben",
+          "last_name": "Cartuyvels"
+        },
+        {
+          "first_name": "Ivan",
+          "last_name": "Zvonkov"
+        },
+        {
+          "first_name": "Mirali",
+          "last_name": "Purohit"
+        },
+        {
+          "first_name": "David",
+          "last_name": "Rolnick"
+        },
+        {
+          "first_name": "Hannah",
+          "last_name": "Kerner"
+        }
+      ],
+      "year": 2023,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2304.14065",
+        "doi": "10.48550/arXiv.2304.14065"
+      },
+      "metadata_sha256": "a707be8c1d0c3a7383878b111029b01d7ed625c403431234b106574ee24746c6",
+      "document_id": "f5e7254b-7985-30b9-afc8-6b08a5a8fe4c",
+      "action": "updated_existing",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "prithvi-eo2",
+      "arxiv": "2412.02732",
+      "title": "Prithvi-EO-2.0: A Versatile Multi-Temporal Foundation Model for Earth Observation Applications",
+      "authors": [
+        {
+          "first_name": "Daniela",
+          "last_name": "Szwarcman"
+        },
+        {
+          "first_name": "Sujit",
+          "last_name": "Roy"
+        },
+        {
+          "first_name": "Paolo",
+          "last_name": "Fraccaro"
+        },
+        {
+          "first_name": "\u00deorsteinn El\u00ed",
+          "last_name": "G\u00edslason"
+        },
+        {
+          "first_name": "Benedikt",
+          "last_name": "Blumenstiel"
+        },
+        {
+          "first_name": "Rinki",
+          "last_name": "Ghosal"
+        },
+        {
+          "first_name": "Pedro Henrique",
+          "last_name": "de Oliveira"
+        },
+        {
+          "first_name": "Joao Lucas de Sousa",
+          "last_name": "Almeida"
+        },
+        {
+          "first_name": "Rocco",
+          "last_name": "Sedona"
+        },
+        {
+          "first_name": "Yanghui",
+          "last_name": "Kang"
+        },
+        {
+          "first_name": "Srija",
+          "last_name": "Chakraborty"
+        },
+        {
+          "first_name": "Sizhe",
+          "last_name": "Wang"
+        },
+        {
+          "first_name": "Carlos",
+          "last_name": "Gomes"
+        },
+        {
+          "first_name": "Ankur",
+          "last_name": "Kumar"
+        },
+        {
+          "first_name": "Myscon",
+          "last_name": "Truong"
+        },
+        {
+          "first_name": "Denys",
+          "last_name": "Godwin"
+        },
+        {
+          "first_name": "Hyunho",
+          "last_name": "Lee"
+        },
+        {
+          "first_name": "Chia-Yu",
+          "last_name": "Hsu"
+        },
+        {
+          "first_name": "Rohit",
+          "last_name": "Lal"
+        },
+        {
+          "first_name": "Ata Akbari",
+          "last_name": "Asanjan"
+        },
+        {
+          "first_name": "Besart",
+          "last_name": "Mujeci"
+        },
+        {
+          "first_name": "Disha",
+          "last_name": "Shidham"
+        },
+        {
+          "first_name": "Trevor",
+          "last_name": "Keenan"
+        },
+        {
+          "first_name": "Paulo",
+          "last_name": "Arevalo"
+        },
+        {
+          "first_name": "Wenwen",
+          "last_name": "Li"
+        },
+        {
+          "first_name": "Hamed",
+          "last_name": "Alemohammad"
+        },
+        {
+          "first_name": "Pontus",
+          "last_name": "Olofsson"
+        },
+        {
+          "first_name": "Christopher",
+          "last_name": "Hain"
+        },
+        {
+          "first_name": "Robert",
+          "last_name": "Kennedy"
+        },
+        {
+          "first_name": "Bianca",
+          "last_name": "Zadrozny"
+        },
+        {
+          "first_name": "David",
+          "last_name": "Bell"
+        },
+        {
+          "first_name": "Gabriele",
+          "last_name": "Cavallaro"
+        },
+        {
+          "first_name": "Campbell",
+          "last_name": "Watson"
+        },
+        {
+          "first_name": "Manil",
+          "last_name": "Maskey"
+        },
+        {
+          "first_name": "Rahul",
+          "last_name": "Ramachandran"
+        },
+        {
+          "first_name": "Juan Bernabe",
+          "last_name": "Moreno"
+        }
+      ],
+      "year": 2024,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2412.02732",
+        "doi": "10.48550/arXiv.2412.02732"
+      },
+      "metadata_sha256": "ed656a0a889ab8874098e6a3bbf46c3466a72b4a5272f729b7a15a921604100d",
+      "document_id": "12a14ea6-28aa-3c08-80ac-fa782bc600a0",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "dofa-v1",
+      "arxiv": "2403.15356",
+      "title": "Neural Plasticity-Inspired Multimodal Foundation Model for Earth Observation",
+      "authors": [
+        {
+          "first_name": "Zhitong",
+          "last_name": "Xiong"
+        },
+        {
+          "first_name": "Yi",
+          "last_name": "Wang"
+        },
+        {
+          "first_name": "Fahong",
+          "last_name": "Zhang"
+        },
+        {
+          "first_name": "Adam J.",
+          "last_name": "Stewart"
+        },
+        {
+          "first_name": "Jo\u00eblle",
+          "last_name": "Hanna"
+        },
+        {
+          "first_name": "Damian",
+          "last_name": "Borth"
+        },
+        {
+          "first_name": "Ioannis",
+          "last_name": "Papoutsis"
+        },
+        {
+          "first_name": "Bertrand Le",
+          "last_name": "Saux"
+        },
+        {
+          "first_name": "Gustau",
+          "last_name": "Camps-Valls"
+        },
+        {
+          "first_name": "Xiao Xiang",
+          "last_name": "Zhu"
+        }
+      ],
+      "year": 2024,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2403.15356",
+        "doi": "10.48550/arXiv.2403.15356"
+      },
+      "metadata_sha256": "2b0c97941ff90f79ee71fb9d3902c293b16a0b94c93e3fb1a5ed05d68d40a75a",
+      "document_id": "30ebc82b-b20a-3b09-a3ab-af8506f32965",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "copernicus-fm",
+      "arxiv": "2503.11849",
+      "title": "Towards a Unified Copernicus Foundation Model for Earth Vision",
+      "authors": [
+        {
+          "first_name": "Yi",
+          "last_name": "Wang"
+        },
+        {
+          "first_name": "Zhitong",
+          "last_name": "Xiong"
+        },
+        {
+          "first_name": "Chenying",
+          "last_name": "Liu"
+        },
+        {
+          "first_name": "Adam J.",
+          "last_name": "Stewart"
+        },
+        {
+          "first_name": "Thomas",
+          "last_name": "Dujardin"
+        },
+        {
+          "first_name": "Nikolaos Ioannis",
+          "last_name": "Bountos"
+        },
+        {
+          "first_name": "Angelos",
+          "last_name": "Zavras"
+        },
+        {
+          "first_name": "Franziska",
+          "last_name": "Gerken"
+        },
+        {
+          "first_name": "Ioannis",
+          "last_name": "Papoutsis"
+        },
+        {
+          "first_name": "Laura",
+          "last_name": "Leal-Taix\u00e9"
+        },
+        {
+          "first_name": "Xiao Xiang",
+          "last_name": "Zhu"
+        }
+      ],
+      "year": 2025,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2503.11849",
+        "doi": "10.48550/arXiv.2503.11849"
+      },
+      "metadata_sha256": "ca12e85bae2f502ba7e73df04914b53a08293085db386abc6d7db6f21665b5c0",
+      "document_id": "4ebac001-b7ef-3485-8af4-72cd961cc473",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "terramind",
+      "arxiv": "2504.11171",
+      "title": "TerraMind: Large-Scale Generative Multimodality for Earth Observation",
+      "authors": [
+        {
+          "first_name": "Johannes",
+          "last_name": "Jakubik"
+        },
+        {
+          "first_name": "Felix",
+          "last_name": "Yang"
+        },
+        {
+          "first_name": "Benedikt",
+          "last_name": "Blumenstiel"
+        },
+        {
+          "first_name": "Erik",
+          "last_name": "Scheurer"
+        },
+        {
+          "first_name": "Rocco",
+          "last_name": "Sedona"
+        },
+        {
+          "first_name": "Stefano",
+          "last_name": "Maurogiovanni"
+        },
+        {
+          "first_name": "Jente",
+          "last_name": "Bosmans"
+        },
+        {
+          "first_name": "Nikolaos",
+          "last_name": "Dionelis"
+        },
+        {
+          "first_name": "Valerio",
+          "last_name": "Marsocci"
+        },
+        {
+          "first_name": "Niklas",
+          "last_name": "Kopp"
+        },
+        {
+          "first_name": "Rahul",
+          "last_name": "Ramachandran"
+        },
+        {
+          "first_name": "Paolo",
+          "last_name": "Fraccaro"
+        },
+        {
+          "first_name": "Thomas",
+          "last_name": "Brunschwiler"
+        },
+        {
+          "first_name": "Gabriele",
+          "last_name": "Cavallaro"
+        },
+        {
+          "first_name": "Juan",
+          "last_name": "Bernabe-Moreno"
+        },
+        {
+          "first_name": "Nicolas",
+          "last_name": "Long\u00e9p\u00e9"
+        }
+      ],
+      "year": 2025,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2504.11171",
+        "doi": "10.48550/arXiv.2504.11171"
+      },
+      "metadata_sha256": "9d8c41375ad326d03a67520e0961412d840a225fe0a456830a8d98a43fe0e98c",
+      "document_id": "533f6e25-1393-3595-a511-d3fafec542f0",
+      "action": "updated_existing",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "satmae",
+      "arxiv": "2207.08051",
+      "title": "SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery",
+      "authors": [
+        {
+          "first_name": "Yezhen",
+          "last_name": "Cong"
+        },
+        {
+          "first_name": "Samar",
+          "last_name": "Khanna"
+        },
+        {
+          "first_name": "Chenlin",
+          "last_name": "Meng"
+        },
+        {
+          "first_name": "Patrick",
+          "last_name": "Liu"
+        },
+        {
+          "first_name": "Erik",
+          "last_name": "Rozi"
+        },
+        {
+          "first_name": "Yutong",
+          "last_name": "He"
+        },
+        {
+          "first_name": "Marshall",
+          "last_name": "Burke"
+        },
+        {
+          "first_name": "David B.",
+          "last_name": "Lobell"
+        },
+        {
+          "first_name": "Stefano",
+          "last_name": "Ermon"
+        }
+      ],
+      "year": 2022,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2207.08051",
+        "doi": "10.48550/arXiv.2207.08051"
+      },
+      "metadata_sha256": "bb3a93666e688818ba04858cf19d9d9a81a6b04430dc5e034fb757b0e46db416",
+      "document_id": "dd8bb940-7811-36d1-b225-3895b87f2668",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "pangaea",
+      "arxiv": "2412.04204",
+      "title": "PANGAEA: A Global and Inclusive Benchmark for Geospatial Foundation Models",
+      "authors": [
+        {
+          "first_name": "Valerio",
+          "last_name": "Marsocci"
+        },
+        {
+          "first_name": "Yuru",
+          "last_name": "Jia"
+        },
+        {
+          "first_name": "Georges Le",
+          "last_name": "Bellier"
+        },
+        {
+          "first_name": "David",
+          "last_name": "Kerekes"
+        },
+        {
+          "first_name": "Liang",
+          "last_name": "Zeng"
+        },
+        {
+          "first_name": "Sebastian",
+          "last_name": "Hafner"
+        },
+        {
+          "first_name": "Sebastian",
+          "last_name": "Gerard"
+        },
+        {
+          "first_name": "Eric",
+          "last_name": "Brune"
+        },
+        {
+          "first_name": "Ritu",
+          "last_name": "Yadav"
+        },
+        {
+          "first_name": "Ali",
+          "last_name": "Shibli"
+        },
+        {
+          "first_name": "Heng",
+          "last_name": "Fang"
+        },
+        {
+          "first_name": "Yifang",
+          "last_name": "Ban"
+        },
+        {
+          "first_name": "Maarten",
+          "last_name": "Vergauwen"
+        },
+        {
+          "first_name": "Nicolas",
+          "last_name": "Audebert"
+        },
+        {
+          "first_name": "Andrea",
+          "last_name": "Nascetti"
+        }
+      ],
+      "year": 2024,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2412.04204",
+        "doi": "10.48550/arXiv.2412.04204"
+      },
+      "metadata_sha256": "5378c92276bae5f953bde962d9e843a9ed7371590dbf6e3cd11b54704e83df50",
+      "document_id": "f9b48c2f-a411-37e4-aaf1-b84918ca15fa",
+      "action": "updated_existing",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "geo-bench-2",
+      "arxiv": "2511.15658",
+      "title": "GEO-Bench-2: From Performance to Capability, Rethinking Evaluation in Geospatial AI",
+      "authors": [
+        {
+          "first_name": "Naomi",
+          "last_name": "Simumba"
+        },
+        {
+          "first_name": "Nils",
+          "last_name": "Lehmann"
+        },
+        {
+          "first_name": "Paolo",
+          "last_name": "Fraccaro"
+        },
+        {
+          "first_name": "Hamed",
+          "last_name": "Alemohammad"
+        },
+        {
+          "first_name": "Geeth",
+          "last_name": "De Mel"
+        },
+        {
+          "first_name": "Salman",
+          "last_name": "Khan"
+        },
+        {
+          "first_name": "Manil",
+          "last_name": "Maskey"
+        },
+        {
+          "first_name": "Nicolas",
+          "last_name": "Longepe"
+        },
+        {
+          "first_name": "Xiao Xiang",
+          "last_name": "Zhu"
+        },
+        {
+          "first_name": "Hannah",
+          "last_name": "Kerner"
+        },
+        {
+          "first_name": "Juan",
+          "last_name": "Bernabe-Moreno"
+        },
+        {
+          "first_name": "Alexandre",
+          "last_name": "Lacoste"
+        }
+      ],
+      "year": 2025,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2511.15658",
+        "doi": "10.48550/arXiv.2511.15658"
+      },
+      "metadata_sha256": "1913781e4660c8e48cbc88fd3bb000149de28825fce69a7d83927b57e67ce08b",
+      "document_id": "c8fb2d07-59d8-366c-8935-3267e9d67f93",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "soil-moisture-comparison",
+      "arxiv": "2602.18083",
+      "title": "Comparative Assessment of Multimodal Earth Observation Data for Soil Moisture Estimation",
+      "authors": [
+        {
+          "first_name": "Ioannis",
+          "last_name": "Kontogiorgakis"
+        },
+        {
+          "first_name": "Athanasios",
+          "last_name": "Askitopoulos"
+        },
+        {
+          "first_name": "Iason",
+          "last_name": "Tsardanidis"
+        },
+        {
+          "first_name": "Dimitrios",
+          "last_name": "Bormpoudakis"
+        },
+        {
+          "first_name": "Ilias",
+          "last_name": "Tsoumas"
+        },
+        {
+          "first_name": "Fotios",
+          "last_name": "Balampanis"
+        },
+        {
+          "first_name": "Charalampos",
+          "last_name": "Kontoes"
+        }
+      ],
+      "year": 2026,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2602.18083",
+        "doi": "10.48550/arXiv.2602.18083"
+      },
+      "metadata_sha256": "ccc5cab58dcf7b8ce2253b0c77e3f9226a1330036b161d25c4ffcb4a0650ee93",
+      "document_id": "be499675-39ee-374e-ba40-97c8e38c0b23",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "croma",
+      "arxiv": "2311.00566",
+      "title": "CROMA: Remote Sensing Representations with Contrastive Radar-Optical Masked Autoencoders",
+      "authors": [
+        {
+          "first_name": "Anthony",
+          "last_name": "Fuller"
+        },
+        {
+          "first_name": "Koreen",
+          "last_name": "Millard"
+        },
+        {
+          "first_name": "James R.",
+          "last_name": "Green"
+        }
+      ],
+      "year": 2023,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2311.00566",
+        "doi": "10.48550/arXiv.2311.00566"
+      },
+      "metadata_sha256": "59dcacb411e3bb6c080bab488cf7f07135e9190c42f6ed8aea95fbaf19128d9b",
+      "document_id": "46fd6da8-95d0-361c-97ca-475a5a9cec33",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    },
+    {
+      "key": "corley-preprocessing",
+      "arxiv": "2305.13456",
+      "title": "Revisiting pre-trained remote sensing model benchmarks: resizing and normalization matters",
+      "authors": [
+        {
+          "first_name": "Isaac",
+          "last_name": "Corley"
+        },
+        {
+          "first_name": "Caleb",
+          "last_name": "Robinson"
+        },
+        {
+          "first_name": "Rahul",
+          "last_name": "Dodhia"
+        },
+        {
+          "first_name": "Juan M. Lavista",
+          "last_name": "Ferres"
+        },
+        {
+          "first_name": "Peyman",
+          "last_name": "Najafirad"
+        }
+      ],
+      "year": 2023,
+      "source": "arXiv",
+      "identifiers": {
+        "arxiv": "2305.13456",
+        "doi": "10.48550/arXiv.2305.13456"
+      },
+      "metadata_sha256": "92baca7c39e0eca1e8ab6742a8039180a0786d91561d1b7dc25bf4b730095dad",
+      "document_id": "7e99b78f-afc5-3dd3-9c2f-d607c60a2302",
+      "action": "added",
+      "folder_id": "5e452767-d03a-464f-8eae-113db359f4e1"
+    }
+  ],
+  "bibliography": "docs/chapter-references.bib",
+  "pdf_attachments": {
+    "croma": "attached",
+    "corley-preprocessing": "attached",
+    "other_sources": "HTML held locally; no PDF attachment claimed"
+  },
+  "metadata_policy": "Version-neutral arXiv records; exact reviewed versions remain in the literature/runtime source receipt.",
+  "preexisting_reference_reconciliation": [
+    {
+      "title": "Assessing Hydrograph Similarity and Rare Runoff Dynamics by Cross Recurrence Plots",
+      "id": "f0b0e42c-df7c-350a-b61e-44e6340145a8",
+      "action": "existing_record_reassigned"
+    },
+    {
+      "title": "Comparing Flood Forecasting and Early Warning Systems in Northwestern Europe",
+      "id": "ab7978f0-cf39-3484-8425-994cb57f138e",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Towards Efficient Benchmarking of Foundation Models in Remote Sensing: A Capabilities Encoding Approach",
+      "id": "d6f1677e-bfa7-30ec-b7bf-d3d246c8f6a0",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "AlphaEarth Foundations: An Embedding Field Model for Accurate and Efficient Global Mapping from Sparse Label Data",
+      "id": "9f040259-0d2d-3557-b671-9acc18b84122",
+      "action": "existing_record_reassigned"
+    },
+    {
+      "title": "GEO-Bench: Toward Foundation Models for Earth Monitoring",
+      "id": "5750c6b3-1e3d-3209-ac65-0515a4fcde3d",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Geospatial Foundation Embeddings as Transferable Catchment Descriptors",
+      "id": "729ac278-dc7a-3dc7-9b4c-5cbc78f2810b",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Vision Foundation Models in Remote Sensing: A Survey",
+      "id": "b50f620e-5323-3d87-ba65-381977725131",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "From RNNs to Transformers: Benchmarking Deep Learning Architectures for Hydrologic Prediction",
+      "id": "d5d6de0d-1321-3fcd-8612-addab6234f01",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Foundation-Scale Satellite Embeddings Reframe Hydrological Generalization as a Representation Problem",
+      "id": "34ddb424-dec5-3978-af8a-4d5e5ff647ce",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Zero-Shot Forecasting of Streamflow Using Time Series Foundation Models: Are We There Yet?",
+      "id": "7e25e0cd-92b0-37d7-9a06-3ae7cc1a38c7",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Recommendations for Comprehensive and Independent Evaluation of Machine Learning-Based Earth System Models",
+      "id": "10993094-7cbd-398a-96cd-2aeb48efb268",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Foundation Models for Remote Sensing and Earth Observation: A Survey",
+      "id": "6b38d509-14a5-3660-8ab8-0fb8fc916321",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "EarthNets: Empowering Artificial Intelligence for Earth Observation",
+      "id": "3543df32-cf84-32c9-9941-d99afd3fb7cd",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Foundation Models as Assistive Tools in Hydrometeorology: Opportunities, Challenges, and Perspectives",
+      "id": "dd3b1174-4554-3d59-a1bf-bff8217e77f5",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "On the Foundations of Earth Foundation Models",
+      "id": "55fd8d14-268a-3627-9134-92cb862df267",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Tiny Time Mixers (TTMs): Fast Pre-Trained Models for Enhanced Zero/Few-Shot Forecasting of Multivariate Time Series",
+      "id": "20ca31f5-19ce-3ed6-83a5-f2a7be414958",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "OFPO & KGFPO: Ontology and Knowledge Graph for Flood Process Observation",
+      "id": "bb0e5273-e9fc-35ce-8ed3-c7a8e94d9d9f",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "RAGChecker: A Fine-Grained Framework for Diagnosing Retrieval-Augmented Generation",
+      "id": "dad8fbc3-a641-36c7-abcd-0dbcf551bcb8",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Towards Fine-Grained Citation Evaluation in Generated Text: A Comparative Analysis of Faithfulness Metrics",
+      "id": "f8d05b10-0265-3861-82e4-824abfd79ac6",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Knowing When You Don't Know: A Multilingual Relevance Assessment Dataset for Robust Retrieval-Augmented Generation",
+      "id": "1d5ee9e9-b4f9-3d85-8fa1-428f75442a58",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "Face the Facts! Evaluating RAG-Based Pipelines for Professional Fact-Checking",
+      "id": "9a42cb1d-7021-3ea8-ab95-99b77e9a7082",
+      "action": "restored_from_preexisting_bibliography"
+    },
+    {
+      "title": "MapEval: A Map-Based Evaluation of Geo-Spatial Reasoning in Foundation Models",
+      "id": "0786b535-847b-3511-afaf-e7d492baddb1",
+      "action": "restored_from_preexisting_bibliography"
+    }
+  ],
+  "verification": {
+    "old_bibliography_entries": 74,
+    "new_bibliography_entries": 90,
+    "preexisting_titles_preserved": true,
+    "bibliography_sha256": "d90580d01506289fbda814c5263c700cfd604c7c3cc232a959765dcadaf3f84b",
+    "new_papers_added": 10,
+    "existing_papers_updated": 5,
+    "attachments": 2,
+    "overleaf_updated": false
+  },
+  "filing_corrections": [
+    "ArXiv comma-delimited author names parsed as family, given; corrected metadata before final export.",
+    "Pre-existing local references missing from the chapter collection reconciled before final export.",
+    "Idempotent collection conflict accepted only after verifying existing membership."
+  ]
+}

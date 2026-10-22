@@ -13,6 +13,11 @@ routes. Its source inventory preserves retrieved versions and hashes. It adds
 research-aid notes; the evidence questions and historical source notes below
 remain intact.
 
+The [library filing receipt](reviews/limburg-eo-literature-library-2026-10-22.json)
+records the corresponding Mendeley document IDs, reconciled pre-existing
+references and PDF attachments. `chapter-references.bib` is regenerated from the
+Limburg collection; the historical collection name remains `Chapter 1: CO2`.
+
 ## Evidence questions
 
 - **Q01:** What did Viefhues report about indoor CO2 around the July 2021 event?

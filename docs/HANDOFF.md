@@ -1,5 +1,15 @@
 # Session handoff
 
+## 2026-10-22 literature filed and corrections consolidated
+
+Reviewed sources are assigned to the existing Limburg Mendeley collection
+(`Chapter 1: CO2`, historical name); the generated chapter bibliography is
+refreshed from Mendeley. The library receipt records document IDs, metadata
+updates and attachments. The [error/correction ledger](reviews/limburg-eo-error-and-correction-ledger-2026-10-22.md)
+links numerical defects, runtime/storage problems and provenance fixes to their
+evidence and current disposition. Full corrected extraction/scoring remains
+pending; no numerical code or running configuration changed in this filing pass.
+
 ## 2026-10-22 EO paper/appendix review; extraction unchanged
 
 The [literature/runtime review](reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md)
