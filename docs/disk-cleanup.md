@@ -1,5 +1,23 @@
 # Disk Cleanup
 
+## 22 October: eight superseded caches retired
+
+Brian authorized discarding these first-run patch outputs. Old scoring/review
+were stopped and 36 run directories across the eight replaced models were
+retired, including superseded partial/smoke runs. Run-level records and complete
+catchment summaries/old combined selection occupy about 0.89 GiB in
+`data/processed/limburg_eo_retired_2026-10-22`; retired per-patch files are not
+claimed to remain available. Their held source imagery, checkpoints and source
+history permit regeneration. Protected Prithvi/OlmoEarth outputs revalidate.
+
+Cleanup measured free space rising from 82.9 to 476.8 GiB; it was roughly 70 GiB
+before cancelling scoring. The [restart record](reviews/limburg-eo-retirement-and-restart-2026-10-22.md)
+and retirement receipt preserve details. This replaces the need to duplicate
+the old eight caches or redesign their storage before restarting. The existing
+compressed writer/reserve now fit, and new outputs retain their full working
+provenance. No raw imagery, weights, provider delivery or other chapter was a
+deletion target.
+
 ## 22 October: correction held for storage redesign
 
 The later [ten-model documentation review](reviews/limburg-ten-model-documentation-review-2026-10-22.md)

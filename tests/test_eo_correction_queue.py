@@ -7,6 +7,21 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = runpy.run_path(str(ROOT / "scripts/122_run_coherent_eo_correction.py"))
+ENTRY = runpy.run_path(str(ROOT / "scripts/118_extract_versioned_eo_sequences.py"))
+
+
+@pytest.mark.parametrize("smoke", [False, True])
+@pytest.mark.parametrize(
+    "model,device,runtime", [job for lane in QUEUE["LANES"].values() for job in lane]
+)
+def test_actual_queue_modes_are_forwarded_without_runtime_profile_abbreviation(
+    model, device, runtime, smoke
+):
+    command = QUEUE["extraction_command"](model, device, runtime, smoke=smoke)
+    parsed, delegated = ENTRY["argument_parser"]().parse_known_args(command[3:])
+    assert parsed.model == model and parsed.device == device
+    assert parsed.runtime_profile == ("presto-torch291-cpu4" if model == "presto" else "native")
+    assert ("--smoke" if smoke else "--run") in delegated
 
 
 def test_eight_affected_models_have_single_owners_and_exact_resource_split():

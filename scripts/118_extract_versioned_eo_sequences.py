@@ -54,8 +54,10 @@ def versioned_tile(root, job, companions, model):
     return tile
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__, add_help=False)
+def argument_parser():
+    # Wrapper-only arguments must not consume the delegated --run mode as an
+    # abbreviation of --runtime-profile.
+    parser = argparse.ArgumentParser(description=__doc__, add_help=False, allow_abbrev=False)
     parser.add_argument("--model", required=True, choices=list(ROUTES))
     parser.add_argument("--device", choices=["cpu", "mps"], default="cpu")
     parser.add_argument(
@@ -66,7 +68,11 @@ def main():
         "--preparation", type=Path, default=ROOT / "results/eo_comparison_preparation"
     )
     parser.add_argument("--context")
-    args, rest = parser.parse_known_args()
+    return parser
+
+
+def main():
+    args, rest = argument_parser().parse_known_args()
     if args.runtime_profile != "native" and (args.model, args.device) != ("presto", "cpu"):
         raise ValueError("Presto profile requires Presto on CPU")
     spec = importlib.util.spec_from_file_location(

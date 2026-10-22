@@ -1,5 +1,23 @@
 # Session handoff
 
+## 2026-10-22 superseded EO caches retired; corrected restart
+
+Brian authorized discarding the eight superseded patch caches. Old scoring and
+its queued review were cancelled. Retirement of 36 full/partial/smoke run
+directories completed; free space is about 477 GiB. Original manifests and full
+catchment summaries are in `data/processed/limburg_eo_retired_2026-10-22` (~0.89
+GiB); old per-patch records were deliberately retired and can be regenerated.
+Raw imagery/weights and the two reusable models remain held and verified.
+The [restart record](reviews/limburg-eo-retirement-and-restart-2026-10-22.md)
+supersedes the earlier held queue/storage-redesign plan. Four publisher/pixel-date
+corrections are implemented in a versioned module; all eight real 1/4/12-frame
+checks pass. The full-launch `--run`/`--runtime-profile` abbreviation issue was
+caught before census writes and fixed with actual-command regression coverage.
+The suite passes 307 tests. The queue again owns two CPU workers and one MPS
+worker; it reuses Prithvi/repaired OlmoEarth and later scores only the corrected
+selection. Consult its progress JSON for current execution; no completed new
+scientific comparison is implied by this launch note.
+
 ## 2026-10-22 ten-model documentation review — correction still held
 
 The [documentation review](reviews/limburg-ten-model-documentation-review-2026-10-22.md)
