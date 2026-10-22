@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-21",
+  "findings_fixed": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "tests": {
+    "passed": 273,
+    "seconds": 46.47,
+    "log": "logs/eo-second-fixes/full-tests.log"
+  },
+  "lint": "passed",
+  "format": "148 files already formatted",
+  "source_sha256": {
+    "scripts/101_aggregate_limburg_eo_catchments.py": "6d1aa8c84d6c7aa1be1c637a4540676c1cd472be712f1cd173bd099630467018",
+    "scripts/102_connect_limburg_eo_experiments.py": "ac6c37369fb07285c3faf39f35051d2f30fd1f61378765e95d976e7c66f5afd7",
+    "scripts/117_finalize_selected_eo_runs.py": "575066bbe545be54e0d6707b93037d218698c08879749d0d72ec29ccbb1b9ecd",
+    "scripts/118_extract_versioned_eo_sequences.py": "776de2e828162b7e41d095032782a2f15edf3720ed0f8f1d7b301b2a45450571",
+    "src/eo_integrity.py": "90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3",
+    "src/eo_population.py": "ef1d35aa0c6ade41e0c3f84b371b066e399006ddd02faaa2e191992567ce1a52",
+    "src/eo_publication.py": "de26ed47bc99167556ecf978739abe63b24e3f172f975ee9c6826cdcc987e3c2",
+    "config/limburg_eo_source_compatibility.json": "09cf1c17621c3d0b9e383f82ccdb9a719b236eb4f41e3109d45ebbfc8447e89d",
+    "tests/test_eo_audit_fixes.py": "e012d432aa07d9c85be2fbbe4e2fb08a2cadd5b16e58d04396018931c15c857b"
+  },
+  "real_writer_integration": {
+    "planning_preserved_previous_scientific_results_and_receipt": true,
+    "planning_published_separately": true,
+    "empty_execution_has_no_stale_score_files": true,
+    "previous_run_preserved": true,
+    "publication_hashes_verify": true,
+    "no_empirical_scores_computed": true
+  },
+  "numerical_equivalence": {
+    "old_corrected_run": "c111232a4dabb015fef5d4c73dc3d9bfa07dcf9c53745d994b09de4e4bd3ab70",
+    "new_corrected_run": "506d92b9daad98d4b5b03a6831615f42d6629921ca02611169bbe287eecb87f8",
+    "array_equality": {
+      "embedding": true,
+      "valid": true,
+      "acquired_day": true
+    },
+    "old_source_receipts_still_verify": true,
+    "numerical_wrapper_functions_ast_unchanged": true,
+    "new_run_status": {
+      "run": "506d92b9daad98d4b5b03a6831615f42d6629921ca02611169bbe287eecb87f8",
+      "written": 1,
+      "resumed": 0,
+      "incomplete_tile_sequences": 0,
+      "no_observation": 0,
+      "errors": 0,
+      "updated_utc": "2026-10-22T03:16:15.200209+00:00",
+      "status": "completed",
+      "started_utc": "2026-10-22T03:16:13.359830+00:00",
+      "contexts_total": 1,
+      "current_context": null,
+      "patches_visited": 1
+    },
+    "scope": "Two-frame real-imagery engineering smoke, not a full embedding census or scientific score"
+  },
+  "selected_readiness": {
+    "prithvi": {
+      "status": "verified",
+      "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+    },
+    "croma": {
+      "status": "verified",
+      "run": "45d640621c355240936ca15db81fbd0b3476b772701e216dc5a187688f79aa9e",
+      "aggregate": "results/eo_catchment_representations/per_model/croma/census"
+    },
+    "terramind": {
+      "status": "verified",
+      "run": "add39907a64085e72a62f1910daf7302058213a5443941b2fd0218db20628a6b",
+      "aggregate": "results/eo_catchment_representations/per_model/terramind/census"
+    },
+    "dofa": {
+      "status": "verified",
+      "run": "b29e5b7df28c7ad2159f9f16d9ec678fc8d3cb08b1025c80b6064f99fcfc5242",
+      "aggregate": "results/eo_catchment_representations/per_model/dofa/census"
+    },
+    "copernicus_fm": {
+      "status": "verified",
+      "run": "1b01a837fc59a38a69336c9acc96862f882e8af81d67d37575987c44f7d6bc0a",
+      "aggregate": "results/eo_catchment_representations/per_model/copernicus_fm/census"
+    },
+    "satmae": {
+      "status": "verified",
+      "run": "07734fb88f22416a74ef7bf7f8c20da67ef7c3e74e21f7ed6b6f6f6d90fffe5d",
+      "aggregate": "results/eo_catchment_representations/per_model/satmae/census"
+    },
+    "anysat": {
+      "status": "verified",
+      "run": "b20d4a26d0b28a6b8059f860721c3f9c51b503404ad1975fae94a802debaf5f0",
+      "aggregate": "results/eo_catchment_representations/per_model/anysat/census"
+    },
+    "olmoearth": {
+      "status": "verified",
+      "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+    },
+    "galileo": {
+      "status": "pending_aggregation"
+    },
+    "presto": {
+      "status": "pending_aggregation"
+    }
+  },
+  "scope": "Publication/metadata refactor only; no empirical model scores or full corrected embedding census. Active legacy extraction/aggregation fingerprinted sources unchanged."
+}

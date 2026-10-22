@@ -40,6 +40,12 @@ corrected embeddings. The default selection currently names the held runs, not
 same-day reruns. The old script-105 controller already in memory may still write
 its legacy `census` folder; final scoring no longer consumes that folder by default.
 
+Comparison planning now writes under `<out>/planning/`; executed result sets
+publish together with `manifest.json` and retain their preceding version. A
+zero-score run is explicit and carries no stale score tables. [Second-audit
+fixes](docs/reviews/limburg-eo-second-audit-fixes-2026-10-21.md) document portable
+input locations, reviewed source compatibility and validation.
+
 ## Read first
 
 | document | role |

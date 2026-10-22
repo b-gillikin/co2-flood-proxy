@@ -305,7 +305,7 @@ def test_bound_input_ledgers_are_rechecked_before_acceptance(tmp_path):
     (tmp_path / "jobs.json").write_text("[]")
     (tmp_path / "contexts.json").write_text(json.dumps([{"context_id": "ctx"}]))
     saved = json.loads((run / "manifest.json").read_text())
-    saved["input_population"] = input_population(tmp_path, tmp_path)
+    saved["input_population"] = input_population(tmp_path, tmp_path, root=tmp_path)
     (run / "manifest.json").write_text(json.dumps(saved))
     validate_run(tmp_path, run)
     (tmp_path / "jobs.json").write_text("[{}]")
@@ -391,3 +391,235 @@ def test_selected_merge_retains_geometry_and_corruption_checks(tmp_path):
     (tmp_path / models["croma"]["aggregate"] / "croma.parquet").write_bytes(b"corrupt")
     with pytest.raises(ValueError, match="not ready"):
         merge_selected(tmp_path, selection, tmp_path / "out")
+
+
+def test_legacy_comparison_rechecks_current_context_ledger(tmp_path):
+    from src.eo_integrity import validate_comparison_inputs
+
+    contexts = tmp_path / "contexts.json"
+    contexts.write_text(json.dumps([{"context_id": "ctx"}]))
+    run = complete_run(tmp_path, model="croma")
+    folder = complete_aggregate(tmp_path, run, model="croma")
+    selection = {
+        "contexts": "contexts.json",
+        "contexts_sha256": sha256(contexts),
+        "models": {
+            "croma": {
+                "run": str(run.relative_to(tmp_path)),
+                "aggregate": str(folder.relative_to(tmp_path)),
+                "mask_policy": "fixed",
+            }
+        },
+    }
+    merged = tmp_path / "merged"
+    merge_selected(tmp_path, selection, merged)
+    validate_comparison_inputs(tmp_path, merged, selection=selection, allow_partial=True)
+    contexts.write_text(json.dumps([{"context_id": "ctx", "windows": [{"id": "changed"}]}]))
+    with pytest.raises(ValueError, match="context ledger changed"):
+        validate_comparison_inputs(tmp_path, merged, selection=selection, allow_partial=True)
+
+
+def test_population_and_run_survive_byte_identical_restore(tmp_path):
+    import shutil
+
+    original = tmp_path / "original"
+    original.mkdir()
+    (original / "jobs.json").write_text("[]")
+    (original / "contexts.json").write_text(json.dumps([{"context_id": "ctx"}]))
+    run = complete_run(original)
+    saved = json.loads((run / "manifest.json").read_text())
+    saved["input_population"] = input_population(original, original, root=original)
+    (run / "manifest.json").write_text(json.dumps(saved))
+    restored = tmp_path / "restored"
+    shutil.copytree(original, restored)
+    scope = input_population(restored, restored, root=restored)
+    assert scope == saved["input_population"]
+    shutil.rmtree(original)
+    validate_run(restored, restored / "runs/example/new")
+    (restored / "jobs.json").write_text("[{}]")
+    with pytest.raises(ValueError, match="ledger changed"):
+        validate_run(restored, restored / "runs/example/new")
+
+
+def test_external_and_old_absolute_ledgers_have_explicit_relocation(tmp_path):
+    external = tmp_path / "external"
+    external.mkdir()
+    (external / "jobs.json").write_text("[]")
+    (external / "contexts.json").write_text(json.dumps([{"context_id": "ctx"}]))
+    root = tmp_path / "project"
+    root.mkdir()
+    run = complete_run(root)
+    saved = json.loads((run / "manifest.json").read_text())
+    saved["input_population"] = input_population(external, external, root=root)
+    (run / "manifest.json").write_text(json.dumps(saved))
+    with pytest.raises(ValueError, match="explicit resolver"):
+        validate_run(root, run)
+    validate_run(root, run, input_roots={"archive": external, "preparation": external})
+    saved["input_population"] = {
+        "jobs_path": "/old-machine/jobs.json",
+        "contexts_path": "/old-machine/contexts.json",
+        "jobs_sha256": sha256(external / "jobs.json"),
+        "contexts_sha256": sha256(external / "contexts.json"),
+        "selection": "full_census",
+        "expected_context_ids": ["ctx"],
+    }
+    (run / "manifest.json").write_text(json.dumps(saved))
+    validate_run(root, run, input_roots={"archive": external, "preparation": external})
+
+
+@pytest.mark.parametrize("spelling", ["relative", "absolute", "symlink"])
+def test_available_merge_normalizes_destination_aliases(tmp_path, monkeypatch, spelling):
+    from src.eo_comparison import load_script
+
+    runner = load_script("117_finalize_selected_eo_runs.py", "selected_alias_test")
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    monkeypatch.setattr(runner, "ROUTES", {"example": None})
+    monkeypatch.chdir(tmp_path)
+    config = tmp_path / "selection.json"
+    config.write_text(json.dumps({"models": {"example": {}}}))
+    full = tmp_path / "results/eo_catchment_representations/selected/census"
+    if spelling == "relative":
+        out = full.relative_to(tmp_path)
+    elif spelling == "absolute":
+        out = full
+    else:
+        (tmp_path / "results").mkdir()
+        (tmp_path / "alias").symlink_to(tmp_path / "results", target_is_directory=True)
+        out = tmp_path / "alias/eo_catchment_representations/selected/census"
+    calls = []
+    monkeypatch.setattr(
+        runner, "merge_selected", lambda root, selection, target, **kw: calls.append(target)
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        ["merge", "--selection", str(config), "--merge", "--available-only", "--out", str(out)],
+    )
+    runner.main()
+    assert calls == [tmp_path / "results/eo_catchment_representations/available/census"]
+
+
+def test_source_compatibility_is_explicit_and_does_not_cover_numerical_changes(tmp_path):
+    from src.eo_integrity import compatible_source
+
+    source = tmp_path / "src/metadata.py"
+    source.parent.mkdir()
+    source.write_text("original metadata code")
+    digest = sha256(source)
+    snapshot = tmp_path / "snapshot.txt"
+    snapshot.write_bytes(source.read_bytes())
+    config = tmp_path / "config/limburg_eo_source_compatibility.json"
+    config.parent.mkdir()
+    source.write_text("refactored metadata code")
+    config.write_text(
+        json.dumps(
+            {
+                "sources": {
+                    "src/metadata.py": {
+                        digest: {
+                            "classification": "metadata_only_compatibility",
+                            "snapshot": "snapshot.txt",
+                            "replacement_sha256": sha256(source),
+                        }
+                    }
+                }
+            }
+        )
+    )
+    source.write_text("refactored metadata code")
+    assert compatible_source(tmp_path, "src/metadata.py", digest)
+    assert not compatible_source(tmp_path, "src/numerical_encoder.py", digest)
+    source.write_text("unreviewed subsequent change")
+    assert not compatible_source(tmp_path, "src/metadata.py", digest)
+    source.write_text("refactored metadata code")
+    snapshot.write_text("changed snapshot")
+    assert not compatible_source(tmp_path, "src/metadata.py", digest)
+
+
+def test_new_extractor_does_not_fingerprint_downstream_integrity_module():
+    import ast
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "scripts/118_extract_versioned_eo_sequences.py"
+    tree = ast.parse(path.read_text())
+    literals = {
+        node.value
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Constant) and isinstance(node.value, str)
+    }
+    imports = {node.module for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)}
+    assert "src.eo_population" in imports and "src.eo_integrity" not in imports
+    assert "src/eo_population.py" in literals and "src/eo_integrity.py" not in literals
+
+
+@pytest.mark.parametrize("mode", ["planning", "empty", "failure"])
+def test_comparison_main_isolates_planning_empty_runs_and_failed_publication(
+    tmp_path, monkeypatch, mode
+):
+    from src.eo_comparison import load_script
+
+    runner = load_script("102_connect_limburg_eo_experiments.py", "publication_test")
+    out = tmp_path / "result"
+    out.mkdir()
+    (out / "event_assessments.parquet").write_bytes(b"previous scientific result")
+    (out / "experiment_plan.json").write_text("previous run receipt")
+
+    def compute(args):
+        (args.out / "eo_event_coverage.csv").write_text("coverage\n")
+        if mode == "failure":
+            raise ValueError("scoring failed")
+        plan = {
+            "executed": args.run,
+            "scored_sets": 0,
+            "purpose": "test_fixture",
+            "input_sha256": {"input": "held-hash"},
+        }
+        (args.out / "experiment_plan.json").write_text(json.dumps(plan))
+
+    monkeypatch.setattr(runner, "run_comparison", compute)
+    argv = ["comparison", "--out", str(out)] + ([] if mode == "planning" else ["--run"])
+    monkeypatch.setattr("sys.argv", argv)
+    if mode == "failure":
+        with pytest.raises(ValueError, match="scoring failed"):
+            runner.main()
+    else:
+        runner.main()
+    if mode in {"planning", "failure"}:
+        assert (out / "event_assessments.parquet").read_bytes() == b"previous scientific result"
+        assert (out / "experiment_plan.json").read_text() == "previous run receipt"
+    if mode == "planning":
+        report = json.loads((out / "planning/manifest.json").read_text())
+        assert report["status"] == "planned"
+        assert "event_assessments.parquet" not in report["outputs_sha256"]
+    elif mode == "empty":
+        assert not (out / "event_assessments.parquet").exists()
+        report = json.loads((out / "manifest.json").read_text())
+        assert report["status"] == "no_estimable_results"
+        assert report["input_sha256"] == {"input": "held-hash"}
+        assert list(tmp_path.glob("result.previous-*/event_assessments.parquet"))
+    else:
+        assert not (out / "manifest.json").exists()
+
+
+def test_selected_run_alias_keeps_underlying_run_identity(tmp_path):
+    from src.eo_integrity import validate_comparison_inputs
+
+    contexts = tmp_path / "contexts.json"
+    contexts.write_text(json.dumps([{"context_id": "ctx"}]))
+    run = complete_run(tmp_path, model="croma")
+    folder = complete_aggregate(tmp_path, run, model="croma")
+    (tmp_path / "run-alias").symlink_to(run, target_is_directory=True)
+    selection = {
+        "contexts": "contexts.json",
+        "contexts_sha256": sha256(contexts),
+        "models": {
+            "croma": {
+                "run": "run-alias",
+                "aggregate": str(folder.relative_to(tmp_path)),
+                "mask_policy": "fixed",
+            }
+        },
+    }
+    out = tmp_path / "merged"
+    merge_selected(tmp_path, selection, out)
+    assert set(pd.read_parquet(out / "croma.parquet").run) == {run.name}
+    validate_comparison_inputs(tmp_path, out, selection=selection, allow_partial=True)

@@ -26,11 +26,13 @@ def main():
         help="Explicit separate partial merge of verified completed models; never claim all ten",
     )
     args = parser.parse_args()
+    args.selection = args.selection.resolve()
+    args.out = args.out.resolve()
     selection = json.loads(args.selection.read_text())
     if set(selection["models"]) != set(ROUTES):
         raise ValueError("Selection must account for all ten configured models")
     if args.available_only:
-        if args.out == ROOT / "results/eo_catchment_representations/selected/census":
+        if args.out == (ROOT / "results/eo_catchment_representations/selected/census").resolve():
             args.out = ROOT / "results/eo_catchment_representations/available/census"
     if args.merge:
         merge_selected(ROOT, selection, args.out, available_only=args.available_only)

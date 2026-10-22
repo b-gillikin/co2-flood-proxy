@@ -1,5 +1,21 @@
 # Session handoff
 
+## 2026-10-21 second-audit fixes implemented — current
+
+[Correction record](reviews/limburg-eo-second-audit-fixes-2026-10-21.md).
+Comparison planning is isolated under `<out>/planning`; executed outputs publish
+from a fresh staging directory with a hash manifest and explicit empty-result
+status. Legacy comparison entry rechecks the selected context ledger. Population
+identities are portable; external/old absolute-path inputs have explicit root
+resolvers. Partial output aliases normalize before destination separation.
+Future extraction fingerprints a small population builder, not downstream
+integrity code. Reviewed metadata-only snapshots preserve earlier valid run
+receipts without accepting unknown numerical changes. A real Galileo smoke is
+bit-identical to its earlier corrected embedding/masks/dates. No scientific
+scores or full corrected census were run in this pass. Active model jobs remain
+unchanged. All 273 maintained tests, lint and formatting pass; real-writer
+integration and numerical-equivalence outcomes are in the linked check receipt.
+
 ## 2026-10-21 second audit — follow-up findings
 
 [Second audit](reviews/limburg-eo-second-audit-2026-10-21.md) reproduced stale

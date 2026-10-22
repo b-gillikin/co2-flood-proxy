@@ -12,29 +12,57 @@ from pathlib import Path
 
 from src.eo_inputs import sha256
 
-
-def input_population(archive, preparation, context=None):
-    """Bind intended scope, not just the successfully observed subset."""
-    archive, preparation = Path(archive), Path(preparation)
-    contexts = json.loads((preparation / "contexts.json").read_text())
-    ids = [c["context_id"] for c in contexts]
-    if len(ids) != len(set(ids)):
-        raise ValueError("Duplicate context IDs")
-    if context is not None and context not in ids:
-        raise ValueError("Unknown context")
-    return {
-        "jobs_path": str((archive / "jobs.json").resolve()),
-        "contexts_path": str((preparation / "contexts.json").resolve()),
-        "jobs_sha256": sha256(archive / "jobs.json"),
-        "contexts_sha256": sha256(preparation / "contexts.json"),
-        "selection": "single_context" if context else "full_census",
-        "expected_context_ids": [context] if context else ids,
-    }
+# Public compatibility import; future extractors fingerprint the small builder only.
+from src.eo_population import input_population  # noqa: F401
 
 
-def validate_run(root, run, *, model=None, expected_contexts=None, allow_partial=False):
+def compatible_source(root, name, digest):
+    path = root / name
+    if path.exists() and sha256(path) == digest:
+        return True
+    registry = root / "config/limburg_eo_source_compatibility.json"
+    if not registry.exists():
+        return False
+    item = json.loads(registry.read_text()).get("sources", {}).get(name, {}).get(digest)
+    return bool(
+        item
+        and item["classification"] == "metadata_only_compatibility"
+        and path.is_file()
+        and sha256(path) == item["replacement_sha256"]
+        and (root / item["snapshot"]).is_file()
+        and sha256(root / item["snapshot"]) == digest
+    )
+
+
+def population_ledger(root, scope, kind, input_roots=None):
+    """Resolve portable locations or an explicit relocation for old/external ledgers."""
+    role = "archive" if kind == "jobs" else "preparation"
+    overrides = input_roots or {}
+    if role in overrides:
+        location = Path(overrides[role])
+        return (location if location.is_absolute() else root / location) / (
+            "jobs.json" if kind == "jobs" else "contexts.json"
+        )
+    if scope.get("schema_version", 1) >= 2:
+        item = scope[kind + "_location"]
+        if item["base"] != "project":
+            raise ValueError("External input role requires an explicit resolver: " + item["base"])
+        return root / item["path"]
+    return root / scope[kind + "_path"]
+
+
+def validate_selection(root, selection):
+    path = Path(root).resolve() / selection["contexts"]
+    if sha256(path) != selection["contexts_sha256"]:
+        raise ValueError("Selected input context ledger changed")
+    return [c["context_id"] for c in json.loads(path.read_text())]
+
+
+def validate_run(
+    root, run, *, model=None, expected_contexts=None, allow_partial=False, input_roots=None
+):
     """A finite patch or successful aggregator cannot certify a whole extraction."""
-    root, run = Path(root), Path(run)
+    root, run = Path(root).resolve(), Path(run).resolve()
     saved = json.loads((run / "manifest.json").read_text())
     status = json.loads((run / "status.json").read_text())
     if model is not None and saved["model"] != model:
@@ -47,16 +75,17 @@ def validate_run(root, run, *, model=None, expected_contexts=None, allow_partial
     if not complete and not allow_partial:
         raise ValueError("Extraction is incomplete or has errors")
     for path, digest in saved["code"].items():
-        if not (root / path).exists() or sha256(root / path) != digest:
+        if not compatible_source(root, path, digest):
             raise ValueError("Extraction source code changed: " + path)
     scope = saved.get("input_population")
     if scope:
         for kind in ["jobs", "contexts"]:
-            if (
-                kind + "_path" in scope
-                and sha256(root / scope[kind + "_path"]) != scope[kind + "_sha256"]
-            ):
-                raise ValueError("Extraction input ledger changed: " + kind)
+            if kind + "_location" in scope or kind + "_path" in scope:
+                if (
+                    sha256(population_ledger(root, scope, kind, input_roots))
+                    != scope[kind + "_sha256"]
+                ):
+                    raise ValueError("Extraction input ledger changed: " + kind)
         if scope["selection"] != "full_census" and not allow_partial:
             raise ValueError("Single-context extraction is not a full census")
         if status.get("contexts_total") != len(scope["expected_context_ids"]):
@@ -69,8 +98,10 @@ def validate_run(root, run, *, model=None, expected_contexts=None, allow_partial
     return saved, status
 
 
-def validate_aggregate(root, folder, model, *, selected=None, expected_contexts=None):
-    root, folder = Path(root), Path(folder)
+def validate_aggregate(
+    root, folder, model, *, selected=None, expected_contexts=None, input_roots=None
+):
+    root, folder = Path(root).resolve(), Path(folder).resolve()
     report = json.loads((folder / "manifest.json").read_text())
     if report.get("engineering") or report.get("partial") or report.get("errors"):
         raise ValueError("Engineering, partial or errored aggregate cannot be labelled complete")
@@ -89,10 +120,14 @@ def validate_aggregate(root, folder, model, *, selected=None, expected_contexts=
     source = root / manifests[0]
     if sha256(source) != report["source_sha256"][manifests[0]]:
         raise ValueError("Extraction manifest checksum mismatch")
-    if selected and source.parent != (root / selected["run"]).resolve():
+    if selected and source.parent.resolve() != (root / selected["run"]).resolve():
         raise ValueError("Aggregate does not use the selected extraction run")
     saved, status = validate_run(
-        root, source.parent, model=model, expected_contexts=expected_contexts
+        root,
+        source.parent,
+        model=model,
+        expected_contexts=expected_contexts,
+        input_roots=input_roots,
     )
     if selected and saved.get("mask_policy", "native_pixel_mask_v1") != selected["mask_policy"]:
         raise ValueError("Selected mask policy differs")
@@ -125,11 +160,9 @@ def fresh_output(target):
 
 def selected_aggregates(root, selection):
     """Resolve the authoritative map without searching for newest/most convenient runs."""
-    root = Path(root)
-    contexts_path = root / selection["contexts"]
-    if sha256(contexts_path) != selection["contexts_sha256"]:
-        raise ValueError("Selected input context ledger changed")
-    contexts = [c["context_id"] for c in json.loads(contexts_path.read_text())]
+    root = Path(root).resolve()
+    contexts = validate_selection(root, selection)
+    input_roots = selection.get("input_roots")
     accepted, readiness = {}, {}
     for model, item in selection["models"].items():
         run, folder = root / item["run"], root / item["aggregate"]
@@ -142,12 +175,19 @@ def selected_aggregates(root, selection):
             ):
                 readiness[model] = {"status": "pending_extraction"}
                 continue
-            validate_run(root, run, model=model, expected_contexts=contexts)
+            validate_run(
+                root, run, model=model, expected_contexts=contexts, input_roots=input_roots
+            )
             if not (folder / "manifest.json").exists():
                 readiness[model] = {"status": "pending_aggregation"}
                 continue
             report, saved, status = validate_aggregate(
-                root, folder, model, selected=item, expected_contexts=contexts
+                root,
+                folder,
+                model,
+                selected=item,
+                expected_contexts=contexts,
+                input_roots=input_roots,
             )
             accepted[model] = (folder, report, saved, status)
             readiness[model] = {
@@ -177,7 +217,7 @@ def merge_selected(root, selection, target, *, available_only=False):
     with fresh_output(target) as stage:
         for model, (folder, _report, saved, status) in accepted.items():
             values = pd.read_parquet(folder / (model + ".parquet"))
-            if set(values.run) != {Path(selection["models"][model]["run"]).name}:
+            if set(values.run) != {(root / selection["models"][model]["run"]).resolve().name}:
                 raise ValueError("Aggregate rows differ from selected run")
             if not set(values.context_id) <= expected_contexts:
                 raise ValueError("Aggregate has contexts outside selected census")
@@ -229,7 +269,7 @@ def validate_comparison_inputs(
     root, folder, *, engineering=False, selection=None, allow_partial=False
 ):
     """Verify both current selection and immutable model arrays before scoring."""
-    root, folder = Path(root), Path(folder)
+    root, folder = Path(root).resolve(), Path(folder).resolve()
     report = json.loads((folder / "manifest.json").read_text())
     if engineering:
         if not report.get("engineering"):
@@ -244,6 +284,7 @@ def validate_comparison_inputs(
             raise ValueError("Use the validated selected-run merge (script 117)")
         from src.eo_inputs import ROUTES
 
+        validate_selection(root, report["selection"])
         if selection is not None and report["selection"] != selection:
             raise ValueError("Merged output differs from current selected-run map")
         if (
@@ -260,7 +301,12 @@ def validate_comparison_inputs(
             ]:
                 if sha256(root / relative) != digest:
                     raise ValueError("Selected source changed: " + str(relative))
-            validate_run(root, root / item["run"], model=model)
+            validate_run(
+                root,
+                root / item["run"],
+                model=model,
+                input_roots=report["selection"].get("input_roots"),
+            )
     expected = {"coverage.parquet", "patch_areas.parquet"} | {
         m + ".parquet" for m in report.get("selected_runs", {})
     }

@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 from src.eo_comparison import assess_selected, event_vectors, load_script, matched_pools, retrieve
 from src.eo_inputs import ROUTES, sha256
 from src.eo_integrity import validate_comparison_inputs
+from src.eo_publication import comparison_output
 from src.eo_retrieval_cache import RetrievalCache
 
 
@@ -104,7 +105,12 @@ def main():
             args.out = ROOT / "results/eo_analogue_comparison_available"
     if args.plumbing_fixture and args.out == ROOT / "results/eo_analogue_comparison":
         args.out = ROOT / "logs/eo_evaluation_plumbing"
-    args.out.mkdir(parents=True, exist_ok=True)
+    with comparison_output(args.out, executed=args.run) as stage:
+        args.out = stage
+        return run_comparison(args)
+
+
+def run_comparison(args):
     obs = pd.read_parquet(args.preparation / "observations.parquet")
     links = pd.read_parquet(args.preparation / "observation_windows.parquet")
     ready = ROOT / "results/basin_ai_event_interpretation_ready"
@@ -331,6 +337,7 @@ def main():
         ROOT / "src/eo_comparison.py",
         ROOT / "src/eo_integrity.py",
         ROOT / "src/eo_retrieval_cache.py",
+        ROOT / "src/eo_publication.py",
     ]:
         model_inputs[str(path.relative_to(ROOT))] = sha256(path)
     plan = {

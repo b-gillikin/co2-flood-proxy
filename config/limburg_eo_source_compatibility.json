@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "src/eo_integrity.py": {
+      "fe26dfc20ac58f48970b78387ae19298d21c985f08e8859c7bb38c7086ff0ddb": {
+        "snapshot": "provenance/source-snapshots/fe26dfc20ac58f48970b78387ae19298d21c985f08e8859c7bb38c7086ff0ddb.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Population-path and downstream validation/finalization refactor only; frozen input arrays, coherence policy, token masks and encoder numerical dependencies remain separately fingerprinted and unchanged.",
+        "replacement_sha256": "90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3"
+      }
+    },
+    "scripts/118_extract_versioned_eo_sequences.py": {
+      "22572792663912796115fba6d8d7f036ff5db2c84b8d94b1c83a33b832ba672c": {
+        "snapshot": "provenance/source-snapshots/22572792663912796115fba6d8d7f036ff5db2c84b8d94b1c83a33b832ba672c.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Population-path and downstream validation/finalization refactor only; frozen input arrays, coherence policy, token masks and encoder numerical dependencies remain separately fingerprinted and unchanged.",
+        "replacement_sha256": "776de2e828162b7e41d095032782a2f15edf3720ed0f8f1d7b301b2a45450571"
+      }
+    }
+  }
+}

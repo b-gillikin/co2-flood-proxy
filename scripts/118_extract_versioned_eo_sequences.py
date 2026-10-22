@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_coherent_inputs import POLICY, read_coherent_tile
 from src.eo_inputs import ROUTES, sha256
-from src.eo_integrity import input_population
+from src.eo_population import input_population
 from src.eo_token_masks import token_observations
 
 
@@ -39,7 +39,7 @@ def main():
     runner = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(runner)
     original_identity = runner.identity
-    population = input_population(args.archive, args.preparation, args.context)
+    population = input_population(args.archive, args.preparation, args.context, root=ROOT)
     if "--smoke" in rest:
         kind = rest[rest.index("--smoke-kind") + 1] if "--smoke-kind" in rest else "two"
         population.update(
@@ -62,7 +62,7 @@ def main():
         for name in [
             "scripts/118_extract_versioned_eo_sequences.py",
             "src/eo_coherent_inputs.py",
-            "src/eo_integrity.py",
+            "src/eo_population.py",
             "src/eo_token_masks.py",
         ]:
             saved["code"][name] = sha256(ROOT / name)

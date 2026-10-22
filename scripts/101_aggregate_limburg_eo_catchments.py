@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_event_inputs import aggregate_vectors, observed_patch_area, pixel_area_weights
 from src.eo_inputs import sha256
-from src.eo_integrity import fresh_output, validate_run
+from src.eo_integrity import compatible_source, fresh_output, validate_run
 
 
 def main():
@@ -46,7 +46,13 @@ def main():
         action="store_true",
         help="Label incomplete/error-bearing input as partial; never complete",
     )
+    parser.add_argument(
+        "--input-roots",
+        type=Path,
+        help="JSON archive/preparation root overrides for external or relocated legacy ledgers",
+    )
     args = parser.parse_args()
+    args.input_roots = json.loads(args.input_roots.read_text()) if args.input_roots else None
     args.preparation = args.preparation.resolve()
     args.sequences = args.sequences.resolve()
     args.out = args.out.resolve()
@@ -101,8 +107,7 @@ def aggregate(args, target):
         try:
             if args.engineering:
                 if any(
-                    not (ROOT / p).exists() or sha256(ROOT / p) != digest
-                    for p, digest in saved["code"].items()
+                    not compatible_source(ROOT, p, digest) for p, digest in saved["code"].items()
                 ):
                     raise ValueError("Engineering source code changed")
                 status = {}
@@ -113,6 +118,7 @@ def aggregate(args, target):
                     model=args.model,
                     expected_contexts=expected_contexts,
                     allow_partial=args.allow_partial,
+                    input_roots=args.input_roots,
                 )
         except (ValueError, FileNotFoundError) as exc:
             rejected.append({"manifest": str(manifest), "reason": str(exc)})
@@ -142,10 +148,7 @@ def aggregate(args, target):
         if (saved["purpose"] == "engineering") != args.engineering:
             continue
         # Stale adapters never silently mingle with current representations.
-        if any(
-            not (ROOT / p).exists() or sha256(ROOT / p) != digest
-            for p, digest in saved["code"].items()
-        ):
+        if any(not compatible_source(ROOT, p, digest) for p, digest in saved["code"].items()):
             continue
         source_hashes[str(manifest.relative_to(ROOT))] = sha256(manifest)
         for receipt in sorted(manifest.parent.glob("*/*/*.json")):
