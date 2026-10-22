@@ -1,5 +1,16 @@
 # Session handoff
 
+## 2026-10-22 S2 correction authorized and queued — current
+
+Brian authorized the seven-model same-day correction after current scoring,
+again with two CPU workers plus one MPS worker. Script 122 waits for the current
+workflow, then runs corrected extraction, aggregation, a separate merge,
+comparison and case review. Three native-product models are reused; held
+results and the Azure expansion remain separate. The [execution record](reviews/limburg-eo-current-archive-execution-2026-10-22.md#authorized-correction-queue--22-october)
+lists lane ownership and paths. Read
+`logs/eo-coherent-correction-v1/progress.json` for live status. This queue does
+not mean corrected embeddings or results already exist.
+
 ## 2026-10-22 ten-model merge and current-archive execution — current
 
 All ten selected aggregates verified and merged, including completed Presto and

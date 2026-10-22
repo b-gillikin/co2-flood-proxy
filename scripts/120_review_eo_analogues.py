@@ -103,7 +103,7 @@ def paired_event_rows(rows):
     return pd.concat(output, ignore_index=True)
 
 
-def browser_page(records, meta, response, title):
+def browser_page(records, meta, response, title, *, coherent=False):
     """One complete-census page per context kind, no external web dependencies."""
     needed = set(records.query_event_id)
     for ids in records.donor_ids:
@@ -134,6 +134,11 @@ def browser_page(records, meta, response, title):
     data = json.loads(records[columns].to_json(orient="records"))
     payload = json.dumps({"rows": data, "curves": curves, "facts": facts}, allow_nan=False)
     payload = payload.replace("<", "\\u003c")
+    input_note = (
+        "These are held-archive inputs with same-UTC-day S2 masking; the three native-product models are reused. Additional Azure imagery is not included."
+        if coherent
+        else "These are held-archive inputs. Some Sentinel-2 bands have mixed acquisition days; no full same-day corrected embedding run is implied."
+    )
     return (
         """<!doctype html><meta charset="utf-8"><title>Actual EO analogues</title>
 <style>body{font:16px system-ui;max-width:1200px;margin:25px auto;padding:0 15px}
@@ -146,8 +151,9 @@ table{border-collapse:collapse}td,th{padding:6px;border:1px solid #ddd;text-alig
 <p>Every scored main, pooled, five-donor case in the available-model cohorts is selectable.
 The verification curves below show subsequent observed behaviour. These outcomes did not
 rank the donors. This is retrospective Q/own-era-p99, not calibrated warning probabilities.</p>
-<p class="note">These are held-archive inputs. Some Sentinel-2 bands have mixed acquisition days;
-no full same-day corrected embedding run is implied. Countries also differ in rivers,
+<p class="note">"""
+        + html.escape(input_note)
+        + """ Countries also differ in rivers,
 measurement histories and archive length. p99 does not establish inundation.</p>
 <div id="filters"></div><div id="facts"></div><svg id="plot" viewBox="0 0 1100 330"></svg>
 <div id="metrics"></div><h2>Selected donors</h2><div id="donors"></div>
@@ -295,8 +301,19 @@ def main():
             for a, b in zip(primary.donor_ids, primary.ttm_donor_ids, strict=True)
         ]
         primary.to_parquet(out / "browser_case_index.parquet", index=False)
+        plan_path = args.input / "experiment_plan.json"
+        contract = (
+            json.loads(plan_path.read_text()).get("selected_input_contract", {})
+            if plan_path.exists()
+            else {}
+        )
+        coherent = any(
+            v.get("input_policy") == "s2_same_utc_day_mask_v2" for v in contract.values()
+        )
         for kind, group in primary.groupby("kind"):
-            (out / f"{kind}.html").write_text(browser_page(group, meta, response, kind))
+            (out / f"{kind}.html").write_text(
+                browser_page(group, meta, response, kind, coherent=coherent)
+            )
         # Explicit post-outcome illustrations; they do not determine the census.
         examples = []
         for (_kind, _country), group in primary[

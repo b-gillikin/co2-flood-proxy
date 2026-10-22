@@ -103,3 +103,41 @@ The complete review writer also passes an isolated engineering fixture covering
 all output tables, exact donor joins, the browser payload and manifest hashes.
 Full empirical audit/browser checks follow the comparison automatically; do not
 substitute these unit tests for the eventual completed run manifest.
+
+## Authorized correction queue — 22 October
+
+Brian authorized the full seven-model S2 correction after the held comparison,
+again using two CPU workers and one MPS worker. Script 122 waits for the current
+workflow, then uses this fixed ownership:
+
+| Worker | Models, in order |
+| --- | --- |
+| CPU 1 | DOFA, Copernicus-FM, TerraMind |
+| CPU 2 | Presto, validated PyTorch 2.9.1 / four-thread / batch-128 profile |
+| MPS 1 | SatMAE, AnySat, Galileo |
+
+Each model has one owner. Small corrected-input inference checks precede full
+extraction. CROMA, Prithvi and repaired OlmoEarth retain their native-product
+outputs. The held archive and context census are unchanged; Azure data are not
+incorporated. Original extraction sources are not edited, and held results are
+preserved. After extraction, corrected aggregation runs serially, followed by
+a separate ten-model merge, comparison and actual-analogue review.
+
+Correction state is `logs/eo-coherent-correction-v1/progress.json`. Corrected
+sequences use `data/processed/limburg_eo_coherent_census_v1/`, aggregation uses
+`results/eo_catchment_representations/coherent_v1/`, and the generated selection
+is `config/limburg_eo_coherent_selected_runs.json`. New scientific outputs use
+`results/eo_analogue_comparison_coherent_v1/` and
+`results/eo_analogue_review_coherent_v1/`. The original selection/results stay
+intact. Review pages distinguish corrected from original input policy.
+
+The queue verifies held comparison outputs before it starts, records source
+ledger/context identity, and accepts only completed corrected-policy runs.
+Failures are logged; the queue never silently substitutes an original affected
+run into the corrected comparison. If the independent held-case review fails
+after scoring succeeds, the correction can still proceed and records that
+warning: the review output is not a scientific prerequisite for extraction.
+
+Direct attribution to the correction will require identical event and donor
+populations; changed availability must be reported separately. Do not treat a
+change in the corrected-archive overall average as a pure masking effect.
