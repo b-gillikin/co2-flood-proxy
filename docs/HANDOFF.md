@@ -16,7 +16,9 @@ caught before census writes and fixed with actual-command regression coverage.
 The suite passes 307 tests. The queue again owns two CPU workers and one MPS
 worker; it reuses Prithvi/repaired OlmoEarth and later scores only the corrected
 selection. Consult its progress JSON for current execution; no completed new
-scientific comparison is implied by this launch note.
+scientific comparison is implied by this launch note. Restart verification
+confirmed controller PID 12646 and three active census writers: DOFA/Presto on
+CPU and CROMA on MPS, all with positive written counts and zero errors.
 
 ## 2026-10-22 ten-model documentation review — correction still held
 

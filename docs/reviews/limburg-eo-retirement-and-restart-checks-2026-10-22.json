@@ -1,0 +1,319 @@
+{
+  "checked_utc": "2026-10-22T13:20:21.761941+00:00",
+  "scope": "Authorized retirement and corrected restart; not a completed scientific comparison.",
+  "cancelled_processes": {
+    "utc": "2026-10-22T12:46:30.924105+00:00",
+    "reason": "Brian requested retiring the superseded eight-model embeddings and stopping their current scoring in favour of a corrected restart.",
+    "processes": [
+      {
+        "pid": 49002,
+        "command": ".venvs-eo/terramind/bin/python -u scripts/121_finish_current_eo_workflow.py --not-before 2026-10-22T04:54:38+00:00",
+        "signal": "SIGTERM"
+      },
+      {
+        "pid": 46586,
+        "command": ".venvs-eo/terramind/bin/python -u scripts/102_connect_limburg_eo_experiments.py --run",
+        "signal": "SIGTERM"
+      }
+    ],
+    "still_running_after_sigterm": []
+  },
+  "retirement": {
+    "status": "completed",
+    "archive": "data/processed/limburg_eo_retired_2026-10-22",
+    "started_utc": "2026-10-22T12:50:43.139502+00:00",
+    "updated_utc": "2026-10-22T13:11:04.246861+00:00",
+    "free_bytes_before": 89004240896,
+    "free_bytes_after": 511924682752,
+    "free_space_increase_bytes": 422920441856,
+    "protected_hashes_unchanged": true,
+    "protected": {
+      "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19/manifest.json": "ea228f4d6e59c3366e6e3ccf91433fe2081fd1c148c83112ad59c95861f0f2af",
+      "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19/status.json": "2bfbeeb2451ad5f9839e3fc1eccd84ae4c2ab68fabb763f140a8f93e9ea927f0",
+      "results/eo_catchment_representations/per_model/prithvi/census/manifest.json": "e9254d339bff22a5a5ea184e018aa9bcece1115af38bc20e48169234b9ddc7d4",
+      "results/eo_catchment_representations/per_model/prithvi/census/prithvi.parquet": "d98055e1d6a0d2fbb399455295288a0221d7ab1c43cecc138eaf92d3b88135d8",
+      "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0/manifest.json": "90abc0c753f510662aeaac896b8e602e73826839b0d16efdfc6bc6f25870d95d",
+      "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0/status.json": "a077a3a22674262c1864d5bb024ccf441eed531dd62560fd8509535fce829f31",
+      "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/manifest.json": "9c77a2f202a869be76353b0b13f0567fb5938f1112fd9734eb9784bc37e30294",
+      "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/olmoearth.parquet": "79537274788c16cf782b75c057491a58602b354ad085240fce29e41eb5344e26"
+    }
+  },
+  "retired_run_directories": 36,
+  "retirement_receipt_sha256": "f59716450b1fd4d30fdebc89208be5c9671df8a968c2d965e23348606ffcd0fe",
+  "retired_archive_allocated_KiB_observed": 935168,
+  "retired_merged_selection": "data/processed/limburg_eo_retired_2026-10-22/retired_merged_selection",
+  "discarded": "Superseded per-patch vectors/masks/date arrays/receipts and cancelled retrieval cache; reproducible from retained raw inputs and code.",
+  "preserved": "Raw imagery, checkpoints, publisher source, original run-level records, full retired catchment summaries and reusable Prithvi/OlmoEarth outputs.",
+  "publisher_input_captures": {
+    "croma": {
+      "model": "croma",
+      "checked_utc": "2026-10-22T13:04:25.536719+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "adapter": "publisher_corrected",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "conforms_to_pinned_normalizer": true,
+      "actual_range": [
+        0.0,
+        1.0
+      ],
+      "reference_range": [
+        0.0,
+        1.0
+      ],
+      "actual_max_div_reference_max": 1.0,
+      "max_absolute_input_difference": 0.0,
+      "reference": "data/raw/limburg_dynamic_model_weights/code/croma/README.md",
+      "reference_sha256": "c029b9a9f77d283f6290e1071480b1279feaf66885a9fa6a60e858bde77e3295",
+      "historical_finding": "CROMA receives eight-bit values without the publisher's final float()/255. The reference also uses sample SD; our contrast stretch uses population SD. The fixture loads no weights and establishes no retrieval-performance effect.",
+      "interpretation": "Compare the corrected capture with the recorded publisher/pixel-date reference. No learned weights or retrieval scores were evaluated.",
+      "correction_source_sha256": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30"
+    },
+    "satmae": {
+      "model": "satmae",
+      "checked_utc": "2026-10-22T13:04:45.510139+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "adapter": "publisher_corrected",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "conforms_to_pinned_normalizer": true,
+      "actual_at_channel_mean": 0.49803921580314636,
+      "reference_at_channel_mean": 0.4980392156862745,
+      "actual_range": [
+        0.0,
+        1.0
+      ],
+      "reference_range": [
+        0.0,
+        1.0
+      ],
+      "max_absolute_input_difference": 1.1687184553466068e-10,
+      "reference": "data/raw/limburg_dynamic_model_weights/code/satmae/util/datasets.py",
+      "reference_sha256": "00a3bae4ef3780a514f66a6c053bad685b5fee1069f1c249c338671d8eb51431",
+      "historical_finding": "Current SatMAE z-score input differs from its publisher's clipped eight-bit stretch followed by /255. No model score inferred.",
+      "interpretation": "Compare the corrected capture with the recorded publisher/pixel-date reference. No learned weights or retrieval scores were evaluated.",
+      "correction_source_sha256": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30"
+    },
+    "anysat": {
+      "model": "anysat",
+      "checked_utc": "2026-10-22T13:04:45.507341+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "adapter": "publisher_corrected",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "matches_pinned_training_loader_dates": true,
+      "calendar_dates": [
+        "2020-01-01",
+        "2020-02-29",
+        "2020-12-31"
+      ],
+      "supplied_days_of_year": [
+        1,
+        60,
+        366
+      ],
+      "publisher_training_loader_days_of_year": [
+        1,
+        60,
+        366
+      ],
+      "reference": "data/raw/limburg_dynamic_model_weights/code/anysat/src/data/TreeSAT.py",
+      "reference_sha256": "763d00e27eaca8e299679eda5280ac5863a54286fd748fc9ae9c0ca480613d80",
+      "historical_finding": "Publisher README prose says zero-based DOY, but its demo function and dated training loaders use one-based tm_yday. Our adapter follows the prose and is one day behind those training loaders. Use the training convention in the versioned correction; no weights or performance were tested.",
+      "interpretation": "Compare the corrected capture with the recorded publisher/pixel-date reference. No learned weights or retrieval scores were evaluated.",
+      "correction_source_sha256": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30"
+    },
+    "presto": {
+      "model": "presto",
+      "checked_utc": "2026-10-22T13:04:25.314121+00:00",
+      "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+      "adapter": "publisher_corrected",
+      "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+      "uses_actual_pixel_acquisition_months": true,
+      "supplied_months": [
+        [
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "actual_pixel_months_zero_based": [
+        [
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "historical_finding": "Patch-median month is repeated for every pixel. Monthly bins have one month; cross-month weekly composites can mix actual months. This is a temporal approximation that available per-pixel dates can remove.",
+      "interpretation": "Compare the corrected capture with the recorded publisher/pixel-date reference. No learned weights or retrieval scores were evaluated.",
+      "correction_source_sha256": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30"
+    }
+  },
+  "maintained_tests": {
+    "passed": 307,
+    "seconds": 28.91,
+    "log": "logs/eo-corrected-restart-tests-2026-10-22.log",
+    "sha256": "7387798f1ae6fb3111887f6090173b62673181896f41852f74c7e4bf7e05f619"
+  },
+  "actual_launch_cli_regression_cases": 16,
+  "source_sha256": {
+    "src/eo_encoder_corrections.py": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30",
+    "scripts/118_extract_versioned_eo_sequences.py": "cfd0ab197687f84c29fdb08923e141c96171f23be2a0ea6b3fbfaff7d5a48b11",
+    "scripts/122_run_coherent_eo_correction.py": "5275e0ab4322540544c8b6d1abed2e6de262de3edae45ff994a6632ecd61e0ac",
+    "scripts/123_audit_encoder_input_contracts.py": "519d738a83b8605d6649a44f5ab7f8a8fad8aebd01e71eeb8526a7a07e4a4be1",
+    "scripts/124_retire_superseded_eo_runs.py": "5d7def2c44bec3c2bd1b7554e94b4c02e2e58f80e513739754c03b2716acd88d",
+    "scripts/125_check_corrected_eo_readouts.py": "8095b3bbbebc07d1941709bcd8c85317e127b4c2a7a2d1a042868c19cbeeaf01",
+    "scripts/101_aggregate_limburg_eo_catchments.py": "929d5ed5fbd953c796f0dc2db535f0b15610af3c433818c30962ad968f54454e"
+  },
+  "real_input_readouts": [
+    {
+      "model": "anysat",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/anysat-readouts.json",
+      "sha256": "84587181cb8ec0ac5a4f8f4772b7d1202776ae32e4051de34d496089716e1c01",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "copernicus_fm",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/copernicus_fm-readouts.json",
+      "sha256": "d0dfeaa47269dec367ab5a20e80d014777084e9d3446fd3c212f5c23cdc95e74",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "croma",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/croma-readouts.json",
+      "sha256": "2ca8510daa0a87da2db78c759b2ca4ec318eb454ff17bc8687f7cb3873257a41",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "dofa",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/dofa-readouts.json",
+      "sha256": "5bbb71e16f8a0faadcbbce48279f16702bcabd16c1ec1362583493d452c90317",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "galileo",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/galileo-readouts.json",
+      "sha256": "afea8c028f9e7b529ee705083bd7ce24c0d325f2a60e9a9e8ed35e4120dd88f1",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "presto",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/presto-readouts.json",
+      "sha256": "56aa48c00831fafd21610e00f99b2029018b6680353ecfe869b9dbc50f6f3188",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "satmae",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/satmae-readouts.json",
+      "sha256": "86f06e8738b3714b39d6ce1f3c9b8bc64800e6451229320edf0b0e3355751248",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    },
+    {
+      "model": "terramind",
+      "status": "passed",
+      "frames": [
+        1,
+        4,
+        12
+      ],
+      "path": "logs/eo-coherent-correction-v1/terramind-readouts.json",
+      "sha256": "98df0e5affacd4087cd03ab614434d9fb6e8651620e41de343bc7ea103a82b59",
+      "entry_matches_current": true,
+      "corrections_match_current": true
+    }
+  ],
+  "restart_observation": {
+    "status": "extracting",
+    "pid": 12646,
+    "models": {
+      "dofa": "extracting",
+      "presto": "extracting",
+      "croma": "extracting",
+      "satmae": "engineering_checked",
+      "copernicus_fm": "engineering_checked",
+      "anysat": "engineering_checked",
+      "terramind": "engineering_checked",
+      "galileo": "engineering_checked"
+    },
+    "cpu_workers": 2,
+    "mps_workers": 1,
+    "state_path": "logs/eo-coherent-correction-v1/progress.json",
+    "initial_census_counts": {
+      "dofa": {
+        "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+        "written": 861,
+        "resumed": 0,
+        "errors": 0,
+        "patches_visited": 1801,
+        "updated_utc": "2026-10-22T13:20:21.016140+00:00"
+      },
+      "presto": {
+        "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+        "written": 623,
+        "resumed": 0,
+        "errors": 0,
+        "patches_visited": 2301,
+        "updated_utc": "2026-10-22T13:20:19.227564+00:00"
+      },
+      "croma": {
+        "run": "ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+        "written": 4456,
+        "resumed": 0,
+        "errors": 0,
+        "patches_visited": 8201,
+        "updated_utc": "2026-10-22T13:20:21.228777+00:00"
+      }
+    }
+  },
+  "numerical_corrections_version": "publisher_inputs_2026_10_22_v1",
+  "full_scientific_comparison_completed": false,
+  "historical_encoder_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9"
+}

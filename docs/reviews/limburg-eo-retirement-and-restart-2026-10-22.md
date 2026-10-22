@@ -90,3 +90,10 @@ the new census is under `data/processed/limburg_eo_coherent_census_v1`. Final
 comparison/review outputs remain separate as `results/eo_analogue_comparison_coherent_v1`
 and `results/eo_analogue_review_coherent_v1`. The companion check receipt preserves
 the retirement measurements and verification evidence in Git.
+
+At restart verification, controller PID 12646 was extracting with DOFA/Presto on
+CPU and CROMA on MPS. All three had written new census embeddings with zero
+recorded errors; the remaining five models had passed engineering checks and
+were queued in their assigned lanes. This is an initial execution observation,
+not a completion estimate. All eight current readout receipts match the frozen
+entry/correction source hashes.
