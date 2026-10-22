@@ -13,9 +13,45 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_coherent_inputs import POLICY, read_coherent_tile
+from src.eo_encoder_corrections import VERSION as INPUT_CORRECTIONS
+from src.eo_encoder_corrections import install as install_corrections
 from src.eo_inputs import ROUTES, sha256
 from src.eo_population import input_population
 from src.eo_token_masks import token_observations
+
+
+def configure_encoder(model, device, runtime_profile):
+    if runtime_profile != "native" and (model, device) != ("presto", "cpu"):
+        raise ValueError("Presto profile requires Presto on CPU")
+    if runtime_profile == "presto-torch291-cpu4":
+        import torch
+
+        from src.eo_encoders import loaders
+
+        if torch.__version__.split("+")[0] != "2.9.1":
+            raise ValueError("Validated Presto profile requires torch 2.9.1")
+        original_builder = loaders.build_model
+
+        def build_model(name):
+            instance = original_builder(name)
+            torch.set_num_threads(4)
+            return instance
+
+        loaders.build_model = build_model
+    if device == "mps":
+        from src.eo_mps import install
+
+        install()
+    module = __import__("src.eo_encoders", fromlist=["Encoder"])
+    install_corrections(module)
+    return module.Encoder
+
+
+def versioned_tile(root, job, companions, model):
+    tile = read_coherent_tile(root, job, companions)
+    if model in {"olmoearth", "galileo"}:
+        tile.valid = token_observations(tile.valid, 4 if model == "olmoearth" else 8)
+    return tile
 
 
 def main():
@@ -53,6 +89,7 @@ def main():
             input_policy=POLICY if ROUTES[model][0] == "s2_10m" else "native_product_v1",
             execution_device=args.device,
             runtime_profile=args.runtime_profile,
+            input_corrections=INPUT_CORRECTIONS,
         )
         saved["mask_policy"] = (
             "all_pixels_observed_in_native_token_block_v1"
@@ -64,7 +101,11 @@ def main():
             "src/eo_coherent_inputs.py",
             "src/eo_population.py",
             "src/eo_token_masks.py",
+            "src/eo_encoder_corrections.py",
         ]:
+            saved["code"][name] = sha256(ROOT / name)
+        if model == "galileo":
+            name = "data/raw/limburg_dynamic_model_weights/code/galileo/config/normalization.json"
             saved["code"][name] = sha256(ROOT / name)
         if args.device == "mps":
             for name in ["src/eo_mps.py", "infrastructure/eo_census/prepare_cloud.py"]:
@@ -84,31 +125,10 @@ def main():
         return saved
 
     def read_tile(root, job, companions):
-        tile = read_coherent_tile(root, job, companions)
-        if args.model in {"olmoearth", "galileo"}:
-            # Grid/patch sizes are multiples of the native stride. Mask before
-            # get_patch so coordinates, dates and valid-count metadata agree.
-            tile.valid = token_observations(tile.valid, 4 if args.model == "olmoearth" else 8)
-        return tile
+        return versioned_tile(root, job, companions, args.model)
 
     runner.identity, runner.read_tile = identity, read_tile
-    if args.runtime_profile == "presto-torch291-cpu4":
-        from src.eo_encoders import loaders
-
-        original_builder = loaders.build_model
-
-        def build_model(name):
-            import torch
-
-            model = original_builder(name)
-            torch.set_num_threads(4)
-            return model
-
-        loaders.build_model = build_model
-    if args.device == "mps":
-        from src.eo_mps import install
-
-        install()
+    configure_encoder(args.model, args.device, args.runtime_profile)
     rest += [
         "--model",
         args.model,

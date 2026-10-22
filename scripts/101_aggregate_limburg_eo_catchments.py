@@ -19,6 +19,7 @@ import pandas as pd
 from shapely.geometry import box
 
 ROOT = Path(__file__).resolve().parents[1]
+CODE_ROOT = ROOT
 sys.path.insert(0, str(ROOT))
 from src.eo_event_inputs import aggregate_vectors, observed_patch_area, pixel_area_weights
 from src.eo_inputs import sha256
@@ -70,7 +71,8 @@ def aggregate(args, target):
     if str(catchments.crs) != "EPSG:32632":
         raise ValueError("Projected 32632 catchments required")
     geometry_hash = sha256(catchment_path)
-    cache = ROOT / "data/processed/eo_pixel_area_weights" / geometry_hash
+    area_algorithm_hash = sha256(CODE_ROOT / "src/eo_event_inputs.py")
+    cache = ROOT / "data/processed/eo_pixel_area_weights" / geometry_hash / area_algorithm_hash
     cache.mkdir(parents=True, exist_ok=True)
     groups = {}
     source_hashes = {}
@@ -305,6 +307,16 @@ def aggregate(args, target):
         "rejected_runs": rejected,
         "outputs_sha256": outputs,
         "catchments_sha256": geometry_hash,
+        "area_algorithm_sha256": area_algorithm_hash,
+        "aggregation_code_sha256": {
+            name: sha256(CODE_ROOT / name)
+            for name in [
+                "scripts/101_aggregate_limburg_eo_catchments.py",
+                "src/eo_event_inputs.py",
+                "src/eo_inputs.py",
+                "src/eo_integrity.py",
+            ]
+        },
         "contexts_by_model": {m: len(v) for m, v in representations.items()},
         "source_sha256": source_hashes,
         "errors": errors,

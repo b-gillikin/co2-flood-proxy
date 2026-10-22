@@ -1,6 +1,6 @@
-"""Queue seven same-day S2 reruns after held-archive scoring: two CPU plus one MPS.
+"""Restart eight corrected EO routes after retiring superseded patch caches.
 
-Keeps held inputs/results and the three unaffected model aggregates intact.
+Two CPU workers plus one MPS; reuse Prithvi and repaired OlmoEarth.
 No Azure observations, new weights, model tuning or event subsampling enter.
 """
 
@@ -21,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.eo_coherent_inputs import POLICY
+from src.eo_encoder_corrections import VERSION as INPUT_CORRECTIONS
 from src.eo_inputs import ROUTES, sha256
 from src.eo_integrity import validate_run
 
@@ -32,6 +33,7 @@ LANES = {
     ],
     "cpu_2": [("presto", "cpu", "presto-torch291")],
     "mps_1": [
+        ("croma", "mps", "modern"),
         ("satmae", "mps", "satmae"),
         ("anysat", "mps", "modern"),
         ("galileo", "mps", "galileo"),
@@ -71,8 +73,11 @@ def verified_model_run(model, expected_contexts):
         )
     run = runs[0].parent
     saved, _ = validate_run(ROOT, run, model=model, expected_contexts=expected_contexts)
-    if saved.get("input_policy") != POLICY:
+    policy = POLICY if ROUTES[model][0] == "s2_10m" else "native_product_v1"
+    if saved.get("input_policy") != policy:
         raise ValueError("Selected run lacks coherent S2 input policy")
+    if saved.get("input_corrections") != INPUT_CORRECTIONS:
+        raise ValueError("Selected run lacks publisher input corrections")
     return run, saved
 
 
@@ -80,20 +85,21 @@ def main():
     scheduled = [m for jobs in LANES.values() for m, _, _ in jobs]
     if len(scheduled) != len(set(scheduled)) or set(scheduled) != {
         m for m, route in ROUTES.items() if route[0] == "s2_10m"
-    }:
-        raise ValueError("Queue must assign each of the seven S2 models exactly once")
+    } | {"croma"}:
+        raise ValueError("Queue must assign all seven S2 models and CROMA exactly once")
     LOGS.mkdir(parents=True, exist_ok=True)
     with (LOGS / ".lock").open("w") as queue_lock:
         fcntl.flock(queue_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         state = {
             "pid": os.getpid(),
-            "status": "waiting_for_current_workflow",
+            "status": "waiting_for_retirement",
             "started_utc": datetime.now(timezone.utc).isoformat(),
             "cpu_workers": 2,
             "mps_workers": 1,
             "models": {},
             "lanes": LANES,
-            "reused_models": ["prithvi", "croma", "olmoearth"],
+            "reused_models": ["prithvi", "olmoearth"],
+            "input_corrections": INPUT_CORRECTIONS,
         }
         mutex = threading.Lock()
 
@@ -127,69 +133,88 @@ def main():
         update()
         try:
             while True:
-                current = json.loads(
-                    (ROOT / "logs/eo-current-archive-workflow-2026-10-22.json").read_text()
+                retired = json.loads(
+                    (ROOT / "logs/eo-retirement-2026-10-22/progress.json").read_text()
                 )
-                if current["status"] in {"completed", "failed"}:
+                if retired["status"] == "completed":
                     break
+                if retired["status"] == "failed":
+                    raise ValueError("Retirement failed; retained sources need inspection")
                 time.sleep(20)
-            if current["step_2"] != "completed":
-                raise ValueError(
-                    "Held comparison failed; inspect its error before starting correction"
-                )
-            if current["status"] == "failed":
-                update(prior_review_warning=current.get("error", "review did not complete"))
-            base_output = ROOT / "results/eo_analogue_comparison"
-            receipt = json.loads((base_output / "manifest.json").read_text())
-            if receipt["status"] != "completed":
-                raise ValueError("Held comparison has no completed receipt")
-            for name, digest in receipt["outputs_sha256"].items():
-                if sha256(base_output / name) != digest:
-                    raise ValueError("Held output changed: " + name)
             original = json.loads((ROOT / "config/limburg_eo_selected_runs.json").read_text())
             context_path = ROOT / original["contexts"]
             if sha256(context_path) != original["contexts_sha256"]:
                 raise ValueError("Held context population changed")
             contexts = [c["context_id"] for c in json.loads(context_path.read_text())]
             update(
-                status="extracting",
-                held_comparison_manifest_sha256=sha256(base_output / "manifest.json"),
+                status="checking_real_readouts",
+                retirement_receipt_sha256=sha256(
+                    ROOT / retired["archive"] / "retirement-receipt.json"
+                ),
                 held_selection=original,
                 archive_jobs_sha256=sha256(ROOT / "data/raw/limburg_compact_eo/jobs.json"),
                 context_count=len(contexts),
             )
 
-            def lane(name, jobs):
+            def lane(name, jobs, *, checks_only):
                 for model, device, runtime in jobs:
                     model_update(
                         model,
-                        status="smoke",
+                        status="checking_real_readouts" if checks_only else "extracting",
                         lane=name,
                         device=device,
                         command=extraction_command(model, device, runtime),
                     )
-                    code = run(
-                        extraction_command(model, device, runtime, smoke=True),
-                        LOGS / f"{model}.log",
-                    )
-                    if not code:
-                        model_update(model, status="extracting")
+                    if checks_only:
+                        command = [
+                            str(ROOT / f".venvs-eo/{runtime}/bin/python"),
+                            "-u",
+                            str(ROOT / "scripts/125_check_corrected_eo_readouts.py"),
+                            "--model",
+                            model,
+                            "--device",
+                            device,
+                        ]
+                        if model == "presto":
+                            command += ["--runtime-profile", "presto-torch291-cpu4"]
+                        code = run(command, LOGS / f"{model}.log")
+                        if not code:
+                            code = run(
+                                extraction_command(model, device, runtime, smoke=True),
+                                LOGS / f"{model}.log",
+                            )
+                    else:
                         code = run(
                             extraction_command(model, device, runtime), LOGS / f"{model}.log"
                         )
                     model_update(
-                        model, status="extraction_failed" if code else "extracted", exit_code=code
+                        model,
+                        status=("engineering_failed" if checks_only else "extraction_failed")
+                        if code
+                        else ("engineering_checked" if checks_only else "extracted"),
+                        exit_code=code,
                     )
 
             with ThreadPoolExecutor(max_workers=3) as pool:
-                futures = [pool.submit(lane, name, jobs) for name, jobs in LANES.items()]
+                futures = [
+                    pool.submit(lane, name, jobs, checks_only=True) for name, jobs in LANES.items()
+                ]
+                for future in futures:
+                    future.result()
+            if any(s["status"] != "engineering_checked" for s in state["models"].values()):
+                raise ValueError("Real-input checks need attention; no full extraction started")
+            update(status="extracting")
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                futures = [
+                    pool.submit(lane, name, jobs, checks_only=False) for name, jobs in LANES.items()
+                ]
                 for future in futures:
                     future.result()
             update(status="aggregating")
             revised = copy.deepcopy(original)
             revised.update(
-                version="held_archive_same_day_s2_v1",
-                purpose="Same held archive/context census; seven coherent S2 reruns, three unchanged native-product models",
+                version="held_archive_publisher_inputs_and_same_day_s2_v1",
+                purpose="Same held archive/context census; eight corrected routes, Prithvi and repaired OlmoEarth reused",
             )
             for model in [m for jobs in LANES.values() for m, _, _ in jobs]:
                 if state["models"][model]["status"] != "extracted":

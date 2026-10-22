@@ -67,6 +67,7 @@ def croma():
         "actual_range": [float(actual.min()), float(actual.max())],
         "reference_range": [float(expected.min()), float(expected.max())],
         "actual_max_div_reference_max": float(actual.max() / expected.max()),
+        "max_absolute_input_difference": float((actual - expected).abs().max()),
         "max_difference_after_only_dividing_255": float((actual / 255 - expected).abs().max()),
         "reference": str(source.relative_to(ROOT)),
         "reference_sha256": sha256(source),
@@ -233,15 +234,30 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     checks = {"croma": croma, "anysat": anysat, "satmae": satmae, "presto": presto}
     parser.add_argument("--model", required=True, choices=sorted(checks))
+    parser.add_argument("--corrected", action="store_true")
     args = parser.parse_args()
+    if args.corrected:
+        from src import eo_encoders
+        from src.eo_encoder_corrections import install
+
+        install(eo_encoders)
     result = {
         "model": args.model,
         "checked_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+        "adapter": "publisher_corrected" if args.corrected else "historical",
         "encoder_source_sha256": sha256(ROOT / "src/eo_encoders.py"),
         **checks[args.model](),
     }
-    out = ROOT / "logs/eo-pre-correction-audit" / (args.model + "-input-contract.json")
+    if args.corrected:
+        result.pop("max_difference_after_only_dividing_255", None)
+        result["historical_finding"] = result.pop("interpretation")
+        result["interpretation"] = (
+            "Compare the corrected capture with the recorded publisher/pixel-date reference. No learned weights or retrieval scores were evaluated."
+        )
+        result["correction_source_sha256"] = sha256(ROOT / "src/eo_encoder_corrections.py")
+    suffix = "-corrected" if args.corrected else ""
+    out = ROOT / "logs/eo-pre-correction-audit" / (args.model + suffix + "-input-contract.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
