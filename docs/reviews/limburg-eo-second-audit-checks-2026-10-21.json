@@ -1,0 +1,91 @@
+{
+  "reviewed_commit": "6a24d89ff25230567c64b55787d6f8c89f68f1b6",
+  "date": "2026-10-21",
+  "tests": "261 passed in 42.70s",
+  "lint": "passed",
+  "format": "146 files already formatted",
+  "scope": "Second audit of the EO fixes, result publication and reproducibility; no model fitting, scoring or production-source edits.",
+  "reproductions": {
+    "planning_overwrites_receipt_but_retains_old_scores": {
+      "executed": false,
+      "retained_files": [
+        "event_assessments.parquet",
+        "selected_donors.parquet",
+        "paired_intervals.csv"
+      ]
+    },
+    "zero_scored_run_retains_old_scores": {
+      "executed": true,
+      "scored_sets": 0,
+      "retained_files": [
+        "event_assessments.parquet",
+        "selected_donors.parquet",
+        "paired_intervals.csv"
+      ]
+    },
+    "byte_identical_restored_run": "FileNotFoundError: validation still resolves the original absolute jobs.json location after a byte-identical restore elsewhere.",
+    "relative_partial_output_not_rerouted": true,
+    "current_ledger_hash_differs_from_selection": true,
+    "comparison_validator_accepts_changed_legacy_context_ledger": true
+  },
+  "source_sha256": {
+    "scripts/101_aggregate_limburg_eo_catchments.py": "02214db9e526da59076d26d844e136d2ff549e58dc7b38581875fa3c7856d756",
+    "scripts/102_connect_limburg_eo_experiments.py": "c655096bfcbbd4ebefb1a95934920c3e32da9a7ae726f04c3d81a91fa2d4e887",
+    "scripts/117_finalize_selected_eo_runs.py": "196c2dd170d0507dea507921b4eae755cc8eb814bfce352e58d86f70359e9749",
+    "scripts/118_extract_versioned_eo_sequences.py": "22572792663912796115fba6d8d7f036ff5db2c84b8d94b1c83a33b832ba672c",
+    "src/eo_integrity.py": "fe26dfc20ac58f48970b78387ae19298d21c985f08e8859c7bb38c7086ff0ddb",
+    "src/eo_coherent_inputs.py": "50f2afbb218a6208c65df8a69272d0a2d2eb576d9a0f930a26f81acff06646d4",
+    "src/eo_retrieval_cache.py": "49cbf1b10240f6172024dd0f39211582aa6a06208db6fcef463f612f83d11384"
+  },
+  "readiness": {
+    "prithvi": {
+      "status": "verified",
+      "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+    },
+    "croma": {
+      "status": "verified",
+      "run": "45d640621c355240936ca15db81fbd0b3476b772701e216dc5a187688f79aa9e",
+      "aggregate": "results/eo_catchment_representations/per_model/croma/census"
+    },
+    "terramind": {
+      "status": "verified",
+      "run": "add39907a64085e72a62f1910daf7302058213a5443941b2fd0218db20628a6b",
+      "aggregate": "results/eo_catchment_representations/per_model/terramind/census"
+    },
+    "dofa": {
+      "status": "verified",
+      "run": "b29e5b7df28c7ad2159f9f16d9ec678fc8d3cb08b1025c80b6064f99fcfc5242",
+      "aggregate": "results/eo_catchment_representations/per_model/dofa/census"
+    },
+    "copernicus_fm": {
+      "status": "verified",
+      "run": "1b01a837fc59a38a69336c9acc96862f882e8af81d67d37575987c44f7d6bc0a",
+      "aggregate": "results/eo_catchment_representations/per_model/copernicus_fm/census"
+    },
+    "satmae": {
+      "status": "verified",
+      "run": "07734fb88f22416a74ef7bf7f8c20da67ef7c3e74e21f7ed6b6f6f6d90fffe5d",
+      "aggregate": "results/eo_catchment_representations/per_model/satmae/census"
+    },
+    "anysat": {
+      "status": "verified",
+      "run": "b20d4a26d0b28a6b8059f860721c3f9c51b503404ad1975fae94a802debaf5f0",
+      "aggregate": "results/eo_catchment_representations/per_model/anysat/census"
+    },
+    "olmoearth": {
+      "status": "verified",
+      "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+    },
+    "galileo": {
+      "status": "pending_aggregation"
+    },
+    "presto": {
+      "status": "pending_aggregation"
+    }
+  },
+  "temporary_fixtures_only": true,
+  "production_source_changed": false,
+  "new_scientific_scores": false
+}

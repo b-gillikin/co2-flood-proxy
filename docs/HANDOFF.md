@@ -1,5 +1,17 @@
 # Session handoff
 
+## 2026-10-21 second audit — follow-up findings
+
+[Second audit](reviews/limburg-eo-second-audit-2026-10-21.md) reproduced stale
+comparison-score files surviving planning/zero-score runs, a missing legacy
+context-ledger check at comparison entry, nonportable absolute ledger paths,
+and a relative-path bypass of partial/full merge destinations. It also found
+an unnecessarily broad extraction fingerprint dependency. These are pending
+corrections; no production source or active job was changed in this audit.
+261 tests, lint and formatting pass. Eight completed aggregates still verify;
+Presto and Galileo are now both awaiting aggregation completion. The full S2
+date census remains complete. No new scientific score or data requirement.
+
 ## 2026-10-21 audit fixes implemented — current execution
 
 [Implementation record](reviews/limburg-eo-audit-fixes-2026-10-21.md) and
