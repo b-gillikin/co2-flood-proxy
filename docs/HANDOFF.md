@@ -1,5 +1,17 @@
 # Session handoff
 
+## 2026-10-22 ten-model merge and current-archive execution — current
+
+All ten selected aggregates verified and merged, including completed Presto and
+the repaired Galileo/OlmoEarth runs. The full script-102 comparison is running;
+script 121 waits on publication and then executes script 120's census-level
+actual-donor review. The [execution record](reviews/limburg-eo-current-archive-execution-2026-10-22.md)
+records coverage, readouts, controls, interpretation limits and output paths.
+Read `logs/eo-current-archive-workflow-2026-10-22.json` for live completion state;
+this launch note does not claim finished scores. No new imagery enters this
+held-archive pass. Mixed-day S2 exposure and legacy provenance limitations stay
+explicit; no full same-day corrected embedding census is implied.
+
 ## 2026-10-21 second-audit fixes implemented — current
 
 [Correction record](reviews/limburg-eo-second-audit-fixes-2026-10-21.md).

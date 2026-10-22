@@ -13,6 +13,12 @@ coverage and matched-population controls. It reviews whether river identity and 
 provenance make retrieved analogues usable. It is a retrospective archive
 study, not an automatic warning system or operational forecast evaluation.
 
+The [22 October execution](docs/reviews/limburg-eo-current-archive-execution-2026-10-22.md)
+has verified and merged all ten EO outputs and launched the full current-archive
+comparison, followed automatically by an actual-analogue review. The machine
+status file named in that record distinguishes running work from completed
+results. Coverage differences and held-input limitations remain explicit.
+
 The latest [storm-response analysis](docs/limburg-storm-response-results-2026-10-15.md)
 examines individual-event divergence, conditional information from other gauges
 and repeated rainfall/recovery using a rainfall-defined census with nonresponses.
