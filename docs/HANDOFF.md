@@ -1,5 +1,19 @@
 # Session handoff
 
+## 2026-10-22 pre-correction audit — correction held
+
+The [full audit](reviews/limburg-pre-correction-full-audit-2026-10-22.md) found a
+SatMAE normalization mismatch, removable Presto pixel-month approximation,
+missing direct Galileo normalization-JSON binding, and an output layout that
+cannot be duplicated within local free space (285.7 GiB selected seven vs ~70
+GiB free; vector payload alone 2.83 GiB). The correction controller was stopped
+while waiting, before extraction; progress records `held_for_requested_audit`.
+Current scoring/review still run. Bundle the numerical/provenance corrections,
+compact storage and verified cleanup before restarting two CPU/one MPS workers.
+284 tests and 28 publisher-asset checks pass, but do not establish input-transform
+conformance: the independent SatMAE input capture demonstrates the gap. No source
+imagery, selected result, provider delivery or other chapter's data was deleted.
+
 ## 2026-10-22 S2 correction authorized and queued — current
 
 Brian authorized the seven-model same-day correction after current scoring,

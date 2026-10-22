@@ -1,0 +1,165 @@
+{
+  "checked_utc": "2026-10-22T12:19:00.535496+00:00",
+  "correction_status": "held_for_requested_audit; no corrected extraction started",
+  "held_scoring": "continues unchanged",
+  "maintained_tests": {
+    "passed": 284,
+    "seconds": 41.11,
+    "log_sha256": "dc389af3aabd5c646a24034b09fd145eb845a1de0ab4e180de478d812ceb337f"
+  },
+  "publisher_assets": {
+    "models": 10,
+    "files": 28,
+    "all_verified": true
+  },
+  "satmae": {
+    "model": "satmae",
+    "checked_utc": "2026-10-22T12:12:02.065213+00:00",
+    "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+    "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "conforms_to_pinned_normalizer": false,
+    "actual_at_channel_mean": 0.0,
+    "reference_at_channel_mean": 0.4980392156862745,
+    "actual_range": [
+      -3.000000238418579,
+      3.000000238418579
+    ],
+    "reference_range": [
+      0.0,
+      1.0
+    ],
+    "max_absolute_input_difference": 3.000000238418579,
+    "reference": "data/raw/limburg_dynamic_model_weights/code/satmae/util/datasets.py",
+    "reference_sha256": "00a3bae4ef3780a514f66a6c053bad685b5fee1069f1c249c338671d8eb51431",
+    "interpretation": "Current SatMAE z-score input differs from its publisher's clipped eight-bit stretch followed by /255. No model score inferred."
+  },
+  "presto": {
+    "model": "presto",
+    "checked_utc": "2026-10-22T12:13:04.075496+00:00",
+    "scope": "engineering diagnostic; no model weights loaded or empirical scoring",
+    "encoder_source_sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "uses_actual_pixel_acquisition_months": false,
+    "supplied_months": [
+      [
+        7
+      ],
+      [
+        7
+      ]
+    ],
+    "actual_pixel_months_zero_based": [
+      [
+        7
+      ],
+      [
+        8
+      ]
+    ],
+    "interpretation": "Patch-median month is repeated for every pixel. Monthly bins have one month; cross-month weekly composites can mix actual months. This is a temporal approximation that available per-pixel dates can remove."
+  },
+  "galileo_normalizer_provenance": {
+    "path": "data/raw/limburg_dynamic_model_weights/code/galileo/config/normalization.json",
+    "current_sha256": "baea3828a8750e0b570cb2fad5cd30bb249f1f001988d842cc4246860e799ff3",
+    "explicitly_in_extraction_code_hashes": false,
+    "weight_asset_names": [
+      "models/nano/encoder.pt",
+      "models/nano/config.json",
+      "README.md"
+    ]
+  },
+  "storage": {
+    "selected_runs": [
+      {
+        "allocated_kib": 5670932,
+        "path": "data/processed/limburg_eo_sequences/dofa/b29e5b7df28c7ad2159f9f16d9ec678fc8d3cb08b1025c80b6064f99fcfc5242"
+      },
+      {
+        "allocated_kib": 5670964,
+        "path": "data/processed/limburg_eo_sequences/copernicus_fm/1b01a837fc59a38a69336c9acc96862f882e8af81d67d37575987c44f7d6bc0a"
+      },
+      {
+        "allocated_kib": 5522072,
+        "path": "data/processed/limburg_eo_sequences/terramind/add39907a64085e72a62f1910daf7302058213a5443941b2fd0218db20628a6b"
+      },
+      {
+        "allocated_kib": 20337312,
+        "path": "data/processed/limburg_eo_mps_sequences/satmae/07734fb88f22416a74ef7bf7f8c20da67ef7c3e74e21f7ed6b6f6f6d90fffe5d"
+      },
+      {
+        "allocated_kib": 44683708,
+        "path": "data/processed/limburg_eo_mps_sequences/anysat/b20d4a26d0b28a6b8059f860721c3f9c51b503404ad1975fae94a802debaf5f0"
+      },
+      {
+        "allocated_kib": 173630996,
+        "path": "data/processed/limburg_eo_token_consistent_sequences/galileo/281187daedc2ba11052633dcc65c8b5a2c8b225f5db8eed9e0ab573897abdd0e"
+      },
+      {
+        "allocated_kib": 44019384,
+        "path": "data/processed/limburg_eo_presto_torch291_sequences/presto/69e43010176a90d56dd5249b9d298a05ab8560423c9a8011cc9093e2bbd7883e"
+      }
+    ],
+    "allocated_gib": 285.65918731689453,
+    "float32_embedding_gib": 2.830482006072998,
+    "free_gib_at_receipt": 69.98799133300781,
+    "vector_payload": [
+      {
+        "model": "terramind",
+        "patch_vectors": 60836,
+        "dimension": 192,
+        "float32_embedding_bytes": 46722048
+      },
+      {
+        "model": "dofa",
+        "patch_vectors": 60836,
+        "dimension": 768,
+        "float32_embedding_bytes": 186888192
+      },
+      {
+        "model": "copernicus_fm",
+        "patch_vectors": 60836,
+        "dimension": 768,
+        "float32_embedding_bytes": 186888192
+      },
+      {
+        "model": "satmae",
+        "patch_vectors": 197507,
+        "dimension": 768,
+        "float32_embedding_bytes": 606741504
+      },
+      {
+        "model": "anysat",
+        "patch_vectors": 399584,
+        "dimension": 768,
+        "float32_embedding_bytes": 1227522048
+      },
+      {
+        "model": "galileo",
+        "patch_vectors": 1132535,
+        "dimension": 128,
+        "float32_embedding_bytes": 579857920
+      },
+      {
+        "model": "presto",
+        "patch_vectors": 399584,
+        "dimension": 128,
+        "float32_embedding_bytes": 204587008
+      }
+    ],
+    "warning": "Not all non-vector bytes are disposable. Corrected output size and reclaimed APFS bytes are not measured by this calculation."
+  },
+  "source_sha256": {
+    "scripts/123_audit_encoder_input_contracts.py": "74d1861a2fdc77a1e2ce7927c208bd2fb2dd982f194e48f05e33726decb2f6a8",
+    "src/eo_encoders.py": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9",
+    "src/eo_coherent_inputs.py": "50f2afbb218a6208c65df8a69272d0a2d2eb576d9a0f930a26f81acff06646d4",
+    "scripts/118_extract_versioned_eo_sequences.py": "776de2e828162b7e41d095032782a2f15edf3720ed0f8f1d7b301b2a45450571",
+    "scripts/122_run_coherent_eo_correction.py": "bc369679405f93003c7e93a48fd9bb3877fd1bb18da67253ba22867524bf5b57",
+    "scripts/101_aggregate_limburg_eo_catchments.py": "6d1aa8c84d6c7aa1be1c637a4540676c1cd472be712f1cd173bd099630467018",
+    "src/eo_event_inputs.py": "43e6ec5488ef83383fb6cdb7573a86faeb05a6f82918006ca6540983b8ce0335",
+    "config/limburg_eo_selected_runs.json": "28cf1093af91a023a06e493d989f0a387e36d02969714df53f168db5b60e508a"
+  },
+  "changes": {
+    "production_numerical_code_changed": false,
+    "scientific_inputs_or_outputs_deleted": false,
+    "new_empirical_model_scores_claimed": false
+  }
+}

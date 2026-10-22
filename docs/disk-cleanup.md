@@ -1,5 +1,22 @@
 # Disk Cleanup
 
+## 22 October: correction held for storage redesign
+
+The [pre-correction audit](reviews/limburg-pre-correction-full-audit-2026-10-22.md)
+measured **285.659 GiB** allocated by the seven selected extraction directories,
+including **165.6 GiB** for Galileo. Their float32 vector payload is **2.830 GiB**;
+the remaining files include required masks/date/provenance evidence as well as
+repeated metadata, absent-patch records and filesystem overhead. It is not all
+disposable and is not an estimate of recoverable APFS physical space.
+
+About **70 GiB** remains free. The correction is held before extraction. Do not
+launch another copy of the old layout or assume lowering the hard-coded 60 GiB
+reserve makes it fit. Use compact lossless outputs/shared metadata and verified
+retirement/archive of superseded intermediates; preserve current aggregate
+receipts, source imagery and the evidence needed to reproduce missingness and
+area calculations. The current score/review can continue. No deletion occurred
+in this audit, and the Azure expansion remains remote.
+
 ## 21 October 2026: completed safe cache cleanup
 
 Removed approximately **2.00 GiB of allocated disposable cache**: the inactive
