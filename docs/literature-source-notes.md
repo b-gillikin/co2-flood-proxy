@@ -1,5 +1,10 @@
 # Literature Source Notes
 
+The [23 October weekly intake](limburg-weekly-literature-2026-10-23.md)
+adds Ford et al.'s preprint on pooled versus within-catchment skill as supporting
+evaluation literature for the current analogue/embedding study. No running
+model or comparison setting changes.
+
 These notes describe individual sources. They do not provide a cross-source
 synthesis, a chapter argument, a novelty claim or a proposed interpretation of
 future results. Author-reported findings and limitations remain attributed to
