@@ -82,3 +82,36 @@ out-of-window observed dates, missing pixels, and QA missing/cloud/day rules.
 The active ten-model extraction source files and environments remain unchanged.
 
 No new scores, recovered-event counts or model improvement are claimed yet.
+
+## Write-up checklist for Brian
+
+Keep these counts distinct:
+
+- **Ten model representations** remain in each selected comparison.
+- **Three distinct models** receive supplemental extraction: SatMAE,
+  Copernicus-FM and CROMA.
+- **Four supplemental configurations** are evaluated: one TOA/QA60 route for
+  SatMAE, one for Copernicus-FM, and two separate ascending-orbit routes for CROMA.
+- In each configuration-specific comparison, **one model arm is replaced and
+  nine are reused**. Across this extension, seven distinct models receive no new
+  extraction; their verified corrected representations remain in the comparisons.
+
+Report the original corrected archive analysis separately from these supplemental
+input-route sensitivities. A ten-model comparison does not mean ten models were
+re-extracted using the supplemental archive. The acquisition ledger covers all
+13 products; acquisition, pixel validity, model compatibility, complete temporal
+support and inclusion in scoring are different counts.
+
+For each reported result, identify checkpoint, input product/reflectance level or
+radar orbit, masking/date policy, extraction run, observed catchment/sequence
+coverage, eligible query and donor populations, and which representations were
+reused. Distinguish pooled, cross-river and NL–DE results. Explain that TOA/QA60
+changes reflectance domain and observed support together; do not attribute a
+performance difference solely to TOA versus SR. Additional radar orbits remain
+separate sensitivities rather than a fused radar representation.
+
+Label completed results, queued work and incompatible/unimplemented routes
+accurately. Retain the current archive as a valid analysis of its stated inputs;
+these supplemental comparisons are not evidence that all earlier results were
+wrong. Brian writes the manuscript prose; this checklist is an internal methods
+aid, not dissertation text.
