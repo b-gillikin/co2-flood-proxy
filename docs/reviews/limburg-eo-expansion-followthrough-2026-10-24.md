@@ -115,3 +115,11 @@ accurately. Retain the current archive as a valid analysis of its stated inputs;
 these supplemental comparisons are not evidence that all earlier results were
 wrong. Brian writes the manuscript prose; this checklist is an internal methods
 aid, not dissertation text.
+
+## Disk headroom
+
+Brian authorized cleanup and, if needed, verified Azure offloading of inactive
+data on October 24. See [Disk Cleanup authorization](disk-cleanup-authorization-2026-10-24.md).
+Check free space before supplemental work and during long phases; preserve active
+and queued dependencies, local manifests and verified results. This authorization
+does not itself remove data or change any model population.
