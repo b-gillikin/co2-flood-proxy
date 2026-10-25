@@ -3,6 +3,11 @@
 Brian authorized Disk Cleanup on October 24 when needed to finish the current
 Limburg workflow and four supplemental configurations. He also authorized
 Azure offloading of data not directly needed by those configurations if necessary.
+**Scope restriction:** Brian explicitly excluded every other chapter. Cleanup,
+local deletion and Azure offloading under this authorization are limited to
+`chapter1-co2`. Do not move, delete or otherwise modify data in other chapters
+or shared cross-chapter data locations.
+
 At the check, approximately 130 GiB was available; this is a dated observation,
 not a guarantee of later capacity.
 
