@@ -1,3 +1,5 @@
+Current chapter summary: [living one-pager](chapter-one-pager.md). Update it when design, data status or validated findings change; use it for supervisor briefs and one-pager requests.
+
 # Session handoff
 
 ## 2026-10-22 literature filed and corrections consolidated
