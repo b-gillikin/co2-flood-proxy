@@ -26,3 +26,22 @@ def test_duplicate_or_missing_configuration_rejected():
         module.lanes(module.PLAN.VARIANTS + [module.PLAN.VARIANTS[0]])
     with pytest.raises(ValueError):
         module.lanes(module.PLAN.VARIANTS[:-1])
+
+
+def test_engineering_context_uses_observed_source_window_not_fixed_months():
+    contexts = [
+        {
+            "context_id": "old",
+            "kind": "monthly_snapshot",
+            "windows": [{"id": "aug2018", "start": "2018-08-01"}],
+        },
+        {
+            "context_id": "available",
+            "kind": "monthly_snapshot",
+            "windows": [{"id": "jan2020", "start": "2020-01-01"}],
+        },
+    ]
+    jobs = [{"window": {"id": "jan2020"}, "relative_path": "observed.tif"}]
+    assert module.engineering_context(contexts, jobs, {"observed.tif"}) == "available"
+    with pytest.raises(ValueError):
+        module.engineering_context(contexts, jobs, set())

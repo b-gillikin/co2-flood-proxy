@@ -155,3 +155,22 @@ Limburg-only Disk Cleanup rather than changing scientific populations. Logs and
 per-lane progress remain in `logs/eo-expansion-comparisons`. Source identities for
 the already-running extractor are unchanged. Seven focused tests pass, covering
 route assignment and the existing supplemental input safeguards; lint passes.
+
+## Orbit-specific engineering-window repair — October 26
+
+Both supplemental optical extractions completed with zero errors. Copernicus-FM
+aggregation/merge completed and its scorer started. CROMA orbit 15's default
+August/September 2018 engineering fixture had no overlapping acquired imagery,
+so it produced no embeddings and correctly returned a nonzero status. This was
+not a missing delivery or failed neural inference. The complete orbit-15 archive
+was already staged/audited.
+
+Script 132 now selects an engineering-only single snapshot from held windows
+with audited observed pixels, without reading event responses. It requires a
+finite, nonempty successful output before full extraction. The engineering
+single-context output is separately located and cannot certify the full census.
+The orbit-15 check passed. Neither archive dates nor census eligibility changed.
+Completed optical extraction is reused on resume. The in-progress Copernicus-FM
+scorer PID 84158 was preserved and adopted; the controller waits for its verified
+completed manifest before any other scoring job. Eight focused tests pass,
+including the unavailable-fixed-month/available-observed-window case.

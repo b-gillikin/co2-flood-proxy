@@ -42,9 +42,25 @@ def lanes(variants):
     return [by_name[n] for n in GPU_NAMES], [by_name[n] for n in CPU_NAMES]
 
 
+def engineering_context(contexts, jobs, observed_paths):
+    """Select one held snapshot using source support only, never event outcomes."""
+    windows = {j["window"]["id"] for j in jobs if j["relative_path"] in observed_paths}
+    choices = [
+        c
+        for c in contexts
+        if c["kind"] == "monthly_snapshot"
+        and len(c["windows"]) == 1
+        and c["windows"][0]["id"] in windows
+    ]
+    if not choices:
+        raise ValueError("No observed snapshot available for engineering check")
+    return min(choices, key=lambda c: (c["windows"][0]["start"], c["context_id"]))["context_id"]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--adopt-satmae-pid", type=int, required=True)
+    parser.add_argument("--adopt-scoring-pid", type=int, default=0)
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     with (OUT / ".lock").open("a") as lock:
@@ -94,6 +110,18 @@ def main():
                 update(name, "waiting_for_disk_space", lane, pending_phase=phase)
                 if stop.wait(20):
                     raise RuntimeError("Queue stopped after another lane failed")
+            if (
+                args.adopt_scoring_pid
+                and name == "copernicus_fm_toa_qa60"
+                and phase in {"aggregating", "merging", "scoring"}
+            ):
+                receipt = json.loads(
+                    (ROOT / "results/eo_expansion_comparisons" / name / "manifest.json").read_text()
+                )
+                if receipt["status"] != "completed":
+                    raise ValueError("Adopted scoring did not complete")
+                update(name, phase + "_reused", lane)
+                return
             update(name, phase, lane, command=command)
             env = {
                 **os.environ,
@@ -170,13 +198,63 @@ def main():
                         "--archive",
                         str(archive),
                     ]
-                    run(
-                        name,
-                        "engineering",
-                        lane,
-                        command + ["--smoke", "--output", str(output) + "_engineering"],
+                    existing = list((output / model).glob("*/status.json"))
+                    complete = (
+                        len(existing) == 1
+                        and json.loads(existing[0].read_text())["status"] == "completed"
                     )
-                    run(name, "extracting", lane, command + ["--run", "--output", str(output)])
+                    if not complete:
+                        if model == "croma":
+                            jobs = json.loads((archive / "jobs.json").read_text())
+                            observed = set()
+                            with (
+                                ROOT / "results/eo_expansion_audit/pixels.jsonl"
+                            ).open() as stream:
+                                for line in stream:
+                                    row = json.loads(line)
+                                    if row["joint_valid_pixels"] > 0:
+                                        observed.add(row["relative_path"])
+                            context = engineering_context(
+                                json.loads((ROOT / baseline["contexts"]).read_text()),
+                                jobs,
+                                observed,
+                            )
+                            engineering_output = Path(
+                                str(output) + "_engineering_observed_snapshot"
+                            )
+                            run(
+                                name,
+                                "engineering",
+                                lane,
+                                command
+                                + [
+                                    "--context",
+                                    context,
+                                    "--run",
+                                    "--output",
+                                    str(engineering_output),
+                                ],
+                            )
+                            status_files = list((engineering_output / model).glob("*/status.json"))
+                            if len(status_files) != 1:
+                                raise ValueError("Engineering output missing")
+                            check = json.loads(status_files[0].read_text())
+                            if (
+                                check["status"] != "completed"
+                                or check["errors"]
+                                or check["written"] + check["resumed"] == 0
+                            ):
+                                raise ValueError(
+                                    "Engineering check produced no verified embeddings"
+                                )
+                        else:
+                            run(
+                                name,
+                                "engineering",
+                                lane,
+                                command + ["--smoke", "--output", str(output) + "_engineering"],
+                            )
+                        run(name, "extracting", lane, command + ["--run", "--output", str(output)])
                     validate_run(
                         ROOT, run_directory(name, model), model=model, expected_contexts=contexts
                     )
@@ -187,6 +265,32 @@ def main():
                 save()
 
         def postprocess():
+            if args.adopt_scoring_pid:
+                with mutex:
+                    state["lanes"]["cpu_postprocess"] = {
+                        "variant": "copernicus_fm_toa_qa60",
+                        "status": "scoring_adopted",
+                        "worker_pid": args.adopt_scoring_pid,
+                    }
+                    save()
+                while True:
+                    try:
+                        os.kill(args.adopt_scoring_pid, 0)
+                    except ProcessLookupError:
+                        break
+                    if stop.wait(20):
+                        return
+                receipt = json.loads(
+                    (
+                        ROOT
+                        / "results/eo_expansion_comparisons/copernicus_fm_toa_qa60/manifest.json"
+                    ).read_text()
+                )
+                if receipt["status"] != "completed":
+                    raise ValueError("Adopted scorer failed")
+                for path, expected in receipt["input_sha256"].items():
+                    if sha256(ROOT / path) != expected:
+                        raise ValueError("Adopted score input differs: " + path)
             while True:
                 variant = ready.get()
                 if variant is None:
