@@ -123,3 +123,14 @@ data on October 24. See [Disk Cleanup authorization](disk-cleanup-authorization-
 Check free space before supplemental work and during long phases; preserve active
 and queued dependencies, local manifests and verified results. This authorization
 does not itself remove data or change any model population.
+
+## Execution update — October 26
+
+The corrected main scoring and automated review completed at 12:15 UTC. The
+supplemental controller initially failed before extraction because it had been
+launched in Azure CLI Python, which lacks NumPy required by the local analysis
+imports. No main result was changed. The failure receipt is retained in
+`logs/eo-expansion-comparisons/environment-failure-2026-10-26.json`. The controller
+was restarted with the existing `.venvs-eo/terramind/bin/python`; SatMAE TOA/QA60
+engineering checks began. No packages, model inputs or frozen numerical sources
+were changed. Future controller launches must use that existing analysis runtime.

@@ -1,6 +1,6 @@
 # Chapter 1 — Limburg: historical high-water analogues
 
-Last substantively reviewed: 2026-10-25. Living supervisor/research brief; not dissertation manuscript prose.
+Last substantively reviewed: 2026-10-26. Living supervisor/research brief; not dissertation manuscript prose.
 
 ## Research Question(s)
 
@@ -26,7 +26,7 @@ Retrospective comparative evaluation of representations and retrieval. Subsequen
 
 ## Findings
 
-Earlier analyses found better matching of individual response shapes without consistent superiority for averaged response estimates. Conventional references remain competitive; AlphaEarth has not shown a strong general advantage. Corrected ten-model extraction, aggregation and merge are complete; scoring is running, with no final corrected EO findings yet. Analogue review and the four supplemental configurations follow. Operational warning skill is not claimed.
+Earlier analyses found better matching of individual response shapes without consistent superiority for averaged response estimates. Conventional references remain competitive; AlphaEarth has not shown a strong general advantage. Corrected ten-model extraction, aggregation, merge, scoring and automated analogue review are complete. The review contains 656 unique scored queries and reports zero audited donor-rule violations; repeated configuration rows are not independent events. Scientific interpretation of the corrected comparison remains pending. The four supplemental configurations are now starting with SatMAE engineering checks. Operational warning skill is not claimed.
 
 ## Maintenance
 
