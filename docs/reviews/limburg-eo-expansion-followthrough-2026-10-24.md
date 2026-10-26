@@ -134,3 +134,24 @@ imports. No main result was changed. The failure receipt is retained in
 was restarted with the existing `.venvs-eo/terramind/bin/python`; SatMAE TOA/QA60
 engineering checks began. No packages, model inputs or frozen numerical sources
 were changed. Future controller launches must use that existing analysis runtime.
+
+## Parallel scheduling — October 26
+
+Brian requested the previous two-CPU-plus-GPU pattern. Script 132 now supersedes
+script 131 as the active controller; script 131's fixed variant/view definitions
+are reused. Only the old controller PID 84488 was terminated. SatMAE PID 84558
+was adopted unchanged, preserving its extraction and frozen numerical code.
+
+- MPS lane: existing SatMAE, then CROMA orbit 15, then CROMA orbit 161.
+- CPU extraction lane: Copernicus-FM, after its successful real engineering check.
+- CPU postprocessing lane: completed configurations enter one serialized
+  aggregation/merge/scoring/review queue. This permits overlap with extraction
+  without concurrent retrieval-cache writers or multiple large scoring jobs.
+
+The postprocessing lane remains idle until an extraction completes. Scheduling
+changes no inputs, events, encoders, normalization or scores. New phases wait if
+free space falls below 60 GiB; resolve that through the separately authorized
+Limburg-only Disk Cleanup rather than changing scientific populations. Logs and
+per-lane progress remain in `logs/eo-expansion-comparisons`. Source identities for
+the already-running extractor are unchanged. Seven focused tests pass, covering
+route assignment and the existing supplemental input safeguards; lint passes.
