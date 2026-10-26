@@ -190,7 +190,9 @@ def main():
                     command = [
                         str(ROOT / f".venvs-eo/{environment}/bin/python"),
                         "-u",
-                        "scripts/130_extract_eo_expansion.py",
+                        "scripts/133_extract_supported_croma.py"
+                        if model == "croma"
+                        else "scripts/130_extract_eo_expansion.py",
                         "--model",
                         model,
                         "--device",

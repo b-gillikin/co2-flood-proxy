@@ -174,3 +174,35 @@ Completed optical extraction is reused on resume. The in-progress Copernicus-FM
 scorer PID 84158 was preserved and adopted; the controller waits for its verified
 completed manifest before any other scoring job. Eight focused tests pass,
 including the unavailable-fixed-month/available-observed-window case.
+
+## Undefined CROMA normalization support — October 26
+
+Full orbit-15 extraction exposed patches with exactly one observed pixel. The
+publisher transform uses sample standard deviation (correction=1), which is
+undefined there; channels with zero observed variance are also undefined.
+This is not missing imagery and is not repaired by filling values or adding data.
+
+The separately versioned script 133 / `src/eo_croma_supported_inputs.py` exclude
+only native 120-pixel patches where that transform is mathematically undefined,
+using the same float32 Torch sample-SD calculation. Valid neighbouring patches
+are retained. Raw TIFFs/receipts are unchanged; source metadata records original
+observed pixels, encoder-usable pixels, unsupported-pixel counts and reasons.
+Aggregated support is therefore encoder-usable observed area, not a claim that
+the excluded observations never existed. Complete event/context inventory is
+retained; unsupported inputs produce missing representations, not event deletion.
+No arbitrary minimum coverage percentage is introduced.
+
+The new rule/source hashes enter a fresh extraction identity. Failed orbit-15
+outputs and its preceding engineering snapshot were moved without deletion into
+`data/processed/eo_expansion_retired_2026-10-26`, with a retirement receipt. The
+optical extractor script 130 and its sources were not changed, preserving both
+completed optical outputs and the active Copernicus-FM scorer. Both additional
+CROMA orbits use the supported-SD route. The engineering check passed and full
+orbit-15 extraction restarted with zero initial errors.
+
+An explicit policy re-export was also corrected after an initial wrapper import
+failure; a wrapper-import regression check now covers it. Twelve focused tests
+pass: singleton/constant cases, unchanged supported neighbours, import contract,
+route scheduling, date/checksum and QA safeguards. These checks are not a claim
+that the full radar census is complete. Quantify the excluded support in final
+coverage reporting. Source files used by script 133 must remain frozen mid-run.
