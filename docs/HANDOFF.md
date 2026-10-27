@@ -1,5 +1,7 @@
 Active audit follow-up: [versioned downstream pass, 27 October](reviews/limburg-audit-followup-2026-10-27.md). Controller: `scripts/138_run_limburg_followup.py`; progress: `logs/eo-followup-2026-10-27/progress.json`. Use corrected provenance reviews under `results/eo_review_provenance_v2/` as they complete; original numerical runs are retained.
 
+Actual-case interpretation: [six visually inspected query/donor pairs](reviews/limburg-actual-analogue-review-2026-10-27.md), with reproducible figures and recomputed scores from script 139. These are post-hoc illustrations, not population findings or completed results from the pending audit follow-up.
+
 Current audit: [27 October completed-chapter review](reviews/limburg-completed-chapter-audit-2026-10-27.md). Main and four supplemental runs are complete; use the audit for support/benchmark limitations and next work.
 
 Current chapter summary: [living one-pager](chapter-one-pager.md). Update it when design, data status or validated findings change; use it for supervisor briefs and one-pager requests.

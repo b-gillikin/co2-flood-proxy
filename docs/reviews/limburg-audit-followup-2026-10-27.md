@@ -57,6 +57,10 @@ their own identities and the numerical dependency chain.
 
 ## Outputs
 
+- [Actual analogue case review](limburg-actual-analogue-review-2026-10-27.md):
+  six visually inspected query/donor pairs from completed main runs, including
+  unchanged selections, poor delayed-rise matches, metric disagreement and
+  provider qualifications. Recomputed displayed scores match stored values.
 - Corrected review pages: `results/eo_review_provenance_v2/{main,variant}/`.
 - Rainfall benchmark: `results/eo_analogue_comparison_rain168_v1/`, with its own
   input/output manifest and an updated review.
