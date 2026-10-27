@@ -1,5 +1,13 @@
 # Limburg analogue evidence: current results and development archive
 
+Current map (2026-10-27): the corrected ten-encoder and supplemental outputs,
+new rainfall benchmark, matched-route and generic-reference follow-up are indexed
+in the [completed-chapter audit](reviews/limburg-completed-chapter-audit-2026-10-27.md)
+and [follow-up record](reviews/limburg-audit-followup-2026-10-27.md).
+The entries below retain their dated evidence and historical interpretation;
+they are not the final EO comparison's results. See the
+[living one-pager](chapter-one-pager.md) for the current RQ and execution state.
+
 Updated 2026-10-15. Internal evidence organization, not dissertation prose.
 Organization updated to include the authorized threshold analysis; no new training or data request.
 

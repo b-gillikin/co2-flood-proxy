@@ -1,5 +1,16 @@
 # Limburg high-water analogues: active research design
 
+## Current reading map — 2026-10-27
+
+Use the [living one-pager](chapter-one-pager.md),
+[completed-chapter audit](reviews/limburg-completed-chapter-audit-2026-10-27.md)
+and [downstream follow-up](reviews/limburg-audit-followup-2026-10-27.md) for the
+current ten-encoder design and executed evidence. The dated implementation
+sections below preserve how the design evolved; their "current"/"awaiting"
+execution descriptions apply to those dates, not today's job queue. This remains
+a retrospective analogue study; no RAG arm, new prediction model or new basin
+has been reintroduced.
+
 ## EO integrity corrections — 2026-10-21, current
 
 [Current execution and correction record](reviews/limburg-eo-audit-fixes-2026-10-21.md)

@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-27T18:43:59.706203+00:00",
+  "original_runs": {
+    "unique_files_hashed": 149,
+    "hash_failures": 0
+  },
+  "followup": {
+    "created_utc": "2026-10-27T18:43:01.280965+00:00",
+    "issues": [],
+    "manifests": {
+      "results/eo_analogue_comparison_rain168_v1": "deddd295d1f817fd86f1b961d3f0028c922e39bd08e017793bdf1a70847aad68",
+      "results/eo_followup_independent_2026_10_27": "e645f58c501f95d120f3748aca2cd79b29aee634d0d02ef59121cca72ce1dbbf",
+      "results/eo_review_provenance_v2/copernicus_fm_toa_qa60": "37e035a3de1994c05b408bbeaf0f7b02ab36292008811144eda0e5a48785e5d0",
+      "results/eo_review_provenance_v2/croma_ascending_15": "3677c3d7f605f8bd3892a990c8931d8910f08c901c95f6c3f1f523b9862f55fb",
+      "results/eo_review_provenance_v2/croma_ascending_161": "22034af763ecc6bbd86cfe75277710d48cdcd479afc54d4310b97817fc20b713",
+      "results/eo_review_provenance_v2/main": "712597539c1fa1565cca14ddea049e56646c44e5bd1a806624582fd681820020",
+      "results/eo_review_provenance_v2/rain168": "5c4854b3fd6f14ba998eb6f723356f5d2b7ee32f904bd381097b6ef2f4b43f11",
+      "results/eo_review_provenance_v2/satmae_toa_qa60": "98abc5484a0d8a9dd9989dbe0d32453494793e1694ae3a6e96c6c4246c193ac7",
+      "results/eo_followup_2026_10_27": "24e18a1f474565a9c9b7d71d9b7ad3ceac53dd14fac877bdb5f511d228b9b6e2"
+    },
+    "metrics": {
+      "results/eo_analogue_comparison_rain168_v1/event_assessments.parquet": {
+        "rows": 2246580,
+        "invalid": 0
+      },
+      "results/eo_followup_independent_2026_10_27/common_route_assessments.parquet": {
+        "rows": 279040,
+        "invalid": 0
+      }
+    },
+    "intervals": {
+      "common_route_intervals.parquet": {
+        "rows": 12672,
+        "invalid": 0,
+        "undefined_small_cluster_intervals": 0
+      },
+      "archive_intervals.parquet": {
+        "rows": 1752816,
+        "invalid": 0,
+        "undefined_small_cluster_intervals": 10584
+      },
+      "final/archive_intervals.parquet": {
+        "rows": 1903296,
+        "invalid": 0,
+        "undefined_small_cluster_intervals": 10584
+      }
+    },
+    "pending_final_combination": false,
+    "route_trace": {
+      "cache_entries": 1116,
+      "files": 3348,
+      "role": "audit-time donor-trace preservation index, not a new empirical run"
+    },
+    "rainfall_scored_query_union": {
+      "original": 603,
+      "actual_feature_complete": 646
+    },
+    "unique_files_hashed": 3520,
+    "audit_source_sha256": "aa0ff30b7899bdb28f7d082aa0308138bbb5980dc05900d5804c52b5a69db4ae"
+  },
+  "tests": {
+    "passed": 331,
+    "elapsed_seconds": 40.26,
+    "log": "logs/eo-followup-2026-10-27/reaudit-tests.log"
+  },
+  "audit_sources_sha256": {
+    "scripts/134_audit_completed_limburg.py": "6ac929475e8aaf858cf494ae7a0a69a262f123006f4b0c3fd37628881f5761a4",
+    "scripts/140_resume_limburg_followup.py": "c839949874f82c446856331fc3c9225ef7258a2fbabb91855f25a0e9f15cedfc",
+    "scripts/141_audit_limburg_followup.py": "aa0ff30b7899bdb28f7d082aa0308138bbb5980dc05900d5804c52b5a69db4ae"
+  }
+}

@@ -4,6 +4,15 @@ Brian authorized the recommended next pass. This is a versioned downstream
 analysis using held inputs, not a new RQ, provider request or encoder extraction.
 Original scoring, reviews, source files and manifests remain unchanged.
 
+**Completion update:** all numerical stages and the results memo completed on
+27 October. The original controller stopped at its disk reserve after rainfall
+scoring/review finished; script 140 verified those outputs and resumed only the
+final phase. All 18 reference batches and the final receipt are published.
+The [second chapter audit](limburg-second-chapter-audit-2026-10-27.md) verifies
+the completed outputs and records the resource-stop history, corrected
+provider-label interpretation and remaining reporting limits. No results were
+deleted and no completed extraction or scoring was replayed by the recovery.
+
 ## Implemented work
 
 1. **Correct review provenance.** Script 135 regenerates the main and four

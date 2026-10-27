@@ -7,6 +7,38 @@ import pytest
 from src.eo_followup import archive_metrics, eligible_archive, feature_complete, review_input_note
 
 
+@pytest.mark.parametrize("problem", ["none", "incomplete", "corrupt"])
+def test_recovery_requires_complete_unchanged_results(tmp_path, problem):
+    import json
+    import runpy
+    from pathlib import Path
+
+    from src.eo_inputs import sha256
+
+    ns = runpy.run_path(
+        str(Path(__file__).resolve().parents[1] / "scripts/140_resume_limburg_followup.py")
+    )
+    verify = ns["verify_completed"]
+    verify.__globals__["ROOT"] = tmp_path
+    (tmp_path / "source.py").write_text("held")
+    folder = tmp_path / "completed"
+    folder.mkdir()
+    (folder / "scores.parquet").write_text("finished scores")
+    manifest = {
+        "status": "completed" if problem != "incomplete" else "running",
+        "input_sha256": {"source.py": sha256(tmp_path / "source.py")},
+        "outputs_sha256": {"scores.parquet": sha256(folder / "scores.parquet")},
+    }
+    (folder / "manifest.json").write_text(json.dumps(manifest))
+    if problem == "corrupt":
+        (folder / "scores.parquet").write_text("changed")
+    if problem == "none":
+        verify(folder)
+    else:
+        with pytest.raises(ValueError, match="incomplete|Changed"):
+            verify(folder)
+
+
 def test_parallel_stage_reuses_verified_files_without_linking_mutable_summaries(tmp_path):
     import json
     import runpy
