@@ -6,13 +6,15 @@ Last substantively reviewed: 2026-10-27. Living supervisor/research brief; not d
 
 Can basin-aware AI find useful past high-water events across Limburg's Dutch and German tributaries, and identify when the evidence is too uncertain to use?
 
-Supporting questions concern improvements in analogue selection, transfer between rivers/countries, and what analogues reveal about subsequent event behaviour.
+Supporting questions concern improvements in analogue selection, transfer between rivers/countries, and what analogues reveal about subsequent event behaviour. Meuse context asks whether apparently similar tributary events occur under different mainstem conditions.
 
 ## Motivation
 
 Past events can help interpret developing high water, but superficially similar events differ in catchment context, storm history, river state and measurement quality. Test whether learned representations identify informative precedents and expose misleading matches. The potential application is source-linked situation assessment; operator benefit is not established here.
 
 ## Data
+
+Sint Pieter and Venlo discharge are included as source-audited Meuse context for all held tributary queries and saved flood-case analogues. Ordinary controlled values are distinguished from a broader view containing interpolation; missing context does not remove an event from the original census.
 
 Held inputs for the declared comparisons: Dutch/German gauge records, catchment rainfall for the conventional comparison, river/catchment geography, provider quality information, AlphaEarth embeddings and EO imagery. Each arm uses its declared subset; Q-only comparisons do not require rainfall or every EO model. Held weather data and current warning thresholds support earlier explanatory/progression analyses; they are not prerequisites for the core EO analogue comparison. The full eligible event census retains explicit no-analogue cases. The supplemental archive's 66,913 files are locally staged and pixel/date audited; acquisition does not itself establish complete model support.
 
@@ -30,9 +32,11 @@ The planned analysis and consolidation are complete. In the broad Q-history cens
 
 Added EO has conditional value. On 111 DE snapshot cases, AnySat + TTM/state reduces mean-trajectory RMSE by about 11% versus conventional matching, with exploratory storm/year intervals below zero; several peak/timing/late-response contrasts also improve. The curve advantage weakens with other-river donors and k=10. Some attractive Copernicus-FM/CROMA results on the shared all-ten intersection are not reproduced in their larger model-available populations. AlphaEarth has selective timing evidence, without a consistent general shape/trajectory advantage.
 
-Actual cases show useful recession matches, missed later rises, unchanged donor selections and better normalized shape paired with worse severity/duration estimates. Cohort, donor archive and outcome matter; no universal model winner or operational warning skill is established. Full findings, sensitivities, population comparisons and figure links are in the [consolidated findings brief](limburg-findings-consolidated-2026-10-27.md). All original outputs remain preserved; 345 tests pass. Brian can now write from the completed evidence bundle.
+Actual cases show useful recession matches, missed later rises, unchanged donor selections and better normalized shape paired with worse severity/duration estimates. Cohort, donor archive and outcome matter; no universal model winner or operational warning skill is established. Full findings, sensitivities, population comparisons and figure links are in the [consolidated findings brief](limburg-findings-consolidated-2026-10-27.md). All original outputs remain preserved; 352 tests pass. Brian can now write from the completed evidence bundle.
 
 The [flood-focused case review](limburg-flood-case-review-2026-10-27.md) traces 15 source-bounded register entries, including all seven core H3 cases. Only two linked p99 queries provide scored pre-flood responses; a third is recovery. It identifies separate archive-support, retrieval, extreme-member and averaging failures, plus a July 2021 transition beyond the original 72-hour target. It does not establish reliable flood escalation prediction.
+
+The [Meuse context addition](limburg-meuse-context-2026-10-27.md) complements the tributary analysis. Its observational comparisons do not yet establish a gain from using Meuse state in retrieval.
 
 ## Maintenance
 

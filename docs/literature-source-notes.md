@@ -577,3 +577,8 @@ Limburg collection; the historical collection name remains `Chapter 1: CO2`.
 - **Dihan et al. (2025), MapEval:** map-based relational reasoning needs direct
   evaluation. Supports deterministic topology plus explicit spatial-relation
   benchmark cases rather than assumed LLM basin knowledge.
+
+
+## Meuse context inclusion — 2026-10-27
+
+[The context brief](limburg-meuse-context-2026-10-27.md) connects Strijker et al. (2023), DOI 10.59490/jcrfr.2023.0006, and Geertsema et al. (2018), DOI 10.5194/hess-22-5599-2018, to the executed Sint Pieter/Venlo addition. Mainstem attenuation and high-water overlap motivate regional context; they do not establish local backwater at the study gauges. These primary sources were rechecked for this inclusion; no additional model or dataset requirement follows from them.

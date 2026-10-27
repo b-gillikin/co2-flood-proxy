@@ -1,0 +1,24 @@
+{
+  "events": 1062,
+  "census_years": [
+    2010,
+    2025
+  ],
+  "event_support": {
+    "sint_pieter": {
+      "total_events": 1062,
+      "strict_cutoff_available": 931,
+      "prior_rank_available": 931,
+      "display_cutoff_available": 1011
+    },
+    "venlo": {
+      "total_events": 1062,
+      "strict_cutoff_available": 613,
+      "prior_rank_available": 613,
+      "display_cutoff_available": 625
+    }
+  },
+  "saved_unique_query_donor_pairs": 641,
+  "register_cases": 15,
+  "results_role": "observational context; no changed model scores"
+}

@@ -138,3 +138,8 @@ The case-crossover fit, observed-rainfall follow-up, cross-tributary footprint,
 retrospective prediction, atmospheric increment, Wurm CO2/pressure diagnostic,
 Maas increment and early AI brainstorming are under
 `archive/retired-directions/2026-retrospective-high-water/`.
+
+
+## Active Meuse context — 2026-10-27
+
+Script `145_add_meuse_context.py` and `src/meuse_context.py` include held Sint Pieter/Venlo observations in the current tributary analogue study. Output: `results/meuse_context_2026_10_27/`. This observational context addition differs from the archived Venlo prediction/increment pilot; the pilot remains archived with its negative result. See [the current context brief](limburg-meuse-context-2026-10-27.md).

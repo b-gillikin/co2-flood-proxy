@@ -12,6 +12,26 @@ execution descriptions apply to those dates, not today's job queue. This remains
 a retrospective analogue study; no RAG arm, new prediction model or new basin
 has been reintroduced.
 
+## Meuse inclusion — 2026-10-27
+
+Brian authorized inclusion of the Meuse after the flood-case review. The active
+chapter now includes Sint Pieter and Venlo as mainstem context for tributary
+queries and their saved analogues. Script 145 builds source-audited, cutoff-safe
+context across the full held event census and adds Meuse timelines to the flood
+review. See [the Meuse context brief](limburg-meuse-context-2026-10-27.md).
+
+The central RQ remains useful historical analogues across Dutch/German tributaries,
+now explicitly asking whether apparent similarity conceals different mainstem
+conditions. This addition is implemented observational context; it does not yet
+establish incremental predictive benefit, rerank existing donors, mix mainstem
+and tributary donor populations, or infer backwater from discharge correlation.
+The previous Venlo increment pilot remains archived evidence of a different task.
+A context-aware retrieval comparison can reuse these past-only descriptors with
+matched events/pools and the existing baseline; it is not a prerequisite for
+retaining the completed case review or chapter. Meuse events as a separate
+analogue population and confluence-specific interaction remain possible further
+work, not newly imposed chapter requirements.
+
 ## EO integrity corrections — 2026-10-21, current
 
 [Current execution and correction record](reviews/limburg-eo-audit-fixes-2026-10-21.md)

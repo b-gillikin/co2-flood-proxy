@@ -4,6 +4,8 @@ Completed findings: [consolidated evidence brief](docs/limburg-findings-consolid
 
 Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. The [authorized audit follow-up](docs/reviews/limburg-audit-followup-2026-10-27.md) is complete; see the [re-audit](docs/reviews/limburg-second-chapter-audit-2026-10-27.md); dated execution descriptions below retain their historical context.
 
+Meuse inclusion (27 October): Sint Pieter and Venlo now provide mainstem context for the held tributary event census and saved flood-case analogues. See [context, source quality and interpretation](docs/limburg-meuse-context-2026-10-27.md). Existing model scores are preserved.
+
 Research question:
 
 > **Can basin-aware AI find useful past high-water events across Limburg's
