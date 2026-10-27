@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import argparse
 import fcntl
 import json
+import os
+import shutil
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -27,6 +30,7 @@ from src.eo_integrity import fresh_output
 from src.eo_retrieval_cache import RetrievalCache
 
 OUT = ROOT / "results/eo_followup_2026_10_27"
+INDEPENDENT = ROOT / "results/eo_followup_independent_2026_10_27"
 VARIANTS = {
     "satmae_toa_qa60": "satmae",
     "copernicus_fm_toa_qa60": "copernicus_fm",
@@ -144,14 +148,44 @@ def interval_rows(frame, group_columns, value_columns, review):
     return pd.DataFrame(rows)
 
 
-def archive_pass(sample, meta, old_rain, new_rain, alpha, obs, links, evaluator):
-    cache = {}
-    summary = []
-    intervals = []
-    support = []
+def archive_specs(include_rain=True):
     specs = [("main", ROOT / "results/eo_analogue_comparison_coherent_v1", False)]
     specs += [(n, ROOT / "results/eo_expansion_comparisons" / n, False) for n in VARIANTS]
-    specs += [("rain168", ROOT / "results/eo_analogue_comparison_rain168_v1", True)]
+    if include_rain:
+        specs += [("rain168", ROOT / "results/eo_analogue_comparison_rain168_v1", True)]
+    return specs
+
+
+def reuse_independent(folder, destination):
+    """Validate frozen partial results and link immutable large files without copying."""
+    manifest = json.loads((folder / "manifest.json").read_text())
+    if manifest.get("status") != "completed" or manifest.get("stage") != "independent":
+        raise ValueError("Independent stage is not complete")
+    for section in ["input_sha256", "source_sha256"]:
+        for name, digest in manifest[section].items():
+            if sha256(ROOT / name) != digest:
+                raise ValueError("Independent stage dependency changed: " + name)
+    for name, digest in manifest["outputs_sha256"].items():
+        if sha256(folder / name) != digest:
+            raise ValueError("Independent stage output changed: " + name)
+    # These tables will be combined, not modified through a hard link.
+    combined = {"archive_summary.parquet", "archive_intervals.parquet", "archive_progress.json"}
+    for name in manifest["outputs_sha256"]:
+        if name in combined:
+            continue
+        target = destination / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        os.link(folder / name, target)
+
+
+def archive_pass(
+    sample, meta, old_rain, new_rain, alpha, obs, links, evaluator, *, specs=None, prior=None
+):
+    cache = {}
+    summary = [] if prior is None else [pd.read_parquet(prior / "archive_summary.parquet")]
+    intervals = [] if prior is None else [pd.read_parquet(prior / "archive_intervals.parquet")]
+    support = [] if prior is None else json.loads((prior / "archive_progress.json").read_text())
+    specs = archive_specs() if specs is None else specs
     for label, comparison, is_new in specs:
         dest = OUT / "archive_reference" / label
         dest.mkdir(parents=True, exist_ok=True)
@@ -266,7 +300,8 @@ def archive_pass(sample, meta, old_rain, new_rain, alpha, obs, links, evaluator)
 def route_pass(sample, meta, raw, ttm, state, new_rain, obs, links, evaluator):
     results = []
     support = []
-    retrieval = RetrievalCache(ROOT / "data/processed/eo_retrieval_cache", retrieve)
+    # Isolated from the active rainfall replay: no concurrent cache writers.
+    retrieval = RetrievalCache(ROOT / "data/processed/eo_followup_route_retrieval_cache", retrieve)
     main = ROOT / "results/eo_analogue_comparison_coherent_v1"
     for name, model in VARIANTS.items():
         for kind in ["monthly_snapshot", "monthly", "recent"]:
@@ -403,7 +438,7 @@ def route_pass(sample, meta, raw, ttm, state, new_rain, obs, links, evaluator):
     pd.DataFrame(support).to_json(OUT / "common_route_support.json", orient="records", indent=2)
 
 
-def execute():
+def execute(stage="all"):
     global RESPONSE
     OUT.mkdir(parents=True, exist_ok=True)
     sample, meta, raw, ttm, state, base, old_rain, new_rain, alpha = inputs()
@@ -414,24 +449,50 @@ def execute():
     RESPONSE = pd.read_parquet(
         ROOT / "results/basin_ai_event_definition_sensitivity/p99_72/response_p99.parquet"
     )
-    route_pass(sample, meta, raw, ttm, state, new_rain, obs, links, evaluator)
-    archive_pass(sample, meta, old_rain, new_rain, alpha, obs, links, evaluator)
+    prior = None
+    if stage == "all" and (INDEPENDENT / "manifest.json").exists():
+        reuse_independent(INDEPENDENT, OUT)
+        prior = INDEPENDENT
+    else:
+        route_pass(sample, meta, raw, ttm, state, new_rain, obs, links, evaluator)
+    specs = archive_specs(include_rain=stage == "all")
+    if prior is not None:
+        specs = [spec for spec in specs if spec[0] == "rain168"]
+    archive_pass(
+        sample,
+        meta,
+        old_rain,
+        new_rain,
+        alpha,
+        obs,
+        links,
+        evaluator,
+        specs=specs,
+        prior=prior,
+    )
     manifest = {
         "status": "completed",
+        "stage": stage,
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "all eligible events; unchanged targets; all donor policies, quality/scenario settings and k=5/10; group-balanced generic reference and common-route donor universes",
         "input_sha256": {
             str(p.relative_to(ROOT)): sha256(p)
             for p in [
                 ROOT / "results/eo_analogue_comparison_coherent_v1/manifest.json",
-                ROOT / "results/eo_analogue_comparison_rain168_v1/manifest.json",
+                *(
+                    [ROOT / "results/eo_analogue_comparison_rain168_v1/manifest.json"]
+                    if stage == "all"
+                    else []
+                ),
+                *([INDEPENDENT / "manifest.json"] if prior is not None else []),
                 *[
                     ROOT / "results/eo_expansion_comparisons" / n / "manifest.json"
                     for n in VARIANTS
                 ],
                 ROOT / "results/basin_ai_event_interpretation_ready/event_inventory.csv",
                 ROOT / "results/basin_ai_event_interpretation_ready/q_only_signatures.csv",
-                ROOT / "results/basin_ai_event_interpretation_ready/q_only_standardized_histories.parquet",
+                ROOT
+                / "results/basin_ai_event_interpretation_ready/q_only_standardized_histories.parquet",
                 ROOT / "results/basin_ai_event_interpretation_ready/q_only_ttm_ordered.parquet",
                 ROOT / "results/basin_ai_event_interpretation_ready/q_only_discharge_state.parquet",
                 ROOT / "results/basin_ai_alphaearth/catchment_year_embeddings.parquet",
@@ -464,12 +525,48 @@ def execute():
 
 def main():
     global OUT
-    destination = OUT
-    with (ROOT / "results/.eo-followup-analysis.lock").open("a") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        with fresh_output(destination) as stage:
-            OUT = stage
-            execute()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stage", choices=["all", "independent"], default="all")
+    args = parser.parse_args()
+    destination = INDEPENDENT if args.stage == "independent" else OUT
+
+    def status(state, **extra):
+        if args.stage != "independent":
+            return
+        path = ROOT / "logs/eo-followup-2026-10-27/independent-stage.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temp = path.with_suffix(".partial")
+        temp.write_text(
+            json.dumps(
+                {
+                    "status": state,
+                    "pid": os.getpid(),
+                    "updated_utc": datetime.now(timezone.utc).isoformat(),
+                    "free_gib": round(shutil.disk_usage(ROOT).free / 2**30, 1),
+                    "destination": str(destination),
+                    **extra,
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+        temp.replace(path)
+
+    try:
+        status("waiting_for_lock")
+        with (ROOT / "results/.eo-followup-analysis.lock").open("a") as lock:
+            # The already-running controller may reach this step before the parallel
+            # worker finishes. Wait, then reuse its validated output instead of racing.
+            print("Waiting for independent-stage lock, if occupied", flush=True)
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            status("running")
+            with fresh_output(destination) as stage:
+                OUT = stage
+                execute(args.stage)
+        status("completed")
+    except BaseException as exc:
+        status("failed", error=str(exc))
+        raise
 
 
 if __name__ == "__main__":

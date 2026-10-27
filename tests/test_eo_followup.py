@@ -7,6 +7,74 @@ import pytest
 from src.eo_followup import archive_metrics, eligible_archive, feature_complete, review_input_note
 
 
+def test_parallel_stage_reuses_verified_files_without_linking_mutable_summaries(tmp_path):
+    import json
+    import runpy
+    from pathlib import Path
+
+    from src.eo_inputs import sha256
+
+    ns = runpy.run_path(
+        str(Path(__file__).resolve().parents[1] / "scripts/137_eo_archive_and_route_followup.py")
+    )
+    reuse = ns["reuse_independent"]
+    reuse.__globals__["ROOT"] = tmp_path
+    folder, destination = tmp_path / "independent", tmp_path / "final"
+    folder.mkdir()
+    destination.mkdir()
+    (tmp_path / "input").write_text("held input")
+    (tmp_path / "source.py").write_text("frozen source")
+    names = [
+        "common_route_assessments.parquet",
+        "archive_reference/main/monthly.parquet",
+        "archive_summary.parquet",
+        "archive_intervals.parquet",
+        "archive_progress.json",
+    ]
+    for name in names:
+        p = folder / name
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(name)
+    manifest = {
+        "status": "completed",
+        "stage": "independent",
+        "input_sha256": {"input": sha256(tmp_path / "input")},
+        "source_sha256": {"source.py": sha256(tmp_path / "source.py")},
+        "outputs_sha256": {name: sha256(folder / name) for name in names},
+    }
+    (folder / "manifest.json").write_text(json.dumps(manifest))
+    reuse(folder, destination)
+    for name in names[:2]:
+        assert (destination / name).stat().st_ino == (folder / name).stat().st_ino
+    for name in names[2:]:
+        assert not (destination / name).exists()
+    assert not (destination / "manifest.json").exists()
+    (tmp_path / "input").write_text("changed")
+    with pytest.raises(ValueError, match="dependency changed"):
+        reuse(folder, destination)
+    (tmp_path / "input").write_text("held input")
+    (folder / names[0]).write_text("corrupt")
+    with pytest.raises(ValueError, match="output changed"):
+        reuse(folder, destination)
+
+
+def test_independent_archive_specs_exclude_unfinished_rainfall_run():
+    import runpy
+    from pathlib import Path
+
+    ns = runpy.run_path(
+        str(Path(__file__).resolve().parents[1] / "scripts/137_eo_archive_and_route_followup.py")
+    )
+    assert [s[0] for s in ns["archive_specs"](False)] == [
+        "main",
+        "satmae_toa_qa60",
+        "copernicus_fm_toa_qa60",
+        "croma_ascending_15",
+        "croma_ascending_161",
+    ]
+    assert ns["archive_specs"]()[-1][0] == "rain168"
+
+
 def test_actual_predictor_completeness_does_not_require_unused_rain_history():
     f = pd.DataFrame(
         {

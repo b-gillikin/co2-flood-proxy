@@ -47,11 +47,31 @@ reduces repeated work without changing the estimator or resampling unit. Small
 cluster cases keep point estimates with undefined intervals. No multiplicity-
 selected winner or operational probability calibration is claimed.
 
-The review correction and rainfall replay run on two CPU workers. They finish
-before the common-route/archive analysis starts, avoiding concurrent scoring-cache
-writers. No GPU is needed. The controller records progress under
-`logs/eo-followup-2026-10-27/progress.json` and checks the 60 GiB working reserve
-before new phases. Authorized cleanup remains Limburg-only. All source/encoder
+Initially, the review correction and rainfall replay ran on two CPU workers,
+with common-route/archive work queued afterwards. After the review pages finished,
+Brian asked whether the independent numerical work could overlap with rainfall.
+Script 137 now supports `--stage independent`: common-pool contrasts (including
+the 168-hour predictor-complete population, derived directly from held features)
+and the five completed runs' generic references run on a second CPU worker.
+They do not need the new rainfall scores. Their retrieval cache is isolated at
+`data/processed/eo_followup_route_retrieval_cache/`, so the rainfall replay's cache
+is untouched. No GPU is needed.
+
+Independent results publish to `results/eo_followup_independent_2026_10_27/`.
+The existing controller finishes the rainfall replay and its review, then waits
+for the independent-stage lock if needed. It verifies all recorded independent
+input/source/output hashes, reuses immutable outputs, and computes only the new
+rainfall run's generic reference. Combined summary/interval tables are written
+separately; hard links to unchanged large case tables avoid extra disk copies.
+Neither a partial publication nor changed files can be silently reused. No
+running rainfall job was interrupted or restarted, and numerical estimators,
+cohorts and resampling settings are unchanged.
+
+Controller progress: `logs/eo-followup-2026-10-27/progress.json`;
+parallel worker: `logs/eo-followup-2026-10-27/independent-stage.json` and
+`independent-stage.log`. The controller's original task labels alone do not show
+this independent worker. Both workflows keep the 60 GiB working reserve at launch
+or phase boundaries. Authorized cleanup remains Limburg-only. All source/encoder
 files used by the completed runs stay frozen. New entry points explicitly record
 their own identities and the numerical dependency chain.
 
@@ -82,6 +102,10 @@ the audit remain explicit. Brian writes dissertation/article prose.
 - Full suite: **326 passed**, including seven follow-up tests covering the
   multi-metric/scalar bootstrap equivalence and review-page regeneration.
   Verification log: `logs/eo-followup-tests-2026-10-27.log`.
+- Parallel-stage update: **328 passed**, adding checks that independent work
+  excludes unfinished rainfall scores, rejects changed inputs/outputs, and never
+  hard-links summary files that will be combined. Verification log:
+  `logs/eo-followup-parallel-tests-2026-10-27.log`.
 - Real-input engineering check: orbit-15 snapshot intersection contained 16
   eligible events and 14 queries with donors; main/supplemental retrieval shared
   query IDs, and generic candidate universes matched recorded counts exactly.
