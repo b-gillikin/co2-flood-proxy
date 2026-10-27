@@ -1,3 +1,5 @@
+Current audit: [27 October completed-chapter review](reviews/limburg-completed-chapter-audit-2026-10-27.md). Main and four supplemental runs are complete; use the audit for support/benchmark limitations and next work.
+
 Current chapter summary: [living one-pager](chapter-one-pager.md). Update it when design, data status or validated findings change; use it for supervisor briefs and one-pager requests.
 
 # Session handoff

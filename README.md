@@ -1,5 +1,7 @@
 # Basin-Aware AI for Historical High-Water Analogues
 
+Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. Interpretation and audit follow-through remain; dated execution descriptions below retain their historical context.
+
 Research question:
 
 > **Can basin-aware AI find useful past high-water events across Limburg's

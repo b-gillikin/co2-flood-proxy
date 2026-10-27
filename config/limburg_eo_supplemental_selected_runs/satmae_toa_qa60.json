@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "version": "held_archive_publisher_inputs_and_same_day_s2_v1",
+  "purpose": "Same held archive/context census; eight corrected routes, Prithvi and repaired OlmoEarth reused",
+  "contexts": "results/eo_comparison_preparation/contexts.json",
+  "contexts_sha256": "bdfc181e1084cb67c4f80e41111b42cf1fdf5519f857f9cc43d6e5fd9c266a45",
+  "models": {
+    "prithvi": {
+      "run": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "croma": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/croma/ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "terramind": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/terramind/68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "dofa": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/dofa/1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "copernicus_fm": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/copernicus_fm/dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "satmae": {
+      "run": "data/processed/eo_expansion_sequences/satmae_toa_qa60/satmae/0632b1942f1f36701dbe77367916b6bb09945fbacdcd24c82d5dce26987fcd79",
+      "aggregate": "results/eo_expansion_representations/satmae_toa_qa60/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "anysat": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/anysat/2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census",
+      "mask_policy": "native_pixel_mask_v1"
+    },
+    "olmoearth": {
+      "run": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census",
+      "mask_policy": "all_pixels_observed_in_native_token_block_v1"
+    },
+    "galileo": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/galileo/05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census",
+      "mask_policy": "all_pixels_observed_in_native_token_block_v1"
+    },
+    "presto": {
+      "run": "data/processed/limburg_eo_coherent_census_v1/presto/7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census",
+      "mask_policy": "native_pixel_mask_v1"
+    }
+  },
+  "supplemental_sensitivity": {
+    "name": "satmae_toa_qa60",
+    "source_product": "s2_toa",
+    "baseline_selection_sha256": "f58d5f236bf012239852e92859c876208bbda8bd611f9853caccbf15789a45a4",
+    "scope": "one changed arm; other nine retained; no cross-orbit pooling"
+  }
+}

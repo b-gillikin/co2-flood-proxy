@@ -1,0 +1,1578 @@
+{
+  "created_utc": "2026-10-27T13:49:08.746135+00:00",
+  "mode": "read_only_audit_no_rescoring",
+  "runs": {
+    "main": {
+      "selection": "config/limburg_eo_coherent_selected_runs.json",
+      "manifests": {
+        "scores": {
+          "status": "completed",
+          "sha256": "22b65687cb0f61782a3e77284a1c188125f40811aae2cc6c21b552500dd9df9c",
+          "scored_sets": 17928,
+          "unique_queries": null,
+          "donor_violations": null
+        },
+        "review": {
+          "status": "completed",
+          "sha256": "f51b08203caff7aac7951006234767aebc00dab084ed102862d79f67e2811b5a",
+          "scored_sets": null,
+          "unique_queries": 656,
+          "donor_violations": {
+            "unfinished_prior_response": 0,
+            "same_storm": 0,
+            "same_event": 0,
+            "wrong_country_policy": 0,
+            "same_river_in_other_river_search": 0,
+            "measurement_concern_in_quality_analysis": 0,
+            "inadmissible_response": 0,
+            "rank_outside_requested_k": 0
+          }
+        }
+      },
+      "hash_failures": [],
+      "selected_readiness": {
+        "prithvi": {
+          "status": "verified",
+          "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+          "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+        },
+        "croma": {
+          "status": "verified",
+          "run": "ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census"
+        },
+        "terramind": {
+          "status": "verified",
+          "run": "68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census"
+        },
+        "dofa": {
+          "status": "verified",
+          "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census"
+        },
+        "copernicus_fm": {
+          "status": "verified",
+          "run": "dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census"
+        },
+        "satmae": {
+          "status": "verified",
+          "run": "cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/satmae/census"
+        },
+        "anysat": {
+          "status": "verified",
+          "run": "2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census"
+        },
+        "olmoearth": {
+          "status": "verified",
+          "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+          "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+        },
+        "galileo": {
+          "status": "verified",
+          "run": "05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census"
+        },
+        "presto": {
+          "status": "verified",
+          "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census"
+        }
+      },
+      "coverage": [
+        {
+          "kind": "monthly_snapshot",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 637,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 479
+        },
+        {
+          "kind": "monthly",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 379,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 438,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "monthly",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 356
+        },
+        {
+          "kind": "recent",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 202,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 211,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 103
+        },
+        {
+          "kind": "recent",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 269,
+          "all_ten_matched_events": 103
+        }
+      ],
+      "inference": {
+        "interval_rows": 476784,
+        "resampling_units": [
+          "query_storm_id",
+          "storm_year"
+        ],
+        "min_query_count": 31,
+        "min_clusters": 3,
+        "metrics": [
+          "duration_estimate_absolute_error_h",
+          "ensemble_curve_level_rmse",
+          "final_24h_level_absolute_error",
+          "mean_donor_peak_absolute_error",
+          "mean_peak_scaled_shape_rmse",
+          "mean_peak_time_difference_h"
+        ]
+      },
+      "assessment_rows": 5656500,
+      "review_input_note_wrong_for_supplement": false
+    },
+    "satmae_toa_qa60": {
+      "selection": "logs/eo-expansion-comparisons/satmae_toa_qa60-selection.json",
+      "manifests": {
+        "scores": {
+          "status": "completed",
+          "sha256": "aa7697ceeaf564e644b66f2adbb7b83ebaf3aac59e4af296f5b01c63b0920824",
+          "scored_sets": 17376,
+          "unique_queries": null,
+          "donor_violations": null
+        },
+        "review": {
+          "status": "completed",
+          "sha256": "e6cb0b2ff52ac575ff6040b1e855b6ffab49b602c6ff19e23ac82fd36f082eb3",
+          "scored_sets": null,
+          "unique_queries": 656,
+          "donor_violations": {
+            "unfinished_prior_response": 0,
+            "same_storm": 0,
+            "same_event": 0,
+            "wrong_country_policy": 0,
+            "same_river_in_other_river_search": 0,
+            "measurement_concern_in_quality_analysis": 0,
+            "inadmissible_response": 0,
+            "rank_outside_requested_k": 0
+          }
+        }
+      },
+      "hash_failures": [],
+      "selected_readiness": {
+        "prithvi": {
+          "status": "verified",
+          "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+          "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+        },
+        "croma": {
+          "status": "verified",
+          "run": "ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census"
+        },
+        "terramind": {
+          "status": "verified",
+          "run": "68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census"
+        },
+        "dofa": {
+          "status": "verified",
+          "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census"
+        },
+        "copernicus_fm": {
+          "status": "verified",
+          "run": "dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census"
+        },
+        "satmae": {
+          "status": "verified",
+          "run": "0632b1942f1f36701dbe77367916b6bb09945fbacdcd24c82d5dce26987fcd79",
+          "aggregate": "results/eo_expansion_representations/satmae_toa_qa60/census"
+        },
+        "anysat": {
+          "status": "verified",
+          "run": "2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census"
+        },
+        "olmoearth": {
+          "status": "verified",
+          "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+          "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+        },
+        "galileo": {
+          "status": "verified",
+          "run": "05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census"
+        },
+        "presto": {
+          "status": "verified",
+          "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census"
+        }
+      },
+      "coverage": [
+        {
+          "kind": "monthly_snapshot",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 637,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 366,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 379,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 438,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 78,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "recent",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 202,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 211,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 128,
+          "all_ten_matched_events": 19
+        }
+      ],
+      "inference": {
+        "interval_rows": 445200,
+        "resampling_units": [
+          "query_storm_id",
+          "storm_year"
+        ],
+        "min_query_count": 1,
+        "min_clusters": 1,
+        "metrics": [
+          "duration_estimate_absolute_error_h",
+          "ensemble_curve_level_rmse",
+          "final_24h_level_absolute_error",
+          "mean_donor_peak_absolute_error",
+          "mean_peak_scaled_shape_rmse",
+          "mean_peak_time_difference_h"
+        ]
+      },
+      "assessment_rows": 4850692,
+      "review_input_note_wrong_for_supplement": true
+    },
+    "copernicus_fm_toa_qa60": {
+      "selection": "logs/eo-expansion-comparisons/copernicus_fm_toa_qa60-selection.json",
+      "manifests": {
+        "scores": {
+          "status": "completed",
+          "sha256": "a51d1c0b5de028ce9600336fdee424f97f82d190fd813b5a656dfb6657f87bc3",
+          "scored_sets": 17376,
+          "unique_queries": null,
+          "donor_violations": null
+        },
+        "review": {
+          "status": "completed",
+          "sha256": "a4da54ba0894633e383c83887515c4d49322c00b5bba7e63e65dc8b316710a0b",
+          "scored_sets": null,
+          "unique_queries": 656,
+          "donor_violations": {
+            "unfinished_prior_response": 0,
+            "same_storm": 0,
+            "same_event": 0,
+            "wrong_country_policy": 0,
+            "same_river_in_other_river_search": 0,
+            "measurement_concern_in_quality_analysis": 0,
+            "inadmissible_response": 0,
+            "rank_outside_requested_k": 0
+          }
+        }
+      },
+      "hash_failures": [],
+      "selected_readiness": {
+        "prithvi": {
+          "status": "verified",
+          "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+          "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+        },
+        "croma": {
+          "status": "verified",
+          "run": "ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census"
+        },
+        "terramind": {
+          "status": "verified",
+          "run": "68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census"
+        },
+        "dofa": {
+          "status": "verified",
+          "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census"
+        },
+        "copernicus_fm": {
+          "status": "verified",
+          "run": "c200410899ced0c72415246d3da63d4ba612b4254abefce464fa2cd540e93c0d",
+          "aggregate": "results/eo_expansion_representations/copernicus_fm_toa_qa60/census"
+        },
+        "satmae": {
+          "status": "verified",
+          "run": "cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/satmae/census"
+        },
+        "anysat": {
+          "status": "verified",
+          "run": "2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census"
+        },
+        "olmoearth": {
+          "status": "verified",
+          "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+          "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+        },
+        "galileo": {
+          "status": "verified",
+          "run": "05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census"
+        },
+        "presto": {
+          "status": "verified",
+          "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census"
+        }
+      },
+      "coverage": [
+        {
+          "kind": "monthly_snapshot",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 637,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 366,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 340
+        },
+        {
+          "kind": "monthly",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 379,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 438,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 78,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "monthly",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 78
+        },
+        {
+          "kind": "recent",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 202,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 211,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 135,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 19
+        },
+        {
+          "kind": "recent",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 269,
+          "all_ten_matched_events": 19
+        }
+      ],
+      "inference": {
+        "interval_rows": 445200,
+        "resampling_units": [
+          "query_storm_id",
+          "storm_year"
+        ],
+        "min_query_count": 1,
+        "min_clusters": 1,
+        "metrics": [
+          "duration_estimate_absolute_error_h",
+          "ensemble_curve_level_rmse",
+          "final_24h_level_absolute_error",
+          "mean_donor_peak_absolute_error",
+          "mean_peak_scaled_shape_rmse",
+          "mean_peak_time_difference_h"
+        ]
+      },
+      "assessment_rows": 4848840,
+      "review_input_note_wrong_for_supplement": true
+    },
+    "croma_ascending_15": {
+      "selection": "logs/eo-expansion-comparisons/croma_ascending_15-selection.json",
+      "manifests": {
+        "scores": {
+          "status": "completed",
+          "sha256": "5cafeda3ef72648e74850f5974a50ae3261babb2483d1e6305a014acc7a006a3",
+          "scored_sets": 13788,
+          "unique_queries": null,
+          "donor_violations": null
+        },
+        "review": {
+          "status": "completed",
+          "sha256": "2a929095488132f1fa6b5c8db9ea983e6071e206cec3eae954789aef8e6e79f4",
+          "scored_sets": null,
+          "unique_queries": 656,
+          "donor_violations": {
+            "unfinished_prior_response": 0,
+            "same_storm": 0,
+            "same_event": 0,
+            "wrong_country_policy": 0,
+            "same_river_in_other_river_search": 0,
+            "measurement_concern_in_quality_analysis": 0,
+            "inadmissible_response": 0,
+            "rank_outside_requested_k": 0
+          }
+        }
+      },
+      "hash_failures": [],
+      "selected_readiness": {
+        "prithvi": {
+          "status": "verified",
+          "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+          "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+        },
+        "croma": {
+          "status": "verified",
+          "run": "84163bf3856cf199418e350bac63d307b672b16b0be8fc3867a154cd929f26cc",
+          "aggregate": "results/eo_expansion_representations/croma_ascending_15/census"
+        },
+        "terramind": {
+          "status": "verified",
+          "run": "68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census"
+        },
+        "dofa": {
+          "status": "verified",
+          "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census"
+        },
+        "copernicus_fm": {
+          "status": "verified",
+          "run": "dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census"
+        },
+        "satmae": {
+          "status": "verified",
+          "run": "cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/satmae/census"
+        },
+        "anysat": {
+          "status": "verified",
+          "run": "2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census"
+        },
+        "olmoearth": {
+          "status": "verified",
+          "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+          "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+        },
+        "galileo": {
+          "status": "verified",
+          "run": "05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census"
+        },
+        "presto": {
+          "status": "verified",
+          "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census"
+        }
+      },
+      "coverage": [
+        {
+          "kind": "monthly_snapshot",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 637,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 16,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 16
+        },
+        {
+          "kind": "monthly",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 379,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 438,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 1,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "monthly",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 1
+        },
+        {
+          "kind": "recent",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 202,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 211,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 0,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 0
+        },
+        {
+          "kind": "recent",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 269,
+          "all_ten_matched_events": 0
+        }
+      ],
+      "inference": {
+        "interval_rows": 354960,
+        "resampling_units": [
+          "query_storm_id",
+          "storm_year"
+        ],
+        "min_query_count": 1,
+        "min_clusters": 1,
+        "metrics": [
+          "duration_estimate_absolute_error_h",
+          "ensemble_curve_level_rmse",
+          "final_24h_level_absolute_error",
+          "mean_donor_peak_absolute_error",
+          "mean_peak_scaled_shape_rmse",
+          "mean_peak_time_difference_h"
+        ]
+      },
+      "assessment_rows": 4203620,
+      "review_input_note_wrong_for_supplement": true
+    },
+    "croma_ascending_161": {
+      "selection": "logs/eo-expansion-comparisons/croma_ascending_161-selection.json",
+      "manifests": {
+        "scores": {
+          "status": "completed",
+          "sha256": "a0f37f18549660856c11bb55b7efd7730caab4f92fa1c0418690e5f65dadcdd4",
+          "scored_sets": 15112,
+          "unique_queries": null,
+          "donor_violations": null
+        },
+        "review": {
+          "status": "completed",
+          "sha256": "03a0c8c5d6de50a08307c2995beb1a44c6e23c4ae793ce5d20d47b6edcfe6d82",
+          "scored_sets": null,
+          "unique_queries": 656,
+          "donor_violations": {
+            "unfinished_prior_response": 0,
+            "same_storm": 0,
+            "same_event": 0,
+            "wrong_country_policy": 0,
+            "same_river_in_other_river_search": 0,
+            "measurement_concern_in_quality_analysis": 0,
+            "inadmissible_response": 0,
+            "rank_outside_requested_k": 0
+          }
+        }
+      },
+      "hash_failures": [],
+      "selected_readiness": {
+        "prithvi": {
+          "status": "verified",
+          "run": "770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+          "aggregate": "results/eo_catchment_representations/per_model/prithvi/census"
+        },
+        "croma": {
+          "status": "verified",
+          "run": "5783c98bb6268c9f3028c026780daaf9c1e7190cd5aa0f75291ddfefadd19e4e",
+          "aggregate": "results/eo_expansion_representations/croma_ascending_161/census"
+        },
+        "terramind": {
+          "status": "verified",
+          "run": "68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census"
+        },
+        "dofa": {
+          "status": "verified",
+          "run": "1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census"
+        },
+        "copernicus_fm": {
+          "status": "verified",
+          "run": "dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census"
+        },
+        "satmae": {
+          "status": "verified",
+          "run": "cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/satmae/census"
+        },
+        "anysat": {
+          "status": "verified",
+          "run": "2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census"
+        },
+        "olmoearth": {
+          "status": "verified",
+          "run": "6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+          "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census"
+        },
+        "galileo": {
+          "status": "verified",
+          "run": "05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census"
+        },
+        "presto": {
+          "status": "verified",
+          "run": "7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+          "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census"
+        }
+      },
+      "coverage": [
+        {
+          "kind": "monthly_snapshot",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 576,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 637,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 56,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly_snapshot",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 485,
+          "all_ten_matched_events": 51
+        },
+        {
+          "kind": "monthly",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 437,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 379,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 438,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 44,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "monthly",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 380,
+          "all_ten_matched_events": 39
+        },
+        {
+          "kind": "recent",
+          "model": "olmoearth",
+          "baseline_eligible": 851,
+          "model_available_events": 243,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "galileo",
+          "baseline_eligible": 851,
+          "model_available_events": 202,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "prithvi",
+          "baseline_eligible": 851,
+          "model_available_events": 211,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "anysat",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "croma",
+          "baseline_eligible": 851,
+          "model_available_events": 14,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "dofa",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "copernicus_fm",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "terramind",
+          "baseline_eligible": 851,
+          "model_available_events": 281,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "presto",
+          "baseline_eligible": 851,
+          "model_available_events": 270,
+          "all_ten_matched_events": 8
+        },
+        {
+          "kind": "recent",
+          "model": "satmae",
+          "baseline_eligible": 851,
+          "model_available_events": 269,
+          "all_ten_matched_events": 8
+        }
+      ],
+      "inference": {
+        "interval_rows": 363408,
+        "resampling_units": [
+          "query_storm_id",
+          "storm_year"
+        ],
+        "min_query_count": 6,
+        "min_clusters": 3,
+        "metrics": [
+          "duration_estimate_absolute_error_h",
+          "ensemble_curve_level_rmse",
+          "final_24h_level_absolute_error",
+          "mean_donor_peak_absolute_error",
+          "mean_peak_scaled_shape_rmse",
+          "mean_peak_time_difference_h"
+        ]
+      },
+      "assessment_rows": 4265296,
+      "review_input_note_wrong_for_supplement": true
+    }
+  },
+  "issues": [],
+  "rain_feature_completeness": {
+    "q_eligible": 851,
+    "complete_required_predictors": 836,
+    "long_history_restricted": 770,
+    "avoidable_long_history_exclusions": 66
+  },
+  "unique_files_hashed": 149,
+  "tests": {
+    "initial": "9 environment failures; 310 passed",
+    "with_existing_proj_data": "319 passed in 34.39 s; no package changes"
+  }
+}

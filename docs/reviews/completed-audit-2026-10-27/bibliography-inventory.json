@@ -1,0 +1,552 @@
+{
+  "entries": 91,
+  "references_sha256": "e67949dd0655f213d69fcb92f8aec0d17439c73e630f63a466235b496f5fb5ed",
+  "records": [
+    {
+      "key": "Adorni2025TowardsApproach",
+      "title": "Towards Efficient Benchmarking of Foundation Models in Remote Sensing: A Capabilities Encoding Approach",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Asselman2023EenMaatregelen",
+      "title": "Een watersysteemanalyse---wat leren we van het hoogwater van juli 2021? Inzichten in het functioneren van beeksystemen bij grote hoeveelheden neerslag en het effect van verschillende typen maatregelen",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Astruc2024AnySat:Modalities",
+      "title": "AnySat: One Earth Observation Model for Many Resolutions, Scales, and Modalities",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Bartels2004ProjektAbschlussbericht",
+      "title": "Projekt RADOLAN: Routineverfahren zur Online-Aneichung der Radarniederschlagsdaten mit Hilfe von automatischen Bodenniederschlagsstationen (Ombrometer). Abschlussbericht",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Berghuijs2016DominantStates",
+      "title": "Dominant Flood Generating Mechanisms across the United States",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Berghuijs2019GrowingEurope",
+      "title": "Growing Spatial Scales of Synchronous River Flooding in Europe",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Brown2025AlphaEarthData",
+      "title": "AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Brunner2019ModelingCopula",
+      "title": "Modeling the Spatial Dependence of Floods Using the Fisher Copula",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Brunner2020SpatialProcesses",
+      "title": "Spatial Dependence of Floods Shaped by Spatiotemporal Variations in Meteorological and Land-Surface Processes",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Brunner2022VaryingFloods",
+      "title": "Varying Importance of Storm Types and Antecedent Conditions for Local and Regional Floods",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Brunner2023FloodsPerspective",
+      "title": "Floods and Droughts: A Multivariate Perspective",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Busker2026ComparingEurope",
+      "title": "Comparing Flood Forecasting and Early Warning Systems in Northwestern Europe",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Coles2001AnValues",
+      "title": "An Introduction to Statistical Modeling of Extreme Values",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Cong2022SatMAE:Imagery",
+      "title": "SatMAE: Pre-training Transformers for Temporal and Multi-Spectral Satellite Imagery",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Corley2023RevisitingMatters",
+      "title": "Revisiting pre-trained remote sensing model benchmarks: resizing and normalization matters",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Coxon2015AStations",
+      "title": "A Novel Framework for Discharge Uncertainty Quantification Applied to 500 UK Gauging Stations",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Cuenca2013SurfaceInterferometry",
+      "title": "Surface Deformation Induced by Water Influx in the Abandoned Coal Mines in Limburg, The Netherlands Observed by Satellite Radar Interferometry",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Dihan2025MapEval:Models",
+      "title": "MapEval: A Map-Based Evaluation of Geo-Spatial Reasoning in Foundation Models",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Du2025OFPOObservation",
+      "title": "OFPO {\\&} KGFPO: Ontology and Knowledge Graph for Flood Process Observation",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ekambaram2024TinySeries",
+      "title": "Tiny Time Mixers (TTMs): Fast Pre-Trained Models for Enhanced Zero/Few-Shot Forecasting of Multivariate Time Series",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Eryilmaz2025PredictingLimburg",
+      "title": "Predicting CO2 Leakages in Post-Industrial Mining Zones: The Case of Limburg",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ferro2003InferenceValues",
+      "title": "Inference for Clusters of Extreme Values",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ford2026WhatFloods",
+      "title": "What do machine learning models learn about floods?",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Forde2019Barometric-PumpingRelease",
+      "title": "Barometric-Pumping Controls Fugitive Gas Emissions from a Vadose Zone Natural Gas Release",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Fuller2023CROMA:Autoencoders",
+      "title": "CROMA: Remote Sensing Representations with Contrastive Radar-Optical Masked Autoencoders",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Heitfeld2002MineRisks",
+      "title": "Mine Water Recovery in the Coal Mining District of Aachen---Impacts and Measures to Control Potential Risks",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Herzog2025OlmoEarth:Observation",
+      "title": "OlmoEarth: Stable Latent Image Modeling for Multimodal Earth Observation",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Jakubik2025TerraMind:Observation",
+      "title": "TerraMind: Large-Scale Generative Multimodality for Earth Observation",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Janes2005Case-CrossoverBias",
+      "title": "Case-Crossover Analyses of Air Pollution Exposure Data: Referent Selection Strategies and Their Implications for Bias",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Janes2005OverlapExposures",
+      "title": "Overlap bias in the case-crossover design, with application to air pollution exposures",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Jiang2022RiverLearning",
+      "title": "River Flooding Mechanisms and Their Changes in Europe Revealed by Explainable Machine Learning",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Kallio2021ForecastingDataset",
+      "title": "Forecasting office indoor CO2 concentration using machine learning with a one-year dataset",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Keef2009SpatialBritain",
+      "title": "Spatial Dependence in Extreme River Flows and Precipitation for Great Britain",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Kemter2020JointEurope",
+      "title": "Joint Trends in Flood Magnitudes and Spatial Extents across Europe",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Kiang2018AEstimation",
+      "title": "A Comparison of Methods for Streamflow Uncertainty Estimation",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Kontogiorgakis2026ComparativeEstimation",
+      "title": "Comparative Assessment of Multimodal Earth Observation Data for Soil Moisture Estimation",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Koutsoyiannis2004StatisticsInvestigation",
+      "title": "Statistics of extremes and estimation of extreme rainfall: I. Theoretical investigation",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Lacoste2023GEO-Bench:Monitoring",
+      "title": "GEO-Bench: Toward Foundation Models for Earth Monitoring",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Lang1999TowardsModeling",
+      "title": "Towards Operational Guidelines for Over-Threshold Modeling",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Li2026WhenModelling",
+      "title": "When Are {\\{}AI{\\}} Models Ready for Deployment? Reassessing {\\{}Google{\\}}'s Global {\\{}AI{\\}} Flood Forecasting System Through the Lens of Responsible Modelling",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Limburg2026PredictingDeepWaive",
+      "title": "Predicting Floods in the Selzerbeek Catchment Area Using {\\{}DeepWaive{\\",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Liu2025FromPrediction",
+      "title": "From RNNs to Transformers: Benchmarking Deep Learning Architectures for Hydrologic Prediction",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Liu2026GeospatialDescriptors",
+      "title": "Geospatial Foundation Embeddings as Transferable Catchment Descriptors",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Lu2025VisionSurvey",
+      "title": "Vision Foundation Models in Remote Sensing: A Survey",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ludwig2023AChange",
+      "title": "A Multi-Disciplinary Analysis of the Exceptional Flood Event of July 2021 in Central Europe---Part 2: Historical Context and Relation to Climate Change",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Maclure1991TheEvents",
+      "title": "The Case-Crossover Design: A Method for Studying Transient Effects on the Risk of Acute Events",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Marsocci2024PANGAEA:Models",
+      "title": "PANGAEA: A Global and Inclusive Benchmark for Geospatial Foundation Models",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "McMillan2012BenchmarkingQuality",
+      "title": "Benchmarking Observational Uncertainties for Hydrology: Rainfall, River Discharge and Water Quality",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Meiners2016Na-ijlendeGas",
+      "title": "Na-ijlende Gevolgen Steenkolenwinning Zuid-Limburg: Final Report on the Results of the Working Group 5.2.6---Risk from Mine Gas",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Merz2003AFloods",
+      "title": "A Process Typology of Regional Floods",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Meyer2022AtmosphericEurope",
+      "title": "Atmospheric Conditions Favouring Extreme Precipitation and Flash Floods in Temperate Regions of Europe",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Mohr2023AAnalysis",
+      "title": "A Multi-Disciplinary Analysis of the Exceptional Flood Event of July 2021 in Central Europe---Part 1: Event Description and Analysis",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Munoz-Sabater2021ERA5-Land:Applications",
+      "title": "\\{}ERA5-Land{\\}}: A State-of-the-Art Global Reanalysis Dataset for Land Applications",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ou2026Foundation-ScaleProblem",
+      "title": "Foundation-Scale Satellite Embeddings Reframe Hydrological Generalization as a Representation Problem",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Quinn2019TheStates",
+      "title": "The Spatial Dependence of Flood Hazard and Risk in the United States",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Rongen2024UsingRiver",
+      "title": "Using the Classical Model for Structured Expert Judgment to Estimate Extremes: A Case Study of Discharges in the Meuse River",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Rosner2011DerWirkungszusammenhange",
+      "title": "Der Grubenwasseranstieg im Aachener und S{\\textbackslash}\"udlimburger Steinkohlenrevier: Eine hydrogeologisch-bergbauliche Analyse der Wirkungszusammenh{\\textbackslash}\"ange",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ru2024RAGChecker:Generation",
+      "title": "RAGChecker: A Fine-Grained Framework for Diagnosing Retrieval-Augmented Generation",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Russo2025FaceFact-Checking",
+      "title": "Face the Facts! Evaluating RAG-Based Pipelines for Professional Fact-Checking",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Saadi2023HowEvent",
+      "title": "How Uncertain Are Precipitation and Peak Flow Estimates for the July 2021 Flooding Event?",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Saxena2026ComparativeHimalayas",
+      "title": "Comparative evaluation of rating curve estimation methods for data-scarce mountainous rivers in the Indian Himalayas",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Serinaldi2014RainfallDistributions",
+      "title": "Rainfall extremes: Toward reconciliation after the battle of distributions",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Service2019ERA5-LandPresent",
+      "title": "\\{}ERA5-Land{\\}} Hourly Data from 1950 to Present",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Simumba2025GEO-Bench-2:AI",
+      "title": "GEO-Bench-2: From Performance to Capability, Rethinking Evaluation in Geospatial AI",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Sun2026Zero-ShotYet",
+      "title": "Zero-Shot Forecasting of Streamflow Using Time Series Foundation Models: Are We There Yet?",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Szwarcman2024Prithvi-EO-2.0:Applications",
+      "title": "Prithvi-EO-2.0: A Versatile Multi-Temporal Foundation Model for Earth Observation Applications",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tarasova2020AGermany",
+      "title": "A Process-Based Framework to Characterize and Classify Runoff Events: The Event Typology of Germany",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Thakur2024KnowingGeneration",
+      "title": "Knowing When You Don't Know: A Multilingual Relevance Assessment Dataset for Robust Retrieval-Augmented Generation",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tradowsky2023Attribution2021",
+      "title": "Attribution of the Heavy Rainfall Events Leading to Severe Flooding in Western Europe during July 2021",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tramblay2023ChangesSeasonality",
+      "title": "Changes in Mediterranean Flood Processes and Seasonality",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tseng2023LightweightTimeseries",
+      "title": "Lightweight, Pre-trained Transformers for Remote Sensing Timeseries",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tseng2025Galileo:Modalities",
+      "title": "Galileo: Learning Global {\\&} Local Features of Many Remote Sensing Modalities",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tseng2026OlmoEarthModels",
+      "title": "OlmoEarth v1.2: A more efficient family of OlmoEarth models",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Tsiokanos2024FloodCentury",
+      "title": "Flood Drivers and Trends: A Case Study of the Geul River Catchment (the Netherlands) over the Past Half Century",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Uhlemann2010A1952--2002",
+      "title": "A Consistent Set of Trans-Basin Floods in Germany between 1952--2002",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Ullrich2025RecommendationsModels",
+      "title": "Recommendations for Comprehensive and Independent Evaluation of Machine Learning-Based Earth System Models",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Viefhues2022PredictionKerkrade",
+      "title": "Prediction of CO2 Leakage and Flood Using Machine Learning Models: A Data Driven Approach in the Historic Coal Mining District in the Province of Limburg (Kerkrade)",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Wang2025TowardsVision",
+      "title": "Towards a Unified Copernicus Foundation Model for Earth Vision",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Wendi2019AssessingPlots",
+      "title": "Assessing Hydrograph Similarity and Rare Runoff Dynamics by Cross Recurrence Plots",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Winterrath2018RadarklimatologieDeutschland",
+      "title": "Radarklimatologie aus angeeichten Niederschlagsstundensummen Version 2017.002: Gerasterte Niederschlagswerte f{\\textbackslash}\"ur Deutschland",
+      "review_role": "observation_product_or_measurement_uncertainty",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Wrona2016ClosedEmissions",
+      "title": "Closed Coal Mine Shaft as a Source of Carbon Dioxide Emissions",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Wrona2025SelectedMeasurements",
+      "title": "Selected Meteorological Factors Influencing Gas Emissions from an Abandoned Coal Mine Shaft---Results of In Situ Measurements",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Xiao2025FoundationSurvey",
+      "title": "Foundation Models for Remote Sensing and Earth Observation: A Survey",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Xiong2024EarthNets:Observation",
+      "title": "EarthNets: Empowering Artificial Intelligence for Earth Observation",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Xiong2024NeuralObservation",
+      "title": "Neural Plasticity-Inspired Multimodal Foundation Model for Earth Observation",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Yan2026CatchmentTime-variant",
+      "title": "Catchment hydrologic function is widely time-variant",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Yang2026SystematicModels",
+      "title": "Systematic Overestimation of Global Peak Runoff Synchronization in CMIP6 Models",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Zhang2024TowardsMetrics",
+      "title": "Towards Fine-Grained Citation Evaluation in Generated Text: A Comparative Analysis of Faithfulness Metrics",
+      "review_role": "historical_or_background_not_active_method",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Zhang2025FoundationPerspectives",
+      "title": "Foundation Models as Assistive Tools in Hydrometeorology: Opportunities, Challenges, and Perspectives",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Zheng2023ControlsBritain",
+      "title": "Controls on the Spatial and Temporal Patterns of Rainfall-Runoff Event Characteristics---A Large Sample of Catchments across Great Britain",
+      "review_role": "hydrology_event_definition_similarity_or_policy_context",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    },
+    {
+      "key": "Zhu2026OnModels",
+      "title": "On the Foundations of Earth Foundation Models",
+      "review_role": "representation_model_or_evaluation",
+      "scope": "reference-inventory relevance audit; not a new full-text inclusion decision"
+    }
+  ]
+}
