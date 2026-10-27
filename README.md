@@ -1,6 +1,6 @@
 # Basin-Aware AI for Historical High-Water Analogues
 
-Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. Interpretation and audit follow-through remain; dated execution descriptions below retain their historical context.
+Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. The [authorized audit follow-up](docs/reviews/limburg-audit-followup-2026-10-27.md) is running; dated execution descriptions below retain their historical context.
 
 Research question:
 
