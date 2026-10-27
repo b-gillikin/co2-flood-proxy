@@ -1,6 +1,6 @@
 # Chapter 1 — Limburg: historical high-water analogues
 
-Last substantively reviewed: 2026-10-26. Living supervisor/research brief; not dissertation manuscript prose.
+Last substantively reviewed: 2026-10-27. Living supervisor/research brief; not dissertation manuscript prose.
 
 ## Research Question(s)
 
@@ -26,7 +26,7 @@ Retrospective comparative evaluation of representations and retrieval. Subsequen
 
 ## Findings
 
-Earlier analyses found better matching of individual response shapes without consistent superiority for averaged response estimates. Conventional references remain competitive; AlphaEarth has not shown a strong general advantage. Corrected ten-model extraction, aggregation, merge, scoring and automated analogue review are complete. The review contains 656 unique scored queries and reports zero audited donor-rule violations; repeated configuration rows are not independent events. Scientific interpretation of the corrected comparison remains pending. Supplemental SatMAE and Copernicus-FM extraction is complete; Copernicus-FM is scoring. Separate CROMA orbit extraction is proceeding with a versioned rule recording patches where publisher sample-SD normalization is undefined as encoder-unsupported, preserving raw observations and the full event inventory. One CPU postprocessing lane serializes aggregation/scoring/review. Operational warning skill is not claimed.
+Earlier analyses found better matching of individual response shapes without consistent superiority for averaged response estimates. Conventional references remain competitive; AlphaEarth has not shown a strong general advantage. Corrected ten-model extraction, aggregation, merge, scoring and automated analogue review are complete. The review contains 656 unique scored queries and reports zero audited donor-rule violations; repeated configuration rows are not independent events. Scientific interpretation of the corrected comparison remains pending. All four supplemental configurations have completed extraction, aggregation, scoring and automated review, with the queue finishing on October 27. The CROMA support rule explicitly records patches with undefined sample-SD normalization as encoder-unsupported; raw observations and the full event inventory remain preserved. No computational jobs remain queued. Cross-configuration verification and scientific interpretation are next; completion alone does not establish model superiority. Operational warning skill is not claimed.
 
 ## Maintenance
 
