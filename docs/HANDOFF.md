@@ -647,3 +647,8 @@ new satellite download. See `limburg-alphaearth-detailed-review-2026-10-14.md`.
 
 AlphaEarth review validation: 133 tests pass; all current output hashes verify;
 previous scientific tables and the separate human-review fields are unchanged.
+
+
+## Flood-focused case review — completed 2026-10-27
+
+See [the case review](limburg-flood-case-review-2026-10-27.md) and `results/flood_case_review_2026_10_27/index.html`. All five requested steps are complete: source-bounded register, measurement/eligibility tracing, saved analogue inspection, failure diagnosis and case sheets/timelines. Seven core H3 cases are retained; only two linked continuous-response queries are pre-flood, with a third representing recovery. No models were fitted or reranked. Distinct support, retrieval and averaging failures qualify the earlier mean-performance findings. Full suite: 345 tests. Verification: `scripts/144_audit_flood_case_review.py`. An erroneous older prose claim about Voer hourly averaging was corrected; saved numerical outcomes were unchanged.

@@ -225,3 +225,8 @@ and agreement of point estimates/counts between bootstrap views. Full suite:
 The agreed computational and consolidation work is now complete. Brian can use
 this brief, the tables and case figures to write the chapter/paper. No additional
 model, data collection or experiment is made a prerequisite by this synthesis.
+
+
+## Flood-focused case review — completed 2026-10-27
+
+See [the case review](limburg-flood-case-review-2026-10-27.md) and `results/flood_case_review_2026_10_27/index.html`. All five requested steps are complete: source-bounded register, measurement/eligibility tracing, saved analogue inspection, failure diagnosis and case sheets/timelines. Seven core H3 cases are retained; only two linked continuous-response queries are pre-flood, with a third representing recovery. No models were fitted or reranked. Distinct support, retrieval and averaging failures qualify the earlier mean-performance findings. Full suite: 345 tests. Verification: `scripts/144_audit_flood_case_review.py`. An erroneous older prose claim about Voer hourly averaging was corrected; saved numerical outcomes were unchanged.

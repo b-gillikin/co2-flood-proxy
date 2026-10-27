@@ -60,7 +60,7 @@ records, preprocessing and current thresholds are not an as-issued archive.
 
 ## Measurement findings that change interpretation
 
-- Native Voer 2024 reaches H3, while hourly averaging hides the crossing.
+- Correction (2026-10-27): Voer 2024 reaches H3 in both the native and hourly series. The native peak is 5.432 m³/s and the hourly peak is 5.24525 m³/s, both above the current 4.8 m³/s H3 threshold. The earlier statement that averaging hid this crossing was incorrect; the saved numerical outcomes were unchanged.
 - The earlier Eyserbeek 2021 p99 onset puts H3 outside its 72h response window.
   H1 anchoring captures that escalation. The p99 bridge therefore has six H3
   positives; its H1/H2 positives are 121/29, with 8/9 unknown respectively and

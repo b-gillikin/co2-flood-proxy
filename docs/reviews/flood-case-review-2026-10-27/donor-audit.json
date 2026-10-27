@@ -1,0 +1,13 @@
+{
+  "continuous_violations": {
+    "unfinished_prior_response": 0,
+    "same_storm": 0,
+    "same_event": 0,
+    "wrong_country_policy": 0,
+    "same_river_in_other_river_search": 0,
+    "measurement_concern_in_quality_analysis": 0,
+    "inadmissible_response": 0,
+    "rank_outside_requested_k": 0
+  },
+  "H1_donor_rows_checked": 4410
+}

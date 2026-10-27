@@ -1,0 +1,12 @@
+{
+  "register_rows": 15,
+  "native_H3_rows": 10,
+  "core_native_H3_rows": 7,
+  "date_resolved_scored_p99_queries": 3,
+  "scored_preflood_p99_queries": 2,
+  "scored_recovery_queries": 1,
+  "response_atlas_figures": 5,
+  "source_bound_scope": "All ten supplied-series H3 episodes, with seven core-gauge episodes distinguished; bounded primary-document additions for the two German gauges and Cottessen. Not an exhaustive inventory of every physical flood in Limburg.",
+  "oracle_role": "Post-outcome error diagnostic only; never used for retrieval or tuning",
+  "unknown_labels": "Unlabelled German/non-complete flood outcomes are not negatives"
+}
