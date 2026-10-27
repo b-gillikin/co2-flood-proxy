@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "created_utc": "2026-10-27T21:30:09.043973+00:00",
+  "purpose": "post-analysis reporting consolidation; no fitting, reranking, new bootstrap or event sample",
+  "interpretation": "Negative favours challenger. Both-interval categories are exploratory nominal descriptions, not multiplicity-adjusted decisions or equivalence tests.",
+  "reporting_choice": "Full all-ten Q and corrected-rain cohorts, all three contexts and both countries; fixed main/pooled/all-river/k5 view plus existing sensitivities. More inclusive model-available, AlphaEarth and route results remain separate.",
+  "input_sha256": {
+    "results/eo_analogue_comparison_rain168_v1/paired_intervals.csv": "f4695da637199cdb0e4f54e3986324d9dd343db6869f0990059b15d37f409b79",
+    "results/eo_analogue_comparison_coherent_v1/paired_intervals.csv": "a67ddcfc999911c9597438aa54ae922f4e04a0db4cb96055a3d04d61fe69c60f",
+    "results/eo_followup_2026_10_27/archive_intervals.parquet": "e8c6781a31d8842839283b9acebfc29a8aa876c9375b41caeeb06c0a7e954645",
+    "results/eo_followup_2026_10_27/common_route_intervals.parquet": "cfe7848da588b41a7933da82eb5846710f9bc8f74dcca848155bfb870c542b7a",
+    "results/basin_ai_cross_border_completion/paired_intervals.csv": "b6b03c6235a39642996cf9ab395386d5f7e7a22b9cda1c1bd5d95c3abc96db9c",
+    "results/eo_actual_case_review_2026_10_27/manifest.json": "fbb34155d280f147f144b7eb1a90df14e134af0a0148e774bcbfa1167383cf53"
+  },
+  "source_sha256": {
+    "scripts/142_consolidate_limburg_findings.py": "3bee4df7eaf126e4929ad00c5860248ab3154431b277868d8763c6d83d784135",
+    "src/eo_findings.py": "798f17c66453e1416ae8da37cd344f46fc449cd453c5921501196b70f8b89543"
+  },
+  "contrasts": 159720,
+  "outputs_sha256": {
+    "monthly_vs_conventional.png": "cbea64e0b8c591992bd8f429ec9974cfd31ff68ac62c5fa301907973cabcac51",
+    "monthly_vs_conventional.pdf": "410b824f01e0444bd17579918364288fb7f4cfabef942249646453254d897788",
+    "monthly_snapshot_vs_conventional.png": "d62f1e3f5b6b807e15a15cf9af4c149a6e5d2c54f84c18b7438def4b7cd236de",
+    "fixed_reporting_view.parquet": "10d23fbf8d0bd2da152dacc62b5b501189ddc14d1ac5ccd895ccf81789937913",
+    "monthly_snapshot_vs_conventional.pdf": "ed09b5dfe8d49b4015c7920bdcfcba5da4ffbd4a7aefe28c4a9a1064aa353662",
+    "recent_vs_conventional.png": "24ad753836e79046f3329bace0204cdd3efdd43514eb6ac144ac95d36eec4342",
+    "model_scorecard.parquet": "9fa92494120ae961309bd2e10400673a59185896ea52712052c2a4e087e8e958",
+    "recent_vs_conventional.pdf": "b1013cb019e68aad5988fda08a10738d8d3afe8f6fde9e607613f2d6fa0883ba",
+    "contrasts.parquet": "62939ad7175bf12a91bcd140e733172dec258a3f5950148a2e95b4df0e9a730b",
+    "population_comparison.parquet": "917d84c20c3206f9738c89834a9f4893b6b89646e13ff5f6259dbd5a857923d9",
+    "sensitivity_comparison.parquet": "bafe40295e5535a0f468e4d20c7d5b51bfd3c698c1f0f8dbe58ddba21cba738d"
+  },
+  "verification": {
+    "recorded_hashes": "all input/source/output hashes verified after rendering",
+    "tests_passed": 338,
+    "test_log": "logs/limburg-findings-consolidation-tests-2026-10-27.log",
+    "figures_visually_checked": [
+      "monthly_snapshot_vs_conventional.png",
+      "monthly_vs_conventional.png",
+      "recent_vs_conventional.png"
+    ]
+  }
+}

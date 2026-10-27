@@ -1,5 +1,7 @@
 # Limburg analogue evidence: current results and development archive
 
+Current synthesis: [consolidated findings](limburg-findings-consolidated-2026-10-27.md). Use it for the completed chapter-level interpretation; all earlier analyses retain their own populations and scope.
+
 Current map (2026-10-27): the corrected ten-encoder and supplemental outputs,
 new rainfall benchmark, matched-route and generic-reference follow-up are indexed
 in the [completed-chapter audit](reviews/limburg-completed-chapter-audit-2026-10-27.md)

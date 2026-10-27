@@ -2,7 +2,8 @@
 
 ## Current reading map — 2026-10-27
 
-Use the [living one-pager](chapter-one-pager.md),
+Use the [consolidated findings](limburg-findings-consolidated-2026-10-27.md),
+[living one-pager](chapter-one-pager.md),
 [completed-chapter audit](reviews/limburg-completed-chapter-audit-2026-10-27.md)
 and [downstream follow-up](reviews/limburg-audit-followup-2026-10-27.md) for the
 current ten-encoder design and executed evidence. The dated implementation

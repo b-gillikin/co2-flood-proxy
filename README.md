@@ -1,5 +1,7 @@
 # Basin-Aware AI for Historical High-Water Analogues
 
+Completed findings: [consolidated evidence brief](docs/limburg-findings-consolidated-2026-10-27.md), with shared-population comparisons, broader-census checks, existing sensitivities and actual event cases. The planned analysis/consolidation is complete.
+
 Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. The [authorized audit follow-up](docs/reviews/limburg-audit-followup-2026-10-27.md) is complete; see the [re-audit](docs/reviews/limburg-second-chapter-audit-2026-10-27.md); dated execution descriptions below retain their historical context.
 
 Research question:
