@@ -1,5 +1,7 @@
 # Limburg: high-water assessment when gauge information becomes unavailable
 
+**Current execution — later 28 October:** Brian authorized the held-data test before requesting real feed records. The German-rainfall audit is adopted: **481 shared eight-catchment episodes**, replacing/regrouping the older 468 Dutch-triggered calendar. Core scoring is running; the [execution record](limburg-monitoring-first-analysis-2026-10-28.md) governs the implemented comparison, review and development corrections. Earlier same-day planning counts and unlaunched statuses below are dated history. No adopted scarcity finding or provider email exists yet. Brian sends all emails. The ongoing soil/snow pull adds a separate supporting comparison without re-extracting all encoders or repeating the core test.
+
 2026-10-28. Active internal research design, adopted following Brian's request to develop the delayed-feed/outage idea and check its literature. This updates the RQs and simulation specification; **no scarcity performance analysis has been run**. Brian writes dissertation and article prose. The [literature refresh](reviews/limburg-monitoring-literature-2026-10-28.md), [scenario specification](../config/limburg_monitoring_scenarios.json) and [held-data feasibility check](reviews/limburg-scarcity-feasibility-2026-10-28.json) accompany this document.
 
 ## Implementation plan and refinement — later on 2026-10-28

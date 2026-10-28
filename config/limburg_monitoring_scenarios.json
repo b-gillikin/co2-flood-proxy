@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "date": "2026-10-28",
-  "status": "specified_not_run",
+  "status": "core_inputs_prepared_scoring_authorized",
   "design_document": "docs/limburg-monitoring-resilience-design-2026-10-28.md",
   "literature_review": "docs/reviews/limburg-monitoring-literature-2026-10-28.md",
   "research_question": "Can satellite AI help assess developing high water when a gauge's data are late or stop arriving?",
@@ -20,15 +20,15 @@
     "time_axis": "verified UTC hour end; Q ending at issue is eligible, first future value ends at issue + 1h"
   },
   "calendar": {
-    "source": "results/eo_comparison_preparation/observations.parquet",
+    "source": "results/monitoring_acquisition_2026_10_28/rainfall_landmarks.parquet",
     "cohort": "rainfall_episode",
     "landmark": "first observed-prefix 10mm accumulation, replacing fixed six-hour landmark",
     "primary": {
-      "source_storms_before_new_eligibility": 468,
-      "qualification": "first observed-prefix accumulation of at least 10mm in any core Dutch catchment within the held rainfall episode",
+      "source_storms_before_new_eligibility": 481,
+      "qualification": "first observed-prefix >=10mm in any of eight shared NL/DE catchments",
       "landmark": "first hourly end timestamp at which qualification is known",
       "target_discharge_used_to_schedule": false,
-      "read_only_qualification_timestamps_found": 468,
+      "read_only_qualification_timestamps_found": 481,
       "final_scored_opportunities": null,
       "boundary_uncertainty": "retain source flags; audit affected cases"
     },
@@ -54,9 +54,9 @@
       "2828900000200"
     ],
     "new_eligibility": "rebuild each issue history and next-24h outcome from continuous hourly data; old 72h arrays and old eligibility flags are not sufficient",
-    "source_opportunities_before_new_eligibility": 3744,
+    "source_opportunities_before_new_eligibility": 3848,
     "old_outcome_eligible_not_final_N": 3491,
-    "german_coverage_audit": "check held DE rainfall for absent compatible episodes before scoring; version any shared-calendar additions"
+    "german_coverage_audit": "completed and adopted: eight-gauge regional shared grouping, 481 episodes; old 468 retained as historical source calendar"
   },
   "issue_offsets_h": [
     0,
@@ -140,12 +140,12 @@
     "short_archive": "retain row and actual ensemble size; separate paired five-member scores and applicability",
     "scaling_fit": "eligible earlier donors only",
     "paired_scarcity_curve": "fixed compatible donors across delay levels; natural coverage reported separately",
-    "reservoir": "eligible earlier completed storms from full held 468-storm reservoir; primary query calendar does not limit donors to 126"
+    "reservoir": "eligible earlier completed storms from adopted 481-episode eight-gauge regional calendar; old 468 calendar retained as historical source, not a 126-query cap"
   },
   "comparators": [
     "complete conventional plus sine/cosine season",
     "restricted conventional plus identical sine/cosine season",
-    "restricted conventional without season as supporting control",
+    "natural-archive conventional without season as supporting control",
     "season-aware restricted conventional plus each EO encoder",
     "last-available-Q persistence",
     "unranked storm-balanced eligible historical distribution"
@@ -282,5 +282,6 @@
     "record": "docs/limburg-monitoring-acquisition-2026-10-28.md",
     "workers": 1,
     "service_guidance": "https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481"
-  }
+  },
+  "execution_note": "docs/limburg-monitoring-first-analysis-2026-10-28.md"
 }

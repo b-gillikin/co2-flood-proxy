@@ -1,8 +1,10 @@
+Core monitoring-loss analysis (later 28 October): [full eligible-census execution and corrections](docs/limburg-monitoring-first-analysis-2026-10-28.md) is running. It adopts the 481-episode shared NL/DE rainfall calendar, reuses the held encoders, and queues independent auditing, paired storm/year review and actual-analogue plots. Read `results/limburg_monitoring_2026_10_28/execution.json` and `postprocessing.json` for live status. [Provider drafts](docs/limburg-monitoring-provider-request-drafts-2026-10-28.md) are for Brian to send, not automatically dispatched. Soil/snow adds a later control against saved core results, without a full embedding/core rerun.
+
 Code cleanup/restart (28 October): [review and verification](docs/reviews/limburg-code-cleanup-2026-10-28.md). 376 scientific and 2 infrastructure tests pass; saved-result audits pass. `make -j2 check PYTHON=.venv-foundation/bin/python` runs the current local checks.
 
-Current data pulls (28 October): [acquisition record](docs/limburg-monitoring-acquisition-2026-10-28.md). Targeted EO additions are complete; local soil/snow retrieval has resumed with one CDS request at a time. No new embeddings or monitoring-loss scores have been generated.
+Current data pulls (28 October): [acquisition record](docs/limburg-monitoring-acquisition-2026-10-28.md). Targeted EO additions are complete; local soil/snow retrieval has resumed with one CDS request at a time. No new embeddings are extracted by this core scoring pass; soil/snow acquisition is independent of it.
 
-Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three October 27 workstreams are complete; the October 28 monitoring-loss design below is not yet executed. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
+Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three October 27 workstreams are complete; the October 28 monitoring-loss design below is now being executed. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
 
 # AI-Assisted High-Water Assessment Under Monitoring Loss
 
@@ -24,8 +26,8 @@ and the [six-step implementation plan](docs/limburg-monitoring-implementation-pl
 now govern the next analysis. They specify repeated rainfall-clock assessments,
 fixed observation delays and a stopped station feed, comparing conventional
 analogues and ten frozen EO representations with explicit timing, seasonal and
-archive controls. **Design specified; no scarcity simulations run.** Held inputs
-support preparation; changed/new contexts receive targeted coverage checks before any additional extraction. Earlier full-information
+archive controls. **Core implemented and scoring; no adopted scarcity finding yet.** Held inputs
+support this test; changed/new contexts receive targeted coverage checks before any additional extraction. Earlier full-information
 TTM, AlphaEarth, EO, cross-border and Meuse results remain preserved reference
 evidence. This is a retrospective availability study; operator benefit and
 as-issued warning skill are not established.

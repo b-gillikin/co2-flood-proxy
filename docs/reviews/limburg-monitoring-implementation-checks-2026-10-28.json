@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-28",
+  "status": "implementation_checks_passed_empirical_scoring_in_progress",
+  "scientific_tests": {
+    "ordinary_suite": 391,
+    "full_synthetic_review_integration": 1,
+    "total": 392,
+    "warning": "Pre-existing netCDF/NumPy metadata RuntimeWarning remains visible."
+  },
+  "infrastructure_tests_passed": 2,
+  "ruff_check": "passed",
+  "ruff_format": "322 files formatted",
+  "git_diff_check": "passed",
+  "prepared_storms": 481,
+  "prepared_gauge_storm_cases": 3848,
+  "unique_information_state_opportunities_before_checks": 100048,
+  "scoring_snapshot": {
+    "completed_jobs": 30,
+    "planned_jobs": 42
+  },
+  "empirical_findings_adopted": false,
+  "emails_sent": false,
+  "email_dispatch_owner": "Brian",
+  "development_corrections": [
+    "copy read-only pandas EO arrays before normalization",
+    "normalize microsecond/nanosecond timestamp storage before vector chronology"
+  ],
+  "source_sha256": {
+    "config/limburg_monitoring_scenarios.json": "78399035041fe31e59a344c22b7857c8bcdab680eed6c871ca5bfd54f248bb3f",
+    "scripts/153_prepare_monitoring_analysis.py": "61489d2c09b6c46e3ed70b7883f2c7edbba79cdc9f2ed8625e98704ae7870c09",
+    "scripts/154_run_monitoring_analogues.py": "adc3ef3687953d498a9bbc0fe7d8ebcdd32ca4df7556d7d33be7ab5b36d36d9b",
+    "scripts/155_review_monitoring_analogues.py": "30edb82c4a335287725a72e01b8c6998fbe433d97e9fdee854ddffba117d4914",
+    "scripts/156_audit_monitoring_analogues.py": "716c9aa27480989c2f3975be8d09a20c6e14785c2ab2fb5c69523ce80a374855",
+    "scripts/157_report_monitoring_cases.py": "e29f2f5d53477cf58c85750db8b011ebacca78eb2afe82106bd6b7ef0f6992aa",
+    "scripts/158_finish_monitoring_analysis.py": "2bf877e0b48de501f315b36b15cff7be3b179c9dd2316089de744e9cd0a8242e",
+    "src/monitoring_analogues.py": "f4a91704c5b7b31e70cd69973fea6069c9aa82f7f8565f20616caaedfb107528",
+    "src/monitoring_review.py": "7ce18fda4f989dd4d9f0f2308d7f87cde23df2ef4ff192f602aee8b732d92fb4"
+  },
+  "note": "Implementation/integration verification only. Does not certify unfinished scientific outputs, claim a positive EO result or create a chapter gate."
+}
