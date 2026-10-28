@@ -587,3 +587,8 @@ Limburg collection; the historical collection name remains `Chapter 1: CO2`.
 ## Analogue question and FEWS reassessment — 2026-10-27
 
 [Targeted review](reviews/limburg-analogue-question-literature-reassessment-2026-10-27.md) checks the proposed usefulness/severity framing against Wendi et al. (2019), Hemri and Klein (2017), Horton (2022; DOI 10.1002/joc.7484), Charpentier-Noyer et al. (2023; DOI 10.5194/nhess-23-2001-2023), Lerch et al. (2017; DOI 10.1214/16-STS588), and regional FEWS evidence from Busker et al. (2026). Access depth and transfer limits are declared. It explicitly incorporates the already completed distributional and storm-response analyses rather than proposing them again. This is advice for synthesis, not an adopted RQ change, new experiment, or new data requirement.
+
+
+## Sparse monitoring and EO compensation — 2026-10-28
+
+[Developed concept](limburg-eo-scarcity-concept-2026-10-28.md) connects Berthet et al. (2009), IAHS Publ. 333, pp. 94–100 (observation delay and forecast lead); Mbuvha et al. (2023), *A novel workflow for streamflow prediction in the presence of missing gauge observations* (missing-data workflow); Ou and Zheng (2026), DOI 10.1029/2025GL121604 (satellite representations for hydrological generalization); and Fisher, Pan and Wood (2020), DOI 10.5194/hess-24-293-2020 (sparse observations and river-network information). Primary access depth and transfer limits are declared in the note. No result elsewhere validates hourly gauge replacement by the held EO vectors. Numerical feasibility evidence is a read-only join of existing finite representations and the two held observation calendars, not a new performance result.

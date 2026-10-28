@@ -1,0 +1,300 @@
+{
+  "status": "read_only_feasibility",
+  "date": "2026-10-28",
+  "cohorts": [
+    {
+      "cohort": "high_water",
+      "observations": 1062,
+      "outcome_eligible": 851
+    },
+    {
+      "cohort": "rainfall_episode",
+      "observations": 3744,
+      "outcome_eligible": 3491
+    }
+  ],
+  "rainfall_storms": 468,
+  "storms_with_ge10mm_in_first_six_hours": 126,
+  "encoder_support": [
+    {
+      "model": "olmoearth",
+      "kind": "monthly",
+      "linked_observations": 2208,
+      "outcome_eligible": 2046,
+      "early_rain_ge10mm_and_outcome_eligible": 508
+    },
+    {
+      "model": "olmoearth",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2568,
+      "outcome_eligible": 2395,
+      "early_rain_ge10mm_and_outcome_eligible": 611
+    },
+    {
+      "model": "olmoearth",
+      "kind": "recent",
+      "linked_observations": 1160,
+      "outcome_eligible": 1069,
+      "early_rain_ge10mm_and_outcome_eligible": 285
+    },
+    {
+      "model": "galileo",
+      "kind": "monthly",
+      "linked_observations": 1920,
+      "outcome_eligible": 1785,
+      "early_rain_ge10mm_and_outcome_eligible": 433
+    },
+    {
+      "model": "galileo",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "galileo",
+      "kind": "recent",
+      "linked_observations": 1237,
+      "outcome_eligible": 1136,
+      "early_rain_ge10mm_and_outcome_eligible": 321
+    },
+    {
+      "model": "prithvi",
+      "kind": "monthly",
+      "linked_observations": 2089,
+      "outcome_eligible": 1949,
+      "early_rain_ge10mm_and_outcome_eligible": 480
+    },
+    {
+      "model": "prithvi",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2889,
+      "outcome_eligible": 2682,
+      "early_rain_ge10mm_and_outcome_eligible": 741
+    },
+    {
+      "model": "prithvi",
+      "kind": "recent",
+      "linked_observations": 1292,
+      "outcome_eligible": 1190,
+      "early_rain_ge10mm_and_outcome_eligible": 373
+    },
+    {
+      "model": "anysat",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "anysat",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "anysat",
+      "kind": "recent",
+      "linked_observations": 1521,
+      "outcome_eligible": 1396,
+      "early_rain_ge10mm_and_outcome_eligible": 372
+    },
+    {
+      "model": "croma",
+      "kind": "monthly",
+      "linked_observations": 2208,
+      "outcome_eligible": 2046,
+      "early_rain_ge10mm_and_outcome_eligible": 508
+    },
+    {
+      "model": "croma",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2568,
+      "outcome_eligible": 2395,
+      "early_rain_ge10mm_and_outcome_eligible": 611
+    },
+    {
+      "model": "croma",
+      "kind": "recent",
+      "linked_observations": 1160,
+      "outcome_eligible": 1069,
+      "early_rain_ge10mm_and_outcome_eligible": 285
+    },
+    {
+      "model": "dofa",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "dofa",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "dofa",
+      "kind": "recent",
+      "linked_observations": 1584,
+      "outcome_eligible": 1457,
+      "early_rain_ge10mm_and_outcome_eligible": 384
+    },
+    {
+      "model": "copernicus_fm",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "copernicus_fm",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "copernicus_fm",
+      "kind": "recent",
+      "linked_observations": 1584,
+      "outcome_eligible": 1457,
+      "early_rain_ge10mm_and_outcome_eligible": 384
+    },
+    {
+      "model": "terramind",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "terramind",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "terramind",
+      "kind": "recent",
+      "linked_observations": 1584,
+      "outcome_eligible": 1457,
+      "early_rain_ge10mm_and_outcome_eligible": 384
+    },
+    {
+      "model": "presto",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "presto",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "presto",
+      "kind": "recent",
+      "linked_observations": 1521,
+      "outcome_eligible": 1396,
+      "early_rain_ge10mm_and_outcome_eligible": 372
+    },
+    {
+      "model": "satmae",
+      "kind": "monthly",
+      "linked_observations": 1976,
+      "outcome_eligible": 1827,
+      "early_rain_ge10mm_and_outcome_eligible": 444
+    },
+    {
+      "model": "satmae",
+      "kind": "monthly_snapshot",
+      "linked_observations": 2357,
+      "outcome_eligible": 2191,
+      "early_rain_ge10mm_and_outcome_eligible": 552
+    },
+    {
+      "model": "satmae",
+      "kind": "recent",
+      "linked_observations": 1531,
+      "outcome_eligible": 1405,
+      "early_rain_ge10mm_and_outcome_eligible": 374
+    }
+  ],
+  "calendar_age": [
+    {
+      "cohort": "high_water",
+      "kind": "monthly",
+      "calendar_bin_end_age_days_min": 0.0,
+      "median": 13.854166666666668,
+      "maximum": 30.875,
+      "note": "Window-end age; actual acquisitions can be older"
+    },
+    {
+      "cohort": "high_water",
+      "kind": "monthly_snapshot",
+      "calendar_bin_end_age_days_min": 0.0,
+      "median": 13.854166666666668,
+      "maximum": 30.875,
+      "note": "Window-end age; actual acquisitions can be older"
+    },
+    {
+      "cohort": "high_water",
+      "kind": "recent",
+      "calendar_bin_end_age_days_min": 0.0,
+      "median": 3.4166666666666665,
+      "maximum": 6.958333333333333,
+      "note": "Window-end age; actual acquisitions can be older"
+    },
+    {
+      "cohort": "rainfall_episode",
+      "kind": "monthly",
+      "calendar_bin_end_age_days_min": 0.125,
+      "median": 14.770833333333332,
+      "maximum": 30.958333333333332,
+      "note": "Window-end age; actual acquisitions can be older"
+    },
+    {
+      "cohort": "rainfall_episode",
+      "kind": "monthly_snapshot",
+      "calendar_bin_end_age_days_min": 0.125,
+      "median": 14.770833333333332,
+      "maximum": 30.958333333333332,
+      "note": "Window-end age; actual acquisitions can be older"
+    },
+    {
+      "cohort": "rainfall_episode",
+      "kind": "recent",
+      "calendar_bin_end_age_days_min": 0.0,
+      "median": 3.375,
+      "maximum": 6.958333333333333,
+      "note": "Window-end age; actual acquisitions can be older"
+    }
+  ],
+  "scope": "Join existing finite embeddings to held contexts; not new inference, retrieval or performance evaluation. Counts precede history, donor, scenario and scale eligibility.",
+  "inputs_sha256": {
+    "results/eo_analogue_comparison_coherent_v1/manifest.json": "22b65687cb0f61782a3e77284a1c188125f40811aae2cc6c21b552500dd9df9c",
+    "results/eo_comparison_preparation/observations.parquet": "8dc8dc43385299c09a06f8cd5e2c9b69c24dbe89be31378e7f1de5be4cc7977a",
+    "results/eo_comparison_preparation/observation_windows.parquet": "8cca22e1b234de479d72e260d3e2ede3ca808b5ca2ede46f37cf1fdb129db8ca",
+    "results/storm_response/storm_gauge_responses.parquet": "3255e4f1346f46897656bf05dd50e0cc8ac604f2306b0493abca95b06edfa832"
+  },
+  "early_rainfall_subset_definition": "At least one of the six core Dutch catchments has >=10mm in the first six observations; not a threshold on future episode totals.",
+  "finite_representation_files_verified_sha256": {
+    "results/eo_catchment_representations/coherent_v1/selected/census/olmoearth.parquet": "79537274788c16cf782b75c057491a58602b354ad085240fce29e41eb5344e26",
+    "results/eo_catchment_representations/coherent_v1/selected/census/galileo.parquet": "f9a2ddf3dae20072d1b6f8911e84ac232869b1987ad775ebe0e26f2b910a164f",
+    "results/eo_catchment_representations/coherent_v1/selected/census/prithvi.parquet": "d98055e1d6a0d2fbb399455295288a0221d7ab1c43cecc138eaf92d3b88135d8",
+    "results/eo_catchment_representations/coherent_v1/selected/census/anysat.parquet": "844b6153594fe6aa5479449e73945e9886376f916c1911eb2936f8b9687ddfa4",
+    "results/eo_catchment_representations/coherent_v1/selected/census/croma.parquet": "2339468a4f81b1e0cfb1774ae65a6def9953aef642e6d3e948e18e8fed7cb9eb",
+    "results/eo_catchment_representations/coherent_v1/selected/census/dofa.parquet": "a4a17f453b00b60ce39a101f7cec0c93c3279269a16b3d369708873977403a13",
+    "results/eo_catchment_representations/coherent_v1/selected/census/copernicus_fm.parquet": "bf9b3660893b3ad9452533f295c3685f5c270f969d6733989e91122470dd18c0",
+    "results/eo_catchment_representations/coherent_v1/selected/census/terramind.parquet": "4eb5e69db9ecb5c91671f1c0b8d6adfdc76666b5b41be70170ba26bd6c056d16",
+    "results/eo_catchment_representations/coherent_v1/selected/census/presto.parquet": "fb9380658f87ba5a805a4dde5148417a162fe95944cf8ca8a13818df5d10a456",
+    "results/eo_catchment_representations/coherent_v1/selected/census/satmae.parquet": "05c6b0bbc56b811211a1017081e4393271877f9fcbd40be82e2dfeca5e8fa509"
+  }
+}
