@@ -1,0 +1,134 @@
+[
+  {
+    "claim_id":"E01",
+    "question":"Does matching help?",
+    "finding":"Conventional\/raw matching improves individual shape over generic archive.",
+    "population":"Final matched NL\/DE EO populations",
+    "source":"docs\/limburg-findings-consolidated-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Trajectory estimation is a distinct endpoint.",
+    "quantitative_anchor":"{}",
+    "full_estimates_and_sensitivities":"results\/limburg_findings_consolidation_2026_10_27\/contrasts.parquet"
+  },
+  {
+    "claim_id":"E02",
+    "question":"Does TTM add information?",
+    "finding":"Modest TTM individual-shape increment over raw\/state.",
+    "population":"610 NL \/ 235 DE broad Q-history queries",
+    "source":"docs\/limburg-findings-consolidated-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Peak\/curve gains less consistent.",
+    "quantitative_anchor":"{\"NL_shape_difference\": -0.00407, \"NL_storm_interval\": [-0.00706, -0.0012], \"DE_shape_difference\": -0.00543, \"DE_storm_interval\": [-0.01078, -0.00049]}",
+    "full_estimates_and_sensitivities":"results\/limburg_findings_consolidation_2026_10_27\/contrasts.parquet"
+  },
+  {
+    "claim_id":"E03",
+    "question":"Does EO add information?",
+    "finding":"AnySat has a conditional DE snapshot curve\/severity benefit.",
+    "population":"111 DE shared snapshot queries plus own-available sensitivity",
+    "source":"docs\/limburg-findings-consolidated-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Two gauges on one river; exploratory multi-comparison result.",
+    "quantitative_anchor":"{\"DE_snapshot_curve_reference\": 0.3009, \"challenger\": 0.2674, \"difference\": -0.0335, \"storm_interval\": [-0.05038, -0.01728], \"year_interval\": [-0.05602, -0.01026]}",
+    "full_estimates_and_sensitivities":"results\/limburg_findings_consolidation_2026_10_27\/contrasts.parquet"
+  },
+  {
+    "claim_id":"E04",
+    "question":"Are all model gains stable?",
+    "finding":"Several attractive EO gains weaken on larger application populations.",
+    "population":"All-ten intersections versus each model-available cohort",
+    "source":"docs\/limburg-findings-consolidated-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Population differences alone do not identify an archive effect.",
+    "quantitative_anchor":"{\"Copernicus_shared_difference\": -0.02023, \"Copernicus_own_population_difference\": 0.00264, \"CROMA_shared_difference\": -0.02835, \"CROMA_own_population_difference\": -0.00408}",
+    "full_estimates_and_sensitivities":"results\/limburg_findings_consolidation_2026_10_27\/contrasts.parquet"
+  },
+  {
+    "claim_id":"E05",
+    "question":"Do analogues improve distributions?",
+    "finding":"Five-donor TTM has no clear increment; ten-donor gains over archive are also achievable conventionally.",
+    "population":"845 Q \/ 764 earlier rainfall \/ 365 annual-context queries",
+    "source":"docs\/limburg-analogue-distribution-results-2026-10-15.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Not final all-ten EO distributional verification; earlier rainfall support.",
+    "quantitative_anchor":"{\"five_donor_TTM_CRPS\": 0.27503, \"Q_archive_CRPS\": 0.26892, \"ten_donor_TTM_CRPS\": 0.25399, \"ten_donor_raw_state_CRPS\": 0.25771, \"ten_donor_conventional_CRPS_other_cohort\": 0.24765}",
+    "full_estimates_and_sensitivities":"docs\/limburg-analogue-distribution-results-2026-10-15.md"
+  },
+  {
+    "claim_id":"E06",
+    "question":"Does AlphaEarth help?",
+    "finding":"Selective timing evidence; no consistent general shape\/curve increment.",
+    "population":"294 NL \/ 71 DE annual-context cohort",
+    "source":"docs\/limburg-findings-consolidated-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Landscape descriptors do not observe hourly wetness.",
+    "quantitative_anchor":"{\"NL_peak_time_mismatch_difference_h\": -0.92, \"storm_interval\": [-1.79, -0.06]}",
+    "full_estimates_and_sensitivities":"results\/limburg_findings_consolidation_2026_10_27\/contrasts.parquet"
+  },
+  {
+    "claim_id":"E07",
+    "question":"Do storms explain divergence?",
+    "finding":"Local phase and subsequent forcing can defeat a similar storm-total match.",
+    "population":"468 rainfall episodes, 8 NL\/DE gauges",
+    "source":"docs\/limburg-storm-response-results-2026-10-15.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Realized future rainfall used for explanation; not forecast skill.",
+    "quantitative_anchor":"{\"episode_minus_response_window_rain_error\": 0.03762, \"year_interval\": [0.02779, 0.04718]}",
+    "full_estimates_and_sensitivities":"docs\/limburg-storm-response-results-2026-10-15.md"
+  },
+  {
+    "claim_id":"E08",
+    "question":"Do peer gauges help?",
+    "finding":"No robust general peer-state increment after rainfall\/local-state controls.",
+    "population":"56 directed gauge pairs",
+    "source":"docs\/limburg-storm-response-results-2026-10-15.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"No causal routing or national-treatment inference.",
+    "quantitative_anchor":"{\"added_peer_state_error\": 0.00536, \"year_interval\": [0.00258, 0.00849]}",
+    "full_estimates_and_sensitivities":"docs\/limburg-storm-response-results-2026-10-15.md"
+  },
+  {
+    "claim_id":"E09",
+    "question":"Do repeat pulses explain escalation?",
+    "finding":"Recovery association is segmentation-sensitive and does not establish a stable mechanism.",
+    "population":"2254 known-state pulses \/ 338 storms",
+    "source":"docs\/limburg-storm-response-results-2026-10-15.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Pulse order and algebraic coupling limit interpretation.",
+    "quantitative_anchor":"{\"postpulse_rise_association\": -0.02771, \"year_interval\": [-0.08696, 0.02697]}",
+    "full_estimates_and_sensitivities":"docs\/limburg-storm-response-results-2026-10-15.md"
+  },
+  {
+    "claim_id":"E10",
+    "question":"Why do severe cases fail?",
+    "finding":"Archive support, retrieval, extreme members, averaging and window anchoring fail in distinct ways.",
+    "population":"15 register rows \/ 7 core H3 cases \/ 2 scored pre-flood queries",
+    "source":"docs\/limburg-flood-case-review-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Case diagnosis is not independent population verification.",
+    "quantitative_anchor":"{\"register_rows\": 15, \"core_H3_cases\": 7, \"scored_preflood_queries\": 2}",
+    "full_estimates_and_sensitivities":"docs\/limburg-flood-case-review-2026-10-27.md"
+  },
+  {
+    "claim_id":"E11",
+    "question":"What is basin context?",
+    "finding":"Sint Pieter\/Venlo show wider-basin states and contrasting trends.",
+    "population":"1062 held tributary events",
+    "source":"docs\/limburg-meuse-context-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Observed context alone does not demonstrate incremental retrieval value.",
+    "quantitative_anchor":"{\"inventory_events\": 1062, \"Sint_Pieter_strict_cutoff\": 931, \"Venlo_strict_cutoff\": 613}",
+    "full_estimates_and_sensitivities":"docs\/limburg-meuse-context-2026-10-27.md"
+  },
+  {
+    "claim_id":"E12",
+    "question":"What is the FEWS\/DRR contribution?",
+    "finding":"Quality and limits of historical evidence for interpreting developing high water.",
+    "population":"Retrospective study, source-specific thresholds and measurement provenance",
+    "source":"docs\/reviews\/limburg-analogue-question-literature-reassessment-2026-10-27.md",
+    "development_status":"exploratory; chronology preserved",
+    "limitation":"Operator benefit, impacts and as-issued warning skill not established.",
+    "quantitative_anchor":"{}",
+    "full_estimates_and_sensitivities":"docs\/reviews\/limburg-analogue-question-literature-reassessment-2026-10-27.md"
+  }
+]

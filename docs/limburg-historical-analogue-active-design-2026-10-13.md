@@ -1,5 +1,9 @@
 # Limburg high-water analogues: active research design
 
+## Latest completed assessment — 2026-10-27
+
+The [synthesis and Meuse test](limburg-assessment-synthesis-2026-10-27.md) completes the three-workstream plan. The active framing is whether AI-selected historical events improve assessment of developing high water beyond conventional analogues. It integrates the original distribution/storm-response findings, separates archive restriction from representation increments, and retains the unfavorable Meuse result. Scripts 146/149/147/148 implement, report and independently audit the pass. Earlier dated descriptions below remain historical records.
+
 ## Current reading map — 2026-10-27
 
 Use the [consolidated findings](limburg-findings-consolidated-2026-10-27.md),

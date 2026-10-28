@@ -4,7 +4,7 @@ Last substantively reviewed: 2026-10-27. Living supervisor/research brief; not d
 
 ## Research Question(s)
 
-Can basin-aware AI find useful past high-water events across Limburg's Dutch and German tributaries, and identify when the evidence is too uncertain to use?
+Can AI-selected historical events improve assessments of how high water develops in the Meuse basin, beyond conventional hydrological analogues?
 
 Supporting questions concern improvements in analogue selection, transfer between rivers/countries, and what analogues reveal about subsequent event behaviour. Meuse context asks whether apparently similar tributary events occur under different mainstem conditions.
 
@@ -30,13 +30,13 @@ Retrospective comparative evaluation of representations and retrieval. Subsequen
 
 The planned analysis and consolidation are complete. In the broad Q-history census (610 NL / 235 DE scored queries), TTM modestly improves individual response-shape matching over raw Q/state; stronger mean-trajectory or peak estimates are less consistent. Conventional matching also finds closer shapes than the generic eligible archive, so similarity retrieval alone is not an AI-specific contribution.
 
-Added EO has conditional value. On 111 DE snapshot cases, AnySat + TTM/state reduces mean-trajectory RMSE by about 11% versus conventional matching, with exploratory storm/year intervals below zero; several peak/timing/late-response contrasts also improve. The curve advantage weakens with other-river donors and k=10. Some attractive Copernicus-FM/CROMA results on the shared all-ten intersection are not reproduced in their larger model-available populations. AlphaEarth has selective timing evidence, without a consistent general shape/trajectory advantage.
+Added EO has conditional value on matched restricted archives; the broader-archive qualification below is material. On 111 DE snapshot cases, AnySat + TTM/state reduces mean-trajectory RMSE by about 11% versus conventional matching, with exploratory storm/year intervals below zero; several peak/timing/late-response contrasts also improve. The curve advantage weakens with other-river donors and k=10. Some attractive Copernicus-FM/CROMA results on the shared all-ten intersection are not reproduced in their larger model-available populations. AlphaEarth has selective timing evidence, without a consistent general shape/trajectory advantage.
 
-Actual cases show useful recession matches, missed later rises, unchanged donor selections and better normalized shape paired with worse severity/duration estimates. Cohort, donor archive and outcome matter; no universal model winner or operational warning skill is established. Full findings, sensitivities, population comparisons and figure links are in the [consolidated findings brief](limburg-findings-consolidated-2026-10-27.md). All original outputs remain preserved; 352 tests pass. Brian can now write from the completed evidence bundle.
+Actual cases show useful recession matches, missed later rises, unchanged donor selections and better normalized shape paired with worse severity/duration estimates. Cohort, donor archive and outcome matter; no universal model winner or operational warning skill is established. Full findings, sensitivities, population comparisons and figure links are in the [consolidated findings brief](limburg-findings-consolidated-2026-10-27.md). All original outputs remain preserved; 359 tests pass. Brian can now write from the completed evidence bundle.
 
 The [flood-focused case review](limburg-flood-case-review-2026-10-27.md) traces 15 source-bounded register entries, including all seven core H3 cases. Only two linked p99 queries provide scored pre-flood responses; a third is recovery. It identifies separate archive-support, retrieval, extreme-member and averaging failures, plus a July 2021 transition beyond the original 72-hour target. It does not establish reliable flood escalation prediction.
 
-The [Meuse context addition](limburg-meuse-context-2026-10-27.md) complements the tributary analysis. Its observational comparisons do not yet establish a gain from using Meuse state in retrieval.
+The [completed synthesis, archive decomposition and Meuse test](limburg-assessment-synthesis-2026-10-27.md) qualify the earlier AnySat result: on the same 111 DE snapshot cases, its ~11% curve improvement over restricted conventional matching becomes ~2.1% versus conventional matching with a broader archive; both total-difference intervals include zero. In the primary 364-case Meuse comparison, two-site context gives no clear conventional distributional gain and worsens TTM CRPS. Archive restrictions and representation increments are now reported separately. The full inventory remains visible; no prospective reliability rule or operator benefit is established.
 
 ## Maintenance
 

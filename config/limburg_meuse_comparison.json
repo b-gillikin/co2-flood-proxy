@@ -1,0 +1,27 @@
+{
+  "prepared_utc_date": "2026-10-27",
+  "purpose": "Retrospective analogue assessment; Meuse increment and archive restriction separated",
+  "primary_context": "both_sites",
+  "context_features": {
+    "both_sites": ["sint_pieter_prior_year_rank", "sint_pieter_rise24_strict_m3s", "venlo_prior_year_rank", "venlo_rise24_strict_m3s"],
+    "sint_pieter_only": ["sint_pieter_prior_year_rank", "sint_pieter_rise24_strict_m3s"]
+  },
+  "baselines": ["conventional", "ttm_state"],
+  "primary_metric": "crps_mean_24h",
+  "primary_k": 5,
+  "supporting_k": 10,
+  "baseline_distance_weight": 0.5,
+  "meuse_distance_weight": 0.5,
+  "contexts_are_not_optimized": true,
+  "settings": {
+    "main": {"other_rivers": false, "quality": false},
+    "other_rivers": {"other_rivers": true, "quality": false},
+    "quality": {"other_rivers": false, "quality": true}
+  },
+  "bootstrap_draws": 9999,
+  "bootstrap_seed": 20261013,
+  "uncertainty_units": ["storm_id", "storm_year"],
+  "archive_source": "held completed earlier events; original complete-72h cohort",
+  "new_context_quality": "controlled ordinary code 00; no interpolation or stale-state filling",
+  "prospective_claim": false
+}

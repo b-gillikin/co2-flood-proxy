@@ -1,0 +1,19 @@
+{
+  "manifests": 22,
+  "output_hashes": 85,
+  "selected_sets": 20064,
+  "selected_donor_rows": 194847,
+  "paired_decompositions": 2210316,
+  "independent_crps_scores": 40128,
+  "legacy_distance_checks": 63,
+  "inventory_rows": 1062,
+  "eligibility_rows": 73278,
+  "fallback_policy_rows": 19584,
+  "browser_queries": 830,
+  "browser_curves_checked": 836,
+  "equivalent_bootstrap_rows": 127872,
+  "status": "passed",
+  "internal_links": 16,
+  "independent_bootstrap_draws": 9999,
+  "after_cutoff_poison_checks": 2
+}

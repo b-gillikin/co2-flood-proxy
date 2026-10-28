@@ -1,3 +1,5 @@
+Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three planned workstreams are complete. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
+
 # Basin-Aware AI for Historical High-Water Analogues
 
 Completed findings: [consolidated evidence brief](docs/limburg-findings-consolidated-2026-10-27.md), with shared-population comparisons, broader-census checks, existing sensitivities and actual event cases. The planned analysis/consolidation is complete.
@@ -8,9 +10,8 @@ Meuse inclusion (27 October): Sint Pieter and Venlo now provide mainstem context
 
 Research question:
 
-> **Can basin-aware AI find useful past high-water events across Limburg's
-> Dutch and German tributaries, and identify when the evidence is too
-> uncertain to use?**
+> **Can AI-selected historical events improve assessments of how high water
+> develops in the Meuse basin, beyond conventional hydrological analogues?**
 
 The chapter compares conventional hydrological summaries, raw hydrograph
 similarity, a frozen time-series foundation-model representation and bounded

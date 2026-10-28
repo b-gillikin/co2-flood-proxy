@@ -1,0 +1,52 @@
+[
+  {
+    "event_id":"18.Q.45|2014-07-08T12:00:00+00:00",
+    "selection_reason":"existing severe\/recovery case",
+    "figure":"case_1.png"
+  },
+  {
+    "event_id":"15.Q.41|2024-05-17T07:00:00+00:00",
+    "selection_reason":"existing severe\/recovery case",
+    "figure":"case_2.png"
+  },
+  {
+    "event_id":"15.Q.41|2024-05-20T18:00:00+00:00",
+    "selection_reason":"existing severe\/recovery case",
+    "figure":"case_3.png"
+  },
+  {
+    "event_id":"11.Q.32|2021-07-10T19:00:00+00:00",
+    "selection_reason":"existing severe\/recovery case",
+    "figure":"case_4.png"
+  },
+  {
+    "event_id":"15.Q.41|2024-10-09T17:00:00+00:00",
+    "selection_reason":"largest paired CRPS improvement",
+    "figure":"case_5.png"
+  },
+  {
+    "event_id":"15.Q.41|2025-09-09T08:00:00+00:00",
+    "selection_reason":"largest paired CRPS improvement",
+    "figure":"case_6.png"
+  },
+  {
+    "event_id":"10.Q.29|2025-01-05T11:00:00+00:00",
+    "selection_reason":"largest paired CRPS degradation",
+    "figure":"case_7.png"
+  },
+  {
+    "event_id":"15.Q.41|2024-08-17T21:00:00+00:00",
+    "selection_reason":"largest paired CRPS degradation",
+    "figure":"case_8.png"
+  },
+  {
+    "event_id":"10.Q.29|2016-02-08T13:00:00+00:00",
+    "selection_reason":"smallest paired CRPS change",
+    "figure":"case_9.png"
+  },
+  {
+    "event_id":"11.Q.32|2016-02-09T19:00:00+00:00",
+    "selection_reason":"smallest paired CRPS change",
+    "figure":"case_10.png"
+  }
+]

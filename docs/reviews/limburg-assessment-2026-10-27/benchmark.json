@@ -1,0 +1,9 @@
+{
+  "queries": 12,
+  "retrievals": 24,
+  "seconds": 0.23897495795972645,
+  "seconds_per_retrieval": 0.009957289914988602,
+  "estimated_new_meuse_retrievals_upper": 10032,
+  "rough_meuse_minutes_upper": 1.664858873786094,
+  "note": "Control/EO bookkeeping and bootstrap add CPU time; no GPU or EO inference."
+}
