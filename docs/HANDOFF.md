@@ -1,3 +1,5 @@
+Planned next pass (2026-10-27): [synthesis, archive trade-off and focused Meuse test](limburg-synthesis-archive-meuse-plan-2026-10-27.md). Prepared at Brian's request; new computations have not been run. Reuses completed evidence, separates archive restriction from representation increment, and defines a four-arm conventional/TTM ± Meuse comparison with a 24h distributional endpoint.
+
 Latest literature advice (2026-10-27): [question/FEWS reassessment](reviews/limburg-analogue-question-literature-reassessment-2026-10-27.md). Supports task-focused analogue evaluation but corrects the suggestion that distributional and storm-response work is still missing. Synthesis first; no new analysis or RQ change automatically authorized by this review.
 
 Current Meuse inclusion (2026-10-27): [implemented context and paired review](limburg-meuse-context-2026-10-27.md). Script 145 attaches cutoff-safe Sint Pieter/Venlo state to all 1,062 held events and 641 distinct saved flood-review query–donor pairs. No existing model scores changed. Results: `results/meuse_context_2026_10_27/`. This is active context, distinct from the archived Venlo increment pilot.
