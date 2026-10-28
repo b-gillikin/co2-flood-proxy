@@ -16,6 +16,8 @@ Official context: [Rijkswaterstaat's river observations and forecasts](https://w
 
 ## Reference and scarcity families
 
+**Literature-based levels, subsequent review:** [Primary-source scenario precedents](reviews/limburg-scarcity-scenario-precedents-2026-10-28.md) supplies a concrete starting matrix: 0/25/50/75/100% missing inputs; separate scattered and clustered gaps; 1/3/6/12/24h observation frequency; eight/six/four/two/zero retained tributary gauges; and 3/6/9-year historical caps as supporting comparisons. It separates exact published choices from our hourly/network adaptations. Rakovec et al. (2012) provides a particularly close Upper Ourthe/Meuse precedent for observation frequency and network placement. These are recommended specifications, not implemented masks or new findings.
+
 | Family | Information deliberately reduced | What stays available for verification | Status |
 | --- | --- | --- | --- |
 | Rich held-data reference | None beyond natural held-data limitations | Original held outcomes and quality evidence | Existing full-information evidence; must identify the actual inputs used by each reference |

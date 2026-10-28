@@ -22,6 +22,8 @@ Reassess at 0/6/12/24h after the rainfall landmark. Simulate fixed 1/3/6/12/24h 
 
 That paragraph describes the completed age/outage component. Planned extensions reduce observation density, intermittent completeness and network/context coverage on the same physical situations, with a shorter historical archive as a separate supporting scarcity dimension. Keep full eligible verification outcomes; removing a gauge from the observing inputs does not remove its events from evaluation. The current three-reading Q signature cannot represent every density change, and unused peer/Maas feeds cannot be meaningfully “removed”: implement responsive features and the declared contextual reference before interpreting those contrasts. Use separate scarcity axes before a compact set of combined situations; no automatic full-factorial expansion.
 
+[Literature-based scenario levels](reviews/limburg-scarcity-scenario-precedents-2026-10-28.md) now give the next plan a concrete starting grid, including 0/25/50/75/100% missing inputs and frequency/network precedents from the Meuse basin. Hourly adaptations, placement and masking realism remain explicit; no new scenarios have been run.
+
 Models: DOFA, CROMA, SatMAE, Copernicus-FM, TerraMind, Presto, AnySat, Galileo, Prithvi and OlmoEarth. IBM Tiny Time Mixers R2/raw-history comparisons will use permitted 512h histories ending at the last available reading; annual AlphaEarth is a supporting landscape/cross-river control. Earlier full-information results remain reference evidence; cached full-history vectors cannot be reused when they contain hidden observations.
 
 ## Methodology

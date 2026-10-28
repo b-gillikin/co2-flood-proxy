@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-28",
+  "chapter": "Limburg",
+  "references_added": 8,
+  "pdfs_downloaded_and_attached": 7,
+  "bibliography_entries": 99,
+  "overleaf_synced": false,
+  "records": [
+    {
+      "title": "State updating of a distributed hydrological model with Ensemble Kalman Filtering: effects of updating frequency and observation network density on forecast accuracy",
+      "year": 2012,
+      "doi": "10.5194/hess-16-3435-2012",
+      "mendeley_document_id": "5e8f6942-483a-34a0-8ec1-c1decb62f1a0",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/hess-16-3435-2012.pdf",
+      "bytes": 1707949,
+      "sha256": "6632454ecd11fc4f902337bd8b29d29e9c1cfbe8d3dc097ad7dba4036c2f2091",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "Technical note: Data assimilation and autoregression for using near-real-time streamflow observations in long short-term memory networks",
+      "year": 2022,
+      "doi": "10.5194/hess-26-5493-2022",
+      "mendeley_document_id": "f8a04f47-8127-32cf-a927-80e22e74c931",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/hess-26-5493-2022.pdf",
+      "bytes": 2664386,
+      "sha256": "b92b00ff830b2fa14f6baaeb2483e6065323282b36795d9b5e8b424bb6fa164e",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "How good are hydrological models for gap-filling streamflow data?",
+      "year": 2018,
+      "doi": "10.5194/hess-22-4593-2018",
+      "mendeley_document_id": "94fcdf28-f691-3764-9a4d-622f0a82150c",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/hess-22-4593-2018.pdf",
+      "bytes": 3602753,
+      "sha256": "de0e3da82180a0e154085f7639ccc3c253d47a4dcbea115175ce0c28efd5364a",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "Technical note: Using long short-term memory models to fill data gaps in hydrological monitoring networks",
+      "year": 2022,
+      "doi": "10.5194/hess-26-1727-2022",
+      "mendeley_document_id": "291bb465-e9c5-3a09-95a1-6be094f9be3a",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/hess-26-1727-2022.pdf",
+      "bytes": 7890379,
+      "sha256": "545d837579a6b1903413a73e53e8d33b46a8c58e32d21873a453b4df7cc451c5",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "The proper care and feeding of CAMELS: How limited training data affects streamflow prediction",
+      "year": 2021,
+      "doi": "10.1016/j.envsoft.2020.104926",
+      "mendeley_document_id": "c2fb0d25-63f6-3a5c-88a8-173a1e38a347",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/j.envsoft.2020.104926.pdf",
+      "bytes": 1952648,
+      "sha256": "c7828ba1f31b385ac40cf76149ca280f5ce2f8cf029a35b54ef1fdaa8c88fb35",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "The impact of spatial resolution on hourly flood modeling in large watersheds",
+      "year": 2026,
+      "doi": "10.5194/hess-30-2995-2026",
+      "mendeley_document_id": "01715734-a639-3587-aa3f-ba05a76bb4fb",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/hess-30-2995-2026.pdf",
+      "bytes": 18750912,
+      "sha256": "1fb6b907b6e1b49ec5ad82946de91e8cdb84c239277811ce9c63eceb78609f1d",
+      "attachment_status": "attached"
+    },
+    {
+      "title": "A novel workflow for streamflow prediction in the presence of missing gauge observations",
+      "year": 2023,
+      "doi": "10.1017/eds.2023.11",
+      "mendeley_document_id": "ed47f750-a4e6-3286-a3b4-8a49254bb3b4",
+      "pdf_status": "not_requested_no_direct_pdf_url",
+      "pdf_path": null,
+      "bytes": null,
+      "sha256": null,
+      "attachment_status": "metadata_only"
+    },
+    {
+      "title": "Improving Linear Interpolation of Missing Hydrological Data by Applying Integrated Autoregressive Models",
+      "year": 2023,
+      "doi": "10.1007/s11269-023-03625-7",
+      "mendeley_document_id": "b5d7498d-7755-3179-9080-5403cd39b2c4",
+      "pdf_status": "downloaded",
+      "pdf_path": "data/raw/literature/monitoring-scarcity-2026-10-28/s11269-023-03625-7.pdf",
+      "bytes": 1667620,
+      "sha256": "78f05ab0780bbe1216f2d4cf24f95812212912cd8a3e43ab0990a9a70da6b9a4",
+      "attachment_status": "attached"
+    }
+  ]
+}
