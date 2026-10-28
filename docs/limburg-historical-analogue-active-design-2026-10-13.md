@@ -1,8 +1,13 @@
 # Limburg high-water analogues: active research design
 
+## Active question and next analysis — 2026-10-28
+
+**Can satellite AI help assess developing high water when a gauge's data are late or stop arriving?** The [monitoring-resilience design](limburg-monitoring-resilience-design-2026-10-28.md) and [scenario specification](../config/limburg_monitoring_scenarios.json) now govern the next analysis. The [literature refresh](reviews/limburg-monitoring-literature-2026-10-28.md) distinguishes delivery delay, a stopped station feed and sensor-quality problems. Repeated rainfall-clock assessments use all eligible opportunities, with explicit input availability, same-gauge primary donors and archive controls. Design specified, simulations not run; the completed full-information results below remain evidence, not results of this new comparison. Earlier dated uses of “active” apply to their dates.
+
+
 ## Latest completed assessment — 2026-10-27
 
-The [synthesis and Meuse test](limburg-assessment-synthesis-2026-10-27.md) completes the three-workstream plan. The active framing is whether AI-selected historical events improve assessment of developing high water beyond conventional analogues. It integrates the original distribution/storm-response findings, separates archive restriction from representation increments, and retains the unfavorable Meuse result. Scripts 146/149/147/148 implement, report and independently audit the pass. Earlier dated descriptions below remain historical records.
+The [synthesis and Meuse test](limburg-assessment-synthesis-2026-10-27.md) completes the three-workstream plan. That pass asked whether AI-selected historical events improve assessment of developing high water beyond conventional analogues. It integrates the original distribution/storm-response findings, separates archive restriction from representation increments, and retains the unfavorable Meuse result. Scripts 146/149/147/148 implement, report and independently audit the pass. Earlier dated descriptions below remain historical records.
 
 ## Current reading map — 2026-10-27
 

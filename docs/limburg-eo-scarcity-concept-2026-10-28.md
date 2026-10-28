@@ -1,5 +1,8 @@
 # Developing EO-assisted high-water assessment under sparse monitoring
 
+**Concept-stage record:** developed into the [active monitoring-resilience design](limburg-monitoring-resilience-design-2026-10-28.md) later on 2026-10-28, following Brian's authorization and a further [literature review](reviews/limburg-monitoring-literature-2026-10-28.md). The active design distinguishes delay/outage over repeated issue times, adds short delay levels, chooses the early-rain primary calendar and same-gauge native-unit transfer, and parks rainfall/network loss. Proposed alternatives below retain their historical concept status and do not override the scenario specification. No scarcity performance experiment has been run.
+
+
 2026-10-28. Research concept and internal design advice for Brian. This develops the proposed scarcity direction; no new retrieval/scoring experiment was run and no active RQ was automatically replaced. The accompanying [read-only feasibility record](reviews/limburg-scarcity-feasibility-2026-10-28.json) checks held input support, not performance. Brian retains all dissertation writing.
 
 ## Scientific proposition

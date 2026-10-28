@@ -1,31 +1,36 @@
-Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three planned workstreams are complete. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
+Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three October 27 workstreams are complete; the October 28 monitoring-loss design below is not yet executed. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
 
-# Basin-Aware AI for Historical High-Water Analogues
+# AI-Assisted High-Water Assessment Under Monitoring Loss
 
-Completed findings: [consolidated evidence brief](docs/limburg-findings-consolidated-2026-10-27.md), with shared-population comparisons, broader-census checks, existing sensitivities and actual event cases. The planned analysis/consolidation is complete.
+Completed findings: [consolidated evidence brief](docs/limburg-findings-consolidated-2026-10-27.md), with shared-population comparisons, broader-census checks, existing sensitivities and actual event cases. The earlier full-information analysis/consolidation is complete.
 
 Current audit and execution: [completed-chapter audit, 27 October](docs/reviews/limburg-completed-chapter-audit-2026-10-27.md). All main and supplemental computational workflows are complete. The [authorized audit follow-up](docs/reviews/limburg-audit-followup-2026-10-27.md) is complete; see the [re-audit](docs/reviews/limburg-second-chapter-audit-2026-10-27.md); dated execution descriptions below retain their historical context.
 
 Meuse inclusion (27 October): Sint Pieter and Venlo now provide mainstem context for the held tributary event census and saved flood-case analogues. See [context, source quality and interpretation](docs/limburg-meuse-context-2026-10-27.md). Existing model scores are preserved.
 
-Research question:
+Current research question (28 October):
 
-> **Can AI-selected historical events improve assessments of how high water
-> develops in the Meuse basin, beyond conventional hydrological analogues?**
+> **Can satellite AI help assess developing high water when a gauge's data are
+> late or stop arriving?**
 
-The chapter compares conventional hydrological summaries, raw hydrograph
-similarity, a frozen time-series foundation-model representation and bounded
-AlphaEarth catchment context, extended by ten frozen EO encoders with explicit
-coverage and matched-population controls. It reviews whether river identity and measurement
-provenance make retrieved analogues usable. It is a retrospective archive
-study, not an automatic warning system or operational forecast evaluation.
+The [monitoring-resilience design](docs/limburg-monitoring-resilience-design-2026-10-28.md),
+[scenario specification](config/limburg_monitoring_scenarios.json) and
+[literature refresh](docs/reviews/limburg-monitoring-literature-2026-10-28.md)
+now govern the next analysis. They specify repeated rainfall-clock assessments,
+fixed observation delays and a stopped station feed, comparing conventional
+analogues and ten frozen EO representations with explicit timing, seasonal and
+archive controls. **Design specified; no scarcity simulations run.** Held inputs
+support preparation without new imagery extraction. Earlier full-information
+TTM, AlphaEarth, EO, cross-border and Meuse results remain preserved reference
+evidence. This is a retrospective availability study; operator benefit and
+as-issued warning skill are not established.
 
 The [22 October restart](docs/reviews/limburg-eo-retirement-and-restart-2026-10-22.md)
-is extracting eight corrected EO routes and reusing verified Prithvi/repaired
+extracted eight corrected EO routes and reused verified Prithvi/repaired
 OlmoEarth outputs. Earlier scoring was cancelled before completed scientific
 results were published; superseded patch caches were retired with compact
-provenance and catchment summaries preserved. The corrected selection will be
-aggregated, compared and reviewed automatically. The accompanying
+provenance and catchment summaries preserved. Its corrected selection was subsequently
+aggregated, compared and reviewed; use the completed assessment above for status. The accompanying
 [paper/appendix review](docs/reviews/limburg-eo-model-literature-and-runtime-2026-10-22.md)
 documents configuration and runtime evidence without changing the running setup.
 
@@ -39,7 +44,7 @@ cross-tributary prediction and pressure diagnostics are preserved under
 `archive/retired-directions/2026-retrospective-high-water/`; they are not the
 active chapter design.
 
-## Current EO execution — October 22
+## Historical EO execution contract — October 22
 
 | Work | Current entry point and contract |
 | --- | --- |
@@ -66,7 +71,8 @@ input locations, reviewed source compatibility and validation.
 | document | role |
 | --- | --- |
 | [Evidence index](docs/limburg-analogue-evidence-index-2026-10-14.md) | main evidence, useful controls and superseded development stages |
-| [Active design](docs/limburg-historical-analogue-active-design-2026-10-13.md) | question, comparison and scope; dated development sections preserved |
+| [Active monitoring-resilience design](docs/limburg-monitoring-resilience-design-2026-10-28.md) | current RQs, situations, simulation and evaluation specification; not yet run |
+| [Analogue design history](docs/limburg-historical-analogue-active-design-2026-10-13.md) | active pointer followed by dated development sections |
 | [Storm-response explanation](docs/limburg-storm-response-results-2026-10-15.md) | three linked event/relationship/escalation analyses, all-case browser, retrospective forcing controls and 12h/24h separation |
 | [Expanded event pass](docs/limburg-expanded-event-pass-2026-10-13.md) | main temporal census and short/no-archive coverage |
 | [Analogue distributions](docs/limburg-analogue-distribution-results-2026-10-15.md) | 24h distribution accuracy and uncertainty coverage; fixed five/ten donors, conventional and AlphaEarth controls |

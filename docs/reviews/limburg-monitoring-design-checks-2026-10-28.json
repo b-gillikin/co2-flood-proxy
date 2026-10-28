@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-28",
+  "status": "design_consistency_checked_not_performance_evaluated",
+  "checks": [
+    "JSON parses and status remains specified_not_run",
+    "RQ matches active design and living one-pager",
+    "eight gauges and ten distinct encoders",
+    "primary and broader census counts match held feasibility receipt",
+    "all next-24h windows stay inside held 72h follow-up",
+    "32 labelled issue/scenario cells collapse to 26 unique instantaneous information states",
+    "outage ages increase while fixed delay ages remain constant",
+    "new-document local links resolve",
+    "provider evidence sources exist and are hashed; raw files unchanged",
+    "primary 126-storm query calendar retains full eligible 468-storm historical donor reservoir"
+  ],
+  "scenario_cells_per_gauge_storm": [
+    {
+      "issue_offset_h": 0,
+      "scenario": "complete",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 0
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "delay_1h",
+      "latest_q_offset_h": -1,
+      "observation_age_h": 1
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "delay_3h",
+      "latest_q_offset_h": -3,
+      "observation_age_h": 3
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "delay_6h",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "delay_12h",
+      "latest_q_offset_h": -12,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "delay_24h",
+      "latest_q_offset_h": -24,
+      "observation_age_h": 24
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "stopped_feed",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 0
+    },
+    {
+      "issue_offset_h": 0,
+      "scenario": "earlier_stopped_feed",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "complete",
+      "latest_q_offset_h": 6,
+      "observation_age_h": 0
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "delay_1h",
+      "latest_q_offset_h": 5,
+      "observation_age_h": 1
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "delay_3h",
+      "latest_q_offset_h": 3,
+      "observation_age_h": 3
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "delay_6h",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "delay_12h",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "delay_24h",
+      "latest_q_offset_h": -18,
+      "observation_age_h": 24
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "stopped_feed",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 6,
+      "scenario": "earlier_stopped_feed",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "complete",
+      "latest_q_offset_h": 12,
+      "observation_age_h": 0
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "delay_1h",
+      "latest_q_offset_h": 11,
+      "observation_age_h": 1
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "delay_3h",
+      "latest_q_offset_h": 9,
+      "observation_age_h": 3
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "delay_6h",
+      "latest_q_offset_h": 6,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "delay_12h",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "delay_24h",
+      "latest_q_offset_h": -12,
+      "observation_age_h": 24
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "stopped_feed",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 12,
+      "scenario": "earlier_stopped_feed",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 18
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "complete",
+      "latest_q_offset_h": 24,
+      "observation_age_h": 0
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "delay_1h",
+      "latest_q_offset_h": 23,
+      "observation_age_h": 1
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "delay_3h",
+      "latest_q_offset_h": 21,
+      "observation_age_h": 3
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "delay_6h",
+      "latest_q_offset_h": 18,
+      "observation_age_h": 6
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "delay_12h",
+      "latest_q_offset_h": 12,
+      "observation_age_h": 12
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "delay_24h",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 24
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "stopped_feed",
+      "latest_q_offset_h": 0,
+      "observation_age_h": 24
+    },
+    {
+      "issue_offset_h": 24,
+      "scenario": "earlier_stopped_feed",
+      "latest_q_offset_h": -6,
+      "observation_age_h": 30
+    }
+  ],
+  "unique_information_states_per_gauge_storm": 26,
+  "provider_source_sha256": {
+    "data/raw/external_deliveries/lanuk_nrw/2026-10-13/AW_ Academic question about timestamps and gaps in verified discharge data.eml": "57d3ced3bf9b392f7f385ccece1d03c9d5670ebe813667a4c422499c9c65d67d",
+    "data/raw/external_deliveries/waterschap_limburg/2026-09-07/totaaloverzichtfunctionerenmeet-enregellocatieshoogwaterjuli2021.docx": "a5e7ec246d493b489ae0b33ecdc50513998d65992e9d89b2fe82788389931073"
+  },
+  "local_links_checked": [
+    "config/limburg_monitoring_scenarios.json",
+    "docs/limburg-monitoring-resilience-design-2026-10-28.md",
+    "docs/reviews/limburg-analogue-question-literature-reassessment-2026-10-27.md",
+    "docs/reviews/limburg-monitoring-literature-2026-10-28.md",
+    "docs/reviews/limburg-scarcity-feasibility-2026-10-28.json"
+  ],
+  "specification_sha256": "4e52a432a522acb6a7cb6766291b49214160a1cfd7d4b492c583cb45c7288f67",
+  "new_empirical_results": false,
+  "simulation_runner_implemented": false,
+  "formal_preregistration": false,
+  "limits": "Checks concern the design specification and held provenance only; they do not validate a future runner, outcome eligibility or EO benefit."
+}

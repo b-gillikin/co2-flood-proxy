@@ -1,5 +1,8 @@
 # Literature Source Notes
 
+The [28 October monitoring-resilience refresh](reviews/limburg-monitoring-literature-2026-10-28.md) records primary sources on observation delay, missing gauges, sensor faults, satellite representation and sparse-observation routing, with access depth and limits. It informs the new [active RQs/scenarios](limburg-monitoring-resilience-design-2026-10-28.md); it is a local research-aid supplement, not a claim that the connected Mendeley library or generated bibliography has been synchronized. Historical mechanism notes below remain historical supporting records.
+
+
 The [23 October weekly intake](limburg-weekly-literature-2026-10-23.md)
 adds Ford et al.'s preprint on pooled versus within-catchment skill as supporting
 evaluation literature for the current analogue/embedding study. No running

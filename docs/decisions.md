@@ -2749,3 +2749,8 @@ Verification: Azure reported the three retired functions as disabled and
 contains a blob updated on 2026-10-15. The Function App and source storage
 remain in place because the IoT timer uses them. The separate KNMI and ERA5
 backfill Function Apps were already stopped.
+
+
+## 2026-10-28 — Adopt monitoring-resilience question after literature review
+
+Brian asked to update the RQs, simulations and situations for delayed/stopped local gauge information. Adopted the [active design](limburg-monitoring-resilience-design-2026-10-28.md) and `config/limburg_monitoring_scenarios.json`. Delays and persistent stopped feeds are distinguished across repeated rainfall-clock issue times; identical instantaneous information states are deduplicated. Primary local-feed comparison uses same-gauge native-unit donor responses, avoiding hidden Q/p99 trajectory anchors. Preserve the broader retrospective census, all ten encoders, matched-archive controls and every completed full-information result. Provider records support measurement-quality/redundancy motivation but do not establish empirical station-wide telemetry latency/failure rates. Design specified only, no simulation run, no new acquisition/request/model, no preregistration requirement. Brian retains dissertation prose.

@@ -1,5 +1,10 @@
 # Limburg analysis inventory
 
+## Active next analysis — 2026-10-28
+
+The [monitoring-resilience design](limburg-monitoring-resilience-design-2026-10-28.md) adopts the delayed/stopped-feed question. Machine-readable design: `config/limburg_monitoring_scenarios.json` (`specified_not_run`). [Literature refresh](reviews/limburg-monitoring-literature-2026-10-28.md) and [held-data support](reviews/limburg-scarcity-feasibility-2026-10-28.json) justify preparation, not a result. No scarcity runner exists yet. Existing full-information baselines, EO outputs, archive decomposition, Meuse test and historical scripts remain reproducible; they cannot be relabelled as sparse-input results. No new extraction or data request is required for the held readouts. Dated execution descriptions below are historical.
+
+
 ## Current EO execution — 2026-10-21
 
 [Audit corrections and commands](reviews/limburg-eo-audit-fixes-2026-10-21.md)

@@ -1,43 +1,39 @@
-# Chapter 1 — Limburg: historical high-water analogues
+# Chapter 1 — Limburg: AI-assisted high-water assessment under monitoring loss
 
-Last substantively reviewed: 2026-10-27. Living supervisor/research brief; not dissertation manuscript prose.
+Last substantively reviewed: 2026-10-28. Living supervisor/research brief; not dissertation manuscript prose.
 
 ## Research Question(s)
 
-Can AI-selected historical events improve assessments of how high water develops in the Meuse basin, beyond conventional hydrological analogues?
+**Can satellite AI help assess developing high water when a gauge's data are late or stop arriving?**
 
-Supporting questions concern improvements in analogue selection, transfer between rivers/countries, and what analogues reveal about subsequent event behaviour. Meuse context asks whether apparently similar tributary events occur under different mainstem conditions.
+How does accuracy change with the age of the latest discharge reading? Do frozen EO representations reduce that loss beyond available rainfall/discharge and simple fallbacks? Does any benefit survive controls for season, EO age and archive coverage, and differ between Dutch and German gauges?
 
 ## Motivation
 
-Past events can help interpret developing high water, but superficially similar events differ in catchment context, storm history, river state and measurement quality. Test whether learned representations identify informative precedents and expose misleading matches. The potential application is source-linked situation assessment; operator benefit is not established here.
+An analyst may have a known river and historical record but lack its latest readings. The chapter tests whether satellite context can preserve useful evidence about what happens next. Its FEWS/DRR relevance is monitoring redundancy and contingency assessment. Operational adoption, warning skill and damage reduction are not established. Provider records document measurement problems and sensor redundancy; actual live-feed delay/outage frequencies have not been measured.
 
 ## Data
 
-Sint Pieter and Venlo discharge are included as source-audited Meuse context for all held tributary queries and saved flood-case analogues. Ordinary controlled values are distinguished from a broader view containing interpolation; missing context does not remove an event from the original census.
-
-Held inputs for the declared comparisons: Dutch/German gauge records, catchment rainfall for the conventional comparison, river/catchment geography, provider quality information, AlphaEarth embeddings and EO imagery. Each arm uses its declared subset; Q-only comparisons do not require rainfall or every EO model. Held weather data and current warning thresholds support earlier explanatory/progression analyses; they are not prerequisites for the core EO analogue comparison. The full eligible event census retains explicit no-analogue cases. The supplemental archive's 66,913 files are locally staged and pixel/date audited; acquisition does not itself establish complete model support.
+Held Dutch/German discharge, hourly catchment rainfall, catchment geography, provider quality notes and ten frozen EO representations support preparation without new acquisition. The rainfall catalogue has 468 storms and 3,744 opportunities across eight gauges, including nonresponses. The primary clock uses all 126 storms already meeting the inherited rainfall criterion at the six-hour landmark; the broader catalogue remains supporting retrospective evidence. These counts precede new issue/input/donor checks. Weekly EO support is smaller than monthly support; unavailable cases remain in the coverage ledger. AlphaEarth, weather, warning thresholds and Sint Pieter/Venlo context remain held supporting evidence, not new prerequisites.
 
 ## Method
 
-Compare conventional hydrological summaries, raw hydrographs, generic historical references, frozen IBM Tiny Time Mixers R2, AlphaEarth and ten frozen EO encoders: DOFA, CROMA, SatMAE, Copernicus-FM, TerraMind, Presto, AnySat, Galileo, Prithvi and OlmoEarth. Aggregate embeddings by observed catchment area; retrieve earlier events and evaluate subsequent response shape, severity and timing. Examine matched populations, cross-river and NL–DE contrasts, uncertainty and actual selections.
+Reassess at 0/6/12/24h after the rainfall landmark. Simulate fixed 1/3/6/12/24h discharge delivery delays and a feed that stops delivering new readings. Compare complete and restricted conventional analogues, a season-aware control, that control plus each EO representation, last-observation persistence and a generic historical distribution. Use same-gauge native-unit donor trajectories primarily; cross-river area-based transfer is supporting. Predict the next 24h distribution and verify CRPS, magnitude, timing and coverage. Four-week EO context is primary; completed-month snapshots assess broader coverage.
+
+Models: DOFA, CROMA, SatMAE, Copernicus-FM, TerraMind, Presto, AnySat, Galileo, Prithvi and OlmoEarth. Earlier raw-hydrograph, IBM Tiny Time Mixers R2 and AlphaEarth analyses remain reference evidence. Cached full-history TTM/raw-Q vectors cannot be reused as sparse-input methods because they contain hidden observations.
 
 ## Methodology
 
-Retrospective comparative evaluation of representations and retrieval. Subsequent responses are withheld from matching and used for evaluation. Account for storm dependence, unequal archive support, missing coverage and measurement problems. This is not operational forecast verification. Supplemental analyses retain ten models but re-extract three across four configurations: SatMAE TOA/QA60, Copernicus-FM TOA/QA60 and two separate ascending-orbit CROMA routes. Each comparison replaces one arm and reuses nine; seven distinct models receive no supplemental extraction. Do not pool orbits or attribute TOA/QA-support differences solely to reflectance level.
+Retrospective counterfactual observation-availability study, using the full eligible census and earlier completed donor storms. Keep hidden Q and future rainfall out of matching and event scheduling; avoid hidden Q/p99 trajectory anchors. Compare matched and broad archives, account for storm/year dependence and retain unsupported cases/fallback coverage. Equal instantaneous information under delay and failure is the same test case; the difference emerges over successive assessments. EO acquisition age and uncertain product-release times limit real-time claims. This direction was developed after inspecting the earlier results; no untouched-test or preregistration claim is made.
 
 ## Findings
 
-The planned analysis and consolidation are complete. In the broad Q-history census (610 NL / 235 DE scored queries), TTM modestly improves individual response-shape matching over raw Q/state; stronger mean-trajectory or peak estimates are less consistent. Conventional matching also finds closer shapes than the generic eligible archive, so similarity retrieval alone is not an AI-specific contribution.
+**Monitoring-loss simulations are specified, not yet run.** No EO compensation finding exists.
 
-Added EO has conditional value on matched restricted archives; the broader-archive qualification below is material. On 111 DE snapshot cases, AnySat + TTM/state reduces mean-trajectory RMSE by about 11% versus conventional matching, with exploratory storm/year intervals below zero; several peak/timing/late-response contrasts also improve. The curve advantage weakens with other-river donors and k=10. Some attractive Copernicus-FM/CROMA results on the shared all-ten intersection are not reproduced in their larger model-available populations. AlphaEarth has selective timing evidence, without a consistent general shape/trajectory advantage.
+Completed full-information results remain: conventional rainfall/discharge is a strong reference, with no universal encoder winner. On 111 DE snapshot cases, the earlier AnySat curve improvement of about 11% against restricted conventional matching becomes about 2.1% against its broader archive; the total-difference intervals include zero. In the 364-case Meuse comparison, added mainstem context gives no clear conventional distributional gain and worsens TTM CRPS. These results motivate testing conditional information value, without guaranteeing a positive result. Earlier TTM/AlphaEarth, flood-case and cross-border findings remain in the completed evidence bundle.
 
-Actual cases show useful recession matches, missed later rises, unchanged donor selections and better normalized shape paired with worse severity/duration estimates. Cohort, donor archive and outcome matter; no universal model winner or operational warning skill is established. Full findings, sensitivities, population comparisons and figure links are in the [consolidated findings brief](limburg-findings-consolidated-2026-10-27.md). All original outputs remain preserved; 359 tests pass. Brian can now write from the completed evidence bundle.
-
-The [flood-focused case review](limburg-flood-case-review-2026-10-27.md) traces 15 source-bounded register entries, including all seven core H3 cases. Only two linked p99 queries provide scored pre-flood responses; a third is recovery. It identifies separate archive-support, retrieval, extreme-member and averaging failures, plus a July 2021 transition beyond the original 72-hour target. It does not establish reliable flood escalation prediction.
-
-The [completed synthesis, archive decomposition and Meuse test](limburg-assessment-synthesis-2026-10-27.md) qualify the earlier AnySat result: on the same 111 DE snapshot cases, its ~11% curve improvement over restricted conventional matching becomes ~2.1% versus conventional matching with a broader archive; both total-difference intervals include zero. In the primary 364-case Meuse comparison, two-site context gives no clear conventional distributional gain and worsens TTM CRPS. Archive restrictions and representation increments are now reported separately. The full inventory remains visible; no prospective reliability rule or operator benefit is established.
+Current specification: [monitoring-resilience design](limburg-monitoring-resilience-design-2026-10-28.md). Next work is scenario/input preparation, independent timing/support checks and eligible-census scoring; no new extraction is required for the held readouts.
 
 ## Maintenance
 
-This is the canonical current one-pager. Retain Research Question(s), Motivation, Data, Method, Methodology and Findings. Update after meaningful changes to design, data availability, validated findings or next work; date the substantive review. Check live execution before describing a job as running or complete. Distinguish proposed, implemented and evidenced work. Preserve historical decisions elsewhere rather than presenting superseded directions as current. Brian writes dissertation/article prose.
+This is the canonical current one-pager. Retain Research Question(s), Motivation, Data, Method, Methodology and Findings; date substantive changes and distinguish specified, implemented and evidenced work. Preserve dated historical decisions and results. Brian writes dissertation/article prose.

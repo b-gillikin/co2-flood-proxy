@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "status": "specified_not_run",
+  "design_document": "docs/limburg-monitoring-resilience-design-2026-10-28.md",
+  "literature_review": "docs/reviews/limburg-monitoring-literature-2026-10-28.md",
+  "research_question": "Can satellite AI help assess developing high water when a gauge's data are late or stop arriving?",
+  "supporting_questions": [
+    "How does assessment accuracy change as the last available discharge observation gets older?",
+    "Do frozen EO representations reduce that loss beyond the same available rainfall/discharge information and simple fallbacks?",
+    "Does any benefit persist after accounting for EO age, season and historical-archive coverage, and is it consistent between the Dutch and German study gauges?"
+  ],
+  "scope": {
+    "unit": "gauge-storm-issue opportunity",
+    "event_selection": "eligible census, no random event/gauge sample",
+    "interruption": "local delivered station feed including valid sensor redundancy",
+    "rainfall": "observed through issue under common nominal availability; no future rainfall",
+    "other_feeds": "not masked; no claim to have benchmarked a peer-gauge rescue model",
+    "claim": "retrospective counterfactual observation-availability assessment, not as-issued warning verification",
+    "time_axis": "verified UTC hour end; Q ending at issue is eligible, first future value ends at issue + 1h"
+  },
+  "calendar": {
+    "source": "results/eo_comparison_preparation/observations.parquet",
+    "cohort": "rainfall_episode",
+    "landmark": "existing six-hour rainfall landmark",
+    "primary": {
+      "storms_before_new_eligibility": 126,
+      "qualification": "at least 10 mm already observed in one of six core Dutch catchments in first six hourly observations",
+      "target_discharge_used_to_schedule": false
+    },
+    "supporting": {
+      "storms_before_new_eligibility": 468,
+      "opportunities_before_new_eligibility": 3744,
+      "old_outcome_eligible": 3491,
+      "qualification": "full held rainfall catalogue; eventual rain total selects some storms retrospectively"
+    },
+    "high_water_catalogue_role": "conditional stress/case review only; not primary issue clock",
+    "gauges_nl": [
+      "10.Q.29",
+      "11.Q.32",
+      "13.Q.34",
+      "15.Q.41",
+      "18.Q.45",
+      "6.Q.18"
+    ],
+    "gauges_de": [
+      "2828300000200",
+      "2828900000200"
+    ],
+    "new_eligibility": "recheck each issue and 24h outcome rather than inherit a 72h exclusion"
+  },
+  "issue_offsets_h": [
+    0,
+    6,
+    12,
+    24
+  ],
+  "situations": [
+    {
+      "id": "complete",
+      "role": "reference",
+      "latest_q": "issue_time",
+      "release_time": "measurement_time"
+    },
+    {
+      "id": "fixed_delay",
+      "role": "primary",
+      "delay_h": [
+        1,
+        3,
+        6,
+        12,
+        24
+      ],
+      "latest_q": "issue_time - delay_h",
+      "release_time": "measurement_time + delay_h"
+    },
+    {
+      "id": "stopped_feed",
+      "role": "primary",
+      "stop_offset_h": 0,
+      "latest_q": "landmark",
+      "release_time": "measurement_time if measurement_time <= landmark; otherwise unavailable during sequence"
+    },
+    {
+      "id": "earlier_stopped_feed",
+      "role": "sensitivity",
+      "stop_offset_h": -6,
+      "latest_q": "landmark - 6h",
+      "release_time": "measurement_time if measurement_time <= landmark - 6h; otherwise unavailable during sequence"
+    }
+  ],
+  "equivalence": "deduplicate identical gauge-storm-issue/latest-Q information states; retain labels, do not inflate independent N",
+  "q_features": {
+    "latest": "s = latest available Q timestamp",
+    "values": [
+      "Q(s)",
+      "Q(s-6h)",
+      "Q(s-24h)"
+    ],
+    "changes_h": [
+      6,
+      24
+    ],
+    "known_age_h": "issue_time - s",
+    "units": "m3/s",
+    "hidden_current_q_anchor": false,
+    "full_record_p99_as_input_or_transfer_scale": false,
+    "zero_means_missing": false
+  },
+  "rain_features": {
+    "sum_h": [
+      6,
+      24,
+      72,
+      168
+    ],
+    "max_1h_within_h": 24,
+    "end": "issue_time"
+  },
+  "donors": {
+    "primary": "same gauge, earlier completed storm, same relative issue offset and availability mask",
+    "cross_river_role": "supporting area-based transfer check, not mandatory new model",
+    "cross_river_scale": "q_mm_h = 3.6 * Q_m3_s / area_km2",
+    "exclude_entire_query_storm": true,
+    "response_completed_before_query_issue": true,
+    "distinct_storms": true,
+    "members_primary": 5,
+    "members_sensitivity": 10,
+    "member_weights": "equal",
+    "short_archive": "retain row and actual ensemble size; separate paired five-member scores and applicability",
+    "scaling_fit": "eligible earlier donors only",
+    "paired_scarcity_curve": "fixed compatible donors across delay levels; natural coverage reported separately",
+    "reservoir": "eligible earlier completed storms from full held 468-storm reservoir; primary query calendar does not limit donors to 126"
+  },
+  "comparators": [
+    "complete conventional plus sine/cosine season",
+    "restricted conventional plus identical sine/cosine season",
+    "restricted conventional without season as supporting control",
+    "season-aware restricted conventional plus each EO encoder",
+    "last-available-Q persistence",
+    "unranked storm-balanced eligible historical distribution"
+  ],
+  "eo": {
+    "models": [
+      "dofa",
+      "croma",
+      "satmae",
+      "copernicus_fm",
+      "terramind",
+      "presto",
+      "anysat",
+      "galileo",
+      "prithvi",
+      "olmoearth"
+    ],
+    "primary_readout": "recent: four completed weekly frames",
+    "sensitivity_readout": "monthly_snapshot: last completed month",
+    "context_freeze": "pre-landmark EO held fixed across first 24h; update its age",
+    "availability": "all source acquisitions/bins end by landmark; release time unknown unless independently recorded",
+    "pretraining": "document checkpoint training dates/possible study overlap; not an as-issued model replay",
+    "fusion": "equal weights on squared prior-pair-distance-normalized conventional and EO distances; conventional block includes season",
+    "new_inference_required_for_held_readouts": false,
+    "missing_eo": "conventional fallback; retain opportunity",
+    "populations": [
+      "own-model supported",
+      "all-ten intersection as supporting comparison",
+      "end-to-end fallback coverage"
+    ],
+    "archive_decomposition": [
+      "broad season-aware conventional",
+      "EO-supported season-aware conventional",
+      "EO-augmented on same restricted archive"
+    ]
+  },
+  "outcomes": {
+    "future_h": 24,
+    "readout_h": [
+      6,
+      12,
+      24
+    ],
+    "primary": "mean hourly empirical CRPS across next 24h",
+    "per_gauge_units": "m3/s",
+    "pooled_units": "mm/h specific discharge using held catchment area",
+    "secondary": [
+      "mean trajectory RMSE",
+      "peak magnitude error",
+      "peak timing error",
+      "empirical interval coverage and width"
+    ],
+    "p99_warning_thresholds": "verification labels only; not input triggers or native-unit Q>=1 duration"
+  },
+  "uncertainty": {
+    "draws": 999,
+    "pairing": "same storm/year draws across methods, issues and scenarios; retain whole storm together",
+    "report": [
+      "storm-based intervals",
+      "year-based intervals",
+      "block counts",
+      "gauge/country contrasts",
+      "direct EO increment by age interaction"
+    ],
+    "weighting": "explicit equal gauge and issue weights; repeated masks are not independent storms",
+    "recovered_loss_fraction": "secondary, undefined unless sparse minus full loss is positive"
+  },
+  "not_in_primary": [
+    "cached complete-history TTM/raw-Q vectors",
+    "realized future rainfall matcher",
+    "sensor fault classifier",
+    "rainfall or regional network outage",
+    "pseudo-ungauged transfer",
+    "new model training",
+    "new imagery extraction",
+    "operational warning issuance"
+  ],
+  "results": null
+}
