@@ -582,3 +582,8 @@ Limburg collection; the historical collection name remains `Chapter 1: CO2`.
 ## Meuse context inclusion — 2026-10-27
 
 [The context brief](limburg-meuse-context-2026-10-27.md) connects Strijker et al. (2023), DOI 10.59490/jcrfr.2023.0006, and Geertsema et al. (2018), DOI 10.5194/hess-22-5599-2018, to the executed Sint Pieter/Venlo addition. Mainstem attenuation and high-water overlap motivate regional context; they do not establish local backwater at the study gauges. These primary sources were rechecked for this inclusion; no additional model or dataset requirement follows from them.
+
+
+## Analogue question and FEWS reassessment — 2026-10-27
+
+[Targeted review](reviews/limburg-analogue-question-literature-reassessment-2026-10-27.md) checks the proposed usefulness/severity framing against Wendi et al. (2019), Hemri and Klein (2017), Horton (2022; DOI 10.1002/joc.7484), Charpentier-Noyer et al. (2023; DOI 10.5194/nhess-23-2001-2023), Lerch et al. (2017; DOI 10.1214/16-STS588), and regional FEWS evidence from Busker et al. (2026). Access depth and transfer limits are declared. It explicitly incorporates the already completed distributional and storm-response analyses rather than proposing them again. This is advice for synthesis, not an adopted RQ change, new experiment, or new data requirement.
