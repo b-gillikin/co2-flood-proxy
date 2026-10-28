@@ -118,9 +118,7 @@ def main():
                 ax.plot(hours, d.mean(0), color="tab:blue", linewidth=1.5, label="donor mean")
                 ax.plot(hours, q, color="black", linewidth=1.8, label="query")
                 ax.axhline(1, color="tab:red", linestyle=":", linewidth=0.8)
-                ax.set_title(
-                    f"{number + 1}. {qid}\n{kind}; {arm}; n={len(ids)}", fontsize=8
-                )
+                ax.set_title(f"{number + 1}. {qid}\n{kind}; {arm}; n={len(ids)}", fontsize=8)
                 ax.set_ylabel("Discharge / gauge-era p99")
                 ax.grid(alpha=0.15)
                 ax.legend(fontsize=7, loc="upper right")

@@ -1,8 +1,33 @@
 # Live scripts
 
+## Current entry points — 28 October 2026
+
+The [monitoring-loss implementation plan](../docs/limburg-monitoring-implementation-plan-2026-10-28.md)
+governs the next analysis. Its simulation/scoring runner is not implemented yet.
+Acquisition is independent of the completed historical analyses below.
+
+| Role | Entry points | Status/contract |
+| --- | --- | --- |
+| Soil/snow acquisition | `150_fetch_monitoring_land_state.py --download` | One CDS request at a time under the provider's current guidance; resumes verified sources/request IDs and stops on policy errors. |
+| Causal-clock EO inventory | `151_prepare_monitoring_eo_gaps.py` | Versioned held/regional-candidate calendars and exact completed-window requirements; does not score events or replace old inputs. |
+| Targeted EO additions | `152_download_monitoring_eo_gaps.py --download` | Completed 442-file local pull; reuse the held sources, do not start a full encoder extraction queue. |
+| Latest completed scientific pass | `146_run_limburg_assessment.py`, `149_resample_limburg_assessment.py`, `147_review_limburg_assessment.py`, `148_audit_limburg_assessment.py` | Full-information synthesis, archive decomposition and Meuse comparison; preserve their source/input hashes. |
+| Flood-case evidence | `143_review_flood_cases.py`, `144_audit_flood_case_review.py` | Retrospective source-bounded case review, not operational flood classification. |
+
+Run the whole active-code checks from the chapter root with
+`make -j2 check PYTHON=.venv-foundation/bin/python`. This overlaps local lint/tests;
+it does not parallelize CDS submissions. The Makefile finds the existing runtime's
+PROJ data unless explicitly supplied. No dataset, model or environment upgrade is
+performed by these checks.
+
+Completed-run source files are preserved when formatting affects their hash;
+the compatibility registry and source snapshots record the exact old version and
+AST-equivalence proof. Generated scientific outputs and original receipts are
+not rewritten as a cleanup operation.
+
 ## Evidence and execution roles
 
-Main analysis/interpretation runners: **81–84**. Supporting controls: **75–78**;
+Earlier analysis/interpretation runners: **81–84**. Supporting controls: **75–78**;
 independent audit: **79**. Scripts **70–74** are original execution/development
 and **80** prepares expanded inputs. Preserve them in place because later
 runners depend on their code or artifacts; they are not independent chapter

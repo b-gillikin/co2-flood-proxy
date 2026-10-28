@@ -2,11 +2,13 @@
 
 Brian authorized acquiring the useful additions for the whole new analysis. Both pulls use local storage; no Azure VM, storage expansion or model inference was launched. All other chapters' data is untouched. This is source acquisition, not a simulation result.
 
-## Soil and snow: running
+## Soil and snow: resumed after user pause
 
-`scripts/150_fetch_monitoring_land_state.py --download --workers 2` retrieves ERA5-Land hourly soil-water layers 1 and 2 and snow depth **water equivalent** for 2009–2025, including antecedent history. The 0.1-degree covering grid has 72 cells and covers all nine existing exported catchments. The estimated float32 value payload is 128,749,824 bytes (0.120GiB), excluding metadata; actual NetCDF compression is smaller.
+Brian authorized restarting on 28 October. The [cleanup/restart review](reviews/limburg-code-cleanup-2026-10-28.md) diagnoses the policy failures and documents the corrected resume path. Current command uses `--workers 1`: ECMWF's 22 October service notice asks for sequential submissions. Completed sources and the original plan are preserved; prior errors are in `run-history/`. The earlier two-worker configuration and counts below describe the initial pass.
 
-CDS rejected a quarterly test on request-cost limits. The production pull uses 204 monthly requests, with two concurrent workers, saved remote request IDs, checksums and atomic source writes. The first real month passed timestamp, grid, units, finite-value and physical-range validation before the remaining requests were submitted. Snow is stored in metres water equivalent, not snow thickness; genuine zero is valid and small floating-point underflow is preserved.
+`scripts/150_fetch_monitoring_land_state.py --download --workers 1` retrieves ERA5-Land hourly soil-water layers 1 and 2 and snow depth **water equivalent** for 2009–2025, including antecedent history. The 0.1-degree covering grid has 72 cells and covers all nine existing exported catchments. The estimated float32 value payload is 128,749,824 bytes (0.120GiB), excluding metadata; actual NetCDF compression is smaller.
+
+CDS rejected a quarterly test on request-cost limits. The initial pull used 204 monthly requests with two concurrent workers; the resumed pull submits sequentially, preserving saved remote request IDs, checksums and atomic source writes. The first real month passed timestamp, grid, units, finite-value and physical-range validation before the remaining requests were submitted. Snow is stored in metres water equivalent, not snow thickness; genuine zero is valid and small floating-point underflow is preserved.
 
 - Sources and per-month receipts: `data/raw/limburg_monitoring_land_state/`.
 - Live progress: `data/raw/limburg_monitoring_land_state/manifest.json`.

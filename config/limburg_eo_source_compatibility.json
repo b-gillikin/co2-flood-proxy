@@ -16,6 +16,22 @@
         "reason": "Population-path and downstream validation/finalization refactor only; frozen input arrays, coherence policy, token masks and encoder numerical dependencies remain separately fingerprinted and unchanged.",
         "replacement_sha256": "776de2e828162b7e41d095032782a2f15edf3720ed0f8f1d7b301b2a45450571"
       }
+    },
+    "scripts/139_review_actual_analogue_cases.py": {
+      "8cdb213c5ee9823fdcdef3d5daafc5dc54a19ccbf3bf6afda33681df60a9fd6e": {
+        "snapshot": "provenance/source-snapshots/8cdb213c5ee9823fdcdef3d5daafc5dc54a19ccbf3bf6afda33681df60a9fd6e.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Formatting-only cleanup on 2026-10-28; complete Python AST including constants verified unchanged. Original source retained for historical receipts.",
+        "replacement_sha256": "290d2c6a2b84fa9a7b1e80ee7162bde4fbc93ce1d409c9f80a86e4b595f71683"
+      }
+    },
+    "scripts/144_audit_flood_case_review.py": {
+      "0c1a8fc7f8df2de5fd3f1ba55c0e4aa4074cc4735766e2cec97b13921c826c2f": {
+        "snapshot": "provenance/source-snapshots/0c1a8fc7f8df2de5fd3f1ba55c0e4aa4074cc4735766e2cec97b13921c826c2f.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Formatting-only cleanup on 2026-10-28; complete Python AST including constants verified unchanged. Original source retained for historical receipts.",
+        "replacement_sha256": "8acb74588ce2b75b42bf9204f242c4fdfa5d04253bbfb0e4f9e804a2b9198c22"
+      }
     }
   }
 }

@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-28",
+  "scope": "whole active-code checks and focused cleanup; archived historical source retained",
+  "baseline_tests": 368,
+  "scientific_tests_passed": 376,
+  "infrastructure_tests_passed": 2,
+  "lint": "passed",
+  "format": "passed",
+  "active_python_parsed": 203,
+  "json_configs_parsed": 13,
+  "formatting_proof": [
+    {
+      "path": "scripts/139_review_actual_analogue_cases.py",
+      "old_sha256": "8cdb213c5ee9823fdcdef3d5daafc5dc54a19ccbf3bf6afda33681df60a9fd6e",
+      "replacement_sha256": "290d2c6a2b84fa9a7b1e80ee7162bde4fbc93ce1d409c9f80a86e4b595f71683",
+      "snapshot": "provenance/source-snapshots/8cdb213c5ee9823fdcdef3d5daafc5dc54a19ccbf3bf6afda33681df60a9fd6e.py.txt",
+      "change": "formatter only; AST equal including constants"
+    },
+    {
+      "path": "scripts/144_audit_flood_case_review.py",
+      "old_sha256": "0c1a8fc7f8df2de5fd3f1ba55c0e4aa4074cc4735766e2cec97b13921c826c2f",
+      "replacement_sha256": "8acb74588ce2b75b42bf9204f242c4fdfa5d04253bbfb0e4f9e804a2b9198c22",
+      "snapshot": "provenance/source-snapshots/0c1a8fc7f8df2de5fd3f1ba55c0e4aa4074cc4735766e2cec97b13921c826c2f.py.txt",
+      "change": "formatter only; AST equal including constants"
+    }
+  ],
+  "code_sha256": {
+    "scripts/150_fetch_monitoring_land_state.py": "731530e865fe7d4ddb6252634141c60a37eea38609aca740f0e959ced55bd465",
+    "tests/test_monitoring_land_state.py": "8ca856d24afafa62ea7dd68f00194c6ed8c3d553a7237ad97f9fd2db0fbdc52a",
+    "Makefile": "863964f7e7931d04d2a20a23c6cedbf317223891d3e2dce8dfb23448582501bd",
+    "environment-foundation.yml": "9784fb0104cb6e1ef261c199857b3b42ae901aef4f942d54b3bf1ede61ca871d",
+    "scripts/139_review_actual_analogue_cases.py": "290d2c6a2b84fa9a7b1e80ee7162bde4fbc93ce1d409c9f80a86e4b595f71683",
+    "scripts/144_audit_flood_case_review.py": "8acb74588ce2b75b42bf9204f242c4fdfa5d04253bbfb0e4f9e804a2b9198c22"
+  },
+  "runtime_versions": {
+    "cdsapi": "0.7.7",
+    "ecmwf-datastores-client": "0.5.3",
+    "numpy": "2.4.6",
+    "xarray": "2026.4.0",
+    "netCDF4": "1.7.4",
+    "ruff": "0.16.1",
+    "pytest": "9.1.1"
+  },
+  "verification_logs": [
+    "logs/code-cleanup-2026-10-28-checks.log",
+    "logs/code-cleanup-2026-10-28-flood-audit.log",
+    "logs/code-cleanup-2026-10-28-assessment-audit.log"
+  ],
+  "scientific_tables_changed": false,
+  "new_model_or_scoring_jobs": false,
+  "other_chapters_touched": false,
+  "download_snapshot": {
+    "status": "running",
+    "completed_months": 65,
+    "planned_months": 204,
+    "workers": 1,
+    "active_month": "2014-06"
+  },
+  "remaining_warning": "Pre-existing NumPy/netCDF C-extension metadata warning, not suppressed; no installed environment upgrade."
+}

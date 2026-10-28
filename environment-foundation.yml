@@ -3,9 +3,18 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
+  - numpy
   - geopandas
   - pandas
   - pyarrow
+  - xarray
+  - netcdf4
+  - pyproj
+  - rasterio
+  - matplotlib
+  - scipy
+  - cdsapi>=0.7.7
+  - ruff
   - pytest
   - pip
   - pip:

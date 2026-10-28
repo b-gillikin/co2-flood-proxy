@@ -252,7 +252,7 @@
         "snow depth water equivalent"
       ],
       "purpose": "one supporting antecedent-state control and interpretation",
-      "status": "downloading_locally",
+      "status": "downloading_locally_resumed",
       "existing_temperature": "reuse",
       "essential_for_primary": false,
       "availability_limit": "retrospective reanalysis is not as-issued operational data",
@@ -273,12 +273,14 @@
     }
   ],
   "acquisition": {
-    "status": "eo_completed_soil_snow_running_locally",
+    "status": "eo_completed_soil_snow_resumed_locally",
     "date": "2026-10-28",
     "land_state_progress": "data/raw/limburg_monitoring_land_state/manifest.json",
     "eo_progress": "data/raw/limburg_monitoring_eo/progress.json",
     "eo_inventory": "results/monitoring_acquisition_2026_10_28/eo-gap-inventory.json",
     "note": "Acquisition only; no new embeddings, simulation scores or adopted regional-catalogue results.",
-    "record": "docs/limburg-monitoring-acquisition-2026-10-28.md"
+    "record": "docs/limburg-monitoring-acquisition-2026-10-28.md",
+    "workers": 1,
+    "service_guidance": "https://forum.ecmwf.int/t/data-stores-service-protection-measures-affecting-data-downloads-and-account-access-cds-ads-ewds-ecds/15481"
   }
 }

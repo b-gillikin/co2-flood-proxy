@@ -14,7 +14,8 @@ import json
 import math
 import os
 import re
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import signal
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -31,6 +32,27 @@ VARIABLES = [
     "volumetric_soil_water_layer_2",
     "snow_depth_water_equivalent",
 ]
+
+
+class DownloadPaused(BaseException):
+    """Interrupt waiting/transfer without letting client retries swallow the pause."""
+
+
+def failure_details(exc):
+    """Classify service-wide failures without exposing credentials/signed URLs."""
+    code = getattr(getattr(exc, "response", None), "status_code", None)
+    message = re.sub(r"https?://\S+", "[provider URL]", str(exc))[:500]
+    if code in {401, 403}:
+        kind = "account_or_policy"
+    elif code in {400, 422}:
+        kind = "invalid_request"
+    elif code == 429 or (code is not None and code >= 500):
+        kind = "provider_throttle_or_outage"
+    elif isinstance(exc, ValueError):
+        kind = "source_validation"
+    else:
+        kind = "transfer_or_runtime"
+    return {"type": type(exc).__name__, "kind": kind, "http_status": code, "message": message}
 
 
 def stamp():
@@ -81,6 +103,13 @@ def expected_times(year, month):
         pd.Timestamp(year, month, calendar.monthrange(year, month)[1], 23),
         freq="h",
     )
+
+
+def configure_projection():
+    """Use the existing environment's PROJ database when invoked from the venv."""
+    candidate = Path(sys.base_prefix) / "share/proj"
+    if "PROJ_DATA" not in os.environ and (candidate / "proj.db").is_file():
+        os.environ["PROJ_DATA"] = str(candidate)
 
 
 def validate(path, year, month, area):
@@ -151,21 +180,45 @@ def fetch_one(year, month, area, destination):
         job = json.loads(job_path.read_text())
         if job["request"] != request:
             raise ValueError("Cached remote request differs from requested month")
-        result = client.client.get_remote(job["request_id"])
-        if result.status in {"failed", "rejected"}:
+        try:
+            result = client.client.get_remote(job["request_id"])
+            status = result.status
+        except Exception as exc:
+            if getattr(getattr(exc, "response", None), "status_code", None) != 404:
+                raise
+            status = "expired"
+        if status in {"failed", "rejected", "expired"}:
             result = client.retrieve(DATASET, request)
     else:
         result = client.retrieve(DATASET, request)
-    write_json(
-        job_path,
-        {
-            "dataset": DATASET,
-            "request": request,
-            "request_id": result.request_id,
-            "saved_utc": stamp(),
-        },
-    )
-    result.download(str(partial))
+
+    def record_remote():
+        prior = json.loads(job_path.read_text()) if job_path.exists() else {}
+        previous_ids = prior.get("previous_request_ids", [])
+        if prior.get("request_id") and prior["request_id"] != result.request_id:
+            previous_ids = [*previous_ids, prior["request_id"]]
+        write_json(
+            job_path,
+            {
+                "dataset": DATASET,
+                "request": request,
+                "request_id": result.request_id,
+                "previous_request_ids": previous_ids,
+                "saved_utc": stamp(),
+            },
+        )
+
+    record_remote()
+    try:
+        result.download(str(partial))
+    except Exception as exc:
+        # Results can expire while the laptop is paused. Renew once, never loop
+        # on permissions, terms, invalid syntax or provider rate limiting.
+        if getattr(getattr(exc, "response", None), "status_code", None) != 404:
+            raise
+        result = client.retrieve(DATASET, request)
+        record_remote()
+        result.download(str(partial))
     stats = validate(partial, year, month, area)
     receipt = {
         "dataset": DATASET,
@@ -185,16 +238,93 @@ def fetch_one(year, month, area, destination):
     return receipt
 
 
+def run_downloads(periods, area, destination, plan_path, fetch=fetch_one):
+    """Sequential service requests; preserve complete progress across a restart."""
+    manifest_path = destination / "manifest.json"
+    if manifest_path.exists():
+        history = destination / "run-history"
+        history.mkdir(exist_ok=True)
+        snapshot = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+        (history / f"{snapshot}.json").write_bytes(manifest_path.read_bytes())
+    receipts, failures = {}, {}
+    existing_count = 0
+    resumed_at = stamp()
+
+    def save(status, active=None):
+        write_json(
+            manifest_path,
+            {
+                "status": status,
+                "updated_utc": stamp(),
+                "resumed_utc": resumed_at,
+                "pid": os.getpid(),
+                "workers": 1,
+                "active_month": active,
+                "planned_months": len(periods),
+                "completed_months": len(receipts),
+                "existing_months_verified": existing_count,
+                "completed_bytes": sum(r["bytes"] for r in receipts.values()),
+                "percent_complete": round(100 * len(receipts) / len(periods), 2),
+                "pending_months": [
+                    f"{y}-{m:02d}" for y, m in periods if f"{y}-{m:02d}" not in receipts
+                ],
+                "plan_sha256": digest(plan_path),
+                "runner_sha256": digest(Path(__file__)),
+                "receipts": list(receipts.values()),
+                "failures": failures,
+                "concurrency_note": "One CDS request at a time per ECMWF's 22 October 2026 service guidance; local work may run alongside it.",
+            },
+        )
+
+    active = None
+    try:
+        # Verify every completed source first, so a policy/transport failure in
+        # the next month does not reset the public count from 58 to 1.
+        for y, m in periods:
+            if (destination / f"era5_land_monitoring_{y}_{m:02d}.nc").exists():
+                active = f"{y}-{m:02d}"
+                receipts[active] = fetch(y, m, area, destination)
+                existing_count += 1
+        save("running")
+        for y, m in periods:
+            active = f"{y}-{m:02d}"
+            if active in receipts:
+                continue
+            save("running", active)
+            receipts[active] = fetch(y, m, area, destination)
+            print(f"validated {active}: {len(receipts)}/{len(periods)}", flush=True)
+            save("running")
+        save("completed")
+    except (DownloadPaused, KeyboardInterrupt):
+        save("paused", active)
+        print("Paused; verified sources and remote request IDs retained.", flush=True)
+        return
+    except Exception as exc:
+        details = failure_details(exc)
+        failures[active or "initialization"] = details
+        save(
+            "blocked" if details["kind"] == "account_or_policy" else "stopped_with_failure", active
+        )
+        raise SystemExit(f"Stopped at {active}: {details['kind']}: {details['message']}") from exc
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--download", action="store_true")
     parser.add_argument("--start-year", type=int, default=2009)
     parser.add_argument("--end-year", type=int, default=2025)
-    parser.add_argument("--workers", type=int, choices=[1, 2], default=2)
+    parser.add_argument(
+        "--workers",
+        type=int,
+        choices=[1],
+        default=1,
+        help="CDS currently requests sequential submissions; local CPU work is independent",
+    )
     parser.add_argument("--output-dir", type=Path, default=OUT)
     args = parser.parse_args()
     if args.start_year > args.end_year:
         parser.error("start year must not exceed end year")
+    configure_projection()
     import geopandas as gpd
 
     frame = gpd.read_file(GEOMETRY)
@@ -219,70 +349,35 @@ def main():
     }
     destination = args.output_dir
     destination.mkdir(parents=True, exist_ok=True)
+    # Acquire the writer lock before changing progress or the plan.
+    lock = None
+    if args.download:
+        import fcntl
+
+        lock = (destination / ".download.lock").open("a")
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     plan_path = destination / "download-plan.json"
     if plan_path.exists():
         old = json.loads(plan_path.read_text())
         for key in ["area_nwse", "variables", "months", "hours", "geometry_sha256"]:
             if old[key] != plan[key]:
                 raise ValueError(f"Existing plan differs in {key}; use a new versioned destination")
-    write_json(plan_path, plan)
+        plan = old  # Preserve the immutable original acquisition plan on resume.
+    else:
+        write_json(plan_path, plan)
     print(json.dumps(plan, indent=2), flush=True)
     if not args.download:
         return
-    import fcntl
 
-    # Avoid duplicate writers when a persistent job is resumed from another shell.
-    lock = (destination / ".download.lock").open("a")
-    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    receipts, failures = {}, {}
-    manifest_path = destination / "manifest.json"
+    def pause(_signum, _frame):
+        raise DownloadPaused()
 
-    def save(status):
-        write_json(
-            manifest_path,
-            {
-                "status": status,
-                "updated_utc": stamp(),
-                "pid": os.getpid(),
-                "planned_months": len(periods),
-                "completed_months": len(receipts),
-                "completed_bytes": sum(r["bytes"] for r in receipts.values()),
-                "percent_complete": round(100 * len(receipts) / len(periods), 2),
-                "plan_sha256": digest(plan_path),
-                "receipts": list(receipts.values()),
-                "failures": failures,
-            },
-        )
-
-    save("running")
-    # Validate one real source before filling the provider queue with the plan.
-    first_year, first_month = periods[0]
+    previous_handler = signal.signal(signal.SIGTERM, pause)
     try:
-        receipts[f"{first_year}-{first_month:02d}"] = fetch_one(
-            first_year, first_month, area, destination
-        )
-    except Exception as exc:
-        failures["initial_source_check"] = {"type": type(exc).__name__}
-        save("initial_source_check_failed")
-        raise
-    save("running")
-    with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures = {pool.submit(fetch_one, y, q, area, destination): (y, q) for y, q in periods[1:]}
-        for future in as_completed(futures):
-            y, q = futures[future]
-            key = f"{y}-{q:02d}"
-            try:
-                receipts[key] = future.result()
-                print(f"validated {key}: {len(receipts)}/{len(periods)}", flush=True)
-            except Exception as exc:
-                # Do not persist credentials or signed URL query strings in failures.
-                message = re.sub(r"https?://\S+", "[provider URL]", str(exc))[:500]
-                failures[key] = {"type": type(exc).__name__, "message": message}
-                print(f"failed {key}: {type(exc).__name__}: {message}", flush=True)
-            save("running")
-    save("completed" if not failures else "completed_with_failures")
-    if failures:
-        raise SystemExit(f"{len(failures)} months need retry; validated sources preserved")
+        run_downloads(periods, area, destination, plan_path)
+    finally:
+        signal.signal(signal.SIGTERM, previous_handler)
+        lock.close()
 
 
 if __name__ == "__main__":
