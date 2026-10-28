@@ -252,16 +252,17 @@
         "snow depth water equivalent"
       ],
       "purpose": "one supporting antecedent-state control and interpretation",
-      "status": "planned_not_downloaded",
+      "status": "downloading_locally",
       "existing_temperature": "reuse",
       "essential_for_primary": false,
       "availability_limit": "retrospective reanalysis is not as-issued operational data",
-      "api_variable_names": "confirm current CDS request identifiers and downloaded units when implementing downloader; labels here describe scientific fields"
+      "api_variable_names": "confirm current CDS request identifiers and downloaded units when implementing downloader; labels here describe scientific fields",
+      "period": "2009-2025 inclusive"
     },
     {
       "source": "compatible held EO catalogue and open source providers",
       "purpose": "recover actual context/acquisition gaps over complete study domain/period",
-      "status": "inventory_before_transfer",
+      "status": "targeted_four_week_download_completed_442_validated_files",
       "essential_for_primary": "only for an otherwise unsupported EO arm, not for conventional analysis"
     },
     {
@@ -270,5 +271,14 @@
       "status": "optional_request_recommended_not_sent",
       "essential_for_primary": false
     }
-  ]
+  ],
+  "acquisition": {
+    "status": "eo_completed_soil_snow_running_locally",
+    "date": "2026-10-28",
+    "land_state_progress": "data/raw/limburg_monitoring_land_state/manifest.json",
+    "eo_progress": "data/raw/limburg_monitoring_eo/progress.json",
+    "eo_inventory": "results/monitoring_acquisition_2026_10_28/eo-gap-inventory.json",
+    "note": "Acquisition only; no new embeddings, simulation scores or adopted regional-catalogue results.",
+    "record": "docs/limburg-monitoring-acquisition-2026-10-28.md"
+  }
 }

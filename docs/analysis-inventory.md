@@ -1,5 +1,10 @@
 # Limburg analysis inventory
 
+## Monitoring data acquisition — 2026-10-28
+
+[Acquisition/status](limburg-monitoring-acquisition-2026-10-28.md): script 150 retrieves monthly native soil/snow fields with saved request IDs and validated receipts; 151 prepares causal-clock context/gap inventories; 152 downloads/audits only absent source windows. EO additions complete, soil/snow still running locally. Other archives/results untouched; no extraction or scoring launched.
+
+
 ## Whole-study implementation plan — later 2026-10-28
 
 [Six-step plan](limburg-monitoring-implementation-plan-2026-10-28.md): causal calendar/availability ledger; full data inventory and useful acquisition; legal features/representations; runner/audit; eligible-census scoring; actual-case interpretation. The version-2 scenario specification uses first-observed-10mm landmarks, retaining all 468 held storms before new eligibility checks. [Readiness evidence](reviews/limburg-monitoring-data-readiness-2026-10-28.json) is input support only. TTM/AlphaEarth supporting comparisons do not define the whole direction. No new inference, transfer or empirical result.

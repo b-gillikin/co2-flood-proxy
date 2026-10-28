@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-28",
+  "status": "eo_sources_complete_soil_snow_running",
+  "record": "docs/limburg-monitoring-acquisition-2026-10-28.md",
+  "new_model_results": false,
+  "other_chapters_touched": false,
+  "azure_resources_created": false,
+  "tests": {
+    "targeted_passed": 21,
+    "projection_configuration": "PROJ_DATA set to existing environment share/proj",
+    "new_scripts_ruff_check": "passed",
+    "new_scripts_ruff_format": "passed"
+  },
+  "code_sha256": {
+    "scripts/150_fetch_monitoring_land_state.py": "0813fca57e4549b16e97b60bb1ddcb09941196f80393e8dd41ab20be7753f38c",
+    "scripts/151_prepare_monitoring_eo_gaps.py": "b6cc85fef0e9c0a3782ca2960524a25eeb0b9e8c97073b00759801cfe92ef227",
+    "scripts/152_download_monitoring_eo_gaps.py": "8864198ce8754a87cea58b86da835b0fa1285c80c4cbc3aaff01782553036dae"
+  },
+  "eo": {
+    "validated_files": 442,
+    "bytes": 643309684,
+    "failures": 0,
+    "progress": "data/raw/limburg_monitoring_eo/progress.json"
+  },
+  "soil_snow_snapshot": {
+    "validated_months": 57,
+    "planned_months": 204,
+    "failures": 0,
+    "progress": "data/raw/limburg_monitoring_land_state/manifest.json"
+  },
+  "limits": "Dated acquisition snapshot, not final model support, final analysis N or scientific results."
+}

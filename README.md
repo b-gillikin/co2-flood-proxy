@@ -1,3 +1,5 @@
+Current data pulls (28 October): [acquisition record](docs/limburg-monitoring-acquisition-2026-10-28.md). Targeted EO additions are complete; local soil/snow retrieval remains running. No new embeddings or monitoring-loss scores have been generated.
+
 Latest completed assessment: [synthesis, archive decomposition and Meuse test](docs/limburg-assessment-synthesis-2026-10-27.md). All three October 27 workstreams are complete; the October 28 monitoring-loss design below is not yet executed. The broader conventional archive substantially qualifies the earlier AnySat increment; the declared Meuse test does not establish a primary distributional benefit. Full suite: 359 tests.
 
 # AI-Assisted High-Water Assessment Under Monitoring Loss

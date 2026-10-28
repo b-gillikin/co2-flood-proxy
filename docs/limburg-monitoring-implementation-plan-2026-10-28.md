@@ -1,6 +1,6 @@
 # Implementation plan: high-water assessment with late or unavailable gauge data
 
-2026-10-28. Brian requested a plan for the **whole new direction**, not only TTM/AlphaEarth. Planning and read-only input checks are complete; simulations, new model inference and new downloads have not started. Brian retains dissertation/article prose. This plan refines the [active design](limburg-monitoring-resilience-design-2026-10-28.md) without changing its RQ. Its primary event-clock refinement supersedes the earlier 126-storm restriction; the original design discussion remains dated history.
+2026-10-28. Brian requested a plan for the **whole new direction**, not only TTM/AlphaEarth. Planning and read-only input checks are complete. The later [acquisition record](limburg-monitoring-acquisition-2026-10-28.md) now reports completed targeted EO additions and running soil/snow retrieval; simulations and new model inference have not started. Brian retains dissertation/article prose. This plan refines the [active design](limburg-monitoring-resilience-design-2026-10-28.md) without changing its RQ. Its primary event-clock refinement supersedes the earlier 126-storm restriction; the original design discussion remains dated history.
 
 **RQ: Can satellite AI help assess developing high water when a gauge's data are late or stop arriving?**
 
