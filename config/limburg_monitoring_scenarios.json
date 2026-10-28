@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "date": "2026-10-28",
   "status": "specified_not_run",
   "design_document": "docs/limburg-monitoring-resilience-design-2026-10-28.md",
@@ -22,17 +22,23 @@
   "calendar": {
     "source": "results/eo_comparison_preparation/observations.parquet",
     "cohort": "rainfall_episode",
-    "landmark": "existing six-hour rainfall landmark",
+    "landmark": "first observed-prefix 10mm accumulation, replacing fixed six-hour landmark",
     "primary": {
-      "storms_before_new_eligibility": 126,
-      "qualification": "at least 10 mm already observed in one of six core Dutch catchments in first six hourly observations",
-      "target_discharge_used_to_schedule": false
+      "source_storms_before_new_eligibility": 468,
+      "qualification": "first observed-prefix accumulation of at least 10mm in any core Dutch catchment within the held rainfall episode",
+      "landmark": "first hourly end timestamp at which qualification is known",
+      "target_discharge_used_to_schedule": false,
+      "read_only_qualification_timestamps_found": 468,
+      "final_scored_opportunities": null,
+      "boundary_uncertainty": "retain source flags; audit affected cases"
     },
     "supporting": {
-      "storms_before_new_eligibility": 468,
-      "opportunities_before_new_eligibility": 3744,
-      "old_outcome_eligible": 3491,
-      "qualification": "full held rainfall catalogue; eventual rain total selects some storms retrospectively"
+      "old_six_hour_calendar": {
+        "source_storms": 468,
+        "early_qualifying_subset": 126,
+        "role": "supporting calendar check, not primary eligibility cap"
+      },
+      "high_water_catalogue": "conditional stress/case review only"
     },
     "high_water_catalogue_role": "conditional stress/case review only; not primary issue clock",
     "gauges_nl": [
@@ -47,7 +53,10 @@
       "2828300000200",
       "2828900000200"
     ],
-    "new_eligibility": "recheck each issue and 24h outcome rather than inherit a 72h exclusion"
+    "new_eligibility": "rebuild each issue history and next-24h outcome from continuous hourly data; old 72h arrays and old eligibility flags are not sufficient",
+    "source_opportunities_before_new_eligibility": 3744,
+    "old_outcome_eligible_not_final_N": 3491,
+    "german_coverage_audit": "check held DE rainfall for absent compatible episodes before scoring; version any shared-calendar additions"
   },
   "issue_offsets_h": [
     0,
@@ -160,7 +169,6 @@
     "availability": "all source acquisitions/bins end by landmark; release time unknown unless independently recorded",
     "pretraining": "document checkpoint training dates/possible study overlap; not an as-issued model replay",
     "fusion": "equal weights on squared prior-pair-distance-normalized conventional and EO distances; conventional block includes season",
-    "new_inference_required_for_held_readouts": false,
     "missing_eo": "conventional fallback; retain opportunity",
     "populations": [
       "own-model supported",
@@ -171,7 +179,8 @@
       "broad season-aware conventional",
       "EO-supported season-aware conventional",
       "EO-augmented on same restricted archive"
-    ]
+    ],
+    "new_inference_rule": "reuse as-of-compatible held contexts; inventory newly needed contexts and source gaps at rescheduled landmarks, then extract only genuinely absent/changed contexts"
   },
   "outcomes": {
     "future_h": 24,
@@ -189,7 +198,8 @@
       "peak timing error",
       "empirical interval coverage and width"
     ],
-    "p99_warning_thresholds": "verification labels only; not input triggers or native-unit Q>=1 duration"
+    "p99_warning_thresholds": "verification labels only; not input triggers or native-unit Q>=1 duration",
+    "window_source": "continuous hourly Q rebuilt at new issue times, not old t0+72h arrays"
   },
   "uncertainty": {
     "draws": 999,
@@ -214,5 +224,51 @@
     "new imagery extraction",
     "operational warning issuance"
   ],
-  "results": null
+  "results": null,
+  "implementation_plan": "docs/limburg-monitoring-implementation-plan-2026-10-28.md",
+  "supporting_representations": {
+    "ttm": {
+      "status": "planned_not_run",
+      "context_h": 512,
+      "history_end": "latest actually available Q timestamp",
+      "readout": "established ordered-patch frozen representation",
+      "normalization": "permitted history only",
+      "fair_control": "identically shifted raw history with permitted state",
+      "missingness": "no hidden-tail fill or zero padding; natural interior gaps mark that representation unsupported"
+    },
+    "alphaearth": {
+      "status": "planned_supporting_control_not_run",
+      "role": "annual landscape and cross-river comparator",
+      "year_rule": "preceding completed calendar year; 2017-2024 held",
+      "controls": "area, season and geographic context; no current river-state claim"
+    }
+  },
+  "recommended_data_additions": [
+    {
+      "source": "ERA5-Land hourly CDS",
+      "fields": [
+        "volumetric soil water layer 1",
+        "volumetric soil water layer 2",
+        "snow depth water equivalent"
+      ],
+      "purpose": "one supporting antecedent-state control and interpretation",
+      "status": "planned_not_downloaded",
+      "existing_temperature": "reuse",
+      "essential_for_primary": false,
+      "availability_limit": "retrospective reanalysis is not as-issued operational data",
+      "api_variable_names": "confirm current CDS request identifiers and downloaded units when implementing downloader; labels here describe scientific fields"
+    },
+    {
+      "source": "compatible held EO catalogue and open source providers",
+      "purpose": "recover actual context/acquisition gaps over complete study domain/period",
+      "status": "inventory_before_transfer",
+      "essential_for_primary": "only for an otherwise unsupported EO arm, not for conventional analysis"
+    },
+    {
+      "source": "existing NL/DE provider contacts",
+      "purpose": "retained receipt timestamps, known station-feed interruption periods and contemporaneous backup delivery if available",
+      "status": "optional_request_recommended_not_sent",
+      "essential_for_primary": false
+    }
+  ]
 }

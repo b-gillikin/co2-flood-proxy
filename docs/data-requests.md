@@ -1,5 +1,10 @@
 # Data Requests and Delivery Contracts
 
+## Current monitoring-loss plan — 2026-10-28
+
+The [whole-study implementation plan](limburg-monitoring-implementation-plan-2026-10-28.md) requires no new provider delivery to begin. Prioritize actual EO support gaps and recommended open ERA5-Land soil/snow context. Historical observation-versus-receipt times, station-feed interruptions, real-time quality flags and contemporaneous backup delivery would improve simulation realism if the existing NL/DE contacts retain them; this is an optional future request, not sent and not a blocker. Do not reopen answered timestamp/zero/rating questions or unavailable historical threshold/datum requests. Earlier tables and blockers below retain their historical dates.
+
+
 Status: 2026-10-01 (protocol draft 0.10). The native Waterschap discharge
 delivery is preserved and audited. René's reply resolves fixed GMT+1 and true
 zero semantics; the six-gauge hourly ingest and input audit now run. The candidate cohort, cross-border

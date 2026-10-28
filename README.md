@@ -16,11 +16,12 @@ Current research question (28 October):
 The [monitoring-resilience design](docs/limburg-monitoring-resilience-design-2026-10-28.md),
 [scenario specification](config/limburg_monitoring_scenarios.json) and
 [literature refresh](docs/reviews/limburg-monitoring-literature-2026-10-28.md)
+and the [six-step implementation plan](docs/limburg-monitoring-implementation-plan-2026-10-28.md)
 now govern the next analysis. They specify repeated rainfall-clock assessments,
 fixed observation delays and a stopped station feed, comparing conventional
 analogues and ten frozen EO representations with explicit timing, seasonal and
 archive controls. **Design specified; no scarcity simulations run.** Held inputs
-support preparation without new imagery extraction. Earlier full-information
+support preparation; changed/new contexts receive targeted coverage checks before any additional extraction. Earlier full-information
 TTM, AlphaEarth, EO, cross-border and Meuse results remain preserved reference
 evidence. This is a retrospective availability study; operator benefit and
 as-issued warning skill are not established.

@@ -1,6 +1,10 @@
 # Limburg analysis inventory
 
-## Active next analysis — 2026-10-28
+## Whole-study implementation plan — later 2026-10-28
+
+[Six-step plan](limburg-monitoring-implementation-plan-2026-10-28.md): causal calendar/availability ledger; full data inventory and useful acquisition; legal features/representations; runner/audit; eligible-census scoring; actual-case interpretation. The version-2 scenario specification uses first-observed-10mm landmarks, retaining all 468 held storms before new eligibility checks. [Readiness evidence](reviews/limburg-monitoring-data-readiness-2026-10-28.json) is input support only. TTM/AlphaEarth supporting comparisons do not define the whole direction. No new inference, transfer or empirical result.
+
+## Earlier next-analysis specification — 2026-10-28
 
 The [monitoring-resilience design](limburg-monitoring-resilience-design-2026-10-28.md) adopts the delayed/stopped-feed question. Machine-readable design: `config/limburg_monitoring_scenarios.json` (`specified_not_run`). [Literature refresh](reviews/limburg-monitoring-literature-2026-10-28.md) and [held-data support](reviews/limburg-scarcity-feasibility-2026-10-28.json) justify preparation, not a result. No scarcity runner exists yet. Existing full-information baselines, EO outputs, archive decomposition, Meuse test and historical scripts remain reproducible; they cannot be relabelled as sparse-input results. No new extraction or data request is required for the held readouts. Dated execution descriptions below are historical.
 

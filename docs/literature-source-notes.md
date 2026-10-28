@@ -1,5 +1,7 @@
 # Literature Source Notes
 
+The [whole-study implementation plan](limburg-monitoring-implementation-plan-2026-10-28.md) adds a supporting antecedent-state control; the later section of the [28 October source refresh](reviews/limburg-monitoring-literature-2026-10-28.md) records Wanders et al. (2014) and official soil/snow data documentation. No new simulation result or connected-library synchronization is implied.
+
 The [28 October monitoring-resilience refresh](reviews/limburg-monitoring-literature-2026-10-28.md) records primary sources on observation delay, missing gauges, sensor faults, satellite representation and sparse-observation routing, with access depth and limits. It informs the new [active RQs/scenarios](limburg-monitoring-resilience-design-2026-10-28.md); it is a local research-aid supplement, not a claim that the connected Mendeley library or generated bibliography has been synchronized. Historical mechanism notes below remain historical supporting records.
 
 

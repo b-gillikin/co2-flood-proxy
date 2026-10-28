@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-28",
+  "status": "implementation_plan_and_input_consistency_checked_not_analysis_run",
+  "schema_version_checked": 2,
+  "specification_sha256": "7369d57181af35cf14ffea0e362e620390a6c874a75192d8d6b74f328207b549",
+  "plan_sha256": "c7c3078b78bda009a3a0414144627b8648910c5102be1384c6e183133ca324ee",
+  "readiness_sha256": "f7669d4d08b0b3ef1ad49f4d1d29513d595a9094d40510d73a1b960ff914b412",
+  "checks": [
+    "new RQ consistent across plan, specification and living one-pager",
+    "full 468 source episodes have observed-prefix rainfall qualification",
+    "old six-hour subset does not cap primary census",
+    "new issue outcomes rebuilt from continuous data, not old 72h arrays",
+    "ten distinct EO encoders, supporting TTM/AlphaEarth roles",
+    "required input files exist and hashes reproduce",
+    "complete hourly axis with natural value gaps retained",
+    "new local documentation links resolve"
+  ],
+  "local_links_checked": 12,
+  "analysis_runner_implemented": false,
+  "new_model_results": false,
+  "new_downloads_started": false,
+  "new_emails_sent": false,
+  "limits": "Read-only scheduling/input checks do not establish final scored N, source quality clearance, operational availability or EO benefit. Version-1 receipt remains a historical check of its original hashed specification."
+}
