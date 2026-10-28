@@ -1,0 +1,148 @@
+{
+  "schema_version": 2,
+  "date": "2026-10-28",
+  "status": "implementation_authorized",
+  "research_question": "Can satellite AI help assess developing high water when ground-monitoring data are limited?",
+  "protocol": "docs/limburg-scarcity-executable-protocol-2026-10-28.md",
+  "output": "results/limburg_scarcity_v2_2026_10_28",
+  "source_preparation": "results/limburg_monitoring_2026_10_28/preparation",
+  "seed": 20261028,
+  "issue_offsets_h": [
+    0,
+    6,
+    12,
+    24
+  ],
+  "q_history_h": 72,
+  "mask_replicas": 100,
+  "missing_fractions": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "block_mean_hours": [
+    6,
+    12,
+    24
+  ],
+  "sampling_hours": [
+    1,
+    3,
+    6,
+    12,
+    24
+  ],
+  "network_retained": [
+    8,
+    6,
+    4,
+    2,
+    0
+  ],
+  "historical_caps_years": [
+    3,
+    6,
+    9
+  ],
+  "target_members": [
+    5,
+    10
+  ],
+  "eo_models": [
+    "dofa",
+    "croma",
+    "satmae",
+    "copernicus_fm",
+    "terramind",
+    "presto",
+    "anysat",
+    "galileo",
+    "prithvi",
+    "olmoearth"
+  ],
+  "eo_readouts": [
+    "recent",
+    "monthly_snapshot"
+  ],
+  "primary_readout": "recent",
+  "conventional_treatments": [
+    "observed_coordinates",
+    "causal_forward_hold"
+  ],
+  "ground_groups": [
+    "rainfall_and_season",
+    "local_discharge_history",
+    "other_tributary_histories",
+    "maas_histories"
+  ],
+  "group_weighting": "equal available groups; equal available stations within peer/mainstem groups",
+  "eo_distance": "L2-normalized frozen vectors; squared Euclidean/cosine distance normalized by earlier available-vector pair variance",
+  "fusion": "0.5 conventional squared distance plus 0.5 EO squared distance; no outcome-selected weights",
+  "donors": "same target gauge; earlier verified 24h response complete; whole regional query storm excluded; episode closure known",
+  "historical_projection": "retained query coordinates projected onto finalized historical donor input histories; earlier archive retained except explicit history-cap groups",
+  "donor_source_gaps": "causal forward hold within historical input window, then earlier-archive coordinate mean if still unknown; never fill verification",
+  "maas_sources": [
+    "sint_pieter",
+    "venlo"
+  ],
+  "maas_quality": "q_strict; interpolated broader display values excluded from predictors",
+  "ground_loss_scope": "local temporal thinning/gaps; all tributary observing-station subsets; Maas dropout separately identified; no full Cartesian product; two combined profiles with degraded retained feeds and no Maas inputs",
+  "rain_coarsening": "completed UTC reporting blocks only; current incomplete tail uses last completed block rate; report age and inferred tail",
+  "assessment_clock": "common reference rainfall landmark; controlled input-scarcity assessment, not degraded-system trigger verification",
+  "verification": "original held next-24h discharge; source-quality and hindsight high-water labels retained, never input masks or ranking",
+  "uncertainty": {
+    "draws": 999,
+    "blocks": [
+      "year_with_all_regional_storms_gauges_and_offsets"
+    ],
+    "random_masks": "resample R complete timeline IDs with replacement per draw, then average; exact enumerated designs are not resampled",
+    "primary": "K5 CRPS",
+    "secondary": "K10, timing, magnitude, coverage and width diagnostics"
+  },
+  "workers": 2,
+  "source_download_required": false,
+  "eo_extraction_required": false,
+  "supporting_models": {
+    "ttm": "not part of the all-mask core; complete-history cached vectors are invalid under withheld inputs; any later frozen-history comparison needs its own permitted-history inference",
+    "alphaearth": "retained supporting landscape/transfer evidence; not asserted to observe current river state"
+  },
+  "emails_sent_by": "Brian only",
+  "combined_profiles": [
+    "network4_schedule6_no_maas",
+    "network4_block12_50pct_no_maas"
+  ],
+  "donor_support_sensitivity": {
+    "minimum_measured_fraction_per_active_channel": 0.8,
+    "groups": [
+      "rich_basin",
+      "local_q_absent",
+      "network4_schedule6_no_maas",
+      "network4_block12_50pct_no_maas"
+    ]
+  },
+  "reporting": {
+    "primary": "recent / K5 / CRPS; equal gauge-issue cell mass",
+    "supporting": [
+      "monthly_snapshot",
+      "K10",
+      "history caps"
+    ],
+    "inference": "exploratory paired intervals; no selected-cell winner claims",
+    "bootstrap": "999 shared whole-year block draws; globally shared mask-ID resampling of the replication mean; exact phases/subsets averaged without resampling",
+    "strata": [
+      "all",
+      "future_p99",
+      "not_future_p99",
+      "undefined_p99",
+      "rising_high_water",
+      "falling_high_water",
+      "clean_verification",
+      "clean_selected_donors",
+      "equal_age",
+      "eo_supported",
+      "common_eo_support"
+    ]
+  }
+}

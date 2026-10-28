@@ -2,6 +2,8 @@
 
 28 October 2026, after completion of the 42-job delay/outage analysis. Brian clarifies the organizing direction: keep the same monitored NL–DE river system, historical situations and verification evidence, then reduce the information available to assess each situation. This is an internal design amendment, not dissertation prose or a report of unrun scenarios.
 
+**Later implementation update:** the [corrected executable protocol](limburg-scarcity-executable-protocol-2026-10-28.md) and scripts 159–163 now implement the responsive comparator, separate axes, two combined profiles, donor-support checks, outcome/EO coverage and explicit uncertainty. Results are versioned under `results/limburg_scarcity_v2_2026_10_28/`; prior v1 benchmark sources are snapshotted. Earlier planned descriptions below record the design sequence, not new empirical findings.
+
 ## Working question and motivation
 
 **Can satellite AI help assess developing high water when ground-monitoring data are limited?**
