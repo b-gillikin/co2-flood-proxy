@@ -1,8 +1,8 @@
 # Ten individually designed Limburg encoder experiments
 
-29 October 2026. Internal protocol/research aid, not dissertation prose. Brian writes prose and sends emails. This is exploratory development following the completed common-interface benchmark and learned-readout diagnostics. It is not preregistration, an untouched confirmation, or a new chapter prerequisite. No experiment must produce a positive result.
+29 October 2026. Internal research/implementation plan; Brian writes manuscript prose. Audited amendment to commit `655c130`, with [findings and corrections](reviews/limburg-ten-experiment-design-audit-2026-10-29.md). This is exploratory development on previously inspected outcomes, not formal preregistration or an untouched confirmation. No new extraction/scoring is launched by this documentation update.
 
-The machine-readable source of truth is [`config/limburg_individual_encoder_experiments_v1.json`](../config/limburg_individual_encoder_experiments_v1.json). This plan supersedes the assumption that ten encoders should receive one interchangeable configuration; it does not overwrite earlier results. Scientific sources and checkpoint qualifications are recorded in the [individual-use review](reviews/limburg-individual-encoder-use-review-2026-10-29.md).
+The [machine-readable plan](../config/limburg_individual_encoder_experiments_v1.json) supplies the live design. [Individual documentation/literature review](reviews/limburg-individual-encoder-use-review-2026-10-29.md); [readiness sweep](reviews/limburg-ten-experiment-readiness-2026-10-29.md). Original designs and results remain in Git and their dated records.
 
 ## Shared design
 
@@ -26,19 +26,19 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **Arms:** C: strongest held conventional analogue mean; frozen baseline recipe; C+R: learned correction from model-specific raw descriptors and common context; C+R+E: same correction with the model-specific encoder features added; C+E: supporting attribution arm, not primary proof of encoder value
 
-**Readout:** Multi-output ridge correction with train-only mean imputation/scaling, variable missingness flags, alphas [0.001, 0.01, 0.1, 1, 10] plus a zero-correction option in every learned arm. Standardize each feature block using training data then divide by sqrt(block dimension); use fixed equal raw/EO block weights rather than another EO-weight search. Clip final discharge predictions at zero consistently. For heterogeneous modalities use separately scaled feature blocks. All arms use identical outcome information and comparable tuning opportunities.
+**Readout:** Multi-output ridge residual correction. Train-only mean imputation, scaling and variable missingness flags; scale each feature block by sqrt(its dimension) after standardization. Alpha candidates [0.001, 0.01, 0.1, 1, 10]. C+R candidates include zero whole correction; C+R+E contains every raw-only candidate exactly (EO weight zero) plus EO block weights 0.1 and 1. Select using inner-fold corrected-trajectory MAE, not residual training MSE or final outcomes. Ridge fits squared-error loss; disclose that fitting loss differs from MAE selection. Clip final Q at zero identically. This is a small explicit encoder-use choice, not fixed forced fusion; disclose different candidate counts and validate all selection chronologically.
 
-**Residual training:** Build each training residual from an earlier-only out-of-fold conventional prediction, not an in-sample baseline fit. Inner validation refits every preprocessing/readout component without its held year. Exclude or explicitly fallback where no causal baseline residual exists.
+**Residual training:** For each historical assessment build its baseline prediction from only earlier closed donor outcomes, excluding its whole regional storm. Targets are observed trajectory minus that archived causal prediction. Training labels must have closed before the outer/inner training boundary; no fitted-in-sample or leave-random-row residuals. Inner folds refit head/preprocessing using earlier data only; baseline donor refresh is causal and recorded separately from fixed head training. Evaluate fixed-year and rolling donor references with distinct identifiers; never switch prediction policies silently.
 
-**Primary scores:** Next-24h trajectory MAE under local_q_absent, pooling four issue offsets equally within site and sites equally. Report whole rainfall census and evaluation-only high-water stratum together; an overall-flow gain alone is not a high-water benefit.; C+R+E versus C+R, then versus C, strongest original and fixed-year conventional references; E08 uses its declared source-watercourse C_transfer override.
+**Primary scores:** Site-balanced next-24h trajectory MAE in mm/h under local_q_absent: equal offsets within a storm/site, equal storms within site and equal sites. First average within case-mask replications so extra masks/offsets do not create sample size. Retain per-site native m3/s tables. Report whole rainfall census and evaluation-only high-water stratum together; an all-flow gain alone is not high-water benefit.; Encoder increment: C+R+E versus C+R on identical supported/evaluable rows. Net increment: versus both frozen conventional mean C and its median-trajectory reference, on identical rows; also show fixed-year archive references. E08 uses source-watercourse C_transfer and its median counterpart. Do not choose the easier baseline retrospectively.
 
 **Secondary scores:** RMSE; +6/+12/+24h error; peak magnitude/timing with undefined timing retained; high-water and documented-flood strata; coverage/fallback and country/site diagnostics
 
-**Uncertainty:** 999 shared whole-year bootstrap draws across methods/models, keeping storms/sites/issues together and mask timelines paired. Report year counts and nonfinite draws. Pointwise intervals are exploratory across ten prespecified primary encoder contrasts; do not make a family-level winner/significance claim. Cross-watercourse E08 has a distinct population and is not pooled as an identical estimand.
+**Uncertainty:** 999 identical whole-year bootstrap draws of saved predictions across methods; assign each whole storm and all its sites/issues/masks to its initial-landmark year, including year-spanning windows. Aggregate each declared mask design before/within the existing shared-replication resampling rule. Report contributing years and nonfinite draws. Intervals are conditional on fitted/frozen selection procedures and this held network, not full training/pretraining uncertainty or a random sample of countries/basins. Pointwise exploratory intervals; no family-level winner claim. E08 reports watercourse-specific effects separately and does not infer basin-population uncertainty from year resampling.
 
 **Probability boundary:** These ridge corrections produce point trajectories. Do not score their spread as predictive uncertainty or compare MAE with CRPS. Distributional calibration would be a separate implemented extension.
 
-**Coverage:** Whole census with fallback plus exact paired-supported and common-support views. No complete-case deletion disguised as a census; unsupported/poor-quality cases remain in ledgers.
+**Coverage:** Maintain one census ledger of all site/storm/issue/mask rows with source, raw-feature, encoder, training-fold, prediction and verification status. For primary attribution compare arms on the exact same query support; no-query-label selection or easy-case omission. If EO alone is unavailable, C+R+E returns C+R where raw correction is supported; if neither correction is supported return C. Missing verification remains unscored, never zero error. Report whole-census pipeline-with-fallback and paired-supported effects separately. Use common support for configuration ablations; no arbitrary numerical support gate is introduced.
 
 **Clock:** Freeze EO context at the initial rainfall landmark for all four issue offsets, matching held archive contexts; report increasing age. Only completed source windows strictly available by that landmark under the existing nominal acquisition clock; future pixels, future weather, hidden Q and post-issue product composites prohibited. No as-issued operational replay claim.
 
@@ -48,19 +48,33 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **Execution:** No full run launched by this plan. One MPS extraction lane and at most two CPU lanes, respecting model-specific runtime/device support. Start with conformance fixtures and measured full-context benchmarks; extraction and scoring phases need not compete for all three lanes.
 
-**Storage:** Stream area-weighted feature moments and discard transient token tensors after verified output; do not persist dense token cubes. Measure peak temporary disk/memory and project census volume before queueing each experiment. No other-chapter data changes or cloud spend.
+**Storage:** Persist compact catchment/context feature tables and area-weighted moment accumulators, NOT another per-patch million-file cache. Stream tokens/pixels and discard transient tensors after their verified contribution. Resume at atomic tile/context contribution boundaries with source/run hashes and a compact coverage ledger; combining resumptions must not double-count weights. Benchmark peak temporary disk/memory and project full-census volume before queueing. Keep held imagery/checkpoints/selected old results; no other-chapter data changes or cloud spend.
+
+**Conditioning interactions:** A surface-state modifier should be allowed to depend on the developing storm, rather than only add a constant correction. In the SAME ridge head include main raw/EO blocks plus each block multiplied by two train-standardized causal scalars: observed preceding-24h rain and C_mean predicted next-24h mean discharge in mm/h (C_transfer for E08). Build the same interaction recipe for raw descriptors and encoder features, normalize resulting blocks separately, and keep the exact raw-only/zero-EO candidates. Forecast conditioners for training come from the causal out-of-fold baseline ledger, never observed future Q or rain. No new encoder/model family or hyperparameter sweep is added. This tests a physically motivated moderation hypothesis, not identification of a physical causal effect.
 
 **Interpretation:** Positive encoder-versus-raw plus positive versus strong C supports incremental retrospective usefulness under declared conditions. Encoder-versus-raw only supports representation benefit, not net FEWS benefit. Null/adverse findings remain reportable; no experiment has to win.
 
-## Model-specific experiment cards
+**Fit population:** E01-E07/E09-E10 fit separate same-gauge, same-scenario heads at fixed outer year boundaries; pool all four training issue offsets with each storm given equal total fitting weight. Apply the declared scarcity masks to training/validation query features, not only test queries; final historical donor archives follow the existing availability policy. Future responses remain verification/training labels only after their closure. E08 overrides this with source-watercourse transfer.
 
-### E01 — Pixel heterogeneity and antecedent seasonal condition (presto)
+**Common context:** Every learned raw/EO arm receives the same causally available ordered 72h Q channels, rain/season descriptors and observation age/missingness summaries used by the declared conventional source, under that scenario mask. Do not give a head hidden Q, future rainfall, outcome-derived thresholds/strata, or retrospectively diagnosed quality labels as predictors. Soil/snow remains an explicitly labelled later equal-input control. Fixed common context prevents attributing an extra ground-input advantage to EO.
+
+**Reference estimands:** C_mean remains the frozen baseline and residual-training source. Compute C_median from the same admissible donor trajectories (coordinate-wise median) because MAE can favor a median over a mean. Both are declared references; a gain versus mean alone does not establish superiority to all conventional point assessments. Point MAE is compared with point MAE, never CRPS.
+
+**Information support:** Raw comparators receive the same observed dates, bands, masks and input-tile footprints that influence encoded features, including surrounding tile context outside the target polygon. Keep target-zone summaries plus tile/context summaries so global receptive fields are not a concealed extra data source. Native masking/fill contracts may still differ; disclose those differences rather than claim architecture-isolated comparison. No future pixels may enter composite construction.
+
+**Physical interpretation:** No independent wetness/saturation/flood-extent labels are introduced: the experiment tests whether a physically motivated representation helps predict gauge response, not whether latent coordinates measure that physical state. High water uses the existing evaluation-only p99 definition; documented floods are separate records, not synonyms. The 24h horizon describes subsequent discharge within that window, not eventual flood progression, warning skill or useful operational lead time.
+
+**Pretraining boundary:** Checkpoint pretraining can overlap European locations and later historical years. Chronological head/donor separation does not prove pretraining independence or availability of that checkpoint at the historical issue date. These are current-model retrospective stress tests, not strict unseen-basin/zero-shot/as-issued forecasts.
+
+**Ablation policy:** Use at most the one declared mechanism ablation per experiment, on exact paired support and with the same fitted-head selection protocol. Reuse old cached pooled vectors only if their inputs, spatial support and date context match; otherwise call it a configuration comparison or recompute the required matched output during the same pass. Do not bolt on a second full scenario sweep.
+
+## E01 — Pixel heterogeneity and antecedent seasonal condition (presto)
 
 **1. Hypothesis.** Pixel-level seasonal condition and within-catchment variability improve response assessment beyond spectral/index histories.
 
 **2. Inputs.** Held S2 ten-band monthly sequences for the preceding twelve completed months; valid pixels, pixel dates/locations, catchment and DEM. Missing Presto modalities remain masked.
 
-**3. Model use.** Frozen default Presto; native twelve-month encoding. Stream area-weighted per-pixel mean and SD for whole catchment and elevation thirds. Do not substitute SD of patch means for pixel SD. Recent four-week route is supporting existing evidence, not a winner-selected replacement.
+**3. Model use.** Frozen default Presto; native twelve-month encoding. Stream area-weighted per-pixel mean and SD for whole catchment and elevation thirds. Do not substitute SD of patch means for pixel SD. Recent four-week route is supporting existing evidence, not a winner-selected replacement. Mean-only versus mean+SD is the single mechanism ablation on the SAME twelve-month pixel output/support, not recent versus monthly.
 
 **4. Matched comparator.** Same pixels/months/areas: band and NDVI, NDMI, MNDWI mean/SD histories and known season/location/coverage; same common antecedent weather/physical descriptors in both learned arms.
 
@@ -68,19 +82,19 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** An increment does not identify soil saturation or show a benefit from more months alone: raw control has the same months. Failure concerns this readout/checkpoint, not all Presto uses.
 
-**Raw descriptor specification:** Monthly band/index mean, SD, first-last change, observed fraction and acquisition age; indices from observed reflectance with invalid denominators masked.
+**Raw descriptors:** Monthly band/index mean, SD, first-last change, observed fraction and acquisition age; indices from observed reflectance with invalid denominators masked.
 
-**Preparation before execution:** Implement pixel-moment extraction and weighted area/variance aggregation; Build twelve-month raw descriptors and case/context joins; Check missing months, pixel months, boundary weights and moment-combination identity.
+**Preparation:** Implement pixel-moment extraction and weighted area/variance aggregation; Build twelve-month raw descriptors and case/context joins; Check missing months, pixel months, boundary weights and moment-combination identity.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E02 — Spatially differentiated optical state (anysat)
+## E02 — Spatially differentiated optical state (anysat)
 
 **1. Hypothesis.** Local spatial features preserve response-relevant variation lost by tile/catchment means.
 
 **2. Inputs.** Held coherent ten-band S2 four completed weeks, exact dates, catchment and DEM; S2-only primary, no new SAR requirement.
 
-**3. Model use.** Frozen base; supported patch/dense output at documented physical patch size, native temporal input; pool whole catchment/elevation thirds. Verify actual output grid and scale rather than assume dense means 10m.
+**3. Model use.** Frozen base; supported patch output (dense only if the pinned API requires it for an equivalent grid) at documented physical patch size, native temporal input; pool whole catchment/elevation thirds. Verify actual output grid and scale rather than assume dense means 10m.
 
 **4. Matched comparator.** Same S2 pixels/weeks/zones with band/index mean, SD and temporal change; simple terrain descriptors and identical coverage metadata.
 
@@ -88,19 +102,19 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** A local-versus-global improvement is not automatically encoder benefit; raw spatial controls must also receive zones. Elevation thirds are not a hydraulic floodplain.
 
-**Raw descriptor specification:** Weekly zone-level bands/NDVI/NDMI/MNDWI moments, changes, terrain, valid fractions and acquisition ages.
+**Raw descriptors:** Weekly zone-level bands/NDVI/NDMI/MNDWI moments, changes, terrain, valid fractions and acquisition ages.
 
-**Preparation before execution:** Implement patch/dense readout and exact output-footprint weights; Use same spatial masks for raw and encoded arms; Conformance test metres versus pixels, output coordinates and one-based dates.
+**Preparation:** Implement patch/dense readout and exact output-footprint weights; Use same spatial masks for raw and encoded arms; Conformance test metres versus pixels, output coordinates and one-based dates.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E03 — Supported climate and terrain enrichment (galileo)
+## E03 — Supported climate and terrain enrichment (galileo)
 
 **1. Hypothesis.** A combined monthly optical/climate/terrain encoding adds beyond the same physical variables represented directly.
 
 **2. Inputs.** Held S2 twelve completed months; exact ERA5-Land monthly temperature_2m and total_precipitation_sum conventions; SRTM elevation/slope. Missing TerraClimate/VIIRS/land-cover groups stay masked. GLO30 is not silently relabelled SRTM.
 
-**3. Model use.** Frozen Nano; official modality helper/normalizer with S2, ERA5 and SRTM groups populated, missing groups masked. Primary monthly cadence matches the climate groups. S2-only matched ablation isolates enrichment.
+**3. Model use.** Frozen Nano; official modality helper/normalizer with S2, ERA5 and SRTM groups populated, missing groups masked. Primary monthly cadence matches the climate groups. S2-only matched ablation isolates enrichment. Restrict enriched/S2-only attribution to common source/feature support; other modality additions stay optional.
 
 **4. Matched comparator.** Identical monthly S2 summaries, ERA5 temperature/precipitation and SRTM terrain supplied directly, plus common context. Compare enriched encoding with enriched raw, not enriched encoding with S2-only baseline.
 
@@ -108,13 +122,13 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** Enriched versus S2-only alone is a data-addition result. Nano results do not establish performance of Tiny/larger Galileo. Any unmatched climate product must remain masked and documented.
 
-**Raw descriptor specification:** Monthly optical moments, temperature, precipitation, terrain elevation/slope moments, location/season and support.
+**Raw descriptors:** Monthly optical moments, temperature, precipitation, terrain elevation/slope moments, location/season and support.
 
-**Preparation before execution:** Verify held hourly ERA5 aggregation equals specified monthly product/accumulation convention or pull exact small monthly product; Acquire/verify SRTM and slope for existing tile extent; Implement multimodal Nano tensor/mask contracts and equal-input raw control.
+**Preparation:** Verify held hourly ERA5 aggregation equals specified monthly product/accumulation convention or pull exact small monthly product; Acquire/verify SRTM and slope for existing tile extent; Implement multimodal Nano tensor/mask contracts and equal-input raw control.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E04 — Ordered radar surface change (olmoearth)
+## E04 — Ordered radar surface change (olmoearth)
 
 **1. Hypothesis.** Spatial/temporal radar features contribute beyond raw backscatter level and change.
 
@@ -128,13 +142,13 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** Change features may encode acquisition or vegetation rather than wetness. Support/season/raw controls and fixed orbit are necessary for that distinction, but do not prove physical mechanism.
 
-**Raw descriptor specification:** Ordered VV/VH levels, SD, differences, zone contrasts and observation metadata; no mixing units in ratios.
+**Raw descriptors:** Ordered VV/VH levels, SD, differences, zone contrasts and observation metadata; no mixing units in ratios.
 
-**Preparation before execution:** Expose v1.2 per-time tokens before global pooling; Implement matched raw SAR descriptors and fixed-orbit/geometry ledger; Validate token masks and missing-time pooling without fabrication.
+**Preparation:** Expose v1.2 per-time tokens before global pooling; Implement matched raw SAR descriptors and fixed-orbit/geometry ledger; Validate token masks and missing-time pooling without fabrication.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E05 — Radar texture beyond absolute backscatter (croma)
+## E05 — Radar texture beyond absolute backscatter (croma)
 
 **1. Hypothesis.** CROMA pattern features add beyond conventional radar texture/change descriptors and retained absolute levels.
 
@@ -148,19 +162,19 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** A positive result supports texture encoding beyond chosen transparent descriptors; a null does not show radar lacks hydrological information. No ad hoc replacement of publisher normalization.
 
-**Raw descriptor specification:** Per-week raw levels, SD, changes, valid-neighbour contrast/correlation for VV and VH; undefined constant-image correlation remains missing.
+**Raw descriptors:** Per-week raw levels, SD, changes, valid-neighbour contrast/correlation for VV and VH; undefined constant-image correlation remains missing.
 
-**Preparation before execution:** Expose per-date SAR_GAP in compact output; Implement raw level and deterministic texture control with masks; Verify constant/no-data fixtures and corrected /255 normalization.
+**Preparation:** Expose per-date SAR_GAP in compact output; Implement raw level and deterministic texture control with masks; Verify constant/no-data fixtures and corrected /255 normalization.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E06 — Catchment-local HLS surface condition (prithvi)
+## E06 — Catchment-local HLS surface condition (prithvi)
 
 **1. Hypothesis.** Pooling spatial features over the actual contributing catchment improves assessment beyond HLS descriptors and whole-tile averaging.
 
 **2. Inputs.** Held six-band HLS 30m four completed weeks, dates/coordinates, catchment and DEM.
 
-**3. Model use.** Frozen EO2 Tiny TL four-frame route; retain spatial/time tokens and pool observed catchment/elevation support. Document 6.72km tile receptive context and token footprint; no claim that masking removes all outside context.
+**3. Model use.** Frozen EO2 Tiny TL four-frame route; retain spatial/time tokens and pool observed catchment/elevation support. Document 6.72km tile receptive context and token footprint; no claim that masking removes all outside context. Compute the matched whole-tile pooled output from the same forward pass for its single pooling ablation.
 
 **4. Matched comparator.** Same HLS pixels/times/areas: bands and NDVI/NDMI/MNDWI moments, changes, terrain and metadata. Matched global pooled Prithvi ablation supports pooling attribution.
 
@@ -168,19 +182,19 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** Global-to-local changes may reflect spatial support rather than architecture; control raw support and compare paired cases. Tiny is not the 300M/600M model.
 
-**Raw descriptor specification:** HLS six-band/index weekly zone moments and changes; product/coverage/date descriptors.
+**Raw descriptors:** HLS six-band/index weekly zone moments and changes; product/coverage/date descriptors.
 
-**Preparation before execution:** Expose non-CLS spatiotemporal tokens and map token footprint to HLS grid; Implement area-weighted local pooling and no-data tests; Match four-frame TL metadata/order and raw-support comparator.
+**Preparation:** Expose non-CLS spatiotemporal tokens and map token footprint to HLS grid; Implement area-weighted local pooling and no-data tests; Match four-frame TL metadata/order and raw-support comparator.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E07 — Metadata-aware optical representation (copernicus_fm)
+## E07 — Metadata-aware optical representation (copernicus_fm)
 
 **1. Hypothesis.** Surface representations using correct location/date/scale add beyond raw spectra and identical metadata.
 
 **2. Inputs.** Held primary coherent ten-band S2 four completed weeks, real patch coordinates/dates/scale. Existing TOA/QA60 route retained as product-domain sensitivity, not selected by final scores.
 
-**3. Model use.** Frozen base; same published patch-mean/LayerNorm readout, metadata populated with lon/lat, days since epoch and internal token area. Independent frame features retained in time order. No-metadata matched ablation.
+**3. Model use.** Frozen base; same published patch-mean/LayerNorm readout, metadata populated with lon/lat, days since epoch and internal token area. Independent frame features retained in time order. No-metadata matched ablation with the SAME ordered-frame output; old frame-mean caches alone cannot identify a metadata effect.
 
 **4. Matched comparator.** Same bands/indices, dates, coordinates, token scale, season and coverage; train-only simple metadata and spectral model with same residual-head budget.
 
@@ -188,13 +202,13 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** Metadata-only benefit is not learned hydrological state. Product-domain/support changes cannot be credited solely to metadata.
 
-**Raw descriptor specification:** Weekly band/index moments/changes plus explicit location/day/scale/coverage; metadata-only supporting arm.
+**Raw descriptors:** Weekly band/index moments/changes plus explicit location/day/scale/coverage; metadata-only supporting arm.
 
-**Preparation before execution:** Implement known-metadata route and chronological frame outputs; Test 0.0256km2 token area, date units and coordinate order; Replay no-metadata/product-domain evidence on exact paired cases.
+**Preparation:** Implement known-metadata route and chronological frame outputs; Test 0.0256km2 token area, date units and coordinate order; Replay no-metadata/product-domain evidence on exact paired cases.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E08 — Cross-watercourse landscape transfer (dofa)
+## E08 — Cross-watercourse landscape transfer (dofa)
 
 **1. Hypothesis.** Wavelength-conditioned landscape context improves transfer to another held watercourse beyond physical/geographic/raw spectral descriptors.
 
@@ -208,19 +222,39 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** Few independent watercourses limit generalization. This is held-network watercourse transfer, not a country experiment or unmonitored-basin validation. Do not rank its magnitude directly against same-gauge experiments.
 
-**Raw descriptor specification:** Twelve-month six-band means, red-edge/NIR and NIR/SWIR contrasts, seasonal variability and zone terrain/area descriptors; use only genuinely held non-TCI inputs.
+**Raw descriptors:** Twelve-month six-band means, red-edge/NIR and NIR/SWIR contrasts, seasonal variability and zone terrain/area descriptors; use only genuinely held non-TCI inputs.
 
-**Preparation before execution:** Implement watercourse-grouped chronological folds and source-only tuning; Build mm/h transfer baseline and raw landscape descriptors; Poison every target-watercourse Q source to verify exclusion; retain unavailable-fold ledger.
+**Preparation:** Implement watercourse-grouped chronological folds and source-only tuning; Build mm/h transfer baseline and raw landscape descriptors; Poison every target-watercourse Q source to verify exclusion; retain unavailable-fold ledger.
 
-**Encoding:** Reuse the specified held encoder vectors; raw-descriptor and downstream work still needed.
+**Encoding:** Initially reuse specified held vectors; raw descriptors/readout still need implementation.
 
-### E09 — Ordered optical surface context (terramind)
+**Transfer-specific overrides:**
+
+- **baseline:** C_transfer: earlier other-watercourse donor trajectories in mm/h; source-only fitting/tuning
+
+- **arms:** C_transfer; C_transfer+R; C_transfer+R+E
+
+- **target watercourse:** Exclude every target-watercourse Q source from training, tuning and local-absence peer inputs, including all Wurm sites together
+
+- **inner split:** Earlier-year folds with one source watercourse held out within training; no target-watercourse outcomes
+
+- **supporting reference:** Target-history conventional C is deployment context only, never a training residual source or evidence of ungauged transfer
+
+- **graph exclusion:** Canonicalize physical_river/Wurm/Worm names in an explicit held station graph. Exclude the held watercourse from BOTH the donor response pool and all source training-feature Q channels; do not remove only a target gauge. Related Geul branches remain dependent regional sites, not independent countries/basins.
+
+- **residual crossfit:** For each training source watercourse, obtain baseline residuals as if that source watercourse were also held out of its donor pool/features. Inner folds repeat this source-watercourse holdout using only earlier data; a same-gauge source residual would not match target transfer deployment.
+
+- **weighting:** Within each training/score fold give watercourses equal mass, then sites within watercourse equal mass, then storms and offsets equally. Three Wurm sites are not three independent watercourses.
+
+- **test outcomes:** Target-watercourse Q may be used only as held verification and evaluation strata, not head training, transfer calibration, source normalization or source-only hyperparameter selection.
+
+## E09 — Ordered optical surface context (terramind)
 
 **1. Hypothesis.** A small supervised temporal readout on TerraMind features adds beyond the same ordered optical descriptors.
 
 **2. Inputs.** Held ten-band S2L2A four completed weeks, masks/dates, catchment and DEM. No generation, TiM, extra labels or modality expansion.
 
-**3. Model use.** Frozen 1.0 Tiny; supported single-frame backbone used through a verified ordered-frame readout (wrapper if API-equivalent), catchment pooled per frame, concatenate levels/changes. No claim of pretrained temporal attention.
+**3. Model use.** Frozen 1.0 Tiny; supported single-frame backbone used through a verified ordered-frame readout (wrapper if API-equivalent), catchment pooled per frame, concatenate levels/changes. No claim of pretrained temporal attention. Compute its unordered mean from those same four per-frame outputs for the single temporal-order ablation.
 
 **4. Matched comparator.** Identical ordered S2 bands/indices and changes, season/terrain/coverage, with same residual-head capacity/tuning approach.
 
@@ -228,13 +262,13 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **6. Interpretation.** A benefit from order belongs to the downstream temporal readout, not proof the backbone learned river dynamics. Flood mapping/generation remain different tasks.
 
-**Raw descriptor specification:** Ordered weekly S2 band/index mean/SD/change and observation metadata.
+**Raw descriptors:** Ordered weekly S2 band/index mean/SD/change and observation metadata.
 
-**Preparation before execution:** Implement ordered-frame frozen-backbone output with compact cache; Validate wrapper equivalence/masks against direct single-frame calls; Keep label-free encoder and catchment residual supervision distinct.
+**Preparation:** Implement ordered-frame frozen-backbone output with compact cache; Validate wrapper equivalence/masks against direct single-frame calls; Keep label-free encoder and catchment residual supervision distinct.
 
-**Encoding:** Fresh model-specific extraction of held imagery is needed.
+**Encoding:** Targeted extraction of held imagery needed.
 
-### E10 — Product-matched multispectral spatial context (satmae)
+## E10 — Product-matched multispectral spatial context (satmae)
 
 **1. Hypothesis.** Multispectral features add beyond raw optical descriptors when evaluated on a product closer to the checkpoint domain.
 
@@ -246,25 +280,20 @@ The machine-readable source of truth is [`config/limburg_individual_encoder_expe
 
 **5. High-water contribution.** Evaluate C+R+E against C+R and C under local-Q absence, then rich/all-Q-absent references.
 
-**6. Interpretation.** TOA chosen for checkpoint-domain rationale after earlier evidence exists; this is exploratory, not an untouched product selection. QA60/SR support differences are not encoder effects; keep paired and coverage views.
+**6. Interpretation.** TOA chosen for checkpoint-domain rationale after earlier evidence exists; this is exploratory, not an untouched product selection. QA60/SR support differences are not encoder effects; keep paired and coverage views. Full SR/TOA scores cannot by themselves isolate radiometric domain from different cloud masks/acquisition support. Compare only matching scene/time inputs where available; otherwise label it a product-and-support sensitivity, not a domain effect.
 
-**Raw descriptor specification:** Monthly TOA band/index mean/SD and neighbour contrast; same-mask SR descriptors only for paired domain diagnostic.
+**Raw descriptors:** Monthly TOA band/index mean/SD and neighbour contrast; same-mask SR descriptors only for paired domain diagnostic.
 
-**Preparation before execution:** Build TOA raw descriptors and exact supplemental context joins; Inspect held checkpoint readout/product contract and record primary choice; Implement same-acquisition/support domain comparison, not unpaired score subtraction.
+**Preparation:** Build TOA raw descriptors and exact supplemental context joins; Inspect held checkpoint readout/product contract and record primary choice; Implement same-acquisition/support domain comparison, not unpaired score subtraction.
 
-**Encoding:** Reuse the specified held encoder vectors; raw-descriptor and downstream work still needed.
+**Encoding:** Initially reuse specified held vectors; raw descriptors/readout still need implementation.
 
-**E08 transfer override:** {"baseline": "C_transfer: earlier other-watercourse donor trajectories in mm/h; source-only fitting/tuning", "arms": ["C_transfer", "C_transfer+R", "C_transfer+R+E"], "target_watercourse": "Exclude every target-watercourse Q source from training, tuning and local-absence peer inputs, including all Wurm sites together", "inner_split": "Earlier-year folds with one source watercourse held out within training; no target-watercourse outcomes", "supporting_reference": "Target-history conventional C is deployment context only, never a training residual source or evidence of ungauged transfer"}
+## Execution order
 
-## Preparation and queue order
+1. Implement and test the shared causal residual/raw-descriptor foundation; E08 has its own source-watercourse transfer contract.
+2. Build cached-vector E08/E10 feature tables while developing the eight targeted extraction adapters. Galileo product reconciliation proceeds independently of other experiments.
+3. Run publisher/mask/weighted-pooling conformance fixtures and measure a full spatial context in each intended runtime. Benchmarking checks engineering, not final scientific eligibility or event selection.
+4. Queue at most one MPS and two CPU workers according to measured memory/throughput; stream compact moments/features. Preserve old results and all other chapters.
+5. Score the full census/coverage ledger, perform paired attribution and high-water review, and retain null/adverse findings. No model must win.
 
-1. Implement one shared, chronologically cross-fitted conventional/residual backbone and exact raw/encoded feature-support joins. Test hidden/future-data poisoning and fixed-year versus rolling-reference accounting before interpreting encoder increments.
-2. Prepare raw optical/SAR descriptors and DEM elevation zones once with source provenance; their reuse must not force identical model footprints or dates. Build model-specific feature tables, not another all-purpose averaged vector table.
-3. First complete cached-vector experiments E08/E10 and the shared readout; independently implement extraction contracts for E01/E02/E04–E07/E09. E03 needs small exact-product reconciliation/acquisition and must not delay unrelated work.
-4. Run conformance fixtures for each selected checkpoint, followed by a measured representative **full spatial context** benchmark and missing-support fixture. These are engineering tests, not a sampled final analysis. Predict census time and storage from actual counts and measured throughput; no defensible completion ETA exists yet.
-5. Queue validated extraction tasks one MPS plus at most two CPU lanes, with per-model environment and output hashes. MPS support is checked for that particular adapter; do not force CPU-only code onto it. Score only complete audited feature tables; continue unrelated experiments if one needs repair.
-6. Audit/read all ten results individually, plus a common summary of incremental information, net high-water value, coverage and costs. No uniform winner ranking across different cohorts/tasks. Freeze configuration changes with dated amendments rather than overwrite the trial that motivated them.
-
-## Readiness and limits
-
-The [readiness sweep](reviews/limburg-ten-experiment-readiness-2026-10-29.md) and its JSON receipt distinguish held assets from implemented experiment components. Existing extraction/scoring scripts implement earlier designs and cannot simply be relabelled as these experiments. A preparation status is an engineering dependency, not a decision to abandon a chapter or await optional data. No blanket stop is imposed on the ten-part project.
+Runtime and temporary storage remain to be measured. The preparation checker inventories assets and support, but cannot certify unimplemented model adapters or launch the run.

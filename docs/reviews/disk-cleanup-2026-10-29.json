@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-29",
+  "status": "completed",
+  "reason": "Retire superseded original-mask OlmoEarth cache; corrected selected run completed without errors. Current raw data, weights, selected caches, complete scientific results and other chapters untouched.",
+  "retired_root": "data/processed/limburg_eo_mps_sequences/olmoearth/09dbb327a3cb2df14027a67e0f32c7f018eaae065f096287122e93a239c25e95",
+  "replacement": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+  "metadata_and_array_hash_ledger": "data/processed/limburg_eo_retired_2026-10-29/olmoearth_original_mask_route/files.jsonl.gz",
+  "ledger_sha256": "bfd2a197508c9c8dcdb1cd1e1d984d103d522b717456f2a4ab087d654fe44395",
+  "metadata_restore": "Read gzip JSONL, decode content_b64 and verify sha256 before restoring path under retired_root. Top-level and error records remain in place.",
+  "array_recovery": "Retired NPZ payloads are not backed up here. They were superseded/incorrect pooled outputs, regenerable only from held imagery and pinned old source/checkpoint/runtime; no claim of exact numerical reproduction. Shared hard links retained by corrected run remain intact.",
+  "indexed_files": 1654678,
+  "npz_files": 555258,
+  "removed_files": 1653602,
+  "files_with_multiple_links": 447858,
+  "logical_bytes_indexed": 14461711191,
+  "exclusive_allocated_bytes_before": 16107155456,
+  "protected_files_sha256": {
+    "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0/manifest.json": "90abc0c753f510662aeaac896b8e602e73826839b0d16efdfc6bc6f25870d95d",
+    "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0/status.json": "a077a3a22674262c1864d5bb024ccf441eed531dd62560fd8509535fce829f31",
+    "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/olmoearth.parquet": "79537274788c16cf782b75c057491a58602b354ad085240fce29e41eb5344e26"
+  },
+  "free_before_bytes": 73975173120,
+  "free_after_bytes": 87971307520,
+  "observed_free_delta_gib": 13.034915924072266,
+  "elapsed_s": 799.6820237636566,
+  "free_space_limit": "APFS clones/snapshots and concurrent downloads affect physical free-space changes; hard-linked bytes are not reclaimed while another link remains.",
+  "procedure_source": "logs/disk-cleanup-2026-10-29.py",
+  "procedure_sha256": "26cd0bbf7bba391015fcff1a43b1f49b9f7f38eb41ac9dd0fd0038fa10da902f"
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "individual_model_experiments_2026_10_29_v1",
+  "version": "individual_model_experiments_2026_10_29_v1_audited",
   "status": "designed_not_launched",
   "shared": {
     "rq": "Can satellite AI help assess developing high water when ground-monitoring data are limited?",
@@ -27,11 +27,11 @@
       "C+R+E: same correction with the model-specific encoder features added",
       "C+E: supporting attribution arm, not primary proof of encoder value"
     ],
-    "readout": "Multi-output ridge correction with train-only mean imputation/scaling, variable missingness flags, alphas [0.001, 0.01, 0.1, 1, 10] plus a zero-correction option in every learned arm. Standardize each feature block using training data then divide by sqrt(block dimension); use fixed equal raw/EO block weights rather than another EO-weight search. Clip final discharge predictions at zero consistently. For heterogeneous modalities use separately scaled feature blocks. All arms use identical outcome information and comparable tuning opportunities.",
-    "residual_training": "Build each training residual from an earlier-only out-of-fold conventional prediction, not an in-sample baseline fit. Inner validation refits every preprocessing/readout component without its held year. Exclude or explicitly fallback where no causal baseline residual exists.",
+    "readout": "Multi-output ridge residual correction. Train-only mean imputation, scaling and variable missingness flags; scale each feature block by sqrt(its dimension) after standardization. Alpha candidates [0.001, 0.01, 0.1, 1, 10]. C+R candidates include zero whole correction; C+R+E contains every raw-only candidate exactly (EO weight zero) plus EO block weights 0.1 and 1. Select using inner-fold corrected-trajectory MAE, not residual training MSE or final outcomes. Ridge fits squared-error loss; disclose that fitting loss differs from MAE selection. Clip final Q at zero identically. This is a small explicit encoder-use choice, not fixed forced fusion; disclose different candidate counts and validate all selection chronologically.",
+    "residual_training": "For each historical assessment build its baseline prediction from only earlier closed donor outcomes, excluding its whole regional storm. Targets are observed trajectory minus that archived causal prediction. Training labels must have closed before the outer/inner training boundary; no fitted-in-sample or leave-random-row residuals. Inner folds refit head/preprocessing using earlier data only; baseline donor refresh is causal and recorded separately from fixed head training. Evaluate fixed-year and rolling donor references with distinct identifiers; never switch prediction policies silently.",
     "primary_scores": [
-      "Next-24h trajectory MAE under local_q_absent, pooling four issue offsets equally within site and sites equally. Report whole rainfall census and evaluation-only high-water stratum together; an overall-flow gain alone is not a high-water benefit.",
-      "C+R+E versus C+R, then versus C, strongest original and fixed-year conventional references; E08 uses its declared source-watercourse C_transfer override."
+      "Site-balanced next-24h trajectory MAE in mm/h under local_q_absent: equal offsets within a storm/site, equal storms within site and equal sites. First average within case-mask replications so extra masks/offsets do not create sample size. Retain per-site native m3/s tables. Report whole rainfall census and evaluation-only high-water stratum together; an all-flow gain alone is not high-water benefit.",
+      "Encoder increment: C+R+E versus C+R on identical supported/evaluable rows. Net increment: versus both frozen conventional mean C and its median-trajectory reference, on identical rows; also show fixed-year archive references. E08 uses source-watercourse C_transfer and its median counterpart. Do not choose the easier baseline retrospectively."
     ],
     "secondary_scores": [
       "RMSE",
@@ -40,15 +40,23 @@
       "high-water and documented-flood strata",
       "coverage/fallback and country/site diagnostics"
     ],
-    "uncertainty": "999 shared whole-year bootstrap draws across methods/models, keeping storms/sites/issues together and mask timelines paired. Report year counts and nonfinite draws. Pointwise intervals are exploratory across ten prespecified primary encoder contrasts; do not make a family-level winner/significance claim. Cross-watercourse E08 has a distinct population and is not pooled as an identical estimand.",
+    "uncertainty": "999 identical whole-year bootstrap draws of saved predictions across methods; assign each whole storm and all its sites/issues/masks to its initial-landmark year, including year-spanning windows. Aggregate each declared mask design before/within the existing shared-replication resampling rule. Report contributing years and nonfinite draws. Intervals are conditional on fitted/frozen selection procedures and this held network, not full training/pretraining uncertainty or a random sample of countries/basins. Pointwise exploratory intervals; no family-level winner claim. E08 reports watercourse-specific effects separately and does not infer basin-population uncertainty from year resampling.",
     "probability_boundary": "These ridge corrections produce point trajectories. Do not score their spread as predictive uncertainty or compare MAE with CRPS. Distributional calibration would be a separate implemented extension.",
-    "coverage": "Whole census with fallback plus exact paired-supported and common-support views. No complete-case deletion disguised as a census; unsupported/poor-quality cases remain in ledgers.",
+    "coverage": "Maintain one census ledger of all site/storm/issue/mask rows with source, raw-feature, encoder, training-fold, prediction and verification status. For primary attribution compare arms on the exact same query support; no-query-label selection or easy-case omission. If EO alone is unavailable, C+R+E returns C+R where raw correction is supported; if neither correction is supported return C. Missing verification remains unscored, never zero error. Report whole-census pipeline-with-fallback and paired-supported effects separately. Use common support for configuration ablations; no arbitrary numerical support gate is introduced.",
     "clock": "Freeze EO context at the initial rainfall landmark for all four issue offsets, matching held archive contexts; report increasing age. Only completed source windows strictly available by that landmark under the existing nominal acquisition clock; future pixels, future weather, hidden Q and post-issue product composites prohibited. No as-issued operational replay claim.",
     "physical_control": "Soil/snow is a supporting shared physical-state control once downloaded and wrangled. ERA5 soil water is not TerraClimate soil water and cannot fill that Galileo channel.",
     "spatial_pool": "Where regional pooling is used, use whole catchment plus fixed catchment-elevation thirds derived from held DEM before outcomes. These are elevation zones, not validated floodplain or travel-time zones. Area-weight token/pixel support; record missing fraction and spatial receptive field.",
     "execution": "No full run launched by this plan. One MPS extraction lane and at most two CPU lanes, respecting model-specific runtime/device support. Start with conformance fixtures and measured full-context benchmarks; extraction and scoring phases need not compete for all three lanes.",
-    "storage": "Stream area-weighted feature moments and discard transient token tensors after verified output; do not persist dense token cubes. Measure peak temporary disk/memory and project census volume before queueing each experiment. No other-chapter data changes or cloud spend.",
-    "interpretation": "Positive encoder-versus-raw plus positive versus strong C supports incremental retrospective usefulness under declared conditions. Encoder-versus-raw only supports representation benefit, not net FEWS benefit. Null/adverse findings remain reportable; no experiment has to win."
+    "storage": "Persist compact catchment/context feature tables and area-weighted moment accumulators, NOT another per-patch million-file cache. Stream tokens/pixels and discard transient tensors after their verified contribution. Resume at atomic tile/context contribution boundaries with source/run hashes and a compact coverage ledger; combining resumptions must not double-count weights. Benchmark peak temporary disk/memory and project full-census volume before queueing. Keep held imagery/checkpoints/selected old results; no other-chapter data changes or cloud spend.",
+    "interpretation": "Positive encoder-versus-raw plus positive versus strong C supports incremental retrospective usefulness under declared conditions. Encoder-versus-raw only supports representation benefit, not net FEWS benefit. Null/adverse findings remain reportable; no experiment has to win.",
+    "fit_population": "E01-E07/E09-E10 fit separate same-gauge, same-scenario heads at fixed outer year boundaries; pool all four training issue offsets with each storm given equal total fitting weight. Apply the declared scarcity masks to training/validation query features, not only test queries; final historical donor archives follow the existing availability policy. Future responses remain verification/training labels only after their closure. E08 overrides this with source-watercourse transfer.",
+    "common_context": "Every learned raw/EO arm receives the same causally available ordered 72h Q channels, rain/season descriptors and observation age/missingness summaries used by the declared conventional source, under that scenario mask. Do not give a head hidden Q, future rainfall, outcome-derived thresholds/strata, or retrospectively diagnosed quality labels as predictors. Soil/snow remains an explicitly labelled later equal-input control. Fixed common context prevents attributing an extra ground-input advantage to EO.",
+    "reference_estimands": "C_mean remains the frozen baseline and residual-training source. Compute C_median from the same admissible donor trajectories (coordinate-wise median) because MAE can favor a median over a mean. Both are declared references; a gain versus mean alone does not establish superiority to all conventional point assessments. Point MAE is compared with point MAE, never CRPS.",
+    "information_support": "Raw comparators receive the same observed dates, bands, masks and input-tile footprints that influence encoded features, including surrounding tile context outside the target polygon. Keep target-zone summaries plus tile/context summaries so global receptive fields are not a concealed extra data source. Native masking/fill contracts may still differ; disclose those differences rather than claim architecture-isolated comparison. No future pixels may enter composite construction.",
+    "physical_interpretation": "No independent wetness/saturation/flood-extent labels are introduced: the experiment tests whether a physically motivated representation helps predict gauge response, not whether latent coordinates measure that physical state. High water uses the existing evaluation-only p99 definition; documented floods are separate records, not synonyms. The 24h horizon describes subsequent discharge within that window, not eventual flood progression, warning skill or useful operational lead time.",
+    "pretraining_boundary": "Checkpoint pretraining can overlap European locations and later historical years. Chronological head/donor separation does not prove pretraining independence or availability of that checkpoint at the historical issue date. These are current-model retrospective stress tests, not strict unseen-basin/zero-shot/as-issued forecasts.",
+    "ablation_policy": "Use at most the one declared mechanism ablation per experiment, on exact paired support and with the same fitted-head selection protocol. Reuse old cached pooled vectors only if their inputs, spatial support and date context match; otherwise call it a configuration comparison or recompute the required matched output during the same pass. Do not bolt on a second full scenario sweep.",
+    "conditioning_interactions": "A surface-state modifier should be allowed to depend on the developing storm, rather than only add a constant correction. In the SAME ridge head include main raw/EO blocks plus each block multiplied by two train-standardized causal scalars: observed preceding-24h rain and C_mean predicted next-24h mean discharge in mm/h (C_transfer for E08). Build the same interaction recipe for raw descriptors and encoder features, normalize resulting blocks separately, and keep the exact raw-only/zero-EO candidates. Forecast conditioners for training come from the causal out-of-fold baseline ledger, never observed future Q or rain. No new encoder/model family or hyperparameter sweep is added. This tests a physically motivated moderation hypothesis, not identification of a physical causal effect."
   },
   "experiments": [
     {
@@ -57,7 +65,7 @@
       "title": "Pixel heterogeneity and antecedent seasonal condition",
       "hypothesis": "Pixel-level seasonal condition and within-catchment variability improve response assessment beyond spectral/index histories.",
       "inputs": "Held S2 ten-band monthly sequences for the preceding twelve completed months; valid pixels, pixel dates/locations, catchment and DEM. Missing Presto modalities remain masked.",
-      "model_use": "Frozen default Presto; native twelve-month encoding. Stream area-weighted per-pixel mean and SD for whole catchment and elevation thirds. Do not substitute SD of patch means for pixel SD. Recent four-week route is supporting existing evidence, not a winner-selected replacement.",
+      "model_use": "Frozen default Presto; native twelve-month encoding. Stream area-weighted per-pixel mean and SD for whole catchment and elevation thirds. Do not substitute SD of patch means for pixel SD. Recent four-week route is supporting existing evidence, not a winner-selected replacement. Mean-only versus mean+SD is the single mechanism ablation on the SAME twelve-month pixel output/support, not recent versus monthly.",
       "matched_comparator": "Same pixels/months/areas: band and NDVI, NDMI, MNDWI mean/SD histories and known season/location/coverage; same common antecedent weather/physical descriptors in both learned arms.",
       "high_water_contribution": "Test whether antecedent heterogeneity adds to C+raw when local Q is absent; rich/all-Q-absent assess dependence on information availability.",
       "interpretation": "An increment does not identify soil saturation or show a benefit from more months alone: raw control has the same months. Failure concerns this readout/checkpoint, not all Presto uses.",
@@ -77,7 +85,7 @@
       "title": "Spatially differentiated optical state",
       "hypothesis": "Local spatial features preserve response-relevant variation lost by tile/catchment means.",
       "inputs": "Held coherent ten-band S2 four completed weeks, exact dates, catchment and DEM; S2-only primary, no new SAR requirement.",
-      "model_use": "Frozen base; supported patch/dense output at documented physical patch size, native temporal input; pool whole catchment/elevation thirds. Verify actual output grid and scale rather than assume dense means 10m.",
+      "model_use": "Frozen base; supported patch output (dense only if the pinned API requires it for an equivalent grid) at documented physical patch size, native temporal input; pool whole catchment/elevation thirds. Verify actual output grid and scale rather than assume dense means 10m.",
       "matched_comparator": "Same S2 pixels/weeks/zones with band/index mean, SD and temporal change; simple terrain descriptors and identical coverage metadata.",
       "high_water_contribution": "Compare C+R+E with C+R, and a supporting matched global-output ablation on identical support.",
       "interpretation": "A local-versus-global improvement is not automatically encoder benefit; raw spatial controls must also receive zones. Elevation thirds are not a hydraulic floodplain.",
@@ -97,7 +105,7 @@
       "title": "Supported climate and terrain enrichment",
       "hypothesis": "A combined monthly optical/climate/terrain encoding adds beyond the same physical variables represented directly.",
       "inputs": "Held S2 twelve completed months; exact ERA5-Land monthly temperature_2m and total_precipitation_sum conventions; SRTM elevation/slope. Missing TerraClimate/VIIRS/land-cover groups stay masked. GLO30 is not silently relabelled SRTM.",
-      "model_use": "Frozen Nano; official modality helper/normalizer with S2, ERA5 and SRTM groups populated, missing groups masked. Primary monthly cadence matches the climate groups. S2-only matched ablation isolates enrichment.",
+      "model_use": "Frozen Nano; official modality helper/normalizer with S2, ERA5 and SRTM groups populated, missing groups masked. Primary monthly cadence matches the climate groups. S2-only matched ablation isolates enrichment. Restrict enriched/S2-only attribution to common source/feature support; other modality additions stay optional.",
       "matched_comparator": "Identical monthly S2 summaries, ERA5 temperature/precipitation and SRTM terrain supplied directly, plus common context. Compare enriched encoding with enriched raw, not enriched encoding with S2-only baseline.",
       "high_water_contribution": "Test antecedent physical context under local/all-Q absence, while retaining rich reference.",
       "interpretation": "Enriched versus S2-only alone is a data-addition result. Nano results do not establish performance of Tiny/larger Galileo. Any unmatched climate product must remain masked and documented.",
@@ -157,7 +165,7 @@
       "title": "Catchment-local HLS surface condition",
       "hypothesis": "Pooling spatial features over the actual contributing catchment improves assessment beyond HLS descriptors and whole-tile averaging.",
       "inputs": "Held six-band HLS 30m four completed weeks, dates/coordinates, catchment and DEM.",
-      "model_use": "Frozen EO2 Tiny TL four-frame route; retain spatial/time tokens and pool observed catchment/elevation support. Document 6.72km tile receptive context and token footprint; no claim that masking removes all outside context.",
+      "model_use": "Frozen EO2 Tiny TL four-frame route; retain spatial/time tokens and pool observed catchment/elevation support. Document 6.72km tile receptive context and token footprint; no claim that masking removes all outside context. Compute the matched whole-tile pooled output from the same forward pass for its single pooling ablation.",
       "matched_comparator": "Same HLS pixels/times/areas: bands and NDVI/NDMI/MNDWI moments, changes, terrain and metadata. Matched global pooled Prithvi ablation supports pooling attribution.",
       "high_water_contribution": "Test C+R+E under local-Q absence; separately report high-water/flood-case errors and effective represented area.",
       "interpretation": "Global-to-local changes may reflect spatial support rather than architecture; control raw support and compare paired cases. Tiny is not the 300M/600M model.",
@@ -177,7 +185,7 @@
       "title": "Metadata-aware optical representation",
       "hypothesis": "Surface representations using correct location/date/scale add beyond raw spectra and identical metadata.",
       "inputs": "Held primary coherent ten-band S2 four completed weeks, real patch coordinates/dates/scale. Existing TOA/QA60 route retained as product-domain sensitivity, not selected by final scores.",
-      "model_use": "Frozen base; same published patch-mean/LayerNorm readout, metadata populated with lon/lat, days since epoch and internal token area. Independent frame features retained in time order. No-metadata matched ablation.",
+      "model_use": "Frozen base; same published patch-mean/LayerNorm readout, metadata populated with lon/lat, days since epoch and internal token area. Independent frame features retained in time order. No-metadata matched ablation with the SAME ordered-frame output; old frame-mean caches alone cannot identify a metadata effect.",
       "matched_comparator": "Same bands/indices, dates, coordinates, token scale, season and coverage; train-only simple metadata and spectral model with same residual-head budget.",
       "high_water_contribution": "Assess metadata-enabled features against equal-input raw descriptors and C; verify gain persists beyond coordinates/date alone.",
       "interpretation": "Metadata-only benefit is not learned hydrological state. Product-domain/support changes cannot be credited solely to metadata.",
@@ -219,7 +227,11 @@
         ],
         "target_watercourse": "Exclude every target-watercourse Q source from training, tuning and local-absence peer inputs, including all Wurm sites together",
         "inner_split": "Earlier-year folds with one source watercourse held out within training; no target-watercourse outcomes",
-        "supporting_reference": "Target-history conventional C is deployment context only, never a training residual source or evidence of ungauged transfer"
+        "supporting_reference": "Target-history conventional C is deployment context only, never a training residual source or evidence of ungauged transfer",
+        "graph_exclusion": "Canonicalize physical_river/Wurm/Worm names in an explicit held station graph. Exclude the held watercourse from BOTH the donor response pool and all source training-feature Q channels; do not remove only a target gauge. Related Geul branches remain dependent regional sites, not independent countries/basins.",
+        "residual_crossfit": "For each training source watercourse, obtain baseline residuals as if that source watercourse were also held out of its donor pool/features. Inner folds repeat this source-watercourse holdout using only earlier data; a same-gauge source residual would not match target transfer deployment.",
+        "weighting": "Within each training/score fold give watercourses equal mass, then sites within watercourse equal mass, then storms and offsets equally. Three Wurm sites are not three independent watercourses.",
+        "test_outcomes": "Target-watercourse Q may be used only as held verification and evaluation strata, not head training, transfer calibration, source normalization or source-only hyperparameter selection."
       }
     },
     {
@@ -228,7 +240,7 @@
       "title": "Ordered optical surface context",
       "hypothesis": "A small supervised temporal readout on TerraMind features adds beyond the same ordered optical descriptors.",
       "inputs": "Held ten-band S2L2A four completed weeks, masks/dates, catchment and DEM. No generation, TiM, extra labels or modality expansion.",
-      "model_use": "Frozen 1.0 Tiny; supported single-frame backbone used through a verified ordered-frame readout (wrapper if API-equivalent), catchment pooled per frame, concatenate levels/changes. No claim of pretrained temporal attention.",
+      "model_use": "Frozen 1.0 Tiny; supported single-frame backbone used through a verified ordered-frame readout (wrapper if API-equivalent), catchment pooled per frame, concatenate levels/changes. No claim of pretrained temporal attention. Compute its unordered mean from those same four per-frame outputs for the single temporal-order ablation.",
       "matched_comparator": "Identical ordered S2 bands/indices and changes, season/terrain/coverage, with same residual-head capacity/tuning approach.",
       "high_water_contribution": "Test temporal surface context against C+raw under local/all-Q absence; supporting unordered-frame-mean ablation on paired support.",
       "interpretation": "A benefit from order belongs to the downstream temporal readout, not proof the backbone learned river dynamics. Flood mapping/generation remain different tasks.",
@@ -251,7 +263,7 @@
       "model_use": "Frozen multispectral base e199. Use held completed-month snapshot outputs initially; no temporal-RGB capability claim. New extraction only if a specific verified pooled-readout defect is found, not to manufacture ten extraction jobs.",
       "matched_comparator": "Same TOA bands/NDVI/NDMI/MNDWI moments, fixed spatial contrasts, date/season/coverage with same learned correction budget; paired SR repeats isolate domain/support effects.",
       "high_water_contribution": "Evaluate C+R+E against C+R and C under local-Q absence, then rich/all-Q-absent references.",
-      "interpretation": "TOA chosen for checkpoint-domain rationale after earlier evidence exists; this is exploratory, not an untouched product selection. QA60/SR support differences are not encoder effects; keep paired and coverage views.",
+      "interpretation": "TOA chosen for checkpoint-domain rationale after earlier evidence exists; this is exploratory, not an untouched product selection. QA60/SR support differences are not encoder effects; keep paired and coverage views. Full SR/TOA scores cannot by themselves isolate radiometric domain from different cloud masks/acquisition support. Compare only matching scene/time inputs where available; otherwise label it a product-and-support sensitivity, not a domain effect.",
       "raw_descriptor_spec": "Monthly TOA band/index mean/SD and neighbour contrast; same-mask SR descriptors only for paired domain diagnostic.",
       "requires_encoding": false,
       "preparation": [
@@ -262,5 +274,42 @@
       "primary_scenario": "local_q_absent",
       "status": "preparation_needed"
     }
-  ]
+  ],
+  "audit_revision": {
+    "source_commit": "655c130",
+    "date": "2026-10-29",
+    "audit": "docs/reviews/limburg-ten-experiment-design-audit-2026-10-29.md",
+    "scope": "Clarify implementation contracts; no new RQ, model family, events or extraction launched"
+  },
+  "readout_contract": {
+    "alphas": [
+      0.001,
+      0.01,
+      0.1,
+      1,
+      10
+    ],
+    "eo_weights": [
+      0,
+      0.1,
+      1
+    ],
+    "zero_whole_correction": true,
+    "encoded_contains_raw_only_candidates": true,
+    "pooled_error_units": "mm/h",
+    "fit_loss": "weighted_squared_error",
+    "inner_selection_loss": "corrected_trajectory_MAE",
+    "same_gauge_except": [
+      "dofa"
+    ],
+    "fallback_order": [
+      "raw_correction",
+      "conventional"
+    ],
+    "target_outcomes_are_predictors": false,
+    "conditioning_scalars": [
+      "observed_rain_24h",
+      "causal_C_mean_predicted_24h_mean_mmh"
+    ]
+  }
 }

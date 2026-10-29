@@ -49,6 +49,20 @@ def validate_plan(plan):
             raise ValueError(f"Missing six-part design: {e.get('id')}")
         if not isinstance(e.get("requires_encoding"), bool) or not e.get("preparation"):
             raise ValueError(f"Missing encoding/preparation specification: {e['id']}")
+    contract = plan.get("readout_contract", {})
+    if 0 not in contract.get("eo_weights", []) or not contract.get(
+        "encoded_contains_raw_only_candidates"
+    ):
+        raise ValueError("Encoded arm must be able to retain raw-only correction")
+    if (
+        contract.get("pooled_error_units") != "mm/h"
+        or contract.get("target_outcomes_are_predictors") is not False
+    ):
+        raise ValueError("Scoring units and hidden-outcome separation must be explicit")
+    dofa = next(e for e in experiments if e["model"] == "dofa")
+    override = dofa.get("evaluation_overrides", {})
+    if not override.get("residual_crossfit") or not override.get("graph_exclusion"):
+        raise ValueError("Transfer residuals and all-watercourse exclusion must be specified")
     if plan.get("status") != "designed_not_launched":
         raise ValueError("This preflight expects an unlaunched design")
 

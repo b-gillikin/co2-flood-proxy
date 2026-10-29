@@ -93,3 +93,22 @@ def test_support_join_does_not_count_future_or_zero_vectors(tmp_path):
     assert out["finite_nonzero_existing_vector_cases"] == 1
     assert out["unsupported_cases"] == 1
     assert out["per_site"]["b"]["supported"] == 0
+
+
+@pytest.mark.parametrize(
+    "defect", ["forced_eo", "hidden_outcome", "native_pooled_units", "transfer_residual"]
+)
+def test_audited_scientific_contract_cannot_be_removed(defect):
+    p = copy.deepcopy(plan())
+    if defect == "forced_eo":
+        p["readout_contract"]["eo_weights"] = [0.1, 1]
+    elif defect == "hidden_outcome":
+        p["readout_contract"]["target_outcomes_are_predictors"] = True
+    elif defect == "native_pooled_units":
+        p["readout_contract"]["pooled_error_units"] = "m3/s"
+    else:
+        next(e for e in p["experiments"] if e["model"] == "dofa")["evaluation_overrides"].pop(
+            "residual_crossfit"
+        )
+    with pytest.raises(ValueError):
+        validate_plan(p)

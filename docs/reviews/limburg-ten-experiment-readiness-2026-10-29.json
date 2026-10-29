@@ -279,14 +279,14 @@
   ],
   "soil_snow": {
     "status": "running",
-    "updated_utc": "2026-10-29T13:57:54.232737+00:00",
-    "completed_months": 155,
+    "updated_utc": "2026-10-29T14:32:19.874014+00:00",
+    "completed_months": 160,
     "planned_months": 204,
-    "percent_complete": 75.98,
-    "active_month": "2021-12",
+    "percent_complete": 78.43,
+    "active_month": "2022-05",
     "failures": {}
   },
-  "disk_free_gib": 67.89397048950195,
+  "disk_free_gib": 81.93732452392578,
   "disk_limit": "No reliable ten-part size/ETA until per-context benchmarks; dense tensors must not be retained",
   "shared_assets": {
     "results/limburg_scarcity_v2_2026_10_28/preparation/manifest.json": true,
@@ -302,7 +302,7 @@
     "config/limburg_eo_coherent_selected_runs.json": "f58d5f236bf012239852e92859c876208bbda8bd611f9853caccbf15789a45a4",
     "config/limburg_eo_model_assets.json": "a582506d6135eefc1bc90f45a76576f8a682b4f4491368b5224e53fa23fa06c4",
     "scripts/167_check_individual_encoder_readiness.py": "0084d9878565bd8193770841201a61377c6b90ee52bd2e1a17c3ed8e35c9182e",
-    "src/eo_experiment_readiness.py": "6703c0515dd73b044035e20577c5ddacfa22eadb8868aa04ecdd8763ad0301d4"
+    "src/eo_experiment_readiness.py": "0d65da3318cd5b4b253676d332ba4ecf1d5472394f1ac3be3acc30817a66b838"
   },
   "existing_context_support": {
     "presto": {
@@ -832,6 +832,6 @@
       "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
     }
   },
-  "checked_utc": "2026-10-29T14:20:02.752273+00:00",
-  "plan_sha256": "e8e7c244d1d696e353c50678635ef61c1fe03d3db32a5b264abde15a4d33644e"
+  "checked_utc": "2026-10-29T14:47:28.300594+00:00",
+  "plan_sha256": "2879c97ba258e142426dbd0aee1abac3f778f734d3727d21f2ac87787ed6076b"
 }

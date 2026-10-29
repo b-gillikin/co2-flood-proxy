@@ -1,5 +1,15 @@
 # Disk Cleanup
 
+## 29 October: original-mask OlmoEarth cache retired
+
+Recovered **13.03 GiB of observed free space**, with roughly **82 GiB free** afterward. Retired the superseded original-mask cache under `data/processed/limburg_eo_mps_sequences/olmoearth/09dbb327a3cb2df14027a67e0f32c7f018eaae065f096287122e93a239c25e95`. Its corrected selected replacement completed with zero errors and retains its own files, including 447,858 hard-linked reused outputs. Removing the old names does not remove those corrected files.
+
+Before deletion, indexed all 1,654,678 files, saved a gzip ledger with SHA-256 hashes and lossless contents of non-NPZ metadata, and verified every metadata payload plus the full gzip stream. Removed 1,653,602 superseded files; top-level manifests/status and error evidence remain in place. The original NPZ payloads are not backed up in this ledger: they are obsolete derived arrays, with held imagery/weights/pinned source available for regeneration, not a promise of exact byte-for-byte numerical reproduction. Metadata can be restored from `content_b64`; selected hard-linked arrays remain at the corrected paths. No scientific source delivery is retired here.
+
+The [receipt and restore inventory](reviews/disk-cleanup-2026-10-29.json) binds the archive and procedure hashes. Corrected selected OlmoEarth manifest/status/aggregate hashes were checked before and after and remain identical. No raw imagery, provider data, weights, active download, completed scientific result or other chapter was changed. APFS sharing and concurrent writes mean allocated bytes are not interchangeable with measured free-space gain.
+
+The new experiment plan avoids another million-file patch cache: stream into compact catchment/context features and resumable tile-level accumulators, with measured peak temporary storage. Runtime/disk estimates still require adapter benchmarks. This is storage management, not an event-exclusion rule or scientific gate.
+
 ## 22 October: eight superseded caches retired
 
 Brian authorized discarding these first-run patch outputs. Old scoring/review

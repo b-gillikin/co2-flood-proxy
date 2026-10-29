@@ -2,6 +2,8 @@
 
 29 October 2026. Research/engineering preparation, not a scientific result. The [six-part experiment plan](../limburg-ten-individual-experiments-plan-2026-10-29.md) and [machine-readable designs](../../config/limburg_individual_encoder_experiments_v1.json) are recorded. No extraction, fitting or scoring was launched.
 
+The [subsequent final design audit](limburg-ten-experiment-design-audit-2026-10-29.md) corrects ambiguous contracts in the original plan; this readiness inventory still does not certify the unimplemented runner. Existing support counts below describe the same held contexts.
+
 ## What is ready
 
 - All ten individual designs specify hypothesis, exact primary input/cadence, checkpoint/output/readout, raw-data comparator, high-water comparison and interpretation.
@@ -9,7 +11,7 @@
 - The common source has 481 rainfall-defined regional episodes and 3,848 site–episode cases before experiment-specific support/verification/fold checks. Final analysis retains the census and unavailable-case ledger rather than taking an event sample.
 - Core discharge/rainfall, catchment geography, GLO30 DEM and compact/expanded EO catalogue files are present. Earlier run audits and pinned source/weight manifests remain applicable to the old routes; new routes need their own numerical conformance checks.
 - Eight designs require new, targeted encoding of held imagery; **DOFA and SatMAE initially reuse encoder vectors**. Ten experiments do not imply ten unnecessary full re-extractions.
-- Approximately **67.9 GiB free** at this sweep. Existing corrected caches remain intact. Stream compact features; retain no dense token cubes. This is not a measured guarantee of enough space for an unbenchmarked implementation.
+- The initial sweep found approximately **67.9 GiB free**; subsequent [Disk Cleanup](disk-cleanup-2026-10-29.json) recovered 13.03 GiB, with roughly **82 GiB free** afterward. Existing corrected caches remain intact. Stream compact features; retain no dense token cubes. This is not a measured guarantee of enough space for an unbenchmarked implementation.
 
 ## Existing context support for the planned cadence
 
@@ -78,3 +80,5 @@ No defensible finish-time estimate exists until these changed routes are benchma
 ## Preparation checks completed
 
 Seven new preparation tests and 27 existing scarcity/EO-diagnostic regression tests passed (**34 total**). Checks cover complete/unique six-part designs, rejection of malformed designs, refusal to equate receipt presence with executable readiness, the TOA SatMAE route, and exclusion of future/zero-vector rows from held context support. Ruff checks/formatting and local-document link checks pass. These checks validate preparation tools and preserve earlier code behaviour; they do not validate model adapters or outcomes that have not been implemented.
+
+After the final design audit, 38 preparation/regression tests pass. The original 34-test count above preserves the earlier sweep. The repeatable JSON receipt binds the audited configuration; new adapters and residual/transfer code remain to be implemented.
