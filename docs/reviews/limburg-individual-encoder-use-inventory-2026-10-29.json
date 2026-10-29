@@ -1,0 +1,503 @@
+{
+  "review_date": "2026-10-29",
+  "scope": "Read-only selected-checkpoint/cache/schema and held-paper inventory; not new model scores",
+  "models": {
+    "olmoearth": {
+      "checkpoint": "OlmoEarth v1.2 Tiny",
+      "source": {
+        "repository": "allenai/olmoearth_pretrain",
+        "revision": "c66a12c0688af332ef307bdfd8f1825e1110d789",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/olmoearth"
+      },
+      "weight_revision": "12a9fdbfeff905d7e147e7497f9f7a95c518eefc",
+      "selected_run": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "sample_npz": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0/monthly_6354a09d56be695723a3/297600_5654400/896_448.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            192
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            12,
+            64,
+            64
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            12,
+            64,
+            64
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1064,
+        "monthly_snapshot": 968,
+        "monthly": 832
+      },
+      "aggregate_sha256": "79537274788c16cf782b75c057491a58602b354ad085240fce29e41eb5344e26"
+    },
+    "galileo": {
+      "checkpoint": "Galileo Nano encoder",
+      "source": {
+        "repository": "nasaharvest/galileo",
+        "revision": "0f0b5b95ac81acef4b74cf4686dc877202f4541b",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/galileo"
+      },
+      "weight_revision": "f039dd5dde966a931baeda47eb680fa89b253e4e",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/galileo/05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/galileo/05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e/recent_91231ee5605d94f4c07c/288000_5616000/0_416.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            128
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            32,
+            32
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            32,
+            32
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1060,
+        "monthly_snapshot": 865,
+        "monthly": 695
+      },
+      "aggregate_sha256": "f9a2ddf3dae20072d1b6f8911e84ac232869b1987ad775ebe0e26f2b910a164f"
+    },
+    "anysat": {
+      "checkpoint": "AnySat base inference checkpoint",
+      "source": {
+        "repository": "gastruc/AnySat",
+        "revision": "5f6f475e1a22ce5e3a56a5b18f4ed6d24eca2a4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/anysat"
+      },
+      "weight_revision": "63f252119babfe896d200f88631496f86eddacd3",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/anysat/2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/anysat/2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440/recent_91231ee5605d94f4c07c/297600_5654400/768_256.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            768
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            64,
+            64
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            64,
+            64
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1297,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "844b6153594fe6aa5479449e73945e9886376f916c1911eb2936f8b9687ddfa4"
+    },
+    "prithvi": {
+      "checkpoint": "Prithvi EO 2.0 Tiny TL",
+      "source": null,
+      "weight_revision": "335eadc2c45ad5abe7bd307223e1c48c5b60c41b",
+      "selected_run": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "sample_npz": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19/recent_91231ee5605d94f4c07c/297600_5654400/224_0.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            192
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1104,
+        "monthly_snapshot": 1053,
+        "monthly": 770
+      },
+      "aggregate_sha256": "d98055e1d6a0d2fbb399455295288a0221d7ab1c43cecc138eaf92d3b88135d8"
+    },
+    "croma": {
+      "checkpoint": "CROMA base",
+      "source": {
+        "repository": "antofuller/CROMA",
+        "revision": "59505a6bcadbf36ba20767270154bf9f3067c5e7",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/croma"
+      },
+      "weight_revision": "0dd28e3d633bd6715856ae9890e8c49360040598",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/croma/ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/croma/ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4/monthly_6354a09d56be695723a3/297600_5654400/840_480.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            768
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            12,
+            120,
+            120
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            12,
+            120,
+            120
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1064,
+        "monthly_snapshot": 968,
+        "monthly": 832
+      },
+      "aggregate_sha256": "2339468a4f81b1e0cfb1774ae65a6def9953aef642e6d3e948e18e8fed7cb9eb"
+    },
+    "dofa": {
+      "checkpoint": "DOFA v1 ViT base e100 (matches released dofa_v1.py)",
+      "source": {
+        "repository": "zhu-xlab/DOFA",
+        "revision": "0cfb7e1099f4d4c4022946ff7862c7cd7b8411b9",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/dofa"
+      },
+      "weight_revision": "7a5219e48d2f8848511b0fabea7920a8836bc480",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/dofa/1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/dofa/1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604/recent_91231ee5605d94f4c07c/297600_5654400/672_224.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            768
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1350,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "a4a17f453b00b60ce39a101f7cec0c93c3279269a16b3d369708873977403a13"
+    },
+    "copernicus_fm": {
+      "checkpoint": "Copernicus-FM base backbone",
+      "source": {
+        "repository": "zhu-xlab/Copernicus-FM",
+        "revision": "da95635d76a1feef3006eba474f6175325b4037b",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm"
+      },
+      "weight_revision": "e1db406d517a122c8373802e1c130c5fc4789f84",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/copernicus_fm/dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/copernicus_fm/dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858/recent_91231ee5605d94f4c07c/297600_5654400/672_224.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            768
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1350,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "bf9b3660893b3ad9452533f295c3685f5c270f969d6733989e91122470dd18c0"
+    },
+    "terramind": {
+      "checkpoint": "TerraMind 1.0 Tiny",
+      "source": {
+        "repository": "IBM/terramind",
+        "revision": "53d61da09213c2c3629931b6322f94cce617886a",
+        "code_license": "Apache-2.0",
+        "path": "data/raw/limburg_dynamic_model_weights/code/terramind"
+      },
+      "weight_revision": "2b5ac0a3ed7dd7e922ccfd595b56607f342df343",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/terramind/68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/terramind/68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e/recent_91231ee5605d94f4c07c/297600_5654400/672_224.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            192
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            224,
+            224
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1350,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "4eb5e69db9ecb5c91671f1c0b8d6adfdc76666b5b41be70170ba26bd6c056d16"
+    },
+    "presto": {
+      "checkpoint": "Presto default pretrained model",
+      "source": {
+        "repository": "nasaharvest/presto",
+        "revision": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+        "code_license": "MIT",
+        "path": "data/raw/limburg_dynamic_model_weights/code/presto"
+      },
+      "weight_revision": null,
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/presto/7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/presto/7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94/recent_91231ee5605d94f4c07c/297600_5654400/768_256.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            128
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            64,
+            64
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            64,
+            64
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1297,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "fb9380658f87ba5a805a4dde5148417a162fe95944cf8ca8a13818df5d10a456"
+    },
+    "satmae": {
+      "checkpoint": "SatMAE multispectral ViT base pretrained e199; not temporal RGB variant",
+      "source": {
+        "repository": "sustainlab-group/SatMAE",
+        "revision": "0b210aceb37a14bbbd897110db5b104b3271d818",
+        "code_license": "NOASSERTION",
+        "path": "data/raw/limburg_dynamic_model_weights/code/satmae"
+      },
+      "weight_revision": "zenodo:7338613",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/satmae/cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4",
+      "sample_npz": "data/processed/limburg_eo_coherent_census_v1/satmae/cc9e70aa2a983213f492f3266f819a3f95b9eea3559441bac0d869e535b6f2b4/recent_91231ee5605d94f4c07c/297600_5654400/864_192.npz",
+      "sample_schema": {
+        "embedding.npy": {
+          "shape": [
+            768
+          ],
+          "dtype": "float32"
+        },
+        "valid.npy": {
+          "shape": [
+            4,
+            96,
+            96
+          ],
+          "dtype": "bool"
+        },
+        "acquired_day.npy": {
+          "shape": [
+            4,
+            96,
+            96
+          ],
+          "dtype": "float64"
+        }
+      },
+      "aggregate_rows_by_kind": {
+        "recent": 1304,
+        "monthly_snapshot": 865,
+        "monthly": 712
+      },
+      "aggregate_sha256": "05c6b0bbc56b811211a1017081e4393271877f9fcbd40be82e2dfeca5e8fa509"
+    }
+  },
+  "files": {
+    "config/limburg_eo_model_assets.json": {
+      "bytes": 31496,
+      "sha256": "a582506d6135eefc1bc90f45a76576f8a682b4f4491368b5224e53fa23fa06c4"
+    },
+    "config/limburg_eo_coherent_selected_runs.json": {
+      "bytes": 3401,
+      "sha256": "f58d5f236bf012239852e92859c876208bbda8bd611f9853caccbf15789a45a4"
+    },
+    "src/eo_encoders.py": {
+      "bytes": 11824,
+      "sha256": "0718949a6003bddcd935e7ebc88b068a3df238962ddb41f6e628ef71441818f9"
+    },
+    "src/eo_encoder_corrections.py": {
+      "bytes": 6665,
+      "sha256": "9bb417970c3dbfef95b6db4361bff0ca28897efc9049c433d5c349b5f88d5a30"
+    },
+    "src/eo_event_inputs.py": {
+      "bytes": 4155,
+      "sha256": "43e6ec5488ef83383fb6cdb7573a86faeb05a6f82918006ca6540983b8ce0335"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/dofa-v1.txt": {
+      "bytes": 79698,
+      "sha256": "5966eadb61895dd71ba20a4c19828e96def030149f95f0df60b2dd53428bc569"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/terramind.txt": {
+      "bytes": 85930,
+      "sha256": "7ace2980efdde48299c004d4a4b810910f85c2595a1df68c5c9458d1a29d4503"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/presto.txt": {
+      "bytes": 74310,
+      "sha256": "27b8844c978f18b170a0b600aa0bc40794116b1b0d05540b02d6b72caba6853c"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/anysat.txt": {
+      "bytes": 78832,
+      "sha256": "2afe02162b4a4bc0571998704d9bead83bf6739e8ebfbf59ff678683f7cee48d"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/pangaea.txt": {
+      "bytes": 193961,
+      "sha256": "5e3a61e9a770d5076a8986b82d9daf22e695b2eafc5dd84642ec394426b52b0e"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/corley-preprocessing.txt": {
+      "bytes": 45693,
+      "sha256": "efebca3a5528d4096cf2243b0da2c8b7da670b10712bab7f2ea5b77b2f9cdeed"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/satmae.txt": {
+      "bytes": 78512,
+      "sha256": "a29ba361b50637dd596ddaecf9cb09e459b5889c4b67b91f25d250d25ee517a4"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/copernicus-fm.txt": {
+      "bytes": 92411,
+      "sha256": "479dc2df8873f539e998a5dc5ee4c44ed9d7517708741fead0ceab7e786400b8"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/geo-bench-2.txt": {
+      "bytes": 73138,
+      "sha256": "ff212ea8ffda92dbc29698fd12f38c22046fa4f5f8594cb475d2517bc0514480"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/olmoearth-v1.txt": {
+      "bytes": 78171,
+      "sha256": "d16c8a2ea1e08a34fd8a07d1dd36c14735e2352cb44957abbc692734cc394286"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/prithvi-eo2.txt": {
+      "bytes": 110298,
+      "sha256": "ca00eba3bafedf4b60ff9bc39afdd61bf6f1345f55452c423c0b26abdf08afff"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/croma.txt": {
+      "bytes": 106149,
+      "sha256": "1a0e6a8dcce576de1aa51f1ecd2b364a3c82216b117a973f4268c26e33f1b886"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/soil-moisture-comparison.txt": {
+      "bytes": 29819,
+      "sha256": "a998471877e64a70295dba3c996fe7698787b1d649cd1ff63f3fe3ed16f469bf"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/galileo.txt": {
+      "bytes": 95534,
+      "sha256": "06d3c6fe6a3786bcf3c03dad749d5a8fba7ec50472e812eb3d2b6a067198acff"
+    },
+    "data/raw/foundation_assets/documents/eo-literature-2026-10-22/olmoearth-v1-2.txt": {
+      "bytes": 45415,
+      "sha256": "a4076a491c3912eaccca93a515468dad7ad739945022908b26d3f4197c98029d"
+    }
+  }
+}
