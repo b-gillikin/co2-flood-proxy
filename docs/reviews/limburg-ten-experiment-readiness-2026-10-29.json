@@ -1,0 +1,837 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only design/assets sweep; no model import, encoding, scoring, acquisition or process control",
+  "launched": false,
+  "runnable_dispatcher_implemented": false,
+  "status": "designed_preparation_needed",
+  "designs_validated": 10,
+  "experiments": [
+    {
+      "id": "E01",
+      "model": "presto",
+      "checkpoint": "Presto default pretrained model",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/presto-torch291/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/presto/7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census/presto.parquet",
+      "aggregate_sha256": "fb9380658f87ba5a805a4dde5148417a162fe95944cf8ca8a13818df5d10a456",
+      "next_actions": [
+        "Implement pixel-moment extraction and weighted area/variance aggregation",
+        "Build twelve-month raw descriptors and case/context joins",
+        "Check missing months, pixel months, boundary weights and moment-combination identity"
+      ]
+    },
+    {
+      "id": "E02",
+      "model": "anysat",
+      "checkpoint": "AnySat base inference checkpoint",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/modern/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/anysat/2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census/anysat.parquet",
+      "aggregate_sha256": "844b6153594fe6aa5479449e73945e9886376f916c1911eb2936f8b9687ddfa4",
+      "next_actions": [
+        "Implement patch/dense readout and exact output-footprint weights",
+        "Use same spatial masks for raw and encoded arms",
+        "Conformance test metres versus pixels, output coordinates and one-based dates"
+      ]
+    },
+    {
+      "id": "E03",
+      "model": "galileo",
+      "checkpoint": "Galileo Nano encoder",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/galileo/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/galileo/05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census/galileo.parquet",
+      "aggregate_sha256": "f9a2ddf3dae20072d1b6f8911e84ac232869b1987ad775ebe0e26f2b910a164f",
+      "next_actions": [
+        "Verify held hourly ERA5 aggregation equals specified monthly product/accumulation convention or pull exact small monthly product",
+        "Acquire/verify SRTM and slope for existing tile extent",
+        "Implement multimodal Nano tensor/mask contracts and equal-input raw control"
+      ]
+    },
+    {
+      "id": "E04",
+      "model": "olmoearth",
+      "checkpoint": "OlmoEarth v1.2 Tiny",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/modern/bin/python",
+      "selected_run": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
+      "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/olmoearth.parquet",
+      "aggregate_sha256": "79537274788c16cf782b75c057491a58602b354ad085240fce29e41eb5344e26",
+      "next_actions": [
+        "Expose v1.2 per-time tokens before global pooling",
+        "Implement matched raw SAR descriptors and fixed-orbit/geometry ledger",
+        "Validate token masks and missing-time pooling without fabrication"
+      ]
+    },
+    {
+      "id": "E05",
+      "model": "croma",
+      "checkpoint": "CROMA base",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/modern/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/croma/ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census/croma.parquet",
+      "aggregate_sha256": "2339468a4f81b1e0cfb1774ae65a6def9953aef642e6d3e948e18e8fed7cb9eb",
+      "next_actions": [
+        "Expose per-date SAR_GAP in compact output",
+        "Implement raw level and deterministic texture control with masks",
+        "Verify constant/no-data fixtures and corrected /255 normalization"
+      ]
+    },
+    {
+      "id": "E06",
+      "model": "prithvi",
+      "checkpoint": "Prithvi EO 2.0 Tiny TL",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": null,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/modern/bin/python",
+      "selected_run": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
+      "aggregate": "results/eo_catchment_representations/per_model/prithvi/census/prithvi.parquet",
+      "aggregate_sha256": "d98055e1d6a0d2fbb399455295288a0221d7ab1c43cecc138eaf92d3b88135d8",
+      "next_actions": [
+        "Expose non-CLS spatiotemporal tokens and map token footprint to HLS grid",
+        "Implement area-weighted local pooling and no-data tests",
+        "Match four-frame TL metadata/order and raw-support comparator"
+      ]
+    },
+    {
+      "id": "E07",
+      "model": "copernicus_fm",
+      "checkpoint": "Copernicus-FM base backbone",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/legacy/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/copernicus_fm/dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census/copernicus_fm.parquet",
+      "aggregate_sha256": "bf9b3660893b3ad9452533f295c3685f5c270f969d6733989e91122470dd18c0",
+      "next_actions": [
+        "Implement known-metadata route and chronological frame outputs",
+        "Test 0.0256km2 token area, date units and coordinate order",
+        "Replay no-metadata/product-domain evidence on exact paired cases"
+      ]
+    },
+    {
+      "id": "E08",
+      "model": "dofa",
+      "checkpoint": "DOFA v1 ViT base e100 (matches released dofa_v1.py)",
+      "requires_encoding": false,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/legacy/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/dofa/1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census/dofa.parquet",
+      "aggregate_sha256": "a4a17f453b00b60ce39a101f7cec0c93c3279269a16b3d369708873977403a13",
+      "next_actions": [
+        "Implement watercourse-grouped chronological folds and source-only tuning",
+        "Build mm/h transfer baseline and raw landscape descriptors",
+        "Poison every target-watercourse Q source to verify exclusion; retain unavailable-fold ledger"
+      ]
+    },
+    {
+      "id": "E09",
+      "model": "terramind",
+      "checkpoint": "TerraMind 1.0 Tiny",
+      "requires_encoding": true,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/terramind/bin/python",
+      "selected_run": "data/processed/limburg_eo_coherent_census_v1/terramind/68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
+      "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census/terramind.parquet",
+      "aggregate_sha256": "4eb5e69db9ecb5c91671f1c0b8d6adfdc76666b5b41be70170ba26bd6c056d16",
+      "next_actions": [
+        "Implement ordered-frame frozen-backbone output with compact cache",
+        "Validate wrapper equivalence/masks against direct single-frame calls",
+        "Keep label-free encoder and catchment residual supervision distinct"
+      ]
+    },
+    {
+      "id": "E10",
+      "model": "satmae",
+      "checkpoint": "SatMAE multispectral ViT base pretrained e199; not temporal RGB variant",
+      "requires_encoding": false,
+      "checks": {
+        "selected_run_directory_present": true,
+        "selected_aggregate_present": true,
+        "publisher_source_present": true,
+        "runtime_executable_present": true,
+        "checkpoint_file_present": true,
+        "new_shared_backbone_receipt_present": false,
+        "new_contract_and_benchmark_receipt_present": false,
+        "new_feature_manifest_present": false
+      },
+      "status": "preparation_needed",
+      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "runtime": ".venvs-eo/satmae/bin/python",
+      "selected_run": "data/processed/eo_expansion_sequences/satmae_toa_qa60/satmae/0632b1942f1f36701dbe77367916b6bb09945fbacdcd24c82d5dce26987fcd79",
+      "aggregate": "results/eo_expansion_representations/satmae_toa_qa60/census/satmae.parquet",
+      "aggregate_sha256": "649fbd410f2101e524c00d66e3ba8ba20ecf9451822d2d696c41cdd09b541aa6",
+      "next_actions": [
+        "Build TOA raw descriptors and exact supplemental context joins",
+        "Inspect held checkpoint readout/product contract and record primary choice",
+        "Implement same-acquisition/support domain comparison, not unpaired score subtraction"
+      ]
+    }
+  ],
+  "soil_snow": {
+    "status": "running",
+    "updated_utc": "2026-10-29T13:57:54.232737+00:00",
+    "completed_months": 155,
+    "planned_months": 204,
+    "percent_complete": 75.98,
+    "active_month": "2021-12",
+    "failures": {}
+  },
+  "disk_free_gib": 67.89397048950195,
+  "disk_limit": "No reliable ten-part size/ETA until per-context benchmarks; dense tensors must not be retained",
+  "shared_assets": {
+    "results/limburg_scarcity_v2_2026_10_28/preparation/manifest.json": true,
+    "results/limburg_scarcity_v2_2026_10_28/preparation/cases.parquet": true,
+    "results/storm_response/hourly_discharge.parquet": true,
+    "results/storm_response/hourly_rainfall.parquet": true,
+    "results/event_study/real_data_v1/catchments.geojson": true,
+    "data/raw/dem/glo30": true,
+    "data/raw/limburg_compact_eo/jobs.json": true,
+    "data/raw/limburg_eo_expansion/jobs.json": true
+  },
+  "source_hashes": {
+    "config/limburg_eo_coherent_selected_runs.json": "f58d5f236bf012239852e92859c876208bbda8bd611f9853caccbf15789a45a4",
+    "config/limburg_eo_model_assets.json": "a582506d6135eefc1bc90f45a76576f8a682b4f4491368b5224e53fa23fa06c4",
+    "scripts/167_check_individual_encoder_readiness.py": "0084d9878565bd8193770841201a61377c6b90ee52bd2e1a17c3ed8e35c9182e",
+    "src/eo_experiment_readiness.py": "6703c0515dd73b044035e20577c5ddacfa22eadb8868aa04ecdd8763ad0301d4"
+  },
+  "existing_context_support": {
+    "presto": {
+      "kind": "monthly",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 2016,
+      "unsupported_cases": 1832,
+      "represented_years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 252
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 252
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 252
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 252
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 252
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 252
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 252
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 252
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "anysat": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1534,
+      "unsupported_cases": 2314,
+      "represented_years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 170
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 198
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 184
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 175
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 216
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 174
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 186
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 231
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "galileo": {
+      "kind": "monthly",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1959,
+      "unsupported_cases": 1889,
+      "represented_years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 252
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 252
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 250
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 226
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 252
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 252
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 223
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 252
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "olmoearth": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1192,
+      "unsupported_cases": 2656,
+      "represented_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 149
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 149
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 149
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 149
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 149
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 149
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 149
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 149
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "croma": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1192,
+      "unsupported_cases": 2656,
+      "represented_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 149
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 149
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 149
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 149
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 149
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 149
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 149
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 149
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "prithvi": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1314,
+      "unsupported_cases": 2534,
+      "represented_years": [
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 154
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 183
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 175
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 150
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 167
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 153
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 151
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 181
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "copernicus_fm": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1600,
+      "unsupported_cases": 2248,
+      "represented_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 174
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 211
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 188
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 181
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 226
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 178
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 198
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 244
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "dofa": {
+      "kind": "monthly",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 2016,
+      "unsupported_cases": 1832,
+      "represented_years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 252
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 252
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 252
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 252
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 252
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 252
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 252
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 252
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "terramind": {
+      "kind": "recent",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 1600,
+      "unsupported_cases": 2248,
+      "represented_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 174
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 211
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 188
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 181
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 226
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 178
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 198
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 244
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    },
+    "satmae": {
+      "kind": "monthly_snapshot",
+      "landmark_site_cases": 3848,
+      "finite_nonzero_existing_vector_cases": 2082,
+      "unsupported_cases": 1766,
+      "represented_years": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "per_site": {
+        "11.Q.32": {
+          "total": 481,
+          "supported": 250
+        },
+        "10.Q.29": {
+          "total": 481,
+          "supported": 271
+        },
+        "13.Q.34": {
+          "total": 481,
+          "supported": 249
+        },
+        "15.Q.41": {
+          "total": 481,
+          "supported": 238
+        },
+        "18.Q.45": {
+          "total": 481,
+          "supported": 276
+        },
+        "6.Q.18": {
+          "total": 481,
+          "supported": 251
+        },
+        "2828300000200": {
+          "total": 481,
+          "supported": 269
+        },
+        "2828900000200": {
+          "total": 481,
+          "supported": 278
+        }
+      },
+      "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
+    }
+  },
+  "checked_utc": "2026-10-29T14:20:02.752273+00:00",
+  "plan_sha256": "e8e7c244d1d696e353c50678635ef61c1fe03d3db32a5b264abde15a4d33644e"
+}
