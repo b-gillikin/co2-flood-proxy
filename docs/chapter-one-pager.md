@@ -1,12 +1,12 @@
 # Chapter 1 — Limburg: AI-assisted high-water assessment under monitoring loss
 
-Last substantively reviewed: 2026-10-28. Living supervisor/research brief; not dissertation manuscript prose.
+Last substantively reviewed: 2026-10-29. Living supervisor/research brief; not dissertation manuscript prose.
 
 ## Research Question(s)
 
 **Can satellite AI help assess developing high water when ground-monitoring data are limited?**
 
-Use the relatively information-rich held NL–DE river records as the reference, then vary observation age and reduce density, completeness, spatial coverage or historical support. Can EO reduce the resulting loss beyond the same scarce conventional inputs and capable simple fallbacks? The earlier question about late/stopped feeds remains the completed information-age component. See the [broader scarcity design](limburg-data-scarcity-design-2026-10-28.md); the corrected scarcity implementation is ready for validated execution; no new scarcity findings are adopted yet.
+Use the relatively information-rich held NL–DE river records as the reference, then vary observation age and reduce density, completeness, spatial coverage or historical support. Can EO reduce the resulting loss beyond the same scarce conventional inputs and capable simple fallbacks? The earlier question about late/stopped feeds remains the completed information-age component. See the [broader scarcity design](limburg-data-scarcity-design-2026-10-28.md); the corrected scarcity run and review are complete; see the findings below.
 
 ## Motivation
 
@@ -29,6 +29,8 @@ Models: DOFA, CROMA, SatMAE, Copernicus-FM, TerraMind, Presto, AnySat, Galileo, 
 Retrospective counterfactual observation-availability study, using the full eligible census and earlier completed donor storms. Keep hidden Q and future rainfall out of matching and event scheduling; avoid hidden Q/p99 trajectory anchors. Compare matched and broad archives, account for storm/year dependence and retain unsupported cases/fallback coverage. Equal instantaneous information under delay and failure is the same test case; the difference emerges over successive assessments. EO acquisition age and uncertain product-release times limit real-time claims. This direction was developed after inspecting the earlier results; no untouched-test or preregistration claim is made.
 
 ## Findings
+
+**The corrected 180-job scarcity comparison, full audit and automated review are complete.** The [first findings](limburg-scarcity-results-2026-10-29.md) show no average advantage from EO augmentation in any primary recent/K5 whole-census scenario/model/offset comparison, including the high-water and model-supported populations. Monthly snapshots and measured-donor-support sensitivities retain the overall negative direction. Removing all current Q inputs raises conventional error by roughly 4–11%, while sparse networks with clustered gaps raise it by roughly 0–3%; EO does not outperform that scarce conventional reference. The disadvantage often narrows under scarcity, which is not a net benefit. Some rising/flood-case diagnostic subsets improve, but those exploratory cells do not establish general operational value. Thinning the local history can improve this matcher's error, exposing a retrieval/weighting sensitivity rather than proving that fewer observations are better. These conclusions concern the declared frozen-embedding/fixed-fusion design; no new model or data pull follows automatically.
 
 **All 42 age/outage comparisons, independent audit, paired review and actual-case reports are complete.** In the primary same-gauge four-week readout, all ten EO additions have higher average error than conventional matching at 12/24h delays; magnitudes and uncertainty differ. Their disadvantage generally narrows with delay, which is not itself a demonstrated advantage. These results do not answer the new density, intermittent or spatial-scarcity contrasts; their corrected execution is tracked separately under `results/limburg_scarcity_v2_2026_10_28/`. Two pre-publication development defects were corrected and affected scores restarted; invalid outputs remain labelled and excluded.
 

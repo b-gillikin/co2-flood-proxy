@@ -4,6 +4,8 @@
 
 **Later implementation update:** the [corrected executable protocol](limburg-scarcity-executable-protocol-2026-10-28.md) and scripts 159–163 now implement the responsive comparator, separate axes, two combined profiles, donor-support checks, outcome/EO coverage and explicit uncertainty. Results are versioned under `results/limburg_scarcity_v2_2026_10_28/`; prior v1 benchmark sources are snapshotted. Earlier planned descriptions below record the design sequence, not new empirical findings.
 
+**29 October results update:** the corrected 180-job matrix, audit and automated review are complete. [First findings](limburg-scarcity-results-2026-10-29.md) report no primary average EO advantage under the tested scarcity conditions. The design history below remains intact.
+
 ## Working question and motivation
 
 **Can satellite AI help assess developing high water when ground-monitoring data are limited?**
