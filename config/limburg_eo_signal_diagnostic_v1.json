@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-29",
+  "purpose": "Distinguish fixed-retrieval failure from usable event-specific EO information",
+  "output": "results/limburg_eo_signal_diagnostic_2026_10_29",
+  "source": "results/limburg_scarcity_v2_2026_10_28",
+  "offset_h": 0,
+  "scenarios": ["rich_basin", "local_q_absent", "all_q_absent"],
+  "readouts": ["recent", "monthly_snapshot"],
+  "models": ["dofa", "croma", "satmae", "copernicus_fm", "terramind", "presto", "anysat", "galileo", "prithvi", "olmoearth"],
+  "seed": 20261029,
+  "permutations": 20,
+  "alphas": [0.001, 0.01, 0.1, 1.0, 10.0],
+  "eo_weights": [0.0, 0.01, 0.1, 1.0, 10.0],
+  "outer_split": "Fixed calendar-year boundary; all earlier closed storms; same-gauge fits",
+  "inner_split": "Latest two feasible earlier-year folds; all their eligible cases",
+  "primary_point_score": "Mean hourly MAE across next 24h; point forecasts are not empirical ensembles",
+  "retrieval_score": "Existing empirical-ensemble CRPS on matched donor pools",
+  "workers": 2,
+  "no_encoder_updates": true,
+  "new_extraction": false
+}
