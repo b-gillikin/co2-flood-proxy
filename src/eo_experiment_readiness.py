@@ -75,6 +75,22 @@ def sha256(path):
     return h.hexdigest()
 
 
+def validated_receipt(root, path):
+    """Validate maintained engineering evidence; empty future markers prove nothing."""
+    try:
+        receipt = json.loads(path.read_text())
+        hashes = receipt.get("source_hashes", {})
+        return (
+            receipt.get("status") == "validated"
+            and bool(hashes)
+            and all(
+                (root / name).is_file() and sha256(root / name) == h for name, h in hashes.items()
+            )
+        )
+    except (OSError, ValueError, TypeError):
+        return False
+
+
 def inspect_readiness(root, plan):
     validate_plan(plan)
     root = Path(root)
@@ -96,6 +112,10 @@ def inspect_readiness(root, plan):
     }
     output_root = root / "results/limburg_individual_experiments_v1"
     backbone = output_root / "readiness/shared_backbone_validated.json"
+    backbone_valid = validated_receipt(root, backbone)
+    dispatcher = (root / "scripts/173_queue_individual_experiments.py").is_file() and backbone_valid
+    queue_path = output_root / "queue/progress.json"
+    queue = json.loads(queue_path.read_text()) if queue_path.is_file() else {}
     rows = []
     for e in plan["experiments"]:
         model = e["model"]
@@ -129,8 +149,11 @@ def inspect_readiness(root, plan):
             "new_contract_and_benchmark_receipt_present": fixture.is_file(),
             "new_feature_manifest_present": feature_manifest.is_file(),
         }
-        # These future receipt paths are reported, not trusted or parsed as proof.
-        # Until semantic receipt validation is implemented, never return runnable.
+        contract_valid = validated_receipt(root, fixture)
+        checks["shared_backbone_validated"] = backbone_valid
+        checks["contract_and_benchmark_validated"] = contract_valid
+        # Scientific coverage and losses are audited after extraction/fitting;
+        # successful engineering is never evidence of a positive result.
         rows.append(
             {
                 "id": e["id"],
@@ -138,8 +161,12 @@ def inspect_readiness(root, plan):
                 "checkpoint": a["checkpoint"],
                 "requires_encoding": e["requires_encoding"],
                 "checks": checks,
-                "status": "preparation_needed",
-                "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+                "status": "engineering_ready"
+                if dispatcher and contract_valid
+                else "benchmark_pending"
+                if dispatcher
+                else "preparation_needed",
+                "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
                 "runtime": str(runtime.relative_to(root)),
                 "selected_run": str(run.relative_to(root)),
                 "aggregate": str(aggregate.relative_to(root)),
@@ -152,10 +179,13 @@ def inspect_readiness(root, plan):
     disk = shutil.disk_usage(root)
     return {
         "schema_version": 1,
-        "scope": "Read-only design/assets sweep; no model import, encoding, scoring, acquisition or process control",
-        "launched": False,
-        "runnable_dispatcher_implemented": False,
-        "status": "designed_preparation_needed",
+        "scope": "Read-only design/assets/verified-engineering sweep; launches no work",
+        "launched": queue.get("status") in {"running", "completed", "finished_with_failures"},
+        "runnable_dispatcher_implemented": dispatcher,
+        "status": queue.get(
+            "status",
+            "engineering_ready_benchmarks_pending" if dispatcher else "designed_preparation_needed",
+        ),
         "designs_validated": len(rows),
         "experiments": rows,
         "soil_snow": {

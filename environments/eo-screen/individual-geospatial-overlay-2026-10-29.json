@@ -1,0 +1,70 @@
+{
+  "note": "Supplement to existing pinned runtimes; original numerical library versions retained. Actual imported versions shown.",
+  "runtimes": {
+    "modern": {
+      "python": "3.12.12 | packaged by conda-forge | (main, Oct 22 2025, 23:34:53) [Clang 19.1.7 ]",
+      "torch": "2.9.1",
+      "numpy": "1.26.4",
+      "overlay": {
+        "pandas": "2.3.3",
+        "geopandas": "1.1.1",
+        "pyproj": "3.7.2",
+        "shapely": "2.1.2",
+        "pyogrio": "0.11.1",
+        "pyarrow": "20.0.0"
+      }
+    },
+    "legacy": {
+      "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+      "torch": "2.2.1",
+      "numpy": "1.26.4",
+      "overlay": {
+        "pandas": "2.3.3",
+        "geopandas": "1.1.1",
+        "pyproj": "3.7.2",
+        "shapely": "2.1.2",
+        "pyogrio": "0.11.1",
+        "pyarrow": "20.0.0"
+      }
+    },
+    "galileo": {
+      "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+      "torch": "2.2.1",
+      "numpy": "1.26.4",
+      "overlay": {
+        "pandas": "2.3.3",
+        "geopandas": "1.1.1",
+        "pyproj": "3.7.2",
+        "shapely": "2.1.2",
+        "pyogrio": "0.11.1",
+        "pyarrow": "20.0.0"
+      }
+    },
+    "presto-torch291": {
+      "python": "3.11.15 | packaged by conda-forge | (main, Jun 11 2026, 03:29:05) [Clang 19.1.7 ]",
+      "torch": "2.9.1",
+      "numpy": "1.26.4",
+      "overlay": {
+        "pandas": "1.5.3",
+        "geopandas": "1.0.1",
+        "pyproj": "3.7.2",
+        "shapely": "2.2.0",
+        "pyogrio": "0.13.0",
+        "pyarrow": "20.0.0"
+      }
+    },
+    "terramind": {
+      "python": "3.12.12 | packaged by conda-forge | (main, Oct 22 2025, 23:34:53) [Clang 19.1.7 ]",
+      "torch": "2.9.1",
+      "numpy": "2.2.6",
+      "overlay": {
+        "pandas": "3.0.6",
+        "geopandas": "1.2.0",
+        "pyproj": "3.8.0",
+        "shapely": "2.2.0",
+        "pyogrio": "0.13.0",
+        "pyarrow": "20.0.0"
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # Ten-experiment readiness sweep
 
+The original pre-implementation sweep below is retained as history. See [the implemented pipeline](../limburg-individual-experiments-implementation-2026-10-29.md) and rerun script 167 for verified current engineering/queue status.
+
 29 October 2026. Research/engineering preparation, not a scientific result. The [six-part experiment plan](../limburg-ten-individual-experiments-plan-2026-10-29.md) and [machine-readable designs](../../config/limburg_individual_encoder_experiments_v1.json) are recorded. No extraction, fitting or scoring was launched.
 
 The [subsequent final design audit](limburg-ten-experiment-design-audit-2026-10-29.md) corrects ambiguous contracts in the original plan; this readiness inventory still does not certify the unimplemented runner. Existing support counts below describe the same held contexts.

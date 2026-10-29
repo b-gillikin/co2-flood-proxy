@@ -39,7 +39,7 @@ def main():
         receipt["source_hashes"][str(source.relative_to(ROOT))] = sha256(source)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(receipt, indent=2) + "\n")
-    print(f"{receipt['designs_validated']}/10 designs checked; no experiments launched")
+    print(f"{receipt['designs_validated']}/10 designs checked; this checker launches no work")
     print(f"Free disk: {receipt['disk_free_gib']:.1f} GiB; status: {receipt['status']}")
     for e in receipt["experiments"]:
         print(

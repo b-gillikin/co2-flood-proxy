@@ -1,5 +1,7 @@
 # Ten individually designed Limburg encoder experiments
 
+Execution update: [implementation and live-status instructions](limburg-individual-experiments-implementation-2026-10-29.md). The design below preserves the decisions before implementation. Its original preparation labels are historical; actual workers, benchmarks and results are tracked by their receipts.
+
 29 October 2026. Internal research/implementation plan; Brian writes manuscript prose. Audited amendment to commit `655c130`, with [findings and corrections](reviews/limburg-ten-experiment-design-audit-2026-10-29.md). This is exploratory development on previously inspected outcomes, not formal preregistration or an untouched confirmation. No new extraction/scoring is launched by this documentation update.
 
 The [machine-readable plan](../config/limburg_individual_encoder_experiments_v1.json) supplies the live design. [Individual documentation/literature review](reviews/limburg-individual-encoder-use-review-2026-10-29.md); [readiness sweep](reviews/limburg-ten-experiment-readiness-2026-10-29.md). Original designs and results remain in Git and their dated records.
