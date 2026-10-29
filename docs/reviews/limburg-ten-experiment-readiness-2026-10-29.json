@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "scope": "Read-only design/assets sweep; no model import, encoding, scoring, acquisition or process control",
-  "launched": false,
-  "runnable_dispatcher_implemented": false,
-  "status": "designed_preparation_needed",
+  "scope": "Read-only design/assets/verified-engineering sweep; launches no work",
+  "launched": true,
+  "runnable_dispatcher_implemented": true,
+  "status": "running",
   "designs_validated": 10,
   "experiments": [
     {
@@ -17,12 +17,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/presto-torch291/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/presto/7ff91785aa440d3c017ff0e43e47950d749188a0b0e2cb206adab53a4d08ba94",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/presto/census/presto.parquet",
@@ -44,12 +46,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/modern/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/anysat/2dd83a5a60bb2dddca7ecd6102b0702e2b43db2d8519ac8bbeebe38ad3c5a440",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/anysat/census/anysat.parquet",
@@ -71,12 +75,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/galileo/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/galileo/05b3abf7e75de1f55f86f9badb4d1f1d3e6122376c44404f0328a1948b96516e",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/galileo/census/galileo.parquet",
@@ -98,12 +104,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/modern/bin/python",
       "selected_run": "data/processed/limburg_eo_token_consistent_sequences/olmoearth/6cfeb28f2c2089be03544a4e915a1139487fe5831f11aa409a5a8eec1af6f7b0",
       "aggregate": "results/eo_catchment_representations/per_model/olmoearth/token_consistent/census/olmoearth.parquet",
@@ -125,12 +133,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/modern/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/croma/ffc475100e83d135ac007f66a648fcee16275932905231da71ccd245893129a4",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/croma/census/croma.parquet",
@@ -152,12 +162,14 @@
         "publisher_source_present": null,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/modern/bin/python",
       "selected_run": "data/processed/limburg_eo_sequences/prithvi/770815bf28c3bd3857b58f4ad55aa7f3696ee5a482f2943d32e63ecf9a901f19",
       "aggregate": "results/eo_catchment_representations/per_model/prithvi/census/prithvi.parquet",
@@ -179,12 +191,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/legacy/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/copernicus_fm/dba86a6778e39b6718e55d779adc11a8e43e69f65d3f19c4ac8804514aa67858",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/copernicus_fm/census/copernicus_fm.parquet",
@@ -206,12 +220,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/legacy/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/dofa/1cb3b318f8b4724864a96fe5176b0ce650884eeab7456be82021e3caaab0f604",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/dofa/census/dofa.parquet",
@@ -233,12 +249,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
+        "new_shared_backbone_receipt_present": true,
         "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": false
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "benchmark_pending",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/terramind/bin/python",
       "selected_run": "data/processed/limburg_eo_coherent_census_v1/terramind/68bcd3bda67c4ea72ad4aada4d8bd05177c33478ed96f29452df3d239a13665e",
       "aggregate": "results/eo_catchment_representations/coherent_v1/per_model/terramind/census/terramind.parquet",
@@ -260,12 +278,14 @@
         "publisher_source_present": true,
         "runtime_executable_present": true,
         "checkpoint_file_present": true,
-        "new_shared_backbone_receipt_present": false,
-        "new_contract_and_benchmark_receipt_present": false,
-        "new_feature_manifest_present": false
+        "new_shared_backbone_receipt_present": true,
+        "new_contract_and_benchmark_receipt_present": true,
+        "new_feature_manifest_present": false,
+        "shared_backbone_validated": true,
+        "contract_and_benchmark_validated": true
       },
-      "status": "preparation_needed",
-      "readiness_limit": "Presence-only sweep; validated runnable dispatcher is not implemented",
+      "status": "engineering_ready",
+      "readiness_limit": "Engineering evidence only; no scientific result or performance requirement",
       "runtime": ".venvs-eo/satmae/bin/python",
       "selected_run": "data/processed/eo_expansion_sequences/satmae_toa_qa60/satmae/0632b1942f1f36701dbe77367916b6bb09945fbacdcd24c82d5dce26987fcd79",
       "aggregate": "results/eo_expansion_representations/satmae_toa_qa60/census/satmae.parquet",
@@ -279,14 +299,14 @@
   ],
   "soil_snow": {
     "status": "running",
-    "updated_utc": "2026-10-29T14:32:19.874014+00:00",
-    "completed_months": 160,
+    "updated_utc": "2026-10-29T19:04:46.393875+00:00",
+    "completed_months": 166,
     "planned_months": 204,
-    "percent_complete": 78.43,
-    "active_month": "2022-05",
+    "percent_complete": 81.37,
+    "active_month": "2022-11",
     "failures": {}
   },
-  "disk_free_gib": 81.93732452392578,
+  "disk_free_gib": 80.31339263916016,
   "disk_limit": "No reliable ten-part size/ETA until per-context benchmarks; dense tensors must not be retained",
   "shared_assets": {
     "results/limburg_scarcity_v2_2026_10_28/preparation/manifest.json": true,
@@ -301,8 +321,8 @@
   "source_hashes": {
     "config/limburg_eo_coherent_selected_runs.json": "f58d5f236bf012239852e92859c876208bbda8bd611f9853caccbf15789a45a4",
     "config/limburg_eo_model_assets.json": "a582506d6135eefc1bc90f45a76576f8a682b4f4491368b5224e53fa23fa06c4",
-    "scripts/167_check_individual_encoder_readiness.py": "0084d9878565bd8193770841201a61377c6b90ee52bd2e1a17c3ed8e35c9182e",
-    "src/eo_experiment_readiness.py": "0d65da3318cd5b4b253676d332ba4ecf1d5472394f1ac3be3acc30817a66b838"
+    "scripts/167_check_individual_encoder_readiness.py": "8c4f67c3b7770a7a98d18204c7f4731c0026cfc583d08f3effaa9ad8babbfd4c",
+    "src/eo_experiment_readiness.py": "3a648f717cf57754d9da26dd222f15efd56b254a7bcf8329a7c71cdeec9810f0"
   },
   "existing_context_support": {
     "presto": {
@@ -832,6 +852,6 @@
       "limit": "Existing pooled-vector support only; not new-feature coverage, eligible training folds or scored outcomes"
     }
   },
-  "checked_utc": "2026-10-29T14:47:28.300594+00:00",
+  "checked_utc": "2026-10-29T19:08:19.727906+00:00",
   "plan_sha256": "2879c97ba258e142426dbd0aee1abac3f778f734d3727d21f2ac87787ed6076b"
 }

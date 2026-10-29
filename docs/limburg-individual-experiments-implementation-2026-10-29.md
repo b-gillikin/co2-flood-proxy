@@ -76,3 +76,5 @@ After primary checks, the two combined-mask profiles, supporting C+E attribution
 There is no positive-result requirement, fixed minimum support gate, new RQ, new provider request or manuscript-writing step in this implementation.
 
 Acquisition update: the previously authorized soil/snow pull stopped at 163/204 months after a remote connection closed. It was resumed sequentially on 29 October, preserving completed files/receipts and the failure history. Its manifest remains the live status source; this does not delay the primary queue.
+
+Execution record (29 October): code commit `d725937` was pushed before launch. The local controller is running; all ten final source-bound native fixtures passed, and full-context benchmarks have started. The current readiness JSON tracks this execution. Primary fits/reviews and supporting work remain pending; no new empirical finding is claimed. Runtime versions are saved in `queue/runtime.json`, alongside the source-bound queue state.
