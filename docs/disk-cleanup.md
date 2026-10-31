@@ -28,6 +28,20 @@ compressed writer/reserve now fit, and new outputs retain their full working
 provenance. No raw imagery, weights, provider delivery or other chapter was a
 deletion target.
 
+## 31 October: current run reserve authorized at 50 GiB
+
+Brian authorized a 50-GiB free-disk cutoff for the current local individual-model
+run. The current compact-output controller did not implement the historical
+60-GiB cutoff. A separate `tools/limburg_disk_reserve_guard.py` now monitors it,
+reading `config/limburg_disk_reserve_guard.json` every ten seconds. Below 50 GiB
+it suspends the registered controller and active workers without terminating
+them; at 51 GiB or more it resumes them. The 1-GiB hysteresis prevents repeated
+pause/resume at the boundary. Its status is recorded in
+`results/limburg_individual_experiments_v1/queue/disk-guard.json`.
+The scientific source fingerprint and live workers were not changed/restarted.
+This is a launch-session operational guard, not an OS-wide disk quota or a
+durable system service. Earlier dated reserves below remain historical records.
+
 ## 22 October: correction held for storage redesign
 
 The later [ten-model documentation review](reviews/limburg-ten-model-documentation-review-2026-10-22.md)

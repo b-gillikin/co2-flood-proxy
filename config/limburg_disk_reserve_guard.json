@@ -1,0 +1,5 @@
+{
+  "minimum_free_gib": 50,
+  "authorized_on": "2026-10-31",
+  "reason": "Brian requested a 50-GiB free-disk cutoff for the current local run. Operational setting only."
+}
