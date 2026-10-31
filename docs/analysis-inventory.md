@@ -2,6 +2,8 @@
 
 ## Current status — 31 October 2026
 
+**Applied-use review, later 31 October:** [native tasks and practical value](limburg-applied-model-use-review-2026-10-31.md) maps all ten held encoders to author-documented downstream uses, candidate pipeline roles and accuracy/resource comparisons. It separates documented application from operational deployment and proposes task-specific checks. Missing feeds or named operator decisions are not entry conditions. This is a continuation under review, not a launched mapping study or replacement of completed results.
+
 The active work is the [ten individual encoder experiments](limburg-individual-experiments-implementation-2026-10-29.md), not the earlier fixed-fusion retrieval comparison. [Partial evidence review](limburg-individual-partial-readout-2026-10-31.md): eight models, 23 distinct primary jobs and four configuration comparisons reviewed; Presto/Galileo pending. Script 174 snapshots audited outputs, utilization and post-hoc event corrections without fitting. It verifies source/output hashes and preserves the full-ledger interpretation. No final ten-experiment conclusion yet.
 
 [Supporting preparation](limburg-individual-supporting-preparation-2026-10-31.md): script 175 verifies 204/204 soil/snow monthly source checksums and freezes exact combined-mask definitions. New causal-state helpers/tests and four supporting work contracts are prepared; geospatial aggregation and supporting fit runners are **not complete**. No supporting run has been submitted. The active primary code/queue is unchanged.
