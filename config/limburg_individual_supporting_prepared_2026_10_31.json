@@ -1,0 +1,4019 @@
+{
+  "status": "prepared_not_submitted_not_a_fit_runner",
+  "protected_primary_queue": "unchanged; finish and audit primary jobs before supporting refits",
+  "source_hashes": {
+    "results/limburg_scarcity_v2_2026_10_28/preparation/groups.json": "a32d896670436ff2c51bc039d3baa671284fd94d8f5afd3bde7e97db82a88bf9",
+    "results/limburg_scarcity_v2_2026_10_28/preparation/block_12h_50pct.npy": "c13c5474c9a0284b746f0a37a4c040b805d729f2800ad9234e43c9786f70de72",
+    "results/limburg_scarcity_v2_2026_10_28/preparation/source_epoch_hours.npy": "4bb6d0fb17ea880e8ce9490b0858e4aa98425f878d1189e8a084d4e2f1dd83f6",
+    "results/limburg_scarcity_v2_2026_10_28/preparation/manifest.json": "7eb8ceea1776c3efb150a2ab2f633c6d68feb6ea61acecbae834a4b67bbb9f81",
+    "data/raw/limburg_monitoring_land_state/manifest.json": "4b6c99ce7a611d54eff4483dbc4064097ddf9c4f371557ea7d8c766afca1ff66",
+    "src/eo_supporting_controls.py": "e8b7bf255b2628d32b45d151a185be9ca9841ad913099c90162aa01a6c563d00",
+    "scripts/175_prepare_supporting_analyses.py": "76aae08d26832d0dcfd326901ec3f558f044c5ddbe27ce9f9d2f7a4ae7e10f1f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_01.receipt.json": "115f5db15d6bfba01441c7b2326a4ed881f53b356bb927f2cafe579095c8fba1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_01.nc": "4c8452ea89bb00ae1a74cdc7773f58d78ef4abbe7343359076395065a1ff4b80",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_02.receipt.json": "db0cacd5d57f37dbd2fc5060fe100d53fd3ce8ea958eb70fa7cbafd6966c11f7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_02.nc": "c2ff5003f5ab0adbcdecdecf60750c316facc6233ffb7256102e41963dadd5af",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_03.receipt.json": "200fdbef58d5d82602e4d3f5e17ccf7cf0ba49d2349153d797ce5f8280d09de1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_03.nc": "2a5800ffa0fe195b9e2b2a5a6b9b8eac00f8162d510deda760d5579a9567311a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_04.receipt.json": "a9ad62fe9d0e411cf0d0270889ebf81bd657da8d9133a1ecce7c2696c1c41ce2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_04.nc": "5479e614079b2ef42294444882a3c3410eb96ff62700fea6a30451e3557d9083",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_05.receipt.json": "7d699e81ef3321115a8a3eecac49c2c3867b345d8bf55f0f2e793103afbe9682",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_05.nc": "1e8ef84735174892c851c45bd1a6fb4904c865ea9de98891bb3d4fbc055c457e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_06.receipt.json": "ffac4dee94afabd3848c8af7497ba5108e6a50943040f38ef4c634f7d5df75f1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_06.nc": "7b8b37bb72d427485c57034dfdf1732d4c1271470f490e10ccd1f69de26001f4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_07.receipt.json": "a31524ca9245c073fec494587ac4fee06d66c50de61331d9d854cbf0d12d3533",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_07.nc": "7fb7ff2b832b09f388f8fcbbb11c7cafee754a5dc76e1faf7661bb65015323d7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_08.receipt.json": "8f5908d9b0a6945d944569dfa64ab0ebe50ecc8f7092fde397e3051982cbe8a7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_08.nc": "ae65e406f9132b085fcee2d06acc4c10c95c5da91d46c86cda172eaa4512a057",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_09.receipt.json": "fac3eb63ed672952dfbdb283e7c384d51ab91440e0b8e09706940378e591b688",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_09.nc": "382b5673c540b8bc535ce7730ebbef612759284d42e3f96df61f513cd358ec7e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_10.receipt.json": "402e1b16439c58005d9e333c1d460174022cf975934edcb944c8844c6b65f5f6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_10.nc": "e3202fe1950340cbcfa985bd931560bdce8ce94e4a1ae25845dcd109d990a3c0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_11.receipt.json": "54c21c0679716aaf0c0e5ab669367c76c8045531afb698d46bd89b8fc9dcb2a8",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_11.nc": "6d08e42a5f75de4977b294eb8f2159900c0d8bb246a50767c8063fda99147d4f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_12.receipt.json": "f861728bf90e85011fb65ee1db17cd2382d0cd74f9a2e851c3d523a268c6ebba",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2009_12.nc": "b9fe8e14a38ac1a79282f90bb8f48be5ce27149343699feb479f02f3dd79c85f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_01.receipt.json": "8ac7e3f782b8849e51075dc875c5604319aa3bfadcd58f4c830223f4af0a3b3c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_01.nc": "bc08a76db846522b404100f6fbcb605285094be70257ab87a691a0226826057d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_02.receipt.json": "2a844cb24b20fd6658f287b6308cf2a75d7e06f47fc670afcd9fa7c421734dee",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_02.nc": "a3e0cfe9f2b09cd94c6577b8c0db4113d333c986f67dd4fd51b406d545f9fba1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_03.receipt.json": "c64fe608ee989d6133188608c2ea31e9a9447837522f0b59a03b50e9854744df",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_03.nc": "402a8a12e7303949d182c89f76bde3043bbfaa85f966f43aad93e666ea5545c2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_04.receipt.json": "af6d6ac828b66497426f56d6c3eecf7b1b927ad82c074d4ff074e4e8ef4d386b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_04.nc": "0aa931a621f49432ff053dd1d7a60a01bb9542718ff726eca8a50ce7a8128054",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_05.receipt.json": "38f45109781f1cc674a00cb6b4a76a69b622307add8af14e3831c719342b6198",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_05.nc": "10f28e59e283caa08758c19c0542993be6c2d9481f86794c5da11709f7bfb2c6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_06.receipt.json": "cac8463294d2d82b89442d43f8d731bcd6813824d1a6bc0ff7523c3e13f765dd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_06.nc": "d838911ffb7cb7b4d7d98da321e90bc24473e46de1396a41771e8120d1758664",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_07.receipt.json": "76edb1ba0929116b717f65573edc4be3d5da02971f7ff566555bff33c7d571bb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_07.nc": "302534f1a552bfe477ed01b298410cc315d88e6b792cf9d8c95557ff4b7f3f47",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_08.receipt.json": "3a28ba025d8b21236e56fff6946fa58a6f64b39158332d46c6d6336d1e29b59c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_08.nc": "34dd2d3bb885c3dcf074dfe3fd057585c5f39fff1c85a4150d1609a26ada6591",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_09.receipt.json": "57e842faababd9e22f02814e3347b133be07b6448125ce3cf179457e58f77011",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_09.nc": "216e11564e270e60010997bad491b3d39357c86c6a90423195ca3fa310e39759",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_10.receipt.json": "29a08a665955b44ac85633ad51c7726b5c6a83a93439d3bbb8af3f5ab56221a7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_10.nc": "b3c92bf57d9af04a965c80fe87a6162cb06f9fb2fe25056a4d0a5841be54bc6c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_11.receipt.json": "50f162b8bffb76d997d9ae314efa3932c963cc53dea8a930ef72d1599dbaad46",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_11.nc": "1911be2a09e50136a6cd4aa6331b811446bed755f2c91fab57762329026d105b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_12.receipt.json": "a8ec3eaba064870852571c190d88d5f1dc5df48e10dab9cb8babeece2297bdf9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2010_12.nc": "a362248272e07037b3672b1ba2243b2c0e8baa29e86f5b7512dc505579b66318",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_01.receipt.json": "b53c17c6663a4a75ff2653d04c855ba22adeda368eceecbbb55fc61b0a85c22f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_01.nc": "7bd002c151aa128344c9cf83853cc76efc26860ae85a86e8608e55e396878a75",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_02.receipt.json": "f0affa84e23c1b908ef5f46d03a17b1172079451681208bfa295a7783730b020",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_02.nc": "94f98e7625b05293ff65aa36c7c66630845f369e2e74d4891618981d979cd67a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_03.receipt.json": "aeffb4569019eedb0eee48e60214d6ac30efb973f9b38b4041f630fe17ca60a7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_03.nc": "2bb33d6e8cf9e8b862e72c25d2a7282eff237e3ff89f2b76a13bec947f82a967",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_04.receipt.json": "6f651d06c7e2adc8fee911332b385bfd860cfffd33b7871a1aa54be60f9d6589",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_04.nc": "6572ad3ac10b256607d961d310a23f94decb0a7ad408a3340142283977467cf7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_05.receipt.json": "a7f0beba3deff3847ef8132289ff3a9f36058af47f5252ff99b0b9866039a2f6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_05.nc": "1e22cf6e4f472dc4fbe6596aa9be28c747c5ff0b971d20c3610c330cf4d550b7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_06.receipt.json": "51bab435b9fa2550faff265cb526f0ae8e7e046228cdc903b6b379eacf34a1f1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_06.nc": "c33871a17c218f1e99020d88d5936d52d8dac565a654937b8dfee8c6f9b59120",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_07.receipt.json": "805928032cbb32a854154ca8764f204fd98f574e094a5aa4bb92f406db320e1b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_07.nc": "f13fd96010830b2c18c24189f84488cdc06effe19f11f28451f9dfacb3739d5c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_08.receipt.json": "91695f0c6527e4bb41c8e11cb63dcff8895bd64a89e2a57b0ce73a326ae9b6d6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_08.nc": "ed7ad7ec30f1faee7c6af5e120923acda188069879b91c92467582bb6728de0a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_09.receipt.json": "5d4febc5a93a711d44c5aa2bc08f672aa0af1b0d834650920ce0be463fdb7443",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_09.nc": "b2a091a6fb93d216fe776cf3fa7555e5fe5fdd1bd8a7c940aef2cb1155817196",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_10.receipt.json": "beb378d924cf5cfaba972bbb349696bcfa984fc8cfdd6275c1e7d333bc2e4e5b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_10.nc": "38edb198a6dce630dfe956d777a4c1a32a341e0734696a6c06f26142f6e33666",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_11.receipt.json": "139d21eba449334ff8775645756652ab90069bca513bcd0c003ca14c3ea1dd61",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_11.nc": "9508234c4eced083dc3fa57ac7c3bb8a6eadaa1720dbed7830be58c060ccf0bb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_12.receipt.json": "a1093789bebeebc743bf6406e453d2638b2e311fe410a1bd3a35ea0786d2230a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2011_12.nc": "92a5ab44130d6df981760a469d47345f14f2710275c04760485da82f635b5abf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_01.receipt.json": "e70f50649db0906e32989ce71881288a7e34c3fdd6f27e787d506bad21e86556",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_01.nc": "88a1316569cc1d4e9165e58b9991b7d93e67a9541c60a69fd3c33cea32d419b1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_02.receipt.json": "8ca8532aa4ccef217a53a3138b727ce23e2bf0853e33197d3b2ba87bb5371b95",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_02.nc": "763dbaf1214745b564d86d4d1332144939c39e1b41bb7e14f85a2831b6998916",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_03.receipt.json": "d2d016761515bc5bd14628f617d6dbc9fc804470adf7033a8d3e456538ad73af",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_03.nc": "01134bf4a3a548d2d181ddeecd0dbf956aadfcc764d73c4f1692a2ec5ab6525b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_04.receipt.json": "29784120893a9aa9e1a5ccb408a4e792f34cf501acaf577e54e0d157b5eb5330",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_04.nc": "d0f73440547236dece6b3f11c7191dc7a5e353de1972e56ca20cd3ff3396a945",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_05.receipt.json": "a9dc3ab84f8755e98afe84563b4a0b0c65b11bbe2bae524e3a1df86d58f99620",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_05.nc": "3107cdb70ba0a2a4ed1b30f265d4fdf51fd36985a840993dd595824a78b9b8e7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_06.receipt.json": "7b77c3bdac36b43c6a8952053bc313145637892d378f37f8bbe60d5d5527bbdd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_06.nc": "43089a5a48ab5d0b4d91dd2a59031ff1072caa1d1d1f54abb2786f7084ceb4e4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_07.receipt.json": "372235f683a1d2a231c54ddbf4adefaf1ee8510c3358598af7a6ebd564e05ef1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_07.nc": "4378ca4f46fa15186da169357cfeb0cf0f79258c9fb41884ce6dc9da5b017ed5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_08.receipt.json": "76ed22e26e9a4de1225b93705630c5ecb1997680831ea98a565e7a8dc2bdf037",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_08.nc": "073f582d381986b8d2feaf35e5dada82f15ee82a672099918109ba5af7a1a2fe",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_09.receipt.json": "e3248e6d544dd36eab5ad8b0641f0ce139bab7e2ef9a703c020a2681b5d31758",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_09.nc": "bab5f53f5a62005f47d593cf82209366b12fa4f08668c754f518333a60003ed7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_10.receipt.json": "e6a9bc509d1e3006421b75e2e48b44984c9cf44104ceeaca98b7cfda66c6f4e1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_10.nc": "e52c892bb681dc6fa991b3f02108603e10d2c288c36f2a28235e8fe4ba1e2fb0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_11.receipt.json": "a00a4d2a21a75f5616e0888ac5e0cf91b6954bdb80ba2d50e49c12bb4739d409",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_11.nc": "f42010cd78e33439131314b5c8f2d1ad0c4c566103822cd491cc7eb1a7d0b96d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_12.receipt.json": "b40d771af2970fd154a57736e103afa680949c8dbe93abecb3c0ee8262ad148b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2012_12.nc": "63f4e789cb1becf38787fd4e4ab229e79766b1a0bd9316a94ffc23fafff49e75",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_01.receipt.json": "96d4ff966ac64dc21c337436afadedd04d5727af590f0acf3f811c2f5dc7933b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_01.nc": "be2115605f97765d6471817207339288eee4a57d07740070c4381de3ffdf05c0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_02.receipt.json": "be13acabd3295918e5dfe60cffa1512ec09f6131ed68f2cc3db80323123b42e9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_02.nc": "20a61dc24e7dea6743410cb797176004a349d10cafd51468ee7729a0f24ceb86",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_03.receipt.json": "3d981b2363d2b5ae15781b1647b763f3533a6359e651ec298f63df75528bedf5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_03.nc": "2a253971619dadc6218a9695e7aeae9a91702053bad6dfed35ea136fc4a4be54",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_04.receipt.json": "5ed49d3be04a21326f85314719df70a7d593be9b968e59cdd0e58334b35dcea7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_04.nc": "55e87ac922c0bda01dc6c228a8ef5594edd093145794f7acad974962771d9219",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_05.receipt.json": "8b8276c9553daf0ff262866e994253a161c6167748b56df88646a7edd6a8d445",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_05.nc": "70c4c451ca45d2c05dcfe7924e1b17f3891ff071aaf85862a28e6b4b75fce1f5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_06.receipt.json": "d430b1d8adfb4231a7fc4304b37704b7cb3d9da8cd724ca0d599543ce007040d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_06.nc": "18743c3f499ddbafbed94f70640182b9d5611f5e13f79e29caba5f823ba69c21",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_07.receipt.json": "711cdc70cba3a08a2d674d730a7b9346f30cbb6cc38be3bc48388f58bc0c0912",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_07.nc": "1770e71d6b226c8195d454abe35d10f91aaf8961e6c6f31891fc8dd31f511869",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_08.receipt.json": "53fac513f3f4929490c7335e2226fbc7d225d190101feb93bbe178ccb0da9d7f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_08.nc": "1b8663115384cff120fd0a09c976a25791c9b0a7a884faa79aefd35189d5ea7f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_09.receipt.json": "a48ee4797520e718d01c003118c4919fc562de2f239c9ac7a818159d6892f7bb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_09.nc": "02ddc8b507582ffa9f866ca0a9e3602330f5978ebbbd9a14e120776e1fbab3a5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_10.receipt.json": "4b1a5fc39f5ecb6c768e844981861360aeede2609a8ada711a9fac4df658ce54",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_10.nc": "38dbf4cd6960b1de660d822b73b938b954694511e485f4fb482fa285f81ff189",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_11.receipt.json": "05722baaafa4f16c4bd7204e8afd237d0bfe194270b019a040ba30d28453679c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_11.nc": "cc852fcb092f3bdb4eac168dd3291a9d9b3cc0528a32dc131095e405574988bd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_12.receipt.json": "b37fbea374a42a4e5fef3fbfed5a9f76ecbd01829feffee9b6304cd56417cfa5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2013_12.nc": "d5b232d04ab2618da246ab67c2e4d4700055a72f388997092150bc65f11885aa",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_01.receipt.json": "79e5fa107ad270588d5f30f08c8f371b91a990e37fdf1b2d737facdb9d6c5598",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_01.nc": "23e1abd9c2b2805679eca55ac6dbda8dddfb02cee2eb13ef115f3ad3f5812303",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_02.receipt.json": "169dfa7ed288afe998d307c08bc478c976413dbaddff6f7cd512d2ea7aea014b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_02.nc": "cceb26031558fcba96ce2ea33bb8455fc89ec1fc54f28d7220c141158f6ddfc3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_03.receipt.json": "12531eb0a6027b346e006b9cdc85598afc14956a0db476ef4ef092b694d63534",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_03.nc": "5c1a8491d2792d2ab6b3b9cdcd53dd29be645049c7ad9606fb3acea5de25e8ea",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_04.receipt.json": "be52667908e8634198714aca96ad28418ea786b6b31a562ea014f752853dfce6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_04.nc": "604616adcd177ac3fbe309379ad9a87fc298b1210e137485b2d4dc3726fbabac",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_05.receipt.json": "24d82592d5dab2b8e4581a8cfcc08e4514b63ec257d39695e2da712924da0023",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_05.nc": "cb82049c8d41cd61ca6ae93759b13189b8bd2a9bb03d6b981f5fde597b339309",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_06.receipt.json": "9a099350b27489c14de48b2a558b3b8ac21aca150d49657f9299502b71f62d49",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_06.nc": "c0995aaa741aebb30621ce9d5c8df3b32d89cf8346c66fb9b45260fed2976e09",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_07.receipt.json": "d4ba8d794fdd8f2acdc86074d42a41e0fd6c595a9fa2d1a68f7845cd5c9a0b35",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_07.nc": "e665f5da3580768956927efae6cee92c504ac3e372847802f1df7a675faf7a00",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_08.receipt.json": "6885bbae853e2781c51e69c3800108c2dd3386c785ed71148ba712a985506d2d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_08.nc": "22421aa2ee55739202fcb41aa0b48b286fd8f622460d5a662b5c2d232984f13d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_09.receipt.json": "7b04c7955196ab52f27bf132286c43f286a268eb91bb93447dd855c4d725acf5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_09.nc": "25f1797c17d612fa10b73829b535ba22611c51ac580de2f4c6a7b54b2b92b203",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_10.receipt.json": "1d355b37ee378668b089fe5c21f7c9da9cd428d112d12abaecbb934d12cfab7a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_10.nc": "ee37215b0326247a9585d51bed9210616f1b2532506dd89d2a27d2e81e5ecba0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_11.receipt.json": "ebc51c90dff1561e44b9f74a26aa4652b55057aa8e75cecde0753e7ea6bd07ca",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_11.nc": "0262f8e67a9a3d3e75cbdf623c3607f564f33b56ecaea644d225875f23dd1489",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_12.receipt.json": "e3ff0b3a193db641b9f5fed53fe44545f2a6d392f960520b5bea90d5b39d63a9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2014_12.nc": "7d846e6aabb2b8a4135ad85cda9ad1c3c8b8c62129c8f8728e48259355a38613",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_01.receipt.json": "7f85b9f5b5763c7f91cb204d962570d5632873e0703e1c89d29d2954f59d0278",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_01.nc": "61a8a1e919af77d34387c602018f514a3f7cc0ed7a5c9de16e2d038aec3e2a24",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_02.receipt.json": "05342e09bdd14ae65b93339f9a557f0139dd8492d6e58c6e6993069c1c553c93",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_02.nc": "45bbb549de41f745eafb42dc9ed2e0cd47bf7576b2c4033819bae43a05530e35",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_03.receipt.json": "65bf29cb7d149858f6cea5562b06fb672b6f67d90bcafe0dc3d74f54c9df1e96",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_03.nc": "b9e82865a0d52c567b8dcb6b585e860dd802d426a2e27def0aaaebc507064f25",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_04.receipt.json": "e8f38ecf519e94d812fff1e0d9983f318bb512e0117be4e0b74bc58e6cfcb6a5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_04.nc": "35bc9316d521626f5b0d099ea9e03c2299003d2d8441c361e8dc5d61a726e186",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_05.receipt.json": "f0335b4139e0ef1800056b869519b6ca8439bf56e2eb20a44e4be1f3f67784ee",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_05.nc": "d4e218d7e266db5ed55f805017ec09b51f67048be5b8512ace3076ee0fda270e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_06.receipt.json": "da35ca8c680310c81c2a05d6501c51a6036abe29f16ce6826e60fe9f1131f75f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_06.nc": "8f28c01b87c1e35a5769d3bd2707026867144b82e069e11d4db6209b92bd7e17",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_07.receipt.json": "b08421c8cc5a5b5a2fbd320e4611330153ac508091c32b516ec3b9b85c0bbb55",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_07.nc": "23ca11160709a71f8da236ebc9333b31623677577c041b3f5e75df178075624a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_08.receipt.json": "9383ee9c2800792af9f522afe361735b1886cb9342df797b1e9a89d5e084c90b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_08.nc": "826907428a790e7dd2593437b04f09bc90d81098fa4d0f0d11de334dd0abd054",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_09.receipt.json": "4483dc3e1377364c3307380dfa2a01e379f2062b5863bcc1f7b45cca9cf08fe1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_09.nc": "f9b6577f868f6a758b8e10cb6fac6cd0ebc6be76d5390a108aa8b067d28dd080",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_10.receipt.json": "df654877704bea310810a614a03a15d4e1fae4ece4347fade27420876ffe9fbe",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_10.nc": "6289a90c6d304da33c5547cf37ea69fa1345b884b7e1434b9d2e6c12a4285531",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_11.receipt.json": "032d277a8df3ea8d507710668e0802f14f34c3d83ca6700210e6a76006b3e300",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_11.nc": "6d0a3975e09a34e0146a24ce2e3eac08ea3506aa50669ed2a477d0c1b6741b7c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_12.receipt.json": "3ccb23017df656ae08343c5e157daa43377623cd33068a69b679c4faeed6c1f0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2015_12.nc": "2fa0a6d8237ccd218eb032b9a6d1fdf44cd30573387b6bce2e3c8395f66ea702",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_01.receipt.json": "3c0872e64fd80344ccc2d26caabb96e63564454e0878dc0ef606ab84c3da711b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_01.nc": "a66cb51f520380fb0e673b9f5fee46fb3c2c30ad61bc97d2179e4ebae486cf02",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_02.receipt.json": "8f116a28552f377812c6ae51ab9b239a98de9787a28520d7513f3d95ddce95a9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_02.nc": "073dc3a3d5456d20c78ca4333646867386e73dbf55a979528c9acf03a16ba4e5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_03.receipt.json": "5f9d47301510f176d69942d9efab20dad47511aef81ccf918960933ca8f06ed6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_03.nc": "1d90f8931fdb05f62edd6d62c5a2d971bcf354902c6daa597161905daf90d58b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_04.receipt.json": "d448c022bc6830216e5e3c4d5ad0394d3ad621b081cec1f22d1ff4d47cfd36b9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_04.nc": "a6c83d5250c6d63a4ba54c938205aff97e9102c31f6d8136b7b3320a2ee280a1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_05.receipt.json": "4ac09944293986b7769abb2fa390df80476288041618420579b71a3ec76a460a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_05.nc": "758c982ab3f52c17ec52551b5563815fd768077eff290f8f5d9cad3a5d0af842",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_06.receipt.json": "f8cf1600e7a9bd846cf7d0804c5bdc82ed755b19d0645913c88b9f76e7a991ad",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_06.nc": "7f24427010302561ccaa141d63d2144749ded2d56a5536b346472b049920ede5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_07.receipt.json": "2ef9c6e87ee39b4cdf5fb7d4c1b23f01dccee299e38fb967a21f88c5568ffcca",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_07.nc": "e214eb14573ef842a5448bf91a3bfa0cae8937a7767e1717bbeb22acb6d2fff7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_08.receipt.json": "caa49648dcff575cb31550f87edfa85cbfef8b3371d5cb5b9c9afe702e9ff207",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_08.nc": "8957b4eccf31c5baaa98b773607ac8b8922a605b2c8681d3032e8494f06de0a9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_09.receipt.json": "350034c123046fb57d0b8faf84c6cb3d44be78ee676ba0706b9f418763637983",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_09.nc": "ab7fbb26578d79b729c930714a8c52bcccfe559f000d8d5b5537f438ef46cf6c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_10.receipt.json": "06238c61b7f6c3b145b296de824c6584ad9bedc58b10703a035f4dc059431f79",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_10.nc": "93c34981e5ceee98031a1e24b8e2acc4398a94ba511dcb1de39a9e9de864e87a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_11.receipt.json": "b9c6262d534eb125d80a087edee679da3c2d9dde1086d4302eb56d06f57d6e9c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_11.nc": "d88b5b6b14521e5e3afa537ae15119dc36ede4d1a559852bee99e815867d3a04",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_12.receipt.json": "a5d92e9981ae218f95b8cf1dd827f0fbcc8ba4ac3ebe5d67ee9899bcf6c1397c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2016_12.nc": "cf5a4e1720a412af5428f3acf603b3ec7f27c51cffc88b9f89ad9b5573fc4673",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_01.receipt.json": "06fb9524834440e04d66d3a45292155f28192b24587d9869b73034371cf67f3f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_01.nc": "f9a457fe9b68cbfa3e790f0904a42cb4c363eeefd3c42b85a6cd9c9debebef46",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_02.receipt.json": "0814d7d3ff7ea8706b3017d3ffd8bbfdfcc803ceef31431af8461a59081ca9c4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_02.nc": "8a6ff47c48ce7a71947502e3ace7d27ee3394e159b507b4cbeeb5b6ff6194fec",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_03.receipt.json": "2facb4acf14a5940c174037decdba473c3f8508987c009a2f3e496bc322e3ea7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_03.nc": "ec1234838fef8cd271b6656349827d9255e985370a0b881efdba474d231cbe17",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_04.receipt.json": "d819c53949f3ef3adf22e2aec15fa6613fe3f108c2cd7a3e0c4f647476b3dbed",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_04.nc": "8989253440e6496f846cc9d19d389512fd25963e2d1cfba43d6e19a1633af856",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_05.receipt.json": "15c6154f3a50a8dad52a1a621cdcd61c89983c1f009f22b266f35679f4e878ba",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_05.nc": "1afd12eabddf21b4e94b45711d8bcb5489a37b9b31b18cd51f703520cbeaf942",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_06.receipt.json": "571f489851cc41abf1517f2fe6cf78da1363f77aad6fa01aeb1da265babc4c39",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_06.nc": "0798f1b4e89f341acea3de89911224c46884f570c0f505da68aa6d6fad0023df",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_07.receipt.json": "cdca9bb3cf69153d08823c27d6cdd390c1cb43a071480548cf7b0727455108f6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_07.nc": "87f63ec9d9f9ffa14fbb0f92011d65418673f7d121c2db26165be6cb9a50598b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_08.receipt.json": "f38964439eb5b955cc4aabaa062b03e99e93ec5e38bd2b035c58188940b2ae7d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_08.nc": "f44fa676020b973238b621f2cd726a86edf1f2ac86ef3314b47bd333cd002b0c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_09.receipt.json": "884ccf552ef5c5e3f0cb15fe0def51f66ab291003ac0d8b902688d73044e1b64",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_09.nc": "5be9fb62522a856d9199293252830c3d3c1bbc87761318f5cf34e8bb35f7c474",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_10.receipt.json": "05a857b5db956fa94941bf8f19f7ad8e9ea928c336fa72c1e10df21108cd152f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_10.nc": "de9d3bd90786f3e2590c7322111738e405205999a188f9fd073cb076ab6d1676",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_11.receipt.json": "ffbb5a1733cb1a9456dfd47268d21f556c7197f8ef4f330d915e2f51dc5267c9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_11.nc": "d0686a2236f89a057cb3b58b13d0f607cf8e65f623be61d7e1194b75b915b352",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_12.receipt.json": "cdf180c1878cb50d043b8510fd48dc7bec5cca7107d393618726e559e60ba6d1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2017_12.nc": "725ca085384866df4507db97f9a4a814a5bb56a5fe0564d9b76feb535b94d44e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_01.receipt.json": "37dc84af46a0bdaea858f90a896813fd3687a9381822eb5ff04cc54313582964",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_01.nc": "6e567d7cb63df102f2febd6bd6f8eb0a7ddbdbf127bb6f0dd2a31c84575f5c7c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_02.receipt.json": "693ed495d902c6860a607070afabff2048e81eaf9c82f1eb2e071475b836620a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_02.nc": "918944ae98e44cdbadbb648f6b24350579fa2719db58174cff97ae622b272db6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_03.receipt.json": "953e20b8f31af7e11968e3f250d7ab5cd255f29ebdc4834443c816bb66c7c478",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_03.nc": "79380de0a1c62fbbd1ed9b3f95a7f3de4625fef439eb4ad4e99dc819bb1f4897",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_04.receipt.json": "a8660052324ef0dda99180041d2d41ccf72096aabeef53daa9b88657d374c0d8",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_04.nc": "7a6bf8cc48d4647fba56ce06880363671d43e6cfe15b1f56b48d391938eff5e2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_05.receipt.json": "8e220c04241a55e5bc985d0b7506d879788c08a489115a74e472a55cf3822dbc",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_05.nc": "04f733694881ff66a0b9a4570fe791b3cb005983e6709dfc8949bafdc4e13aa3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_06.receipt.json": "6f2ef159a9f4d583e7b48298b60c3324390428f87cde66fe30772ee25c0722ad",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_06.nc": "515b2739e23e09731d03423ed51454ca4a100cad0f255eb68935eb770eada491",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_07.receipt.json": "6ae2ec8ab42e109ded7f14b42db18f8f0e05f3c752e69c266fbf82ca6efbdbf5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_07.nc": "c211e3468533e2c6155d65df99837b7a3fd6cafce1a68c0c23d3b89ca106923d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_08.receipt.json": "e5470b8bb98b57c963b2c8d59c6ac9fbccf7d4718083c53a855af86276e31ae5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_08.nc": "b2df15f18bd68221eb93a395cb5cfa27b9da3a72dcac74f6cd57edd59969686b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_09.receipt.json": "39a01d3e2d282fbf6bda65b68bbe68389c5441a65a7cb8acc15df83dbd991de4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_09.nc": "ed51ca75f5244b36a41f93bc2d437b52d7829399d5322474ed29096a1395aea6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_10.receipt.json": "61125117007313436127cd7bf719d7c422b9d8a9076d55b383058312a2ec9138",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_10.nc": "a5c2dddb94d4541c91f8456dda575793bf0c3d8db0d50dd27d0ce7abb0801a16",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_11.receipt.json": "06ae3d2982d051492acd8a18048e84ea67201520b780149fe60c6cb6ff94d3bd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_11.nc": "8cf2b60ffea335810b3975362abec0d825c45838f727dba83fcbedc5e052f139",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_12.receipt.json": "cbffae2a3fd9f335c8283af49dea900ac8d0b692ea87eec13f6583091c86b505",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2018_12.nc": "cd0a384811b38ad6a6b2fbbea13582ae927c76ecb770d5de24a9f41502dc129d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_01.receipt.json": "ab167a77a4431bbc2477875b5b7384f970d947bfa1aedfca7c67db1aa6385b61",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_01.nc": "ffe66687a81adc2e22a9894498521342f041385f05be8f52fd35438a7830a9b3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_02.receipt.json": "12b927e1b093576c8b03a801c6f4510d6766070a40651ce4f1502cbf54425d51",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_02.nc": "1bdb2ba26dc5201997a5dec7a9faca5c0376f1a25a9b5a485e5f65cf7037cd6b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_03.receipt.json": "22a74ea5db5e63d7d285f1ff13589aaae130273cac23f5ec9560c62d3068849e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_03.nc": "c9da92b803205fd60bf0eadba14a3f2951f5f789706185a225f2afe21f34ccbb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_04.receipt.json": "114085d78ef62993f67dc5ce09b79670a5172a771db16ffb870db36107c4ae6a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_04.nc": "7dce1810087ffb5f96391964a50030e549fa18f62d32b8bfcdc904e659938d0d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_05.receipt.json": "e0b5f24f1f3172c7351491f5f4e4f9ba15f63a58eb378b61103f1a3272b4c0f1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_05.nc": "87bdc40bc8b6bab7e5c314c7153b657a462adf7827cde0e8d82eec9cbff37a85",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_06.receipt.json": "44512df1b1b703e36acbe87d7688e13311e315bf6a80ccccf5c434c7c9c71337",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_06.nc": "cddecb5cb1aa37a3e756d50a9b28a4d2a20f738d688ece36052f2588cf8ed845",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_07.receipt.json": "c073772f73b6eda65e98381a30d477dc3317fa18a9d44d6bd4434436630d8968",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_07.nc": "9275cc51885e36bd1af617059ea9923a73460f3ca343ca95f2bed89737fc53ad",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_08.receipt.json": "32255736f38bc03b2c0225ebd6c977585b99296b5db410034193547b0b90f506",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_08.nc": "e3498d12c5df09c030f04f08a6399948749541b72388efb2860e6a05615d3f86",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_09.receipt.json": "fa29c0d92ad9534678b12997e425912597734604f1433ac0b23364be0d741dd0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_09.nc": "7a2e650f289db138f94ebd60c77e4b74c969881c1e234dca3a29d3f5c0476c19",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_10.receipt.json": "15a5dcefd881e177be3a86043edf52bcc84a9fe4501a1bd063af976b2d32ab14",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_10.nc": "255b8f1fbb60043edc994a2a0667f4b5d2b8f71dda5be57ae8a45416b074adbf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_11.receipt.json": "cec72a56a08c8fd2e205eb325b060a18b45c3d39e60fb8768c1211a77268c647",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_11.nc": "22681932e97c3277a148ac33cfedb437b9d94f495322954814aef80f4ec7173c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_12.receipt.json": "8b478da678e4522ed540ed64f8c17d498e9cfcb5ce62f79834510d6f4bb674cf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2019_12.nc": "c3516169625970c67c5d1f02663d00b989cdba40a5dfb952898b9dac7d893f82",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_01.receipt.json": "e07f1babaf491d78b13a26e8d5cc9b358473168c9c72490d41e38bb25533b49b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_01.nc": "201fd0235387e3e20637fe45e2164d4b0c3f24ddc9e403f46928fc73c23ed511",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_02.receipt.json": "7e8d7699f896abff6513b728482a3cbfdf5858908638ea6ffbe711e5504e7053",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_02.nc": "d7418d04004b8482de92fe61e579edd177410f5af818c6f337ba478be00a4491",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_03.receipt.json": "35183f6fd961f03904da61ad952d056594874e8218892e0e94d224d89e6d6d4f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_03.nc": "24bb95189845e9bba8b1659bb0de8247f8c778c884486cef3b8beb0825e0cb65",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_04.receipt.json": "6672241d85cebd71cafe17cdec8a7e86e35d6d781ffbda17062bc834a97717b2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_04.nc": "03fd63e22d3f737aeb530384fa69b5a73aa49714b4db5ba5204dbfbafd021bea",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_05.receipt.json": "823bfb9936ee77119d9612cbc514cc67bfd4185a58e3df6a7510096f77c70f50",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_05.nc": "5bcd05d9cefae5fc891524a32c8feeab2fa4fe677598bda5ec4e823d8e2894e2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_06.receipt.json": "3144eefaf4e6dea271bb9ecdc7d3d6767989c24cee1f91f37fdb538e854f743f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_06.nc": "af5c3ac61c01c90bbb1fe69aa4585b798d60e4fb2f0b28234ef1d35eca5e30d0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_07.receipt.json": "99e907deaa40a81060521660744e434be1d932b78ea3d00065d6fbd4b86a6c19",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_07.nc": "f8da4a0edd5ca065cc37caab7458d16e8a9890a34eed29f307861017ca506b4c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_08.receipt.json": "e91fb22d6bbb67c50356d1172b2dbf5b31e27a312eded718673b1f39a31e1db7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_08.nc": "0c2b04048c8868b26bec8177cf00648173ff4245f33a6427ff4bf5259f5147b4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_09.receipt.json": "150000a0f5c6803f4d469492cfe86aa0de23935d655d016e432f437a95ff4fac",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_09.nc": "270e2df3a01dcdc8b429fac3f2fa9d855100ef871f71a07158d79185a55ca6cb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_10.receipt.json": "c7da4fdfbbf085ecebd21c342304f73bf41b1711886ed221be5e649ee9c8e6f2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_10.nc": "07d9c0e577e75b9ec48526bbd679393a0e5ab94d1210e5d2a046b9b5323e445f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_11.receipt.json": "c680d818c0d169305e5aa611a9b16d640f038eb89dc4eee70a9f3eb505b7d596",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_11.nc": "f80a19620c383951077243485208e096693d9e40ede803db78b23dce34bc84c5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_12.receipt.json": "1c1be6320458115410c84f46f89198112adc5aaf6fb1b610363d882b619074fd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2020_12.nc": "fa8039e257aac97ca15dbfcb43803fcb1f741dfb67e163f3353994fc6fb0e3e2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_01.receipt.json": "38011e646e39ac0040b0ef37c44373277555fc12f471f398f5f3e6d055da89b6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_01.nc": "a47c03a2974a7a2d4d28e52813d8f1f29c5ffdc9a262ce9a302f603233129232",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_02.receipt.json": "2e57fcd706f32465cf3712cecf684249d478dfc1542c5079a68f135f54a4bb37",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_02.nc": "1d23c4c9d0f7323f7a29a8aec5c30b795ad763378fcbb394ad32b125e8bd45f6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_03.receipt.json": "e33001b9eabd10d8895bc3c0919ecacf9709c673270a91897cd59d02d9d13bfc",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_03.nc": "4d0f3456d77a8ccd5dc07a6b3318ea0dc75108f748809c6634a60b0cfe49c289",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_04.receipt.json": "14b80f974db8728095a56f0ff803f76d465d1f93e203a92a8195b4ece6c684db",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_04.nc": "e1c1bbbe08968ff0378fc98a3e07ac8b1d81b2f8fad7b4ba25ee61cc6e9182c5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_05.receipt.json": "17d4d7d23f43e94358f1a683c6d996ea14166bbd4078e6a3c2f0ea9f20aa0ef0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_05.nc": "376d34c94df71ece91561559f22bc3c02eed22047a9449b7b6df2a4d85a26589",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_06.receipt.json": "cb6e39b7f056798803062e26df4c107d68e01ed2599ef1af5d501fbc1eddc5b0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_06.nc": "decb509c554f94b84aa7ab9a14b4ea540c8e025ee36068839a8898fcfa344106",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_07.receipt.json": "ad0b8253d8165905f9a240c4b4824f6b7aed04ed6ff66d30e5cb4f3dda143ddf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_07.nc": "d750998bc87a8689951e3c59bac20970d67685870e6c119db785240f685ce289",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_08.receipt.json": "b3c47a4864e027248486c90e2e5005fcf97eb41011d0f46d8527f7176b78222e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_08.nc": "0c1c60459e6b76ab730345fa48bf404cbc066913511b17d4a92d6dee50870b71",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_09.receipt.json": "69caea944c6e4782449a958778a6c13eb180b8aa2476a418245b34da087c1f64",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_09.nc": "905e72f657375f8b2710e9e7bfb459738171f4318bbc817adad5619a6c4fc90e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_10.receipt.json": "db71cbe2f691bcda600ab72a3acfbc823965057825952c9a55b399b90a41a4cd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_10.nc": "9dde6a452ad47cabecf265ef89e7da43eeaf2e7eb37bbe0eccaae3f252551894",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_11.receipt.json": "b0ea79ef6cae4e4a7f85d9f8f601af91c28a647ed7b83e557824f091263c2769",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_11.nc": "6ec336adf55a2ad87362a5d074d6411438fa0ea6590f09c3c7966cc1c3c618bf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_12.receipt.json": "d1476f4d4f5e28937fa592637d68a66b09b9670a0e3ba1cf00211086f447e9a2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2021_12.nc": "e6fba8aeef4a02978afe34abc2f8627eb94534472461c61099aae25744f40fbd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_01.receipt.json": "333861fac0c695140e576def5fd6b695aeec21868476e770d3eb6831eca0e495",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_01.nc": "bd7ff7572bc631d7bfb6384f5e4fdc726321c9e0594cb4990dbba3972d46ab8e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_02.receipt.json": "deb263f25dd23e55d7a119bcdb978e6515181b3bf54d2b2b900d231eac0d418c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_02.nc": "a40491b9e8d8eea6e478e64bee771fecce8a8fa7a41ed4589b5221fad99bc3bf",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_03.receipt.json": "0512606b1afea9ed2cfe6c5f055c0d223440d1f3e030c0e1eaa85dbc6ba98e78",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_03.nc": "028e2a6f7035a2e84d371587146887ca346fe0705baac0d6896e0dd51e67ed77",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_04.receipt.json": "aebd672778eccc3bcca51bb28ae65a7dc8351bad2b3a7991ca42e31e416b8348",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_04.nc": "b5c12e80c7eae1e4f7395c112905d257b95d65fb1807036ea2155471cb310d4e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_05.receipt.json": "71638cc4c6b25bf164ceff1a4b13bf355b2aaab23cc740469134939c9d5ca9d3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_05.nc": "0957bcaf75457f9cc93e034871b7f5bbf801cbb93fb0d3b54c7a265a680fef56",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_06.receipt.json": "c9b180fac2129850ed8309764b88daea19e12fcfecaeed2199bf29c628f44188",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_06.nc": "b7842391563186d5702fd470edab6a5019228b8da0d46d0f5658a12259e491a3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_07.receipt.json": "a16d17aebf23247b6b1c986b479af0f8551bf96a627b74648195e86d8ed39f3c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_07.nc": "789dabb2c03842c465648b5d167f3812f37b3208324b6580a3c355cda2e76fe0",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_08.receipt.json": "6124dac14b2d10e372604d2b602e558eb7217072da3f170ff58f134de93dfb94",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_08.nc": "d8635dbe18d7f95bd71ac20551285688a515d1854d5db759847ca21b5019e7c6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_09.receipt.json": "bfaa2b20c92be46b321206459fce9ccfabbf108a26cabfb3ff5e31ba2fc6384d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_09.nc": "36995a0a5695ff89c92affc4709eef5bf36af9bf78f42df182e0989a423b73e9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_10.receipt.json": "8dec7d418d0438daead0dfc829c2aa525d550638f83be7b2bee9618117d9b5d7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_10.nc": "8872fdfebf72cd1fbf0c904f671660774d89baee84c1daa7dd488d41ee1a2f73",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_11.receipt.json": "9725c2a8e6d6629ba29afc23ec951882eba89390987eba60d21b260917d1c458",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_11.nc": "2433b7e60748c373efcc385e832017e0e962b18cf178cf477653ccb314d0dedd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_12.receipt.json": "127f28792db4d4edf67ad134bd6e5d2c643b44d94f549428455cb9ca133f4dcb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2022_12.nc": "5ef9b31eee0462bbd72505667eb5a53cae3c34bd0c2a96f9f20cdd4ccbaa20af",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_01.receipt.json": "df2aca73d3c47464877583a3e23b8c7b0070291425694d8a4eec0544f44ec38a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_01.nc": "f45be5d54106c193166fc60fbf1fd0514c922a04bb6be67b453433afa238d776",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_02.receipt.json": "4cdb9dca9e95baa684560c271bfc4fa6f21293556d33e5ca34c111721d838434",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_02.nc": "8c7f789ca1c72b17021d7e7b95df38ed25f382761841e4f882580d7ef411c331",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_03.receipt.json": "514fbf1f27207886ead516133c8a5841a19dd98feed6370bf128534ac952a9e5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_03.nc": "e77bb71356c362ef5bdaa4de5aa5852d4cfa08df8e811885a8f9405fb0df218a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_04.receipt.json": "f9d6fbb5a6fdf7232337d2b29b41a6f537bb8f687924798f82fd6ad31f5108cd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_04.nc": "80ab0e7228d252ed5611a3c402368bb54d52dbc6459e83149cf2ba67b6cd8319",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_05.receipt.json": "c5fd82a3bdc9e2d9aa84e58995e26227cffd1919539ed99460060fc4c8d9a4fc",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_05.nc": "fb076a4db4337754e1807cf9826dce59ad25fb70ff34a057487644b8fe1a2954",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_06.receipt.json": "02fb79ba2c8b818c35ebf9ab3aa1e52e8a0da4218554336ff455effc434563b4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_06.nc": "59604ac267f28fc56e739eb6a689038cc4dd596a65afc8e3a57f9bae5cd3cab5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_07.receipt.json": "aa9d1cdeae81ed77d11bdbabeea206d81f34a02dd3b8ffb118719b249f489aad",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_07.nc": "29969aa424bd1b2f13667023eb0b25b447247ec0d4a24d91a1d4e7983e11e51b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_08.receipt.json": "57fccede7c2918f895d4f0ea00bbfb9e4556a102759615354c1b7c0f6973bbb8",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_08.nc": "a47eafe071ccad9297a7e6fbb9e67b9a9a038c0a13d41529b05b1d9371db55f8",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_09.receipt.json": "b297c0ec3d7469190178c0e1b110e62fdd3211dcaf4bc0ff8f82b61367a9f556",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_09.nc": "9d13153fdd999962763a1f96aae0d5d6776d16c76058994876d81cbb3ec4b131",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_10.receipt.json": "d8090ad87557f11bd5a499f23f1930431b204eabbd85d0e4b6e17558c2dc5579",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_10.nc": "90f8113edb0797cb660ecc2aca4d67005e82c5d5a50f52fd4b3fc8dad53e82a6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_11.receipt.json": "2106775c8f8ff8d886969e90d5c15c063d7973c4b3a0bf5694760923d2ccc14c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_11.nc": "f2e56525038eff13152aa07dcef8e798c86d99f8049aafe97d1d422f80b5d982",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_12.receipt.json": "93d29de6f46280635e62d6699e9ac144042ac9d95a682ec14562edf0b44f7fb3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2023_12.nc": "88c3a1643b124aad3a27ef34692de0bace82dcbcf8e840ae62193b9c5ed48c30",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_01.receipt.json": "441f44fab98c80a46594bc1b840724a69e3395ac7c93811f9306a0a4ab24ce42",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_01.nc": "7b243378b759e16a58d4f76a1f6612ed2e801198fec765d89fb209269c93cc40",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_02.receipt.json": "66b563ebca2d5bc9bf9d58a702c5691e1cd158da73e031056b60ca938587ef92",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_02.nc": "29e6d2f883378ffdfa0cd303e33a46adb482da3888f0206d23c0c25f534facef",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_03.receipt.json": "f0eaafd3075c7a9a6a7703e94591eee1194532d5d78bd4e80121243b8a41efbe",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_03.nc": "f9f1a81101697d831dcc36eedc7d465ab968398c30434eb35029ba67ecb45d8f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_04.receipt.json": "87e0778ba1caa7245c9f44dd51b28f5240971be2f861d0505d32432b0c51ed0f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_04.nc": "2aec4137e744d9f5032d9d87992b5bd62cd982e7863a70cae73f7b580c5e4e1b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_05.receipt.json": "fb39b97c41b31995a4605fddd98115d79f0362589bfa2e8924d26d12b24fcb2f",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_05.nc": "58471a1d3781537eed0da002550d14ee46f03395bd333122393dc8c158cb433b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_06.receipt.json": "0ff8cdd22a940926171c8edfa8128eac0751857476c1237330024c01f9e04092",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_06.nc": "6aa60705bf97f7617ce23f502410d2aaaed4f221314b7f301be0cd6610ccf59e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_07.receipt.json": "69c857c8fa5e93514896e12866a6b699eed053641784cc2c571c170f211dfde3",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_07.nc": "bc7e3a8c03e8010b3f90d3903b27d84ce5ad3ddf186227327e4accea4f06277e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_08.receipt.json": "6686b48579e26ba37ac5cce283b94137f452e70e777fb99942aeee5bf4957da4",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_08.nc": "4dc0fe2d539a9d3c7d688fc73b801b7a88818adecfefcda87a24f4ef162ff07c",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_09.receipt.json": "baa7134f5fd30077e1bf51af55b6a3775e659a1d67f4b477f6387a04552984ae",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_09.nc": "175193296f1c27253beb3659ecc66f8fd7460c1eec2545cb6023544bf6fcf98b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_10.receipt.json": "86e2dbd90ec0d0f6d8541150417e3d5054707628aaf6a0ef971a0aefa655b2fb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_10.nc": "36fc1ec367b463d56fe0e709c910b29a4928fa24709c68a3bbcbd9d64abf180e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_11.receipt.json": "21fbfa7dcbbb4c6aebe3cb1697480bf4e974b3ca4c785910ebf2d1e8c5bdafcc",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_11.nc": "d46688ac33f7efb22c1985adbc08d52bce1edb2e9e0b963e49a7d477490aadcb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_12.receipt.json": "527c2b927b95ccaf2d030e93f5c162d0201ae337fe0c3f944ad933b73fb8236d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2024_12.nc": "9144d57f830d70296fc3daba2e3b097119dc91db8f34b36dae5b32acd99815f7",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_01.receipt.json": "0bc35745f996bb72e4e8ba1b4398687c41c3a28a153ccbf0515fc817a9009fb6",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_01.nc": "03fb724c10265203837c5dd1dbfd5296b9310bf1a11361a374c77d2660cefc29",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_02.receipt.json": "6c4c3e9c20322e458b715ba6e129d5769a052aad46826df8b175d09fe2bac129",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_02.nc": "3002ebe1b48c4156b103666e703d051c7265dfeeca9f4bfd327b235e87c27a21",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_03.receipt.json": "a4cd06efd60fc63f69c8cc108b289d18165736c50c84937e734c400799c1548e",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_03.nc": "c9c4665ab2f4a606ce6af213cbbb93027866ff6f9701b6fef51809599dd309a2",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_04.receipt.json": "620666887817fc4d1a506e61999a16db9677e782cfba3798a25c9caec8a31efa",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_04.nc": "5c2c4ae1fb33520e43303ee3e8bd766cfc9b2d39de92858f88b71ff86bf54a08",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_05.receipt.json": "983190210281db537e536e098b4ffeaa396dd54ec17db1cddf9488dd5187f1b1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_05.nc": "30051c6295b23ade7cea91081491ee5b91dde6e410e9a0fc3f64d1a1d8cf485b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_06.receipt.json": "6f6865ff6d7056f2f5a57f406098a947c45f0cb00cd0a7904144d4d8f0b583b5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_06.nc": "586644940742f54ed1cba9fade84822d9182d2ddc00ee41121c7769859e8224d",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_07.receipt.json": "07a95e6b389d0264745dd02b84bca4d154de031603eef008044dd34bc468cf4a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_07.nc": "9b9f0e58c8f17a54b2f172b1f081e0103546697b7a8315e5b76a08c2374e95a1",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_08.receipt.json": "2b7033041ba1e2d2a31ba97f8c1bc5ed8e0c06a1304f5c56c547250377aee5d9",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_08.nc": "1dbe501bea2f4c0e717053f6d1c33e2181d28d1b7c2bf6519ca77e5519c256ad",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_09.receipt.json": "e515b08aad56017935bbd12899eb2ba8116faf509a5dc625e8b8d637156449d8",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_09.nc": "839854ea5463202cbdfeb599b3be23543f38da6a7c6f6212465ea16d7502897a",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_10.receipt.json": "882fbaeff872219b89a1147f6a92bf9e674bfffac5da3e46b3358501047a1acb",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_10.nc": "772fb5c6a6c9b9e89b0007459c0fe2b80ba8943c68bbe40a0f4937c76fc9e6d5",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_11.receipt.json": "30601bae3c93aef9e2e4db2c3996ded0bf2c3f5ba75bbdfca609c07a7c4d1124",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_11.nc": "1c25ad9c8381c573d95145a85ca713593aba1b72acaca1a42d5595b2a212095b",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_12.receipt.json": "b7cfb952611c90fec72f4dd0a371cc377c1595be69600bff7d2f9a03211a13fd",
+    "data/raw/limburg_monitoring_land_state/era5_land_monitoring_2025_12.nc": "e83d8349727d781251211dbd71679e3c78e56f01451dc6a93bd8671c43a95515"
+  },
+  "saved_combined_profiles": [
+    {
+      "name": "network4_schedule6_no_maas",
+      "family": "combined_schedule",
+      "replicas": 420,
+      "subsets": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          6
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          5,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          6
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ]
+      ],
+      "phases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hours": 6
+    },
+    {
+      "name": "network4_block12_50pct_no_maas",
+      "family": "combined_missing",
+      "replicas": 100,
+      "subsets": [
+        [
+          1,
+          3,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          5,
+          6
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          6
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          1,
+          2,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          7
+        ],
+        [
+          2,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          2,
+          3,
+          4,
+          6
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          3,
+          4,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          6,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          7
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          3,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          2,
+          3,
+          4,
+          7
+        ],
+        [
+          1,
+          2,
+          3,
+          6
+        ],
+        [
+          3,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          4,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          5
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          1,
+          3,
+          4,
+          7
+        ],
+        [
+          0,
+          1,
+          5,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          6
+        ],
+        [
+          1,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          5,
+          7
+        ],
+        [
+          3,
+          4,
+          5,
+          7
+        ],
+        [
+          0,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          4,
+          5
+        ],
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          1,
+          3,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          4,
+          6
+        ],
+        [
+          1,
+          2,
+          4,
+          5
+        ],
+        [
+          0,
+          2,
+          3,
+          7
+        ],
+        [
+          0,
+          2,
+          6,
+          7
+        ],
+        [
+          2,
+          4,
+          5,
+          7
+        ],
+        [
+          1,
+          2,
+          6,
+          7
+        ],
+        [
+          1,
+          4,
+          5,
+          6
+        ],
+        [
+          0,
+          5,
+          6,
+          7
+        ]
+      ],
+      "mask_name": "block_12h_50pct"
+    }
+  ],
+  "jobs": [
+    {
+      "name": "soil_snow",
+      "fields": [
+        "swvl1",
+        "swvl2",
+        "sd"
+      ],
+      "readiness": "204 receipts and source checksums verified; causal join helper tested",
+      "remaining": "Area-weight native ERA5-Land cells to each existing catchment; preserve source coverage; join strictly prior hourly states; expose identical controls to raw and encoder heads; refit chronologically in versioned outputs",
+      "interpretation": "Retrospective physical-state control, not as-issued input; no substitution for Galileo TerraClimate channels"
+    },
+    {
+      "name": "combined_profiles",
+      "readiness": "Exact saved subsets, phases, mask and clock hashes retained",
+      "remaining": "Adapt both common context and conventional references to each saved realization; fit each head on the same scenario; reuse shared year and mask resampling; DOFA retains held-watercourse exclusions",
+      "interpretation": "420 exact network/schedule combinations and 100 saved network/block realizations; not frozen-head replay or a new severity search"
+    },
+    {
+      "name": "encoder_without_raw_attribution",
+      "readiness": "Supporting arm specified",
+      "remaining": "Use same allowed common context and frozen C reference, omit model-specific raw block only; retain zero encoder choice, chronological tuning and matched support",
+      "interpretation": "C+E attribution, not the primary equal-input C+R+E versus C+R test"
+    },
+    {
+      "name": "satmae_product",
+      "readiness": "Product-and-support sensitivity specified; paired acquisition inventory pending",
+      "remaining": "Match SR and TOA acquisitions, bands, pixel/patch acceptance and temporal support; derive raw controls from each exact input; use declared checkpoint normalization; version all outputs",
+      "interpretation": "Report common-support comparison separately; unmatched differences confound product and support"
+    }
+  ],
+  "safeguards": [
+    "No new acquisition authorized by this preparation",
+    "No extraction or fitting launched",
+    "Do not alter active source hashes",
+    "Do not select severity or configuration by observed improvements",
+    "Use full eligible census and report missing support"
+  ]
+}

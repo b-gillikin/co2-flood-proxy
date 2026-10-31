@@ -1,5 +1,13 @@
 # Limburg analysis inventory
 
+## Current status — 31 October 2026
+
+The active work is the [ten individual encoder experiments](limburg-individual-experiments-implementation-2026-10-29.md), not the earlier fixed-fusion retrieval comparison. [Partial evidence review](limburg-individual-partial-readout-2026-10-31.md): eight models, 23 distinct primary jobs and four configuration comparisons reviewed; Presto/Galileo pending. Script 174 snapshots audited outputs, utilization and post-hoc event corrections without fitting. It verifies source/output hashes and preserves the full-ledger interpretation. No final ten-experiment conclusion yet.
+
+[Supporting preparation](limburg-individual-supporting-preparation-2026-10-31.md): script 175 verifies 204/204 soil/snow monthly source checksums and freezes exact combined-mask definitions. New causal-state helpers/tests and four supporting work contracts are prepared; geospatial aggregation and supporting fit runners are **not complete**. No supporting run has been submitted. The active primary code/queue is unchanged.
+
+The entries below are **dated historical records**, not simultaneous active claims. In particular, “downloading,” “not launched,” and earlier “no runner” descriptions record their dates. Acquisition has since completed, scarcity/retrieval runs have completed, and individual experiments are running. Keep these stages distinct; do not erase their negative findings or relabel prior TTM/AlphaEarth/RAG work as current primary experiments.
+
 ## Monitoring data acquisition — 2026-10-28
 
 [Acquisition/status](limburg-monitoring-acquisition-2026-10-28.md): script 150 retrieves monthly native soil/snow fields with saved request IDs and validated receipts; 151 prepares causal-clock context/gap inventories; 152 downloads/audits only absent source windows. EO additions complete, soil/snow still running locally. Other archives/results untouched; no extraction or scoring launched.

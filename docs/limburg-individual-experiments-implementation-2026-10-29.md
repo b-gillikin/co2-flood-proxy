@@ -78,3 +78,8 @@ There is no positive-result requirement, fixed minimum support gate, new RQ, new
 Acquisition update: the previously authorized soil/snow pull stopped at 163/204 months after a remote connection closed. It was resumed sequentially on 29 October, preserving completed files/receipts and the failure history. Its manifest remains the live status source; this does not delay the primary queue.
 
 Execution record (29 October): code commit `d725937` was pushed before launch. The local controller is running; all ten final source-bound native fixtures passed, and full-context benchmarks have started. The current readiness JSON tracks this execution. Primary fits/reviews and supporting work remain pending; no new empirical finding is claimed. Runtime versions are saved in `queue/runtime.json`, alongside the source-bound queue state.
+
+
+## Status clarification — 31 October 2026
+
+Eight experiments/23 distinct primary jobs and four configuration comparisons have been reviewed in a [dated partial snapshot](limburg-individual-partial-readout-2026-10-31.md). Presto/Galileo remain pending. The earlier implementation statement “not claimed implemented or completed” still applies to supporting fits. [Preparation](limburg-individual-supporting-preparation-2026-10-31.md) now verifies all 204 completed soil/snow files, freezes saved combined profiles and provides tested causal-state join helpers. No supporting job has been launched; primary source code/inputs are unchanged.
