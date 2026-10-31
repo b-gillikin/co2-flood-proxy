@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "name": "v1.1/splits/flood_handlabeled/flood_bolivia_data.csv",
+      "size": "834",
+      "md5Hash": "XsAnM1l3NsfrwLCgocLjRQ=="
+    },
+    {
+      "name": "v1.1/splits/flood_handlabeled/flood_test_data.csv",
+      "size": "4858",
+      "md5Hash": "6bLjqClk1I3fHkUO2dR0Nw=="
+    },
+    {
+      "name": "v1.1/splits/flood_handlabeled/flood_train_data.csv",
+      "size": "13574",
+      "md5Hash": "LlaQkQPhCA4jkpVnOF6icQ=="
+    },
+    {
+      "name": "v1.1/splits/flood_handlabeled/flood_valid_data.csv",
+      "size": "4804",
+      "md5Hash": "Ncty4Axvu6bWSxQtr27XOw=="
+    }
+  ]
+}

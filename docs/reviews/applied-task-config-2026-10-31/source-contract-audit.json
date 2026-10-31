@@ -1,0 +1,83 @@
+{
+  "status": "source_contracts_and_small_sample_checked_no_model_run",
+  "plan_sha256": "4dae727412e5d595af0d3bf672992f280b3e9b4ab01cd54e892f3c034f103be6",
+  "script_sha256": "1ec070dd7fc5b4e6bae8a2361c71488677320fe8998dffd7daac696851cdd690",
+  "source_contracts_verified": 11,
+  "tasks": [
+    {
+      "id": "AP01",
+      "model": "TerraMind 1.0 Tiny",
+      "status": "identified_not_training_ready"
+    },
+    {
+      "id": "AP02",
+      "model": "Copernicus-FM base",
+      "status": "identified_not_training_ready"
+    },
+    {
+      "id": "AP03",
+      "model": "Galileo Nano",
+      "status": "identified_not_training_ready"
+    },
+    {
+      "id": "AP04",
+      "model": "Prithvi EO2 Tiny TL",
+      "status": "identified_not_training_ready"
+    }
+  ],
+  "hand_labeled_dataset_bytes": 1750657652,
+  "hand_labeled_dataset_gib": 1.6304269917309284,
+  "source_sample_bytes": 1614890,
+  "not_verified": [
+    "full benchmark data integrity",
+    "runtime heads/backward pass",
+    "local reference AOI overlap and acquisition matching",
+    "fair accuracy/resource comparisons"
+  ],
+  "source_hashes": {
+    "terramind_tiny": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/terramind/configs/terramind_v1_tiny_sen1floods11.yaml",
+      "sha256": "66a3513e3ccba09ce02da15d2ac675b8ee184149c471acf9aaf4ac388c560544"
+    },
+    "copernicus_experiments": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/scripts/exp_config_copernicusfm.py",
+      "sha256": "c5af14c062067ff4f15623a4772202c27bbebd7ad35462fa57aac788a8b8640d"
+    },
+    "copernicus_model": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/copernicusfm_cd.yaml",
+      "sha256": "2a4a68ac81b2c9554b2a68dcb9f635149840f53db30c62272bf955cdea7bf0f9"
+    },
+    "copernicus_model_defaults": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/base_model.yaml",
+      "sha256": "42b3c6022c5b097e713a7cf0dae0554659d0e83d5fe6b928194eaca17284528f"
+    },
+    "copernicus_dataset": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/dataset/cobench_flood_s1.yaml",
+      "sha256": "45ab0fc674f5d4bef31d7df576e966e52421a9c1e81a5fd4866b2d93c22329f6"
+    },
+    "copernicus_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/datasets/cobench_floods1_wrapper.py",
+      "sha256": "c528ba67cc61d3117d6a4f79800ecef03f82b303498bb1040d8f80457301ff45"
+    },
+    "copernicus_task": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py",
+      "sha256": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1"
+    },
+    "galileo_flood_config": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/configs/sen1floods11.json",
+      "sha256": "16aae5a4aba9555fc4d87d2c0b961bb7784bf6acf79cc4473cb31a5f1f425732"
+    },
+    "galileo_flood_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/sen1floods11.py",
+      "sha256": "0ac1c66fe0d4c0f62609a95deca54a51f6776bad192f2b74365b3645681c8c98"
+    },
+    "galileo_eval": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/eval.py",
+      "sha256": "6064f8fb19c57d8a6f778a479881e43d3e530e6f3d288c0a8598080ae9a78d22"
+    },
+    "prithvi_author_example": {
+      "path": "docs/reviews/applied-task-config-2026-10-31/prithvi-author-sen1floods11.yaml",
+      "sha256": "908d22f50fa115f79f32f967cf8cdc8c00b4f857cb1c6309cd825521382c6ec1"
+    }
+  }
+}

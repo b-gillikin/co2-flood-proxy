@@ -1,5 +1,9 @@
 # Data Requests and Delivery Contracts
 
+## Applied task update — 31 October 2026
+
+[Current data needs](data-needs.md) identifies open labeled imagery and local mapping-reference products for author-supported spatial tasks. It adds no new gauge/weather request, interview or live-feed requirement. Existing discharge/scarcity data remain sufficient for that branch. The CEMS public API retrieval route returned HTTP403 while public pages were accessible; product/AOI retrieval remains to be checked before proposing any request. No email was sent or queued by this review. Brian sends all emails. Earlier sections are dated history.
+
 ## Current monitoring-loss plan — 2026-10-28
 
 The [whole-study implementation plan](limburg-monitoring-implementation-plan-2026-10-28.md) requires no new provider delivery to begin. Prioritize actual EO support gaps and recommended open ERA5-Land soil/snow context. Historical observation-versus-receipt times, station-feed interruptions and contemporaneous backup delivery would improve simulation realism if the existing NL/DE contacts retain them. [Drafts for René/Jens](limburg-monitoring-provider-request-drafts-2026-10-28.md) are prepared for Brian to send after reviewing the core analysis; not sent and not a blocker. Brian sends all emails. Do not repeat answered requests for historical row-level validation flags. Do not reopen answered timestamp/zero/rating questions or unavailable historical threshold/datum requests. Earlier tables and blockers below retain their historical dates.

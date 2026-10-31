@@ -1,0 +1,30 @@
+[
+  {
+    "file": "docs/reviews/applied-task-config-2026-10-31/flood_bolivia_data.csv",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/splits/flood_handlabeled/flood_bolivia_data.csv",
+    "bytes": 834,
+    "sha256": "4775d100fae1f1ca66a842b8af6d2a97b8bfc5847f29d88ff0affff2c1e22768",
+    "lines": 15
+  },
+  {
+    "file": "docs/reviews/applied-task-config-2026-10-31/flood_test_data.csv",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/splits/flood_handlabeled/flood_test_data.csv",
+    "bytes": 4858,
+    "sha256": "8b598c9438042f3ed8aed4484268387fae1aa5b660882e1c5b4c1218eba63d67",
+    "lines": 90
+  },
+  {
+    "file": "docs/reviews/applied-task-config-2026-10-31/flood_train_data.csv",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/splits/flood_handlabeled/flood_train_data.csv",
+    "bytes": 13574,
+    "sha256": "57be4dc440bf8a526effa77e06d4b8cb7a8484589c0bffa201d8e0f49e994beb",
+    "lines": 252
+  },
+  {
+    "file": "docs/reviews/applied-task-config-2026-10-31/flood_valid_data.csv",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/splits/flood_handlabeled/flood_valid_data.csv",
+    "bytes": 4804,
+    "sha256": "04999b82b93e393c32a54ac85b2bf8a18b671f7a6f43a9478b340e8a9b9647fb",
+    "lines": 89
+  }
+]

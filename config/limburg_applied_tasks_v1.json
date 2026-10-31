@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "status": "identified_and_source_checked_not_training_ready",
+  "date": "2026-10-31",
+  "working_question": "Where can satellite AI improve assessment of high water and flooding, and at what data and computing cost?",
+  "authorization": "Task identification and chapter/data review; no new full acquisition or training submitted",
+  "existing_queue": "Unchanged; finish and audit pending individual experiments; preserve earlier results",
+  "sources": {
+    "terramind_tiny": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/terramind/configs/terramind_v1_tiny_sen1floods11.yaml",
+      "sha256": "66a3513e3ccba09ce02da15d2ac675b8ee184149c471acf9aaf4ac388c560544"
+    },
+    "copernicus_experiments": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/scripts/exp_config_copernicusfm.py",
+      "sha256": "c5af14c062067ff4f15623a4772202c27bbebd7ad35462fa57aac788a8b8640d"
+    },
+    "copernicus_model": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/copernicusfm_cd.yaml",
+      "sha256": "2a4a68ac81b2c9554b2a68dcb9f635149840f53db30c62272bf955cdea7bf0f9"
+    },
+    "copernicus_model_defaults": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/base_model.yaml",
+      "sha256": "42b3c6022c5b097e713a7cf0dae0554659d0e83d5fe6b928194eaca17284528f"
+    },
+    "copernicus_dataset": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/dataset/cobench_flood_s1.yaml",
+      "sha256": "45ab0fc674f5d4bef31d7df576e966e52421a9c1e81a5fd4866b2d93c22329f6"
+    },
+    "copernicus_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/datasets/cobench_floods1_wrapper.py",
+      "sha256": "c528ba67cc61d3117d6a4f79800ecef03f82b303498bb1040d8f80457301ff45"
+    },
+    "copernicus_task": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py",
+      "sha256": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1"
+    },
+    "galileo_flood_config": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/configs/sen1floods11.json",
+      "sha256": "16aae5a4aba9555fc4d87d2c0b961bb7784bf6acf79cc4473cb31a5f1f425732"
+    },
+    "galileo_flood_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/sen1floods11.py",
+      "sha256": "0ac1c66fe0d4c0f62609a95deca54a51f6776bad192f2b74365b3645681c8c98"
+    },
+    "galileo_eval": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/eval.py",
+      "sha256": "6064f8fb19c57d8a6f778a479881e43d3e530e6f3d288c0a8598080ae9a78d22"
+    },
+    "prithvi_author_example": {
+      "path": "docs/reviews/applied-task-config-2026-10-31/prithvi-author-sen1floods11.yaml",
+      "sha256": "908d22f50fa115f79f32f967cf8cdc8c00b4f857cb1c6309cd825521382c6ec1"
+    }
+  },
+  "tasks": [
+    {
+      "id": "AP01",
+      "priority": "first_concrete_native_task",
+      "model": "TerraMind 1.0 Tiny",
+      "source_key": "terramind_tiny",
+      "checkpoint": "held pretrained backbone; no trained flood decoder held",
+      "target": "binary surface water at acquisition time; not automatically new floodwater",
+      "labels": {
+        "dataset": "Sen1Floods11 v1.1 hand-labeled",
+        "classes": {
+          "-1": "unknown/invalid",
+          "0": "not water",
+          "1": "water"
+        },
+        "objects": 446
+      },
+      "inputs": {
+        "S2L1C": "13 bands, TOA scaled reflectance",
+        "S1GRD": "VV,VH dB",
+        "spatial": "512x512 chips in canonical data; preserve georeference and valid mask"
+      },
+      "architecture": {
+        "backbone": "terramind_v1_tiny",
+        "pretrained": true,
+        "frozen": true,
+        "modalities": [
+          "S2L1C",
+          "S1GRD"
+        ],
+        "merge": "mean",
+        "feature_indices": [
+          2,
+          5,
+          8,
+          11
+        ],
+        "decoder": "UNetDecoder",
+        "decoder_channels": [
+          256,
+          128,
+          64,
+          32
+        ],
+        "classes": 2
+      },
+      "author_training": {
+        "seed": 42,
+        "max_epochs": 100,
+        "batch_size": 8,
+        "optimizer": "AdamW",
+        "lr": 2e-05,
+        "loss": "dice",
+        "ignore_index": -1,
+        "precision": "16-mixed"
+      },
+      "local_execution": "Author budget is a reference, not a runtime estimate; profile compatible MPS/CPU precision, batch and peak memory separately without altering active environments",
+      "comparators": [
+        "same-input compact supervised U-Net",
+        "same-input transparent spectral/radar feature predictor"
+      ],
+      "required_next": [
+        "Acquire hand-labeled inputs and split/event metadata",
+        "Map canonical S1Hand/S2Hand names to author datamodule layout explicitly",
+        "Check temporal differences between S1/S2 labels",
+        "Validate paired spatial/validity masks and normalization",
+        "Profile one forward/backward step after current MPS worker is free"
+      ]
+    },
+    {
+      "id": "AP02",
+      "priority": "second_native_role",
+      "model": "Copernicus-FM base",
+      "source_keys": [
+        "copernicus_experiments",
+        "copernicus_model",
+        "copernicus_model_defaults",
+        "copernicus_dataset",
+        "copernicus_loader",
+        "copernicus_task"
+      ],
+      "checkpoint": "held pretrained base; change decoder not trained",
+      "target": "three-class benchmark target at event acquisition; extract numeric class semantics from downloaded benchmark before naming event water/permanent water",
+      "inputs": {
+        "dataset": "Copernicus-Bench Flood-S1 / Kuro Siwo subset",
+        "channels": "one pre-event and one event VV/VH pair: four stacked channels",
+        "units": "linear intensity in author loader, clipped [0,0.15]; not held dB composites",
+        "spatial": "224x224",
+        "metadata": "per-date lon/lat/day since 1970/token area 0.0256 km2"
+      },
+      "architecture": {
+        "backbone": "ViT base patch16",
+        "frozen": true,
+        "readout": "post-minus-pre multiscale features",
+        "neck": "Feature2Pyramid",
+        "decoder": "UPerHead + FCN auxiliary",
+        "classes": 3,
+        "ignore_index": 3
+      },
+      "author_training": {
+        "max_epochs": 50,
+        "batch_size": 16,
+        "lr": 0.001,
+        "loss": "cross entropy + 0.4 auxiliary"
+      },
+      "dataset": {
+        "url": "https://huggingface.co/datasets/wangyi111/Copernicus-Bench/resolve/main/l3_flood_s1/flood_s1.zip",
+        "bytes": 6025208085,
+        "sha256_lfs": "aecaa4437dcc6575900531d7ade8752c1883d721782020d188b9d1df626762fd",
+        "expanded_bytes": null
+      },
+      "comparators": [
+        "same-input raw SAR change baseline",
+        "same-input supervised spatial model"
+      ],
+      "required_next": [
+        "Acquire flood subset and event split metadata",
+        "Verify class values and meaning",
+        "Preserve MNA validity; source loader currently reads then discards it",
+        "Remove missing-target default-to-zero for our adapter; retain explicit unknown coverage; check whether original labels already encode MNA invalidity as ignore3",
+        "Review asymmetric pre/post normalization as a documented source issue",
+        "Check mmcv/mmseg and SyncBN single-device portability in isolated environment"
+      ]
+    },
+    {
+      "id": "AP03",
+      "priority": "compact_native_radar_probe",
+      "model": "Galileo Nano",
+      "source_keys": [
+        "galileo_flood_config",
+        "galileo_flood_loader",
+        "galileo_eval"
+      ],
+      "target": "binary surface water on Sen1Floods11 valid pixels",
+      "inputs": "single-time VV/VH radar in dB; published evaluation uses64x64 subpatches",
+      "architecture": "held frozen Nano spatial features plus published linear segmentation probe; benchmark floods with eval_mode LP, verify Nano checkpoint wrapper",
+      "author_evaluation": "Published code uses default/20%/5%/1% training partitions and five LP runs; these are reference settings, not a mandatory full sweep",
+      "required_next": [
+        "Prepare verified splits and original georeferenced chips",
+        "Separate exact author reproduction from applied all-valid-patch evaluation",
+        "Native preprocessing keeps patches with positive-water labels; retain valid dry patches for applied detection evaluation",
+        "Do not count derived64px patches as independent flood events",
+        "Keep ignore pixels out of training/loss; verify wrapper/normalizer units"
+      ],
+      "comparators": [
+        "same-input direct VV/VH feature classifier",
+        "same-input compact spatial model"
+      ],
+      "efficiency": "Reuse extracted spatial features across nested label subsets only with valid train/test grouping and count initial extraction cost"
+    },
+    {
+      "id": "AP04",
+      "priority": "compact_adaptation_candidate_not_required_for_AP01",
+      "model": "Prithvi EO2 Tiny TL",
+      "source_url": "https://github.com/NASA-IMPACT/Prithvi-EO-2.0/blob/main/configs/sen1floods11.yaml",
+      "target": "same binary water labels as AP01 on common input/label support where compared",
+      "inputs": "six selected optical bands from S2L1C, constant_scale=0.0001; different source product from held HLS pretraining route",
+      "architecture": "Tiny TL plus a verified Tiny-compatible spatial neck and decoder; official example lists larger backbones and is not a ready-made Tiny task",
+      "cautions": [
+        "Official example has backbone_pretrained=false; must explicitly enable/load held weights for a pretrained-model comparison",
+        "Check Tiny depth/token selection and temporal metadata rather than substitute model name",
+        "Official resize512to224 changes spatial detail; use same evaluation grid for paired comparisons"
+      ],
+      "required_next": [
+        "Verify exact Tiny decoder/forward contract",
+        "Use single-frame supported route without fabricating temporal observations",
+        "Validate TOA transfer and metadata treatment"
+      ]
+    }
+  ],
+  "evaluation": {
+    "unit": "mapped scene/AOI and independent flood event; pixels and repeated chips are not independent events",
+    "reference": "published splits for reproduction; held-event/location evaluation for new-event transfer, with overlap/pretraining disclosure",
+    "measures": [
+      "water/event-water precision recall IoU F1 on valid independently labeled pixels",
+      "false-positive area and missed water by observable setting",
+      "per-event outcomes and coverage",
+      "same-hardware end-to-end time and peak memory",
+      "label-efficiency and archive-reuse cost when actually tested"
+    ],
+    "efficiency": "Report cold-start, adaptation, per-scene inference, data preparation, local storage and amortized reuse separately; no equivalence claim from a nonsignificant difference",
+    "local_extension": "All eligible independently mapped local acquisitions; no requirement that the eight tributary polygons define every AOI; include Meuse where reference/imagery fit; no extrapolation from benchmark scores alone"
+  },
+  "data_policy": "New water maps may later inform hydrological assessment, but no mandatory end-to-end solver or discharge improvement is imposed",
+  "deferred": "Other held encoders can join a demonstrated compatible task; no automatic ten-model-by-every-task sweep",
+  "data_acquisition_status": "Public object listings, metadata/splits and one aligned Bolivia chip triplet downloaded; full benchmark imagery not acquired"
+}

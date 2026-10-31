@@ -1,0 +1,67 @@
+[
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_LabelHand.tif",
+    "bands": 1,
+    "shape": [
+      1,
+      512,
+      512
+    ],
+    "dtype": "int16",
+    "nodata": null,
+    "crs": "EPSG:4326",
+    "bounds": [
+      -65.26512067407877,
+      -14.258060189545049,
+      -65.21912693153185,
+      -14.212066446998126
+    ],
+    "minimum": -1.0,
+    "maximum": 1.0,
+    "classes": [
+      -1,
+      0,
+      1
+    ]
+  },
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_S1Hand.tif",
+    "bands": 2,
+    "shape": [
+      2,
+      512,
+      512
+    ],
+    "dtype": "float32",
+    "nodata": "NaN",
+    "crs": "EPSG:4326",
+    "bounds": [
+      -65.26512067407877,
+      -14.258060189545045,
+      -65.21912693153185,
+      -14.212066446998126
+    ],
+    "minimum": -48.24835968017578,
+    "maximum": -0.6905989646911621
+  },
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_S2Hand.tif",
+    "bands": 13,
+    "shape": [
+      13,
+      512,
+      512
+    ],
+    "dtype": "int16",
+    "nodata": 0.0,
+    "crs": "EPSG:4326",
+    "bounds": [
+      -65.26512067407877,
+      -14.258060189545045,
+      -65.21912693153185,
+      -14.212066446998126
+    ],
+    "minimum": 0.0,
+    "maximum": 5662.0
+  }
+]

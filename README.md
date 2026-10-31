@@ -1,3 +1,11 @@
+# Current chapter direction — 31 October 2026
+
+The [living one-pager](docs/chapter-one-pager.md) is the current scope/status reference. Brian requested an applied, model-appropriate direction that can find gains in accuracy, transfer, data/label efficiency or computing cost; missing feeds or a named operational decision are not prerequisites. [Concrete task configurations and chapter review](docs/limburg-applied-task-configurations-2026-10-31.md); [additional data needs](docs/data-needs.md); [source-checked task registry](config/limburg_applied_tasks_v1.json).
+
+Author-supported spatial water/flood tasks are identified, not launched. The prior discharge/scarcity evidence remains retained; Presto/Galileo workers continue unchanged. A water-map result is not a next-day discharge or warning-skill result. Everything below is a **dated execution/design history**; older “current,” “running” or “not yet run” labels refer to their stated dates.
+
+---
+
 Final ten-experiment design audit (29 October): [findings and corrected contracts](docs/reviews/limburg-ten-experiment-design-audit-2026-10-29.md). Explicit raw-only/zero-EO choice, same-scenario ground inputs, causal transfer residuals, paired fallback, mm/h scoring, donor-median reference and matched ablations replace ambiguous initial choices. No scientific run launched. Disk Cleanup completed: about 13.0 GiB recovered by retiring the superseded original-mask OlmoEarth cache after metadata verification; active downloads, selected corrected outputs, raw data, weights, completed results and other chapters remain protected.
 
 Current work: [ten individual encoder experiments — implementation and execution](docs/limburg-individual-experiments-implementation-2026-10-29.md). The local queue prepares/extracts/scores each model according to its own design, using at most one MPS worker and two CPU workers. Live status: `results/limburg_individual_experiments_v1/queue/progress.json`. Prior numerical results remain intact; engineering checks do not establish new findings.

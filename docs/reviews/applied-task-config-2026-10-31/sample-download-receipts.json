@@ -1,0 +1,26 @@
+[
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_LabelHand.tif",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/data/flood_events/HandLabeled/LabelHand/Bolivia_103757_LabelHand.tif",
+    "bytes": 7609,
+    "sha256": "3a48e1af6d70db96895a3a196dc86e6264c97772d85308039b0a2095e3154b6e"
+  },
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_S1Hand.tif",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/data/flood_events/HandLabeled/S1Hand/Bolivia_103757_S1Hand.tif",
+    "bytes": 698748,
+    "sha256": "d7c7630e6540b3d32b063ed079d73e55c95b1c0347f5d94257b2b7300befb4c8"
+  },
+  {
+    "file": "data/raw/limburg_applied_task_checks/Bolivia_103757_S2Hand.tif",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/data/flood_events/HandLabeled/S2Hand/Bolivia_103757_S2Hand.tif",
+    "bytes": 908533,
+    "sha256": "d16f68d9fffa6235b44cc31b186ec4ab5179420892fc59589d597717afeb19ad"
+  },
+  {
+    "file": "docs/reviews/applied-task-config-2026-10-31/Sen1Floods11_Metadata.geojson",
+    "url": "https://storage.googleapis.com/sen1floods11/v1.1/Sen1Floods11_Metadata.geojson",
+    "bytes": 14092,
+    "sha256": "29790ad85135d03ebc73af1e582907901e43c3aa411b6f571a8a32ac7f1db536"
+  }
+]

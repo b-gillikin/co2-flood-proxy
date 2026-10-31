@@ -1,0 +1,26 @@
+[
+  {
+    "folder": "LabelHand",
+    "objects": 446,
+    "bytes": 2553880,
+    "url": "https://storage.googleapis.com/storage/v1/b/sen1floods11/o?prefix=v1.1%2Fdata%2Fflood_events%2FHandLabeled%2FLabelHand%2F&maxResults=1000&fields=items%28name%2Csize%2Cmd5Hash%29%2CnextPageToken"
+  },
+  {
+    "folder": "S1Hand",
+    "objects": 446,
+    "bytes": 729495935,
+    "url": "https://storage.googleapis.com/storage/v1/b/sen1floods11/o?prefix=v1.1%2Fdata%2Fflood_events%2FHandLabeled%2FS1Hand%2F&maxResults=1000&fields=items%28name%2Csize%2Cmd5Hash%29%2CnextPageToken"
+  },
+  {
+    "folder": "S2Hand",
+    "objects": 446,
+    "bytes": 1018607837,
+    "url": "https://storage.googleapis.com/storage/v1/b/sen1floods11/o?prefix=v1.1%2Fdata%2Fflood_events%2FHandLabeled%2FS2Hand%2F&maxResults=1000&fields=items%28name%2Csize%2Cmd5Hash%29%2CnextPageToken"
+  },
+  {
+    "folder": "JRCWaterHand",
+    "objects": 446,
+    "bytes": 515103,
+    "url": "https://storage.googleapis.com/storage/v1/b/sen1floods11/o?prefix=v1.1%2Fdata%2Fflood_events%2FHandLabeled%2FJRCWaterHand%2F&maxResults=1000&fields=items%28name%2Csize%2Cmd5Hash%29%2CnextPageToken"
+  }
+]
