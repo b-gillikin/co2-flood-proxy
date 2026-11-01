@@ -13,6 +13,7 @@ import importlib.util
 import json
 import math
 import random
+import resource
 import shutil
 import sys
 import time
@@ -21,6 +22,7 @@ from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from applied_evaluation import CompleteBatches, label_accounting
 from applied_selection import learning_rates, select_trial
 
 
@@ -29,7 +31,9 @@ def main():
     p.add_argument(
         "--task", choices=["terramind", "galileo", "prithvi", "copernicus"], required=True
     )
-    p.add_argument("--learner", choices=["native", "unet", "linear"], required=True)
+    p.add_argument(
+        "--learner", choices=["native", "unet", "unet_standard", "linear"], required=True
+    )
     p.add_argument("--fold", required=True)
     p.add_argument("--budget", type=float, choices=[1.0, 0.2, 0.05], default=1.0)
     p.add_argument("--seed", type=int, choices=[42, 1729, 31415], default=42)
@@ -37,6 +41,7 @@ def main():
     p.add_argument("--device", choices=["cpu", "mps"], default="cpu")
     p.add_argument("--epochs", type=int, help="Must be identical for all task learners")
     p.add_argument("--feature-cache", type=Path)
+    p.add_argument("--output-root", type=Path, default=ROOT / "results/applied_study_v2/tuning")
     p.add_argument("--run", action="store_true", help="Without this, print the plan only")
     p.add_argument(
         "--evaluate-selected", action="store_true", help="Test only the validation winner"
@@ -73,6 +78,7 @@ def main():
         prithvi,
         terramind,
     )
+    from applied_unet import StandardUNet
     from applied_water import audit_partitions
 
     spec = importlib.util.spec_from_file_location(
@@ -137,14 +143,15 @@ def main():
         ids = set(folds.loc[(folds.fold == a.fold) & (folds.role == role), "chip"])
         rows[role] = inv[inv.chip.isin(ids & selected if role == "train" else ids)].copy()
     out = (
-        ROOT
-        / "results/applied_study_v1/tuning"
+        a.output_root
         / f"{a.task}-{a.learner}-{a.fold}-{a.budget:g}-{a.seed}-{a.device}-b{a.batch_size}-e{epochs}"
     )
     out.mkdir(parents=True, exist_ok=False)
     sources = [
         Path(__file__),
         ROOT / "src/applied_selection.py",
+        ROOT / "src/applied_evaluation.py",
+        ROOT / "src/applied_unet.py",
         ROOT / "scripts/185_run_applied_water.py",
         ROOT / "src/applied_spatial_models.py",
         ROOT / "src/applied_water.py",
@@ -190,22 +197,64 @@ def main():
         partitions={k: sorted(v.chip) for k, v in rows.items()},
         torch=torch.__version__,
         precision="float32",
-        training_drop_last=True,
+        training_drop_last=False,
+        batching="Complete shuffled batches; merge final singleton into preceding batch",
+        label_accounting=label_accounting(
+            rows,
+            int(((folds.fold == a.fold) & (folds.role == "train")).sum()),
+            len(rows["train"]) * (64 if a.task == "galileo" else 1),
+        ),
+        device=a.device,
+        resource_caveat="Concurrent work affects wall time; process RSS is a cumulative high-water mark, not per-trial isolated peak",
         evaluation_drop_last=False,
         engineering_only=epochs != (100 if a.task == "terramind" else 50),
         epoch_budget_note="Nondefault epochs are a bounded engineering run, not the final comparison",
         loss="TerraMind Dice for all; Galileo/Prithvi CE; Copernicus native CE+.4aux, controls CE",
     )
+    pixel_column = {
+        "terramind": "paired_valid_labeled",
+        "galileo": "radar_valid_labeled",
+        "prithvi": "optical_valid_labeled",
+        "copernicus": "valid_pixels",
+    }[a.task]
+    manifest["label_accounting"]["source_grid_labeled_pixels"] = {
+        k: int(v[pixel_column].sum()) for k, v in rows.items()
+    }
+    manifest["label_accounting"]["pixel_note"] = (
+        "Source-grid counts, not independent labels or annotation hours; Prithvi training targets are resampled"
+    )
+    if a.feature_cache:
+        manifest["shared_feature_preparation"] = {
+            k: index.get(k)
+            for k in [
+                "elapsed_s",
+                "feature_seconds",
+                "bytes",
+                "peak_rss_bytes",
+                "device",
+                "threads",
+            ]
+        }
+        manifest["shared_feature_cost_note"] = (
+            "One-time frozen extraction across446 chips; do not multiply per head fit or omit from cold-start comparison. Held timing was measured under contention."
+        )
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     device = torch.device(a.device)
     args = SimpleNamespace(task=a.task, learner=a.learner)
 
     def loader(role, augment=False, epoch=0):
+        dataset = w.Chips(rows[role], a.task, augment=augment, feature_cache=a.feature_cache)
+        if role == "train":
+            return DataLoader(
+                dataset,
+                batch_sampler=CompleteBatches(len(dataset), a.batch_size, a.seed + epoch),
+                num_workers=0,
+            )
         return DataLoader(
-            w.Chips(rows[role], a.task, augment=augment, feature_cache=a.feature_cache),
-            batch_size=a.batch_size if role == "train" else 1,
-            shuffle=role == "train",
-            drop_last=role == "train",
+            dataset,
+            batch_size=1,
+            shuffle=False,
+            drop_last=False,
             num_workers=0,
             generator=torch.Generator().manual_seed(a.seed + epoch),
         )
@@ -223,6 +272,8 @@ def main():
         classes = 3 if a.task == "copernicus" else 2
         if a.learner == "linear":
             return nn.Conv2d(channels, classes, 1)
+        if a.learner == "unet_standard":
+            return StandardUNet(channels, classes)
         model = CompactUNet(channels)
         model.head = nn.Conv2d(16, classes, 1)
         return model
@@ -234,13 +285,32 @@ def main():
         random.seed(a.seed)
         np.random.seed(a.seed)
         torch.manual_seed(a.seed)
-        model = make_model()
+        setup_start = time.perf_counter()
+        try:
+            model = make_model()
+        except (ValueError, RuntimeError, ImportError) as exc:
+            trials.append(
+                dict(
+                    trial=i,
+                    lr=lr,
+                    status="failed",
+                    validation_iou=None,
+                    error=f"{type(exc).__name__}: {exc}",
+                    phase="model_initialization",
+                    elapsed_s=time.perf_counter() - setup_start,
+                )
+            )
+            (out / "trials.json").write_text(json.dumps(trials, indent=2))
+            continue
         initial = hashlib.sha256()
         for parameter in model.parameters():
             if parameter.requires_grad:
                 initial.update(parameter.detach().cpu().numpy().tobytes())
         initial_hash = initial.hexdigest()
-        if trials and initial_hash != trials[0]["initial_trainable_sha256"]:
+        previous_initial = [
+            r["initial_trainable_sha256"] for r in trials if "initial_trainable_sha256" in r
+        ]
+        if previous_initial and initial_hash != previous_initial[0]:
             raise ValueError("LR candidates have different initial trainable parameters")
         torch.manual_seed(a.seed)
         model.to(device)
@@ -265,6 +335,9 @@ def main():
             status="running",
             validation_iou=None,
             initial_trainable_sha256=initial_hash,
+            trainable_parameters=sum(p.numel() for p in model.parameters() if p.requires_grad),
+            parameters=sum(p.numel() for p in model.parameters()),
+            setup_s=time.perf_counter() - setup_start,
         )
         start = time.perf_counter()
         try:
@@ -273,7 +346,10 @@ def main():
                 random.seed(a.seed + epoch)
                 np.random.seed(a.seed + epoch)
                 training = loader("train", augment=a.task != "galileo", epoch=epoch)
+                epoch_start = time.perf_counter()
+                examples, updates, skipped_examples, loss_sum = 0, 0, 0, 0.0
                 for step, batch in enumerate(training):
+                    examples += len(batch["chip"])
                     if a.task == "galileo":
                         progress = epoch + step / len(training)
                         warmup = epochs * 0.1
@@ -295,17 +371,42 @@ def main():
                         "native" if a.task == "terramind" else a.learner,
                     )
                     if loss is None:
+                        skipped_examples += len(batch["chip"])
                         continue
                     if not torch.isfinite(loss):
                         raise ValueError("Nonfinite loss")
                     loss.backward()
                     opt.step()
+                    updates += 1
+                    loss_sum += float(loss.detach())
+                training_s = time.perf_counter() - epoch_start
+                validation_start = time.perf_counter()
                 v = w.score(model, loader("valid"), args, device)
+                validation_s = time.perf_counter() - validation_start
                 value = v[
                     "mean_event_flood_iou" if a.task == "copernicus" else "mean_event_water_iou"
                 ]
                 with (out / "validation.jsonl").open("a") as f:
-                    f.write(json.dumps(dict(trial=i, epoch=epoch + 1, validation=v)) + "\n")
+                    f.write(
+                        json.dumps(
+                            dict(
+                                trial=i,
+                                epoch=epoch + 1,
+                                validation=v,
+                                training_examples=examples,
+                                expected_examples=len(training.dataset),
+                                optimizer_updates=updates,
+                                no_valid_label_examples=skipped_examples,
+                                mean_training_batch_loss=loss_sum / updates if updates else None,
+                                training_s=training_s,
+                                validation_s=validation_s,
+                                learning_rate=opt.param_groups[0]["lr"],
+                            )
+                        )
+                        + "\n"
+                    )
+                if examples != len(training.dataset):
+                    raise RuntimeError("Training epoch did not retain every selected example")
                 if value is not None and (
                     record["validation_iou"] is None or value > record["validation_iou"]
                 ):
@@ -324,6 +425,9 @@ def main():
         except (ValueError, RuntimeError) as exc:
             record.update(status="failed", error=f"{type(exc).__name__}: {exc}")
         record["elapsed_s"] = time.perf_counter() - start
+        record["process_peak_rss_raw"] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        record["rss_units"] = "bytes on macOS; KiB on Linux"
+        record["best_epoch_at_ceiling"] = record.get("epoch") == epochs
         checkpoint = out / f"trial-{i}.pt"
         if checkpoint.exists():
             record["checkpoint_sha256"] = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
@@ -331,6 +435,7 @@ def main():
         (out / "trials.json").write_text(json.dumps(trials, indent=2))
         del model, opt, scheduler
     winner = select_trial(trials)
+    winner = dict(winner, learning_rate_grid_boundary=winner["trial"] in {0, len(rates) - 1})
     (out / "selection.json").write_text(json.dumps(winner, indent=2))
     if a.evaluate_selected:
         if (
@@ -343,7 +448,9 @@ def main():
             torch.load(out / f"trial-{winner['trial']}.pt", map_location="cpu", weights_only=True)
         )
         model.to(device)
+        start = time.perf_counter()
         result = w.score(model, loader("test"), args, device, out / "predictions")
+        result["test_scoring_wall_s"] = time.perf_counter() - start
         (out / "selected-test.json").write_text(json.dumps(result, indent=2))
 
 

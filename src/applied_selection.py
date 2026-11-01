@@ -5,7 +5,7 @@ import math
 
 def learning_rates(task, learner):
     """Equal three-trial allowance; rates need not be numerically identical."""
-    if learner not in {"native", "unet", "linear"}:
+    if learner not in {"native", "unet", "unet_standard", "linear"}:
         raise ValueError("Unknown learner")
     if task not in {"terramind", "galileo", "prithvi", "copernicus"}:
         raise ValueError("Unknown task")

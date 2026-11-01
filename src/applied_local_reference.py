@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from applied_evaluation import count_metrics
+
 
 def reference_labels(assessed, flooded, trace, permanent, stream):
     """Binary mapped-flood proxy on assessed, non-hydrographic support only.
@@ -50,3 +52,51 @@ def reference_agreement(reference, prediction, valid, kind):
         recall=ratio(tp, tp + fn),
         f1=ratio(2 * tp, 2 * tp + fn + fp),
     )
+
+
+def summarize_cases(results):
+    """Pool disjoint grid counts per AOI/acquisition, not tile IoUs.
+
+    Individual and common support are both retained. No interval is fabricated
+    from dependent July2021 AOIs or repeated acquisitions of the same flood.
+    """
+    groups = {}
+    for row in results:
+        groups.setdefault((row["case"], row["model"]), []).append(row)
+    summaries = []
+    for (case, model), rows in sorted(groups.items()):
+        metadata = {(r["reference_offset_hours"], r["reference_dependence"]) for r in rows}
+        if len(metadata) != 1:
+            raise ValueError("A case must represent one acquisition/reference comparison")
+        eligible = sum(r["eligible_reference_pixels"] for r in rows)
+        metrics = {}
+        for scope, field in [("common", "metrics"), ("individual", "individual_metrics")]:
+            counts = {k: sum(r[field][k] for r in rows) for k in ["tp", "fn", "fp", "tn"]}
+            metrics[scope] = count_metrics(counts)
+            metrics[scope]["eligible_reference_pixels"] = eligible
+            metrics[scope]["coverage_fraction"] = (
+                metrics[scope]["support_pixels"] / eligible if eligible else None
+            )
+            metrics[scope]["unknown_or_unobserved_reference_pixels"] = (
+                eligible - metrics[scope]["support_pixels"]
+            )
+            if all(r.get("pixel_area_m2") is not None for r in rows):
+                metrics[scope]["area_m2"] = {
+                    k: sum(r[field][k] * r["pixel_area_m2"] for r in rows)
+                    for k in ["tp", "fn", "fp", "tn"]
+                }
+                metrics[scope]["eligible_reference_area_m2"] = sum(
+                    r["eligible_reference_pixels"] * r["pixel_area_m2"] for r in rows
+                )
+        offset, dependence = next(iter(metadata))
+        summaries.append(
+            dict(
+                case=case,
+                model=model,
+                grids=len(rows),
+                support=metrics,
+                reference_offset_hours=offset,
+                reference_dependence=dependence,
+            )
+        )
+    return summaries

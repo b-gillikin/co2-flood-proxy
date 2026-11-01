@@ -11,6 +11,12 @@ handling and event-level synthesis before interpreting applied comparisons.
 The executable preparation below does not establish that those scientific
 comparison tasks are complete. Recommendations have not changed active workers.
 
+**Subsequent implementation:** [the review corrections](limburg-applied-review-implementation-2026-11-01.md)
+supersede the short-batch and comparator conventions below for new v2 fitting:
+all training examples are retained, a conventional U-Net and physical controls
+are added, and total label use is explicit. Earlier engineering records remain
+historical; active extraction/profile sources are preserved.
+
 ## Copernicus native runtime
 
 **Resolved on CPU.** Built real `mmcv==2.1.0` compiled operators on Apple Silicon

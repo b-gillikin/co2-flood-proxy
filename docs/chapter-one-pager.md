@@ -3,10 +3,12 @@
 Last substantively reviewed: 2026-11-01. Living supervisor/research brief; internal research aid, not dissertation prose.
 
 [Design and literature review, 1 November](reviews/limburg-applied-design-and-literature-review-2026-11-01.md):
-the applied direction remains viable; physical controls, total-label accounting,
-short-batch handling and event-level synthesis remain to finish. Close new
-Prithvi-Tiny prior work requires qualified novelty claims. This review does not
-change the working RQ or authorize additional fitting runs.
+the applied direction remains viable. The subsequent [implementation](limburg-applied-review-implementation-2026-11-01.md)
+adds physical controls and a stronger U-Net, complete batches, total-label
+accounting, event-level synthesis and timing/coverage audits. All four spatial
+tasks, all events, budgets and seeds remain. The53-fold physical-control queue
+is complete with zero failures; the complete neural grid is prepared, awaiting existing workers
+and device profiles. Close Prithvi-Tiny prior work requires qualified novelty claims.
 
 ## Research Question(s)
 
@@ -42,6 +44,6 @@ Models: Presto, AnySat, Galileo, OlmoEarth, CROMA, Prithvi, Copernicus-FM, DOFA,
 
 **Partial evidence:** eight experiments/23 primary jobs and four configuration comparisons reviewed; Presto/Galileo pending. No broad encoder increment over raw controls is evident. Most same-gauge heads choose conventional/raw-only predictions. DOFA has a favorable local-Q-absent high-water transfer contrast, but broad/flood intervals include zero and all-Q absence reverses direction. AnySat helps selected events without reliably recovering peaks/timing. German observations are included. [Partial readout](limburg-individual-partial-readout-2026-10-31.md).
 
-Earlier age/outage and scarcity comparisons found no general EO improvement; retain them as distinct supporting results. [Inventory](analysis-inventory.md). Mapping findings do not yet exist.
+Earlier age/outage and scarcity comparisons found no general EO improvement; retain them as distinct supporting results. [Inventory](analysis-inventory.md). Physical mapping controls are scored across all53 held-event folds, including fixed optical thresholds. Encoder-versus-control findings remain pending.
 
 **Next:** finish pending extraction and run the waiting spatial device-profile queue; use measured budgets to schedule fairly tuned matched spatial comparisons. Validation-only matched tuning and local reference-agreement scoring are implemented; Copernicus now has20 held-activation folds. Profile its intended device before full fitting. Galileo's frozen spatial cache is complete for all446 chips. **55 GiB of inactive Limburg sources were safely offloaded**; about93 GiB remains free after new staging/cache and ongoing writes. Keep the 50-GiB reserve. Existing workers are unchanged; older supporting sweeps are not automatically submitted. [Execution and remaining work](limburg-applied-implementation-2026-11-01.md). Brian writes dissertation prose.

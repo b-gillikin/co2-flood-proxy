@@ -5,6 +5,10 @@ Review and recommendations only: no new fits, worker changes, revised RQ or
 automatic expansion of the analysis. Read with the [current plan](../limburg-applied-study-plan-2026-11-01.md)
 and [runtime/evaluation preparation](../limburg-applied-preparation-2026-11-01.md).
 
+**Subsequently authorized and implemented:** see the [correction record](../limburg-applied-review-implementation-2026-11-01.md).
+The findings below retain their review-time wording; the implementation record
+distinguishes completed corrections, running physical controls and pending fits.
+
 ## Assessment
 
 The move toward spatial flood information is scientifically defensible and

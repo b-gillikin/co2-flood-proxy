@@ -1,6 +1,16 @@
 # Limburg analysis inventory
 
-## Current status — 31 October 2026
+## Current status — 1 November 2026
+
+**Latest implementation:** [review corrections and complete workload](limburg-applied-review-implementation-2026-11-01.md)
+retain all four spatial tasks, events, budgets and seeds. Stronger conventional
+U-Net and physical controls, complete batches, total-label accounting, event
+uncertainty and local coverage/timing audits are implemented. All53 physical
+calibration/test folds completed with zero failures; the full encoder/control
+fitting grid is prepared, not launched. Existing Presto/Galileo and device-profile
+queues remain unchanged. The following planning/refinement paragraphs retain
+their historical sequence; their earlier “not implemented/scored” descriptions
+do not override this latest status.
 
 **1 November implementation plan:** [research/data/offload sequence](limburg-applied-study-plan-2026-11-01.md) fixes the proposed task order, grouped evaluation, accuracy/resource comparisons and rotating Azure-backed working sets. This is planning, with no new fitted result or changes to current workers.
 

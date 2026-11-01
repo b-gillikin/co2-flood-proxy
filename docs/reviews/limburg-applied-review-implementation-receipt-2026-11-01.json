@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-01",
+  "status": "implemented_all_physical_controls_complete_neural_grid_prepared",
+  "source_hashes": {
+    "scripts/192_tune_applied_water.py": "91abe2069b098d47c26380eaf01408f102faedc8ef51923fe925d9f7d29ea24f",
+    "scripts/195_score_local_reference_agreement.py": "5c8bf3381941c22ad8fe16b139ce4bfb55a583779d8b916a342fb2d26d3ad59f",
+    "scripts/197_run_applied_physical_controls.py": "fce4462a807e6869f98262f220b5b7c9dc296d0d4be15a01fe85e3e349a03793",
+    "scripts/198_summarize_applied_comparisons.py": "e479155ea7aae3b0645ba872c52efb70558ad540df8d098d31e318fd2e73c0c8",
+    "scripts/199_prepare_applied_execution.py": "c44c7d12e0667e601ca9f1e8926c52d38cebf91f0a3a2d8d53630a53a13bf4b5",
+    "scripts/200_audit_applied_timing.py": "07daba65f9274049d280ca3ffa8f49ffdc8acca1f981b068886605ba1ae2b3a6",
+    "scripts/201_queue_applied_physical.py": "58ec58b33b320f4610e99dc4fb72b49fedf4a6b547809390bf92485b388d2a57",
+    "src/applied_evaluation.py": "f8d64241247cb6b69bb0e37536133234fe60b48a7ccb51406f7a3e814da66e97",
+    "src/applied_physical.py": "707fe395cbc81fcf5dd74dfbeb423b42f4b2941ab0588a15cfd0eb95c5587314",
+    "src/applied_unet.py": "248e14746e2dd7db5df97a69db654c5ef5cbe63106d11948246eb5f83d463eec",
+    "src/applied_timing.py": "ab50e7f2ea8e81efb5980d0e338af9070bcab8a8206000f655575f15522850a3",
+    "src/applied_local_reference.py": "640e534b236c550db0954d9a88ad32955e7e66ca12b36770b29fc53892393e29",
+    "src/applied_selection.py": "ef5506db899e7556d53d2d2a63ab45c7f8517fe18c4e157afeb61243c606d256"
+  },
+  "full_grid": {
+    "neural_tuning_jobs": 1908,
+    "neural_candidate_fits": 5724,
+    "physical_calibrations": 53
+  },
+  "physical_queue_snapshot": {
+    "status": "completed",
+    "completed": 53,
+    "failed": 0,
+    "total": 53
+  },
+  "protected_profile_sources_match": true,
+  "physical_queue_sources_match": true,
+  "validation": {
+    "pytest_passed": 27,
+    "ruff": "passed",
+    "diff_check": "passed",
+    "engineering_only": true,
+    "real_training_examples": [
+      [
+        23,
+        23
+      ],
+      [
+        23,
+        23
+      ],
+      [
+        23,
+        23
+      ]
+    ],
+    "test_scored_in_engineering_checks": false,
+    "note": "One-epoch linear and optical-control checks preceded cost-reporting-only refinements; their own manifests retain exact source hashes"
+  },
+  "timing_audit": {
+    "local_acquisitions": 54,
+    "radar_records": 5000,
+    "SL1_median_gap_days": 12,
+    "SL2_median_gap_days": 24,
+    "measured_Venlo_window_peak_verified": false
+  },
+  "free_gib_snapshot": 91.8048095703125,
+  "scope": "All four spatial tasks, all events/eligible pixels, all three budgets/seeds retained; existing ten-encoder discharge branch unchanged; no other chapter changes",
+  "physical_complete_census": {
+    "terramind": 446,
+    "galileo": 446,
+    "prithvi": 446,
+    "copernicus": 5000
+  },
+  "fixed_optical_readouts": 22,
+  "physical_sources_reverified": true
+}

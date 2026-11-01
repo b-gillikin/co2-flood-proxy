@@ -2,6 +2,12 @@
 
 Updated 1 November 2026 after acquisition. This table is **per proposed task**, not a new blanket requirement for the dissertation. Existing discharge analyses have their required inputs; no fresh gauge/weather request is necessary to finish them. [Task configurations](limburg-applied-task-configurations-2026-10-31.md), [registry](../config/limburg_applied_tasks_v1.json).
 
+**Later review implementation:** [physical controls, label/coverage accounting and timing audit](limburg-applied-review-implementation-2026-11-01.md)
+are complete; all53 physical folds are scored. No additional external dataset
+is required by these corrections. Venlo's incomplete measured/display review
+window and missing verified Rur/Inde gauge links remain interpretation limits,
+not new compulsory data requests. Held SL2 dates are inventoried, not substituted.
+
 **1 November execution:** [verified acquisition, offloading and native checks](limburg-applied-implementation-2026-11-01.md). Offloaded55GiB of inactive Limburg source copies after hash/remote/restore verification. About95GiB remains free after acquiring the datasets below. Keep the canonical shared labeled dataset and 50-GiB reserve; no other chapter's data were touched.
 
 ## Needed for the identified mapping tasks

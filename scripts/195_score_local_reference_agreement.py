@@ -24,7 +24,7 @@ import numpy as np
 import rasterio
 from shapely.geometry import box
 
-from applied_local_reference import reference_agreement
+from applied_local_reference import reference_agreement, summarize_cases
 
 
 def main():
@@ -62,7 +62,7 @@ def main():
         reference_paths = {r["reference"] for r in models.values()}
         if len(reference_paths) != 1:
             raise ValueError("Models must use the same reference bytes")
-        arrays, common, signature, extent = {}, None, None, None
+        arrays, individual, common, signature, extent = {}, {}, None, None, None
         reference = None
         for name, row in models.items():
             values = {}
@@ -78,6 +78,13 @@ def main():
                         raise ValueError("Raster grids differ; explicit aligned export required")
                     signature = current
                     extent = box(*ds.bounds)
+                    pixel_area_m2 = None
+                    if ds.crs.is_projected:
+                        _, factor = ds.crs.linear_units_factor
+                        pixel_area_m2 = (
+                            abs(ds.transform.a * ds.transform.e - ds.transform.b * ds.transform.d)
+                            * factor**2
+                        )
                     values[field] = ds.read(1)
                     if field == "valid" and not set(np.unique(values[field])) <= {0, 1}:
                         raise ValueError("Valid support must be an explicit 0/1 raster")
@@ -87,6 +94,7 @@ def main():
             allowed = [0, 1] if row["kind"] == "surface_water" else [0, 1, 2]
             valid = (values["valid"] == 1) & np.isin(values["prediction"], allowed)
             common = valid if common is None else common & valid
+            individual[name] = valid
             arrays[name] = values["prediction"]
         for prior, prior_crs in seen_bounds.setdefault(case, []):
             if signature[2] != prior_crs or extent.intersection(prior).area > 1e-6:
@@ -101,6 +109,11 @@ def main():
                     grid=grid,
                     model=name,
                     metrics=metrics,
+                    individual_metrics=reference_agreement(
+                        reference, prediction, individual[name], row["kind"]
+                    ),
+                    eligible_reference_pixels=int((reference != 255).sum()),
+                    pixel_area_m2=pixel_area_m2,
                     reference_offset_hours=row["reference_offset_hours"],
                     reference_dependence=row["reference_dependence"],
                 )
@@ -110,8 +123,9 @@ def main():
         json.dumps(
             dict(
                 results=results,
+                case_summaries=summarize_cases(results),
                 input_hashes=hashes,
-                interpretation="Reference-map agreement on common support; not field accuracy, country rankings or instantaneous flood truth",
+                interpretation="Reference-map agreement; individual coverage and common-support comparison. Case counts pool nonoverlapping grids. July2021 AOIs are not independent floods; no country ranking or field-accuracy claim.",
             ),
             indent=2,
         )
