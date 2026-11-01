@@ -1,5 +1,7 @@
 # Current chapter direction — 31 October 2026
 
+**1 November plan:** [applied tasks, data, compute and storage](docs/limburg-applied-study-plan-2026-11-01.md). Offload verified inactive Limburg data before staging new tasks; preserve active workers and the 50-GiB disk reserve. Planning only: no transfers or new training launched.
+
 The [living one-pager](docs/chapter-one-pager.md) is the current scope/status reference. Brian requested an applied, model-appropriate direction that can find gains in accuracy, transfer, data/label efficiency or computing cost; missing feeds or a named operational decision are not prerequisites. [Concrete task configurations and chapter review](docs/limburg-applied-task-configurations-2026-10-31.md); [additional data needs](docs/data-needs.md); [source-checked task registry](config/limburg_applied_tasks_v1.json).
 
 Author-supported spatial water/flood tasks are identified, not launched. The prior discharge/scarcity evidence remains retained; Presto/Galileo workers continue unchanged. A water-map result is not a next-day discharge or warning-skill result. Everything below is a **dated execution/design history**; older “current,” “running” or “not yet run” labels refer to their stated dates.

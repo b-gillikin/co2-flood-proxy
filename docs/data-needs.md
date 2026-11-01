@@ -2,6 +2,8 @@
 
 Updated 31 October 2026. This table is **per proposed task**, not a new blanket requirement for the dissertation. Existing discharge analyses have their required inputs; no fresh gauge/weather request is necessary to finish them. [Task configurations](limburg-applied-task-configurations-2026-10-31.md), [registry](../config/limburg_applied_tasks_v1.json).
 
+**1 November implementation plan:** [research, acquisition and Azure offloading](limburg-applied-study-plan-2026-11-01.md). Approximately 61.7 GiB is free, leaving only 11.7 GiB above the existing reserve. Verify/offload inactive Limburg products before full staging; keep a canonical shared labeled dataset and rotate larger task inputs. No transfer, deletion or full download was performed by creating the plan.
+
 ## Needed for the identified mapping tasks
 
 | Data | Held status | Why/where needed | Acquisition path and volume |

@@ -2,6 +2,8 @@
 
 ## Current status — 31 October 2026
 
+**1 November implementation plan:** [research/data/offload sequence](limburg-applied-study-plan-2026-11-01.md) fixes the proposed task order, grouped evaluation, accuracy/resource comparisons and rotating Azure-backed working sets. This is planning, with no new fitted result or changes to current workers.
+
 **Later applied-task refinement:** [concrete configurations and chapter review](limburg-applied-task-configurations-2026-10-31.md) identifies TerraMind Tiny spatial water segmentation, Copernicus-FM radar change and Galileo Nano radar probing; Prithvi Tiny needs explicit adaptation. [Data needs](data-needs.md) separates fully held discharge inputs from new labeled mapping inputs. Script 176 checks 11 source contracts and a checksum-verified aligned sample; it performs no fit. Mapping is specified, not implemented/scored; no automatic new discharge-supporting sweep was submitted. The working RQ now allows practical accuracy/resource/transfer benefits without requiring a missing feed. Running primary source hashes remain unchanged.
 
 **Applied-use review, later 31 October:** [native tasks and practical value](limburg-applied-model-use-review-2026-10-31.md) maps all ten held encoders to author-documented downstream uses, candidate pipeline roles and accuracy/resource comparisons. It separates documented application from operational deployment and proposes task-specific checks. Missing feeds or named operator decisions are not entry conditions. This is a continuation under review, not a launched mapping study or replacement of completed results.

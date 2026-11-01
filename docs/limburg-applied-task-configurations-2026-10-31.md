@@ -12,6 +12,8 @@ The immediate, concrete empirical task is narrower: how accurately and efficient
 
 The machine-readable [task registry](../config/limburg_applied_tasks_v1.json) identifies the exact held source contracts, hashes, inputs, heads, labels, comparison arms and remaining setup. These are **identified configurations, not launched or fully runtime-validated training jobs**.
 
+The subsequent [1 November implementation plan](limburg-applied-study-plan-2026-11-01.md) organizes acquisition, matched evaluation, task order and verified Azure offloading under the 50-GiB local reserve. It supplies the implementation sequence without launching or altering existing jobs.
+
 ## 1. TerraMind Tiny: the most concrete first task
 
 The held author file `terramind/configs/terramind_v1_tiny_sen1floods11.yaml` already specifies this exact model size. [Author config](https://github.com/IBM/terramind/blob/main/configs/terramind_v1_tiny_sen1floods11.yaml).

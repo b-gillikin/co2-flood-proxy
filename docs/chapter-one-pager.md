@@ -1,6 +1,6 @@
 # Chapter 1 — Limburg: applied satellite AI for high-water and flood assessment
 
-Last substantively reviewed: 2026-10-31. Living supervisor/research brief; internal research aid, not dissertation prose.
+Last substantively reviewed: 2026-11-01. Living supervisor/research brief; internal research aid, not dissertation prose.
 
 ## Research Question(s)
 
@@ -38,4 +38,4 @@ Models: Presto, AnySat, Galileo, OlmoEarth, CROMA, Prithvi, Copernicus-FM, DOFA,
 
 Earlier age/outage and scarcity comparisons found no general EO improvement; retain them as distinct supporting results. [Inventory](analysis-inventory.md). Mapping findings do not yet exist.
 
-**Next:** finish pending jobs; acquire task labels/local references, check units/masks and decoder compatibility, then specify the matched mapping comparison. Existing workers are unchanged; older supporting sweeps are not automatically submitted. Brian writes dissertation prose.
+**Next:** follow the [research/data/offload plan](limburg-applied-study-plan-2026-11-01.md): verify/offload inactive Limburg data, finish pending jobs, acquire task labels/local references, check masks/decoder compatibility and run matched spatial comparisons. Rotate one task's working set locally while Azure preserves sources/results; retain the 50-GiB reserve. Existing workers are unchanged; older supporting sweeps are not automatically submitted. Brian writes dissertation prose.
