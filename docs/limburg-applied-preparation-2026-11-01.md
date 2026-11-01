@@ -5,6 +5,12 @@ writes dissertation prose. Extends the [execution record](limburg-applied-implem
 No comparative mapping result is reported here. Existing extraction and the
 nine-job waiting profile queue retain their original source fingerprints.
 
+**Subsequent design review:** the [dated research-design and literature review](reviews/limburg-applied-design-and-literature-review-2026-11-01.md)
+identifies remaining physical comparators, total-label accounting, short-batch
+handling and event-level synthesis before interpreting applied comparisons.
+The executable preparation below does not establish that those scientific
+comparison tasks are complete. Recommendations have not changed active workers.
+
 ## Copernicus native runtime
 
 **Resolved on CPU.** Built real `mmcv==2.1.0` compiled operators on Apple Silicon

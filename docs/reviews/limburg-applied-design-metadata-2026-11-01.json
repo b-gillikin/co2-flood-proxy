@@ -1,0 +1,247 @@
+{
+  "date": "2026-11-01",
+  "purpose": "Research-design metadata audit only; no model fitting or test scoring",
+  "inputs": {
+    "results/applied_study_v1/evaluation/sen1-grouped-folds.parquet": "c8dfe046fe00c5e7920b58e30bca5337d1fca6f5118aaac4ac7fcadfcb2e9ea3",
+    "results/applied_study_v1/evaluation/sen1-label-subsets.parquet": "475ca614e305ff6e004e37980d5a80aec84326b9a570e3095d1111ee415142b1",
+    "results/applied_study_v1/evaluation/radar-change-grouped-folds.parquet": "3c3ffa7216a8f6a5c8707ec9436dd245d2336a690852db84bf5f75acd5784511",
+    "results/applied_study_v1/evaluation/radar-change-label-subsets.parquet": "6474e7f6342f3480638824f2ebb38fe8dadac98bdb12aa089ea1c47cad1dcf0b",
+    "results/applied_study_v1/evaluation/radar-change-inventory.parquet": "06eb721fe7abf6593d384f2919e178def668ac60db0a8efb40ac9ceb3ba3ae00"
+  },
+  "label_budget": {
+    "sen1": [
+      {
+        "fold": "Bolivia_20180215",
+        "selected_training_chips": 24,
+        "validation_chips": 53,
+        "available_non_test_chips": 431,
+        "combined_label_fraction": 0.17865429234338748
+      },
+      {
+        "fold": "Ghana_20180918",
+        "selected_training_chips": 21,
+        "validation_chips": 68,
+        "available_non_test_chips": 393,
+        "combined_label_fraction": 0.22646310432569974
+      },
+      {
+        "fold": "India_20160812",
+        "selected_training_chips": 22,
+        "validation_chips": 30,
+        "available_non_test_chips": 378,
+        "combined_label_fraction": 0.13756613756613756
+      },
+      {
+        "fold": "Mekong_20180805",
+        "selected_training_chips": 25,
+        "validation_chips": 18,
+        "available_non_test_chips": 416,
+        "combined_label_fraction": 0.10336538461538461
+      },
+      {
+        "fold": "Nigeria_20180921",
+        "selected_training_chips": 25,
+        "validation_chips": 28,
+        "available_non_test_chips": 428,
+        "combined_label_fraction": 0.12383177570093458
+      },
+      {
+        "fold": "Pakistan_20170628",
+        "selected_training_chips": 22,
+        "validation_chips": 67,
+        "available_non_test_chips": 418,
+        "combined_label_fraction": 0.21291866028708134
+      },
+      {
+        "fold": "Paraguay_20181031",
+        "selected_training_chips": 22,
+        "validation_chips": 26,
+        "available_non_test_chips": 379,
+        "combined_label_fraction": 0.1266490765171504
+      },
+      {
+        "fold": "Somalia_20180507",
+        "selected_training_chips": 24,
+        "validation_chips": 30,
+        "available_non_test_chips": 420,
+        "combined_label_fraction": 0.12857142857142856
+      },
+      {
+        "fold": "Spain_20190917",
+        "selected_training_chips": 23,
+        "validation_chips": 42,
+        "available_non_test_chips": 416,
+        "combined_label_fraction": 0.15625
+      },
+      {
+        "fold": "Sri-Lanka_20170530",
+        "selected_training_chips": 21,
+        "validation_chips": 69,
+        "available_non_test_chips": 404,
+        "combined_label_fraction": 0.22277227722772278
+      },
+      {
+        "fold": "USA_20190522",
+        "selected_training_chips": 23,
+        "validation_chips": 15,
+        "available_non_test_chips": 377,
+        "combined_label_fraction": 0.10079575596816977
+      }
+    ],
+    "radar-change": [
+      {
+        "fold": "1111002",
+        "selected_training_chips": 252,
+        "validation_chips": 129,
+        "available_non_test_chips": 4986,
+        "combined_label_fraction": 0.07641395908543923
+      },
+      {
+        "fold": "1111006",
+        "selected_training_chips": 208,
+        "validation_chips": 893,
+        "available_non_test_chips": 4871,
+        "combined_label_fraction": 0.22603161568466434
+      },
+      {
+        "fold": "1111007",
+        "selected_training_chips": 93,
+        "validation_chips": 2425,
+        "available_non_test_chips": 4107,
+        "combined_label_fraction": 0.6130995860725591
+      },
+      {
+        "fold": "1111013",
+        "selected_training_chips": 136,
+        "validation_chips": 32,
+        "available_non_test_chips": 2575,
+        "combined_label_fraction": 0.06524271844660194
+      },
+      {
+        "fold": "118",
+        "selected_training_chips": 252,
+        "validation_chips": 107,
+        "available_non_test_chips": 4968,
+        "combined_label_fraction": 0.07226247987117553
+      },
+      {
+        "fold": "130",
+        "selected_training_chips": 253,
+        "validation_chips": 9,
+        "available_non_test_chips": 4893,
+        "combined_label_fraction": 0.05354588187206213
+      },
+      {
+        "fold": "174",
+        "selected_training_chips": 254,
+        "validation_chips": 90,
+        "available_non_test_chips": 4991,
+        "combined_label_fraction": 0.06892406331396514
+      },
+      {
+        "fold": "267",
+        "selected_training_chips": 240,
+        "validation_chips": 288,
+        "available_non_test_chips": 4910,
+        "combined_label_fraction": 0.10753564154786151
+      },
+      {
+        "fold": "275",
+        "selected_training_chips": 232,
+        "validation_chips": 257,
+        "available_non_test_chips": 4712,
+        "combined_label_fraction": 0.10377758913412563
+      },
+      {
+        "fold": "277",
+        "selected_training_chips": 241,
+        "validation_chips": 103,
+        "available_non_test_chips": 4743,
+        "combined_label_fraction": 0.07252793590554502
+      },
+      {
+        "fold": "321",
+        "selected_training_chips": 250,
+        "validation_chips": 67,
+        "available_non_test_chips": 4897,
+        "combined_label_fraction": 0.06473351031243618
+      },
+      {
+        "fold": "324",
+        "selected_training_chips": 255,
+        "validation_chips": 15,
+        "available_non_test_chips": 4933,
+        "combined_label_fraction": 0.054733427934319887
+      },
+      {
+        "fold": "411",
+        "selected_training_chips": 255,
+        "validation_chips": 67,
+        "available_non_test_chips": 4985,
+        "combined_label_fraction": 0.0645937813440321
+      },
+      {
+        "fold": "445",
+        "selected_training_chips": 254,
+        "validation_chips": 34,
+        "available_non_test_chips": 4933,
+        "combined_label_fraction": 0.05838232312994121
+      },
+      {
+        "fold": "498",
+        "selected_training_chips": 249,
+        "validation_chips": 171,
+        "available_non_test_chips": 4966,
+        "combined_label_fraction": 0.08457511075312123
+      },
+      {
+        "fold": "502",
+        "selected_training_chips": 238,
+        "validation_chips": 243,
+        "available_non_test_chips": 4829,
+        "combined_label_fraction": 0.09960654379788776
+      },
+      {
+        "fold": "555",
+        "selected_training_chips": 246,
+        "validation_chips": 15,
+        "available_non_test_chips": 4757,
+        "combined_label_fraction": 0.05486651250788312
+      },
+      {
+        "fold": "559",
+        "selected_training_chips": 258,
+        "validation_chips": 15,
+        "available_non_test_chips": 4985,
+        "combined_label_fraction": 0.054764292878635906
+      },
+      {
+        "fold": "561",
+        "selected_training_chips": 257,
+        "validation_chips": 26,
+        "available_non_test_chips": 4985,
+        "combined_label_fraction": 0.0567703109327984
+      },
+      {
+        "fold": "562",
+        "selected_training_chips": 257,
+        "validation_chips": 14,
+        "available_non_test_chips": 4974,
+        "combined_label_fraction": 0.05448331322878971
+      }
+    ]
+  },
+  "radar_gap": {
+    "records": 5000,
+    "days_quantiles": {
+      "0.0": 6.0,
+      "0.25": 12.0,
+      "0.5": 12.0,
+      "0.75": 48.0,
+      "0.95": 228.0,
+      "1.0": 528.0
+    },
+    "over90_days": 1162,
+    "over365_days": 15
+  }
+}

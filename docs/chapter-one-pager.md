@@ -2,6 +2,12 @@
 
 Last substantively reviewed: 2026-11-01. Living supervisor/research brief; internal research aid, not dissertation prose.
 
+[Design and literature review, 1 November](reviews/limburg-applied-design-and-literature-review-2026-11-01.md):
+the applied direction remains viable; physical controls, total-label accounting,
+short-batch handling and event-level synthesis remain to finish. Close new
+Prithvi-Tiny prior work requires qualified novelty claims. This review does not
+change the working RQ or authorize additional fitting runs.
+
 ## Research Question(s)
 
 **Working refinement: Where can satellite AI improve assessment of high water and flooding, and at what data and computing cost?**
