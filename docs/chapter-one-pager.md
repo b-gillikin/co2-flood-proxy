@@ -1,5 +1,7 @@
 # Chapter 1 — Limburg: applied satellite AI for high-water and flood assessment
 
+1 November update: [Waiting-time preparation and recovery check](limburg-waiting-preparation-2026-11-01.md). All 53 physical outputs/6,338 predictions independently verified; the local atlas covers54 scene cases/530 tiles. Four supplemental CPU profiles passed; three MPS profiles remain queued. The full neural comparison grid is preserved and not launched. Preparation outputs passed Azure readback recovery.
+
 Last substantively reviewed: 2026-11-01. Living supervisor/research brief; internal research aid, not dissertation prose.
 
 [Design and literature review, 1 November](reviews/limburg-applied-design-and-literature-review-2026-11-01.md):

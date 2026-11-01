@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-01",
+  "physical_audit": {
+    "status": "completed",
+    "held_event_outputs": 53,
+    "predictions_checked": 6338,
+    "all_saved_confusions_reproduced": true,
+    "all_unknown_masks_reproduced": true
+  },
+  "atlas": {
+    "acquisitions": 54,
+    "source_tiles": 530,
+    "path": "results/applied_study_v2/local-atlas-final/index.html"
+  },
+  "supplemental_profiles": [
+    {
+      "task": "copernicus",
+      "learner": "native",
+      "device": "cpu",
+      "status": "completed"
+    },
+    {
+      "task": "copernicus",
+      "learner": "unet",
+      "device": "cpu",
+      "status": "completed"
+    },
+    {
+      "task": "copernicus",
+      "learner": "linear",
+      "device": "cpu",
+      "status": "completed"
+    },
+    {
+      "task": "copernicus",
+      "learner": "unet_standard",
+      "device": "cpu",
+      "status": "completed"
+    },
+    {
+      "task": "terramind",
+      "learner": "unet_standard",
+      "device": "mps",
+      "status": "queued"
+    },
+    {
+      "task": "galileo",
+      "learner": "unet_standard",
+      "device": "mps",
+      "status": "queued"
+    },
+    {
+      "task": "prithvi",
+      "learner": "unet_standard",
+      "device": "mps",
+      "status": "queued"
+    }
+  ],
+  "execution": {
+    "total_jobs": 1961,
+    "candidate_fits": 5724,
+    "measured_checkpoint_archive_lower_bound_gib": 379.1060969978571
+  },
+  "protected_source_hashes_verified": 32,
+  "recovery": {
+    "status": "remote_readback_and_every_member_verified",
+    "blob": "applied-v2/results/7b305b34b1b8bcfc506e8f37fb7075657722c71ac1fb368ed8e127e5b2b7e839.tar.gz",
+    "account": "stkerkradeprod01bg",
+    "container": "limburg-compact-eo",
+    "sha256": "7b305b34b1b8bcfc506e8f37fb7075657722c71ac1fb368ed8e127e5b2b7e839",
+    "archive_bytes": 38967274,
+    "files": 6705
+  },
+  "tests": "32 passed",
+  "free_gib": 90.57260513305664
+}

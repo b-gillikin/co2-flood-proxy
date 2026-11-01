@@ -1,5 +1,7 @@
 # Limburg data needs — applied task refinement
 
+1 November update: [Waiting-time preparation and recovery check](limburg-waiting-preparation-2026-11-01.md). All 53 physical outputs/6,338 predictions independently verified; the local atlas covers54 scene cases/530 tiles. Four supplemental CPU profiles passed; three MPS profiles remain queued. The full neural comparison grid is preserved and not launched. Preparation outputs passed Azure readback recovery.
+
 Updated 1 November 2026 after acquisition. This table is **per proposed task**, not a new blanket requirement for the dissertation. Existing discharge analyses have their required inputs; no fresh gauge/weather request is necessary to finish them. [Task configurations](limburg-applied-task-configurations-2026-10-31.md), [registry](../config/limburg_applied_tasks_v1.json).
 
 **Later review implementation:** [physical controls, label/coverage accounting and timing audit](limburg-applied-review-implementation-2026-11-01.md)

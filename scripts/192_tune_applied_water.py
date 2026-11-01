@@ -94,7 +94,10 @@ def main():
         for queue in [
             "results/limburg_individual_experiments_v1/queue/progress.json",
             "results/applied_study_v1/profile_queue/progress.json",
+            "results/applied_study_v2/supplemental-profile-queue/progress.json",
         ]:
+            if not (ROOT / queue).exists():
+                continue
             state = json.loads((ROOT / queue).read_text())
             tasks = state.get("tasks", {})
             tasks = list(tasks.values()) if isinstance(tasks, dict) else tasks
