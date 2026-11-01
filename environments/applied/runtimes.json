@@ -1,0 +1,26 @@
+[
+  {
+    "task": "spatial",
+    "overlay": ".venvs-applied/spatial",
+    "base": ".venvs-eo/terramind",
+    "python": "Python 3.12.12",
+    "dependency_check_returncode": 0,
+    "dependency_check": "No broken requirements found.\n"
+  },
+  {
+    "task": "galileo",
+    "overlay": ".venvs-applied/galileo",
+    "base": ".venvs-eo/galileo",
+    "python": "Python 3.11.15",
+    "dependency_check_returncode": 0,
+    "dependency_check": "No broken requirements found.\n"
+  },
+  {
+    "task": "copernicus",
+    "overlay": ".venvs-applied/copernicus",
+    "base": ".venvs-eo/modern",
+    "python": "Python 3.12.12",
+    "dependency_check_returncode": 0,
+    "dependency_check": "No broken requirements found.\n"
+  }
+]

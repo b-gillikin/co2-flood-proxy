@@ -2,6 +2,8 @@
 
 1 November 2026. Internal implementation plan, not dissertation prose. Planning is complete; this document does not launch training, transfers or local deletion. The [task registry](../config/limburg_applied_tasks_v1.json) and [source review](limburg-applied-task-configurations-2026-10-31.md) supply the exact configurations. Existing discharge results remain evidence; this is a proposed spatial extension with a different target, not a correction to their outcomes.
 
+**Subsequent execution, authorized 1 November:** source offloading, full benchmark/local acquisition and native engineering checks have now been performed. The planning-time observations below remain dated history. See the [execution record](limburg-applied-implementation-2026-11-01.md) for actual verified bytes, recovery paths, dataset/partition audits, successful checks and remaining comparative fitting/portability work. The full mapping comparison is not complete.
+
 ## Purpose and research questions
 
 **Main question:** Can satellite AI improve assessment of high water and flooding, through better maps or lower data, labeling and computing costs?

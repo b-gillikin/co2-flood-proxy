@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-01",
+  "timing": "supplemental source snapshot after native CPU/cache checks; not asserted to be captured before extraction",
+  "sha256": {
+    "data/raw/limburg_dynamic_model_weights/code/galileo/single_file_galileo.py": "a94a2c1ee6ce541a2b09dcdaab6b5b3bd4edbee6b0108aa8a01bfe7a6395888d",
+    "data/raw/limburg_dynamic_model_weights/models/galileo/models/nano/config.json": "026d7bffd61ddf5c69cc7b173dccab01a2a55e1ea511fe3b34409e33a711daa9",
+    "data/raw/limburg_dynamic_model_weights/code/terramind/configs/terramind_v1_tiny_sen1floods11.yaml": "66a3513e3ccba09ce02da15d2ac675b8ee184149c471acf9aaf4ac388c560544",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/encoder_decoder_factory.py": "18830247e186269e8f2b4d578e8ec478066f2474ef9c3d5ab09c6b7c1bb203de",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/backbones/prithvi_vit.py": "83359f6d5ce149d6e820446de3a71f67a6b257a8e01e5eb51df9572c1f6487b7",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/backbones/prithvi_mae.py": "58b130935e385a4b95e89765ac79f49fd004b2cacb2943a942b63fb040156d1d",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/decoders/upernet_decoder.py": "68b7108c8142104da810ac0e290b3d2c1a35f74b3e95b33a19950a090ea5cb75",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/decoders/unet_decoder.py": "92e4211e4110135f876e962400bddd5df6de590559b7c0637808cc67ef7a2f6b",
+    ".venvs-eo/terramind/lib/python3.12/site-packages/terratorch/models/necks.py": "13733e80aa8c7a719f612c1d43408ad301d1d88c7abce9cc4da85d93168f2f99"
+  }
+}

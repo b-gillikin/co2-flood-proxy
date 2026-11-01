@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "status": "identified_and_source_checked_not_training_ready",
-  "date": "2026-10-31",
+  "status": "full_source_data_acquired_three_native_cpu_checks_passed_comparative_fitting_not_started",
+  "date": "2026-11-01",
   "working_question": "Where can satellite AI improve assessment of high water and flooding, and at what data and computing cost?",
-  "authorization": "Task identification and chapter/data review; no new full acquisition or training submitted",
+  "authorization": "User authorized implementation of the 1 November applied study/offload plan; do not modify other chapters or disrupt running Presto/Galileo",
   "existing_queue": "Unchanged; finish and audit pending individual experiments; preserve earlier results",
   "sources": {
     "terramind_tiny": {
@@ -113,12 +113,12 @@
         "same-input transparent spectral/radar feature predictor"
       ],
       "required_next": [
-        "Acquire hand-labeled inputs and split/event metadata",
-        "Map canonical S1Hand/S2Hand names to author datamodule layout explicitly",
-        "Check temporal differences between S1/S2 labels",
-        "Validate paired spatial/validity masks and normalization",
-        "Profile one forward/backward step after current MPS worker is free"
-      ]
+        "Measure full-epoch MPS batch8 cost after current owner finishes",
+        "Finalize validation-only scratch-comparator tuning",
+        "Fit grouped full-census water mapping and label budgets",
+        "Review local target/support/timing before local accuracy claims"
+      ],
+      "engineering_status": "Strict encoder-key load and real 512px CPU spatial forward/backward passed; new head not fitted"
     },
     {
       "id": "AP02",
@@ -133,7 +133,7 @@
         "copernicus_task"
       ],
       "checkpoint": "held pretrained base; change decoder not trained",
-      "target": "three-class benchmark target at event acquisition; extract numeric class semantics from downloaded benchmark before naming event water/permanent water",
+      "target": "0 no water, 1 permanent water, 2 flood; 3 outside AOI / ignore, confirmed from author plotting labels and source rasters",
       "inputs": {
         "dataset": "Copernicus-Bench Flood-S1 / Kuro Siwo subset",
         "channels": "one pre-event and one event VV/VH pair: four stacked channels",
@@ -160,20 +160,20 @@
         "url": "https://huggingface.co/datasets/wangyi111/Copernicus-Bench/resolve/main/l3_flood_s1/flood_s1.zip",
         "bytes": 6025208085,
         "sha256_lfs": "aecaa4437dcc6575900531d7ade8752c1883d721782020d188b9d1df626762fd",
-        "expanded_bytes": null
+        "expanded_bytes": 7580023758
       },
       "comparators": [
         "same-input raw SAR change baseline",
         "same-input supervised spatial model"
       ],
       "required_next": [
-        "Acquire flood subset and event split metadata",
-        "Verify class values and meaning",
-        "Preserve MNA validity; source loader currently reads then discards it",
-        "Remove missing-target default-to-zero for our adapter; retain explicit unknown coverage; check whether original labels already encode MNA invalidity as ignore3",
-        "Review asymmetric pre/post normalization as a documented source issue",
-        "Check mmcv/mmseg and SyncBN single-device portability in isolated environment"
-      ]
+        "Resolve supported compiled mmcv native-head runtime or explicitly validate a portable head",
+        "Prepare held-event partitions: all20 events overlap the published splits",
+        "Preserve MNA and declared radar zero nodata; do not fill missing targets with dry",
+        "Document and assess source asymmetric normalization",
+        "Implement and tune matched SAR-change and supervised spatial controls before fitting"
+      ],
+      "engineering_status": "All 5000 records audited; native mmseg import in isolated Mac overlay fails on absent compiled mmcv._ext; no successful spatial-head run claimed"
     },
     {
       "id": "AP03",
@@ -189,17 +189,17 @@
       "architecture": "held frozen Nano spatial features plus published linear segmentation probe; benchmark floods with eval_mode LP, verify Nano checkpoint wrapper",
       "author_evaluation": "Published code uses default/20%/5%/1% training partitions and five LP runs; these are reference settings, not a mandatory full sweep",
       "required_next": [
-        "Prepare verified splits and original georeferenced chips",
-        "Separate exact author reproduction from applied all-valid-patch evaluation",
-        "Native preprocessing keeps patches with positive-water labels; retain valid dry patches for applied detection evaluation",
-        "Do not count derived64px patches as independent flood events",
-        "Keep ignore pixels out of training/loss; verify wrapper/normalizer units"
+        "Measure full-epoch MPS batch64 cost after current owner finishes",
+        "Finalize validation-only comparator LR allocation",
+        "Fit all-valid-patch grouped evaluation, retaining dry subpatches and full test chips",
+        "Report extraction/reuse and head costs separately"
       ],
       "comparators": [
         "same-input direct VV/VH feature classifier",
         "same-input compact spatial model"
       ],
-      "efficiency": "Reuse extracted spatial features across nested label subsets only with valid train/test grouping and count initial extraction cost"
+      "efficiency": "Reuse extracted spatial features across nested label subsets only with valid train/test grouping and count initial extraction cost",
+      "engineering_status": "Strict Nano load and real 64px spatial forward/backward passed; source-default OURS_S1 norm_no_clip multiplier2 and real zero-based month"
     },
     {
       "id": "AP04",
@@ -215,10 +215,11 @@
         "Official resize512to224 changes spatial detail; use same evaluation grid for paired comparisons"
       ],
       "required_next": [
-        "Verify exact Tiny decoder/forward contract",
-        "Use single-frame supported route without fabricating temporal observations",
-        "Validate TOA transfer and metadata treatment"
-      ]
+        "Measure MPS/full-epoch cost and batch memory after current owner finishes",
+        "Fit matched six-band comparators with validation-only tuning",
+        "Preserve source product and 224px-to-original-grid adaptation qualifications"
+      ],
+      "engineering_status": "Strict filtered Tiny encoder load and real CPU forward/backward passed at batch2; explicit installed-TerraTorch pyramid-neck adaptation"
     }
   ],
   "evaluation": {
@@ -236,5 +237,40 @@
   },
   "data_policy": "New water maps may later inform hydrological assessment, but no mandatory end-to-end solver or discharge improvement is imposed",
   "deferred": "Other held encoders can join a demonstrated compatible task; no automatic ten-model-by-every-task sweep",
-  "data_acquisition_status": "Public object listings, metadata/splits and one aligned Bolivia chip triplet downloaded; full benchmark imagery not acquired"
+  "data_acquisition_status": "Sen1 all 1784 files; Flood-S1 ZIP verified/extracted and all 5000 records audited; all24 listed CEMS packages; 530 local scene tiles acquired and Azure-readback verified",
+  "identification_record": {
+    "date": "2026-10-31",
+    "status": "identified_and_source_checked_not_training_ready",
+    "authorization": "Task identification and chapter/data review; no new full acquisition or training submitted",
+    "data_acquisition_status": "Public object listings, metadata/splits and one aligned Bolivia chip triplet downloaded; full benchmark imagery not acquired"
+  },
+  "implementation_record": "docs/limburg-applied-implementation-2026-11-01.md",
+  "execution": {
+    "runner": "scripts/185_run_applied_water.py",
+    "profile_queue": "scripts/187_queue_applied_profiles.py",
+    "runtime_record": "environments/applied/runtimes.json",
+    "grouped_partitions": "results/applied_study_v1/evaluation/sen1-grouped-folds.parquet",
+    "label_budgets": "results/applied_study_v1/evaluation/sen1-label-subsets.parquet",
+    "folds": 11,
+    "label_budget_fractions": [
+      1.0,
+      0.2,
+      0.05
+    ],
+    "seeds": [
+      42,
+      1729,
+      31415
+    ],
+    "full_grid_launched": false,
+    "remaining": "Measure device/epoch budgets; finalize validation-only comparator LR allocation; fit and review; resolve Copernicus compiled-head portability and local reference target/assessed support",
+    "galileo_spatial_cache": {
+      "path": "data/processed/limburg_applied_galileo_spatial_v1",
+      "status": "completed_all446",
+      "bytes": 935386880,
+      "dtype": "float32",
+      "encoder_pass": "once; CPU one thread;79.4s engineering observation",
+      "readout_parity": "passed finite and missing-source patches using same preprocessing and probe weights"
+    }
+  }
 }
