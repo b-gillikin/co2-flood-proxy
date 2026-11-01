@@ -50,12 +50,25 @@ Galileo's native workflow precomputes frozen spatial features for repeated probe
 
 The finite [profile queue](../scripts/187_queue_applied_profiles.py) waits for the present MPS owner, then runs one representative training epoch for each of these three compatible native tasks and their two comparators, **one MPS subprocess at a time**. It records failures and full-epoch time/memory before extrapolating the full fitting grid. It does **not** automatically launch hundreds of comparison fits. Initial CPU engineering checks used earlier source snapshots; their manifests remain intact and do not masquerade as the queued, final-source device profiles.
 
-## Remaining sequence
+## Preparation refinement completed later on1November
+
+See [runtime, tuning and local reference specification](limburg-applied-preparation-2026-11-01.md).
+Compiled MMCV now passes native Copernicus CPU forward/backward; no pretrained
+keys are missing. Validation-only equal-trial tuning is implemented for all four
+named tasks and smoke-tested without test scoring. All5,000 radar records now
+have20 disjoint whole-activation folds and nested label budgets. Local reference
+preparation produces43 grid masks, distinguishes DE flood traces from current
+water, and excludes source-specific unassessed areas and mapped hydrography.
+Local scorer requires aligned grids and common model support. These preparation
+fixes are not comparative findings. Earlier failure/remaining-work statements
+above record the initial implementation stage.
+
+## Remaining sequence (updated)
 
 1. Finish current Presto/Galileo extraction without changing their sources. Let the waiting spatial profile queue measure real device costs.
-2. Use those measured costs to finalize batch sizes and a small, explicit validation-only LR allocation for each matched comparator; preserve every eligible held-out chip. Then schedule the fitted mapping/label-budget comparisons. The census need not be stored or processed simultaneously.
-3. Resolve Copernicus native-head portability and the documented asymmetric pre/post normalization; add its matched change baselines and event-held-out partitions before fitting.
-4. Resolve CEMS permanent-water/assessed dry/unknown support and source dependence; use the acquired individual scenes for the supported local application. No new rainfall/gauge/soil/snow request follows.
+2. Use measured costs to finalize task batch sizes and schedule the implemented validation-only tuning/fitted comparisons. Preserve every eligible test chip; processing the census does not require retaining all caches simultaneously.
+3. Profile the now CPU-verified Copernicus native task on the intended device, with its prepared change baselines/folds. The documented asymmetric author normalization is retained; MPS compatibility is untested.
+4. Use prepared CEMS mapped-agreement masks and declared acquisition/source-dependence conventions for the local application; retain field-truth and timing qualifications. No new rainfall/gauge/soil/snow request follows.
 5. Review actual maps, event errors, paired event differences, training-seed variability and total measured costs; update the living brief with findings only after those analyses.
 
 Validation at implementation: applied offload/path/receipt, mask/metric, partition/label-budget and spatial-layout tests; native CPU loading/forward/backward checks; all protected queue hashes rechecked. No new gate pass, operational-warning result, flood-reduction or avoided-loss claim is produced by this work.

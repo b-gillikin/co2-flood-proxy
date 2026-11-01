@@ -1,0 +1,63 @@
+{
+  "status": "native_cpu_forward_backward_passed",
+  "device": "cpu",
+  "torch": "2.9.1",
+  "training_batch": 2,
+  "evaluation_batch": 1,
+  "output_shapes": [
+    [
+      2,
+      3,
+      224,
+      224
+    ],
+    [
+      2,
+      3,
+      224,
+      224
+    ]
+  ],
+  "loss": 1.5991219282150269,
+  "finite_head_gradients": 51,
+  "encoder_gradients": false,
+  "load_report": {
+    "missing": [],
+    "unexpected": []
+  },
+  "elapsed_s": 7.548095874954015,
+  "hashes": {
+    "scripts/193_check_copernicus_runtime.py": "0276d3093a354937848a92ce5d1533410ccd10502e126f62d27970714bfd3307",
+    "src/applied_copernicus.py": "3c6ca3bf0d2921893401d79ab0838db30f06ffed7b9ae58527bf231660b04658",
+    "data/raw/limburg_dynamic_model_weights/models/copernicus_fm/CopernicusFM_ViT_base_varlang_e100.pth": "085350e4fa0ebc6047a501aed1307394c4fcc23c013dd026db65af06411d6bee",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/SL1_IVV_1111013_01_20170422.tif": "35b87d3e9b424a86a7219ffe9ca432531255703240fa1f9a298bc88238534adc",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/SL1_IVH_1111013_01_20170422.tif": "9616d08ff1f6b208ccb11a6f105c9a1f4cbc451b4115c8865ff9e846604e948a",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/MS1_IVV_1111013_01_20170504.tif": "1e20ec5429395e1353d83e77359aeccd3fe2285b7425518180b0f25f36caa57c",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/MS1_IVH_1111013_01_20170504.tif": "0d71356ada0bb942cdb2f0d2c101c6b07533e4cea4b3c4043267e15b5ed013e1",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/MK0_MLU_1111013_01_20170504.tif": "3f865c074bd091ed668c8af025cab5f258ed68f7a0cdd22687c61a6e407ed4ac",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/1111013/01/e2eb30d2c5eb52669c5e6a9db8973835/MK0_MNA_1111013_01_20170504.tif": "c5b3ee3fab76b2c53b43cb904ef8d53d0057133c0fc9b76293ab8f13533fd9a5",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/SL1_IVV_277_02_20170829.tif": "c0c3ec344b7399f65ed54ce8d899ce2fe13593f38f06d26b47da7971cfc5bf28",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/SL1_IVH_277_02_20170829.tif": "bbcb9a3b81fd10f0112a76219be59dcc2296a9ac52467d7988609ae482b19361",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/MS1_IVV_277_02_20180327.tif": "e999ab654e7eeb61defbdfbc803a4b562f983d6bb0fc1644df166a91e3a7179c",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/MS1_IVH_277_02_20180327.tif": "1608a800fd3d9f3476c64ac32ba3b675228595af6f7d8d6ce803017ee54b8c9d",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/MK0_MLU_277_02_20180327.tif": "675132895a57b060d8afa03adba33a201df327ae33bc933077560b4e0c278835",
+    "data/raw/limburg_applied_tasks/flood_s1/extracted/flood_s1/data/277/02/4c7634002c355702bc59edffe41fb0c6/MK0_MNA_277_02_20180327.tif": "700fc4a06dc8d216c50074b8ecc063787c31359902646414b35ec253421c529c",
+    "data/raw/limburg_dynamic_model_weights/models/copernicus_fm/varname_embed/varname_embed_llama3.2_1B.pt": "b8d17d57ea0cd5d4e74a2f11c5e0437da719758184bc3d4b78dbe3dcdd402061",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/CopernicusFM/models_dwv_seg.py": "fb535731174edc908f35836c7c42dbb25bad2f822341e475bd4d98f7aa91fe83",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1"
+  },
+  "interpretation": "Engineering compatibility only; untrained head, no accuracy estimate; MPS not tested while occupied",
+  "build": {
+    "mmcv": "2.1.0",
+    "mmsegmentation": "1.2.2",
+    "mmengine": "0.10.7",
+    "MAX_JOBS": 1,
+    "MMCV_WITH_OPS": 1,
+    "setuptools": "80.9.0",
+    "ninja": "1.13.2",
+    "recipe": "environments/applied/build-copernicus.sh",
+    "wheel_sha256": {
+      ".venvs-applied/wheels/mmcv-2.1.0-cp312-cp312-macosx_11_0_arm64.whl": "e68b7b70e2c68b55363bd6ca823698ba3eaa7713a2351c4730166fc5d398a771"
+    }
+  }
+}

@@ -21,6 +21,8 @@
     "base": ".venvs-eo/modern",
     "python": "Python 3.12.12",
     "dependency_check_returncode": 0,
-    "dependency_check": "No broken requirements found.\n"
+    "dependency_check": "No broken requirements found.\n",
+    "native_cpu_check": "environments/applied/copernicus-native-check.json",
+    "compiled_mmcv": "2.1.0; built locally; mmcv-lite removed"
   }
 ]

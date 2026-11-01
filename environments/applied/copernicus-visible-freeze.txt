@@ -23,11 +23,12 @@ markdown-it-py==4.2.0
 MarkupSafe==3.0.4
 matplotlib==3.10.8
 mdurl==0.1.2
-mmcv-lite==2.1.0
+mmcv @ file:///Users/briangillikin/Desktop/floods/chapter1-co2/.venvs-applied/wheels/mmcv-2.1.0-cp312-cp312-macosx_11_0_arm64.whl#sha256=e68b7b70e2c68b55363bd6ca823698ba3eaa7713a2351c4730166fc5d398a771
 mmengine==0.10.7
 mmsegmentation==1.2.2
 mpmath==1.3.0
 networkx==3.7
+ninja==1.13.2
 numpy==1.26.4
 opencv-python==4.11.0.86
 packaging==26.3
@@ -50,7 +51,7 @@ requests==2.34.2
 rich==15.0.0
 safetensors==0.6.2
 scipy==1.14.1
-setuptools==84.0.0
+setuptools==80.9.0
 shapely==2.1.2
 six==1.17.0
 sympy==1.14.0

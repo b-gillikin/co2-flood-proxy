@@ -13,15 +13,19 @@ the local-file TerraTorch dependency.
 
 - `spatial`: held TerraMind/TerraTorch runtime, for TerraMind and Prithvi tasks.
 - `galileo`: held Nano runtime, for the native radar spatial probe.
-- `copernicus`: held modern runtime plus task-only OpenMMLab packages. Dependency
-  checks pass, but native `mmseg.models` import fails on absent `mmcv._ext`.
-  `mmcv-lite` does not supply compiled operators. This is **not a ready native
-  change-segmentation runtime**. Do not install a fake operator module or claim
-  a classification backbone check validates its decoder.
+- `copernicus`: held modern runtime plus task-only OpenMMLab packages. The
+  initial mmcv-lite import failure was resolved on1November by a real
+  mmcv2.1.0 CPU extension build, isolated from extraction environments.
+  Native Feature2Pyramid/UPerHead/FCNHead forward/backward passed with held
+  checkpoint and real pre/post imagery. MPS remains untested while occupied.
 
-Additional pinned Copernicus overlay packages include mmcv-lite2.1.0,
-mmengine0.10.7, mmsegmentation1.2.2, NumPy1.26.4, SciPy1.14.1,
-OpenCV4.11.0.86, matplotlib3.10.8, contourpy1.3.3, ftfy6.3.1 and regex2024.11.6.
-The exact full dependency set is in the freeze file. No new model weights were
-downloaded. A supported compiled runtime or a separately validated, explicitly
-named portable head is remaining work.
+Pinned packages include mmcv2.1.0 (NOT mmcv-lite), mmengine0.10.7,
+mmsegmentation1.2.2, NumPy1.26.4, SciPy1.14.1, OpenCV4.11.0.86,
+matplotlib3.10.8, contourpy1.3.3, ftfy6.3.1 and regex2024.11.6. Build tools are
+setuptools80.9.0 and ninja1.13.2; only one compilation worker is used. The
+visible freeze records the resolved set. No new model weights were downloaded.
+
+[Rebuild recipe](build-copernicus.sh), [native engineering evidence](copernicus-native-check.json),
+and [scientific/runtime qualifications](../../docs/limburg-applied-preparation-2026-11-01.md).
+The native adapter aliases the held renamed language dictionary to the source's
+legacy filename to avoid a404 download, preserving original vendor Python.

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "full_source_data_acquired_three_native_cpu_checks_passed_comparative_fitting_not_started",
+  "status": "four_native_cpu_checks_passed_validation_only_tuning_and_local_reference_scoring_prepared",
   "date": "2026-11-01",
   "working_question": "Where can satellite AI improve assessment of high water and flooding, and at what data and computing cost?",
   "authorization": "User authorized implementation of the 1 November applied study/offload plan; do not modify other chapters or disrupt running Presto/Galileo",
@@ -114,7 +114,6 @@
       ],
       "required_next": [
         "Measure full-epoch MPS batch8 cost after current owner finishes",
-        "Finalize validation-only scratch-comparator tuning",
         "Fit grouped full-census water mapping and label budgets",
         "Review local target/support/timing before local accuracy claims"
       ],
@@ -167,13 +166,11 @@
         "same-input supervised spatial model"
       ],
       "required_next": [
-        "Resolve supported compiled mmcv native-head runtime or explicitly validate a portable head",
-        "Prepare held-event partitions: all20 events overlap the published splits",
-        "Preserve MNA and declared radar zero nodata; do not fill missing targets with dry",
-        "Document and assess source asymmetric normalization",
-        "Implement and tune matched SAR-change and supervised spatial controls before fitting"
+        "Profile intended device and choose measured batch/compute allocation",
+        "Run matched validation-only tuning and selected held-event fits",
+        "Review local mapped-agreement cases with timing/source qualifications"
       ],
-      "engineering_status": "All 5000 records audited; native mmseg import in isolated Mac overlay fails on absent compiled mmcv._ext; no successful spatial-head run claimed"
+      "engineering_status": "Native compiled MMCV/MMseg CPU forward/backward and batch-one evaluation passed; strict checkpoint keys; MPS untested"
     },
     {
       "id": "AP03",
@@ -190,7 +187,6 @@
       "author_evaluation": "Published code uses default/20%/5%/1% training partitions and five LP runs; these are reference settings, not a mandatory full sweep",
       "required_next": [
         "Measure full-epoch MPS batch64 cost after current owner finishes",
-        "Finalize validation-only comparator LR allocation",
         "Fit all-valid-patch grouped evaluation, retaining dry subpatches and full test chips",
         "Report extraction/reuse and head costs separately"
       ],
@@ -263,7 +259,7 @@
       31415
     ],
     "full_grid_launched": false,
-    "remaining": "Measure device/epoch budgets; finalize validation-only comparator LR allocation; fit and review; resolve Copernicus compiled-head portability and local reference target/assessed support",
+    "remaining": "Finish current extraction/profile queue; profile Copernicus device cost; schedule matched fits using prepared validation-only tuning; review local maps with prepared reference conventions",
     "galileo_spatial_cache": {
       "path": "data/processed/limburg_applied_galileo_spatial_v1",
       "status": "completed_all446",
@@ -271,6 +267,13 @@
       "dtype": "float32",
       "encoder_pass": "once; CPU one thread;79.4s engineering observation",
       "readout_parity": "passed finite and missing-source patches using same preprocessing and probe weights"
-    }
+    },
+    "tuning_runner": "scripts/192_tune_applied_water.py",
+    "copernicus_check": "environments/applied/copernicus-native-check.json",
+    "change_grouped_partitions": "results/applied_study_v1/evaluation/radar-change-grouped-folds.parquet",
+    "change_folds": 20,
+    "local_reference_masks": "results/applied_study_v1/local_references/scoring/reference-inventory.json",
+    "local_reference_scorer": "scripts/195_score_local_reference_agreement.py",
+    "preparation_specification": "docs/limburg-applied-preparation-2026-11-01.md"
   }
 }
