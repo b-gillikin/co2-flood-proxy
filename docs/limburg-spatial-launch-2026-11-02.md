@@ -125,3 +125,15 @@ receipts are separately preserved. All raw/model sources already have their
 existing recovery paths; regenerable caches are not another mandatory raw-data
 acquisition. Full-grid throughput must be estimated from the initial complete
 fits including validation/I/O; this is substantial work, not an overnight promise.
+
+## Launch confirmation
+
+Controller79252 launched the first full comparison worker79259: Galileo linear,
+Bolivia held-event fold, full training labels, seed42, batch64,50 epochs per
+candidate and the full three-rate search. Actual training/validation epoch
+records are being written; each training epoch accounts for all24,192 subpatch
+examples. The initial versioned benchmark/local ledger completed successfully,
+retaining all unfinished comparisons as pending. The source/review package
+passed full Azure readback/member verification (41 files,1,601,782 archive bytes).
+All57 targeted tests pass. Running progress and future PIDs are authoritative in
+`results/applied_study_v3/queue/progress.json`, not these launch-time PIDs.

@@ -73,6 +73,18 @@
   },
   "execution_plan_sha256": "a3e1cd4f6ace594ca46701fb8e3136a9dcb3ff9d428284c3defb019a8a8ab59f",
   "tests": "57 passed",
-  "free_gib": 92.39,
-  "status": "prepared_for_launch"
+  "free_gib": 92.39582443237305,
+  "status": "launched",
+  "controller_pid": 79252,
+  "first_active_job": "galileo-linear-Bolivia_20180215-1-42",
+  "first_active_worker_pid": 79259,
+  "launched_code_commit": "e6dd7c6",
+  "launch_verified_unix": 1793629127.377784,
+  "source_and_review_recovery": {
+    "status": "remote_readback_and_every_member_verified",
+    "blob": "applied-v2/results/73419b27bc1e6fa29619e27ac65d70f0d18b1ceab3ffbde8828cdd09cb493783.tar.gz",
+    "sha256": "73419b27bc1e6fa29619e27ac65d70f0d18b1ceab3ffbde8828cdd09cb493783",
+    "archive_bytes": 1601782,
+    "files": 41
+  }
 }
