@@ -1,6 +1,8 @@
 # Limburg analysis inventory
 
-1 November update: [Waiting-time preparation and recovery check](limburg-waiting-preparation-2026-11-01.md). All 53 physical outputs/6,338 predictions independently verified; the local atlas covers54 scene cases/530 tiles. Four supplemental CPU profiles passed; three MPS profiles remain queued. The full neural comparison grid is preserved and not launched. Preparation outputs passed Azure readback recovery.
+Later 1 November update: [Prithvi Apple-GPU recovery](limburg-prithvi-mps-recovery-2026-11-01.md) passed a complete189-batch training epoch. All16 spatial task/learner profiles now have a successful run, using the documented replacement for the original Prithvi failure. All45 targeted tests pass. Full comparative fitting remains prepared, not launched.
+
+Earlier 1 November update (superseded for profile status): [Waiting-time preparation and recovery check](limburg-waiting-preparation-2026-11-01.md). All 53 physical outputs/6,338 predictions independently verified; the local atlas covers54 scene cases/530 tiles. Four supplemental CPU profiles passed; three MPS profiles remain queued. The full neural comparison grid is preserved and not launched. Preparation outputs passed Azure readback recovery.
 
 ## Current status — 1 November 2026
 

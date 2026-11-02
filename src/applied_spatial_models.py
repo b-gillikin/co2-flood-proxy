@@ -79,6 +79,12 @@ def prithvi():
     )
     filtered = checkpoint_filter_fn_vit(state, model.encoder, PRETRAINED_BANDS, PRETRAINED_BANDS)
     model.encoder.load_state_dict(filtered, strict=True)
+    # Preserve exact adaptive averaging where the held Apple backend lacks
+    # non-divisible pooling. CPU copies are differentiable; state keys unchanged.
+    from applied_mps_pool import install_mps_batchnorm_layout, install_mps_pooling
+
+    install_mps_pooling(model.decoder)
+    install_mps_batchnorm_layout(model.decoder)
     # Unlike frozen TerraMind/Galileo, the author Prithvi task fine-tunes the
     # backbone. This is an explicit Tiny adaptation, not encoder-only LP.
     return model

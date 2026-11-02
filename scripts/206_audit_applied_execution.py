@@ -81,8 +81,11 @@ def main():
         checks = {
             name: digest(ROOT / name) == value for name, value in r.get("source_hashes", {}).items()
         }
-        if not all(checks.values()):
-            raise ValueError("Protected queue source changed")
+        # Completed queues retain their original code version. A documented
+        # later repair must not silently rewrite that historical provenance.
+        terminal = {"complete", "complete_with_failures", "completed", "finished_with_failures"}
+        if not all(checks.values()) and r.get("status") not in terminal:
+            raise ValueError("Active protected queue source changed")
         queues.append(
             dict(path=str(path.relative_to(ROOT)), status=r.get("status"), source_checks=checks)
         )

@@ -157,6 +157,7 @@ def main():
         ROOT / "src/applied_unet.py",
         ROOT / "scripts/185_run_applied_water.py",
         ROOT / "src/applied_spatial_models.py",
+        ROOT / "src/applied_mps_pool.py",
         ROOT / "src/applied_water.py",
         *[
             w.PARTITIONS / n
@@ -200,6 +201,11 @@ def main():
         partitions={k: sorted(v.chip) for k, v in rows.items()},
         torch=torch.__version__,
         precision="float32",
+        backend_policy=(
+            "Prithvi decoder uses exact CPU non-divisible adaptive pooling on MPS; BatchNorm input/gradient layout made contiguous. Same parameters, state keys and mathematical operations."
+            if a.task == "prithvi" and a.learner == "native"
+            else "standard task backend"
+        ),
         training_drop_last=False,
         batching="Complete shuffled batches; merge final singleton into preceding batch",
         label_accounting=label_accounting(

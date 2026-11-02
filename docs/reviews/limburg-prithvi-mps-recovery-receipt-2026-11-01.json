@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "full_training_epoch_profiled": true,
+  "batches": 189,
+  "examples": 378,
+  "training_chips": 378,
+  "cpu_mps_forward_max_abs_error": 7.338821887969971e-07,
+  "equivalence_rtol": 0.001,
+  "equivalence_atol": 0.001,
+  "adaptive_pool_modules": 4,
+  "finite_gradients_all_batches": true,
+  "epoch_seconds": 146.2375624589622,
+  "median_batch_seconds": 0.6854469578247517,
+  "model_state_bytes": 51836784,
+  "rss_bytes": 6260801536,
+  "interpretation": "Engineering equivalence and full-epoch feasibility; no test scores, comparative speed or scientific fit claim.",
+  "tests": "45 passed",
+  "source_record": "results/applied_study_v2/prithvi-mps-recovery-v3/manifest.json",
+  "previous_attempts_retained": [
+    "results/applied_study_v1/profile_queue/prithvi-native.log",
+    "results/applied_study_v2/prithvi-mps-recovery-v1",
+    "results/applied_study_v2/prithvi-mps-recovery-diagnostic-v2"
+  ],
+  "remote_recovery": {
+    "status": "remote_readback_and_every_member_verified",
+    "blob": "applied-v2/results/8370bc09284c8b4dd7530663713e21ad4ee3bfab10e5b009ec4ed981fa946256.tar.gz",
+    "account": "stkerkradeprod01bg",
+    "container": "limburg-compact-eo",
+    "sha256": "8370bc09284c8b4dd7530663713e21ad4ee3bfab10e5b009ec4ed981fa946256",
+    "files": 15
+  }
+}
