@@ -55,15 +55,17 @@ def main():
     p.add_argument("directory", type=Path)
     p.add_argument("--physical", action="store_true")
     a = p.parse_args()
-    ownership = ROOT / "results/applied_study_v3/.mps-owner.lock"
-    ownership.parent.mkdir(parents=True, exist_ok=True)
-    device_lock = ownership.open("a")
-    fcntl.flock(device_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     d = a.directory
     manifest = json.loads((d / "manifest.json").read_text())
     args = manifest["arguments"]
     task = args["task"]
     learner = args["learner"]
+    if args["device"] == "mps" and not a.physical:
+        ownership = ROOT / "results/applied_study_v3/.mps-owner.lock"
+        ownership.parent.mkdir(parents=True, exist_ok=True)
+        device_lock = ownership.open("a")
+        fcntl.flock(device_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
     if args["budget"] != 1.0:
         raise ValueError("Local application protocol uses complete-label fits, all folds/seeds")
     out = d / ("local-physical" if a.physical else "local")
@@ -85,15 +87,25 @@ def main():
                 not k.startswith("encoder.") for k in result.missing_keys
             ):
                 raise ValueError("Incomplete Galileo probe load")
+        elif manifest.get("checkpoint_policy") == "omit_frozen_encoder_only":
+            result = model.load_state_dict(state, strict=False)
+            if result.unexpected_keys or any(
+                not k.startswith("encoder.") for k in result.missing_keys
+            ):
+                raise ValueError("Missing task state")
         else:
             model.load_state_dict(state, strict=True)
+        if args.get("on_device_pool"):
+            from applied_fast_pool import install_on_device_pools
+
+            install_on_device_pools(model)
         model.to(device).eval()
     else:
         physical_path = (
             ROOT / f"results/applied_study_v2/physical/{task}-{args['fold']}/selection.json"
         )
         physical = json.loads(physical_path.read_text())["candidate"]
-    torch.set_num_threads(1)
+    torch.set_num_threads(args.get("threads", 1))
     pairs_path = (
         ROOT / "results/applied_study_v1/local_references/scoring/scene-reference-pairs.parquet"
     )
@@ -108,6 +120,7 @@ def main():
         ROOT / "src/applied_spatial_models.py",
         ROOT / "src/applied_copernicus.py",
         ROOT / "src/applied_mps_pool.py",
+        ROOT / "src/applied_fast_pool.py",
     ]:
         hashes[str(source.relative_to(ROOT))] = sha(source)
     started = time.perf_counter()

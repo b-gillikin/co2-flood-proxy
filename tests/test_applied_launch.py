@@ -176,6 +176,7 @@ def test_local_adapter_full_grid_with_matched_physical_control(task, tmp_path, m
         "applied_spatial_models.py",
         "applied_copernicus.py",
         "applied_mps_pool.py",
+        "applied_fast_pool.py",
     ]:
         target = tmp_path / "src" / name
         target.parent.mkdir(exist_ok=True)

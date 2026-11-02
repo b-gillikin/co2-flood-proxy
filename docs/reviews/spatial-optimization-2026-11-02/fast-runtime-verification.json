@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "two_persistent_workers": "Two epochs complete ordered census",
+  "terramind_output_max_abs": 0.0,
+  "terramind_gradient_max_abs": 0.0,
+  "trainable_parameters_checked": 34,
+  "elapsed_s": 18.705077333841473,
+  "torch": "2.9.1"
+}

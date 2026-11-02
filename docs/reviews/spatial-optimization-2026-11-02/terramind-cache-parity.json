@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "output_max_abs": 0.0,
+  "gradient_max_abs": 0.0,
+  "gradient_parameters": 34,
+  "elapsed_s": 0.49473216687329113,
+  "device": "cpu",
+  "note": "Same model and full trainable decoder; frozen encoder batch arithmetic tolerance"
+}

@@ -2,6 +2,8 @@
 
 Internal research/execution aid, 2 November 2026; Brian writes dissertation prose.
 
+Later execution update: the serial v3 projection was too long. The [v4 optimization record](limburg-spatial-execution-optimization-2026-11-02.md) documents exact caches, batched evaluation, two CPU lanes plus MPS, explicit common-batch changes and retained full research coverage. The v3 launch description below is preserved as history.
+
 ## Completed discharge work
 
 All 103 queued tasks completed successfully. Script209 consolidated all ten

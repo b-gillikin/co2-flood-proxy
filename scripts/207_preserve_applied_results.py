@@ -5,6 +5,7 @@ local deletion. CLI Python supplies Azure SDK; other dependencies are stdlib.
 """
 
 import argparse
+import fcntl
 import hashlib
 import io
 import json
@@ -70,6 +71,11 @@ def main():
         "--output", type=Path, required=True, help="New bundle path outside included trees"
     )
     a = p.parse_args()
+    # Concurrent fit lanes share one compressor/upload/readback worker.
+    lock_path = ROOT / "results/applied_study_v3/.archive-owner.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    archive_lock = lock_path.open("a")
+    fcntl.flock(archive_lock, fcntl.LOCK_EX)
     if a.output.exists() or a.output.with_suffix(".recovery.json").exists():
         raise FileExistsError("Preserve previous recovery bundle")
     records = inventory(a.include)

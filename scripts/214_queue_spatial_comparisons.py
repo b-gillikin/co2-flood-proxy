@@ -51,6 +51,9 @@ def main():
     p.add_argument("--plan", type=Path, required=True)
     p.add_argument("--run", action="store_true")
     p.add_argument("--status", action="store_true")
+    p.add_argument(
+        "--no-analysis", action="store_true", help="Use one shared readout for concurrent lanes"
+    )
     a = p.parse_args()
     out = a.plan.parent / "queue"
     if a.status:
@@ -65,9 +68,14 @@ def main():
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     plan = json.loads(a.plan.read_text())
     jobs = {j["id"]: j for j in plan["jobs"]}
+    if plan.get("tuning_root", "results/applied_study_v3/tuning") not in {
+        "results/applied_study_v3/tuning",
+        "results/applied_study_v4/tuning",
+    }:
+        raise ValueError("Unrecognized dedicated fit/cleanup root")
     for j in jobs.values():
         if j["learner"] != "physical" and not (ROOT / j["output"]).resolve().is_relative_to(
-            (ROOT / "results/applied_study_v3/tuning").resolve()
+            (ROOT / plan.get("tuning_root", "results/applied_study_v3/tuning")).resolve()
         ):
             raise ValueError("Fit/cleanup output escapes this chapter's dedicated run directory")
     statepath = out / "progress.json"
@@ -299,7 +307,8 @@ def main():
                 if jobs[k]["learner"] != "physical"
             )
             if (
-                state.get("analysis_worker") is None
+                not a.no_analysis
+                and state.get("analysis_worker") is None
                 and state.get("last_analysis_neural_completed", -1) != completed_count
             ):
                 target = (
@@ -341,7 +350,29 @@ def main():
                 pending = next(
                     (k for k, r in state["jobs"].items() if r["status"] == "pending"), None
                 )
-                if pending and shutil.disk_usage(ROOT).free >= 55 * 1024**3:
+                if pending and jobs[pending].get("tuning_source_output"):
+                    source = ROOT / jobs[pending]["tuning_source_output"]
+                    if not (source / "complete.json").exists():
+                        state["waiting_reason"] = (
+                            "Awaiting full-label seed42 validation tuning: " + str(source)
+                        )
+                        save()
+                        time.sleep(5)
+                        continue
+                device_busy = False
+                if pending and jobs[pending].get("resource") == "mps":
+                    ownership = ROOT / "results/applied_study_v3/.mps-owner.lock"
+                    ownership.parent.mkdir(parents=True, exist_ok=True)
+                    with ownership.open("a") as probe:
+                        try:
+                            fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                            fcntl.flock(probe, fcntl.LOCK_UN)
+                        except BlockingIOError:
+                            device_busy = True
+                if pending and device_busy:
+                    state["waiting_reason"] = "Existing MPS job retains device ownership"
+                elif pending and shutil.disk_usage(ROOT).free >= 55 * 1024**3:
+                    state.pop("waiting_reason", None)
                     launch_actor(pending, "fit")
                 elif pending:
                     state["waiting_reason"] = (

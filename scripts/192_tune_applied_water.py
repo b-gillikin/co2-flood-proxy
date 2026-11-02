@@ -18,6 +18,7 @@ import resource
 import shutil
 import sys
 import time
+from contextlib import nullcontext
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -43,12 +44,28 @@ def main():
     p.add_argument("--device", choices=["cpu", "mps"], default="cpu")
     p.add_argument("--epochs", type=int, help="Must be identical for all task learners")
     p.add_argument("--feature-cache", type=Path)
+    p.add_argument(
+        "--fixed-lr-from",
+        type=Path,
+        help="Verified full-label seed42 fit; repeat full-label seeds only",
+    )
+    p.add_argument("--tensor-cache", type=Path)
+    p.add_argument("--eval-batch-size", type=int, default=1)
+    p.add_argument("--data-workers", type=int, default=0)
+    p.add_argument("--threads", type=int, default=1)
+    p.add_argument("--foreach", action="store_true")
+    p.add_argument("--precision", choices=["float32", "float16", "bfloat16"], default="float32")
+    p.add_argument("--on-device-pool", action="store_true")
     p.add_argument("--output-root", type=Path, default=ROOT / "results/applied_study_v2/tuning")
     p.add_argument("--run", action="store_true", help="Without this, print the plan only")
     p.add_argument(
         "--evaluate-selected", action="store_true", help="Test only the validation winner"
     )
     a = p.parse_args()
+    for field in ["tensor_cache", "feature_cache", "output_root", "fixed_lr_from"]:
+        value = getattr(a, field)
+        if value is not None:
+            setattr(a, field, value.resolve())
     epochs = a.epochs if a.epochs is not None else (100 if a.task == "terramind" else 50)
     if epochs < 1 or a.batch_size < 2:
         p.error("Use positive epochs and batch-size >=2 for common task support")
@@ -58,7 +75,8 @@ def main():
             dict(
                 task=a.task,
                 learner=a.learner,
-                rates=rates,
+                rates=None if a.fixed_lr_from else rates,
+                fixed_lr_from=str(a.fixed_lr_from) if a.fixed_lr_from else None,
                 epochs=epochs,
                 candidate_test_evaluations=0,
                 selected_test_evaluations=int(a.evaluate_selected),
@@ -91,7 +109,19 @@ def main():
     if a.task == "copernicus":
         import applied_change_task as w
         from applied_copernicus import CopernicusRadarChange
-    torch.set_num_threads(1)
+    torch.set_num_threads(a.threads)
+    if a.tensor_cache:
+        from applied_fast_data import CachedChips, EpochBatches, cached_terramind_forward, fast_loss
+
+        legacy_forward = w.forward
+
+        def accelerated_forward(model, batch, task, learner, device):
+            if task == "terramind" and learner == "native" and "features" in batch:
+                model.encoder.eval()
+                return cached_terramind_forward(model, batch["features"].to(device))
+            return legacy_forward(model, batch, task, learner, device)
+
+        w.forward = accelerated_forward
     if a.device == "mps":
         ownership = ROOT / "results/applied_study_v3/.mps-owner.lock"
         ownership.parent.mkdir(parents=True, exist_ok=True)
@@ -113,8 +143,8 @@ def main():
             ) or any(t.get("status") == "running" for t in jobs):
                 raise RuntimeError("Use the existing device queue; another worker may own MPS")
     if a.feature_cache:
-        if a.task not in {"galileo", "copernicus"} or a.learner != "native":
-            p.error("Cached features are for frozen native Galileo/Copernicus encoders")
+        if a.task not in {"galileo", "copernicus", "terramind"} or a.learner != "native":
+            p.error("Cached features are for frozen native Galileo/Copernicus/TerraMind encoders")
         index = json.loads((a.feature_cache / "index.json").read_text())
         if index["status"] != "completed" or index["completed"] != (
             5000 if a.task == "copernicus" else 446
@@ -153,6 +183,17 @@ def main():
     for role in ["train", "valid", "test"]:
         ids = set(folds.loc[(folds.fold == a.fold) & (folds.role == role), "chip"])
         rows[role] = inv[inv.chip.isin(ids & selected if role == "train" else ids)].copy()
+    tuning_reuse = None
+    if a.fixed_lr_from:
+        from applied_tuning_reuse import fixed_learning_rate
+
+        rate, tuning_reuse = fixed_learning_rate(
+            a.fixed_lr_from,
+            {k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()},
+            {k: sorted(v.chip) for k, v in rows.items()},
+            epochs,
+        )
+        rates = [rate]
     out = (
         a.output_root
         / f"{a.task}-{a.learner}-{a.fold}-{a.budget:g}-{a.seed}-{a.device}-b{a.batch_size}-e{epochs}"
@@ -168,6 +209,9 @@ def main():
         ROOT / "src/applied_spatial_models.py",
         ROOT / "src/applied_mps_pool.py",
         ROOT / "src/applied_io_cache.py",
+        ROOT / "src/applied_fast_data.py",
+        ROOT / "src/applied_fast_pool.py",
+        ROOT / "src/applied_tuning_reuse.py",
         ROOT / "src/applied_water.py",
         *[
             w.PARTITIONS / n
@@ -200,9 +244,12 @@ def main():
         sources.append(ROOT / "data/raw/limburg_dynamic_model_weights/models" / weights[a.task])
     if a.feature_cache:
         sources.append(a.feature_cache / "index.json")
+    if a.tensor_cache:
+        sources.append(a.tensor_cache / "index.json")
     manifest = dict(
         arguments={k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()},
         rates=rates,
+        tuning_reuse=tuning_reuse,
         epochs=epochs,
         selection="validation equal-event target-class IoU; first-trial tie",
         source_hashes={
@@ -210,7 +257,9 @@ def main():
         },
         partitions={k: sorted(v.chip) for k, v in rows.items()},
         torch=torch.__version__,
-        precision="float32",
+        precision=a.precision,
+        mixed_precision_note="Float32 source tensors, master weights, optimizer state and final evaluation; autocast training only with dynamic scaling for float16",
+        on_device_pool=a.on_device_pool,
         backend_policy=(
             "Prithvi decoder uses exact CPU non-divisible adaptive pooling on MPS; BatchNorm input/gradient layout made contiguous. Same parameters, state keys and mathematical operations."
             if a.task == "prithvi" and a.learner == "native"
@@ -232,6 +281,12 @@ def main():
         resource_caveat="Concurrent work affects wall time; process RSS is a cumulative high-water mark, not per-trial isolated peak",
         evaluation_drop_last=False,
         engineering_only=epochs != (100 if a.task == "terramind" else 50),
+        checkpoint_policy="omit_frozen_encoder_only"
+        if a.tensor_cache and a.learner == "native" and a.task in {"terramind", "copernicus"}
+        else "full_state",
+        execution_optimization="memory-mapped exact tensors, persistent workers, batched evaluation, deferred loss readback"
+        if a.tensor_cache
+        else "legacy",
         epoch_budget_note="Nondefault epochs are a bounded engineering run, not the final comparison",
         loss="TerraMind Dice for all; Galileo/Prithvi CE; Copernicus native CE+.4aux, controls CE",
     )
@@ -266,7 +321,44 @@ def main():
     device = torch.device(a.device)
     args = SimpleNamespace(task=a.task, learner=a.learner)
 
+    persistent_loaders = {}
+
     def loader(role, augment=False, epoch=0):
+        if a.tensor_cache:
+            if role not in persistent_loaders:
+                dataset = CachedChips(
+                    rows[role],
+                    a.task,
+                    a.tensor_cache,
+                    feature_cache=a.feature_cache,
+                    augment=role == "train" and augment,
+                    seed=a.seed,
+                )
+                options = dict(
+                    num_workers=a.data_workers, generator=torch.Generator().manual_seed(a.seed)
+                )
+                if a.data_workers:
+                    options.update(
+                        persistent_workers=True, prefetch_factor=2, multiprocessing_context="spawn"
+                    )
+                if role == "train":
+                    persistent_loaders[role] = DataLoader(
+                        dataset,
+                        batch_sampler=EpochBatches(
+                            len(dataset), a.batch_size, a.seed, dataset.epoch
+                        ),
+                        **options,
+                    )
+                else:
+                    persistent_loaders[role] = DataLoader(
+                        dataset,
+                        batch_size=a.eval_batch_size,
+                        shuffle=False,
+                        drop_last=False,
+                        **options,
+                    )
+            persistent_loaders[role].dataset.set_epoch(epoch)
+            return persistent_loaders[role]
         dataset = w.Chips(rows[role], a.task, augment=augment, feature_cache=a.feature_cache)
         if role == "train":
             return DataLoader(
@@ -276,7 +368,7 @@ def main():
             )
         return DataLoader(
             dataset,
-            batch_size=1,
+            batch_size=a.eval_batch_size,
             shuffle=False,
             drop_last=False,
             num_workers=0,
@@ -289,7 +381,7 @@ def main():
                 return CopernicusRadarChange()
             return (
                 GalileoSpatialProbe()
-                if a.feature_cache
+                if a.task == "galileo" and a.feature_cache
                 else {"terramind": terramind, "galileo": GalileoRadar, "prithvi": prithvi}[a.task]()
             )
         channels = {"terramind": 15, "galileo": 2, "prithvi": 6, "copernicus": 4}[a.task]
@@ -304,6 +396,7 @@ def main():
 
     trials = []
     for i, lr in enumerate(rates):
+        persistent_loaders = {}
         if shutil.disk_usage(ROOT).free < 55 * 1024**3:
             raise RuntimeError("Preserve disk reserve; completed candidates remain recorded")
         random.seed(a.seed)
@@ -326,6 +419,10 @@ def main():
             )
             (out / "trials.json").write_text(json.dumps(trials, indent=2))
             continue
+        if a.on_device_pool:
+            from applied_fast_pool import install_on_device_pools
+
+            install_on_device_pools(model)
         initial = hashlib.sha256()
         for parameter in model.parameters():
             if parameter.requires_grad:
@@ -338,10 +435,20 @@ def main():
             raise ValueError("LR candidates have different initial trainable parameters")
         torch.manual_seed(a.seed)
         model.to(device)
+        if a.tensor_cache and a.feature_cache and hasattr(model, "encoder"):
+            model.encoder.cpu()  # Frozen cache encoder need not occupy GPU memory.
         opt = torch.optim.AdamW(
             [v for v in model.parameters() if v.requires_grad],
             lr=lr,
             weight_decay=0.05 if a.task == "prithvi" else 0.01,
+            foreach=True if a.foreach else None,
+        )
+        from applied_fast_data import make_scaler
+
+        scaler = make_scaler(torch, a.device, a.precision)
+        step_counter = [0]
+        opt.register_step_post_hook(
+            lambda *args, counter=step_counter: counter.__setitem__(0, counter[0] + 1)
         )
         # Task-specific schedule family retained for every matched learner.
         # TerraMind plateau uses common validation IoU, avoiding incomparable
@@ -372,6 +479,9 @@ def main():
                 training = loader("train", augment=a.task != "galileo", epoch=epoch)
                 epoch_start = time.perf_counter()
                 examples, updates, skipped_examples, loss_sum = 0, 0, 0, 0.0
+                initial_step_count = step_counter[0]
+                epoch_loss = torch.zeros((), device=device)
+                invalid_loss = torch.zeros((), device=device, dtype=torch.bool)
                 for step, batch in enumerate(training):
                     examples += len(batch["chip"])
                     if a.task == "galileo":
@@ -388,21 +498,51 @@ def main():
                         for group in opt.param_groups:
                             group["lr"] = rate
                     opt.zero_grad(set_to_none=True)
-                    loss = w.loss_for(
-                        w.forward(model, batch, a.task, a.learner, device),
-                        batch["y"].to(device),
-                        a.task,
-                        "native" if a.task == "terramind" else a.learner,
+                    context = (
+                        torch.autocast(
+                            a.device,
+                            dtype=torch.float16 if a.precision == "float16" else torch.bfloat16,
+                        )
+                        if a.precision != "float32"
+                        else nullcontext()
                     )
+                    with context:
+                        if a.tensor_cache:
+                            if int(batch["valid_label_pixels"].sum()) == 0:
+                                skipped_examples += len(batch["chip"])
+                                continue
+                            loss = fast_loss(
+                                w.forward(model, batch, a.task, a.learner, device),
+                                batch["loss_y"].to(device),
+                                a.task,
+                                a.learner,
+                            )
+                        else:
+                            loss = w.loss_for(
+                                w.forward(model, batch, a.task, a.learner, device),
+                                batch["y"].to(device),
+                                a.task,
+                                "native" if a.task == "terramind" else a.learner,
+                            )
                     if loss is None:
                         skipped_examples += len(batch["chip"])
                         continue
-                    if not torch.isfinite(loss):
+                    if a.tensor_cache:
+                        invalid_loss.logical_or_(~torch.isfinite(loss.detach()))
+                    elif not torch.isfinite(loss):
                         raise ValueError("Nonfinite loss")
-                    loss.backward()
-                    opt.step()
+                    scaler.scale(loss).backward()
+                    scaler.step(opt)
+                    scaler.update()
                     updates += 1
-                    loss_sum += float(loss.detach())
+                    if a.tensor_cache:
+                        epoch_loss.add_(loss.detach() / len(training))
+                    else:
+                        loss_sum += float(loss.detach())
+                if a.tensor_cache:
+                    if bool(invalid_loss):
+                        raise ValueError("Nonfinite training loss; deferred epoch check")
+                    loss_sum = float(epoch_loss) * len(training)
                 training_s = time.perf_counter() - epoch_start
                 validation_start = time.perf_counter()
                 v = w.score(model, loader("valid"), args, device)
@@ -419,7 +559,11 @@ def main():
                                 validation=v,
                                 training_examples=examples,
                                 expected_examples=len(training.dataset),
-                                optimizer_updates=updates,
+                                optimizer_updates=step_counter[0] - initial_step_count,
+                                eligible_gradient_batches=updates,
+                                amp_skipped_updates=updates
+                                - (step_counter[0] - initial_step_count),
+                                amp_loss_scale=scaler.get_scale(),
                                 no_valid_label_examples=skipped_examples,
                                 mean_training_batch_loss=loss_sum / updates if updates else None,
                                 training_s=training_s,
@@ -435,7 +579,10 @@ def main():
                     record["validation_iou"] is None or value > record["validation_iou"]
                 ):
                     record.update(validation_iou=value, epoch=epoch + 1)
-                    torch.save(model.state_dict(), out / f"trial-{i}.pt")
+                    state = model.state_dict()
+                    if manifest["checkpoint_policy"] == "omit_frozen_encoder_only":
+                        state = {k: v for k, v in state.items() if not k.startswith("encoder.")}
+                    torch.save(state, out / f"trial-{i}.pt")
                 if scheduler is not None:
                     if a.task == "terramind":
                         if value is None:
@@ -459,7 +606,13 @@ def main():
         (out / "trials.json").write_text(json.dumps(trials, indent=2))
         del model, opt, scheduler
     winner = select_trial(trials)
-    winner = dict(winner, learning_rate_grid_boundary=winner["trial"] in {0, len(rates) - 1})
+    winner = dict(
+        winner,
+        learning_rate_grid_boundary=(winner["trial"] in {0, len(rates) - 1})
+        if len(rates) > 1
+        else None,
+        fixed_learning_rate_from_validation=tuning_reuse is not None,
+    )
     (out / "selection.json").write_text(json.dumps(winner, indent=2))
     if a.evaluate_selected:
         if (
@@ -468,10 +621,24 @@ def main():
         ):
             raise ValueError("Selected checkpoint changed")
         model = make_model()
-        model.load_state_dict(
-            torch.load(out / f"trial-{winner['trial']}.pt", map_location="cpu", weights_only=True)
+        if a.on_device_pool:
+            from applied_fast_pool import install_on_device_pools
+
+            install_on_device_pools(model)
+        state = torch.load(
+            out / f"trial-{winner['trial']}.pt", map_location="cpu", weights_only=True
         )
+        if manifest["checkpoint_policy"] == "omit_frozen_encoder_only":
+            loaded = model.load_state_dict(state, strict=False)
+            if loaded.unexpected_keys or any(
+                not k.startswith("encoder.") for k in loaded.missing_keys
+            ):
+                raise ValueError("Task checkpoint omitted non-encoder state")
+        else:
+            model.load_state_dict(state, strict=True)
         model.to(device)
+        if a.tensor_cache and a.feature_cache and hasattr(model, "encoder"):
+            model.encoder.cpu()
         start = time.perf_counter()
         result = w.score(model, loader("test"), args, device, out / "predictions")
         result["test_scoring_wall_s"] = time.perf_counter() - start

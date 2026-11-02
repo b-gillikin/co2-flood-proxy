@@ -1,0 +1,19 @@
+{
+  "plan_sha256": "a908dd70d32a2b33a52f45bd6d4c825eb167279fc27b689faaaacb3364534d54",
+  "status": "optimistic_training_workload_extrapolation_not_calendar_ETA",
+  "gpu_training_days": 60.54641546831216,
+  "by_model_gpu_training_days": {
+    "galileo/unet": 0.6736413963667474,
+    "prithvi/unet": 0.2089668116022949,
+    "terramind/unet": 1.5144687756986361,
+    "copernicus/unet": 2.8844597980255458,
+    "prithvi/native": 4.9844497866843085,
+    "terramind/native": 0.8142370244001237,
+    "copernicus/native": 28.43298017295734,
+    "galileo/unet_standard": 2.6224642184038203,
+    "prithvi/unet_standard": 0.6640744214303899,
+    "terramind/unet_standard": 5.822657813459955,
+    "copernicus/unet_standard": 11.924015249282995
+  },
+  "limitations": "Training-only workload extrapolation from measured matching-batch profiles.\n\nNot a calendar ETA: excludes initialization, validation, test, local application,\nbackup, interruptions and contention. No test accuracy enters this calculation.\n"
+}
