@@ -137,3 +137,27 @@ retaining all unfinished comparisons as pending. The source/review package
 passed full Azure readback/member verification (41 files,1,601,782 archive bytes).
 All57 targeted tests pass. Running progress and future PIDs are authoritative in
 `results/applied_study_v3/queue/progress.json`, not these launch-time PIDs.
+
+## Local date-parser reconciliation
+
+The first completed Galileo classifier fit passed its full benchmark evaluation
+and Azure recovery. Its local adapter then encountered mixed ISO8601 timestamp
+precision under the Galileo pandas runtime. The parser now explicitly accepts
+ISO8601 timestamps with/without fractional seconds. A regression test covers
+that exact mixture; all530 held records pair successfully under the actual
+Galileo runtime. Compatible source counts remain167 radar cases for Galileo,
+222 optical cases for Prithvi,192 paired optical/radar cases for TerraMind
+(with30 unavailable pairs retained), and167 radar-change cases for Copernicus.
+
+The old controller was stopped while the Prithvi training child continued
+unchanged. A versioned plan/controller attached that same child and preserved
+all completed/pending jobs. No training was restarted. The old failed local
+directory is retained, and local-only retry is scheduled before the next fit.
+Checkpoints remain available; corrected local results will receive a new
+verified backup before retirement. Local output records now fingerprint their
+application/preprocessing source files as well as inputs and checkpoints.
+
+The current queue is resolved through
+`results/applied_study_v3/current-queue.json`. Original plans, source snapshots
+and progress records remain historical; they are not rewritten as if the fix
+was present originally.

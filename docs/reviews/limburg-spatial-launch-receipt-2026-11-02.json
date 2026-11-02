@@ -86,5 +86,13 @@
     "sha256": "73419b27bc1e6fa29619e27ac65d70f0d18b1ceab3ffbde8828cdd09cb493783",
     "archive_bytes": 1601782,
     "files": 41
+  },
+  "current_queue": "results/applied_study_v3/local-date-recovery-v1/queue/progress.json",
+  "local_date_recovery": {
+    "controller_pid": 89928,
+    "preserved_worker_pid": 84180,
+    "training_restarted": false,
+    "local_retry": "galileo-linear-Bolivia_20180215-1-42",
+    "tests": "58 passed"
   }
 }

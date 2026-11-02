@@ -102,6 +102,14 @@ def main():
     entries = []
     ledger = []
     hashes = {str(pairs_path.relative_to(ROOT)): sha(pairs_path)}
+    for source in [
+        Path(__file__),
+        ROOT / "src/applied_local_inputs.py",
+        ROOT / "src/applied_spatial_models.py",
+        ROOT / "src/applied_copernicus.py",
+        ROOT / "src/applied_mps_pool.py",
+    ]:
+        hashes[str(source.relative_to(ROOT))] = sha(source)
     started = time.perf_counter()
     for i, pair in enumerate(rows):
         row = pair["primary"]

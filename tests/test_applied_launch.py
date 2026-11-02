@@ -166,6 +166,20 @@ def test_local_adapter_full_grid_with_matched_physical_control(task, tmp_path, m
     torch = pytest.importorskip("torch")
     module = load("215_apply_local_spatial_models.py")
     module.ROOT = tmp_path
+    # Preserve real code-provenance hashing in the isolated filesystem fixture.
+    script_copy = tmp_path / "scripts/215_apply_local_spatial_models.py"
+    script_copy.parent.mkdir()
+    script_copy.write_bytes((ROOT / "scripts/215_apply_local_spatial_models.py").read_bytes())
+    module.__file__ = str(script_copy)
+    for name in [
+        "applied_local_inputs.py",
+        "applied_spatial_models.py",
+        "applied_copernicus.py",
+        "applied_mps_pool.py",
+    ]:
+        target = tmp_path / "src" / name
+        target.parent.mkdir(exist_ok=True)
+        target.write_bytes((ROOT / "src" / name).read_bytes())
     channel = {"galileo": 2, "prithvi": 6, "terramind": 15, "copernicus": 4}[task]
     classes = 3 if task == "copernicus" else 2
     d = tmp_path / "fit"
@@ -374,3 +388,22 @@ def test_durable_controller_preserves_census_and_does_not_duplicate_surviving_ch
         assert state["jobs"]["one"]["offload_status"] == "verified"
     else:
         assert state["status"] == "complete_with_recorded_failures"
+
+
+def test_local_dates_accept_iso_with_and_without_fractional_seconds():
+    rows = []
+    for time in ["2021-07-14T10:56:54+00:00", "2021-07-14T10:56:54.700000+00:00"]:
+        rows.append(
+            dict(
+                path=time + "/grid.tif",
+                sensor="s2_event",
+                aoi="a",
+                acquisition_utc=time,
+                relative_orbit=np.nan,
+                orbit_pass=None,
+            )
+        )
+    pairs = pair_rows(pd.DataFrame(rows), "prithvi")
+    assert len(pairs) == 2
+    times = sorted(x["primary"]["time"] for x in pairs)
+    assert (times[1] - times[0]).total_seconds() == 0.7

@@ -36,4 +36,4 @@ The completed discharge evidence does not show a broad encoder increment over ma
 
 Physical controls are complete across 53 folds; all 6,338 saved predictions and unknown masks were independently verified. All 16 spatial model/comparator configurations have successful profiles, including repaired Prithvi; Copernicus's cached/uncached output equivalence was checked. Spatial comparative accuracy/local transfer findings remain pending. [Launch and recovery record](limburg-spatial-launch-2026-11-02.md).
 
-Current execution lives in `results/applied_study_v3/queue/progress.json`. The durable queue runs full fits, qualified local applications, versioned readouts and verified Azure offloading of inactive checkpoints. Keep 50GiB free; other chapters are untouched.
+Current execution lives in the pointer `results/applied_study_v3/current-queue.json`. The durable queue runs full fits, qualified local applications, versioned readouts and verified Azure offloading of inactive checkpoints. Keep 50GiB free; other chapters are untouched.

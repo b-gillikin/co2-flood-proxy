@@ -323,6 +323,21 @@ def main():
                     output=str(target.relative_to(ROOT)),
                 )
             if state.get("actor") is None:
+                retry = next(
+                    (
+                        k
+                        for k, r in state["jobs"].items()
+                        if r.get("local_status") == "retry_pending"
+                    ),
+                    None,
+                )
+                if retry:
+                    row = state["jobs"][retry]
+                    row["previous_recovery_receipt"] = row.pop("recovery_receipt", None)
+                    row.pop("offload_status", None)
+                    launch_actor(retry, "local")
+                    save()
+                    continue
                 pending = next(
                     (k for k, r in state["jobs"].items() if r["status"] == "pending"), None
                 )

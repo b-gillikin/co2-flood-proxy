@@ -12,7 +12,7 @@ from applied_water import PRITHVI_S2, galileo_radar_norm
 
 def pair_rows(frame, task):
     frame = frame.copy()
-    frame["time"] = pd.to_datetime(frame.acquisition_utc, utc=True)
+    frame["time"] = pd.to_datetime(frame.acquisition_utc, utc=True, format="ISO8601")
     frame["grid"] = frame.path.map(lambda x: Path(x).stem)
     sensor = "s2_event" if task in {"terramind", "prithvi"} else "s1_event"
     outputs = []
