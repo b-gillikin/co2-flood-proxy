@@ -118,28 +118,29 @@ class Chips(Dataset):
 
     def __getitem__(self, index):
         row = self.rows.iloc[index // self.parts]
-        if self.feature_cache:
+        if self.task == "galileo":
+            from applied_io_cache import galileo_features, galileo_source
+
             part = index % 64
             top, left = (part // 8) * 64, (part % 8) * 64
-            window = rasterio.windows.Window(left, top, 64, 64)
-            with rasterio.open(DATA / "LabelHand" / f"{row.chip}_LabelHand.tif") as ds:
-                label = ds.read(1, window=window)
-            s1 = None
-            if self.feature_records[row.chip]["valid_source_pixels"] != 512 * 512:
-                with rasterio.open(DATA / "S1Hand" / f"{row.chip}_S1Hand.tif") as ds:
-                    s1 = ds.read(window=window)
-            y = valid_labels(label, s1=s1)
-            feature = np.load(
-                self.feature_cache / f"{row.chip}.npy", mmap_mode="r", allow_pickle=False
-            )[part].copy()
-            return dict(
-                x=torch.empty(0),
-                y=torch.from_numpy(y),
-                features=torch.from_numpy(feature),
+            label, raw = galileo_source(str(DATA), row.chip)
+            item = dict(
+                y=torch.from_numpy(label[top : top + 64, left : left + 64].astype(np.int64)),
                 chip=row.chip,
                 event=row.event,
                 part=part,
+                month=datetime.strptime(row.s1_date.replace("/", "-"), "%Y-%m-%d").month - 1,
             )
+            if self.feature_cache:
+                item.update(
+                    x=torch.empty(0),
+                    features=torch.from_numpy(
+                        galileo_features(str(self.feature_cache), row.chip)[part].copy()
+                    ),
+                )
+            else:
+                item["x"] = torch.from_numpy(raw[:, top : top + 64, left : left + 64].copy())
+            return item
         label, s1, s2 = read_chip(row.chip, self.task)
         if self.task == "terramind":
             y = valid_labels(label, s1=s1, s2=s2)

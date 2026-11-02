@@ -77,6 +77,13 @@ def main():
         ledger[key]["retained_checkpoint_bytes"] = sum(
             p.stat().st_size for p in directory.glob("trial-*.pt")
         )
+        completion = directory / "complete.json"
+        if completion.exists():
+            saved = json.loads(completion.read_text())
+            ledger[key]["checkpoint_bytes_before_verified_offload"] = sum(
+                v["bytes"] for v in saved.get("checkpoints", {}).values()
+            )
+            ledger[key]["remote_recovery_available"] = (directory / "remote-recovery.json").exists()
         ledger[key]["cost_caveat"] = (
             "Wall time includes the named pipeline stages under recorded contention; not isolated model-only latency. RSS units and training-seed variation remain separate."
         )

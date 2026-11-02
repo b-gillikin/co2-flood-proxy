@@ -91,8 +91,18 @@ class CopernicusRadarChange(nn.Module):
             align_corners=False,
         )
 
-    def forward(self, x, metadata):
+        from applied_mps_pool import install_mps_batchnorm_layout, install_mps_pooling
+
+        for head in [self.decoder, self.aux_head]:
+            install_mps_pooling(head)
+            install_mps_batchnorm_layout(head)
+
+    def frozen_features(self, x, metadata):
+        # The author's Fourier coordinates use float64, unsupported by MPS.
+        # Preserve those calculations on CPU; only frozen results cross devices.
+        self.encoder.to("cpu")
         self.encoder.eval()
+        x, metadata = x.to("cpu"), metadata.to("cpu")
         with torch.no_grad():
             pre = self.encoder(
                 x[:, :2], metadata[:, 0], None, [50000000] * 2, [1e9] * 2, None, "spectral", 16
@@ -100,11 +110,20 @@ class CopernicusRadarChange(nn.Module):
             post = self.encoder(
                 x[:, 2:], metadata[:, 1], None, [50000000] * 2, [1e9] * 2, None, "spectral", 16
             )
-        features = self.neck([b - a for a, b in zip(pre, post, strict=True)])
+        return [b - a for a, b in zip(pre, post, strict=True)]
+
+    def forward_features(self, features):
+        device = next(self.neck.parameters()).device
+        features = self.neck([f.to(device) for f in features])
         return tuple(
-            F.interpolate(head(features), size=x.shape[-2:], mode="bilinear", align_corners=False)
+            F.interpolate(head(features), size=(224, 224), mode="bilinear", align_corners=False)
             for head in [self.decoder, self.aux_head]
         )
+
+    def forward(self, x, metadata):
+        if x.shape[-2:] != (224, 224):
+            raise ValueError("Published radar-change task uses224px inputs")
+        return self.forward_features(self.frozen_features(x, metadata))
 
 
 def change_loss(outputs, labels):

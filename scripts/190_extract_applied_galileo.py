@@ -6,6 +6,7 @@ bounded file per source chip, reused across folds/label budgets/head epochs.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import resource
@@ -31,6 +32,12 @@ PROGRESS = ROOT / "results/applied_study_v1/galileo_spatial_cache"
 
 
 def main():
+    global OUT, PROGRESS
+    parser = argparse.ArgumentParser(__doc__)
+    parser.add_argument("--output", type=Path, default=OUT)
+    parser.add_argument("--progress-root", type=Path, default=PROGRESS)
+    args = parser.parse_args()
+    OUT, PROGRESS = args.output, args.progress_root
     PROGRESS.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
     import fcntl
@@ -40,6 +47,8 @@ def main():
     sources = [
         "src/applied_spatial_models.py",
         "src/applied_water.py",
+        "data/raw/limburg_dynamic_model_weights/code/galileo/single_file_galileo.py",
+        "data/raw/limburg_dynamic_model_weights/models/galileo/models/nano/config.json",
         "scripts/190_extract_applied_galileo.py",
         "data/raw/limburg_dynamic_model_weights/models/galileo/models/nano/encoder.pt",
         "results/applied_study_v1/evaluation/sen1-chip-inventory.parquet",
@@ -61,7 +70,9 @@ def main():
     index_file = OUT / "index.json"
     if index_file.exists() and json.loads(index_file.read_text())["source_hashes"] != hashes:
         raise ValueError("Existing cache has different sources; retain it and choose a new version")
-    frame = pd.read_parquet(ROOT / sources[-1])
+    frame = pd.read_parquet(
+        ROOT / "results/applied_study_v1/evaluation/sen1-chip-inventory.parquet"
+    )
     torch.set_num_threads(1)
     model = GalileoRadar().eval()
     started = time.perf_counter()

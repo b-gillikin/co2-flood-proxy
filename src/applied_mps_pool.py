@@ -46,7 +46,7 @@ def install_mps_batchnorm_layout(module):
     """Keep BatchNorm inputs/backward gradients contiguous; values unchanged."""
     count = 0
     for child in module.modules():
-        if isinstance(child, nn.BatchNorm2d):
+        if isinstance(child, (nn.BatchNorm2d, nn.SyncBatchNorm)):
             child.register_forward_pre_hook(_contiguous_mps_input)
             child.register_forward_hook(_contiguous_mps_gradient)
             count += 1

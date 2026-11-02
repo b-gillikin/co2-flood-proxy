@@ -41,6 +41,7 @@ def main():
     p.add_argument("--device", choices=["cpu", "mps"], required=True)
     p.add_argument("--batch-size", type=int, required=True)
     p.add_argument("--profile-batches", type=int, default=3)
+    p.add_argument("--output", type=Path)
     a = p.parse_args()
     if a.batch_size < 2 or a.profile_batches < 0:
         p.error("Batch>=2; nonnegative profile batches")
@@ -81,7 +82,7 @@ def main():
     dataset = w.Chips(inventory[inventory.chip.isin(ids)], a.task, augment=False)
     sampler = CompleteBatches(len(dataset), a.batch_size, 42)
     loader = DataLoader(dataset, batch_sampler=sampler, num_workers=0)
-    out = (
+    out = a.output or (
         ROOT
         / "results/applied_study_v2/supplemental-profiles"
         / f"{a.task}-{a.learner}-{a.device}-b{a.batch_size}"
@@ -105,7 +106,7 @@ def main():
     (out / "manifest.json").write_text(
         json.dumps(
             dict(
-                arguments=vars(a),
+                arguments={k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()},
                 source_hashes=hashes,
                 fold=str(fold),
                 training_chips=len(ids),

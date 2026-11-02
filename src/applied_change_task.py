@@ -20,8 +20,9 @@ PARTITIONS = ROOT / "results/applied_study_v1/evaluation"
 
 class Chips(Dataset):
     def __init__(self, rows, task, augment=False, feature_cache=None):
-        if task != "copernicus" or feature_cache:
-            raise ValueError("This adapter requires uncached radar-change inputs")
+        if task != "copernicus":
+            raise ValueError("This adapter requires radar-change inputs")
+        self.feature_cache = feature_cache
         self.rows = rows.reset_index(drop=True)
         # Retain the published pre/post temporal pairing and source scale.
         # No new augmentation policy is introduced for this task.
@@ -54,7 +55,7 @@ class Chips(Dataset):
             [lon[0], lat[0], (datetime.fromisoformat(d) - datetime(1970, 1, 1)).days, 0.0256]
             for d in [row.pre_date, row.post_date]
         ]
-        return dict(
+        item = dict(
             x=torch.from_numpy(x),
             y=torch.from_numpy(y),
             metadata=torch.tensor(metadata, dtype=torch.float32),
@@ -62,9 +63,16 @@ class Chips(Dataset):
             event=row.event,
             part=0,
         )
+        if self.feature_cache:
+            item["features"] = torch.from_numpy(
+                np.load(self.feature_cache / f"{row.chip}.npy", allow_pickle=False)
+            )
+        return item
 
 
 def forward(model, batch, task, learner, device):
+    if learner == "native" and "features" in batch:
+        return model.forward_features(batch["features"].unbind(1))
     x = batch["x"].to(device)
     return model(x, batch["metadata"].to(device)) if learner == "native" else model(x)
 

@@ -82,6 +82,13 @@ def test_spatial_task_retains_dry_patches_and_uses_real_date(monkeypatch):
     radar = np.full((2, 512, 512), -12, dtype=np.float32)
     optical = np.full((13, 512, 512), 1000, dtype=np.float32)
     monkeypatch.setattr(runner, "read_chip", lambda chip, task=None: (y, radar, optical))
+    import applied_io_cache
+
+    monkeypatch.setattr(
+        applied_io_cache,
+        "galileo_source",
+        lambda data, chip: (y.astype(np.int8), runner.galileo_radar_norm(radar)),
+    )
     rows = pd.DataFrame(
         [
             dict(

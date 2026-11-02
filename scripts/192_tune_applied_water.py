@@ -8,6 +8,7 @@ all learners within a task. Existing profile jobs are unchanged. Never call
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -23,6 +24,7 @@ from types import SimpleNamespace
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from applied_evaluation import CompleteBatches, label_accounting
+from applied_execution import atomic, verify_completed
 from applied_selection import learning_rates, select_trial
 
 
@@ -91,6 +93,10 @@ def main():
         from applied_copernicus import CopernicusRadarChange
     torch.set_num_threads(1)
     if a.device == "mps":
+        ownership = ROOT / "results/applied_study_v3/.mps-owner.lock"
+        ownership.parent.mkdir(parents=True, exist_ok=True)
+        device_lock = ownership.open("a")
+        fcntl.flock(device_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         for queue in [
             "results/limburg_individual_experiments_v1/queue/progress.json",
             "results/applied_study_v1/profile_queue/progress.json",
@@ -107,10 +113,12 @@ def main():
             ) or any(t.get("status") == "running" for t in jobs):
                 raise RuntimeError("Use the existing device queue; another worker may own MPS")
     if a.feature_cache:
-        if (a.task, a.learner) != ("galileo", "native"):
-            p.error("Cached features are for native Galileo only")
+        if a.task not in {"galileo", "copernicus"} or a.learner != "native":
+            p.error("Cached features are for frozen native Galileo/Copernicus encoders")
         index = json.loads((a.feature_cache / "index.json").read_text())
-        if index["status"] != "completed" or index["completed"] != 446:
+        if index["status"] != "completed" or index["completed"] != (
+            5000 if a.task == "copernicus" else 446
+        ):
             raise ValueError("Incomplete feature cache")
         for name, digest in index["source_hashes"].items():
             if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
@@ -154,10 +162,12 @@ def main():
         Path(__file__),
         ROOT / "src/applied_selection.py",
         ROOT / "src/applied_evaluation.py",
+        ROOT / "src/applied_execution.py",
         ROOT / "src/applied_unet.py",
         ROOT / "scripts/185_run_applied_water.py",
         ROOT / "src/applied_spatial_models.py",
         ROOT / "src/applied_mps_pool.py",
+        ROOT / "src/applied_io_cache.py",
         ROOT / "src/applied_water.py",
         *[
             w.PARTITIONS / n
@@ -206,6 +216,11 @@ def main():
             if a.task == "prithvi" and a.learner == "native"
             else "standard task backend"
         ),
+        training_augmentation=(
+            "none: fixed frozen spatial cache / radar-change protocol"
+            if a.task in {"galileo", "copernicus"}
+            else "matched90-degree rotations and horizontal flips"
+        ),
         training_drop_last=False,
         batching="Complete shuffled batches; merge final singleton into preceding batch",
         label_accounting=label_accounting(
@@ -245,7 +260,7 @@ def main():
             ]
         }
         manifest["shared_feature_cost_note"] = (
-            "One-time frozen extraction across446 chips; do not multiply per head fit or omit from cold-start comparison. Held timing was measured under contention."
+            "One-time frozen extraction across the full task inventory; do not multiply per head fit or omit from cold-start comparison. Held timing was measured under contention."
         )
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     device = torch.device(a.device)
@@ -461,6 +476,7 @@ def main():
         result = w.score(model, loader("test"), args, device, out / "predictions")
         result["test_scoring_wall_s"] = time.perf_counter() - start
         (out / "selected-test.json").write_text(json.dumps(result, indent=2))
+        atomic(out / "complete.json", verify_completed(out))
 
 
 if __name__ == "__main__":
