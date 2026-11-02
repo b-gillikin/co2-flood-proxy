@@ -101,9 +101,10 @@ def main():
             install_on_device_pools(model)
         model.to(device).eval()
     else:
-        physical_path = (
-            ROOT / f"results/applied_study_v2/physical/{task}-{args['fold']}/selection.json"
+        physical_root = Path(
+            args.get("physical_root") or ROOT / "results/applied_study_v2/physical"
         )
+        physical_path = physical_root / f"{task}-{args['fold']}" / "selection.json"
         physical = json.loads(physical_path.read_text())["candidate"]
     torch.set_num_threads(args.get("threads", 1))
     pairs_path = (

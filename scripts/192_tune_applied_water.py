@@ -50,6 +50,12 @@ def main():
         help="Verified full-label seed42 fit; repeat full-label seeds only",
     )
     p.add_argument("--tensor-cache", type=Path)
+    p.add_argument("--evaluation-dir", type=Path)
+    p.add_argument("--physical-root", type=Path)
+    p.add_argument("--shared-label-mask", action="store_true")
+    p.add_argument("--early-stop-patience", type=int, default=0)
+    p.add_argument("--early-stop-min-epochs", type=int, default=0)
+    p.add_argument("--early-stop-min-delta", type=float, default=0.0001)
     p.add_argument("--eval-batch-size", type=int, default=1)
     p.add_argument("--data-workers", type=int, default=0)
     p.add_argument("--threads", type=int, default=1)
@@ -62,7 +68,14 @@ def main():
         "--evaluate-selected", action="store_true", help="Test only the validation winner"
     )
     a = p.parse_args()
-    for field in ["tensor_cache", "feature_cache", "output_root", "fixed_lr_from"]:
+    for field in [
+        "tensor_cache",
+        "feature_cache",
+        "output_root",
+        "fixed_lr_from",
+        "evaluation_dir",
+        "physical_root",
+    ]:
         value = getattr(a, field)
         if value is not None:
             setattr(a, field, value.resolve())
@@ -109,6 +122,8 @@ def main():
     if a.task == "copernicus":
         import applied_change_task as w
         from applied_copernicus import CopernicusRadarChange
+    if a.evaluation_dir:
+        w.PARTITIONS = a.evaluation_dir
     torch.set_num_threads(a.threads)
     if a.tensor_cache:
         from applied_fast_data import CachedChips, EpochBatches, cached_terramind_forward, fast_loss
@@ -173,7 +188,9 @@ def main():
     subsets = pd.read_parquet(w.PARTITIONS / f"{prefix}-label-subsets.parquet")
     selected = set(
         subsets.loc[
-            (subsets.fold == a.fold) & (subsets.seed == a.seed) & (subsets.budget == a.budget),
+            (subsets.fold == a.fold)
+            & (subsets.seed == (42 if a.shared_label_mask else a.seed))
+            & (subsets.budget == a.budget),
             "chip",
         ]
     )
@@ -212,6 +229,7 @@ def main():
         ROOT / "src/applied_fast_data.py",
         ROOT / "src/applied_fast_pool.py",
         ROOT / "src/applied_tuning_reuse.py",
+        ROOT / "src/applied_grouped_protocol.py",
         ROOT / "src/applied_water.py",
         *[
             w.PARTITIONS / n
@@ -249,6 +267,12 @@ def main():
     manifest = dict(
         arguments={k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()},
         rates=rates,
+        stopping_policy=dict(
+            patience=a.early_stop_patience,
+            minimum_epochs=a.early_stop_min_epochs,
+            min_delta=a.early_stop_min_delta,
+            metric="validation equal-event target-class IoU; test never read",
+        ),
         tuning_reuse=tuning_reuse,
         epochs=epochs,
         selection="validation equal-event target-class IoU; first-trial tie",
@@ -470,6 +494,12 @@ def main():
             parameters=sum(p.numel() for p in model.parameters()),
             setup_s=time.perf_counter() - setup_start,
         )
+        from applied_grouped_protocol import ValidationStop
+
+        stopping = ValidationStop(
+            a.early_stop_patience, a.early_stop_min_epochs, a.early_stop_min_delta
+        )
+        record.update(termination="epoch_ceiling", epochs_run=0)
         start = time.perf_counter()
         try:
             for epoch in range(epochs):
@@ -590,6 +620,10 @@ def main():
                         scheduler.step(1 - value)
                     else:
                         scheduler.step()
+                record["epochs_run"] = epoch + 1
+                if stopping.update(epoch + 1, value):
+                    record["termination"] = "validation_plateau"
+                    break
                 if shutil.disk_usage(ROOT).free < 52 * 1024**3:
                     raise RuntimeError("Disk reserve approached; checkpoints retained")
             record["status"] = "completed"

@@ -1,0 +1,21 @@
+{
+  "plan_sha256": "db25abaf7f70a08865213d823a407081f957225ca159f02662efa5d4dc8a69a3",
+  "status": "full_epoch_training_workload_extrapolation_not_calendar_ETA_or_early_stop_prediction",
+  "gpu_training_days": 11.130711329124283,
+  "by_model_gpu_training_days": {
+    "copernicus/native": 4.07909345255253,
+    "copernicus/unet": 0.4138145563604212,
+    "copernicus/unet_standard": 1.7106603752267802,
+    "galileo/unet": 0.19180208483476235,
+    "galileo/unet_standard": 0.7466793270236849,
+    "prithvi/native": 1.4191940489354238,
+    "prithvi/unet": 0.05949793219770072,
+    "prithvi/unet_standard": 0.18907813445366628,
+    "terramind/native": 0.2318330786556544,
+    "terramind/unet": 0.4312060840720733,
+    "terramind/unet_standard": 1.657852254811587
+  },
+  "limitations": "Training-only workload extrapolation from measured matching-batch profiles.\n\nNot a calendar ETA: excludes initialization, validation, test, local application,\nbackup, interruptions and contention. No test accuracy enters this calculation.\n",
+  "execution_plan_sha256": "8c6184899e289c721c97eccd2f109d71402956f18e209ad5b23a3ade3cb8f409",
+  "note": "Partition membership, jobs, candidate counts and task runtimes unchanged; controller-only startup reconciliation"
+}

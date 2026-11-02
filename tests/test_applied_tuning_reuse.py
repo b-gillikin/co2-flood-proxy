@@ -75,3 +75,18 @@ def test_rejects_changed_partition_and_nonwinner(tmp_path):
     atomic(tmp_path / "selection.json", selected)
     with pytest.raises(ValueError, match="winner"):
         fixed_learning_rate(tmp_path, args, parts, 50)
+
+
+def test_reduced_labels_reuse_only_the_identical_explicit_mask(tmp_path):
+    args, parts = source_fit(tmp_path)
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    manifest["arguments"].update(budget=0.2, shared_label_mask=True)
+    atomic(tmp_path / "manifest.json", manifest)
+    complete = json.loads((tmp_path / "complete.json").read_text())
+    complete["manifest_sha256"] = sha(tmp_path / "manifest.json")
+    atomic(tmp_path / "complete.json", complete)
+    target = dict(args, budget=0.2, shared_label_mask=True)
+    rate, record = fixed_learning_rate(tmp_path, target, parts, 50)
+    assert rate == 1e-3 and record["target_seed"] == 1729
+    with pytest.raises(ValueError, match="membership"):
+        fixed_learning_rate(tmp_path, target, dict(parts, train=["other"]), 50)

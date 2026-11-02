@@ -27,6 +27,16 @@ def alive(pid):
         return False
 
 
+def controller_exit_is_failure(child, state):
+    if child.returncode is None or state.get("status") in {
+        "complete",
+        "complete_with_recorded_failures",
+    }:
+        return False
+    owner = state.get("controller_pid")
+    return not (owner != child.pid and alive(owner))
+
+
 def main():
     p = argparse.ArgumentParser(__doc__)
     p.add_argument(
@@ -101,8 +111,11 @@ def main():
                 and children[lane].poll() is not None
                 and state.get("status") not in ["complete", "complete_with_recorded_failures"]
             ):
-                lanes[lane]["controller_exitcode"] = children[lane].returncode
-                lanes[lane]["status"] = "controller_exited_inspect_log"
+                if controller_exit_is_failure(children[lane], state):
+                    lanes[lane]["controller_exitcode"] = children[lane].returncode
+                    lanes[lane]["status"] = "controller_exited_inspect_log"
+                else:
+                    children.pop(lane)  # A live locked controller owns the lane; attach.
             jobs.update(
                 {
                     k: v
@@ -142,7 +155,7 @@ def main():
                 percent_completed=100 * done / total,
                 free_gib=shutil.disk_usage(ROOT).free / 1024**3,
                 updated_unix=time.time(),
-                note="All 1908 final seed/fold/budget fits; full-label repeat seeds reuse seed42 validation tuning. Reduced-label tuning stays independent.",
+                note="Whole-event census retained; seed repeats reuse validation tuning only on identical annotation masks.",
             ),
         )
         if analysis is not None and analysis.poll() is not None:

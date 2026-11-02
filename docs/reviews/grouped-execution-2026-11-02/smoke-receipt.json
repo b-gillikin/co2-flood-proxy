@@ -1,0 +1,36 @@
+[
+  {
+    "seed": 42,
+    "engineering_only": true,
+    "status": "verified_complete",
+    "candidates": 3,
+    "termination": [
+      "validation_plateau",
+      "validation_plateau",
+      "validation_plateau"
+    ],
+    "epochs_run": [
+      2,
+      2,
+      2
+    ],
+    "test_predictions": 87,
+    "manifest_sha256": "eb2cc32ecf0fbbd3d7e03e3a5433409d6e64ac2b3738592448f1ff98a953f741",
+    "complete_sha256": "a8b54e00949be4dbd39a6a87285f132c77b348ca3eccda80b507d00e2de9b3e4"
+  },
+  {
+    "seed": 1729,
+    "engineering_only": true,
+    "status": "verified_complete",
+    "candidates": 1,
+    "termination": [
+      "validation_plateau"
+    ],
+    "epochs_run": [
+      2
+    ],
+    "test_predictions": 87,
+    "manifest_sha256": "7f1a39d18fbf5fac437e9ed52dca5b63e419f2bffc90ad0e9e86228bebcf7f43",
+    "complete_sha256": "b7c37db68c1d7573d3c5ade5fcacb70a8bb0572f90dedd71c5d0e109d42bf43c"
+  }
+]

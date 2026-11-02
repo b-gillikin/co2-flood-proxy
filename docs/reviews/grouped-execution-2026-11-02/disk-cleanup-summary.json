@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "removed_files": 25858,
+  "removed_logical_bytes": 32212765560,
+  "free_before_gib": 65.32987213134766,
+  "free_now_gib": 95.2989501953125,
+  "jobs_sha256": "f498c678c67d760e49cf9141485e83b33d0d483a45ab12de9135524a8eaa9241",
+  "remote_objects_found": 133826,
+  "ledger": "results/disk-cleanup-2026-11-02/expansion/removed.jsonl",
+  "ledger_sha256": "3967f00bece79e5cf6637ade77d8219a218030d08f2db85897db3fb3063f2317",
+  "restore_test": {
+    "blob": "expansion-v1/images/recent_20141013_20141020/s1_ascending_15/297600_5635200.tif",
+    "sha256": "7dd635f6f22cfb1fd6daa6a44ec1072acf7ecf683033868f36ab87241cb8b121",
+    "bytes": 22057,
+    "status": "verified"
+  },
+  "remote_recovery": {
+    "status": "remote_readback_and_every_member_verified",
+    "account": "stkerkradeprod01bg",
+    "container": "limburg-compact-eo",
+    "blob": "applied-v2/results/f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5.tar.gz",
+    "sha256": "f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5",
+    "archive_bytes": 4882635
+  },
+  "protected_other_chapters": "untouched",
+  "scope": "Inactive data/raw/limburg_eo_expansion inputs only"
+}

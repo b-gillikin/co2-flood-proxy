@@ -39,6 +39,7 @@ def main():
         "--task", choices=["terramind", "galileo", "prithvi", "copernicus"], required=True
     )
     p.add_argument("--fold", required=True)
+    p.add_argument("--evaluation-dir", type=Path)
     p.add_argument("--run", action="store_true")
     p.add_argument("--evaluate-selected", action="store_true")
     p.add_argument("--output-root", type=Path, default=ROOT / "results/applied_study_v2/physical")
@@ -70,6 +71,8 @@ def main():
     spec.loader.exec_module(w)
     if a.task == "copernicus":
         import applied_change_task as w
+    if a.evaluation_dir:
+        w.PARTITIONS = a.evaluation_dir.resolve()
     prefix = "radar-change" if a.task == "copernicus" else "sen1"
     invpath = w.PARTITIONS / (
         "radar-change-inventory.parquet"

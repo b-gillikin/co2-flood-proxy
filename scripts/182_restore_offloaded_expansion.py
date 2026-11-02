@@ -30,6 +30,7 @@ def destination(relative, root=ROOT):
 
 def main():
     parser = argparse.ArgumentParser(__doc__)
+    parser.add_argument("--ledger", type=Path, default=LEDGER)
     parser.add_argument(
         "--path",
         action="append",
@@ -43,7 +44,7 @@ def main():
     wanted = set(args.path)
     rows = {
         r["path"]: r
-        for line in LEDGER.read_text().splitlines()
+        for line in args.ledger.read_text().splitlines()
         if (r := json.loads(line))["path"] in wanted
     }
     if set(rows) != wanted:

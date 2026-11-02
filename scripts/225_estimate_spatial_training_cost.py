@@ -28,10 +28,9 @@ def main():
     if a.output.exists():
         raise FileExistsError("Version workload estimates")
     plan = json.loads(a.plan.read_text())
+    evaluation = ROOT / plan.get("evaluation_directory", "results/applied_study_v1/evaluation")
     tables = {
-        prefix: pd.read_parquet(
-            ROOT / f"results/applied_study_v1/evaluation/{prefix}-label-subsets.parquet"
-        )
+        prefix: pd.read_parquet(evaluation / f"{prefix}-label-subsets.parquet")
         for prefix in ["sen1", "radar-change"]
     }
     profiles = ROOT / "results/applied_optimization_2026_11_02"
@@ -77,7 +76,7 @@ def main():
         a.output,
         dict(
             plan_sha256=sha(a.plan),
-            status="optimistic_training_workload_extrapolation_not_calendar_ETA",
+            status="full_epoch_training_workload_extrapolation_not_calendar_ETA_or_early_stop_prediction",
             gpu_training_days=sum(by_model.values()) / 86400,
             by_model_gpu_training_days={k: v / 86400 for k, v in by_model.items()},
             limitations=__doc__,

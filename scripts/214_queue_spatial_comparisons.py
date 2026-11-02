@@ -71,6 +71,7 @@ def main():
     if plan.get("tuning_root", "results/applied_study_v3/tuning") not in {
         "results/applied_study_v3/tuning",
         "results/applied_study_v4/tuning",
+        "results/applied_study_v5/tuning",
     }:
         raise ValueError("Unrecognized dedicated fit/cleanup root")
     for j in jobs.values():

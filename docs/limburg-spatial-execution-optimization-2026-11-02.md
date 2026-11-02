@@ -1,6 +1,8 @@
 # Spatial execution optimization — 2 November 2026
 
-Internal execution/research record. No dissertation prose. The previous serial
+Internal execution/research record. No dissertation prose.
+
+**Later update:** the user authorized reducing repeated fitting. The [v5 grouped design](limburg-grouped-execution-2026-11-02.md) supersedes the v4 grid below; every held event remains evaluated. This v4 record is preserved as history. The previous serial
 queue's projected runtime is impractical. Version 4 preserves all four tasks,
 all 53 task/event folds, all 1,908 final fold/budget/seed fits,
 the three seeds, 100/20/5% label budgets, and the existing
