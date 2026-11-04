@@ -151,3 +151,13 @@ Other chapter worktrees were inspected without editing, staging or overwriting
 their existing changes. No scientific input value, event definition, active
 extraction file or empirical result changed. This pass uses exact archive
 verification rather than a model test because it removes only duplicated bytes.
+
+## 4 November: derived-output offloader planned, not launched
+
+[The deferred offloader plan](limburg-derived-eo-offloader-plan-2026-11-04.md)
+sets out exact run allowlists, bounded archive shards, full Azure readback and
+member checks, restore tests and a separate local-retirement phase. Keep compact
+aggregates/results and provenance local. Protect the current spatial/tensor
+inputs and linked runtimes. The ordinary raw-data backup does not cover these
+processed caches. No transfer, payload deletion or automatic trigger is enabled;
+Brian requested a plan for use if/when needed, with no rush.
