@@ -5,6 +5,12 @@ is paused. Use the [compact acquisition](limburg-compact-eo-acquisition-2026-10-
 The description below preserves the original launch record, not current
 instructions to resume that worker.
 
+**4 November 2026:** the deliberately SIGSTOP-paused legacy process was
+terminated after confirming the supersession. It was not a hung active download.
+All 606 MiB of held files, receipts and catalogues remain; later scripts still
+reference some legacy metadata/helper code. The current training queue continues
+unaffected. [Retirement receipt](reviews/legacy-satellite-worker-retirement-2026-11-04.json).
+
 2026-10-15. Internal acquisition record, not dissertation prose or a new result.
 Brian requested acquiring the shared data first, then assessing model
 compatibility. The archive is not restricted to whichever encoder is easiest.

@@ -1,0 +1,20 @@
+{
+  "retired_at_utc": "2026-11-04T17:42:39.841323+00:00",
+  "pid": 84697,
+  "previous_worker_record": {
+    "pid": 84697,
+    "log": "/Users/briangillikin/Desktop/floods/chapter1-co2/logs/satellite-acquisition.log",
+    "command": "scripts/95_acquire_limburg_satellite_archive.py --download",
+    "status": "paused_SIGSTOP",
+    "reason": "Brian raised local storage constraints; do not resume the full archive without a revised storage plan",
+    "paused_utc": "2026-10-15T17:28:10.756689+00:00"
+  },
+  "previous_worker_record_sha256": "642727718476f22681ef8ab6ee558188466421067405b7fed37722da63f8966a",
+  "observed_state_before": "Ts   /Users/briangillikin/Desktop/floods/chapter1-co2/.venv-foundation/bin/python -u scripts/95_acquire_limburg_satellite_archive.py --download",
+  "action": "SIGTERM then SIGCONT to deliver termination to stopped process",
+  "process_absent_after": true,
+  "reason": "Superseded on 2026-10-15 by compact acquisition; not a current download",
+  "files_deleted": 0,
+  "legacy_archive_allocated_size_observed": "606 MiB",
+  "preservation": "All imagery, receipts, catalogues and scripts retained; legacy catalogues/helper still referenced by later scripts"
+}
