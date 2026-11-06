@@ -1,0 +1,115 @@
+{
+  "logged_on": "2026-11-06",
+  "chapter": 1,
+  "records": [
+    {
+      "key": "Obeng2026Forecast",
+      "title": "From forecast to alert: an open-data AI flood early warning system with reservoir monitoring for the White Volta Basin",
+      "authors": [
+        "Obeng, Joseph Junior",
+        "Yuan, Hongyong",
+        "Chen, Tao",
+        "Huang, Lida"
+      ],
+      "doi": "10.5194/nhess-26-5667-2026",
+      "url": "https://nhess.copernicus.org/articles/26/5667/2026/",
+      "published": "2026/11/05",
+      "publication_status": "published",
+      "role": "Strong keeper: open-data FEWS and critical evaluation",
+      "assessment": "Read critically: no one-day benefit over persistence; full-feature linear regression is competitive and marginally stronger at high flow at 3/5 days. The independent 2004–2007 test contains no Orange/Red observations; extreme-category results rely on leave-one-year-out evaluation. The GloFAS comparator is reanalysis, not as-issued forecasts. Version provenance is internally unclear (direct v4 versus indirect older-v2.1 wording). Monthly reservoir proxies and retrospective availability do not establish operational input availability. A dissemination architecture does not demonstrate routine deployment. No validation of our models or general local-over-global superiority follows.",
+      "mendeley_document_id": "b4c2fad8-72f1-344b-afc8-4f35c5eefefc",
+      "mendeley_folder_assignment": "completed",
+      "pdf": {
+        "key": "Obeng2026Forecast",
+        "url": "https://nhess.copernicus.org/articles/26/5667/2026/nhess-26-5667-2026.pdf",
+        "path": "/Users/briangillikin/Desktop/floods/chapter0-scoping/data/raw/weekly-fews/2026-11-06/pdfs/Obeng2026Forecast.pdf",
+        "bytes": 3348333,
+        "sha256": "86333c5a42b1d63de528eb3a38ed0e52677236c958a7a3b65d59c1bd9164dc36",
+        "status": "downloaded"
+      },
+      "mendeley_pdf_attachment": {
+        "status": "attached",
+        "document_id": "b4c2fad8-72f1-344b-afc8-4f35c5eefefc",
+        "document_title": "From forecast to alert: an open-data AI flood early warning system with reservoir monitoring for the White Volta Basin",
+        "file_id": null,
+        "file_name": "Obeng2026Forecast.pdf",
+        "size_bytes": 3348333,
+        "sha1": "644c4e60af6845e988ec1389c68727ca6775d463",
+        "location": "https://api.mendeley.com/files/61eb31cc-49a9-45d7-13ae-ee3324bc1a74"
+      }
+    },
+    {
+      "key": "Aadhar2026Flood",
+      "title": "Role of hydrometeorological variables and catchment area to flood generation over the monsoonal climate region of India",
+      "authors": [
+        "Aadhar, Saran",
+        "Morin, Efrat",
+        "Gupta, Utkarsh"
+      ],
+      "doi": "10.5194/hess-30-6747-2026",
+      "url": "https://hess.copernicus.org/articles/30/6747/2026/",
+      "published": "2026/11/02",
+      "publication_status": "published",
+      "role": "Background: rainfall heterogeneity and antecedent conditions",
+      "assessment": "Useful hydrological interpretation of spatial rainfall, antecedent state and catchment scale. Godavari/VIC monsoonal results, including longer accumulation windows, do not establish transferable Limburg timescales or causal effects. No additional analysis or variables are required by retaining this paper.",
+      "mendeley_document_id": "64130e87-5c39-3975-b23c-f724ee3d8e8b",
+      "mendeley_folder_assignment": "completed",
+      "pdf": {
+        "key": "Aadhar2026Flood",
+        "url": "https://hess.copernicus.org/articles/30/6747/2026/hess-30-6747-2026.pdf",
+        "path": "/Users/briangillikin/Desktop/floods/chapter1-co2/data/raw/literature/weekly-fews-2026-11-06/Aadhar2026Flood.pdf",
+        "bytes": 4282750,
+        "sha256": "300c50191c14ba4461a3ef18c05ac027a6f3f9efc85dc1d293d80b8e0c8a3140",
+        "status": "downloaded"
+      },
+      "mendeley_pdf_attachment": {
+        "status": "attached",
+        "document_id": "64130e87-5c39-3975-b23c-f724ee3d8e8b",
+        "document_title": "Role of hydrometeorological variables and catchment area to flood generation over the monsoonal climate region of India",
+        "file_id": null,
+        "file_name": "Aadhar2026Flood.pdf",
+        "size_bytes": 4282750,
+        "sha1": "f469b3aecd7f18eb91e2c012aa9b5f5e9d9c1ad4",
+        "location": "https://api.mendeley.com/files/689766dc-9c09-4cdf-6b3d-aa8deadc1ccc"
+      }
+    },
+    {
+      "key": "Shen2026Alteration",
+      "title": "Network-based subbasin-scale mapping of streamflow alteration in Ontario, Canada",
+      "authors": [
+        "Shen, Hongren",
+        "Tolson, Bryan A.",
+        "Craig, James R.",
+        "Metcalfe, Robert A.",
+        "Romero-Cuellar, Jonathan",
+        "Luce, James J."
+      ],
+      "doi": "10.5194/essd-18-7915-2026",
+      "url": "https://essd.copernicus.org/articles/18/7915/2026/",
+      "published": "2026/11/02",
+      "publication_status": "published",
+      "role": "Background: network context for regulation",
+      "assessment": "Network-based potential regulation is distinct from measured alteration magnitude and timing. It does not prove agency labels incorrect, establish low-head-weir effects, validate structure detection or estimate economic damage.",
+      "mendeley_document_id": "a60415aa-6fe5-33cb-bbca-5728d3ba2ab5",
+      "mendeley_folder_assignment": "completed",
+      "pdf": {
+        "key": "Shen2026Alteration",
+        "url": "https://essd.copernicus.org/articles/18/7915/2026/essd-18-7915-2026.pdf",
+        "path": "/Users/briangillikin/Desktop/floods/chapter1-co2/data/raw/literature/weekly-fews-2026-11-06/Shen2026Alteration.pdf",
+        "bytes": 8561387,
+        "sha256": "d3d37f0c7afb1dff422907b9905b9484c2c1aa001122b49b2d70341288715a64",
+        "status": "downloaded"
+      },
+      "mendeley_pdf_attachment": {
+        "status": "attached",
+        "document_id": "a60415aa-6fe5-33cb-bbca-5728d3ba2ab5",
+        "document_title": "Network-based subbasin-scale mapping of streamflow alteration in Ontario, Canada",
+        "file_id": null,
+        "file_name": "Shen2026Alteration.pdf",
+        "size_bytes": 8561387,
+        "sha1": "cbcc35b7ea8a84a46ef241ee411bebd9e2e918c3",
+        "location": "https://api.mendeley.com/files/647c78e8-6481-53c9-5705-08bb4dec1df8"
+      }
+    }
+  ]
+}
