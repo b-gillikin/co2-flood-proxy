@@ -1,0 +1,33 @@
+{
+  "recorded": "2026-10-31",
+  "mendeley_status": "pending_session_policy_block",
+  "records": [
+    {
+      "key": "Dolich2026Targeted",
+      "title": "Targeted data augmentation to improve the simulation of extreme floods with regional deep learning models",
+      "author": "Dolich, Alexander and Reis, Paul and Vorogushyn, Sergiy and Nguyen, Viet Dung and Dasgupta, Antara and Loritz, Ralf",
+      "doi": "10.5194/egusphere-2026-6036",
+      "url": "https://egusphere.copernicus.org/preprints/2026/egusphere-2026-6036/",
+      "status": "Preprint; under review",
+      "chapters": [
+        0,
+        1
+      ],
+      "use": "Extreme-flow evaluation and July 2021 interpretation; standard historical scores can conceal failures at extremes.",
+      "limit": "LSTM output saturation is not evidence of saturation in our EO encoders. No augmentation or new model run is proposed."
+    },
+    {
+      "key": "Zapata2026Linking",
+      "title": "Linking rainfall spatial organization and distributed travel times to critical flood-contributing areas in a mountainous urban catchment",
+      "author": "Zapata, Esneider and Carmona, Alejandra M. and Barco, Janet",
+      "doi": "10.5194/egusphere-2026-5950",
+      "url": "https://egusphere.copernicus.org/preprints/2026/egusphere-2026-5950/",
+      "status": "Preprint; under review",
+      "chapters": [
+        1
+      ],
+      "use": "Interpret event differences through rainfall placement, movement and drainage connectivity alongside rainfall totals.",
+      "limit": "Four events in Colombia provide preliminary evidence, not validation of a Limburg encoder or a new requirement for distributed travel-time modelling."
+    }
+  ]
+}
