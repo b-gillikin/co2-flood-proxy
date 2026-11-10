@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-10",
+  "status": "audit_complete_not_new_run_certification",
+  "source_header_census": 5000,
+  "external_metadata_census": 1301,
+  "existing_fit_receipts": 30,
+  "archived_originals_hash_verified": 18,
+  "selected_author_file_hashes_verified": {
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/scripts/exp_config_copernicusfm.py": "c5af14c062067ff4f15623a4772202c27bbebd7ad35462fa57aac788a8b8640d",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/copernicusfm_cd.yaml": "2a4a68ac81b2c9554b2a68dcb9f635149840f53db30c62272bf955cdea7bf0f9",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/base_model.yaml": "42b3c6022c5b097e713a7cf0dae0554659d0e83d5fe6b928194eaca17284528f",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/dataset/cobench_flood_s1.yaml": "45ab0fc674f5d4bef31d7df576e966e52421a9c1e81a5fd4866b2d93c22329f6",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/datasets/cobench_floods1_wrapper.py": "c528ba67cc61d3117d6a4f79800ecef03f82b303498bb1040d8f80457301ff45",
+    "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1"
+  },
+  "completed_benchmark_hash_unchanged": true,
+  "relative_live_markdown_links_checked": 32,
+  "regression_tests": "21 passed using PYTHONPATH=src .venv-foundation/bin/python -m pytest -q tests/test_spatial_plan_audit.py tests/test_applied_grouped_protocol.py",
+  "environment_note": "Initial isolated legacy-runtime attempt lacked sklearn; rerun in existing foundation environment passed. No dependency or runtime installed/changed.",
+  "audit_script_ruff_check": "passed",
+  "no_research_input_or_result_changed": true,
+  "no_new_model_fit_or_bulk_download": true,
+  "audit_script_sha256": "2d177503854ba6ba2d20816e9372e9f58077e486fb9cb859cfba461aa093f378",
+  "metadata_output_sha256": "72ddf33faee425542f84e3a2b70cc97960cf4b174918a66f1c0668ea64dab8ed"
+}

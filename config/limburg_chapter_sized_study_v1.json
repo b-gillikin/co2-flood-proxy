@@ -69,5 +69,19 @@
   "scope_accepted_by": "Brian",
   "scope_accepted_date": "2026-11-10",
   "compute_policy": "config/limburg_chapter_sized_compute_v1.json",
-  "future_ideas_archive": "archive/future-ideas/2026-11-10-broad-spatial-programme/README.md"
+  "future_ideas_archive": "archive/future-ideas/2026-11-10-broad-spatial-programme/README.md",
+  "latest_audit": "docs/reviews/limburg-chapter-scope-audit-2026-11-10.md",
+  "reference_policy_contract": {
+    "processing": "P0/P1 use the same verified processing/calibration/grid convention; any harmonized re-retrieval is explicit",
+    "target": "hold flood labels, validity and class semantics fixed across policies; retain original floodmask versus composed-label disagreements",
+    "selection": "source-fixed label-blind geometry/coverage/chronology rule; distinguish policy effect from age-only causality"
+  },
+  "evaluation_reporting_refinements": [
+    "new-event primary; source-overlapping versus new-footprint diagnostic, not automatic unseen-region claim",
+    "full released-cohort coverage and temporally supported reference-agreement strata",
+    "physical-event or linked-episode dependence; event-balanced primary versus separate pixel-area totals",
+    "complete native-grid inference and overlap deduplication; no full-tile shrink to224px"
+  ],
+  "external_model_role": "one final source-trained state per learned pipeline per seed recommended; existing source-CV models are development evidence, not an automatic fivefold inference ensemble",
+  "preparation_status": "specific input/reference/physical-method contracts, final-source recipe and1024px integration pending; no new gate or research branch"
 }

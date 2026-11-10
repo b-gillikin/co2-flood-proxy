@@ -257,3 +257,17 @@ and paired support; enumerate only the source fits actually needed; then execute
 the two contrasts and their shared inference/error/resource analysis. No new
 agency email or human interview is introduced. No fitting/download was launched
 by this scope decision.
+
+## 7. Accepted-scope audit refinements
+
+The [10 November audit](reviews/limburg-chapter-scope-audit-2026-11-10.md)
+retains this design and documents direct reference-selection and paired-SAR
+precedents. It adds no model branch. Keep P0/P1 processing and evaluation targets
+fixed; resolve timing/derived-label provenance and report new-event versus new-
+footprint support. Use a named competent physical method and native1024px target
+inference rather than image shrinking. Source CV states are development evidence;
+one final source-trained state per pipeline/seed is the recommended external
+inference unit. Bounded tile/event caches and lossless verified output preservation
+are necessary: the9.068GiB input package does not describe the complete working
+footprint. These are implementation/interpretation refinements, not a chapter
+stop, mandatory positive-result threshold or revived adaptation programme.

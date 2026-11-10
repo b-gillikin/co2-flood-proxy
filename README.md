@@ -16,6 +16,7 @@ and trained weights stay fixed. There is no target fine-tuning experiment.
 - [Current handoff and next work](docs/HANDOFF.md)
 - [Data held and still needed](docs/data-needs.md)
 - [Canonical active-study pointer](config/limburg_current_study.json)
+- [Latest scientific/data/compute audit](docs/reviews/limburg-chapter-scope-audit-2026-11-10.md)
 - [Scoped compute policy](config/limburg_chapter_sized_compute_v1.json)
 - [Future ideas and superseded planning archive](archive/future-ideas/2026-11-10-broad-spatial-programme/README.md)
 

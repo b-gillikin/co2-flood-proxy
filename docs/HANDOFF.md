@@ -48,3 +48,15 @@ historical/supporting evidence, not part of the new queue. Preserve data, weight
 results and provenance. Any later disk cleanup needs its own verified-recovery
 process; this scope archive deletes no research data and touches no other chapter.
 Brian writes all dissertation prose and sends all emails.
+
+## Most recent audit
+
+[Accepted-scope scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md)
+retains the agreed scope. Particular next checks: P0/P1 processing parity and fixed
+labels; actual label-image timing;26source-overlapping target tiles; a named
+competent physical comparator; final-source versus existing CV states;1024px
+native-grid inference and bounded probability/cache preservation. Existing30full-
+label CV states are reusable development evidence, not30all-source deployment
+models. Do not infer new accuracy, complete compatibility or a calendar ETA from
+the metadata audit. Useful new citations are in
+[the scope-audit bibliography](limburg-chapter-scope-literature-2026-11-10.bib).

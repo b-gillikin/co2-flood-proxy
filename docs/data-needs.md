@@ -35,10 +35,27 @@ can be deliberately revisited later.
 
 ## Storage and compute
 
-The 9.068-GiB package is an exact compressed delivery size, not a total disk/runtime
-estimate. Add measured unpacking, updated-reference imagery, cache and output
+The 9.068-GiB package is the exact transfer size of uncompressed tar containers
+holding compressed GeoTIFFs, not a total disk/runtime estimate. Add measured unpacking, updated-reference imagery, cache and output
 needs before launch. Preserve the 50-GiB local free-space reserve; use one MPS
 and up to two CPU workers only where profiling supports it. No data was deleted,
 no bulk transfer started and no other chapter's files were touched by this scope
 change. The [scoped compute policy](../config/limburg_chapter_sized_compute_v1.json)
 replaces the broad programme's compute requirements.
+
+## Accepted-scope audit — 10 November 2026
+
+[Full audit and reproducible receipts](reviews/limburg-chapter-scope-audit-2026-11-10.md).
+The full metadata/header census found26external tiles overlapping source footprints
+and251with post-SAR/label-reference offsets exceeding24h. These are reporting and
+provenance issues, not automatic exclusions. Keep evaluation labels fixed across
+P0/P1 and match processing as well as geometry; a different service's P1 cannot
+silently change calibration/resampling. Open catalogue/product metadata and
+possibly harmonized same-footprint retrieval are needed; no new agency request.
+
+Preserve native1024px target support. Whole-cohort float32 date features would
+occupy about219GiB and all per-seed learned probabilities about183GiB before
+compression, so use bounded tile/event streaming and verified remote preservation.
+These are array-shape estimates, not extra downloads already started. About122GiB
+was free at audit; the50GiB reserve remains. The prior9.068GiB package size must
+not be mistaken for the complete execution footprint.

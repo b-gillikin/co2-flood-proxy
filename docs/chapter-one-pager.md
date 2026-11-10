@@ -69,3 +69,8 @@ roles, inventory updated references, and profile the scoped execution graph.
 [Data needs](data-needs.md) · [Handoff](HANDOFF.md) ·
 [Completed findings](limburg-consolidated-findings-2026-11-10.md) ·
 [Future ideas](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md).
+
+Latest [scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md):
+keep the scope. Processing parity, fixed target labels, image/reference timing,
+source-overlap reporting and native-grid streaming need implementation before
+launch; these introduce no new model family or human-label requirement.

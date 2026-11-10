@@ -48,5 +48,24 @@
     "complete-workload profile and fit/inference graph"
   ],
   "runtime_estimate": "pending scoped profiles and fit-reuse inventory; superseded broad-programme ETA does not apply",
-  "new_queue_started": false
+  "new_queue_started": false,
+  "audit": "docs/reviews/limburg-chapter-scope-audit-2026-11-10.md",
+  "storage_strategy": {
+    "source": "reuse held source imagery and exact compatible feature cache",
+    "target": "compressed COGs plus tile/event streaming; do not materialize whole-cohort features",
+    "probabilities": "lossless per-seed outputs and required provenance; remote archival/readback with bounded local rotation",
+    "initial_additional_working_envelope_gib": [
+      20,
+      40
+    ],
+    "envelope_status": "profiling allowance, not measured peak or an immutable storage cap",
+    "reserve_gib": 50
+  },
+  "inference_invariants": [
+    "native1024px target grid covered by declared224px windows with valid edge handling",
+    "per-crop physical metadata and common policy support",
+    "reuse date encoding across source seeds without averaging incompatible models",
+    "do not multiply final external inference by source-CV folds implicitly"
+  ],
+  "runtime_evidence": "existing selected source-subset medians82min native/38min standard U-Net; external encoder-only linear projection~2.4h at25windows/tile; neither is complete-run ETA"
 }

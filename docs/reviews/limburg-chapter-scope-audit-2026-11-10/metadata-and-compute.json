@@ -1,0 +1,215 @@
+{
+  "date": "2026-11-10",
+  "kind": "metadata_and_existing_receipts_not_new_accuracy",
+  "source": {
+    "records": 5000,
+    "events": 20,
+    "post_min": "2015-02-02",
+    "post_max": "2022-02-03",
+    "no_water": 0,
+    "no_flood": 1303,
+    "native_grids": 5000
+  },
+  "external": {
+    "tiles": 1301,
+    "event_ids": 9,
+    "catalogue_valid": 1301,
+    "geometry_first_bounds": [
+      32.81523486445583,
+      -24.495774264234814,
+      32.91636389933947,
+      -24.40319973649297
+    ],
+    "source_bbox_intersections": 26,
+    "geographic_check": "WGS84 source bounding boxes versus WGS84 external footprints; all external polygons validated against10240m event-UTM squares; not river/region-wide independence",
+    "pre_not_before_catalogue_event": 0,
+    "post_label_offsets_over_one_day": 251,
+    "post_platforms": {
+      "S1C": 766,
+      "S1A": 465,
+      "S1A,S1C": 70
+    },
+    "events": [
+      {
+        "event": "EMSR857",
+        "tiles": 208,
+        "countries": "Mozambique, South Africa",
+        "pre_post_gap_min_days": 30.994305555555556,
+        "pre_post_gap_max_days": 373.44923611111113,
+        "label_sar_offset_max_abs_days": 5.5465625,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR858",
+        "tiles": 10,
+        "countries": "Italy",
+        "pre_post_gap_min_days": 71.99996527777778,
+        "pre_post_gap_max_days": 336.49418981481483,
+        "label_sar_offset_max_abs_days": 4.709918981481482,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR861",
+        "tiles": 580,
+        "countries": "Spain, Portugal",
+        "pre_post_gap_min_days": 12.0,
+        "pre_post_gap_max_days": 377.50591435185186,
+        "label_sar_offset_max_abs_days": 5.4990625,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR864",
+        "tiles": 157,
+        "countries": "Portugal",
+        "pre_post_gap_min_days": 35.999965277777775,
+        "pre_post_gap_max_days": 385.48915509259257,
+        "label_sar_offset_max_abs_days": 2.9948148148148146,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR865",
+        "tiles": 51,
+        "countries": "Colombia",
+        "pre_post_gap_min_days": 371.5217939814815,
+        "pre_post_gap_max_days": 372.00016203703706,
+        "label_sar_offset_max_abs_days": 0.994386574074074,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR866",
+        "tiles": 191,
+        "countries": "France",
+        "pre_post_gap_min_days": 37.49072916666667,
+        "pre_post_gap_max_days": 180.49667824074075,
+        "label_sar_offset_max_abs_days": 0.9946875,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR868",
+        "tiles": 31,
+        "countries": "Greece",
+        "pre_post_gap_min_days": 288.9952314814815,
+        "pre_post_gap_max_days": 331.4892708333333,
+        "label_sar_offset_max_abs_days": 0.4946875,
+        "bbox_intersections": 26
+      },
+      {
+        "event": "EMSR870",
+        "tiles": 31,
+        "countries": "Ecuador",
+        "pre_post_gap_min_days": 91.47444444444444,
+        "pre_post_gap_max_days": 775.4745949074074,
+        "label_sar_offset_max_abs_days": 4.526643518518519,
+        "bbox_intersections": 0
+      },
+      {
+        "event": "EMSR871",
+        "tiles": 42,
+        "countries": "Italy",
+        "pre_post_gap_min_days": 17.005671296296295,
+        "pre_post_gap_max_days": 30.99431712962963,
+        "label_sar_offset_max_abs_days": 1.4896180555555556,
+        "bbox_intersections": 0
+      }
+    ]
+  },
+  "source_fits": {
+    "native": {
+      "completed": 15,
+      "candidate_fits": 25,
+      "selected_fit_median_minutes": 82.0212239888846,
+      "selected_hours": 20.269068330346233,
+      "candidate_hours": 34.565210279199725,
+      "rate_boundaries": 3,
+      "best_epochs": [
+        5,
+        5,
+        2,
+        7,
+        17,
+        16,
+        8,
+        9,
+        19,
+        10,
+        5,
+        9,
+        11,
+        6,
+        18
+      ]
+    },
+    "unet_standard": {
+      "completed": 15,
+      "candidate_fits": 25,
+      "selected_fit_median_minutes": 38.37739849651698,
+      "selected_hours": 10.212749381840178,
+      "candidate_hours": 17.012832693934516,
+      "rate_boundaries": 5,
+      "best_epochs": [
+        9,
+        11,
+        12,
+        10,
+        8,
+        19,
+        16,
+        2,
+        9,
+        11,
+        11,
+        46,
+        19,
+        13,
+        2
+      ]
+    }
+  },
+  "feature_cache": {
+    "status": "completed",
+    "completed": 5000,
+    "bytes": 12042880000,
+    "elapsed_s": 894.7224500000011,
+    "feature_seconds": 840.8964704289101,
+    "device": "cpu",
+    "threads": 1,
+    "shape": [
+      4,
+      768,
+      14,
+      14
+    ]
+  },
+  "storage": {
+    "free_gib": 122.39800643920898,
+    "reserve_gib": 50,
+    "core_package_gib": 9.068078994750977,
+    "P0_uncompressed_four_float32_channels_gib": 20.328125,
+    "P1_uncompressed_two_float32_channels_gib": 10.1640625,
+    "all_three_dates_feature_payload_gib": 218.8648223876953,
+    "two_pair_difference_feature_payload_gib": 145.90988159179688,
+    "learned_per_seed_full_probabilities_gib": 182.953125,
+    "learned_seed_mean_full_probabilities_gib": 60.984375,
+    "all14_argmax_maps_gib": 17.787109375,
+    "assumptions": "float32 uncompressed array payload; 25 padded224px windows/tile; 3 source seeds; all1301 tiles have a distinct P1; actual compression/support differs"
+  },
+  "inference": {
+    "illustrative_windows_per_tile": 25,
+    "unique_date_encoder_views": 97575,
+    "learned_head_or_unet_window_forwards": 390300,
+    "pure_encoder_hours_linear_extrapolation": 2.425070640520836,
+    "limit": "arithmetic from existing complete-pair cache receipt, not new workload profile; no I/O, full head inference, masking/stitching or archiving included"
+  },
+  "inputs_sha256": {
+    "results/applied_study_v5/evaluation/radar-change-inventory.parquet": "06eb721fe7abf6593d384f2919e178def668ac60db0a8efb40ac9ceb3ba3ae00",
+    "results/three-capability-execution-planning-2026-11-10/geoid_heldout_catalog.parquet": "9b531b90ca534d30ed07d5d6c0d1b85133e7f8228c7c67c87c0635a955bca165",
+    "results/applied_study_v5/ready-v2/progress.json": "ca5a8ecb8aeb034f2d2230fefc109e623f0b495bc3fb2b214234474076a3ea61",
+    "data/processed/limburg_copernicus_spatial_v1/index.json": "6b50b7a6a62dd1b2d691f2c5653ef507500f37fa27da9de17ed7cdc43f05e18a",
+    "config/limburg_chapter_sized_geoid_acquisition_v1.json": "602f8a6f13dc6c576677aace3e819c93bd84bef2f3a9344aecf3e710bb8297d3",
+    "src/applied_copernicus.py": "185399f53c1e080ac1f8631710aae50d7c570a685ddd13e177a89421c9d60c3d",
+    "src/applied_physical.py": "707fe395cbc81fcf5dd74dfbeb423b42f4b2941ab0588a15cfd0eb95c5587314",
+    "scripts/215_apply_local_spatial_models.py": "97181c34cb384307c0340e4eccc5e58b647f6a2786801872b7d29288d33551f9"
+  },
+  "new_fit": false,
+  "new_bulk_download": false
+}
