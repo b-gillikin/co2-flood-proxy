@@ -1,0 +1,82 @@
+{
+  "status": "planned_not_launched",
+  "date": "2026-11-10",
+  "document": "docs/limburg-three-prong-execution-plan-2026-11-10.md",
+  "prongs": [
+    "W_observable_water",
+    "F_new_inundation",
+    "T_geographic_transfer_adaptation",
+    "R_reliability_resources"
+  ],
+  "hardware": {
+    "name": "Apple M3 Pro",
+    "ram_gib": 36,
+    "mps_workers": 1,
+    "cpu_workers_max": 2,
+    "reserve_gib": 50
+  },
+  "data_manifest": "config/limburg_three_prong_geoid_acquisition_v1.json",
+  "estimates": "docs/reviews/limburg-three-prong-execution-estimates-2026-11-10.json",
+  "full_programme_estimate": {
+    "mps_days_low": 22,
+    "mps_days_high": 61,
+    "effective_availability": 0.7,
+    "calendar_weeks_low": 6,
+    "calendar_weeks_high": 16,
+    "status": "provisional_capacity_plan_not_ETA",
+    "conditional_environment_extension_extra_weeks": [
+      1,
+      3
+    ]
+  },
+  "work_packages": {
+    "W": {
+      "source_configurations": 10,
+      "folds": 5,
+      "optimization_seeds": 3,
+      "selected_states_before_reuse": 150
+    },
+    "F": {
+      "direct_change_configurations": 6,
+      "folds": 5,
+      "optimization_seeds": 3,
+      "selected_states_before_reuse": 90,
+      "modular_maps_reused": true
+    },
+    "T": {
+      "source_meta_validation_tunes_policy": true,
+      "target_label_fractions": [
+        0,
+        0.01,
+        0.05,
+        0.2,
+        1.0
+      ],
+      "test_never_in_annotation_pool": true,
+      "primary_states_formula": "3 seeds *4 positive budgets * sum(eligible target domains per system)",
+      "illustrative_extensions_formula": "18N informative annotation +18N PEFT +6N unlabeled adaptation; actual task-specific domain counts differ"
+    }
+  },
+  "scope_map": {
+    "water_geometry": "W",
+    "environment_strata": "W/R",
+    "crop_detail": "phase1/W",
+    "antecedent_reference_quality": "F",
+    "second_pre_image": "F2",
+    "terrain": "F3",
+    "dense_alphaearth_prior": "F4",
+    "zero_target_label_transfer": "T0",
+    "unlabeled_adaptation": "T1",
+    "limited_local_labels": "T2",
+    "informative_label_selection": "T3",
+    "parameter_efficient_adaptation": "T4",
+    "calibrated_coverage": "R",
+    "urban_coherence": "R_conditional_processed_input_compatibility",
+    "inundated_vegetation": "R_conditional_reference_compatibility",
+    "source_target_representativeness": "T/R"
+  },
+  "bulk_download_started": false,
+  "fitting_queue_started": false,
+  "azure_gpu_compute": false,
+  "other_chapters_touched": false
+}

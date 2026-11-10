@@ -1,0 +1,165 @@
+{
+  "measured_hardware": {
+    "chip": "Apple M3 Pro",
+    "ram_gib": 36,
+    "gpu_cores": 18,
+    "cpu_cores": 12
+  },
+  "runtime_basis": "Completed v5 full-training-label candidate fit receipts; median25 trials per task/learner, shared caches and recorded contention. Training+setup only, not extraction/test/archive/local deployment latency.",
+  "full_label_candidate_minutes": {
+    "galileo/linear": {
+      "completed_candidates": 25,
+      "median_minutes": 1.245855829884143,
+      "min_minutes": 1.06613289930004,
+      "max_minutes": 3.7110979083304603,
+      "total_hours": 0.5963293995606687
+    },
+    "prithvi/linear": {
+      "completed_candidates": 25,
+      "median_minutes": 3.024906345146398,
+      "min_minutes": 1.1401187381978768,
+      "max_minutes": 4.4706485888998335,
+      "total_hours": 1.1542880333794487
+    },
+    "terramind/linear": {
+      "completed_candidates": 25,
+      "median_minutes": 15.794353004168563,
+      "min_minutes": 5.970880580549904,
+      "max_minutes": 33.55108123888106,
+      "total_hours": 7.4311774112165185
+    },
+    "copernicus/linear": {
+      "completed_candidates": 25,
+      "median_minutes": 6.457409018747664,
+      "min_minutes": 2.765978244447615,
+      "max_minutes": 16.48913974442985,
+      "total_hours": 3.3054842232061654
+    },
+    "galileo/unet": {
+      "completed_candidates": 25,
+      "median_minutes": 4.864565966670246,
+      "min_minutes": 2.6253003666643053,
+      "max_minutes": 9.8319535492997,
+      "total_hours": 2.1987696089472673
+    },
+    "prithvi/unet": {
+      "completed_candidates": 25,
+      "median_minutes": 1.7716318777839963,
+      "min_minutes": 0.8010881020803936,
+      "max_minutes": 2.9886106090348523,
+      "total_hours": 0.7571217974772056
+    },
+    "terramind/unet": {
+      "completed_candidates": 25,
+      "median_minutes": 9.565339984030773,
+      "min_minutes": 6.049849354863787,
+      "max_minutes": 24.297130845848006,
+      "total_hours": 4.567049496621605
+    },
+    "copernicus/unet": {
+      "completed_candidates": 25,
+      "median_minutes": 8.627470888880392,
+      "min_minutes": 5.863702074302515,
+      "max_minutes": 25.25544808335059,
+      "total_hours": 4.571234185960946
+    },
+    "galileo/native": {
+      "completed_candidates": 25,
+      "median_minutes": 5.156671526399441,
+      "min_minutes": 1.6443456604145468,
+      "max_minutes": 7.425154232633456,
+      "total_hours": 1.9320783790980285
+    },
+    "prithvi/native": {
+      "completed_candidates": 25,
+      "median_minutes": 41.59625058680152,
+      "min_minutes": 20.809052143754283,
+      "max_minutes": 92.47708575763197,
+      "total_hours": 18.764099075451764
+    },
+    "terramind/native": {
+      "completed_candidates": 25,
+      "median_minutes": 4.647320646513253,
+      "min_minutes": 2.808323759721437,
+      "max_minutes": 8.106216530567812,
+      "total_hours": 2.0365394605554563
+    },
+    "copernicus/native": {
+      "completed_candidates": 25,
+      "median_minutes": 82.80355933820053,
+      "min_minutes": 34.14632948818228,
+      "max_minutes": 170.79855068263132,
+      "total_hours": 34.585008444836454
+    },
+    "galileo/unet_standard": {
+      "completed_candidates": 25,
+      "median_minutes": 21.97919341666857,
+      "min_minutes": 11.527434087498113,
+      "max_minutes": 34.58866093055112,
+      "total_hours": 8.801006466447273
+    },
+    "prithvi/unet_standard": {
+      "completed_candidates": 25,
+      "median_minutes": 6.373612242370533,
+      "min_minutes": 2.779152415281472,
+      "max_minutes": 9.898925745832578,
+      "total_hours": 2.6186897407543275
+    },
+    "terramind/unet_standard": {
+      "completed_candidates": 25,
+      "median_minutes": 35.17226700069926,
+      "min_minutes": 25.22913331456948,
+      "max_minutes": 83.59582022085087,
+      "total_hours": 15.999506781319958
+    },
+    "copernicus/unet_standard": {
+      "completed_candidates": 25,
+      "median_minutes": 38.38584302845023,
+      "min_minutes": 18.33617839026653,
+      "max_minutes": 105.40183519791657,
+      "total_hours": 17.015642769500847
+    }
+  },
+  "geoid_selected_shards": {
+    "scope": "Main val/test and separate heldout, GRD+pre-event optical+DEM and all masks; no RTC duplication, no training shards. Release sizes as inspected, not transferred.",
+    "file_count": 65,
+    "bytes": 93426677760,
+    "gib": 87.01037406921387,
+    "download_hours_20_mbps": 10.380741973333333,
+    "download_hours_100_mbps": 2.076148394666667
+  },
+  "catalogue_summary": {
+    "main_splits": {
+      "test": {
+        "tiles": 2417,
+        "event_ids": 80,
+        "valid_tiles": 2417
+      },
+      "train": {
+        "tiles": 7496,
+        "event_ids": 159,
+        "valid_tiles": 7496
+      },
+      "val": {
+        "tiles": 1022,
+        "event_ids": 34,
+        "valid_tiles": 1022
+      }
+    },
+    "main_event_ids": 210,
+    "main_events_spanning_splits": 50,
+    "heldout": {
+      "tiles": 1301,
+      "event_ids": 9,
+      "event_time_min": "2026-01-10T23:00:00",
+      "event_time_max": "2026-03-31T15:00:00"
+    },
+    "notes": [
+      "Current release catalogue differs from paper counts and date descriptions; pin/check revision before execution.",
+      "Group by physical event and geography across our combined sources; do not blindly inherit split names.",
+      "area_m2 field includes values resembling geographic-coordinate area; derive areas from CRS geometry, not column name.",
+      "Counts are metadata only, not verified raster or label support."
+    ]
+  },
+  "source_plan_sha256": "8c6184899e289c721c97eccd2f109d71402956f18e209ad5b23a3ade3cb8f409"
+}

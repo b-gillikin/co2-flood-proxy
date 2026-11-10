@@ -1,0 +1,400 @@
+{
+  "status": "planned_not_downloaded",
+  "repository": "links-ads/geoid-flood",
+  "revision": "15db1cc0babbe3e570aa9fb582823c533504c971",
+  "selected_bytes": 93426677760,
+  "selected_gib": 87.01037406921387,
+  "shards": [
+    {
+      "path": "geoid-flood-heldout/shards/test/cloudmask/test-cloudmask-00000-of-00001.tar",
+      "bytes": 5734400,
+      "sha256": "55063d211831724ed302f41e6a829266b8c48d216cf9d294d1449b32070536a7",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/cloudmask/test-cloudmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/dem/test-dem-00000-of-00001.tar",
+      "bytes": 860651520,
+      "sha256": "8dd089d06c5dab29d4e574d030308b6fc728d0436fdaae12ffee323fb13814e3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/dem/test-dem-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/floodmask/test-floodmask-00000-of-00001.tar",
+      "bytes": 8181760,
+      "sha256": "308d4d2b6d11ac2d9dc8cbd615645cbf946d31a385857fb909c5ca907f50d2d3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/floodmask/test-floodmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/label/test-label-00000-of-00001.tar",
+      "bytes": 12697600,
+      "sha256": "c44864c1d483840ca7583f61a56b9c185052f5eca2919911d2f1c704645b104f",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/label/test-label-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/permwater/test-permwater-00000-of-00001.tar",
+      "bytes": 7424000,
+      "sha256": "cc12941ce81d7dd0d31b6a43e1a27167e1a49f97a65f85ad9355af99dcc90e62",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/permwater/test-permwater-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00000-of-00005.tar",
+      "bytes": 2000035840,
+      "sha256": "32b8a03a6b73d46b16324782d11315564d8a0b730bec7bd3818eaccd3becf7ae",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00000-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00001-of-00005.tar",
+      "bytes": 1996800000,
+      "sha256": "eac0710b06c518cc3ebbc5fb1f1ed61a47694c442f820b7ea1e7fcf0d3d8fe53",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00001-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00002-of-00005.tar",
+      "bytes": 1997189120,
+      "sha256": "f49fe2994b470ef537cb63ad8833877117e6f5997ded1e54e30d9babd83a08e4",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00002-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00003-of-00005.tar",
+      "bytes": 1998080000,
+      "sha256": "1a9a414a656b9c547f25c83be46430d5139766008b2c3deef6ff7561a8b22ff1",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00003-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00004-of-00005.tar",
+      "bytes": 1708697600,
+      "sha256": "1dfa7b2997e86b9fc668a72b1647ac1adc8f74855ecf7c7df15f70e6a435344a",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00004-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00000-of-00008.tar",
+      "bytes": 1992960000,
+      "sha256": "2c0fb3cfdd1a5873d3f6cbfb87b9de2a68fdd527d4f566852e4a095c3d547a71",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00000-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00001-of-00008.tar",
+      "bytes": 1988136960,
+      "sha256": "f3a5551cbb98fcaf51be03a035247cade4ef530effd235d2988fe5e0d5d36c63",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00001-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00002-of-00008.tar",
+      "bytes": 1990328320,
+      "sha256": "09e83da9a4cdcbe96df020fa93f17bd00d4d1797670d5852338a5a42ae523990",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00002-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00003-of-00008.tar",
+      "bytes": 1995816960,
+      "sha256": "257e3a8071127b1549d16a8b6bd19ea65c98a561409d8c0f0cf90701e36cf484",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00003-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00004-of-00008.tar",
+      "bytes": 1994229760,
+      "sha256": "aa20d3b45bcaeba76f70edce0d43fbc8b4d3506599e101118e70ec69a22d940c",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00004-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00005-of-00008.tar",
+      "bytes": 1990041600,
+      "sha256": "cfc8d451705812ae581f4fa8afcb0ff1bbd2917e290bc76b431fdbf06eaec3c3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00005-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00006-of-00008.tar",
+      "bytes": 1996871680,
+      "sha256": "ff7febbe8e981b12a38720f2fd8c928ef3a98a3b3cc327233a4fb384c2c86c89",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00006-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00007-of-00008.tar",
+      "bytes": 1676380160,
+      "sha256": "4d0fb83af932c90d9ac12f7b8ed9b9c5ffd134957f80ea0c218e2677713041d6",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s2l2a/test-s2l2a-00007-of-00008.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/validity/test-validity-00000-of-00001.tar",
+      "bytes": 7669760,
+      "sha256": "66ba3ca642b098170c35f92050b40a376a4b9c3e9d31b4902f9ce435bc69c3a3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/validity/test-validity-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/cloudmask/test-cloudmask-00000-of-00001.tar",
+      "bytes": 12933120,
+      "sha256": "ca29f750112a53754c6a02a4520fb2ba3dd728c2388068f23577b05da0eae3a9",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/cloudmask/test-cloudmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/dem/test-dem-00000-of-00001.tar",
+      "bytes": 1480744960,
+      "sha256": "e3dd848f7efc791a3d0090051db31e0a62e3536bf2889865ecdc7ed478e3282f",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/dem/test-dem-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/floodmask/test-floodmask-00000-of-00001.tar",
+      "bytes": 12400640,
+      "sha256": "9a7d337ac0d028a229b495a211733fb2d02f745056b296acecdaa733cc5172d3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/floodmask/test-floodmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/label/test-label-00000-of-00001.tar",
+      "bytes": 21831680,
+      "sha256": "a4ab7b2e8782523aa5f15909ff6313d606b6f35766f19613152ca125dd2ec7c2",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/label/test-label-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/permwater/test-permwater-00000-of-00001.tar",
+      "bytes": 13711360,
+      "sha256": "2cb3fb2ad1b81f7d25b641cdfb77187cfb98dbe72cbf30450c463343856fd520",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/permwater/test-permwater-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00000-of-00009.tar",
+      "bytes": 1998684160,
+      "sha256": "1c85e20674ab5a1f7c4406cf5e10836399319b4bf880138d07c36094b9fa5e3e",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00000-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00001-of-00009.tar",
+      "bytes": 1997731840,
+      "sha256": "066faf42351a7a7dcfe46706ff6622c232a3a53f5371d92a3a141b67e1a48cff",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00001-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00002-of-00009.tar",
+      "bytes": 1996656640,
+      "sha256": "266a238259005cfdc559a59259df7d4a38f9d32d837b8ab4fd0fd9630f355da5",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00002-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00003-of-00009.tar",
+      "bytes": 1997312000,
+      "sha256": "8a0647226e06e54ccf527f317d4c3236d5a930071d3cfcf16c0b4242bd87230a",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00003-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00004-of-00009.tar",
+      "bytes": 1996646400,
+      "sha256": "5af6e1ed3266d16b8bf3195c265ea28ac98153b26a6bad21473188e5433b97e4",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00004-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00005-of-00009.tar",
+      "bytes": 1999923200,
+      "sha256": "361b28c083248be5b5f4968680e9bfe4d8338fb8200fe14246d8ddc83e10caa6",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00005-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00006-of-00009.tar",
+      "bytes": 1997209600,
+      "sha256": "623e6de47580343cd368bb96ed363f1b5ef30e4174bcc00ff1e8d1cf9c716669",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00006-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00007-of-00009.tar",
+      "bytes": 2000363520,
+      "sha256": "9639c18550d5f13df3a4d4304a2c2ef670394b3df1a2db41c6f8c4e82972bb47",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00007-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s1grd/test-s1grd-00008-of-00009.tar",
+      "bytes": 1853440000,
+      "sha256": "863a718cf969059e6f9748efa07ce906197aaed95c8234e5fa029f0ddf772056",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s1grd/test-s1grd-00008-of-00009.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00000-of-00015.tar",
+      "bytes": 1998264320,
+      "sha256": "34ffb2eac73e347bcd0982653b1998e0170d14b2583246fc21f886781137ba90",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00000-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00001-of-00015.tar",
+      "bytes": 1998376960,
+      "sha256": "7c860e35227a6a0068d3fe51327e6512d13409b5db1f3948c329114d02d20aa7",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00001-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00002-of-00015.tar",
+      "bytes": 1996277760,
+      "sha256": "03910009c18339439fdcedfbd00ad0033d58e179fceab847aaf4888e3d0d7b30",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00002-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00003-of-00015.tar",
+      "bytes": 1989457920,
+      "sha256": "3ccc4cd1ac8ae6912b23acf8b4ff176bddec3f9ef83cc20166258bedb6e21fea",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00003-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00004-of-00015.tar",
+      "bytes": 1993216000,
+      "sha256": "3dbeb7b822aab8c1fce628e5ddcfc6dda1edc223f0d5fdac9aea6cf9cfe1ca9a",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00004-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00005-of-00015.tar",
+      "bytes": 1994096640,
+      "sha256": "ef82ea2eca1c7261505bbce9e713f97d82730aa4bc41eaa1cc4bbf87e1c25477",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00005-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00006-of-00015.tar",
+      "bytes": 1991956480,
+      "sha256": "e7f3248d99caf15c8f3f45bb650464ed68eb9108657b1b532924dbecc7dc0c1d",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00006-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00007-of-00015.tar",
+      "bytes": 1992140800,
+      "sha256": "fdf78b579de9dc93fb499d47fbefd5e126e089727e41f22be199c2583b4d09c7",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00007-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00008-of-00015.tar",
+      "bytes": 1988659200,
+      "sha256": "5c7eed3889e714e9820a943f139f145248c3148da9f166fdba798aff224142e2",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00008-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00009-of-00015.tar",
+      "bytes": 1995919360,
+      "sha256": "61472e7d82f2593c4f4ccedf4788d3c78c5f5f73f9e248663c7e826988fa8664",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00009-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00010-of-00015.tar",
+      "bytes": 1996544000,
+      "sha256": "001d758d4264e35b77693abb0f9ffcf55b078c83d06675ffec40adda7dae6270",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00010-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00011-of-00015.tar",
+      "bytes": 1994833920,
+      "sha256": "4b05e8810c1fb7984e53ec75a4dce447289c03bbeacb57dcc460873de02c19a5",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00011-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00012-of-00015.tar",
+      "bytes": 1994987520,
+      "sha256": "c9d7d29be8c6c57fb847460712aecefb76bdef6eec1edbf1879504c1656a7d3f",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00012-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00013-of-00015.tar",
+      "bytes": 1989038080,
+      "sha256": "776b4388a61330ed71dd0d74f5f48576eca642d76e33c643eb92422679846b0f",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00013-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/s2l2a/test-s2l2a-00014-of-00015.tar",
+      "bytes": 167208960,
+      "sha256": "045348225d4f268caa1a24054ace3a1e60aa69aa38a63023bea51f72a48ad2e0",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/s2l2a/test-s2l2a-00014-of-00015.tar"
+    },
+    {
+      "path": "geoid-flood/shards/test/validity/test-validity-00000-of-00001.tar",
+      "bytes": 14059520,
+      "sha256": "67c8c3d51aa2e8ab41ee06d64230974c5605081369e178ba15e4cf128f0d54a7",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/test/validity/test-validity-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/cloudmask/val-cloudmask-00000-of-00001.tar",
+      "bytes": 7260160,
+      "sha256": "11059d56010a2c72d79d79096e34fb2746d7a436254f2ee9c3db97ebfd853d85",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/cloudmask/val-cloudmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/dem/val-dem-00000-of-00001.tar",
+      "bytes": 585697280,
+      "sha256": "a00a9121d26cd85d235ff7e60a410da397008cc14f9f4c55babc6fc260837b79",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/dem/val-dem-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/floodmask/val-floodmask-00000-of-00001.tar",
+      "bytes": 5498880,
+      "sha256": "cc187cf8c3e7e65dd34a150c0cd07a080028a22e21f119c3fa337291dd86ece9",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/floodmask/val-floodmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/label/val-label-00000-of-00001.tar",
+      "bytes": 9236480,
+      "sha256": "258b9c41406ed61c7c31dde8b9056c39ae3be240294001ff9a4e8d714c7ca1a1",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/label/val-label-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/permwater/val-permwater-00000-of-00001.tar",
+      "bytes": 6594560,
+      "sha256": "7de5ed1dcead557b983a2937e259d0b2f855231108bdcef8c05027be695c37f6",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/permwater/val-permwater-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s1grd/val-s1grd-00000-of-00004.tar",
+      "bytes": 1998479360,
+      "sha256": "008e12d753aa1ec9a12614dfbd1b75be7c1ea952c89cfd27956e38f4ca1212c4",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s1grd/val-s1grd-00000-of-00004.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s1grd/val-s1grd-00001-of-00004.tar",
+      "bytes": 2000107520,
+      "sha256": "8b1dd9e4abfe437a72517513e3a2170edbf6928eed466823414072a3e0553c54",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s1grd/val-s1grd-00001-of-00004.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s1grd/val-s1grd-00002-of-00004.tar",
+      "bytes": 1997383680,
+      "sha256": "0e13967e9dfead7bc7a7f3d2b3c132a9b468298875bea1c6e2c5ba8b7a5761e6",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s1grd/val-s1grd-00002-of-00004.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s1grd/val-s1grd-00003-of-00004.tar",
+      "bytes": 1508188160,
+      "sha256": "14fd4d8a2417615a7094cafb167d02cfc6811e0a32929f026e40a69fec367b08",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s1grd/val-s1grd-00003-of-00004.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00000-of-00006.tar",
+      "bytes": 1997547520,
+      "sha256": "fac122d5ad1e26d77c3523143129cca15eb8727899d2d20ec849d1636abd4d86",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00000-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00001-of-00006.tar",
+      "bytes": 1998223360,
+      "sha256": "3597e6a108017ca65eec40064aba72641a56dc322b5ad9cd0827efbba9453929",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00001-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00002-of-00006.tar",
+      "bytes": 1998499840,
+      "sha256": "77b1f50f83343d5ba5bfcb7e7c68f814e64d4f4cf6d6fa901158b4e632cd6711",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00002-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00003-of-00006.tar",
+      "bytes": 1998735360,
+      "sha256": "dd700039d1e4b9949bed0665e048c6ab38e53554f310028cd98b1f59696147f0",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00003-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00004-of-00006.tar",
+      "bytes": 1996472320,
+      "sha256": "4db7746ab3a757610b99a50f2f615be4b8285b56094d8afdfef9ed86f47c2ac8",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00004-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/s2l2a/val-s2l2a-00005-of-00006.tar",
+      "bytes": 1610321920,
+      "sha256": "6199b9485e38a911ffbd0d822a202e110e7dc337a0e9a7b2cb60f72800534af3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/s2l2a/val-s2l2a-00005-of-00006.tar"
+    },
+    {
+      "path": "geoid-flood/shards/val/validity/val-validity-00000-of-00001.tar",
+      "bytes": 5877760,
+      "sha256": "60e70c5869cf5017aea03894a9d470c7958108b707b8277199238fd13ad4e30b",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood/shards/val/validity/val-validity-00000-of-00001.tar"
+    }
+  ],
+  "note": "No transfer launched. Exclude RTC duplication and source-training shards. Reconcile catalogue/version/event independence before use."
+}
