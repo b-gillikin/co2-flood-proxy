@@ -1,0 +1,2 @@
+# Preserve byte-exact upstream Markdown snapshots, including upstream whitespace.
+*.md -whitespace
