@@ -12,6 +12,8 @@ reference dependence, annotation accounting and an untested novelty claim.
 These are corrections to comparisons, not reasons to abandon the chapter or
 require positive AI results. Independent preparation can proceed concurrently.
 This audit's specifications supersede ambiguous statements in the original plan.
+The subsequent [full audit](limburg-three-prong-full-audit-2026-11-10.md) corrects
+its cross-document acquisition, compute/refit, normalization and seed-chain details.
 
 ## 1. Questions and the contribution
 
@@ -118,7 +120,7 @@ it is not an added prerequisite for acquisition-time mapping.
 
 ### Acquisition amendments
 
-1. Keep the pinned GEOID evaluation acquisition, but reconcile overlapping
+1. Use the corrected v2 event-completion GEOID acquisition (v1 retained as history), and reconcile overlapping
    physical events/AOIs and actual label validity before assigning its groups to
    development, calibration or final test. Preserve every eligible final-test
    tile, including no-water tiles; quantify any filtering imposed by the release.
@@ -254,7 +256,8 @@ calibration annotations in total local consumption; source/public annotation
 and unpaid simulated-oracle labels are separately disclosed. Test labels measure
 research evaluation cost, not information supplied to the operational learner.
 
-Retain three optimization seeds. Add **three independent nested annotation-pool
+Retain three end-to-end source→target seed chains (combined training variation,
+not separately identified source/target variance). Add **three independent nested annotation-pool
 draws** for label-sensitive target comparisons, shared across methods, crossed
 with the optimization seeds. This is extra planned work, not three seeds claiming
 both uncertainties separately. Keep the full-pool duplicate once per seed.

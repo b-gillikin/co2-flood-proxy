@@ -49,3 +49,8 @@ The intended contribution is controlled evidence about reference quality and the
 ## Compute/resource refinement — 10 November
 
 The [compute design](limburg-three-prong-compute-design-2026-11-10.md) separates reusable source preparation, independent target learning and shared full-map outputs. Frozen features and modular reference comparisons are reused under exact data/model identities; full/PEFT adaptation retains live encoder computation. All eligible evaluation records, declared contrasts and independent annotation/optimization repeats remain. New execution optimizations require parity and complete-development profiling; the long queue is not launched and there is no replacement ETA yet. Resource reporting distinguishes the dissertation grid from the cost of making a new map with a trained pipeline.
+
+
+## Full-plan reconciliation — 10 November
+
+The [full audit](reviews/limburg-three-prong-full-audit-2026-11-10.md) retains the questions and all requested branches. It corrects event-complete acquisition, separate training/inference/scoring identities, source-refit cost accounting, normalization provenance and seed-chain interpretation. The revised GEOID candidate cohort contains109activation IDs/6,837tiles before development/test role and cross-source reconciliation; its conservative all-split packaging envelope is224.373GiB, staged rather than held locally at once. Metadata date checks passed; raster/model QA and actual queue/profile implementation remain. No new model accuracy result, fitting queue or bulk download was produced.

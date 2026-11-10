@@ -15,26 +15,38 @@
     "cpu_workers_max": 2,
     "reserve_gib": 50
   },
-  "data_manifest": "config/limburg_three_prong_geoid_acquisition_v1.json",
+  "data_manifest": "config/limburg_three_prong_geoid_acquisition_v2.json",
   "estimates": "docs/reviews/limburg-three-prong-execution-estimates-2026-11-10.json",
   "full_programme_estimate": {
-    "mps_days_low": 22,
-    "mps_days_high": 61,
-    "effective_availability": 0.7,
-    "calendar_weeks_low": 6,
-    "calendar_weeks_high": 16,
-    "status": "superseded_baseline_reestimate_after_source_inventory_annotation_draws_and_exact_profiles",
-    "conditional_environment_extension_extra_weeks": [
-      1,
-      3
-    ]
+    "status": "not_yet_estimated_from_corrected_eligible_queue",
+    "mps_days_low": null,
+    "mps_days_high": null,
+    "calendar_weeks_low": null,
+    "calendar_weeks_high": null,
+    "superseded_baseline": {
+      "mps_days_low": 22,
+      "mps_days_high": 61,
+      "effective_availability": 0.7,
+      "calendar_weeks_low": 6,
+      "calendar_weeks_high": 16,
+      "status": "superseded_baseline_reestimate_after_source_inventory_annotation_draws_and_exact_profiles",
+      "conditional_environment_extension_extra_weeks": [
+        1,
+        3
+      ]
+    }
   },
   "work_packages": {
     "W": {
-      "source_configurations": 10,
       "folds": 5,
       "optimization_seeds": 3,
-      "selected_states_before_reuse": 150
+      "status": "scientific_scope_fixed_exact_configurations_not_enumerated",
+      "illustrative_original_counts": {
+        "source_configurations": 10,
+        "selected_states_before_reuse": 150
+      },
+      "source_configurations": null,
+      "selected_states_before_reuse": null
     },
     "F": {
       "direct_change_configurations": 6,
@@ -53,10 +65,13 @@
         1.0
       ],
       "test_never_in_annotation_pool": true,
-      "primary_states_formula": "3 optimization seeds * sum_over_system_domains(unique_nonfull_budgets * 3 annotation_pool_draws + 1 full_pool_state)",
+      "primary_states_formula": "3 end_to_end_seed_chains * sum_over_system_domains(unique_nonfull_budgets * 3 annotation_pool_draws + 1 full_pool_state_if_identical_contract)",
       "illustrative_extensions_formula": "Enumerate compatible T1/T3/T4 states explicitly; deduplicate full/rounded pools and identical source states, never target test records.",
       "annotation_pool_draws": 3,
-      "pool_draws_crossed_with_optimization_seeds": true
+      "pool_draws_crossed_with_optimization_seeds": true,
+      "seed_interpretation": "three paired source-to-target end-to-end seed chains, crossed with three annotation draws; no isolated source versus target variance claim",
+      "informative_annotation_primary": "one_shot_source_model_uncertainty_and_spatial_diversity",
+      "iterative_active_learning": "retained_variant_requires_explicit_algorithm_and_charged_query_fits"
     }
   },
   "scope_map": {
@@ -81,8 +96,8 @@
   "fitting_queue_started": false,
   "azure_gpu_compute": false,
   "other_chapters_touched": false,
-  "design_revision": 2,
-  "audit": "docs/reviews/limburg-three-prong-design-audit-2026-11-10.md",
+  "design_revision": 3,
+  "audit": "docs/reviews/limburg-three-prong-full-audit-2026-11-10.md",
   "model_contracts": "config/limburg_three_prong_model_contracts_v1.json",
   "research_questions": {
     "main": "When satellite AI is taken to a new river landscape, what observations and local training are needed to map newly flooded land reliably?",
@@ -105,9 +120,21 @@
       "complete_measured_job_resource_and_recovery_ledger",
       "versioned_cache_tuning_reuse_and_exact_resume_contracts"
     ],
-    "scientific_stop_rule": null
+    "scientific_stop_rule": null,
+    "latest_full_audit_complete": true,
+    "completed_preparation": [
+      "held_author_source_hash_review",
+      "held_inventory_population_counts",
+      "candidate_event_completion_and_product_timestamp_audit",
+      "verified45GiB_offload",
+      "planning_fit_identity_and_refit_count_safety_helper"
+    ]
   },
   "compute_policy": "config/limburg_three_prong_compute_policy_v1.json",
   "compute_review": "docs/reviews/limburg-three-prong-compute-review-2026-11-10.json",
-  "compute_design_revision": 1
+  "compute_design_revision": 2,
+  "prior_audits": [
+    "docs/reviews/limburg-three-prong-design-audit-2026-11-10.md"
+  ],
+  "data_cohort": "config/limburg_three_prong_geoid_cohort_v2.json"
 }

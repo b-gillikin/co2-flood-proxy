@@ -46,8 +46,9 @@ Represent execution as a dependency graph, not a Cartesian product of RQ tags:
 `probabilities + references → W/F metrics, calibration, geometry and resource tables`
 
 RQ names, reports and reference masks do not by themselves justify new fits.
-Different source/test partitions, weights, label pools, seeds, schedules or
-trainable components do. A single verified state may support several reports
+Changes to training/selection populations, weights, label pools, seeds, schedules
+or trainable components do. A different test set alone needs new inference/scoring
+and an eligibility check, not an identical source refit. A single verified state may support several reports
 with its cost charged once to research and allocated transparently for reuse.
 
 ### Reuse by pipeline
@@ -85,17 +86,22 @@ census is not. Co-locate compatible heads/pools before evicting a feature shard.
 
 The approved source full-label policy is one complete source-validation search
 at seed42, plus two freshly initialized/independently optimized repeat-seed fits
-using the selected rate. The seed42 winning fitted state counts as its final
-state; do not train it twice merely because tuning and evaluation have different
-output directories. Every repeat selects its checkpoint on legitimate validation
+using the selected rate. The seed42 winner counts as its final state only if the final training and
+selection contract is identical; do not train that identical state twice merely
+because reporting directories differ. Expanding the source training pool or
+changing its stopping policy requires a new final refit for every seed. Every repeat selects its checkpoint on legitimate validation
 evidence. Count failed/undefined candidates. Do not inherit target event labels
 or a different input contract to make a reuse match.
 
-For r candidates and three final seeds:
+For r candidates and three final seeds **with unchanged final population/selection**:
 
 - Independent per-seed search: `3r` candidate fits.
 - Approved shared source selection: `r + 2` fits.
 - r=3: **9 → 5**, 44.4% fewer fits; r=16: **48 → 18**, 62.5% fewer fits.
+
+If the final population/selection changes, one shared-search block plus three
+source refits costs **r+3**, with all source-CV/meta-validation work charged
+separately. A new evaluation subset alone is not such a training change.
 
 These are arithmetic fit-count savings against repeating tuning per seed, not
 measured wall-time gains and not necessarily additional to a previously optimized
@@ -111,7 +117,10 @@ helper; the new source-fixed policy is recorded as such. Identical rounded
 budgets/full pools are computed once **only when the complete training identity
 is identical**, with aliases preserving every requested report.
 
-Three low-label budgets × three pool draws × three optimization seeds plus
+The three seeds denote paired source→target end-to-end training chains; their
+variation does not isolate source and target optimization separately.
+
+Three low-label budgets × three pool draws × three seed chains plus
 three full-pool fits = **30 primary adaptation states per compatible system/domain**.
 The previous one-pool formula gave 12; stronger variation accounting adds work.
 Eight compatible systems across 89 domains would therefore mean **21,360 states**,
@@ -197,7 +206,9 @@ For interruption safety, keep separate best-model and latest-resume states.
 The latter includes trainable weights/buffers, optimizer, scheduler, epoch/update
 position, scaler if used, Python/NumPy/Torch CPU/device RNG, sampler/augmentation
 state and exact source/data identities. Resume at verified epoch boundaries
-initially. Frozen weights may be referenced by verified immutable hashes; their
+initially, preserving data order/update state and declared numerical replay
+tolerances. Bit-identical MPS continuation is not assumed when operations are
+nondeterministic; failure to show bit equality does not stop other work. Frozen weights may be referenced by verified immutable hashes; their
 task neck/decoder/buffers and optimizer states may not be omitted. Trainable
 backbones/PEFT modules require complete reconstruction state. Test resumed versus
 uninterrupted training on a development fixture before claiming exact continuation.
@@ -239,7 +250,9 @@ an agency producing one map does not run the whole dissertation grid.
 
 ## 7. Timing confidence and implementation sequence
 
-The old6–16week envelope remains superseded. There is **no defensible single new
+The [full audit](reviews/limburg-three-prong-full-audit-2026-11-10.md) reconciles
+training/inference/scoring identities, source-refit arithmetic and expanded
+event-completion packaging. The old6–16week envelope remains superseded. There is **no defensible single new
 ETA yet**. Full-Kuro source expansion, target eligibility, annotation draws and
 uncached full-adaptation costs are unresolved. Fit-count savings cannot be
 multiplied into all stages as a blanket runtime factor.

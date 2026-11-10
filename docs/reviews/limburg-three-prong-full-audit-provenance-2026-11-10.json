@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-10",
+  "audit": "docs/reviews/limburg-three-prong-full-audit-2026-11-10.md",
+  "source_hashes": {
+    "config/limburg_three_prong_execution_plan_v1.json": "57526af1272e3108330145a2e47bf16875d41a0458a491315e67a83234316f5f",
+    "config/limburg_three_prong_model_contracts_v1.json": "6ab47ab95debd5279c2a85177fde15ad09b51137dd6bce44361af35da93b3bba",
+    "config/limburg_three_prong_compute_policy_v1.json": "87e678b4a0a5304b863fe2239f7e35a1ce8c47c3556c89e3776067a2b9003b5b",
+    "config/limburg_three_prong_geoid_acquisition_v2.json": "6078250d27cee981b1409baadf228dc28875548b1554e887884fe64a9868c4a8",
+    "config/limburg_three_prong_geoid_cohort_v2.json": "e95e5f411937e460335afabd6924989540e7f03e5514c97501780196b1c9d3e2",
+    "src/spatial_plan_audit.py": "1fd9e6f53ffe3f7d385e189d2109f372b55ff378577e9ba046baaa59b51d2879",
+    "src/applied_copernicus.py": "185399f53c1e080ac1f8631710aae50d7c570a685ddd13e177a89421c9d60c3d",
+    "docs/limburg-three-prong-execution-plan-2026-11-10.md": "78579eb0e616ced007eb74f8cff904937cb3ae65100c6e6382080a64f1ee7bcb",
+    "docs/limburg-three-prong-compute-design-2026-11-10.md": "d436e4443e387f181dff5580bea175a83c5a955bc3135b842f23c157644eac0e"
+  },
+  "primary_sources_rechecked": [
+    "https://huggingface.co/datasets/links-ads/geoid-flood",
+    "https://github.com/links-ads/geoid-flood",
+    "https://arxiv.org/html/2503.11849v1",
+    "https://arxiv.org/html/2608.02315v1"
+  ],
+  "metadata_report": "docs/reviews/limburg-three-prong-full-audit-data-2026-11-10.json",
+  "tests": "14 planning identity/refit arithmetic checks passed; not a model reproduction",
+  "scientific_scope_changed": false,
+  "new_accuracy_result": false,
+  "new_fitting_queue": false,
+  "bulk_acquisition_started": false,
+  "other_chapters_changed": false,
+  "active_runtime_estimate": null
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "date": "2026-11-10",
   "status": "audited_compute_specification_not_launched",
   "document": "docs/limburg-three-prong-compute-design-2026-11-10.md",
@@ -41,16 +41,22 @@
     "modular_flood_map_reuse": true,
     "independent_date_copernicus_features_reused": true,
     "full_pool_and_identically_rounded_fit_aliases": "only identical complete training identity; preserve all reports",
-    "source_full_label_tuning": "r-rate seed42 search + two fresh repeat-seed fits = r+2; author-reference exact reproduction separately costed",
+    "source_full_label_tuning": "r+2 only for identical winner/final training-selection identity; changed final pool/selection needs r+3 for one shared-search block plus separately enumerated source-CV/meta-validation",
     "target_policy": "source-pseudo-target selected, fixed across target events/pool draws/seeds; no target LR grid",
     "external_source_refit": "three source seeds; no implicit multiplication by five CV fold models",
     "storage": "lossless scientific arrays, bounded rotating model/dataset shards, asynchronous verified archival",
-    "precision": "float32 until independently versioned parity and full-profile evidence supports a change"
+    "precision": "float32 until independently versioned parity and full-profile evidence supports a change",
+    "identity_layers": {
+      "training": "all used data/labels, selection, preprocessing, initialization, optimization/sampling, seed-chain and numerical settings",
+      "inference": "selected state, target inputs, tiling, support and numerical/output contract",
+      "scoring": "predictions, labels, validity, references, calibration and metric; changes do not force refit unless they alter training/selection"
+    },
+    "source_target_seeds": "paired end-to-end chains, not independent source and target factorial seeds"
   },
   "pending_implementation_or_profile": {
     "new_reuse_validator": "supports actual candidate count and complete protocol identity; do not bypass legacy3rate check",
     "grouped_linear_probes": "candidate only; independent heads/optimizers/RNG and serial equivalence required",
-    "epoch_resume": "best weights are not a complete resume; optimizer/scheduler/RNG/sampler state and interrupted-versus-uninterrupted check required",
+    "epoch_resume": "complete state and numerically consistent replay/data order within declared tolerances; bitwise equality only if deterministic execution is demonstrated",
     "worker_overlap": "complete-profile0/1/2CPU lanes and loader0/1/2; optimize critical path",
     "uncached_full_adaptation": "actual full epoch and target case per changed architecture",
     "feature_cache_break_even": "measured encode versus read/store/restore cost on new source/target footprints",
@@ -93,5 +99,10 @@
   "full_programme_eta": "pending exact compatible job graph and complete profiles; previous6to16week estimate superseded",
   "new_queue_started": false,
   "new_runtime_installed": false,
-  "cloud_compute_provisioned": false
+  "cloud_compute_provisioned": false,
+  "full_audit": "docs/reviews/limburg-three-prong-full-audit-2026-11-10.md",
+  "implemented_preparation_only": {
+    "fit_identity_helper": "src/spatial_plan_audit.py; not yet integrated into production queue",
+    "refit_arithmetic_helper": "src/spatial_plan_audit.py; unchanged versus changed final population distinguished"
+  }
 }

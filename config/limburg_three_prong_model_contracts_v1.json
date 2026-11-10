@@ -176,7 +176,8 @@
       "pending": [
         "all SL2/DEM radiometry, alignment and dates QA",
         "explicit second-pre/terrain fusion and input sensitivity tests",
-        "external radiometric-domain transfer contract"
+        "external radiometric-domain transfer contract",
+        "source-only controlled difference-feature information/normalization diagnostic; no automatic extra trained arm"
       ],
       "completed_evidence": "One-pre/post existing route completed; loader flags do not certify F2/F3 model use",
       "full_run_contract_verified": false
@@ -222,6 +223,9 @@
     "transductive_target_image_use_disclosed": true,
     "additional_input_sensitivity_required": true,
     "new_dataset_class_codes_mapped_explicitly": true,
-    "no_new_backbone_collection_required": true
-  }
+    "no_new_backbone_collection_required": true,
+    "provider_benchmark_train_statistics_may_overlap_our_targets": true,
+    "source_only_normalization_provenance_required_for_T0": true
+  },
+  "full_audit": "docs/reviews/limburg-three-prong-full-audit-2026-11-10.md"
 }
