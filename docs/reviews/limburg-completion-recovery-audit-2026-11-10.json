@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-10",
+  "status": "passed",
+  "counts": {
+    "source_hashes": 42,
+    "input_hashes": 8,
+    "benchmark_input_hashes": 2960,
+    "tensor_indexes": 4,
+    "feature_indexes": 3,
+    "physical_controls": 20,
+    "candidate_fits": 1200,
+    "prediction_hashes": 228168,
+    "local_archive_members_verified": 331228,
+    "verified_retired_checkpoints": 1200,
+    "full_label_local_applications": 240,
+    "local_physical_applications": 20,
+    "training_jobs": 720,
+    "matched_local_groups": 60
+  },
+  "completion_hashes": {
+    "plan_sha256": "8c6184899e289c721c97eccd2f109d71402956f18e209ad5b23a3ade3cb8f409",
+    "progress_sha256": "ca5a8ecb8aeb034f2d2230fefc109e623f0b495bc3fb2b214234474076a3ea61",
+    "benchmark_sha256": "c71b71be331021fc0e72e40aafb006caf45b4994c70a0b28753ca84062ae69b0",
+    "audit_script_sha256": "c35a5a1fa7e8bcd84b516334710f46d93f7c622ce15333dc6a338e3548972ee5"
+  },
+  "cloud_objects_checked": 720,
+  "fresh_full_archive_restore_tests": 4,
+  "closure_receipt": {
+    "status": "remote_readback_and_every_member_verified",
+    "blob": "applied-v2/results/957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6.tar.gz",
+    "account": "stkerkradeprod01bg",
+    "container": "limburg-compact-eo",
+    "sha256": "957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6",
+    "archive_bytes": 42502651,
+    "files": 7338,
+    "local_bundle": "results/completion-audit-2026-11-10/closure.tar.gz",
+    "restored_readback": "results/completion-audit-2026-11-10/closure.tar.readback.tar.gz",
+    "note": "All members restored to a downloaded archive and independently hashed; no local/remote deletion. Inference-state recovery, not optimizer/epoch resume."
+  },
+  "evidence_directory": "results/completion-audit-2026-11-10",
+  "limitations": "Four fresh restore tests; all 720 prior full-readback receipts and current object properties checked. Not optimizer-state or whole-machine recovery."
+}
