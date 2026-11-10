@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-10",
+  "scope": "Read-only literature/design comparison; no fitting or configuration change",
+  "source_hashes": {
+    "src/applied_spatial_models.py": "712b986979a38f42fa004455a564c52ffad14189a9338b9cf41a3d4f5a28630c",
+    "src/applied_fast_data.py": "f642c7eae9bef18e8e6234d72b8d6cbf6aab365fa4308cf568c72b832a5ddcf5",
+    "scripts/192_tune_applied_water.py": "925143b699ac944840c2648ec8e9912d85da7e9ffffd62776ef552aee77262d7",
+    "data/raw/limburg_dynamic_model_weights/code/galileo/eval.py": "6064f8fb19c57d8a6f778a479881e43d3e530e6f3d288c0a8598080ae9a78d22",
+    "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/linear_probe.py": "59c5cf6a008e398c1451d6069be5c36b05ae0139a1af57f44b996e234d242209",
+    "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/sen1floods11.py": "0ac1c66fe0d4c0f62609a95deca54a51f6776bad192f2b74365b3645681c8c98"
+  },
+  "confirmed_differences": [
+    "Galileo hardcodes patch size 8; held evaluation CLI default is 4, supported by checkpoint patch-size range 1-8",
+    "Galileo held author LP search lists 16 learning rates; current production search uses 3 candidates on seed42 per task/fold/budget",
+    "Prithvi current native adaptation fine-tunes all parameters; TerraMind encoder is frozen",
+    "Prithvi current inputs and loss targets resize full chip to 224; Li et al. author study reports cropped 244-pixel input",
+    "Galileo held author preprocessing removes subpatches without positive water labels; current applied evaluation retains dry support",
+    "Current benchmark scores equal-event target-class IoU; several literature tables report pooled mean IoU over water/background or three classes"
+  ],
+  "not_established": [
+    "No demonstrated causation from these choices to observed performance gaps",
+    "No new defect established in cache/pooling arithmetic",
+    "No exact author-score end-to-end reproduction located in reviewed completion/preparation records",
+    "No conclusion that larger backbones or full fine-tuning necessarily improve these results"
+  ]
+}
