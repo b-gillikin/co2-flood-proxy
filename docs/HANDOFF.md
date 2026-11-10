@@ -60,3 +60,14 @@ label CV states are reusable development evidence, not30all-source deployment
 models. Do not infer new accuracy, complete compatibility or a calendar ETA from
 the metadata audit. Useful new citations are in
 [the scope-audit bibliography](limburg-chapter-scope-literature-2026-11-10.bib).
+
+## Interrupted/unattended runtime requirement
+
+Brian will close the laptop intermittently and may leave it running while away.
+[Runtime requirements](limburg-unattended-runtime-2026-11-10.md) cover full-state
+training checkpoints, chunk-resumable inference, automatic verified Azure offload,
+an independent heartbeat monitor and bounded same-configuration retries. Existing
+best-weight recovery is not full training resume. Requirements are recorded;
+new unattended infrastructure is not implemented or active. FileVault is enabled,
+so reboot/login recovery cannot be promised without human unlock. Notification
+preference is pending; no message or cloud resource was created.

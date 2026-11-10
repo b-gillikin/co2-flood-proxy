@@ -67,5 +67,19 @@
     "reuse date encoding across source seeds without averaging incompatible models",
     "do not multiply final external inference by source-CV folds implicitly"
   ],
-  "runtime_evidence": "existing selected source-subset medians82min native/38min standard U-Net; external encoder-only linear projection~2.4h at25windows/tile; neither is complete-run ETA"
+  "runtime_evidence": "existing selected source-subset medians82min native/38min standard U-Net; external encoder-only linear projection~2.4h at25windows/tile; neither is complete-run ETA",
+  "unattended_runtime": {
+    "document": "docs/limburg-unattended-runtime-2026-11-10.md",
+    "status": "requirements_recorded_not_implemented_or_activated",
+    "sleep_and_worker_recovery_required": true,
+    "full_training_checkpoint_required": true,
+    "inference_chunk_resume_required": true,
+    "automatic_verified_azure_offload_required": true,
+    "offload_start_free_gib_initial": 80,
+    "free_space_reserve_gib": 50,
+    "independent_remote_heartbeat_monitor_required": true,
+    "notification_channel": "awaiting_Brian_preference",
+    "no_implicit_unattended_ai_code_changes": true,
+    "cloud_resource_created": false
+  }
 }
