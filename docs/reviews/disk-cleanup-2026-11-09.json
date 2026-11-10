@@ -1,0 +1,15 @@
+{
+  "status": "complete",
+  "deduplicated_files": 10920,
+  "duplicate_logical_bytes": 12712861798,
+  "pip_download_cache_bytes_removed": 0,
+  "free_before_gib": 60.28025436401367,
+  "free_after_gib": 73.15181732177734,
+  "excluded_newest_snapshots": 2,
+  "scope": "Older immutable synthesis snapshots only: exact-content hardlink consolidation, all paths and bytes retained. File original mtimes in ledger. Pip download cache removed; installed environments unchanged. Active inputs, model outputs, weights and other chapters untouched.",
+  "verified_pairs": 10920,
+  "active_job_after": "copernicus-unet_standard-group02-0.05-42",
+  "progress_age_seconds": 3,
+  "ledger_sha256": "2025ac2e7ffc387e7d3a7ef7363ec3bf8b10971dee90e13be43157ad828256de",
+  "free_verified_gib": 73.13351058959961
+}

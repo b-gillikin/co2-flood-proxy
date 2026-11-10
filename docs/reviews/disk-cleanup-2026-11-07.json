@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "deduplicated_files": 7303,
+  "duplicate_logical_bytes": 8513118033,
+  "pip_download_cache_bytes_removed": 156857053,
+  "free_before_gib": 65.83666229248047,
+  "free_after_gib": 73.91969680786133,
+  "excluded_newest_snapshots": 2,
+  "scope": "Older immutable synthesis snapshots only: exact-content hardlink consolidation, all paths and bytes retained. File original mtimes in ledger. Pip download cache removed; installed environments unchanged. Active inputs, model outputs, weights and other chapters untouched.",
+  "verified_link_pairs": 7303,
+  "active_job_after": "terramind-unet_standard-group01-0.2-31415",
+  "ledger_sha256": "f46b188c6dd38d0bda014632c04313c798386484f628d7388efb9dedd6a69c5e",
+  "free_verified_gib": 74.9148063659668
+}

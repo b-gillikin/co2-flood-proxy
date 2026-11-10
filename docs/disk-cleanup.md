@@ -161,3 +161,27 @@ aggregates/results and provenance local. Protect the current spatial/tensor
 inputs and linked runtimes. The ordinary raw-data backup does not cover these
 processed caches. No transfer, payload deletion or automatic trigger is enabled;
 Brian requested a plan for use if/when needed, with no rush.
+
+## 7 November: consolidate identical reporting snapshots
+
+Recovered approximately **8.08 GiB of observed free space** (65.84 to 73.92 GiB during ongoing training). Replaced 7,303 byte-identical files in older `applied_study_v5/ready-v2/synthesis/completed-*` snapshots with hard links to identical files in other older snapshots. SHA-256 and exact byte comparisons preceded each atomic replacement; all resulting link pairs were checked. Every snapshot path and file contents remain available. The newest two snapshots were excluded. Original file timestamps are retained in the JSONL ledger because linked files share filesystem metadata. Treat these historical snapshots as immutable; future edits must replace a file atomically rather than modifying a shared inode.
+
+Removed 0.146 GiB of pip download cache from `logs/individual-pip-cache`; no installed environment changed. Active training continued. No source data, tensor cache, weights, checkpoints, scientific results or other chapter data were removed. The local ledger is `results/disk-cleanup-2026-11-07/deduplicated.jsonl`; its hash and verified counts are recorded in [the receipt](reviews/disk-cleanup-2026-11-07.json). Observed free-space changes include concurrent writes and APFS effects.
+
+### 7 November: second requested pass
+
+Consolidated another 1,320 exact-content duplicate files in older reporting snapshots; retained all paths and contents, excluding the newest two snapshots. Verified every replacement inode/size pair. Observed free space increased from 73.10 to 74.53 GiB (about 1.43 GiB). The active job `prithvi-native-group04-0.2-42` remained alive. No additional pip cache existed. Historical scientific results, inputs, installed runtimes and all other chapters were retained. See [second-pass receipt](reviews/disk-cleanup-2026-11-07-pass2.json) and its hashed local ledger. Larger historical-result directories were inventoried but not removed without verified recovery/dependency checks.
+
+## 9 November: consolidate accumulated reporting snapshots
+
+Consolidated 10,920 additional byte-identical files in older completed synthesis snapshots, representing 11.84 GiB of duplicate logical payload. Every path and content remains available through verified hard links; newest two snapshots excluded. Original timestamps and hashes are retained in `results/disk-cleanup-2026-11-09/deduplicated.jsonl`. Historical snapshots remain immutable; modifications must replace files atomically. Free space was 60.28 GiB before and 73.13 GiB after verification; concurrent queue cleanup/writes and APFS effects also influence this observed change. No pip download cache existed.
+
+The active job `copernicus-unet_standard-group02-0.05-42` remained alive, with a fresh controller record. No active inputs, tensor caches, model weights, checkpoints or other chapter data were removed. See [verification receipt](reviews/disk-cleanup-2026-11-09.json). The repeated snapshot payload remains a future storage-efficiency improvement; active code was not changed during training.
+
+## 10 November: completed-run cleanup
+
+After the completion/recovery audit, consolidated 3,240 additional identical historical reporting files and 446 byte-identical Galileo v1/v2 spatial arrays using verified hard links. All paths and bytes remain accessible; distinct cache indexes/receipts, final synthesis and newest two historical snapshots were retained. Shared arrays and historical reports are immutable: future changes must replace files atomically rather than modify a shared inode. Verified the complete SHA256 and exact content before replacement, then checked inode/size bindings. Original mtimes and hashes remain in `results/disk-cleanup-2026-11-10/deduplicated.jsonl`.
+
+Removed four redundant local packing/readback archives (about 90 MiB combined), each matching its full-readback Azure receipt in size and SHA256. Actual restored test checkpoints, receipts and underlying source/result files remain local. Closure and expansion bundles remain recoverable from their exact content-addressed cloud blobs. No unique result, raw input, weights, environment, tensor cache or other chapter data was removed.
+
+Observed free space increased from 74.01 to 78.50 GiB (about **4.49 GiB**). Duplicate logical payload consolidated was 4.38 GiB; APFS/shared links and unrelated disk activity affect observed free space. See [the receipt](reviews/disk-cleanup-2026-11-10.json). A broad directory-size scan was stopped in favor of bounded known-duplicate checks; no full-directory inventory completeness is claimed.

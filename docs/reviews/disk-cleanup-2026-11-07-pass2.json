@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "deduplicated_files": 1320,
+  "duplicate_logical_bytes": 1536719558,
+  "pip_download_cache_bytes_removed": 0,
+  "free_before_gib": 73.09646224975586,
+  "free_after_gib": 74.52961730957031,
+  "excluded_newest_snapshots": 2,
+  "scope": "Older immutable synthesis snapshots only: exact-content hardlink consolidation, all paths and bytes retained. File original mtimes in ledger. Pip download cache removed; installed environments unchanged. Active inputs, model outputs, weights and other chapters untouched.",
+  "verified_pairs": 1320,
+  "active_job_after": "prithvi-native-group04-0.2-42",
+  "ledger_sha256": "71d632e7bf8a32ec105ab12be06af6f29a0d0e0e46f3c603d032c38887de5224",
+  "free_verified_gib": 74.5455207824707
+}

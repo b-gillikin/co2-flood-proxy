@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "deduplicated_files": 3686,
+  "duplicate_logical_bytes": 4707334886,
+  "by_kind": {
+    "identical_galileo_cache_array": {
+      "files": 446,
+      "bytes": 935386880
+    },
+    "immutable_historical_snapshot": {
+      "files": 3240,
+      "bytes": 3771948006
+    }
+  },
+  "removed_verified_packing_copies": [
+    {
+      "path": "results/completion-audit-2026-11-10/closure.tar.gz",
+      "bytes": 42502651,
+      "sha256": "957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6",
+      "receipt": "results/completion-audit-2026-11-10/closure.tar.recovery.json",
+      "remote_blob": "applied-v2/results/957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6.tar.gz"
+    },
+    {
+      "path": "results/completion-audit-2026-11-10/closure.tar.readback.tar.gz",
+      "bytes": 42502651,
+      "sha256": "957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6",
+      "receipt": "results/completion-audit-2026-11-10/closure.tar.recovery.json",
+      "remote_blob": "applied-v2/results/957dc0030c0d4ad79ad83fe2a6618675e386f9da4a85d92c69fce7bbf0798ae6.tar.gz"
+    },
+    {
+      "path": "results/disk-cleanup-2026-11-02/expansion-recovery.tar.gz",
+      "bytes": 4882635,
+      "sha256": "f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5",
+      "receipt": "results/disk-cleanup-2026-11-02/expansion-recovery.tar.recovery.json",
+      "remote_blob": "applied-v2/results/f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5.tar.gz"
+    },
+    {
+      "path": "results/disk-cleanup-2026-11-02/expansion-recovery.tar.readback.tar.gz",
+      "bytes": 4882635,
+      "sha256": "f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5",
+      "receipt": "results/disk-cleanup-2026-11-02/expansion-recovery.tar.recovery.json",
+      "remote_blob": "applied-v2/results/f2c9fe9ffdef120a292e3802072cf348f8fb832a010e50741b7b314da8fab0f5.tar.gz"
+    }
+  ],
+  "free_before_gib": 74.00531005859375,
+  "free_after_gib": 78.49676513671875,
+  "ledger_sha256": "41830df9f8adc3ac464dafc9c89e86e175540b045c6b02bb80f3f580fd6d89e2",
+  "scope": "Exact duplicate content only. Historical snapshot and Galileo array paths retained through hardlinks; indexes/receipts unchanged. Final/newest two snapshots excluded. Redundant verified recovery packing files removed, receipts retained. No unique scientific output, raw data, environment or other chapter changed. Shared arrays/snapshots must be treated as immutable; replace atomically for edits.",
+  "free_verified_gib": 78.52593994140625
+}
