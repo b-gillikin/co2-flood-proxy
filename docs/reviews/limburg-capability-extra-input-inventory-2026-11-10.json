@@ -1,0 +1,13 @@
+{
+  "checked_on": "2026-11-10",
+  "records": 5000,
+  "event_ids": 20,
+  "counts": {
+    "second_pre_vv": 5000,
+    "second_pre_vh": 5000,
+    "dem": 5000
+  },
+  "current_consumption": "src/applied_change_task.py reads SL1 VV/VH and MS1 VV/VH, MLU and MNA; not SL2 or DEM",
+  "verification_scope": "File presence only for extra layers; info metadata hashed. Not a raster content, alignment, units or independent-label audit.",
+  "record_inventory_sha256": "01bdd07757430bebabafb26031d2bb718b505e7e9c71b6b40eff05e121fbc581"
+}

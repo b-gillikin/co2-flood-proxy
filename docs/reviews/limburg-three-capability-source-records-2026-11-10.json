@@ -1,0 +1,37 @@
+[
+  {
+    "key": "Chen2026CIMTTDA",
+    "doi": "10.1029/2025JH001145",
+    "title": "Improving Cross\u2010Event Generalization for SAR\u2010Based Coastal Inundation Mapping via Test\u2010Time Domain Adaptation",
+    "already_in_chapter_bib": false,
+    "review_scope": "Full author HTML and availability statement reviewed; coastal transfer template, not a demonstrated riverine result"
+  },
+  {
+    "key": "RatteFortin2026TransferableFlood",
+    "doi": "10.1016/j.jag.2026.105321",
+    "title": "A transferable deep learning framework for flood mapping: Spatial generalization across hydro-climatic regimes using satellite imagery",
+    "already_in_chapter_bib": false,
+    "review_scope": "Lead only: bibliographic metadata and abstract available; full publisher methods inaccessible"
+  },
+  {
+    "key": "Konidakis2025ConformalFlood",
+    "doi": "10.1109/IGARSS55030.2025.11242848",
+    "title": "Uncertainty-Aware Flood Segmentation from Sentinel 2 Observations with Conformal Prediction",
+    "already_in_chapter_bib": false,
+    "review_scope": "Author publication page reviewed; new-region exchangeability and spatial dependence require separate validation"
+  },
+  {
+    "key": "Adhikari2025ALFA",
+    "doi": "10.24963/ijcai.2025/1057",
+    "title": "Faster Annotation for Elevation-Guided Flood Extent Mapping by Consistency-Enhanced Active Learning",
+    "already_in_chapter_bib": false,
+    "review_scope": "Official IJCAI proceedings abstract and code route reviewed; label-selection precedent, not a claim about our annotation time"
+  },
+  {
+    "key": "MateoGarcia2023WorldFloods",
+    "doi": "10.1038/s41598-023-47595-7",
+    "title": "Global flood extent segmentation in optical satellite images",
+    "already_in_chapter_bib": false,
+    "review_scope": "Publisher methods reviewed; ordinary water/cloud and independent-event mapping template"
+  }
+]
