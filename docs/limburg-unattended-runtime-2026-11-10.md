@@ -104,9 +104,10 @@ wake grace suppress inappropriate repeated alerts. Notify on state change and
 recovery, with deduplication, rather than sending every poll. Expected connectivity
 loss cannot be distinguished automatically from a crash without further evidence.
 
-Notification channel/recipient is awaiting Brian's preference. No research email
-will be sent by the assistant. An authorized automated self-notification is a
-separate explicit configuration. Azure supports email/mobile notification through
+Brian selected email alerts to `btgillikin@gmail.com`. This records the intended
+recipient; no alert service is active yet. No research email will be sent by the
+assistant. An authorized automated self-notification is a separate configuration.
+Azure supports email/mobile notification through
 [action groups](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups);
 recipient verification may be required. No service or charge was created here.
 
