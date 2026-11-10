@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-10",
+  "status": "planning_arithmetic_and_existing_evidence_not_new_model_benchmark",
+  "files_reviewed": {
+    "src/applied_fast_data.py": "f642c7eae9bef18e8e6234d72b8d6cbf6aab365fa4308cf568c72b832a5ddcf5",
+    "src/applied_tuning_reuse.py": "b175dc495be26ebf4978a782849867594f4cc80bf5768626abca630bb816c02c",
+    "src/applied_execution.py": "70270b0f3463985eac917131f1b54681a4fee31226a9f2160bd36aec40ce93f1",
+    "docs/reviews/limburg-three-prong-execution-estimates-2026-11-10.json": "6acd8a20c3a5dabe7dc2f03204d4b523bcd106a93f1b9ff3b8b28f8a34da0c7d",
+    "docs/reviews/spatial-optimization-2026-11-02/execution-summary.json": "319aef8094348ddf836a37da1d8e6bbfca19e01757f8df7ab368f8150c574a1d",
+    "docs/reviews/grouped-execution-2026-11-02/workload-summary.json": "7aecd48624caff5b7399bf1d291a2c69c8a5bcb7c471f41c890d81aab2141037"
+  },
+  "source_search_examples": [
+    {
+      "lr_candidates": 3,
+      "seeds": 3,
+      "independent_search_fits": 9,
+      "shared_source_policy_fits": 5,
+      "fit_count_reduction_percent": 44.44444444444444,
+      "interpretation": "Arithmetic; not measured additional wall-time saving or author-reference protocol substitution"
+    },
+    {
+      "lr_candidates": 16,
+      "seeds": 3,
+      "independent_search_fits": 48,
+      "shared_source_policy_fits": 18,
+      "fit_count_reduction_percent": 62.5,
+      "interpretation": "Arithmetic; not measured additional wall-time saving or author-reference protocol substitution"
+    }
+  ],
+  "target_state_example": {
+    "low_label_budgets": 3,
+    "annotation_draws": 3,
+    "optimization_seeds": 3,
+    "full_pool_states": 3,
+    "per_compatible_system_domain": 30,
+    "systems_illustrative": 8,
+    "domains_illustrative_before_eligibility": 89,
+    "total_primary_states_illustrative": 21360,
+    "incorrect_five_CV_ensemble_multiplier": 5,
+    "incorrect_multiplied_states": 106800,
+    "actual_queue_enumerated": false,
+    "all_methods_support_all_domains": false
+  },
+  "source_configuration_example": {
+    "status": "illustrative_not_final_W_job_list",
+    "configurations": 10,
+    "folds": 5,
+    "three_rates_everywhere_repeated_search_fits": 450,
+    "three_rates_everywhere_shared_source_fits": 250,
+    "one_configuration16rates_rest3_repeated_search_fits": 645,
+    "one_configuration16rates_rest3_shared_source_fits": 315
+  },
+  "no_new_measured_speedup_claim": true,
+  "eta": null,
+  "documentation_checked": [
+    "https://docs.pytorch.org/docs/2.9/notes/mps.html",
+    "https://docs.pytorch.org/docs/2.9/data.html",
+    "https://docs.pytorch.org/docs/2.9/checkpoint.html"
+  ]
+}

@@ -128,6 +128,12 @@ Include difficult environments in the analysis census. Align land-cover/settleme
 
 Independent uncertainty uses whole physical events/geographic groups and optimization-seed reporting, not pixels as independent replications. Metrics describe water mapping/new inundation at observed acquisitions. No depth, damages, public-warning lead time, adoption or reduced-loss claim is inferred. Connect measured outcomes to the resources an agency would need, with documented assumptions rather than new interviews.
 
+## Audited compute execution
+
+The [compute design](limburg-three-prong-compute-design-2026-11-10.md) and `config/limburg_three_prong_compute_policy_v1.json` specify unique preparation/fit/prediction nodes, shared frozen features and modular probabilities, source-fixed tuning reuse, three source-refit seeds for external application, bounded working shards and exact epoch-resume state. Existing caches/optimizations are not counted as new gains. All scientific populations/contrasts, independent annotation draws and optimization seeds remain. New grouped-probe, cache and concurrency options require parity and complete-profile evidence; none is silently enabled in the old queue.
+
+The policy-facing resource account separates one-off research, reusable source preparation and cold/warm new-area mapping. The old tuning helper cannot handle the16-rate author-reference grid unchanged, and best-weight checkpoints do not support exact interrupted epoch continuation. These are explicit implementation items. Source rates and annotation workload arithmetic are recorded in `docs/reviews/limburg-three-prong-compute-review-2026-11-10.json`; they are not a measured speedup or final ETA.
+
 ## Runtime and workload estimates
 
 [Measured basis](reviews/limburg-three-prong-execution-estimates-2026-11-10.json):25completed full-label candidate fits per task/learner from v5. These include training/setup under recorded contention, not cold extraction, test application or cloud recovery.

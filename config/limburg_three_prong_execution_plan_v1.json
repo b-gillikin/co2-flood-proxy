@@ -102,8 +102,12 @@
       "independent_target_annotation_pools_and_all_label_accounting",
       "explicit_temporal_terrain_PEFT_TTDA_implementations",
       "probability_calibration_and_external_source_refit_contract",
-      "complete_measured_job_resource_and_recovery_ledger"
+      "complete_measured_job_resource_and_recovery_ledger",
+      "versioned_cache_tuning_reuse_and_exact_resume_contracts"
     ],
     "scientific_stop_rule": null
-  }
+  },
+  "compute_policy": "config/limburg_three_prong_compute_policy_v1.json",
+  "compute_review": "docs/reviews/limburg-three-prong-compute-review-2026-11-10.json",
+  "compute_design_revision": 1
 }
