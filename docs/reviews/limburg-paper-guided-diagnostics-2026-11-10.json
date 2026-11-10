@@ -1,0 +1,77 @@
+{
+  "status": "engineering_checks_complete",
+  "selection": "First two sorted TRAIN chips with at least16 water and16 nonwater pixels in a64px patch; selected for plumbing, not representative accuracy",
+  "fixtures": [
+    {
+      "chip": "Bolivia_103757",
+      "part": 5
+    },
+    {
+      "chip": "Bolivia_129334",
+      "part": 0
+    }
+  ],
+  "galileo_patch8_production_exact": true,
+  "radar_fixture_sha256": "72d7240e240ca7bdcd351e07a517862808e6aea6e34ef0a6238029132bd7f168",
+  "radar_label_fixture_sha256": "c4ca7d8826ecf57fdd79105b8afada3a507f72bc385ccf7fc422d30c3c450d6d",
+  "galileo_cached_patch8_max_abs_delta": 1.1920928955078125e-06,
+  "galileo_probe_checks": {
+    "8": {
+      "tokens_shape": [
+        2,
+        8,
+        8,
+        128
+      ],
+      "initial_training_ce": 0.6987143754959106,
+      "final_training_ce": 0.03410949930548668,
+      "optimizer_steps": 400,
+      "readout_matches_author_rearrangement": true
+    },
+    "4": {
+      "tokens_shape": [
+        2,
+        16,
+        16,
+        128
+      ],
+      "initial_training_ce": 0.6888554096221924,
+      "final_training_ce": 0.09800643473863602,
+      "optimizer_steps": 400,
+      "readout_matches_author_rearrangement": true
+    }
+  },
+  "spatial_label_roundtrip": [
+    {
+      "chip": "Bolivia_103757",
+      "source_positive_pixels": 35298,
+      "source_label_sha256": "603400ac457be0de9444563acd2785ce360c5385cc3d37f6c2f1229689a7b7bd",
+      "resize_roundtrip_positive_to_nonwater_pixels": 2862,
+      "resize_roundtrip_nonwater_to_positive_pixels": 2580,
+      "lost_valid_support_pixels": 1472,
+      "all_pixels_covered_by_224_windows": true,
+      "windows": 9
+    },
+    {
+      "chip": "Bolivia_129334",
+      "source_positive_pixels": 156643,
+      "source_label_sha256": "a226c92fc816b3fd5307ab47105abc6d63dafe1475af97ec581a890d3e7b896d",
+      "resize_roundtrip_positive_to_nonwater_pixels": 6658,
+      "resize_roundtrip_nonwater_to_positive_pixels": 6653,
+      "lost_valid_support_pixels": 1340,
+      "all_pixels_covered_by_224_windows": true,
+      "windows": 9
+    }
+  ],
+  "interpretation": "Training fixture diagnostic only. No author accuracy reproduced, no validation/test read, no flood-performance or patch-size superiority claim. Label roundtrip is resampling information loss, not model error.",
+  "source_hashes": {
+    "results/applied_study_v5/ready-v2/execution-plan.json": "8c6184899e289c721c97eccd2f109d71402956f18e209ad5b23a3ade3cb8f409",
+    "results/applied_study_v5/tuning/galileo-native-group01-1-42-cpu-b256-e50/manifest.json": "5ce9e6d2cb194ec619a432b707815befd5d74f0499b26091b49d6551e9c094a9",
+    "results/applied_study_v5/tuning/prithvi-native-group01-1-42-mps-b2-e50/manifest.json": "038a3206a8e49b15afe4627bc1f00b03a88b21c62961e0c5fccc59a3d43e6d78",
+    "data/processed/limburg_tensor_cache_v1/prithvi/index.json": "91532cdeef8302e6f837d08e3dc759fde8603dab2bbde1547f909b9c0c99bfd4",
+    "data/processed/limburg_tensor_cache_v1/galileo/index.json": "9eabfc3119aab34b531608fcff034b4a7a6481846f726d5a972c3b983164f67d",
+    "src/applied_reproduction.py": "28e5f6a043f678e20c51aa67def7ea2c6bad8fa738549feadfe30bc77a99b756",
+    "scripts/229_check_paper_guided_reproduction.py": "79130433a384931085d3df7c847d6ceb997fda9f2ddcb18d30c741f519ad0d3d",
+    "src/applied_spatial_models.py": "712b986979a38f42fa004455a564c52ffad14189a9338b9cf41a3d4f5a28630c"
+  }
+}
