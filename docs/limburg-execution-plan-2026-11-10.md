@@ -44,7 +44,9 @@ The Azure email action group and two disabled query alerts exist in
 Verify cloud ingestion, alert query results and **actual email receipt** before
 enabling the heartbeat/failure rules. A test-notification API call is unavailable
 on this Azure for Students subscription. A temporary real-rule email test
-(`limb-run-email-test`) was created on 10 November; remove it after the test.
+(`limb-run-email-test`) fired on 10 November and Brian confirmed email receipt;
+the test rule was then removed. The production rules remain disabled until
+the actual runner publishes its state and its recovery behavior is tested.
 A sleeping Mac cannot send telemetry;
 planned pause is a separate state. FileVault login after reboot may still require
 Brian. No unattended run or email alert is active as of this plan.
@@ -66,7 +68,7 @@ Brian. No unattended run or email alert is active as of this plan.
 
 ## Immediate next work
 
-Finish the telemetry ingestion/alert receipt test and the input contract, then
+Finish the runner-to-telemetry integration and the input contract, then
 the pinned external download and P1 inventory. The acquisition and implementation
 can overlap where files and compute do not contend. A positive result is not a
 prerequisite for completing the chapter: the empirical answer includes null,

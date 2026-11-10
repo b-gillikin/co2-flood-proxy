@@ -70,8 +70,8 @@ an independent heartbeat monitor and bounded same-configuration retries. Existin
 best-weight recovery is not full training resume. The
 [execution plan](limburg-execution-plan-2026-11-10.md) gives the work order.
 An Azure email action group, telemetry resource and two disabled production
-alerts are prepared; the local sender accepted one setup event. The scientific
-runner, full-state recovery, automatic offload and end-to-end alert receipt
-remain unimplemented/unverified. FileVault is enabled, so reboot/login recovery
+alerts are prepared; a temporary real alert fired and Brian received its email.
+The scientific runner, full-state recovery and automatic offload remain
+unimplemented. FileVault is enabled, so reboot/login recovery
 cannot be promised without human unlock. Brian chose email alerts to
 `btgillikin@gmail.com`.

@@ -80,7 +80,7 @@
     "independent_remote_heartbeat_monitor_required": true,
     "notification_channel": "email",
     "notification_recipient": "btgillikin@gmail.com",
-    "notification_status": "azure_resources_created_production_rules_disabled_pending_runner_and_email_receipt_test",
+    "notification_status": "email_receipt_verified_production_rules_disabled_pending_runner_integration",
     "azure_action_group": "rg-limburg-eo/ag-limburg-run-email",
     "azure_telemetry": "rg-limburg-eo/ai-limburg-run-monitor",
     "azure_production_alert_rules": ["limb-run-heartbeat-stale", "limb-run-failed"],

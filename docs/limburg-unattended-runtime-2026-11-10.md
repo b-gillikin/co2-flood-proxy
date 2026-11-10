@@ -111,9 +111,11 @@ rules (`limb-run-heartbeat-stale`, `limb-run-failed`) are **disabled** until the
 new runner emits and the end-to-end email path is verified. The local event
 sender is `scripts/224_emit_limburg_monitor_event.py`; its connection string is
 held in the ignored, private `config/local_monitor.env`. The Azure for Students
-subscription rejects the action-group test-notification API, so real-rule
-testing and receipt confirmation are still needed. No scientific run or alert is
-active yet. No research email will be sent by the assistant.
+subscription rejects the action-group test-notification API. We instead fired
+a temporary real alert (`limb-run-email-test`); Azure reported it fired, Brian
+confirmed receipt, and the temporary rule was deleted. The production rules
+remain disabled until the new runner emits live state. No scientific run or
+production alert is active yet. No research email will be sent by the assistant.
 
 Automatic assessment means handling documented failure classes and reporting
 others. An AI coding agent is not implicitly running in this chat while Brian is
