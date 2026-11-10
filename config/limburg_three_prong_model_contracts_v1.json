@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-10",
+  "status": "audited_specification_not_full_run_certification",
+  "audit": "docs/reviews/limburg-three-prong-design-audit-2026-11-10.md",
+  "sources": {
+    "terramind_tiny": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/terramind/configs/terramind_v1_tiny_sen1floods11.yaml",
+      "sha256": "66a3513e3ccba09ce02da15d2ac675b8ee184149c471acf9aaf4ac388c560544",
+      "prior_pin_matches": true
+    },
+    "copernicus_experiments": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/scripts/exp_config_copernicusfm.py",
+      "sha256": "c5af14c062067ff4f15623a4772202c27bbebd7ad35462fa57aac788a8b8640d",
+      "prior_pin_matches": true
+    },
+    "copernicus_model": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/copernicusfm_cd.yaml",
+      "sha256": "2a4a68ac81b2c9554b2a68dcb9f635149840f53db30c62272bf955cdea7bf0f9",
+      "prior_pin_matches": true
+    },
+    "copernicus_model_defaults": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/model/base_model.yaml",
+      "sha256": "42b3c6022c5b097e713a7cf0dae0554659d0e83d5fe6b928194eaca17284528f",
+      "prior_pin_matches": true
+    },
+    "copernicus_dataset": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/configs/dataset/cobench_flood_s1.yaml",
+      "sha256": "45ab0fc674f5d4bef31d7df576e966e52421a9c1e81a5fd4866b2d93c22329f6",
+      "prior_pin_matches": true
+    },
+    "copernicus_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/datasets/cobench_floods1_wrapper.py",
+      "sha256": "c528ba67cc61d3117d6a4f79800ecef03f82b303498bb1040d8f80457301ff45",
+      "prior_pin_matches": true
+    },
+    "copernicus_task": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/copernicus_fm/Copernicus-Bench/src/foundation_models/copernicusfm_wrapper.py",
+      "sha256": "b061a760eb5c7a63b6ecb4cdcc826c0e2da99f05961e3857dcea6b49065b06a1",
+      "prior_pin_matches": true
+    },
+    "galileo_flood_config": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/configs/sen1floods11.json",
+      "sha256": "16aae5a4aba9555fc4d87d2c0b961bb7784bf6acf79cc4473cb31a5f1f425732",
+      "prior_pin_matches": true
+    },
+    "galileo_flood_loader": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/src/eval/datasets/sen1floods11.py",
+      "sha256": "0ac1c66fe0d4c0f62609a95deca54a51f6776bad192f2b74365b3645681c8c98",
+      "prior_pin_matches": true
+    },
+    "galileo_eval": {
+      "path": "data/raw/limburg_dynamic_model_weights/code/galileo/eval.py",
+      "sha256": "6064f8fb19c57d8a6f778a479881e43d3e530e6f3d288c0a8598080ae9a78d22",
+      "prior_pin_matches": true
+    },
+    "prithvi_author_example": {
+      "path": "docs/reviews/applied-task-config-2026-10-31/prithvi-author-sen1floods11.yaml",
+      "sha256": "908d22f50fa115f79f32f967cf8cdc8c00b4f857cb1c6309cd825521382c6ec1",
+      "prior_pin_matches": true
+    }
+  },
+  "models": {
+    "galileo_nano": {
+      "task": "single_date_radar_water_segmentation",
+      "inputs": {
+        "channels": [
+          "VV",
+          "VH"
+        ],
+        "units": "dB",
+        "spatial": "64px native subpatch; actual 10m resolution",
+        "time": "single acquisition; zero-based calendar month",
+        "missing_modalities": "author group masks; no invented observation"
+      },
+      "adaptation": "frozen native spatial encoder and trained dense linear readout",
+      "variants": [
+        "author_patch4_readout",
+        "controlled_patch8_readout"
+      ],
+      "source_keys": [
+        "galileo_flood_config",
+        "galileo_flood_loader",
+        "galileo_eval"
+      ],
+      "pending": [
+        "full author-reference setup and optimization comparison",
+        "exact patched feature/readout/normalization contract and cache identity"
+      ],
+      "completed_evidence": "Training-only patch4/8 plumbing, production patch8 equivalence and two-fixture learnability; not author accuracy reproduction",
+      "full_run_contract_verified": false
+    },
+    "prithvi_eo2_tiny_tl": {
+      "task": "optical_water_segmentation",
+      "inputs": {
+        "channels": [
+          "BLUE",
+          "GREEN",
+          "RED",
+          "NIR_NARROW_B8A",
+          "SWIR_1",
+          "SWIR_2"
+        ],
+        "units": "scaled reflectance; source constant_scale 0.0001 once, not twice",
+        "product": "S2L1C target; HLS pretraining distinction retained",
+        "spatial": "native-scale covering windows with original-grid logits",
+        "metadata": "explicitly correct crop time/location or supported disabled setting"
+      },
+      "adaptation": "fully trainable pretrained Tiny/UPerNet; frozen or random architecture only for declared contrast",
+      "source_keys": [
+        "prithvi_author_example"
+      ],
+      "pending": [
+        "whole-scene versus faithful-window controlled route",
+        "per-crop metadata and coverage-cycle rules",
+        "training gradients and full inference/stitching fixture"
+      ],
+      "completed_evidence": "Strict Tiny load and training-only optical-label resampling diagnostics; no new cropped-fit accuracy",
+      "full_run_contract_verified": false
+    },
+    "terramind_tiny": {
+      "task": "multimodal_water_segmentation",
+      "inputs": {
+        "modalities": [
+          "S2L1C_13bands",
+          "S1GRD_VV_VH"
+        ],
+        "units": "author modality-specific normalization; canonical physical units retained",
+        "temporal_modes": [
+          "event_optical_event_radar",
+          "separately_declared_pre_optical_event_radar"
+        ],
+        "external_product_issue": "GEOID S2L2A is not S2L1C; acquire L1C or prove a checkpoint-supported L2A modality/statistics route"
+      },
+      "adaptation": [
+        "frozen published task route",
+        "full fine_tuning",
+        "compatible parameter_efficient branch"
+      ],
+      "source_keys": [
+        "terramind_tiny"
+      ],
+      "pending": [
+        "L1C/L2A source-to-target bridge",
+        "supported fine-tuning and PEFT exact module/loss/update contract",
+        "uncached gradients and CPU/MPS fixture"
+      ],
+      "completed_evidence": "Held frozen Tiny route validated in previous completed study; new full/PEFT branch not yet implemented",
+      "full_run_contract_verified": false
+    },
+    "copernicus_fm": {
+      "task": "three_class_radar_change",
+      "inputs": {
+        "per_date_channels": [
+          "VV",
+          "VH"
+        ],
+        "units": "linear intensity, author clip [0,0.15]; verify sigma/gamma and GRD/RTC",
+        "metadata": "per-date lon/lat/day since1970 and actual physical token area",
+        "ignore": "source no-AOI/invalid distinct from background; remap class IDs per release"
+      },
+      "adaptation": "frozen per-date encoder; trained multiscale change neck/UPerNet plus auxiliary head",
+      "variants": {
+        "F1": "post-pre1 features",
+        "F2": "separate post-pre1/post-pre2 features into explicit fusion neck",
+        "F3": "F2 plus separately normalized terrain/slope decoder branch"
+      },
+      "source_keys": [
+        "copernicus_experiments",
+        "copernicus_model",
+        "copernicus_model_defaults",
+        "copernicus_dataset",
+        "copernicus_loader",
+        "copernicus_task"
+      ],
+      "pending": [
+        "all SL2/DEM radiometry, alignment and dates QA",
+        "explicit second-pre/terrain fusion and input sensitivity tests",
+        "external radiometric-domain transfer contract"
+      ],
+      "completed_evidence": "One-pre/post existing route completed; loader flags do not certify F2/F3 model use",
+      "full_run_contract_verified": false
+    },
+    "alphaearth_prior": {
+      "task": "normal_reference_water_prior_not_current_flood_detection",
+      "inputs": {
+        "bands": "all64 dense A00-A63",
+        "resolution": "10m; preserve unit-length vector semantics",
+        "year": "available preceding year; pin product/release and distinguish retrospective from contemporaneously available",
+        "labels": "independent water references; not GEOID AlphaEarth-derived permanent-water target"
+      },
+      "adaptation": "linear/shallow spatial decoder with source geographic holdout",
+      "source_keys": [],
+      "pending": [
+        "dense acquisition, independent label footprint and cross-source overlap",
+        "year/history-resolution matched comparator",
+        "actual decoder fit/profile"
+      ],
+      "completed_evidence": "Existing catchment-average CSV is not a dense spatial prior",
+      "full_run_contract_verified": false
+    }
+  },
+  "required_contract_fields": [
+    "checkpoint_code_hashes",
+    "product_radiometry_channel_order",
+    "normalization_fit_population",
+    "spatial_temporal_support_and_masks",
+    "metadata_policy",
+    "readout_head_loss_and_trainable_parameters",
+    "optimizer_groups_schedule_and_stopping",
+    "augmentation_and_complete_training_coverage",
+    "original_grid_inference_stitching",
+    "exact_cache_identity_or_uncached_gradients",
+    "source_reference_and_cpu_mps_fixture_receipts"
+  ],
+  "shared_rules": {
+    "no_test_score_configuration_selection": true,
+    "published_score_is_not_a_pass_gate": true,
+    "all_eligible_final_test_records": true,
+    "physical_event_and_geography_endpoints_separate": true,
+    "local_label_cost_includes_validation_selection_calibration": true,
+    "transductive_target_image_use_disclosed": true,
+    "additional_input_sensitivity_required": true,
+    "new_dataset_class_codes_mapped_explicitly": true,
+    "no_new_backbone_collection_required": true
+  }
+}

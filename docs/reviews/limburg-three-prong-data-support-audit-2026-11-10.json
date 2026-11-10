@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-10",
+  "source_tables": {
+    "results/applied_study_v5/evaluation/sen1-chip-inventory.parquet": "718134132e283c0703b1c1e318a6a314e2cdbfb8ada6655417d40fac623344e3",
+    "results/applied_study_v5/evaluation/radar-change-inventory.parquet": "06eb721fe7abf6593d384f2919e178def668ac60db0a8efb40ac9ceb3ba3ae00"
+  },
+  "sen1": {
+    "chips": 446,
+    "events": 11,
+    "no_water_chips": 52
+  },
+  "radar": {
+    "records": 5000,
+    "events": 20,
+    "no_flood_records": 1303,
+    "no_water_records": 0
+  },
+  "meaning": "Counts from held inventories, not fresh model outcomes. Water-conditioned radar derivative does not establish whole-landscape false-alarm performance."
+}
