@@ -52,3 +52,34 @@ def test_remote_pair_requires_verified_bytes_and_linkage():
         mod.verified_pair(job, receipt, 3, "abc", data, {"metadata": {"data_sha256": "wrong"}})
     with pytest.raises(ValueError):
         mod.verified_pair(job, receipt | {"bands": ["other"]}, 3, "abc", data, remote)
+
+
+def test_compact_override_uses_exact_base_and_products(tmp_path, monkeypatch):
+    monkeypatch.setattr(mod, "BASE", tmp_path)
+    monkeypatch.setattr(mod, "PRODUCTS", {"hls", "s1_ascending", "s2_10m", "s2_20m"})
+    assert mod.candidate({"relative_path": "images/w/hls/a.tif", "product": "hls"}) == tmp_path / "images/w/hls/a.tif"
+    with pytest.raises(ValueError):
+        mod.candidate({"relative_path": "images/w/hls/a.tif", "product": "s2_10m"})
+
+
+def test_restore_only_exact_allowlisted_roots(tmp_path):
+    spec = importlib.util.spec_from_file_location(
+        "restore", Path(__file__).parents[1] / "scripts/182_restore_offloaded_expansion.py"
+    )
+    restore = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(restore)
+    for name in ("limburg_compact_eo", "limburg_eo_expansion"):
+        assert restore.destination(f"data/raw/{name}/images/a.tif", tmp_path) == tmp_path / f"data/raw/{name}/images/a.tif"
+    for path in ("data/raw/limburg_applied_tasks/a.tif", "../Peja/a.tif", "data/raw/limburg_compact_eo/../a.tif"):
+        with pytest.raises(ValueError):
+            restore.destination(path, tmp_path)
+
+
+def test_offloaded_archive_cannot_become_missing_observations(tmp_path):
+    from src.eo_individual_archive import Archive
+
+    archive = tmp_path / "data/raw/limburg_compact_eo"
+    archive.mkdir(parents=True)
+    (archive / "OFFLOADED-2026-11-10.json").write_text("{}")
+    with pytest.raises(RuntimeError, match="offloaded, not unobserved"):
+        Archive(tmp_path, "dofa")

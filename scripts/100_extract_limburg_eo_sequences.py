@@ -107,6 +107,9 @@ def main():
                 "windows": windows,
             }
         ]
+    marker = args.archive / "OFFLOADED-2026-11-10.json"
+    if marker.exists():
+        raise RuntimeError(f"Historical imagery is offloaded, not unobserved. Restore instructions: {marker}")
     jobs = json.loads((args.archive / "jobs.json").read_text())
     indexed = {(j["window"]["id"], tuple(j["bounds"]), j["product"]): j for j in jobs}
     by_window = {}

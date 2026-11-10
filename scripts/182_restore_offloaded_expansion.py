@@ -20,8 +20,8 @@ LEDGER = ROOT / "results/applied_study_v1/offload/removed.jsonl"
 
 def destination(relative, root=ROOT):
     p = Path(relative)
-    if p.is_absolute() or ".." in p.parts or p.parts[:3] != ("data", "raw", "limburg_eo_expansion"):
-        raise ValueError("Not an offloaded expansion path")
+    if p.is_absolute() or ".." in p.parts or p.parts[:3] not in {("data", "raw", "limburg_eo_expansion"), ("data", "raw", "limburg_compact_eo")}:
+        raise ValueError("Not an allowlisted offloaded imagery path")
     target = root / p
     if target.resolve() != root.resolve() / p or target.is_symlink():
         raise ValueError("Restore target crosses a symlink")

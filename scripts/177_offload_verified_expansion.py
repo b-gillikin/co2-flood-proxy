@@ -21,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "data/raw/limburg_eo_expansion"
 OUT = ROOT / "results/applied_study_v1/offload"
+PREFIX = "expansion-v1"
 PRODUCTS = {
     "landsat5_sr",
     "landsat7_sr",
@@ -47,7 +48,8 @@ def atomic(path, value):
     temp.replace(path)
 
 
-def candidate(job, base=BASE):
+def candidate(job, base=None):
+    base = BASE if base is None else base
     p = Path(job["relative_path"])
     if p.is_absolute() or ".." in p.parts or len(p.parts) != 4 or p.parts[0] != "images":
         raise ValueError("Unsafe source path")
@@ -151,10 +153,10 @@ def main():
     atomic(OUT / "progress.json", progress)
     required = set()
     for j in jobs:
-        name = "expansion-v1/" + j["relative_path"]
+        name = PREFIX + "/" + j["relative_path"]
         required.update([name, str(Path(name).with_suffix(".receipt.json"))])
     index = {}
-    for item in container.list_blobs(name_starts_with="expansion-v1/images/", include=["metadata"]):
+    for item in container.list_blobs(name_starts_with=PREFIX + "/images/", include=["metadata"]):
         if item.name in required:
             index[item.name] = {
                 "size": item.size,
@@ -178,7 +180,7 @@ def main():
             raise ValueError("Source jobs changed")
         batch_number += 1
         content = ("\n".join(json.dumps(r, sort_keys=True) for r in batch) + "\n").encode()
-        name = f"offload/2026-11-01/expansion/{run_id}/intent-{batch_number:05d}.jsonl"
+        name = f"offload/{PREFIX}/{run_id}/intent-{batch_number:05d}.jsonl"
         blob = container.get_blob_client(name)
         blob.upload_blob(
             content, overwrite=False, metadata={"sha256": hashlib.sha256(content).hexdigest()}
@@ -232,7 +234,7 @@ def main():
             if before.st_nlink != 1:
                 progress["skipped_shared"] += 1
                 continue
-            name = "expansion-v1/" + job["relative_path"]
+            name = PREFIX + "/" + job["relative_path"]
             receipt_name = str(Path(name).with_suffix(".receipt.json"))
             receipt_path = path.with_suffix(".receipt.json")
             receipt = json.loads(receipt_path.read_text())

@@ -212,3 +212,26 @@ is not a claim that every older run is already safe to retire.
 
 **Current status: deferred. No offloader code, upload, new cloud resource,
 retirement, queue change or automatic activation was performed by this plan.**
+
+## Activation update — 10 November 2026
+
+Brian authorized the recommended first 40–60 GiB target. The first pass instead
+used already recoverable historical compact imagery, so the derived embedding
+archive machinery above remains deferred. Script 230 reuses the verified-pair
+retirement engine with the exact compact-image root and Azure `v1` prefix.
+It retired 28,642 local image copies (45.000 GiB logical), recovering 44.987 GiB
+of observed free space: 76.642 → 121.630 GiB. Original local scientific receipts,
+catalogues and all completed embeddings/results were preserved. No other chapter
+was touched. This does not authorize automatic further retirement.
+
+See `docs/reviews/compact-imagery-offload-2026-11-10.json` and its remote-catalogue
+receipt. Each source hash matched existing remote full-readback verification and
+linked receipts; a fresh complete-file restore test passed. Remote intent ledgers
+were read back before each batch was removed. This was not a fresh download of
+the entire 45 GiB. The post-audit verified every retired path is absent and every
+local receipt remains hash-identical. Five safety/restore/reader-guard tests pass.
+Recovery instructions and the distinct Azure destination are in
+`recovery/README.md`. Offload guards preserve historical census semantics; the
+original executed loader sources are retained in provenance snapshots with
+explicit compatibility records. Numerical processing and scientific findings
+have not changed.

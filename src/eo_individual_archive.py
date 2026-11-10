@@ -38,6 +38,9 @@ class Archive:
                 )
         self.catalogues = []
         for archive, catalogue in roots:
+            marker = archive / "OFFLOADED-2026-11-10.json"
+            if marker.exists():
+                raise RuntimeError(f"Historical imagery is offloaded, not unobserved. Restore instructions: {marker}")
             p = archive / catalogue
             self.catalogues.append(p)
             needed = (

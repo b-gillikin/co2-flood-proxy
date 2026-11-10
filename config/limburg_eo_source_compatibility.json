@@ -32,6 +32,30 @@
         "reason": "Formatting-only cleanup on 2026-10-28; complete Python AST including constants verified unchanged. Original source retained for historical receipts.",
         "replacement_sha256": "8acb74588ce2b75b42bf9204f242c4fdfa5d04253bbfb0e4f9e804a2b9198c22"
       }
+    },
+    "scripts/100_extract_limburg_eo_sequences.py": {
+      "0f467d421f1b2b1d13e69966eb4b63c608ab602d50a9774588541ba8c33b11cb": {
+        "snapshot": "provenance/source-snapshots/0f467d421f1b2b1d13e69966eb4b63c608ab602d50a9774588541ba8c33b11cb.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Offload-marker fail-fast guard only. Numerical processing unchanged for restored imagery; archived imagery now raises rather than silently reducing the observation census. Original executed source preserved.",
+        "replacement_sha256": "a64a6fc4ae81a03ff09d2a8e7c36803a2709716773dd3f28a1c70da107376e4a"
+      }
+    },
+    "scripts/110_extract_token_consistent_sequences.py": {
+      "81541b14f242d77c15a80544b099bb710ed5baa409bed39ec18ae581c6341da6": {
+        "snapshot": "provenance/source-snapshots/81541b14f242d77c15a80544b099bb710ed5baa409bed39ec18ae581c6341da6.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Offload-marker fail-fast guard only. Numerical processing unchanged for restored imagery; archived imagery now raises rather than silently reducing the observation census. Original executed source preserved.",
+        "replacement_sha256": "daf52c500922f8392ade8dfb85b24437f1a09270e9fe5d65f5db04702b2c9317"
+      }
+    },
+    "src/eo_individual_archive.py": {
+      "48db223f288e3cdac40c2ee19843c528ed7a50630e790afdf479237727def89b": {
+        "snapshot": "provenance/source-snapshots/48db223f288e3cdac40c2ee19843c528ed7a50630e790afdf479237727def89b.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Offload-marker fail-fast guard only. Numerical processing unchanged for restored imagery; archived imagery now raises rather than silently reducing the observation census. Original executed source preserved.",
+        "replacement_sha256": "b71e2a9a63b1d9c83f919aa74340f9ba2168bd8835c0716d37feab70ffd89441"
+      }
     }
   }
 }
