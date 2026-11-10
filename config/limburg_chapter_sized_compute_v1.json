@@ -80,8 +80,11 @@
     "independent_remote_heartbeat_monitor_required": true,
     "notification_channel": "email",
     "notification_recipient": "btgillikin@gmail.com",
-    "notification_status": "recipient_recorded_alert_service_not_activated",
+    "notification_status": "azure_resources_created_production_rules_disabled_pending_runner_and_email_receipt_test",
+    "azure_action_group": "rg-limburg-eo/ag-limburg-run-email",
+    "azure_telemetry": "rg-limburg-eo/ai-limburg-run-monitor",
+    "azure_production_alert_rules": ["limb-run-heartbeat-stale", "limb-run-failed"],
     "no_implicit_unattended_ai_code_changes": true,
-    "cloud_resource_created": false
+    "cloud_resource_created": true
   }
 }

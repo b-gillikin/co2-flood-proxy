@@ -104,12 +104,16 @@ wake grace suppress inappropriate repeated alerts. Notify on state change and
 recovery, with deduplication, rather than sending every poll. Expected connectivity
 loss cannot be distinguished automatically from a crash without further evidence.
 
-Brian selected email alerts to `btgillikin@gmail.com`. This records the intended
-recipient; no alert service is active yet. No research email will be sent by the
-assistant. An authorized automated self-notification is a separate configuration.
-Azure supports email/mobile notification through
-[action groups](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups);
-recipient verification may be required. No service or charge was created here.
+Brian selected email alerts to `btgillikin@gmail.com`. An Azure email action
+group (`ag-limburg-run-email`) and Application Insights resource
+(`ai-limburg-run-monitor`) now exist in `rg-limburg-eo`. Two scheduled-query
+rules (`limb-run-heartbeat-stale`, `limb-run-failed`) are **disabled** until the
+new runner emits and the end-to-end email path is verified. The local event
+sender is `scripts/224_emit_limburg_monitor_event.py`; its connection string is
+held in the ignored, private `config/local_monitor.env`. The Azure for Students
+subscription rejects the action-group test-notification API, so real-rule
+testing and receipt confirmation are still needed. No scientific run or alert is
+active yet. No research email will be sent by the assistant.
 
 Automatic assessment means handling documented failure classes and reporting
 others. An AI coding agent is not implicitly running in this chat while Brian is

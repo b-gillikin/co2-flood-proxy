@@ -67,7 +67,11 @@ Brian will close the laptop intermittently and may leave it running while away.
 [Runtime requirements](limburg-unattended-runtime-2026-11-10.md) cover full-state
 training checkpoints, chunk-resumable inference, automatic verified Azure offload,
 an independent heartbeat monitor and bounded same-configuration retries. Existing
-best-weight recovery is not full training resume. Requirements are recorded;
-new unattended infrastructure is not implemented or active. FileVault is enabled,
-so reboot/login recovery cannot be promised without human unlock. Notification
-preference is pending; no message or cloud resource was created.
+best-weight recovery is not full training resume. The
+[execution plan](limburg-execution-plan-2026-11-10.md) gives the work order.
+An Azure email action group, telemetry resource and two disabled production
+alerts are prepared; the local sender accepted one setup event. The scientific
+runner, full-state recovery, automatic offload and end-to-end alert receipt
+remain unimplemented/unverified. FileVault is enabled, so reboot/login recovery
+cannot be promised without human unlock. Brian chose email alerts to
+`btgillikin@gmail.com`.
