@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-10",
+  "status": "recommended_chapter_scope_not_launched",
+  "document": "docs/limburg-chapter-sized-study-2026-11-10.md",
+  "reference_sizing": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json",
+  "main_question": "How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?",
+  "central_contribution": "model–information complementarity in applied flood mapping; error/coverage and preparation-resource trade-offs",
+  "learned_pipelines": [
+    "Copernicus-FM native paired-SAR change",
+    "same-input standard U-Net"
+  ],
+  "physical_comparator": "reference-aware SAR change/water baseline",
+  "reference_policies": [
+    "P0 delivered pre-event reference",
+    "P1 updated compatible pre-event reference under a source-fixed label-blind policy"
+  ],
+  "policy_operation": "replace the one pre-image; hold event image and trained weights fixed; no third-image fusion architecture",
+  "target_adaptation": false,
+  "source_training_seeds": [
+    42,
+    1729,
+    31415
+  ],
+  "source_dataset": "all5,000 held radar-change records/20events, known water-containing conditioning retained",
+  "source_fit_reuse": "only exact compatible source fits; no unconditional restart of completed studies",
+  "source_counts_if_full_rebuild_illustrative": {
+    "source_folds": 5,
+    "learned_pipelines": 2,
+    "seeds": 3,
+    "selected_crossfit_states": 30,
+    "final_source_refit_states": 6,
+    "not_candidate_fit_count": true
+  },
+  "external_data_manifest": "config/limburg_chapter_sized_geoid_acquisition_v1.json",
+  "evaluation_census": "all eligible released records of the declared independent cohort and all assessable local radar cases; repeated AOIs/acquisitions remain dependent",
+  "local_case_role": "Dutch/German receiving-case error and acquisition-timing interpretation; existing labels inspected before this design, not new confirmatory independent floods",
+  "gauge_data_role": "event timing and measurement context, not pixel-inundation truth or a new discharge model",
+  "primary_contrasts": [
+    "method differences at P0 andP1",
+    "P1-P0 within each pipeline",
+    "method-by-reference interaction"
+  ],
+  "reporting": [
+    "flood_map_IoU",
+    "permanent_flood_confusions",
+    "false_and_missed_mapped_flood_area",
+    "common_and_full_support_coverage",
+    "physical_event_uncertainty",
+    "actual_preparation_and_compute_cost"
+  ],
+  "parked_from_completion_scope": [
+    "full_W_model_family_benchmark",
+    "all_target_label_budget_grid",
+    "TTDA_study",
+    "active_learning_study",
+    "full_PEFT_adaptation_sweep",
+    "dense_AlphaEarth_prior_development",
+    "third_image_and_terrain_fusion_architectures",
+    "urban_coherence",
+    "beneath_canopy_benchmark",
+    "new_discharge_or_TTM_runs"
+  ],
+  "writing_scale": "one substantial empirical article; approximately30–40main thesis-format pages plus necessary appendix, descriptive allowance not requirement",
+  "new_human_review_or_interview_requirement": false,
+  "new_accuracy_findings": false,
+  "queue_started": false,
+  "data_download_started": false
+}

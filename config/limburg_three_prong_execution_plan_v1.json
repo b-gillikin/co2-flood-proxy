@@ -136,5 +136,8 @@
   "prior_audits": [
     "docs/reviews/limburg-three-prong-design-audit-2026-11-10.md"
   ],
-  "data_cohort": "config/limburg_three_prong_geoid_cohort_v2.json"
+  "data_cohort": "config/limburg_three_prong_geoid_cohort_v2.json",
+  "scope_disposition": "broader_research_programme_not_recommended_as_single_chapter",
+  "single_chapter_recommendation": "config/limburg_chapter_sized_study_v1.json",
+  "single_chapter_sizing_evidence": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json"
 }

@@ -1,0 +1,140 @@
+{
+  "date": "2026-11-10",
+  "purpose": "empirical chapter sizing, not a formal programme requirement or committee prediction",
+  "sources": [
+    {
+      "title": "The Cost of Division",
+      "author": "Stefanie Cipriano Roost",
+      "path": "/Users/briangillikin/Desktop/floods/dissertation_final_documents/final_dissertation.pdf",
+      "sha256": "9e2a30540cec49bd24c16c8ab68f0676ca799fc3c802129d05909db2438c9da1",
+      "physical_pdf_pages": 310,
+      "review_basis": "Contents visually checked; empirical introductions/abstracts, data/methods, discussion/conclusions and robustness/appendix structure read. Full text extracted; not a claim of line-by-line review of every bibliography/appendix.",
+      "chapters": [
+        {
+          "chapter": 2,
+          "printed_main_pages": [
+            41,
+            87
+          ],
+          "physical_pdf_pages": [
+            51,
+            97
+          ],
+          "main_page_count": 47,
+          "approx_extracted_tokens_as_words": 19554,
+          "central_task": "Trust and crisis-policy preferences",
+          "design": "survey experiment, 9,105 respondents/nine countries; related outcomes/mechanisms/robustness"
+        },
+        {
+          "chapter": 3,
+          "printed_main_pages": [
+            107,
+            145
+          ],
+          "physical_pdf_pages": [
+            117,
+            155
+          ],
+          "main_page_count": 39,
+          "approx_extracted_tokens_as_words": 18276,
+          "central_task": "Economic versus cultural explanations of the Bolsonaro vote",
+          "design": "one 2018 survey, 2,506 respondents; logistic specifications, heterogeneity/robustness"
+        },
+        {
+          "chapter": 4,
+          "printed_main_pages": [
+            165,
+            190
+          ],
+          "physical_pdf_pages": [
+            175,
+            200
+          ],
+          "main_page_count": 26,
+          "approx_extracted_tokens_as_words": 11905,
+          "central_task": "Preference responses to Family500+ policy expansion",
+          "design": "one three-wave Polish panel; grouped exposure/event-study comparisons and related outcomes"
+        }
+      ]
+    },
+    {
+      "title": "Essays on the Extended Effects of International Scientific Mobility",
+      "author": "Rodrigo Ito",
+      "path": "/Users/briangillikin/Desktop/floods/dissertation_final_documents/assessment_dissertation.pdf",
+      "sha256": "877da7d3b2ba5aed6c547a13daaff744e422ace917880368f3fea97e7ed9fddb",
+      "physical_pdf_pages": 211,
+      "review_basis": "Contents visually checked; empirical introductions/abstracts, data/methods, discussion/conclusions and robustness/appendix structure read. Full text extracted; not a claim of line-by-line review of every bibliography/appendix.",
+      "chapters": [
+        {
+          "chapter": 2,
+          "printed_main_pages": [
+            28,
+            65
+          ],
+          "physical_pdf_pages": [
+            28,
+            65
+          ],
+          "main_page_count": 38,
+          "approx_extracted_tokens_as_words": 12222,
+          "central_task": "Mobility and international collaboration networks",
+          "design": "linked CV/scholarship/publication panel; LPM/FE/DiD address one network question"
+        },
+        {
+          "chapter": 3,
+          "printed_main_pages": [
+            91,
+            119
+          ],
+          "physical_pdf_pages": [
+            91,
+            119
+          ],
+          "main_page_count": 29,
+          "approx_extracted_tokens_as_words": 10091,
+          "central_task": "Collaboration and research performance",
+          "design": "related panel and matching/DiD; performance outcomes, field heterogeneity, Brazilian validation"
+        },
+        {
+          "chapter": 4,
+          "printed_main_pages": [
+            139,
+            159
+          ],
+          "physical_pdf_pages": [
+            139,
+            159
+          ],
+          "main_page_count": 21,
+          "approx_extracted_tokens_as_words": 7181,
+          "central_task": "Collaboration and knowledge exploration/novelty",
+          "design": "related panel/identification; distinct outcome warrants a separate chapter"
+        },
+        {
+          "chapter": 5,
+          "printed_main_pages": [
+            167,
+            189
+          ],
+          "physical_pdf_pages": [
+            167,
+            189
+          ],
+          "main_page_count": 23,
+          "approx_extracted_tokens_as_words": 9075,
+          "central_task": "How diaspora collaboration operates",
+          "design": "25 interviews; thematic analysis of one collaboration phenomenon"
+        }
+      ]
+    }
+  ],
+  "page_count_convention": "printed chapter opening through main-text end, excluding chapter references/appendices; Roost bibliography is consolidated later. Extraction word counts include tables, footnotes and headers and are approximate.",
+  "main_page_range": [
+    21,
+    47
+  ],
+  "common_scope_pattern": "one substantive question/relationship; related outcomes and model/robustness extensions; data construction and external validation can be substantial without changing the central question.",
+  "recommended_scope": "docs/limburg-chapter-sized-study-2026-11-10.md",
+  "pdf_files_modified": false,
+  "other_chapter_data_modified": false
+}

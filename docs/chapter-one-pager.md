@@ -54,3 +54,10 @@ The [compute design](limburg-three-prong-compute-design-2026-11-10.md) separates
 ## Full-plan reconciliation — 10 November
 
 The [full audit](reviews/limburg-three-prong-full-audit-2026-11-10.md) retains the questions and all requested branches. It corrects event-complete acquisition, separate training/inference/scoring identities, source-refit cost accounting, normalization provenance and seed-chain interpretation. The revised GEOID candidate cohort contains109activation IDs/6,837tiles before development/test role and cross-source reconciliation; its conservative all-split packaging envelope is224.373GiB, staged rather than held locally at once. Metadata date checks passed; raster/model QA and actual queue/profile implementation remain. No new model accuracy result, fitting queue or bulk download was produced.
+
+
+## Chapter-sized recommendation after dissertation comparison — 10 November
+
+The [scope recommendation](limburg-chapter-sized-study-2026-11-10.md) replaces the broad programme as the proposed single-chapter completion target. Working question: **How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?** Compare Copernicus-FM, a same-input standard U-Net and a reference-aware physical baseline, using two reference-acquisition policies with the event image/trained models fixed. Use one independent complete eligible external cohort and the assessable Dutch/German radar cases. Reference quality, map errors/coverage and complementary preparation/compute requirements form one empirical contribution.
+
+The recommendation parks the separate model-family benchmark, target-label/adaptation grid, active learning, dense AlphaEarth prior and difficult-environment extensions. Existing studies/data/results remain preserved. The target is one substantial empirical article, approximately30–40main thesis-format pages as a planning illustration. Nine existing external SAR/mask shards total9.068GiB; updated reference imagery remains to inventory. This is a proposed scope, not new findings, a launched queue or a promise that AI improves the maps.
