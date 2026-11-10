@@ -1,5 +1,12 @@
 # Archive
 
+Current scope is the [accepted 10 November mapping study](../docs/limburg-chapter-sized-study-2026-11-10.md).
+The [broad spatial programme and prior live records](future-ideas/2026-11-10-broad-spatial-programme/README.md)
+are preserved separately as future ideas/history. Archived plans are not live
+queue instructions. Completed evidence remains at its documented paths.
+
+## Earlier archive description (historical)
+
 This directory is a historical record of retired analyses. Nothing here is
 imported, tested or expected to run against the current data layout. Archived
 outputs document what was tried; they are not active chapter findings.

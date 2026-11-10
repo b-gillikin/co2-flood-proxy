@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "status": "initial_diagnostics_executed_reference_fitting_not_started",
+  "plan": "docs/limburg-paper-guided-recovery-plan-2026-11-10.md",
+  "primary_development": "spatial_water_flood_mapping_and_geographic_transfer",
+  "discharge_role": "completed_supporting_evidence_no_automatic_rerun",
+  "capabilities": [
+    "observable_surface_water",
+    "new_inundation_distinct_from_permanent_water",
+    "geographic_transfer_and_separate_target_label_adaptation"
+  ],
+  "original_plan": "results/applied_study_v5/ready-v2/execution-plan.json",
+  "original_results_immutable": true,
+  "galileo": {
+    "checkpoint": "Nano held release",
+    "patch_sizes": [
+      4,
+      8
+    ],
+    "author_lp_rates": [
+      0.0001,
+      0.0003,
+      0.0005,
+      0.0008,
+      0.001,
+      0.003,
+      0.005,
+      0.008,
+      0.01,
+      0.03,
+      0.05,
+      0.08,
+      0.1,
+      0.3,
+      0.5,
+      0.8
+    ],
+    "reproduction_population": "author water-positive subpatches/reference splits",
+    "applied_population": "all valid dry/wet subpatches with whole-event holdout",
+    "test_use": "evaluation_only_after_validation_selection"
+  },
+  "prithvi": {
+    "checkpoint": "Prithvi EO2 Tiny TL held",
+    "original": "whole_scene_resize224",
+    "candidate": "spatially_faithful_windows_or_supported_flexible_size",
+    "backbone": "fully_trainable",
+    "crop_metadata": "must_be_derived_for_window_geometry"
+  },
+  "diagnostic_results": "results/paper-guided-recovery-v1/diagnostics-r3/checks.json",
+  "full_comparison_queue_launched": false
+}

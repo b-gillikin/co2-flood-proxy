@@ -1,0 +1,150 @@
+{
+  "date": "2026-11-10",
+  "reason": "Brian accepted the chapter-sized comparison; preserve larger programme as future ideas",
+  "records": [
+    {
+      "original_path": "docs/limburg-three-prong-execution-plan-2026-11-10.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/docs/limburg-three-prong-execution-plan-2026-11-10.md",
+      "bytes": 35002,
+      "sha256": "78579eb0e616ced007eb74f8cff904937cb3ae65100c6e6382080a64f1ee7bcb",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/limburg-three-prong-compute-design-2026-11-10.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/docs/limburg-three-prong-compute-design-2026-11-10.md",
+      "bytes": 18663,
+      "sha256": "d436e4443e387f181dff5580bea175a83c5a955bc3135b842f23c157644eac0e",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/limburg-paper-guided-recovery-plan-2026-11-10.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/docs/limburg-paper-guided-recovery-plan-2026-11-10.md",
+      "bytes": 12193,
+      "sha256": "17a9c32fee37ebe78d038f93e088dcc989b7ae6bbaf7d603abf941fc55544375",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/limburg-three-capability-literature-expansion-2026-11-10.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/docs/limburg-three-capability-literature-expansion-2026-11-10.md",
+      "bytes": 13370,
+      "sha256": "e851b77793f16f5b304b8bf6681fbc96974e0e70205c6f2c95f2e666766edcc8",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_execution_plan_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_execution_plan_v1.json",
+      "bytes": 6082,
+      "sha256": "2b22a25ef0782ff4ec426ad8103d0cb2d7e416d215006378077ac432e4919b5d",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_model_contracts_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_model_contracts_v1.json",
+      "bytes": 10172,
+      "sha256": "6ab47ab95debd5279c2a85177fde15ad09b51137dd6bce44361af35da93b3bba",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_compute_policy_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_compute_policy_v1.json",
+      "bytes": 5863,
+      "sha256": "87e678b4a0a5304b863fe2239f7e35a1ce8c47c3556c89e3776067a2b9003b5b",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_geoid_acquisition_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_geoid_acquisition_v1.json",
+      "bytes": 25363,
+      "sha256": "93bf335f6dfb507743b5278accc46e4f6446f19c0dbd928680703ba6aedc647e",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_geoid_acquisition_v2.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_geoid_acquisition_v2.json",
+      "bytes": 56750,
+      "sha256": "6078250d27cee981b1409baadf228dc28875548b1554e887884fe64a9868c4a8",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_three_prong_geoid_cohort_v2.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_three_prong_geoid_cohort_v2.json",
+      "bytes": 2978,
+      "sha256": "e95e5f411937e460335afabd6924989540e7f03e5514c97501780196b1c9d3e2",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_paper_guided_recovery_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/original-programme/config/limburg_paper_guided_recovery_v1.json",
+      "bytes": 1566,
+      "sha256": "542f2cadd627b20cb3e479e44b9e7e0bf1d274441a495bd886fce16ebca38102",
+      "role": "future_ideas_original_plan",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "README.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/README.md",
+      "bytes": 20389,
+      "sha256": "f7fd314a463aaa5dfa6a7db228dcc2c1b7d61931f896b8cb363f8428b22589cc",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/HANDOFF.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/docs/HANDOFF.md",
+      "bytes": 57422,
+      "sha256": "c11cd1d5247e3d4b95ad4ba78c6600b6c742105a7f5f12889968cf1b852c7489",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/data-needs.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/docs/data-needs.md",
+      "bytes": 9019,
+      "sha256": "9964b29f26e9a88a5a8c80e1d3f368aadc5d17d84db27136417e18f2572dc78b",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "docs/chapter-one-pager.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/docs/chapter-one-pager.md",
+      "bytes": 12383,
+      "sha256": "1b017c4bbd0f88fdde415617c24baa146c0071005790e9261f5524d70f1fb03b",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": true
+    },
+    {
+      "original_path": "docs/limburg-chapter-sized-study-2026-11-10.md",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/docs/limburg-chapter-sized-study-2026-11-10.md",
+      "bytes": 16668,
+      "sha256": "8a21352585c10c3796551b21c11078a0d13060f9beb4bece0e613f3a44c714d7",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_chapter_sized_study_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/config/limburg_chapter_sized_study_v1.json",
+      "bytes": 3208,
+      "sha256": "e5bb28d452620df50a4b9b93b6277881e5d2c5f554340d6008d636cad27d76e3",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    },
+    {
+      "original_path": "config/limburg_chapter_sized_geoid_acquisition_v1.json",
+      "archive_path": "archive/future-ideas/2026-11-10-broad-spatial-programme/prior-live-records/config/limburg_chapter_sized_geoid_acquisition_v1.json",
+      "bytes": 4414,
+      "sha256": "4b8545dca2f816e1e511ae42f0d3ac7f71f2f51c5a84c171591c401cbaf9bc11",
+      "role": "superseded_navigation_or_scope_history",
+      "contains_preexisting_working_tree_edits": false
+    }
+  ]
+}

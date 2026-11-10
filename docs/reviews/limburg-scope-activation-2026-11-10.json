@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-10",
+  "scope_status": "active_scope_preparation_not_launched",
+  "archive_exact_files_verified": 18,
+  "manuscript_previous_files_verified": 4,
+  "archived_config_markers_verified": 7,
+  "active_markdown_relative_links_verified": 41,
+  "core_shards_unchanged": true,
+  "core_shards": 9,
+  "core_bytes": 9736775680,
+  "one_pager_required_sections_verified": true,
+  "manuscript_yaml_checked": true,
+  "source_code_results_and_data_unchanged": true,
+  "dissertation_tex_unchanged": true,
+  "new_empirical_results": false,
+  "new_queue_started": false,
+  "new_bulk_download_started": false,
+  "checks": [
+    "archive SHA256 and byte verification",
+    "current pointer and scope/compute consistency",
+    "active relative Markdown links",
+    "core acquisition payload unchanged except status",
+    "14 existing spatial-plan identity tests passed",
+    "git diff --check in both repositories"
+  ]
+}

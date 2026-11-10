@@ -1,0 +1,143 @@
+{
+  "status": "planned_not_launched",
+  "date": "2026-11-10",
+  "document": "docs/limburg-three-prong-execution-plan-2026-11-10.md",
+  "prongs": [
+    "W_observable_water",
+    "F_new_inundation",
+    "T_geographic_transfer_adaptation",
+    "R_reliability_resources"
+  ],
+  "hardware": {
+    "name": "Apple M3 Pro",
+    "ram_gib": 36,
+    "mps_workers": 1,
+    "cpu_workers_max": 2,
+    "reserve_gib": 50
+  },
+  "data_manifest": "config/limburg_three_prong_geoid_acquisition_v2.json",
+  "estimates": "docs/reviews/limburg-three-prong-execution-estimates-2026-11-10.json",
+  "full_programme_estimate": {
+    "status": "not_yet_estimated_from_corrected_eligible_queue",
+    "mps_days_low": null,
+    "mps_days_high": null,
+    "calendar_weeks_low": null,
+    "calendar_weeks_high": null,
+    "superseded_baseline": {
+      "mps_days_low": 22,
+      "mps_days_high": 61,
+      "effective_availability": 0.7,
+      "calendar_weeks_low": 6,
+      "calendar_weeks_high": 16,
+      "status": "superseded_baseline_reestimate_after_source_inventory_annotation_draws_and_exact_profiles",
+      "conditional_environment_extension_extra_weeks": [
+        1,
+        3
+      ]
+    }
+  },
+  "work_packages": {
+    "W": {
+      "folds": 5,
+      "optimization_seeds": 3,
+      "status": "scientific_scope_fixed_exact_configurations_not_enumerated",
+      "illustrative_original_counts": {
+        "source_configurations": 10,
+        "selected_states_before_reuse": 150
+      },
+      "source_configurations": null,
+      "selected_states_before_reuse": null
+    },
+    "F": {
+      "direct_change_configurations": 6,
+      "folds": 5,
+      "optimization_seeds": 3,
+      "selected_states_before_reuse": 90,
+      "modular_maps_reused": true
+    },
+    "T": {
+      "source_meta_validation_tunes_policy": true,
+      "target_label_fractions": [
+        0,
+        0.01,
+        0.05,
+        0.2,
+        1.0
+      ],
+      "test_never_in_annotation_pool": true,
+      "primary_states_formula": "3 end_to_end_seed_chains * sum_over_system_domains(unique_nonfull_budgets * 3 annotation_pool_draws + 1 full_pool_state_if_identical_contract)",
+      "illustrative_extensions_formula": "Enumerate compatible T1/T3/T4 states explicitly; deduplicate full/rounded pools and identical source states, never target test records.",
+      "annotation_pool_draws": 3,
+      "pool_draws_crossed_with_optimization_seeds": true,
+      "seed_interpretation": "three paired source-to-target end-to-end seed chains, crossed with three annotation draws; no isolated source versus target variance claim",
+      "informative_annotation_primary": "one_shot_source_model_uncertainty_and_spatial_diversity",
+      "iterative_active_learning": "retained_variant_requires_explicit_algorithm_and_charged_query_fits"
+    }
+  },
+  "scope_map": {
+    "water_geometry": "W",
+    "environment_strata": "W/R",
+    "crop_detail": "phase1/W",
+    "antecedent_reference_quality": "F",
+    "second_pre_image": "F2",
+    "terrain": "F3",
+    "dense_alphaearth_prior": "F4",
+    "zero_target_label_transfer": "T0",
+    "unlabeled_adaptation": "T1",
+    "limited_local_labels": "T2",
+    "informative_label_selection": "T3",
+    "parameter_efficient_adaptation": "T4",
+    "calibrated_coverage": "R",
+    "urban_coherence": "R_conditional_processed_input_compatibility",
+    "inundated_vegetation": "R_conditional_reference_compatibility",
+    "source_target_representativeness": "T/R"
+  },
+  "bulk_download_started": false,
+  "fitting_queue_started": false,
+  "azure_gpu_compute": false,
+  "other_chapters_touched": false,
+  "design_revision": 3,
+  "audit": "docs/reviews/limburg-three-prong-full-audit-2026-11-10.md",
+  "model_contracts": "config/limburg_three_prong_model_contracts_v1.json",
+  "research_questions": {
+    "main": "When satellite AI is taken to a new river landscape, what observations and local training are needed to map newly flooded land reliably?",
+    "W": "How accurately can each task-appropriate pipeline map visible surface water, including narrow features and difficult surroundings?",
+    "F": "How do pre-flood reference age/stability, a second pre-flood image and terrain affect mistakes between existing water and newly inundated land?",
+    "T": "In unfamiliar landscapes, how much do unlabeled imagery, local annotations and supported adaptation improve maps relative to competent conventional pipelines with the same information?"
+  },
+  "readiness": {
+    "design_audit_complete": true,
+    "full_scientific_run_ready": false,
+    "independent_preparation_may_proceed": true,
+    "pending": [
+      "per_variant_verified_model_data_contracts",
+      "source_extra_event_and_dry_support_inventory",
+      "added_input_raster_QA",
+      "physical_event_and_geography_overlap_split_manifest",
+      "independent_target_annotation_pools_and_all_label_accounting",
+      "explicit_temporal_terrain_PEFT_TTDA_implementations",
+      "probability_calibration_and_external_source_refit_contract",
+      "complete_measured_job_resource_and_recovery_ledger",
+      "versioned_cache_tuning_reuse_and_exact_resume_contracts"
+    ],
+    "scientific_stop_rule": null,
+    "latest_full_audit_complete": true,
+    "completed_preparation": [
+      "held_author_source_hash_review",
+      "held_inventory_population_counts",
+      "candidate_event_completion_and_product_timestamp_audit",
+      "verified45GiB_offload",
+      "planning_fit_identity_and_refit_count_safety_helper"
+    ]
+  },
+  "compute_policy": "config/limburg_three_prong_compute_policy_v1.json",
+  "compute_review": "docs/reviews/limburg-three-prong-compute-review-2026-11-10.json",
+  "compute_design_revision": 2,
+  "prior_audits": [
+    "docs/reviews/limburg-three-prong-design-audit-2026-11-10.md"
+  ],
+  "data_cohort": "config/limburg_three_prong_geoid_cohort_v2.json",
+  "scope_disposition": "broader_research_programme_not_recommended_as_single_chapter",
+  "single_chapter_recommendation": "config/limburg_chapter_sized_study_v1.json",
+  "single_chapter_sizing_evidence": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json"
+}

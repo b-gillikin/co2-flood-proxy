@@ -1,0 +1,74 @@
+{
+  "status": "recommended_core_acquisition_not_started",
+  "repository": "links-ads/geoid-flood",
+  "revision": "15db1cc0babbe3e570aa9fb582823c533504c971",
+  "scope_document": "docs/limburg-chapter-sized-study-2026-11-10.md",
+  "cohort": "all 1,301 released tiles from nine heldout2026activation IDs, before source/geography/label compatibility checks; no score-based selection",
+  "selected_bytes": 9736775680,
+  "selected_gib": 9.068078994750977,
+  "shards": [
+    {
+      "path": "geoid-flood-heldout/shards/test/floodmask/test-floodmask-00000-of-00001.tar",
+      "bytes": 8181760,
+      "sha256": "308d4d2b6d11ac2d9dc8cbd615645cbf946d31a385857fb909c5ca907f50d2d3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/floodmask/test-floodmask-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/label/test-label-00000-of-00001.tar",
+      "bytes": 12697600,
+      "sha256": "c44864c1d483840ca7583f61a56b9c185052f5eca2919911d2f1c704645b104f",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/label/test-label-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/permwater/test-permwater-00000-of-00001.tar",
+      "bytes": 7424000,
+      "sha256": "cc12941ce81d7dd0d31b6a43e1a27167e1a49f97a65f85ad9355af99dcc90e62",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/permwater/test-permwater-00000-of-00001.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00000-of-00005.tar",
+      "bytes": 2000035840,
+      "sha256": "32b8a03a6b73d46b16324782d11315564d8a0b730bec7bd3818eaccd3becf7ae",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00000-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00001-of-00005.tar",
+      "bytes": 1996800000,
+      "sha256": "eac0710b06c518cc3ebbc5fb1f1ed61a47694c442f820b7ea1e7fcf0d3d8fe53",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00001-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00002-of-00005.tar",
+      "bytes": 1997189120,
+      "sha256": "f49fe2994b470ef537cb63ad8833877117e6f5997ded1e54e30d9babd83a08e4",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00002-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00003-of-00005.tar",
+      "bytes": 1998080000,
+      "sha256": "1a9a414a656b9c547f25c83be46430d5139766008b2c3deef6ff7561a8b22ff1",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00003-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/s1grd/test-s1grd-00004-of-00005.tar",
+      "bytes": 1708697600,
+      "sha256": "1dfa7b2997e86b9fc668a72b1647ac1adc8f74855ecf7c7df15f70e6a435344a",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/s1grd/test-s1grd-00004-of-00005.tar"
+    },
+    {
+      "path": "geoid-flood-heldout/shards/test/validity/test-validity-00000-of-00001.tar",
+      "bytes": 7669760,
+      "sha256": "66ba3ca642b098170c35f92050b40a376a4b9c3e9d31b4902f9ce435bc69c3a3",
+      "url": "https://huggingface.co/datasets/links-ads/geoid-flood/resolve/15db1cc0babbe3e570aa9fb582823c533504c971/geoid-flood-heldout/shards/test/validity/test-validity-00000-of-00001.tar"
+    }
+  ],
+  "excludes_from_core": [
+    "s2l2a",
+    "s1rtc",
+    "dem",
+    "cloudmask",
+    "main_catalogue_global_expansion"
+  ],
+  "additional_data_needed": "P1 compatible updated pre-event SAR over this cohort and local cases, exact volume/support pending acquisition inventory;9.068GiB is not the complete new-input total.",
+  "no_bulk_download_started": true
+}

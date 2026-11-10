@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-10",
+  "status": "active_scope_preparation_not_launched",
+  "scope": "config/limburg_chapter_sized_study_v1.json",
+  "acquisition": "config/limburg_chapter_sized_geoid_acquisition_v1.json",
+  "compute": "config/limburg_chapter_sized_compute_v1.json",
+  "handoff": "docs/HANDOFF.md",
+  "future_ideas": "archive/future-ideas/2026-11-10-broad-spatial-programme/README.md",
+  "new_queue_started": false,
+  "new_bulk_download_started": false
+}

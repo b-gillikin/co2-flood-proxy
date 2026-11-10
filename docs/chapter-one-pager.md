@@ -1,63 +1,71 @@
-# Chapter1 — Limburg: applied satellite AI for high-water and flood assessment
+# Limburg — pre-flood information and satellite-AI flood mapping
 
-Updated 2 November 2026. Living internal supervisor/research brief; Brian writes dissertation prose.
+Living research brief. **Scope accepted by Brian, 10 November 2026.** Brian writes
+the dissertation; this is an internal research aid.
 
 ## Research Question(s)
 
-**Where can satellite AI improve assessment of high water and flooding, and at what data and computing cost?**
+**How do satellite AI and conventional methods compare in mapping new flood
+events, and how does the choice of pre-flood reference affect their performance?**
 
-Two task families: assessing subsequent river discharge under limited ground monitoring; mapping surface water/new flooding from imagery and examining local transfer, labels and computing cost. Each model gets its intended configuration and matched inputs/comparators.
+Two connected comparisons: performance of task-appropriate pipelines on new
+events, and the effect of replacing the delivered reference with a compatible,
+more recent pre-flood image while holding the event image and model fixed.
 
 ## Motivation
 
-FEWS/DRR requires dependable information about river behaviour and inundation. Benefits could be accuracy, spatial information, reduced annotation needs or lower computing cost. Deployment is outside scope; mapping accuracy and discharge error are distinct from warning lead time or operational decision benefit.
+Flood maps support situational awareness and disaster-risk assessment. Reusing
+an AI model also requires suitable observations and preparation. The chapter
+examines whether model choice, reference preparation, or their combination
+changes map quality and coverage, and measures the associated resource burden.
+This can inform agency data/pipeline priorities; it does not demonstrate better
+warnings, agency adoption or avoided losses.
 
 ## Data
 
-Eight Dutch/German tributary gauges; 481 regional storms and 15,392 assessment opportunities per regime; rainfall, quality notes, geography, warning records and supporting Maas observations. Soil/snow 204/204 months held. AlphaEarth and TTM remain supporting completed work.
+Held source data: 5,000 paired-SAR radar-change records across 20 events, with
+known water-containing sample selection. Existing Dutch/German individual radar
+acquisitions and mapped references provide receiving-case evidence. René/Jens
+records supply event timing and measurement context, not pixel flood labels.
 
-All 446 Sen1Floods11 hand-labelled radar/optical chips and 5,000 before/after radar-change records are acquired/audited. Held local material includes 24 CEMS vector packages, 43 reference grids and 530 imagery tiles across 54 AOI/sensor/scene cases. Cases include overlapping granules/repeated dates from July2021, not 54 independent floods. The local atlas preserves cloud/unknown support, timing and reference dependence.
-
-All model code/weights and runtimes are held. Versioned Galileo features cover446 chips and match the original byte-for-byte. Copernicus's5000 exact frozen spatial differences are cached; its author's float64 Fourier calculation remains on CPU, with the trainable mapping head on MPS. No new data request is necessary to start these comparisons.
+Candidate external evaluation: all 1,301 released tiles across nine 2026 GEOID
+heldout activations, subject to source/event/geographic and label checks. The
+SAR/label/validity/permanent-water package is pinned at **9.068 GiB**, not yet
+retrieved by this decision. Updated compatible pre-event SAR remains to inventory;
+9.068 GiB is not the complete new-input volume. Local July 2021 maps were already
+inspected and represent one physical flood, not independent confirmatory events.
 
 ## Method
 
-**Completed discharge work:** ten individually configured frozen encoders plus chronological, model-specific raw-input and conventional analogue controls; next 24h trajectory assessment under rich/local-Q-absent/all-Q-absent regimes. Nine use same-gauge annual heads; DOFA uses held-watercourse transfer. The whole103-task queue and 35 result reviews are complete.
-
-**Spatial comparisons:** TerraMind Tiny multimodal water segmentation; Galileo Nano radar probe; Prithvi EO2 Tiny optical adaptation; Copernicus-FM before/after radar flood change. Each has compact/standard U-Net, pixel-linear and physical controls. Current plan:720 final fits /1200 candidate fits in five whole-event folds per task, covering the full53 task/event units, seeds42/1729/31415 and100/20/5% training-label conditions. Label subsets are fixed across optimization seeds; tuning is shared only on identical annotations. Validation stopping keeps the50/100-epoch ceilings. [Grouped execution design](limburg-grouped-execution-2026-11-02.md). First wave covers one held fold/seed42/full labels in each task and all four learned configurations.
+Three pipelines: (1) Copernicus-FM frozen paired-SAR encoder with trained spatial
+head; (2) same-input standard U-Net; (3) competent reference-aware physical SAR
+change/water method. Each receives P0 delivered reference and P1 updated compatible
+reference under a source-fixed, label-blind acquisition rule. No third-image
+fusion or target fine-tuning. Reuse exact compatible source fits; use source-only
+selection and three source-training seeds for learned pipelines.
 
 ## Methodology
 
-Discharge: causal issue clocks, earlier-year training/tuning, storm exclusion, matched support and999 shared whole-year bootstrap draws. Mapping: whole-event held folds, validation-only selection, complete prediction census, matched local pixel support, separate acquisition/delivery times, coverage and measured pipeline costs. Count validation labels and cold feature extraction. Repeated pixels/seeds/acquisitions do not become independent floods. All inference is exploratory, with no preregistration or untouched-study claim.
+A paired comparative study of model and information quality. Retain the full
+eligible external census and all assessable local radar cases. Hold event images
+and trained weights fixed across reference policies. Evaluate method differences,
+within-method P1−P0 changes, and their interaction using flood-class IoU,
+permanent/flood confusion, false/missed mapped area and common/full support.
+Respect physical-event dependence and label/reference provenance. Record actual
+preparation, fitting and mapping costs. Absent imagery remains unknown; missing
+P1 updates stay visible in coverage and applicability reporting.
 
 ## Findings
 
-The completed discharge evidence does not show a broad encoder increment over matched raw controls. Individual improvements coexist with deterioration. Presto/Galileo complete that picture; DOFA has a specific favorable high-water transfer contrast, with flood/other-regime limitations. A zero contrast often reflects identical selected fallbacks. [Completed review](../results/completed_discharge_2026_11_02_final/readout.md).
+**No findings yet for the accepted reference-policy comparison.** Earlier
+completed discharge/analogue and spatial work is retained as supporting evidence.
+It did not establish a general satellite-AI advantage; those results motivated
+more task-appropriate mapping and a focused information-quality question. They
+are not results of P0 versus P1.
 
-Physical controls are complete across 53 folds; all 6,338 saved predictions and unknown masks were independently verified. All 16 spatial model/comparator configurations have successful profiles, including repaired Prithvi; Copernicus's cached/uncached output equivalence was checked. Spatial comparative accuracy/local transfer findings remain pending. [Launch and recovery record](limburg-spatial-launch-2026-11-02.md).
-
-Current execution lives in the pointer `results/applied_study_v3/current-queue.json`. The versioned v5 queue retains the full event census with fewer repeated fits, using exact tensor/frozen-encoder caches, batched evaluation, two CPU fit lanes and one exclusive MPS fit lane. Common task batch-size changes are explicitly recorded; earlier fitted scores are not pooled into v5. It runs full fits, qualified local applications, versioned readouts and verified Azure offloading of inactive checkpoints. [Execution optimization](limburg-spatial-execution-optimization-2026-11-02.md). Keep 50GiB free; other chapters are untouched.
-
-
-## Audited next-study specification — 10 November
-
-The [three-prong design audit](reviews/limburg-three-prong-design-audit-2026-11-10.md) and [execution roadmap](limburg-three-prong-execution-plan-2026-11-10.md) now govern the planned spatial extension. Main working question: **When satellite AI is taken to a new river landscape, what observations and local training are needed to map newly flooded land reliably?** Water capability, antecedent-reference quality and unfamiliar-landscape adaptation are three linked questions; reliability/coverage and total local resource requirements accompany each. Completed discharge and spatial results above remain unchanged supporting evidence.
-
-The intended contribution is controlled evidence about reference quality and the complementary local data/training needed for reusable flood mapping, rather than another generic encoder ranking. Close existing studies are explicitly acknowledged. Model/data product bridges, source and whole-area dry support, independent splits, exact adaptation/annotation protocols and measured resources remain preparation work. All requested branches are retained; the full run has not begun and the former runtime envelope needs updating. This does not create a scientific stop rule or require AI to win.
-
-
-## Compute/resource refinement — 10 November
-
-The [compute design](limburg-three-prong-compute-design-2026-11-10.md) separates reusable source preparation, independent target learning and shared full-map outputs. Frozen features and modular reference comparisons are reused under exact data/model identities; full/PEFT adaptation retains live encoder computation. All eligible evaluation records, declared contrasts and independent annotation/optimization repeats remain. New execution optimizations require parity and complete-development profiling; the long queue is not launched and there is no replacement ETA yet. Resource reporting distinguishes the dissertation grid from the cost of making a new map with a trained pipeline.
-
-
-## Full-plan reconciliation — 10 November
-
-The [full audit](reviews/limburg-three-prong-full-audit-2026-11-10.md) retains the questions and all requested branches. It corrects event-complete acquisition, separate training/inference/scoring identities, source-refit cost accounting, normalization provenance and seed-chain interpretation. The revised GEOID candidate cohort contains109activation IDs/6,837tiles before development/test role and cross-source reconciliation; its conservative all-split packaging envelope is224.373GiB, staged rather than held locally at once. Metadata date checks passed; raster/model QA and actual queue/profile implementation remain. No new model accuracy result, fitting queue or bulk download was produced.
-
-
-## Chapter-sized recommendation after dissertation comparison — 10 November
-
-The [scope recommendation](limburg-chapter-sized-study-2026-11-10.md) replaces the broad programme as the proposed single-chapter completion target. Working question: **How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?** Compare Copernicus-FM, a same-input standard U-Net and a reference-aware physical baseline, using two reference-acquisition policies with the event image/trained models fixed. Use one independent complete eligible external cohort and the assessable Dutch/German radar cases. Reference quality, map errors/coverage and complementary preparation/compute requirements form one empirical contribution.
-
-The recommendation parks the separate model-family benchmark, target-label/adaptation grid, active learning, dense AlphaEarth prior and difficult-environment extensions. Existing studies/data/results remain preserved. The target is one substantial empirical article, approximately30–40main thesis-format pages as a planning illustration. Nine existing external SAR/mask shards total9.068GiB; updated reference imagery remains to inventory. This is a proposed scope, not new findings, a launched queue or a promise that AI improves the maps.
+Next: verify selected input/class contracts and reusable fits, establish evaluation
+roles, inventory updated references, and profile the scoped execution graph.
+[Agreed design](limburg-chapter-sized-study-2026-11-10.md) ·
+[Data needs](data-needs.md) · [Handoff](HANDOFF.md) ·
+[Completed findings](limburg-consolidated-findings-2026-11-10.md) ·
+[Future ideas](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md).

@@ -1,9 +1,10 @@
 # A chapter-sized Limburg study, calibrated against the two example dissertations
 
-10 November 2026. Recommended scope and internal research outline; Brian writes
-the dissertation. No new scientific fitting, bulk download or manuscript prose.
-The broad three-prong roadmap remains a record of possible studies, not the
-recommended completion workload for this single chapter.
+10 November 2026. **Active scope, accepted by Brian.** This is the internal
+research outline; Brian writes the dissertation. Scope activation did not launch
+scientific fitting or a bulk download. The broader roadmap is preserved in the
+[future-ideas archive](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md),
+outside this chapter's completion workload.
 
 ## 1. What the actual example chapters contain
 
@@ -24,8 +25,8 @@ programme rules or identical workloads across disciplines.
 | Ito, Ch4, *Navigating the Knowledge boundaries* | Whether collaboration changes topic exploration and novelty | Closely related data/identification, but a separate chapter for a different substantive outcome; individual/global novelty measures and Brazilian comparison | pp139–159:21pages |
 | Ito, Ch5, *Unpacking the collaboration* | How diaspora collaboration operates |25interviews and thematic analysis of one collaboration phenomenon, with explicitly limited heterogeneity/generalization | pp167–189:23pages |
 
-Sources are `../../../dissertation_final_documents/final_dissertation.pdf`
-and `../../../dissertation_final_documents/assessment_dissertation.pdf`.
+Sources are `../../dissertation_final_documents/final_dissertation.pdf`
+and `../../dissertation_final_documents/assessment_dissertation.pdf`.
 Hashes, physical PDF-page ranges and extraction provenance are in the sizing
 review JSON. Roost's bibliography is consolidated later in the volume; Ito uses
 chapter references. Whole-chapter totals including appendices would therefore
@@ -49,7 +50,7 @@ be a misleading comparison of main scientific scope.
   proposed local-learning/resource question is another reason not to give Limburg
   a second full local-label/adaptation programme.
 
-## 2. Recommended intellectual core
+## 2. Agreed intellectual core
 
 Working title: **Pre-flood information and the reliability of transferred
 satellite-AI flood maps.**
@@ -250,9 +251,9 @@ large-grid inference. Do not substitute a new unsupported calendar promise for
 the old programme ETA. Resource engineering supports this question; it no longer
 dictates a requirement to run every possible model/adapter combination.
 
-Next work after scope adoption: validate selected model/reference/label contracts;
+Next work within the accepted scope: validate selected model/reference/label contracts;
 lock the independent event cohort and local case inventory; catalogue P1 imagery
 and paired support; enumerate only the source fits actually needed; then execute
 the two contrasts and their shared inference/error/resource analysis. No new
 agency email or human interview is introduced. No fitting/download was launched
-by this sizing assessment.
+by this scope decision.

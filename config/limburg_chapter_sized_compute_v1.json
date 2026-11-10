@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-10",
+  "status": "active_scoped_compute_preparation_not_launched",
+  "scope": "config/limburg_chapter_sized_study_v1.json",
+  "learned_pipelines": [
+    "Copernicus-FM native paired-SAR change",
+    "same-input standard U-Net"
+  ],
+  "physical_comparator": "reference-aware SAR change/water baseline",
+  "source_training_seeds": [
+    42,
+    1729,
+    31415
+  ],
+  "target_adaptation": false,
+  "hardware": {
+    "mps_workers_max": 1,
+    "cpu_workers_max": 2,
+    "unified_ram_gib": 36,
+    "interactive_headroom_gib_initial": 8,
+    "local_disk_reserve_gib": 50,
+    "worker_admission": "profile complete workloads and unified memory pressure; CPU maximum is not a concurrency requirement"
+  },
+  "reuse": {
+    "source_states": "reuse exact compatible completed fits; rebuild only affected source training/selection contracts",
+    "frozen_features": "cache independent per-date Copernicus features only under identical preprocessing, weights and numerical identity",
+    "P0_P1": "same trained states and event image; replace one pre-image; identical inputs may share predictions",
+    "identities": "separate training, inference and scoring identities; changed evaluation metadata alone does not require source refitting",
+    "unet": "train standard U-Net; frozen foundation-encoder cache is not a substitute for U-Net image training"
+  },
+  "scientific_invariants": [
+    "source-only tuning, thresholds and reference-policy selection",
+    "three independent source-training seeds for learned pipelines",
+    "all eligible external records and assessable local radar cases",
+    "native-grid complete inference, validity and provenance preservation",
+    "same event image and trained weights for P0 and P1",
+    "no target label adaptation or target label-budget grid",
+    "no external-test score-based pipeline, image or event selection"
+  ],
+  "numerics": "float32 until a separately versioned and validated change; no unconditional mixed-precision or lossy-cache speedup",
+  "resume": "verify optimizer, scheduler, RNG and data-order state for true training resume; best-weight-only checkpoints are not full resumable state",
+  "cost_accounting": "report all source search/validation/refit, acquisition, QA, unique encoding, full inference, storage/recovery; distinguish one-off research from cold/warm new-area mapping",
+  "pending": [
+    "selected model/input/class contracts",
+    "external event and geographic overlap checks",
+    "P1 imagery and paired-support inventory",
+    "exact compatible source-state inventory",
+    "complete-workload profile and fit/inference graph"
+  ],
+  "runtime_estimate": "pending scoped profiles and fit-reuse inventory; superseded broad-programme ETA does not apply",
+  "new_queue_started": false
+}

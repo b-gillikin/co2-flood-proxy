@@ -2,8 +2,9 @@
 
 > Historical audit log. Entries before the 2026-08-07 held-out-watercourse
 > reset describe designs and claims that may now be superseded, including the
-> project-chosen 0.05 margin. Current decisions live in `scope-decisions.md` and
-> the locked analysis protocol.
+> project-chosen 0.05 margin. The active scope is selected by
+> `config/limburg_current_study.json`; earlier protocol/design records apply to
+> their dated studies, not to the current chapter by default.
 
 ## 2026-06-06 — Initial chapter framing
 
@@ -2759,3 +2760,22 @@ Brian asked to update the RQs, simulations and situations for delayed/stopped lo
 ## 2026-10-28 — Whole-study implementation plan and full causal event calendar
 
 Brian clarified that the requested plan concerns the entire new monitoring-loss RQ, not TTM/AlphaEarth alone, and prioritized adequate data over economy. The [six-step plan](limburg-monitoring-implementation-plan-2026-10-28.md) covers inputs, simulations, scoring and interpretation. Read-only checking finds first observed-prefix 10mm qualification times for all 468 held rain episodes; this replaces the unnecessarily narrow 126 six-hour primary query restriction. Rebuild histories/outcomes from continuous records and audit new EO cutoffs. Optional TTM/AlphaEarth supporting controls and recommended soil/snow/targeted EO recovery are specified without new training or a model-fusion grid. Scenario schema version 2 is specified, not run. No download, provider email or analysis launched by the planning pass.
+
+
+## 2026-11-10 — Accept one chapter-sized mapping study; archive the broader programme
+
+Brian: “archive the rest as future ideas. for now, let's make the above the scope.”
+Adopt the [chapter-sized study](limburg-chapter-sized-study-2026-11-10.md):
+Copernicus-FM native paired-SAR change, standard same-input U-Net and physical SAR
+control, crossed with delivered versus label-blind updated pre-flood reference.
+Hold event image and source-trained states fixed; no target adaptation study.
+Retain all eligible independent external cases and assessable local radar cases,
+source-only selection, three source-training seeds and dependence-aware reporting.
+
+The broad W/F/T/R plans and configurations are preserved byte-for-byte in the
+[future-ideas archive](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md),
+with SHA256 manifest. Prior navigation and the complete pre-existing working
+one-pager are also preserved. Live README, handoff, data needs, one-pager and
+config pointer now agree on this scope. Completed results, data, literature,
+code and provenance stay intact. No fitting/download was launched; no other
+chapter's data or dissertation prose was changed.
