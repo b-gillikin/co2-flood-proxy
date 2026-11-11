@@ -7,16 +7,18 @@ from rasterio.transform import from_origin
 from limburg_chapter_grid import patch_metadata, stitch_probabilities, windows
 
 
-def test_native_1024_grid_has_complete_25_window_coverage():
-    cells = windows(1024, 1024)
-    assert len(cells) == 25
-    prediction = np.broadcast_to(np.array([0.1, 0.2, 0.7], dtype=np.float32)[:, None, None], (3, 224, 224))
-    pieces = [(top, left, prediction)
-              for top, left in cells]
-    result, valid = stitch_probabilities(pieces, 1024, 1024)
+@pytest.mark.parametrize("size, expected_windows", [(1024, 25), (512, 9)])
+def test_native_grid_has_complete_window_coverage(size, expected_windows):
+    cells = windows(size, size)
+    assert len(cells) == expected_windows
+    prediction = np.broadcast_to(
+        np.array([0.1, 0.2, 0.7], dtype=np.float32)[:, None, None], (3, 224, 224)
+    )
+    pieces = [(top, left, prediction) for top, left in cells]
+    result, valid = stitch_probabilities(pieces, size, size)
     assert valid.all()
     assert np.allclose(result[:, 0, 0], [0.1, 0.2, 0.7])
-    assert np.allclose(result[:, 800:824, 800:824], np.array([0.1, 0.2, 0.7])[:, None, None])
+    assert np.allclose(result, np.array([0.1, 0.2, 0.7])[:, None, None])
 
 
 def test_unknown_pixels_and_invalid_patch_are_not_dry():

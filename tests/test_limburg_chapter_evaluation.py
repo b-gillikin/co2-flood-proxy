@@ -15,6 +15,10 @@ def test_overlap_ownership_keeps_prior_holes_and_support_bits():
 def test_overlap_ownership_uses_map_coordinates():
     grid = from_origin(500000, 5700000, 10, 10)
     old_grid = from_origin(500020, 5700000, 10, 10)
-    result = remove_prior_coverage(np.ones((2, 3), dtype=np.uint8), grid, "EPSG:32631",
-                                   [(np.ones((2, 3), dtype=np.uint8), old_grid, "EPSG:32631")])
+    result = remove_prior_coverage(
+        np.ones((2, 3), dtype=np.uint8),
+        grid,
+        "EPSG:32631",
+        [(np.ones((2, 3), dtype=np.uint8), old_grid, "EPSG:32631")],
+    )
     assert result.tolist() == [[1, 1, 0], [1, 1, 0]]

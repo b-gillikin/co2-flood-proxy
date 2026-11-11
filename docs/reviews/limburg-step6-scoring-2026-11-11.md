@@ -68,3 +68,35 @@ differences and is not a representative accuracy sample. Figures show seed 42,
 while numerical summaries retain all three seeds. Local July 2021 cases have
 their own outstanding assessability/provenance work; the external queue does
 not declare those complete. Production email alerts remain disabled.
+
+## Local receiving cases and final checks
+
+The local inventory contains 167 held radar scene/grid records across Venlo,
+Eschweiler and Wassenberg. All have a compatible held P0. A label-blind catalogue
+search finds 35 newer same-platform/orbit/pass references covering the relevant
+footprint before 13 July 2021 00:00 UTC; 132 retain P1=P0. This is a conservative
+pre-event cutoff, not an assertion of exact onset at every site. P0 is the held
+archive baseline from an earlier collection ending before 10 July, not a
+documented Dutch/German operational reference policy. These cases cannot show
+that agencies actually chose outdated references.
+
+All three dates are exported through the same linear-intensity Earth Engine
+chain. The first actual triplet has median intensity ratios of 1.0 in VV/VH
+against held P0 and post images converted from dB. This is a checked example,
+not assumed cohort-wide equality. Targets retain the existing source-aware
+mapped proxy, hydrography/trace exclusions and unknown pixels. Models share
+paired known support. Adjacent slices are deduplicated within each AOI/date/orbit
+case; different dates are not pooled as independent flood events. The original
+six learned source states and physical calibration remain fixed.
+
+The local acquisition controller (`249`) starts the resumable local runner
+(`248`) after verified acquisition. This uses the otherwise available MPS worker
+alongside the archive scoring workers. Local outputs have their own receipts;
+they are not inserted into the independent external cohort.
+
+All 74 relevant frozen encoder/vendor assets match the hashes used to construct
+source features. Import and scientific checks cover the pending summary/map
+code; the full native-grid check now includes both external 1024px and local
+512px grids. A synthetic end-to-end summary recovers the known paired interaction
+while retaining all training seeds. Completed-worker/queued-code formatting was
+cleaned separately; active worker versions remain intact until completion.
