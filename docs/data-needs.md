@@ -7,10 +7,10 @@ Updated 10 November 2026. Source of truth:
 | Input | Status | Role / remaining work |
 | --- | --- | --- |
 | Paired-SAR source images, labels and identities | Held: all 5,000 Kuro/Copernicus records across 20 events | Source training/selection; retain water-containing selection and check event separation, class/ignore semantics and selected fit compatibility |
-| Selected Copernicus-FM weights, code and normalizers | Held; exact current contract still to reconcile | Native paired-date frozen-encoder flood-change route; no automatic download of another encoder |
-| Existing source-trained states and fit manifests | Completed studies retained | Inventory exact reusable states; changed training/selection contracts need affected fits, not a blanket restart |
-| External SAR, label, validity, flood and permanent-water masks | Metadata pinned; core package not yet downloaded by this decision | Nine heldout activations / 1,301 released tiles before compatibility checks; nine shards, **9.068 GiB** in the [core manifest](../config/limburg_chapter_sized_geoid_acquisition_v1.json) |
-| Updated compatible pre-event SAR (P1) | Not yet inventoried for the accepted cohort and local cases | Required to evaluate the reference-policy contrast where available; source-fixed label-blind orbit/radiometry/coverage/chronology policy. Retain unchanged/unavailable cases and report paired support; exact extra volume pending |
+| Selected Copernicus-FM weights, code and normalizers | Held; native full-tile inference smoke passed | Frozen paired-date encoder and head; final all-source refits use the held source-selected protocol |
+| Existing source-trained states and fit manifests | Completed source-CV studies retained; two exact inference states recovered from verified Azure bundles | Source-only final fit recipe fixed from five held folds; six all-source states are being produced |
+| External SAR, label, validity, flood and permanent-water masks | All nine pinned shards downloaded and hash-verified; 1,301 grids audited | Nine heldout activations; delivered P0 plus targets are available; **9.068 GiB** in the [core manifest](../config/limburg_chapter_sized_geoid_acquisition_v1.json) |
+| Updated compatible pre-event SAR (P1) | Metadata inventory and harmonized P0/P1/post acquisition complete for the primary paired subset | 1,118 label-blind metadata candidates; 915 single-product triplets, of which 913 were downloaded and independently verified. Record remaining tiles as coverage limits. Use the same processing chain for all three images in the paired contrast. |
 | Existing local SAR acquisitions and mapped references | Held: mixed radar/optical archive has 54 acquisition/AOI cases and 43 prepared reference grids | Use all assessable radar cases, not all mixed archive entries by default. Verify acquisition timing, support and provenance; no claim of many independent July 2021 events |
 | René/Jens gauge records and provider notes | Held | Local event timing and measurement context only. They do not define flooded pixels or require a new discharge model |
 | Recovery manifests and existing source backups | Retained | Verify any new transfer/cache before cleanup. Historical large imagery may require documented Azure restoration only if actually needed |
@@ -36,11 +36,12 @@ can be deliberately revisited later.
 ## Storage and compute
 
 The 9.068-GiB package is the exact transfer size of uncompressed tar containers
-holding compressed GeoTIFFs, not a total disk/runtime estimate. Add measured unpacking, updated-reference imagery, cache and output
-needs before launch. Preserve the 50-GiB local free-space reserve; use one MPS
-and up to two CPU workers only where profiling supports it. No data was deleted,
-no bulk transfer started and no other chapter's files were touched by this scope
-change. The [scoped compute policy](../config/limburg_chapter_sized_compute_v1.json)
+holding compressed GeoTIFFs, not a total disk/runtime estimate. The native-grid
+triplet acquisition adds roughly 23 MB per currently obtainable tile; actual
+bytes and coverage come from per-tile receipts. Preserve the 50-GiB local
+free-space reserve; use one MPS and up to two CPU workers where profiling
+supports it. No other chapter's files were touched. The
+[scoped compute policy](../config/limburg_chapter_sized_compute_v1.json)
 replaces the broad programme's compute requirements.
 
 ## Accepted-scope audit — 10 November 2026

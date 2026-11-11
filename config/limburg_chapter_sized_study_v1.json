@@ -65,7 +65,7 @@
   "new_human_review_or_interview_requirement": false,
   "new_accuracy_findings": false,
   "queue_started": false,
-  "data_download_started": false,
+  "data_download_started": true,
   "scope_accepted_by": "Brian",
   "scope_accepted_date": "2026-11-10",
   "compute_policy": "config/limburg_chapter_sized_compute_v1.json",
@@ -83,5 +83,9 @@
     "complete native-grid inference and overlap deduplication; no full-tile shrink to224px"
   ],
   "external_model_role": "one final source-trained state per learned pipeline per seed recommended; existing source-CV models are development evidence, not an automatic fivefold inference ensemble",
-  "preparation_status": "specific input/reference/physical-method contracts, final-source recipe and1024px integration pending; no new gate or research branch"
+  "preparation_status": "nine pinned GEOID shards and 913 harmonized triplets verified; 1,301-target audit and native-grid inference pilot complete; source-only final fits in progress; no external accuracy finding yet",
+  "acquisition_grid_audit": "docs/reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md",
+  "reference_inventory_summary": "data/processed/limburg_chapter_p1_inventory_v1/summary.json",
+  "target_grid_audit_summary": "data/processed/limburg_chapter_geoid_audit_v1/summary.json",
+  "harmonized_triplet_audit_summary": "data/processed/limburg_chapter_triplet_audit_v1/summary.json"
 }

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "decision_date": "2026-11-10",
+  "source_only_selection": "Equal-fold mean validation flood IoU across five held Flood-S1 event folds at seed 42; median best epoch for winning learning rate. Original 50-epoch cosine schedule retained during shortened full-source fit. Adjacent rates outside the completed grid were not tested, so these are selected settings, not claimed optima.",
+  "source_inventory": "results/applied_study_v5/evaluation/radar-change-inventory.parquet",
+  "source_records": 5000,
+  "source_events": 20,
+  "seeds": [42, 1729, 31415],
+  "batch_size": 16,
+  "learning_rate_schedule_T_max": 50,
+  "weight_decay": 0.01,
+  "models": {
+    "native": {
+      "learning_rate": 0.0002,
+      "epochs": 7,
+      "five_fold_mean_validation_flood_iou": 0.6113,
+      "five_fold_best_epochs": [8, 5, 9, 5, 7],
+      "feature_cache": "data/processed/limburg_copernicus_spatial_v1"
+    },
+    "unet": {
+      "learning_rate": 0.0001,
+      "epochs": 10,
+      "five_fold_mean_validation_flood_iou": 0.6336,
+      "five_fold_best_epochs": [8, 10, 16, 9, 18],
+      "feature_cache": null
+    }
+  },
+  "tensor_cache": "data/processed/limburg_tensor_cache_v1/copernicus",
+  "no_external_labels_in_training_or_selection": true
+}

@@ -49,7 +49,9 @@ the test rule was then removed. The production rules remain disabled until
 the actual runner publishes its state and its recovery behavior is tested.
 A sleeping Mac cannot send telemetry;
 planned pause is a separate state. FileVault login after reboot may still require
-Brian. No unattended run or email alert is active as of this plan.
+Brian. The source-only fitting and harmonized imagery acquisition have begun;
+the production email alerts remain disabled at Brian's request until the
+long-run monitoring window. The full evaluation queue is not yet active.
 
 ## Evidence checks
 
@@ -68,8 +70,10 @@ Brian. No unattended run or email alert is active as of this plan.
 
 ## Immediate next work
 
-Finish the runner-to-telemetry integration and the input contract, then
-the pinned external download and P1 inventory. The acquisition and implementation
-can overlap where files and compute do not contend. A positive result is not a
+Finish the triplet download, source fits and runner-to-telemetry integration.
+The pinned external package and P1 inventory are documented in the
+[steps 2–3 audit](reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md).
+Acquisition and implementation can overlap where files and compute do not contend.
+A positive result is not a
 prerequisite for completing the chapter: the empirical answer includes null,
 mixed and coverage-limited findings.

@@ -30,9 +30,11 @@ records supply event timing and measurement context, not pixel flood labels.
 
 Candidate external evaluation: all 1,301 released tiles across nine 2026 GEOID
 heldout activations, subject to source/event/geographic and label checks. The
-SAR/label/validity/permanent-water package is pinned at **9.068 GiB**, not yet
-retrieved by this decision. Updated compatible pre-event SAR remains to inventory;
-9.068 GiB is not the complete new-input volume. Local July 2021 maps were already
+SAR/label/validity/permanent-water package (**9.068 GiB**) is downloaded and
+hash-verified. The updated-reference inventory has 1,118 metadata candidates;
+915 permit a single-product P0/P1/post triplet and 913 of these map to
+the tested Earth Engine collection. All 913 harmonized triplet rasters were
+downloaded and independently verified. Local July 2021 maps were already
 inspected and represent one physical flood, not independent confirmatory events.
 
 ## Method
@@ -63,14 +65,15 @@ It did not establish a general satellite-AI advantage; those results motivated
 more task-appropriate mapping and a focused information-quality question. They
 are not results of P0 versus P1.
 
-Next: verify selected input/class contracts and reusable fits, establish evaluation
-roles, inventory updated references, and profile the scoped execution graph.
+Next: finish source-only final fits; then
+run the native-grid external and local-case census. The 409 released tiles with
+no flood-class target pixels remain in false-alarm/coverage reporting.
 [Agreed design](limburg-chapter-sized-study-2026-11-10.md) ·
 [Data needs](data-needs.md) · [Handoff](HANDOFF.md) ·
 [Completed findings](limburg-consolidated-findings-2026-11-10.md) ·
 [Future ideas](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md).
 
-Latest [scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md):
-keep the scope. Processing parity, fixed target labels, image/reference timing,
-source-overlap reporting and native-grid streaming need implementation before
-launch; these introduce no new model family or human-label requirement.
+Latest [scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md)
+and [acquisition/grid audit](reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md):
+keep the scope. The paired reference experiment uses one harmonized SAR chain;
+source processing differences, coverage and local-case provenance stay visible.
