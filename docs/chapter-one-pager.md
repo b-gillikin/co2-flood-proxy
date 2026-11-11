@@ -28,7 +28,7 @@ known water-containing sample selection. Existing Dutch/German individual radar
 acquisitions and mapped references provide receiving-case evidence. René/Jens
 records supply event timing and measurement context, not pixel flood labels.
 
-Candidate external evaluation: all 1,301 released tiles across nine 2026 GEOID
+External evaluation: all 1,301 released tiles across nine 2026 GEOID
 heldout activations, subject to source/event/geographic and label checks. The
 SAR/label/validity/permanent-water package (**9.068 GiB**) is downloaded and
 hash-verified. The updated-reference inventory has 1,118 metadata candidates;
@@ -65,8 +65,12 @@ It did not establish a general satellite-AI advantage; those results motivated
 more task-appropriate mapping and a focused information-quality question. They
 are not results of P0 versus P1.
 
-Next: finish source-only final fits; then
-run the native-grid external and local-case census. The 409 released tiles with
+All six source-only final fits and the full external mapping census are complete.
+Accuracy scoring, paired event comparisons and a systematic map atlas are now
+running in a recoverable queue. Predictions are backed up in 46 verified Azure
+archives (83.1 GiB); scoring restores bounded batches and retains compact class
+maps locally. Local-case coverage and comparison remain outstanding.
+The 409 released tiles with
 no flood-class target pixels remain in false-alarm/coverage reporting.
 [Agreed design](limburg-chapter-sized-study-2026-11-10.md) ·
 [Data needs](data-needs.md) · [Handoff](HANDOFF.md) ·

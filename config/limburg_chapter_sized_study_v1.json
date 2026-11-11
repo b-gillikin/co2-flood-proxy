@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-11-10",
-  "status": "active_scope_preparation_not_launched",
+  "status": "external_mapping_complete_scoring_in_progress",
   "document": "docs/limburg-chapter-sized-study-2026-11-10.md",
   "reference_sizing": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json",
   "main_question": "How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?",
@@ -64,7 +64,7 @@
   "writing_scale": "one substantial empirical article; approximately30–40main thesis-format pages plus necessary appendix, descriptive allowance not requirement",
   "new_human_review_or_interview_requirement": false,
   "new_accuracy_findings": false,
-  "queue_started": false,
+  "queue_started": true,
   "data_download_started": true,
   "scope_accepted_by": "Brian",
   "scope_accepted_date": "2026-11-10",
@@ -83,7 +83,7 @@
     "complete native-grid inference and overlap deduplication; no full-tile shrink to224px"
   ],
   "external_model_role": "one final source-trained state per learned pipeline per seed recommended; existing source-CV models are development evidence, not an automatic fivefold inference ensemble",
-  "preparation_status": "nine pinned GEOID shards and 913 harmonized triplets verified; 1,301-target audit and native-grid inference pilot complete; source-only final fits in progress; no external accuracy finding yet",
+  "preparation_status": "all six final fits and full external maps complete; 18,762 learned maps in 46 readback-verified archives; conventional 3,127-map census complete; external scoring running; local-case comparison pending",
   "acquisition_grid_audit": "docs/reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md",
   "reference_inventory_summary": "data/processed/limburg_chapter_p1_inventory_v1/summary.json",
   "target_grid_audit_summary": "data/processed/limburg_chapter_geoid_audit_v1/summary.json",

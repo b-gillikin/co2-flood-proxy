@@ -1,77 +1,74 @@
-# Limburg handoff — 10 November 2026
+# Limburg handoff — 11 November 2026
 
 ## Active scope
 
-Brian accepted the [chapter-sized flood-mapping study](limburg-chapter-sized-study-2026-11-10.md).
-The [canonical pointer](../config/limburg_current_study.json) selects its scope,
-acquisition manifest and compute policy. The former three-prong programme is
-[archived as future ideas](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md).
-Do not resume a queue from an older dated plan.
+Brian accepted the [chapter-sized mapping study](limburg-chapter-sized-study-2026-11-10.md).
+The [current-study pointer](../config/limburg_current_study.json) selects it.
+RQ: How do satellite AI and conventional methods compare in mapping new flood
+events, and how does the choice of pre-flood reference affect their performance?
+Compare frozen Copernicus-FM paired-SAR encoder/trained head, same-input U-Net,
+and one source-calibrated physical rule. No target fitting or new model branch.
+Brian writes dissertation prose and sends all emails.
 
-Compare Copernicus-FM native paired-SAR change (frozen encoder, trained spatial
-head), a same-input standard U-Net and a physical SAR change/water method. Test
-delivered versus label-blind updated compatible pre-flood reference, with the
-same event image and source-trained states. No target adaptation or label-budget
-study is required. Source-only selection and three training seeds remain.
+## Completed
 
-## Next work
+- Six final source fits (two learned methods × three seeds), hash verified.
+- All 1,301 delivered external tiles and 913 harmonized P0/P1/post triplets
+  acquired/audited. Paired effects use one processing chain; delivered P0 is
+  separate. Two candidate assets unavailable in the chosen Earth Engine chain.
+- Full external mapping: each learned method 2,214 jobs / 3,127 reference-tile
+  evaluations × three seeds. All 18,762 learned maps are in 46 readback-verified
+  Azure archives (83.1 GiB). Physical mapping completed 3,127 maps.
+- Independent support/overlap census complete. Cross-UTM overlap is handled by
+  prediction-blind native pixel-center ownership, retaining valid-support holes.
+- Conventional scoring complete. Sixteen targeted checks pass. All 74 frozen
+  encoder/vendor assets checked match the source feature-cache hashes.
 
-1. Verify the selected pipeline's intended inputs, normalizers, paired-date head,
-   class/ignore semantics and reference-aware physical comparator. Match these
-   to existing source-fit records; reuse exact compatible completed fits.
-2. Assign evaluation roles after source/event/geographic and label checks for
-   all 1,301 released external tiles/nine activations. Inventory all assessable
-   local radar cases; July 2021 remains one physical event, not many AOI floods.
-3. Retrieve the pinned core external package when acquisition begins. Inventory
-   P1 pre-event SAR using a source-fixed orbit/radiometry/coverage/chronology
-   rule. Record unavailable updates and preserve P0 coverage. P1 may equal P0.
-4. Enumerate only necessary source fits, full-grid inference and scoring;
-   profile complete workloads before giving a runtime estimate. Use at most
-   one MPS and two CPU workers within memory pressure and the 50-GiB reserve.
-5. Execute the paired comparisons, then review event-level differences,
-   permanent/flood confusion, false/missed mapped area, support and actual
-   preparation/compute burden. Use event dependence and reference provenance
-   in uncertainty and interpretation.
+## Running and automatic continuation
 
-## Status and evidence
+`245_continue_chapter_evaluation.py` runs two bounded archive restoration/scoring
+workers, then `244` paired event summaries and `246` a systematic map atlas.
+State: `results/limburg_chapter_sized_v1/evaluation/queue_status.json`.
+Progress: `evaluation/archive_scoring_status.json`; logs in
+`results/limburg_chapter_sized_v1/engineering/{archive_scoring,paired_summary,map_review}.log`.
+Do not interpret partial-archive results as a completed comparison.
 
-This scope decision started no download or training job. The acquisition package
-is pinned at 9.068 GiB; P1 imagery volume and selected-state reuse are unresolved.
-No new agency request, interview or local target-label campaign is introduced.
-Preparation checks resolve implementation details; they do not create another
-research programme or pass a scientific gate.
+`247_prepare_chapter_local.py` is acquiring small same-chain local triplets over
+all 167 held event-scene/grid records. P0 is the held same-orbit/pass baseline;
+P1 is latest newer same-platform/orbit/pass covering the relevant footprint,
+before a conservative 13 July 2021 cutoff. Otherwise P1=P0. This local policy is
+not the external GEOID delivered P0 policy. The first actual radiometry check
+matches held dB-to-linear values (median ratio 1.0 in both polarizations).
+`249_continue_chapter_local.py` waits for checked acquisition, then runs `248`
+for all three pipelines. One MPS worker; no local target adaptation. July 2021
+remains one dependent flood; mapped non-flood is not independently verified dry.
 
-[Completed findings](limburg-consolidated-findings-2026-11-10.md) and the
-[recovery audit](reviews/limburg-completion-recovery-audit-2026-11-10.md) remain
-unchanged. Earlier discharge, TTM, AlphaEarth and other spatial-model work is
-historical/supporting evidence, not part of the new queue. Preserve data, weights,
-results and provenance. Any later disk cleanup needs its own verified-recovery
-process; this scope archive deletes no research data and touches no other chapter.
-Brian writes all dissertation prose and sends all emails.
+## Evaluation and next review
 
-## Most recent audit
+[Scoring conventions](../config/limburg_chapter_evaluation_v1.json) were recorded
+before external scores. Primary contrasts use identical support and fixed labels.
+Aggregate confusion counts before activation IoU; average training seeds; weight
+conservative episode blocks equally. Two Iberian activations share one dependence
+block, without asserting one meteorological storm. Report all activations,
+training-seed variation, 9,999 block-bootstrap draws, leave-one-block-out,
+source-mask/validity/boundary sensitivities and timing/source-footprint strata.
+Eight blocks limit precision. Labels and timing qualify claims as map agreement.
 
-[Accepted-scope scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md)
-retains the agreed scope. Particular next checks: P0/P1 processing parity and fixed
-labels; actual label-image timing;26source-overlapping target tiles; a named
-competent physical comparator; final-source versus existing CV states;1024px
-native-grid inference and bounded probability/cache preservation. Existing30full-
-label CV states are reusable development evidence, not30all-source deployment
-models. Do not infer new accuracy, complete compatibility or a calendar ETA from
-the metadata audit. Useful new citations are in
-[the scope-audit bibliography](limburg-chapter-scope-literature-2026-11-10.bib).
+After completion: read the event/seed tables and atlas, inspect actual error
+locations against imagery/timing, compare local cases, record actual resource
+costs, and update the one-pager/findings. Do not turn a weak result into a new
+model search. The earlier discharge/TTM/AlphaEarth work is historical/supporting.
 
-## Interrupted/unattended runtime requirement
+## Recovery, disk and cleanup
 
-Brian will close the laptop intermittently and may leave it running while away.
-[Runtime requirements](limburg-unattended-runtime-2026-11-10.md) cover full-state
-training checkpoints, chunk-resumable inference, automatic verified Azure offload,
-an independent heartbeat monitor and bounded same-configuration retries. Existing
-best-weight recovery is not full training resume. The
-[execution plan](limburg-execution-plan-2026-11-10.md) gives the work order.
-An Azure email action group, telemetry resource and two disabled production
-alerts are prepared; a temporary real alert fired and Brian received its email.
-The scientific runner, full-state recovery and automatic offload remain
-unimplemented. FileVault is enabled, so reboot/login recovery
-cannot be promised without human unlock. Brian chose email alerts to
-`btgillikin@gmail.com`.
+Scoring restores at most two bounded archives, verifies full SHA256/membership,
+retains compact class maps and score receipts, then removes temporary restored
+TARs. Original probabilities remain verified in Azure. Maintain 50 GiB free;
+no data in other chapters is an offload/cleanup target. Reuse completed archive
+scores and local map receipts on restart. Sleep suspends and wake resumes local
+processes; reboot/FileVault may require Brian's login and controller restart.
+Email production alerts remain disabled until Brian requests the later window.
+
+The audit is [Step 6 scoring](reviews/limburg-step6-scoring-2026-11-11.md).
+Do not format/edit active worker files during execution; final style-only cleanup
+can follow completion, preserving recorded runner/source versions in Git.

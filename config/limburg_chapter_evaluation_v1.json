@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-11",
+  "status": "evaluation_conventions_before_external_scoring",
+  "target": "released composed three-class label, unknown 255 retained",
+  "primary_method_comparison": "same native pixels within each reference policy",
+  "primary_policy_comparison": "harmonized P0 versus P1 on identical joint radar-valid labeled pixels",
+  "delivered_p0_role": "full released-cohort assessment; do not subtract it from harmonized P1",
+  "overlap_priority": "ascending absolute post-SAR to label-time difference, then full tile key; no prediction scores used",
+  "overlap_operation": "earlier eligible coverage owns an overlapping pixel center; nearest-neighbor native-grid coverage reprojection handles UTM-zone overlaps",
+  "primary_average": "average source-seed IoU within activation, average activations within conservative episode blocks, equally average blocks",
+  "episode_blocks": {
+    "southern_africa_2026_01": ["EMSR857"],
+    "italy_2026_01": ["EMSR858"],
+    "iberia_2026_01_02": ["EMSR861", "EMSR864"],
+    "colombia_2026_01": ["EMSR865"],
+    "france_2026_02": ["EMSR866"],
+    "greece_2026_02": ["EMSR868"],
+    "ecuador_2026_03": ["EMSR870"],
+    "italy_2026_03": ["EMSR871"]
+  },
+  "episode_qualification": "The two overlapping Iberian activation periods are conservatively one resampling block, not asserted to be one meteorological storm. Also report all activation results, activation-balanced means and leave-one-block-out changes. Other cross-event dependence remains possible.",
+  "uncertainty": "9999 paired episode-block bootstrap draws with seed 20261111; training-seed spread shown separately; eight blocks limit precision",
+  "sensitivities": ["released source-mask label composition on originally known support", "add released validity mask", "remove one 10-m pixel around class boundaries", "listed absolute SAR-label timing offset <=24h", "source-footprint-overlap versus new-footprint metadata"],
+  "zero_union": "undefined IoU when neither reference nor prediction has flood; retain false alarms and coverage",
+  "area": "nominal 10-m native pixels; area totals across released records are not unique regional flood area",
+  "claims": "reference-map agreement; timing mismatch and reused reference products limit interpretation as simultaneous ground truth",
+  "scope": "fixed trained models and existing targets only; no target fitting or revised image selection"
+}
