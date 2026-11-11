@@ -51,7 +51,10 @@ A sleeping Mac cannot send telemetry;
 planned pause is a separate state. FileVault login after reboot may still require
 Brian. The source-only fitting and harmonized imagery acquisition have begun;
 the production email alerts remain disabled at Brian's request until the
-long-run monitoring window. The full evaluation queue is not yet active.
+long-run monitoring window. A detached continuation controller now waits for
+all six hash-verified source fits, then runs the complete U-Net and Copernicus
+external mapping censuses sequentially. Its status is recorded in
+`results/limburg_chapter_sized_v1/mapping_queue_status.json`.
 
 ## Evidence checks
 
@@ -70,10 +73,38 @@ long-run monitoring window. The full evaluation queue is not yet active.
 
 ## Immediate next work
 
-Finish the triplet download, source fits and runner-to-telemetry integration.
+The triplet download and independent audit are complete: 913 verified triplets;
+two candidate products were unavailable in Earth Engine. The source-calibrated
+physical mapping census is complete (3,127 reference-tile evaluations).
+Finish the six source fits and automatic learned mapping; retain telemetry/email
+activation for Brian's requested later monitoring window.
 The pinned external package and P1 inventory are documented in the
 [steps 2–3 audit](reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md).
 Acquisition and implementation can overlap where files and compute do not contend.
 A positive result is not a
 prerequisite for completing the chapter: the empirical answer includes null,
 mixed and coverage-limited findings.
+
+## Automatic continuation and recovery
+
+`scripts/240_continue_chapter_mapping.py` waits for all source model/manifest
+hashes to verify, then runs `scripts/237_run_chapter_external.py` for U-Net and
+Copernicus. Each method covers 1,301 delivered P0 tiles plus 913 harmonized
+P0/P1 pairs: 2,214 jobs and 3,127 reference-tile evaluations per method, each
+with three seeds. The controller retries failed mapping workers up to three
+times. It resumes completed tiles from receipts and verified Azure archive
+membership, and rejects receipts from a different final checkpoint.
+
+`scripts/238_archive_chapter_predictions.py` uploads completed prediction groups
+and their provenance receipts, downloads each bundle again, verifies its SHA256
+and membership, and only then deletes the local predictions. The workers offload
+at 100-job intervals or below 80 GiB free; a disk guard and archive workspace
+check preserve the 50-GiB reserve. Upload failures retain local data.
+
+Sleep suspends these local processes; they continue on wake. After a terminated
+controller or reboot/login, restart the source queue if needed and then run
+`python scripts/240_continue_chapter_mapping.py`; the queue lock prevents two
+continuation controllers from owning the same queue. This does not configure
+automatic restart before login. Local July 2021 receiving cases still need their
+separate assessability/coverage check; this external mapping controller does not
+claim their completion. Accuracy scoring remains Step 6.
