@@ -1,5 +1,7 @@
 # Literature Source Notes
 
+The [11 November Hostache full-text notes](reviews/hostache-2012-full-text-2026-11-11.md) supersede the earlier abstract-only access status for this source. They document the reference selector, direct novelty overlap, acquisition-geometry requirements and limits of the original validation. No new experiment has been launched.
+
 The [31 October applied-task review](limburg-applied-task-configurations-2026-10-31.md) records exact author configurations and the Kuro Siwo, GEOID-Flood and compact-model distillation precedents. Its [local BibTeX supplement](limburg-applied-task-literature-2026-10-31.bib) is retained separately from the generated connected-library bibliography. The literature supports task-native spatial evaluation but already covers generic foundation-model flood mapping and accuracy/compute trade-offs; local transfer/reference support still needs investigation. No external library synchronization or new model result is claimed.
 
 The [whole-study implementation plan](limburg-monitoring-implementation-plan-2026-10-28.md) adds a supporting antecedent-state control; the later section of the [28 October source refresh](reviews/limburg-monitoring-literature-2026-10-28.md) records Wanders et al. (2014) and official soil/snow data documentation. No new simulation result or connected-library synchronization is implied.
