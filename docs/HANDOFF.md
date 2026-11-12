@@ -1,4 +1,4 @@
-# Limburg handoff — 11 November 2026
+# Limburg handoff — updated 12 November 2026
 
 ## Active scope
 
@@ -28,6 +28,13 @@ harm follows. Exact numbers/provenance are in
 No further model/extraction run is queued. Brian writes all manuscript text.
 
 ## Next research direction under development
+
+Brian explicitly chose response mapping, not early-warning prediction. The
+[12 November response-mapping plan](limburg-response-mapping-plan-2026-11-12.md)
+defines local annotation allocation/adaptation, fixed map targets, spatially
+separate evaluation and an honest response information clock. Next is Stage A
+(target/spatial pools and method comparison); no training queue is started.
+The previous reference-policy comparison below remains a completed study.
 
 Brian asked to pursue another part of the parked November 10 programme. The
 [local adaptation and annotation-allocation proposal](limburg-local-adaptation-direction-2026-11-11.md)
