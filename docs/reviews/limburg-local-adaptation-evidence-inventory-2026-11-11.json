@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-11",
+  "purpose": "Initial evidence inventory for target-local adaptation and annotation-allocation study; not a launched experiment",
+  "local_episode_count": 1,
+  "local_sites": 3,
+  "local_cases": [
+    {
+      "case": "EMSR517_AOI09__2021-07-15__orbit37_DESCENDING",
+      "aoi": "EMSR517_AOI09",
+      "known_pixels": 1164003,
+      "reference_flood_pixels": 3836,
+      "min": -76.9925,
+      "max": -76.9855555556
+    },
+    {
+      "case": "EMSR517_AOI09__2021-07-16__orbit139_DESCENDING",
+      "aoi": "EMSR517_AOI09",
+      "known_pixels": 1115636,
+      "reference_flood_pixels": 3836,
+      "min": -53.1355555556,
+      "max": -53.1355555556
+    },
+    {
+      "case": "EMSR517_AOI09__2021-07-18__orbit88_ASCENDING",
+      "aoi": "EMSR517_AOI09",
+      "known_pixels": 1164997,
+      "reference_flood_pixels": 3836,
+      "min": 6.5816666667,
+      "max": 6.5816666667
+    },
+    {
+      "case": "EMSR517_AOI09__2021-07-19__orbit15_ASCENDING",
+      "aoi": "EMSR517_AOI09",
+      "known_pixels": 477548,
+      "reference_flood_pixels": 3568,
+      "min": 30.4313888889,
+      "max": 30.4313888889
+    },
+    {
+      "case": "EMSR517_AOI09__2021-07-21__orbit37_DESCENDING",
+      "aoi": "EMSR517_AOI09",
+      "known_pixels": 1164997,
+      "reference_flood_pixels": 3836,
+      "min": 67.0005555556,
+      "max": 67.0005555556
+    },
+    {
+      "case": "EMSR517_AOI10__2021-07-15__orbit37_DESCENDING",
+      "aoi": "EMSR517_AOI10",
+      "known_pixels": 305382,
+      "reference_flood_pixels": 15905,
+      "min": -76.9925,
+      "max": -76.9925
+    },
+    {
+      "case": "EMSR517_AOI10__2021-07-16__orbit139_DESCENDING",
+      "aoi": "EMSR517_AOI10",
+      "known_pixels": 305382,
+      "reference_flood_pixels": 15905,
+      "min": -53.1355555556,
+      "max": -53.1355555556
+    },
+    {
+      "case": "EMSR517_AOI10__2021-07-18__orbit88_ASCENDING",
+      "aoi": "EMSR517_AOI10",
+      "known_pixels": 305382,
+      "reference_flood_pixels": 15905,
+      "min": 6.5816666667,
+      "max": 6.5816666667
+    },
+    {
+      "case": "EMSR517_AOI10__2021-07-21__orbit37_DESCENDING",
+      "aoi": "EMSR517_AOI10",
+      "known_pixels": 305382,
+      "reference_flood_pixels": 15905,
+      "min": 67.0005555556,
+      "max": 67.0005555556
+    },
+    {
+      "case": "EMSR520_AOI01__2021-07-13__orbit15_ASCENDING",
+      "aoi": "EMSR520_AOI01",
+      "known_pixels": 317870,
+      "reference_flood_pixels": 18564,
+      "min": -60.4111111111,
+      "max": -60.4111111111
+    },
+    {
+      "case": "EMSR520_AOI01__2021-07-15__orbit37_DESCENDING",
+      "aoi": "EMSR520_AOI01",
+      "known_pixels": 1150922,
+      "reference_flood_pixels": 115561,
+      "min": -23.85,
+      "max": -23.85
+    },
+    {
+      "case": "EMSR520_AOI01__2021-07-16__orbit139_DESCENDING",
+      "aoi": "EMSR520_AOI01",
+      "known_pixels": 1189837,
+      "reference_flood_pixels": 116779,
+      "min": 0.0,
+      "max": 0.0069444444
+    },
+    {
+      "case": "EMSR520_AOI01__2021-07-18__orbit88_ASCENDING",
+      "aoi": "EMSR520_AOI01",
+      "known_pixels": 1190164,
+      "reference_flood_pixels": 116795,
+      "min": 59.7241666667,
+      "max": 59.7241666667
+    },
+    {
+      "case": "EMSR520_AOI01__2021-07-19__orbit15_ASCENDING",
+      "aoi": "EMSR520_AOI01",
+      "known_pixels": 317880,
+      "reference_flood_pixels": 18564,
+      "min": 83.5808333333,
+      "max": 83.5808333333
+    }
+  ],
+  "limits": [
+    "Repeated acquisitions reuse reference maps; these are not 14 independent floods.",
+    "Known pixels are correlated and are not an annotation-effort budget.",
+    "A dated flood-reference comparison does not establish enduring water state or future-event transfer.",
+    "Original local mapped background is not certified field-observed dry land."
+  ],
+  "sources": {
+    "results/limburg_chapter_sized_v1/local/case_scores.parquet": "370cbaf1be9c38f24ac1c368fafb8c7e93eb912a756d73198ff9efc4eda57f34",
+    "results/limburg_chapter_sized_v1/local/coverage.parquet": "48eb4f1729f046f1cf912e5de9dbb45b60f034e4eece521061740647c7ce1421"
+  }
+}

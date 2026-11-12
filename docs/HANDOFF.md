@@ -27,6 +27,16 @@ harm follows. Exact numbers/provenance are in
 [the compact receipt](reviews/limburg-validity-consolidation-2026-11-11.json).
 No further model/extraction run is queued. Brian writes all manuscript text.
 
+## Next research direction under development
+
+Brian asked to pursue another part of the parked November 10 programme. The
+[local adaptation and annotation-allocation proposal](limburg-local-adaptation-direction-2026-11-11.md)
+recommends one bounded comparison of which local labels improve maps in separate
+target areas. An [initial local-case inventory](reviews/limburg-local-adaptation-evidence-inventory-2026-11-11.json)
+is recorded. The [12 November spatial-support census](reviews/limburg-local-adaptation-support-2026-11-12.json) identifies nearest-time receiving cases and extensive partially labelled support; use small annotation regions with larger image context rather than require fully labelled large chips. This is distinct from source-label reduction and reference replacement.
+No adaptation protocol, new training queue or extra data download is launched;
+the completed study and all validity qualifications remain intact.
+
 ## Completed
 
 - Six final source fits (two learned methods × three seeds), hash verified.
