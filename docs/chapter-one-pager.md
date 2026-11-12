@@ -59,17 +59,33 @@ P1 updates stay visible in coverage and applicability reporting.
 
 ## Findings
 
-**No findings yet for the accepted reference-policy comparison.** Earlier
-completed discharge/analogue and spatial work is retained as supporting evidence.
-It did not establish a general satellite-AI advantage; those results motivated
-more task-appropriate mapping and a focused information-quality question. They
-are not results of P0 versus P1.
+All six final source fits, external and local mapping/scoring, paired summaries,
+and the event review are complete. On harmonized P0 imagery, episode-balanced
+flood IoU is 0.396 for Copernicus-FM, 0.380 for U-Net and 0.295 for the physical
+rule. Copernicus's small advantage over U-Net is uncertain and changes with
+the processing/cohort setting; this is not evidence of general superiority.
 
-All six source-only final fits and the full external mapping census are complete.
-Accuracy scoring, paired event comparisons and a systematic map atlas are now
-running in a recoverable queue. Predictions are backed up in 46 verified Azure
-archives (83.1 GiB); scoring restores bounded batches and retains compact class
-maps locally. Local-case coverage and comparison remain outstanding.
+Updating the reference reduces average flood-class agreement across all three
+methods. The event review separates this from broad water detection: Copernicus
+water/land IoU increases from 0.519 to 0.541 while flood IoU falls to 0.274.
+About 74% of its gross lost correct flood detections become permanent-water
+predictions. Existing dark patterns in P1 support that explanation in major
+cases, especially Greece and Ecuador; background rejection matters elsewhere.
+Official Babahoyo reports independently establish flooding before a reference
+that was selected as preceding the catalogue's March event date. A date cutoff
+does not guarantee an unflooded reference. Exact per-pixel water history remains
+unverified. March Italy is a useful counterexample, with P1 improving precision.
+
+The local comparison includes all 167 assessable held scene/grid records across
+14 acquisition cases, representing one July 2021 flood episode. Only 35 records
+obtain a changed reference. Temporal offsets, hydrography/trace exclusions and
+shared-source labels qualify these as reference-map comparisons.
+
+Predictions are backed up in 46 verified Azure archives (83.1 GiB); compact class
+maps and score/coverage records are retained locally. The completed external
+evaluation covers all 1,301 released records and 913 genuinely paired triplets.
+The [event-review memo](reviews/limburg-event-review-2026-11-11.md) contains the
+activation-by-activation evidence, qualifications and reproduction commands.
 The 409 released tiles with
 no flood-class target pixels remain in false-alarm/coverage reporting.
 [Agreed design](limburg-chapter-sized-study-2026-11-10.md) ·

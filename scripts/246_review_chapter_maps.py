@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from limburg_chapter_evaluation import BITS, OUT, atomic_json, packet, sha256
 
 
-def main():
+def main(cases_override=None, review_override=None):
     scores = pd.read_parquet(OUT / "summary/tile_scores.parquet")
     selected = scores.loc[
         (scores.dataset == "ee") & (scores.support == "paired") & (scores.variant == "composed")
@@ -44,7 +44,17 @@ def main():
                 "native_reference_change": float(usable.loc[(key, event)]),
             }
         )
-    review = OUT / "map_review"
+    if cases_override is not None:
+        cases = [
+            {
+                **row,
+                "native_reference_change": float(
+                    wide["native_reference_change"].loc[(row["key"], row["event"])]
+                ),
+            }
+            for row in cases_override
+        ]
+    review = review_override if review_override is not None else OUT / "map_review"
     review.mkdir(parents=True, exist_ok=True)
     spec = importlib.util.spec_from_file_location(
         "chapter_tile_io", ROOT / "scripts/232_chapter_tile_infer.py"
@@ -134,7 +144,11 @@ def main():
         {
             "status": "systematic_case_atlas_complete",
             "cases": cases,
-            "selection_scope": "one maximum absolute native reference-change tile per assessable activation; intentionally diagnostic, not representative accuracy",
+            "selection_scope": (
+                "post-result event-contribution case selection; not a representative accuracy sample"
+                if cases_override is not None
+                else "one maximum absolute native reference-change tile per assessable activation; intentionally diagnostic, not representative accuracy"
+            ),
             "score_table_sha256": sha256(OUT / "summary/tile_scores.parquet"),
         },
     )

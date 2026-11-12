@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
 import hashlib
 import json
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
-from rasterio.warp import reproject, Resampling
+from rasterio.warp import Resampling, reproject
 
 from limburg_chapter_scores import score_tile
 
@@ -39,10 +39,18 @@ def remove_prior_coverage(eligible, transform, crs, previous):
     covered = np.zeros_like(eligible, dtype=np.uint8)
     for prior, old_transform, old_crs in previous:
         projected = np.zeros_like(eligible, dtype=np.uint8)
-        reproject(prior, projected, src_transform=old_transform, src_crs=old_crs,
-                  dst_transform=transform, dst_crs=crs,
-                  resampling=Resampling.nearest, src_nodata=0, dst_nodata=0,
-                  num_threads=1)
+        reproject(
+            prior,
+            projected,
+            src_transform=old_transform,
+            src_crs=old_crs,
+            dst_transform=transform,
+            dst_crs=crs,
+            resampling=Resampling.nearest,
+            src_nodata=0,
+            dst_nodata=0,
+            num_threads=1,
+        )
         covered |= projected
     return eligible & np.bitwise_not(covered)
 
@@ -58,7 +66,9 @@ def score_prediction(key, dataset, reference, model, seed, prediction, valid):
     expected_bit = BITS[f"{dataset}_{reference}"]
     expected_valid = (data["radar"] & expected_bit) != 0
     if not np.array_equal(valid, expected_valid):
-        raise ValueError(f"Prediction support differs from checked input support: {key}/{dataset}/{reference}/{model}")
+        raise ValueError(
+            f"Prediction support differs from checked input support: {key}/{dataset}/{reference}/{model}"
+        )
     if prediction.shape != valid.shape or prediction.dtype != np.uint8:
         raise ValueError(f"Invalid prediction grid/type: {key}")
     if np.any(prediction[~valid] != 255):
@@ -80,8 +90,18 @@ def score_prediction(key, dataset, reference, model, seed, prediction, valid):
                 known &= data["boundary_interior"]
             result = score_tile(label, prediction, known)
             confusion = result.pop("confusion")
-            rows.append({"key": key, "event": key.split("-")[0], "dataset": dataset,
-                         "reference": reference, "model": model, "seed": seed,
-                         "support": support, "variant": variant, **result,
-                         **{f"c{i}{j}": confusion[i][j] for i in range(3) for j in range(3)}})
+            rows.append(
+                {
+                    "key": key,
+                    "event": key.split("-")[0],
+                    "dataset": dataset,
+                    "reference": reference,
+                    "model": model,
+                    "seed": seed,
+                    "support": support,
+                    "variant": variant,
+                    **result,
+                    **{f"c{i}{j}": confusion[i][j] for i in range(3) for j in range(3)},
+                }
+            )
     return rows

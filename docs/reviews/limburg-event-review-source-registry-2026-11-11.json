@@ -1,0 +1,84 @@
+[
+  {
+    "event": "EMSR857",
+    "name": "Flood in  Mozambique and South Africa",
+    "event_time": "2026-01-10T23:00:00",
+    "activation_time": "2026-01-17T07:38:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR857",
+    "sha256": "2b5094c56c208c05c70391f7d54f03bf180a909952c1ca551722873ce20f7231"
+  },
+  {
+    "event": "EMSR858",
+    "name": "Flood in  Southern Italy",
+    "event_time": "2026-01-20T00:00:00",
+    "activation_time": "2026-01-19T10:40:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR858",
+    "sha256": "a0ba6268fc1f70bf42f0bfad6bbbeee10d5b817b33f27a5b735f61ffd1a56811"
+  },
+  {
+    "event": "EMSR861",
+    "name": "Storm Kristin and Flooding in Central Portugal, Galicia and Andalusia, Spain",
+    "event_time": "2026-01-28T04:00:00",
+    "activation_time": "2026-01-28T09:41:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR861",
+    "sha256": "d621c65c8f44f63b47d681ded76b7131beefbcb933fe30d874420db087c4bca4"
+  },
+  {
+    "event": "EMSR864",
+    "name": "Flood in Portugal and Spain",
+    "event_time": "2026-02-03T00:00:00",
+    "activation_time": "2026-02-03T20:22:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR864",
+    "sha256": "c1e0b59b7dd23002f4fc64387adb16dceb225c94d727f131efd839bc1183b50f"
+  },
+  {
+    "event": "EMSR865",
+    "name": "Flood in Cordoba, Colombia",
+    "event_time": "2026-01-26T05:30:00",
+    "activation_time": "2026-02-11T03:54:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR865",
+    "sha256": "5a630d7b97cf756e1a90a820685bfdb833918fcca3c4cc3675fee46be6a18ddf"
+  },
+  {
+    "event": "EMSR866",
+    "name": "Flood in New Aquitaine, France",
+    "event_time": "2026-02-12T11:00:00",
+    "activation_time": "2026-02-11T11:50:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR866",
+    "sha256": "694c07b2a91f28c8c029df0451f5048678480c7014fb6710016e74c7b86cca49"
+  },
+  {
+    "event": "EMSR868",
+    "name": "Flood in Evros River basin, Greece",
+    "event_time": "2026-02-18T22:00:00",
+    "activation_time": "2026-02-20T08:51:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR868",
+    "sha256": "d828b141ac264910f2f8fc385312eb75bcd4c06c79da1e71c713a9a8c836c99e"
+  },
+  {
+    "event": "EMSR870",
+    "name": "Flood in Ecuador",
+    "event_time": "2026-03-02T23:00:00",
+    "activation_time": "2026-03-11T16:51:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR870",
+    "sha256": "2a9f196292a0e3b8bd05f1a003a57f87fad4d024e66d577850db4f9d21fa6eaa"
+  },
+  {
+    "event": "EMSR871",
+    "name": "Flood in Abruzzo, Molise and Basilicata regions, Italy",
+    "event_time": "2026-03-31T15:00:00",
+    "activation_time": "2026-04-01T15:16:00",
+    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?code=EMSR871",
+    "sha256": "344e4c73be30dcb8576c271dcd5032b1e281bd17e222d3291ff86ad843119a0a"
+  },
+  {
+    "file": "data/raw/limburg_chapter_event_context_v1/ecuador-los-rios-2026-02-05.pdf",
+    "url": "https://www.gestionderiesgos.gob.ec/wp-content/uploads/2026/02/SITREP-Nro.-01-Lluvias_Los-Rios-desde-el-01_02_2026-al-05_02_2026.pdf",
+    "sha256": "fc9a3d85acc891d7737777575f5cc70750e2cdb44759c516433337789ea68326"
+  },
+  {
+    "file": "data/raw/limburg_chapter_event_context_v1/ecuador-los-rios-2026-02-19.pdf",
+    "url": "https://www.gestionderiesgos.gob.ec/wp-content/uploads/2026/02/SITREP-Nro.-05-Lluvias_Los-Rios-desde-el-01_02_2026-al-19_02_2026-1.pdf",
+    "sha256": "493513c6c2c85fcc50397054d0b9421adf81b22326eff8372023e748b6f36274"
+  }
+]

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-11-10",
-  "status": "external_mapping_complete_scoring_in_progress",
+  "status": "external_and_local_evaluation_complete_event_review_complete",
   "document": "docs/limburg-chapter-sized-study-2026-11-10.md",
   "reference_sizing": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json",
   "main_question": "How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?",
@@ -63,7 +63,7 @@
   ],
   "writing_scale": "one substantial empirical article; approximately30–40main thesis-format pages plus necessary appendix, descriptive allowance not requirement",
   "new_human_review_or_interview_requirement": false,
-  "new_accuracy_findings": false,
+  "new_accuracy_findings": true,
   "queue_started": true,
   "data_download_started": true,
   "scope_accepted_by": "Brian",
@@ -83,7 +83,9 @@
     "complete native-grid inference and overlap deduplication; no full-tile shrink to224px"
   ],
   "external_model_role": "one final source-trained state per learned pipeline per seed recommended; existing source-CV models are development evidence, not an automatic fivefold inference ensemble",
-  "preparation_status": "all six final fits and full external maps complete; 18,762 learned maps in 46 readback-verified archives; conventional 3,127-map census complete; external scoring running; local-case comparison pending",
+  "preparation_status": "all six source fits, external/local mapping and scoring, paired summaries and event review complete; 18,762 learned external maps preserved in 46 verified archives; local census covers 167 inputs and 14 acquisition cases",
+  "event_review": "docs/reviews/limburg-event-review-2026-11-11.md",
+  "reference_interpretation_qualification": "P1 precedes the provisional catalogue event date, which does not guarantee a locally unflooded reference; flood-to-permanent reclassification explains much of the observed loss, while broader water detection can be preserved",
   "acquisition_grid_audit": "docs/reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md",
   "reference_inventory_summary": "data/processed/limburg_chapter_p1_inventory_v1/summary.json",
   "target_grid_audit_summary": "data/processed/limburg_chapter_geoid_audit_v1/summary.json",

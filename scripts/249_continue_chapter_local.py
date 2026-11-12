@@ -3,9 +3,9 @@
 
 import fcntl
 import json
-from pathlib import Path
 import subprocess
 import time
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results/limburg_chapter_sized_v1/local"
@@ -32,9 +32,15 @@ def main():
         state("running", attempt=attempt)
         log = ROOT / "results/limburg_chapter_sized_v1/engineering/local-mapping.log"
         with log.open("a") as stream:
-            result = subprocess.run([str(ROOT / ".venvs-applied/copernicus/bin/python"),
-                                     str(ROOT / "scripts/248_run_chapter_local.py")], cwd=ROOT,
-                                    stdout=stream, stderr=subprocess.STDOUT)
+            result = subprocess.run(
+                [
+                    str(ROOT / ".venvs-applied/copernicus/bin/python"),
+                    str(ROOT / "scripts/248_run_chapter_local.py"),
+                ],
+                cwd=ROOT,
+                stdout=stream,
+                stderr=subprocess.STDOUT,
+            )
         if result.returncode == 0 and (OUT / "complete.json").exists():
             state("completed")
             return

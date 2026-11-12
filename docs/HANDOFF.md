@@ -21,27 +21,35 @@ Brian writes dissertation prose and sends all emails.
   Azure archives (83.1 GiB). Physical mapping completed 3,127 maps.
 - Independent support/overlap census complete. Cross-UTM overlap is handled by
   prediction-blind native pixel-center ownership, retaining valid-support holes.
-- Conventional scoring complete. Sixteen targeted checks pass. All 74 frozen
-  encoder/vendor assets checked match the source feature-cache hashes.
+- All external scoring, paired summaries and both map atlases complete. Twenty-one
+  targeted scientific/recovery checks pass. All 74 frozen encoder/vendor assets
+  checked match source feature-cache hashes. All workers have exited normally.
 
-## Running and automatic continuation
+## Completed queues and artifacts
 
-`245_continue_chapter_evaluation.py` runs two bounded archive restoration/scoring
-workers, then `244` paired event summaries and `246` a systematic map atlas.
-State: `results/limburg_chapter_sized_v1/evaluation/queue_status.json`.
-Progress: `evaluation/archive_scoring_status.json`; logs in
-`results/limburg_chapter_sized_v1/engineering/{archive_scoring,paired_summary,map_review}.log`.
-Do not interpret partial-archive results as a completed comparison.
+The external queue completed all 46 archives / 18,762 learned maps plus 3,127
+physical maps. Tidy outputs are in
+`results/limburg_chapter_sized_v1/evaluation/summary/`; local outputs in `local/`.
+Local acquisition/mapping/scoring is complete for all 167 scene/grid records
+and 14 acquisition cases. There are 35 updated references and 132 P1=P0 records.
+The native 512px grids are preserved; no target adaptation was performed.
 
-`247_prepare_chapter_local.py` is acquiring small same-chain local triplets over
-all 167 held event-scene/grid records. P0 is the held same-orbit/pass baseline;
-P1 is latest newer same-platform/orbit/pass covering the relevant footprint,
-before a conservative 13 July 2021 cutoff. Otherwise P1=P0. This local policy is
-not the external GEOID delivered P0 policy. The first actual radiometry check
-matches held dB-to-linear values (median ratio 1.0 in both polarizations).
-`249_continue_chapter_local.py` waits for checked acquisition, then runs `248`
-for all three pipelines. One MPS worker; no local target adaptation. July 2021
-remains one dependent flood; mapped non-flood is not independently verified dry.
+The [event-review memo](reviews/limburg-event-review-2026-11-11.md) and
+`results/limburg_chapter_sized_v1/event_review/` contain the full 913-tile
+explanation census, per-class transitions, reference dates, nine event-driver
+maps, water/flood diagnostic charts and checked official chronology sources.
+All original model/data/label choices and primary scores remain unchanged.
+The explanatory metrics and case selections are explicitly post-result work.
+
+Main readout: newer references reduce flood-class agreement, often by moving
+correct flood detections into permanent-water predictions. Broader water
+recognition can be preserved. Copernicus paired episode-balanced flood IoU
+falls .396→.274 while water/land IoU rises .519→.541. There is no clear overall
+Copernicus advantage over U-Net. Source-context records independently establish
+Babahoyo flooding before its catalogue-selected pre-event reference. Low radar
+return is a proxy, not independent per-pixel water truth. Colombia and some
+German cases show important background-rejection losses, so one mechanism does
+not explain every event. March Italy improves principally through precision.
 
 ## Evaluation and next review
 
@@ -54,9 +62,9 @@ training-seed variation, 9,999 block-bootstrap draws, leave-one-block-out,
 source-mask/validity/boundary sensitivities and timing/source-footprint strata.
 Eight blocks limit precision. Labels and timing qualify claims as map agreement.
 
-After completion: read the event/seed tables and atlas, inspect actual error
-locations against imagery/timing, compare local cases, record actual resource
-costs, and update the one-pager/findings. Do not turn a weak result into a new
+The event/seed tables, atlases, local cases and one-pager have been reviewed
+and updated. Remaining useful consolidation is the actual resource-cost account
+and supervisor discussion of the information-quality interpretation. Do not turn a weak result into a new
 model search. The earlier discharge/TTM/AlphaEarth work is historical/supporting.
 
 ## Recovery, disk and cleanup
@@ -69,6 +77,8 @@ scores and local map receipts on restart. Sleep suspends and wake resumes local
 processes; reboot/FileVault may require Brian's login and controller restart.
 Email production alerts remain disabled until Brian requests the later window.
 
-The audit is [Step 6 scoring](reviews/limburg-step6-scoring-2026-11-11.md).
-Do not format/edit active worker files during execution; final style-only cleanup
-can follow completion, preserving recorded runner/source versions in Git.
+The scoring audit is [Step 6](reviews/limburg-step6-scoring-2026-11-11.md).
+Completed-worker style cleanup was performed after the workers exited; original
+execution versions are preserved in Git and their recorded hashes. No research
+data were deleted. Temporary PDF-render files created for the event review were
+removed after visual inspection; original government PDFs remain preserved.

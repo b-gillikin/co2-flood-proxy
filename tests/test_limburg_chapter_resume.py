@@ -3,7 +3,7 @@
 import importlib.util
 from pathlib import Path
 
-import numpy as np
+import numpy as np  # noqa: F401 — initialize NumPy before torch in the held OpenMP runtime
 import torch
 
 
