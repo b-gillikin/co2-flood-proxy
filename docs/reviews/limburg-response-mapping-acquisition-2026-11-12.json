@@ -1,0 +1,778 @@
+{
+  "date": "2026-11-12",
+  "literature_pdf_count": 15,
+  "paper_count": 12,
+  "code_archives": 2,
+  "vector_zip_count": 19,
+  "sar_tile_count": 15,
+  "resource_config_count": 52,
+  "supplied_file": {
+    "source": "/Users/briangillikin/Downloads/1-s2.0-S1569843226002372-main.pdf",
+    "copy": "data/raw/literature/local-adaptation-2026-11-12/RatteFortin2026TransferableFlood.pdf",
+    "sha256": "d952b903d003b1e353ab6d92cd0546b067849b096e53fb63632eb914e705a2a6"
+  },
+  "new_material_bytes": 1083951192,
+  "free_disk_gib": 81.34165954589844,
+  "sar_acquisition": {
+    "date": "2026-11-12",
+    "catalogue_sha256": "8599287a1a8cffc73014938a72698acd360414e47fbc54cdaa953b4ce3ab0e6d",
+    "runner_sha256": "65bd109ab58e68149a867fefdf8e34a2745ffd3f15348c9f843c8001f82f30de",
+    "regional_bbox": [
+      5.25,
+      50.45,
+      6.8,
+      51.65
+    ],
+    "total": 15,
+    "results": [
+      {
+        "key": "EMSR497-1-14",
+        "status": "downloaded_verified",
+        "bytes": 15263397,
+        "sha256": "20f9668aabc50457538682884fa4c75ba57d285cd52df34d7f29f73547d9a289",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            317440,
+            0,
+            -10,
+            5734400
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-13",
+        "status": "downloaded_verified",
+        "bytes": 15226062,
+        "sha256": "f4e0e05bebaeaf2e169d627dd8b7d197ce8e5fc6f8eb68db0074cd54b221a064",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            317440,
+            0,
+            -10,
+            5724160
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-18",
+        "status": "downloaded_verified",
+        "bytes": 15238322,
+        "sha256": "3b3e894d03e6909fe4f3076ce0d9739a9b80701e3368f48e54d92089ace6cfbe",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5683200
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-20",
+        "status": "downloaded_verified",
+        "bytes": 15247052,
+        "sha256": "d8f809cd02e5115f757174db08399090c0ff2bc3bd65d293332af31e8f076357",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5703680
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-19",
+        "status": "downloaded_verified",
+        "bytes": 15214679,
+        "sha256": "0fbf239f0d0f98b2268c02db48f5a72bac1228a42572d9af8a5e02c18fdec7dd",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5693440
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C",
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1047401,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-21",
+        "status": "downloaded_verified",
+        "bytes": 15243458,
+        "sha256": "21c238d8288fa8282415d5d5688bca911c9f1de40c5f9217e0044de61440ec21",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5713920
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-23",
+        "status": "downloaded_verified",
+        "bytes": 15254899,
+        "sha256": "348226950ed7eaaf3e049ea1cd7991bf0e57389fdaad5caf5b85916b83ac9f3f",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5734400
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-22",
+        "status": "downloaded_verified",
+        "bytes": 15284631,
+        "sha256": "ac8c15a6dd188a873f6ac55d86c1983d9092f8b27727290d9938a4eaca134232",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            327680,
+            0,
+            -10,
+            5724160
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-25",
+        "status": "downloaded_verified",
+        "bytes": 15249327,
+        "sha256": "5be9de4f54de562796f9b921e57f32d71f36047f965fb8a24977928da62fbe47",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5662720
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-26",
+        "status": "downloaded_verified",
+        "bytes": 15259160,
+        "sha256": "53efd9f422003b68497481c180f5f990560f5ae30fde45d867ce2c5cc5f05c37",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5672960
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-27",
+        "status": "downloaded_verified",
+        "bytes": 15297144,
+        "sha256": "a9f33ea83b4268415c9215e5688a931e9f0c87cede1c28d8dbe2b270601fc8f9",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5683200
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-28",
+        "status": "downloaded_verified",
+        "bytes": 15261547,
+        "sha256": "aee31536262216fed4df5fb5027ba7d4b655303b650736fd80886a99f3d00b38",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5693440
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_F7DD_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C",
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054956_20210203T055021_025438_0307B2_BAC8"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1047403,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-29",
+        "status": "downloaded_verified",
+        "bytes": 15284008,
+        "sha256": "9a0f1e30c6d05b31287d5a2e2c8ab8fe13c2f5debac5137277eb1ceb21a313a0",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5703680
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-30",
+        "status": "downloaded_verified",
+        "bytes": 15259378,
+        "sha256": "85888bff62e39fbe019523aa2b7b18e8650b360c670f6b4e179e9b5df7d0ea58",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5713920
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      },
+      {
+        "key": "EMSR497-1-31",
+        "status": "downloaded_verified",
+        "bytes": 15207061,
+        "sha256": "ff1450e9294159e81a24aa3436d1ca657b66fe67f8ed5cde32af53d289ceb035",
+        "grid": {
+          "crs": "EPSG:32632",
+          "crs_transform": [
+            10,
+            0,
+            337920,
+            0,
+            -10,
+            5724160
+          ],
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "format": "GEO_TIFF"
+        },
+        "requested_products": {
+          "pre": [
+            "S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_4C8A_COG",
+            "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG"
+          ],
+          "post": [
+            "S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_6862_COG",
+            "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+          ]
+        },
+        "actual_assets": {
+          "pre": [
+            "COPERNICUS/S1_GRD_FLOAT/S1A_IW_GRDH_1SDV_20200918T055024_20200918T055049_034409_04007D_BEF8"
+          ],
+          "post": [
+            "COPERNICUS/S1_GRD_FLOAT/S1B_IW_GRDH_1SDV_20210203T054931_20210203T054956_025438_0307B2_756C"
+          ]
+        },
+        "unavailable_requested_products": [
+          "S1A_IW_GRDH_1SDV_20200918T055027_20200918T055051_034409_04007D_4782_COG",
+          "S1B_IW_GRDH_1SDV_20210203T054942_20210203T055007_025438_0307B2_A5D2_COG"
+        ],
+        "valid_joint_pixels": 1048576,
+        "total_pixels": 1048576,
+        "label_status": "Reference vector acquired separately; not rasterized or validated here",
+        "processing": "COPERNICUS/S1_GRD_FLOAT"
+      }
+    ]
+  },
+  "literature_access_gaps": [],
+  "not_yet_claimed": [
+    "Independent flood ground truth",
+    "Validated spatial annotation/test pools",
+    "Validated additional local flood episode",
+    "Prediction or operational benefit"
+  ],
+  "verification": {
+    "pinned_resources_verified": 52,
+    "unresolved_pinned_resources": 0,
+    "independent_sar_readback_count": 15,
+    "sar_checks": [
+      "sha256",
+      "crs",
+      "affine_transform",
+      "shape",
+      "band_count",
+      "finite_positive_joint_valid_count"
+    ],
+    "zip_crc_count": 21,
+    "validity_regression_tests_passed": 5,
+    "ruff": "passed",
+    "git_diff_check": "passed"
+  }
+}

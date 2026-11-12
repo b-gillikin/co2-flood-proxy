@@ -1,0 +1,318 @@
+{
+  "date": "2026-11-12",
+  "purpose": "Local annotation/adaptation response-mapping evidence; no new model family or training launch",
+  "assets": [
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Adhikari2025ALFA.pdf",
+      "url": "https://ijcai.org/proceedings/2025/1057.pdf",
+      "bytes": 2226270,
+      "sha256": "aeb37a8fd490f7bd9fcb88485d0557f3777a87977a08d6b7134224fba2bdb764"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Adhikari2025ALFA-supplement.pdf",
+      "url": "https://raw.githubusercontent.com/saugatadhikari/alfa/main/appendix.pdf",
+      "bytes": 198470,
+      "sha256": "0d61cfe128761e18a48ddfecd0115be21c0c093a14aa85340b9d1dbb2ec559ae"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/RydNearing2025FineFloodForecasts.pdf",
+      "url": "https://arxiv.org/pdf/2504.12559",
+      "bytes": 1372461,
+      "sha256": "71c7a5cc43c27a31d4782b6d21399dbf52234530a3ac80c145765a7859849497"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/LeeLi2024ClassAmbiguity.pdf",
+      "url": "https://arxiv.org/pdf/2404.19043",
+      "bytes": 5817748,
+      "sha256": "1256b2bd9de47e2683a01aaadb6906307def8946f4995cf8b737cc668126e5d7"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Selvam2024RapidAdaptation.pdf",
+      "url": "https://arxiv.org/pdf/2409.09907",
+      "bytes": 2277554,
+      "sha256": "582ff5f7999f977ca45bcdd427213430b5519afdb6d5c845069b23e50264254f"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/FarajpoorNarimani2026CompactModels.pdf",
+      "url": "https://arxiv.org/pdf/2610.34904",
+      "bytes": 8935484,
+      "sha256": "5dfc11653a0678f8f745f94c312e7309bd4c1067611606d08527f65f53efcdde"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Wang2025CopernicusFM.pdf",
+      "url": "https://arxiv.org/pdf/2503.11849",
+      "bytes": 13649854,
+      "sha256": "14ca32ce4ce2a08db2fcc680ba386a833ea93b4f77650f5d9acb71765b8090a0"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/GEOIDFlood2026.pdf",
+      "url": "https://arxiv.org/pdf/2608.02315",
+      "bytes": 27620137,
+      "sha256": "d2370b640f23eee924b69b9c86bef9b5ea25bd672268c561c25a6ed80ee2074a"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/CopernicusRapidMappingPortfolio.html",
+      "url": "https://mapping.emergency.copernicus.eu/about/rapid-mapping-portfolio/",
+      "bytes": 23427,
+      "sha256": "b0e76963b0ebbc48327f9fcb4b86e49a0ca6b34290786cbba438394b3aadc2b1"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/CopernicusRapidMappingTimeline.html",
+      "url": "https://mapping.emergency.copernicus.eu/about/mapping-service-timeline/",
+      "bytes": 19942,
+      "sha256": "3cad2a9e033f638c686bcac27c93c30fef371f771941bb33706591b045668ec4"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/CopernicusEarlyWarningLink.html",
+      "url": "https://mapping.emergency.copernicus.eu/about/linking-with-early-warning-system/",
+      "bytes": 30975,
+      "sha256": "dd820c433c68158d826e6f9ca931395a8af091c983d0d10152b3e9d7283c3c75"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/alfa-repository-tree.json",
+      "url": "https://api.github.com/repos/saugatadhikari/alfa/git/trees/main?recursive=1",
+      "bytes": 28481,
+      "sha256": "bd4b4bd87e3c903837656fa32c4841f4a095a5833642e92bb200e788ebd7df83"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/fine-flood-forecasts-repository-tree.json",
+      "url": "https://api.github.com/repos/EmilRyd/Fine-Flood-Forecasts/git/trees/main?recursive=1",
+      "bytes": 5082,
+      "sha256": "b6f52b9d0a70141715ad18435fe90e20a527657116c92e5ddec83c145ab33c77"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Roberts2017SpatialCrossValidation.pdf",
+      "url": "https://www.biom.uni-freiburg.de/mitarbeiter/dormann/roberts-et-al-2017-ecography.pdf/at_download/file",
+      "bytes": 811805,
+      "sha256": "77f836a01a52fbca9ab5a6b8b4292121d8d896b04eb66fbf351358fec208c1f4"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Wania2021Pretasking.pdf",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-13-02114/article_deploy/remotesensing-13-02114.pdf",
+      "bytes": 2274305,
+      "sha256": "18744e937428d3c8fcfc698b05f78169d95bda5fdb838c18b66ace7c35a1104e"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/ALFA-code-8982de0dc4f3.zip",
+      "url": "https://codeload.github.com/saugatadhikari/alfa/zip/8982de0dc4f30fc2e482936119f7a0557644a37a",
+      "bytes": 4977179,
+      "sha256": "8bc8a3f9e502f7adcfb5a40e663f65049e8edaca5359cb0c153863243ac0cc77"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/FineFloodForecasts-code-fafe1fd874c6.zip",
+      "url": "https://codeload.github.com/EmilRyd/Fine-Flood-Forecasts/zip/fafe1fd874c63b1bbb3f7ad42ea1a21a066e0d7e",
+      "bytes": 156448,
+      "sha256": "c7e69479807b746d857026ca3e28a7b1e3d9f2838c82c907d27d9f729acefb5d"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/Shin2021PixelPick.pdf",
+      "url": "https://openaccess.thecvf.com/content/ICCV2021W/ILDAV/papers/Shin_All_You_Need_Are_a_Few_Pixels_Semantic_Segmentation_With_ICCVW_2021_paper.pdf",
+      "bytes": 5194097,
+      "sha256": "3d6e87c41fc68ce7858785057030f6240c11a28165061b71179df56d024a24ab"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/DIAL2022.pdf",
+      "url": "https://arxiv.org/pdf/2201.01047",
+      "bytes": 9530095,
+      "sha256": "066c9a53e868e2e031aafeb8f673c59285652c4cbd9db378db62648427a989e9"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/RatteFortin2026Supplement.pdf",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S1569843226002372-mmc1.pdf",
+      "bytes": 73602,
+      "sha256": "8f179dbecae3e4d5ee88d5c0bb71b79daa72fbb04fbc3df13fcc442d8fae0a3b"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/RatteFortin2026Supplement2.docx",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S1569843226002372-mmc2.docx",
+      "bytes": 1381232,
+      "sha256": "b4d5ca4ca17e354dc23748c570d1e9a18e1eab3f501d22b1c7ad8230b9c6367b"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/RatteFortin2026Supplement3.docx",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S1569843226002372-mmc3.docx",
+      "bytes": 1347063,
+      "sha256": "0b91a44f7ae0a584ccd8c00af902c15da3ff0bd4b59bb2a35087b0030eb6d1be"
+    },
+    {
+      "path": "data/raw/literature/local-adaptation-2026-11-12/RatteFortin2026Supplement4.pdf",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S1569843226002372-mmc4.pdf",
+      "bytes": 231687,
+      "sha256": "7e4dfad9645aa5cf35fb7a95bbeae99fcce90dc18ba77a3bfed317c3267380b8"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_01LIER_DELINEATION_OVERVIEW-MONIT01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_01LIER_DELINEATION_OVERVIEW-MONIT01_v1_vector.zip",
+      "bytes": 6859316,
+      "sha256": "359aa50aad24596dd3f0b0b7fbac2030633f8ab97c1d1dde60382f74b06f8f43"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_01LIER_DELINEATION_OVERVIEW_v2_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_01LIER_DELINEATION_OVERVIEW_v2_vector.zip",
+      "bytes": 6262772,
+      "sha256": "f70d5532a8d1f266a2db0630de886ba5b3f9013e4cdacb212ad4aec8237d5b68"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_02GEEL_DELINEATION_OVERVIEW-MONIT01_v2_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_02GEEL_DELINEATION_OVERVIEW-MONIT01_v2_vector.zip",
+      "bytes": 3838460,
+      "sha256": "4e9982344a6654767567617308b615d62e0b4e79fc7f9f0fc25ae01bae5133b7"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_02GEEL_DELINEATION_OVERVIEW_v3_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_02GEEL_DELINEATION_OVERVIEW_v3_vector.zip",
+      "bytes": 3726352,
+      "sha256": "8fdd6630d1985545987e0cce0045fd6ce41a3ff92a61852ad34fa2b37859e86c"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_03NEERPELT_DELINEATION_OVERVIEW-MONIT01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_03NEERPELT_DELINEATION_OVERVIEW-MONIT01_v1_vector.zip",
+      "bytes": 10514561,
+      "sha256": "061130ffc0c5fe272d62bb185c0f4000d37adc55bd135776e91b26d4ba42aeb9"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_03NEERPELT_DELINEATION_OVERVIEW_v2_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_03NEERPELT_DELINEATION_OVERVIEW_v2_vector.zip",
+      "bytes": 30186566,
+      "sha256": "0b3a2d86af76c1ad16be4d5c94b9b989d300f2eb2be4f6d5d393c7e2f23e70fe"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR167_04HASSELT_DELINEATION_OVERVIEW_v2_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR167/EMSR167_04HASSELT_DELINEATION_OVERVIEW_v2_vector.zip",
+      "bytes": 44263436,
+      "sha256": "c75de0635ea1c09c3a363b03bb155c28fd0b1cf966746abf40386d691b3ff5d0"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT01_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT01_r1_RTP01_v1_vector.zip",
+      "bytes": 69076525,
+      "sha256": "80f1de780f4a332c0574e0c3d6f9c66ffe96633fda6a2096bbc0271627b859d0"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT02_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT02_r1_RTP01_v1_vector.zip",
+      "bytes": 47349260,
+      "sha256": "d7354e52ea9241df0b6c5e1484865f40e0d5f1a38d85981290922e1ee5c2a845"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT03_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT03_r1_RTP01_v1_vector.zip",
+      "bytes": 47708292,
+      "sha256": "90c937cf9920635914dff6d85d2d7366db016a87368ba7e2073795fa4d692271"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT04_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT04_r1_RTP01_v1_vector.zip",
+      "bytes": 46733594,
+      "sha256": "29b89a277a34066aa16bda1fed633e5060cdb1955d5a421f6b12e667bf541ae1"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT05_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT05_r1_RTP01_v1_vector.zip",
+      "bytes": 45285706,
+      "sha256": "03c2b5abb67edd2fe59813af6a7f5b61a4d9fe1a4b8d5ec778eff1ed3315a1f4"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT06_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT06_r1_RTP01_v1_vector.zip",
+      "bytes": 45691903,
+      "sha256": "0a70d7e85990f30443f3f7c082aa1eefbe4de5cfd6c35520d26f1fb93930b30a"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_PRODUCT_r1_RTP01_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_PRODUCT_r1_RTP01_v1_vector.zip",
+      "bytes": 50868860,
+      "sha256": "61ca90f7247d5dda3f561e8071390a1560db80bd35c6851eb0e8acd0b88e1dc1"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_FEP_PRODUCT_r1_RTP01_v2_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_FEP_PRODUCT_r1_RTP01_v2_vector.zip",
+      "bytes": 1220192,
+      "sha256": "49d0bee83be99d5e7c9512920c90e21a68158a8a8f7485f81ece3618b6586c31"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR518_AOI01_DEL_MONIT01_r1_VECTORS_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR518/EMSR518_AOI01_DEL_MONIT01_r1_VECTORS_v1_vector.zip",
+      "bytes": 23520959,
+      "sha256": "cdcb93978dd67560144cbf150bc6696f201f97c888d6a6ecf2ab4a50cc1ab1c4"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR518_AOI01_DEL_PRODUCT_r1_VECTORS_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR518/EMSR518_AOI01_DEL_PRODUCT_r1_VECTORS_v1_vector.zip",
+      "bytes": 34180203,
+      "sha256": "afa345b079f6960c254485291c6beae7fad8052f1518cd1aeb866c68e75e1f85"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR518_AOI02_DEL_MONIT01_r1_VECTORS_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR518/EMSR518_AOI02_DEL_MONIT01_r1_VECTORS_v1_vector.zip",
+      "bytes": 55827584,
+      "sha256": "2a51bd0701d2a002273346ea3c3be08f514bd7572c8f30031558810d282f2327"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR518_AOI02_DEL_PRODUCT_r1_VECTORS_v1_vector.zip",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR518/EMSR518_AOI02_DEL_PRODUCT_r1_VECTORS_v1_vector.zip",
+      "bytes": 66152047,
+      "sha256": "745258a57965a167b26547ef3d5289faeaeac53629c9683158f38e93b79acb2e"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT06_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT06_r1_RTP01_v1.pdf",
+      "bytes": 14742568,
+      "sha256": "d685ec4fd91da705c3bb97d0f99197810b6250b10bfc6cb40110570f5ead991f"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT05_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT05_r1_RTP01_v1.pdf",
+      "bytes": 14631356,
+      "sha256": "70a678a842c63bbd9e56da1e95a97ad297135f96a7d3bd8c5d353adb4aee4230"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT04_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT04_r1_RTP01_v1.pdf",
+      "bytes": 15446720,
+      "sha256": "364342dc98ef7c3e6e8ac0355172419d21e3597d6284a6badfe0eb2183a7fd93"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT03_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT03_r1_RTP01_v1.pdf",
+      "bytes": 15441028,
+      "sha256": "e0916b6869e48fae89f271da2ca0aba72b3a06593774e6f2990d0ebfd9ffe732"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT02_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT02_r1_RTP01_v1.pdf",
+      "bytes": 15427798,
+      "sha256": "0b5ffc4b6524fbff40b3f6c3b484586a9c5d0dd23de11b5fde77fba26205b298"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_MONIT01_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_MONIT01_r1_RTP01_v1.pdf",
+      "bytes": 11023239,
+      "sha256": "8bc374c22f0328087a8e746139469f0dc13aa5a4dd5946b476d0a927cafce6e4"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_DEL_PRODUCT_r1_RTP01_v1.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_DEL_PRODUCT_r1_RTP01_v1.pdf",
+      "bytes": 12808301,
+      "sha256": "c98d1d382cfa3fe4cf4f13a0bf7a64244c648c5f5f54bd7b13c25cb349e13498"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/EMSR497_AOI01_FEP_PRODUCT_r1_RTP01_v2.pdf",
+      "url": "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR497/EMSR497_AOI01_FEP_PRODUCT_r1_RTP01_v2.pdf",
+      "bytes": 12480534,
+      "sha256": "45e0fd6fbf3af219ab720f4cd7930d14486a37b0e29f2e08744b7223ab1e42e4"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/4tu-maximum-extent.html",
+      "url": "https://data.4tu.nl/articles/dataset/Maximum_flood_extents_Limburg_floods_July_2021/16817389",
+      "bytes": 24444,
+      "sha256": "a6e6cc27b5a5deccfb6555d0d0d422e22fef3a6b93f2d4245b3072f4c9324d95"
+    },
+    {
+      "path": "data/raw/limburg_response_mapping_sources_v1/4tu-evacuation.html",
+      "url": "https://data.4tu.nl/articles/dataset/Emergency_ordinances_Limburg_floods_July_2021/16817404",
+      "bytes": 22484,
+      "sha256": "c3dcca7f058b2fc8d532b89b56295349e36e1dfcb65efe9b9a290138345df4a1"
+    }
+  ]
+}

@@ -27,6 +27,10 @@ harm follows. Exact numbers/provenance are in
 [the compact receipt](reviews/limburg-validity-consolidation-2026-11-11.json).
 No further model/extraction run is queued. Brian writes all manuscript text.
 
+## Response-mapping acquisition — 12 November
+
+[Full review and data inventory](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md). Approximately 1.01 GiB acquired; 12 main papers, supplements, 15 paired regional SAR tiles, 19 vector products, eight map PDFs and two Dutch context datasets. All core literature accessible. Preparation remains Stage A; no model fitting launched. The previous study is complete and retained, while the accepted continuation is local adaptation, not a forecast.
+
 ## Next research direction under development
 
 Brian explicitly chose response mapping, not early-warning prediction. The

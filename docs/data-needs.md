@@ -15,6 +15,14 @@ Updated 11 November 2026. Source of truth:
 | René/Jens gauge records and provider notes | Held | Local event timing and measurement context only. They do not define flooded pixels or require a new discharge model |
 | Recovery manifests and existing source backups | Retained | Verify any new transfer/cache before cleanup. Historical large imagery may require documented Azure restoration only if actually needed |
 
+## Response-mapping continuation — 12 November 2026
+
+The previous table describes the completed reference-policy study. Brian has now chosen the [local-adaptation response-mapping plan](limburg-response-mapping-plan-2026-11-12.md); historical exclusions of target adaptation below do not apply to this continuation. No training has started.
+
+Required source/model inputs and the three July 2021 receiving cases are held. [New acquisitions and full-text review](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md) add 15 paired SAR tiles for February 2021 EMSR497, 19 public regional vector packages, eight EMSR497 map PDFs, and 4TU flood-extent/ordinance context. Total new material including literature is approximately 1.01 GiB. The Rhine candidate requires reference/support preparation; Belgian discoveries are contextual, not an expansion of the primary geography. No new default agency request or model weights are needed.
+
+Before fitting, finish unique-ground annotation/test separation, reference rasterization and validity, source pseudo-target lineage and counted annotation/validation budgets. These are preparation tasks, not missing external datasets. Independently observed truth and actual operator annotation time are not established by the downloads. All 12 core literature papers and required supplementary methods are accessible.
+
 ## Completed acquisition and validity resolution
 
 All six final source states, external and local mapping/scoring and the geometry/target audit are complete. The [consolidation](limburg-study-consolidation-2026-11-11.md) records 447 geometry-compatible paired external tiles and all 167 compatible local records. No further data pull is required for the bounded interpretation.

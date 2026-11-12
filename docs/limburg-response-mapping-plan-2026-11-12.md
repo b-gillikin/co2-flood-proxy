@@ -91,3 +91,9 @@ One response-mapping study: a data/reference/support account, one controlled ada
 This remains an empirical proposal with an open outcome. It does not promise a novel algorithm, AI superiority or a committee result. The next action is Stage A, not restarting the prior broad spatial programme.
 
 Sources: https://arxiv.org/html/2504.12559v1 ; https://ijcai.org/proceedings/2025/1057 ; https://arxiv.org/html/2610.34904 ; https://mapping.emergency.copernicus.eu/about/rapid-mapping-portfolio/ ; https://mapping.emergency.copernicus.eu/about/linking-with-early-warning-system/ .
+
+## Acquisition and literature continuation — 12 November
+
+[Focused full-text review and acquisition](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md) and [machine-readable receipt](reviews/limburg-response-mapping-acquisition-2026-11-12.json). All 12 core papers and the supplied paper's SD1–SD4 are accessible locally. Lee/Li already compares random, uncertainty and diversity; these policies are established comparators, not our novelty. PixelPick supports sparse-label loss; DIAL distinguishes correction from wider adaptation; neither licenses hidden error-label query selection or importing natural-image annotation minutes.
+
+The existing core inputs are held. Additional bounded acquisition adds 15 paired February 2021 Rhine/German SAR tiles, their public Copernicus reference products and Dutch maximum-extent/ordinance context. This is a candidate second regional episode, not a validated later event on the same Limburg tributaries. Belgian products found during the regional inventory stay contextual and do not expand the primary population. No additional model, optical archive, HydroATLAS or DEM branch was introduced. Ground-pool separation, label rasterization/meaning and source-fit lineage still need Stage A preparation before fitting.
