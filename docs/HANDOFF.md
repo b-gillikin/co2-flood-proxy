@@ -10,6 +10,23 @@ Compare frozen Copernicus-FM paired-SAR encoder/trained head, same-input U-Net,
 and one source-calibrated physical rule. No target fitting or new model branch.
 Brian writes dissertation prose and sends all emails.
 
+## Current validated interpretation — 11 November
+
+The [validity resolution and consolidation](limburg-study-consolidation-2026-11-11.md)
+supersedes unrestricted headline interpretation below. Full original outputs remain
+preserved. Of 913 paired external tiles, 447 match post-image orbit/pass/mode/
+polarization/look and 466 do not; all 167 local records match. Geometry-compatible
+Copernicus versus U-Net is +.008 IoU [−.023,.037]. Its P1−P0 is −.087
+[−.224,.001], and −.022 [−.063,.008] with the existing listed <=24h timing
+restriction. These post-result restricted cohorts differ; do not infer a causal
+geometry/timing explanation from attenuation alone. Eight/seven/six blocks remain
+in full/geometry/geometry+timing estimates. The fixed target is released event-
+flood designation, not independent newly inundated area since P1. Water-union
+scores are diagnostic. No broad AI advantage or robust universal newer-reference
+harm follows. Exact numbers/provenance are in
+[the compact receipt](reviews/limburg-validity-consolidation-2026-11-11.json).
+No further model/extraction run is queued. Brian writes all manuscript text.
+
 ## Completed
 
 - Six final source fits (two learned methods × three seeds), hash verified.

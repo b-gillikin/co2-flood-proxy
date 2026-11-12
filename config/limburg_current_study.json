@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-10",
-  "status": "active_scope_preparation_not_launched",
+  "date": "2026-11-11",
+  "status": "mapping_complete_validity_resolved_consolidated",
   "scope": "config/limburg_chapter_sized_study_v1.json",
   "acquisition": "config/limburg_chapter_sized_geoid_acquisition_v1.json",
   "compute": "config/limburg_chapter_sized_compute_v1.json",
@@ -8,5 +8,6 @@
   "future_ideas": "archive/future-ideas/2026-11-10-broad-spatial-programme/README.md",
   "new_queue_started": false,
   "new_bulk_download_started": false,
-  "latest_audit": "docs/reviews/limburg-chapter-scope-audit-2026-11-10.md"
+  "latest_audit": "docs/limburg-study-consolidation-2026-11-11.md",
+  "interpretation": "config/limburg_chapter_interpretation_v1.json"
 }

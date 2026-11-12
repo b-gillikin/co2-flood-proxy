@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-11",
+  "status": "post_result_validity_resolution",
+  "scope_unchanged": true,
+  "scientific_record": "docs/limburg-study-consolidation-2026-11-11.md",
+  "numerical_record": "docs/reviews/limburg-validity-consolidation-2026-11-11.json",
+  "fixed_target": "Agreement with the released event-flood designation, not independently validated water newly appearing since P1",
+  "water_union_role": "Diagnostic collapse of released permanent-water and flood classes; not a new primary result or field truth",
+  "reference_policies": "Held/delivered P0 versus latest eligible before the provisional catalogue cutoff P1; neither certified dry nor established agency practice",
+  "intended_geometry_population": "Both P0 and P1 match the post image's relative orbit, pass, mode, dual polarization and look direction; constellation platform may differ",
+  "geometry_qualification": "Metadata compatibility does not guarantee identical pixel incidence or eliminate terrain effects",
+  "original_full_cohort_role": "Preserved full-catalogue input-policy results, including geometry mismatches; not a matched-geometry performance estimate",
+  "validity_restricted_role": "Post-result validity correction on existing owned support; all eligible compatible records retained; not a pristine confirmatory replication",
+  "timing_sensitivity": "Listed absolute SAR-label difference <=24h; descriptive restricted cohort, not a universal validity rule",
+  "geography": "International new-event evaluation with one July 2021 Dutch/German receiving episode",
+  "new_model_or_selector_required": false,
+  "new_empirical_run_started": false,
+  "claim": "No clear Copernicus-FM advantage over U-Net; event-specific reference sensitivity with weakened average deterioration after geometry and timing checks"
+}

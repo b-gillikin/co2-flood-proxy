@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-11-10",
-  "status": "external_and_local_evaluation_complete_event_review_complete",
+  "status": "evaluation_complete_validity_restricted_consolidation_complete",
   "document": "docs/limburg-chapter-sized-study-2026-11-10.md",
   "reference_sizing": "docs/reviews/limburg-reference-dissertation-sizing-2026-11-10.json",
   "main_question": "How do satellite AI and conventional methods compare in mapping new flood events, and how does the choice of pre-flood reference affect their performance?",
@@ -89,5 +89,6 @@
   "acquisition_grid_audit": "docs/reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md",
   "reference_inventory_summary": "data/processed/limburg_chapter_p1_inventory_v1/summary.json",
   "target_grid_audit_summary": "data/processed/limburg_chapter_geoid_audit_v1/summary.json",
-  "harmonized_triplet_audit_summary": "data/processed/limburg_chapter_triplet_audit_v1/summary.json"
+  "harmonized_triplet_audit_summary": "data/processed/limburg_chapter_triplet_audit_v1/summary.json",
+  "latest_interpretation": "config/limburg_chapter_interpretation_v1.json"
 }

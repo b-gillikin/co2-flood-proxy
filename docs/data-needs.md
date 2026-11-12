@@ -1,6 +1,6 @@
 # Limburg data needs — accepted chapter scope
 
-Updated 10 November 2026. Source of truth:
+Updated 11 November 2026. Source of truth:
 [agreed study](limburg-chapter-sized-study-2026-11-10.md) and
 [active pointer](../config/limburg_current_study.json).
 
@@ -8,14 +8,18 @@ Updated 10 November 2026. Source of truth:
 | --- | --- | --- |
 | Paired-SAR source images, labels and identities | Held: all 5,000 Kuro/Copernicus records across 20 events | Source training/selection; retain water-containing selection and check event separation, class/ignore semantics and selected fit compatibility |
 | Selected Copernicus-FM weights, code and normalizers | Held; native full-tile inference smoke passed | Frozen paired-date encoder and head; final all-source refits use the held source-selected protocol |
-| Existing source-trained states and fit manifests | Completed source-CV studies retained; two exact inference states recovered from verified Azure bundles | Source-only final fit recipe fixed from five held folds; six all-source states are being produced |
+| Existing source-trained states and fit manifests | All six final all-source states complete and hash-verified; source development retained | Source-only recipe fixed from five held folds; no additional fit needed |
 | External SAR, label, validity, flood and permanent-water masks | All nine pinned shards downloaded and hash-verified; 1,301 grids audited | Nine heldout activations; delivered P0 plus targets are available; **9.068 GiB** in the [core manifest](../config/limburg_chapter_sized_geoid_acquisition_v1.json) |
-| Updated compatible pre-event SAR (P1) | Metadata inventory and harmonized P0/P1/post acquisition complete for the primary paired subset | 1,118 label-blind metadata candidates; 915 single-product triplets, of which 913 were downloaded and independently verified. Record remaining tiles as coverage limits. Use the same processing chain for all three images in the paired contrast. |
-| Existing local SAR acquisitions and mapped references | Held: mixed radar/optical archive has 54 acquisition/AOI cases and 43 prepared reference grids | Use all assessable radar cases, not all mixed archive entries by default. Verify acquisition timing, support and provenance; no claim of many independent July 2021 events |
+| Updated pre-cutoff SAR (P1) | Metadata inventory and harmonized P0/P1/post acquisition complete for the primary paired subset | 1,118 label-blind metadata candidates; 915 single-product triplets, of which 913 were downloaded and independently verified. Of the 913 paired tiles, 447 match post-image geometry and 466 do not. Report the intended compatible population separately from the full catalogue; all dates share the harmonized processing chain. |
+| Existing local SAR acquisitions and mapped references | Complete mapping/scoring: 167 scene/grid records and 14 radar acquisition cases | All pass geometry; 35 records have a reference update. One July 2021 episode; timing and source-dependent labels qualify interpretation |
 | René/Jens gauge records and provider notes | Held | Local event timing and measurement context only. They do not define flooded pixels or require a new discharge model |
 | Recovery manifests and existing source backups | Retained | Verify any new transfer/cache before cleanup. Historical large imagery may require documented Azure restoration only if actually needed |
 
-## Data preparation still needed
+## Completed acquisition and validity resolution
+
+All six final source states, external and local mapping/scoring and the geometry/target audit are complete. The [consolidation](limburg-study-consolidation-2026-11-11.md) records 447 geometry-compatible paired external tiles and all 167 compatible local records. No further data pull is required for the bounded interpretation.
+
+## Preserved preparation requirements
 
 Assign source versus external roles after actual event/geographic overlap and
 label/reference checks. Preserve delivered-reference metadata, target ignore

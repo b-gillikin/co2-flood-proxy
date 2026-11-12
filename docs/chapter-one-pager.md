@@ -10,7 +10,8 @@ events, and how does the choice of pre-flood reference affect their performance?
 
 Two connected comparisons: performance of task-appropriate pipelines on new
 events, and the effect of replacing the delivered reference with a compatible,
-more recent pre-flood image while holding the event image and model fixed.
+more recent image preceding the provisional event cutoff while holding the
+event image and model fixed.
 
 ## Motivation
 
@@ -40,8 +41,8 @@ inspected and represent one physical flood, not independent confirmatory events.
 ## Method
 
 Three pipelines: (1) Copernicus-FM frozen paired-SAR encoder with trained spatial
-head; (2) same-input standard U-Net; (3) competent reference-aware physical SAR
-change/water method. Each receives P0 delivered reference and P1 updated compatible
+head; (2) same-input standard U-Net; (3) source-calibrated physical SAR
+threshold/change rule. Each receives P0 delivered reference and P1 updated
 reference under a source-fixed, label-blind acquisition rule. No third-image
 fusion or target fine-tuning. Reuse exact compatible source fits; use source-only
 selection and three source-training seeds for learned pipelines.
@@ -59,41 +60,40 @@ P1 updates stay visible in coverage and applicability reporting.
 
 ## Findings
 
-All six final source fits, external and local mapping/scoring, paired summaries,
-and the event review are complete. On harmonized P0 imagery, episode-balanced
-flood IoU is 0.396 for Copernicus-FM, 0.380 for U-Net and 0.295 for the physical
-rule. Copernicus's small advantage over U-Net is uncertain and changes with
-the processing/cohort setting; this is not evidence of general superiority.
+The mapping, event review and validity consolidation are complete. The external
+paired census has 913 tiles; 447 have references matching event-image geometry.
+All 167 local scene/grid records pass geometry. The international cohort supplies
+principal evaluation evidence; local July 2021 cases form one Dutch/German
+receiving episode, not independent country comparisons.
 
-Updating the reference reduces average flood-class agreement across all three
-methods. The event review separates this from broad water detection: Copernicus
-water/land IoU increases from 0.519 to 0.541 while flood IoU falls to 0.274.
-About 74% of its gross lost correct flood detections become permanent-water
-predictions. Existing dark patterns in P1 support that explanation in major
-cases, especially Greece and Ecuador; background rejection matters elsewhere.
-Official Babahoyo reports independently establish flooding before a reference
-that was selected as preceding the catalogue's March event date. A date cutoff
-does not guarantee an unflooded reference. Exact per-pixel water history remains
-unverified. March Italy is a useful counterexample, with P1 improving precision.
+On compatible geometry, episode-balanced flood IoU is .452 Copernicus-FM,
+.445 U-Net and .341 physical under P0; .365/.372/.280 under P1. Copernicus minus
+U-Net is +.008 [−.023,.037]: no clear superiority or equivalence. Its newer-reference
+change is −.087 [−.224,.001], attenuating to −.022 [−.063,.008] when the existing
+listed <=24h radar/label timing check is also applied. Cohorts change with these
+restrictions; attenuation does not isolate geometry or timing as its cause.
 
-The local comparison includes all 167 assessable held scene/grid records across
-14 acquisition cases, representing one July 2021 flood episode. Only 35 records
-obtain a changed reference. Temporal offsets, hydrography/trace exclusions and
-shared-source labels qualify these as reference-map comparisons.
+The event review finds heterogeneous changes in flood designation, including
+switches to permanent-water and background predictions and improvements in
+precision. Broad water recognition can remain intact. The target is agreement
+with the released event-flood classification, not independently verified new
+inundation since P1. Derived permanent-water labels and local reference timing
+qualify interpretation. Newer references are not demonstrated to be generally
+harmful, and reference sensitivity itself is established in earlier literature.
 
-Predictions are backed up in 46 verified Azure archives (83.1 GiB); compact class
-maps and score/coverage records are retained locally. The completed external
-evaluation covers all 1,301 released records and 913 genuinely paired triplets.
-The [event-review memo](reviews/limburg-event-review-2026-11-11.md) contains the
-activation-by-activation evidence, qualifications and reproduction commands.
-The 409 released tiles with
-no flood-class target pixels remain in false-alarm/coverage reporting.
+The unrestricted full-catalogue results and all prior model outputs remain
+preserved. The geometry restriction is a transparent post-result validity
+correction, not a fresh confirmatory experiment. No new model, selector,
+training run or data branch is needed to report the completed comparison.
+
+Final source-fit logged epochs total about 2.03h Copernicus and 1.27h U-Net,
+excluding source development/cache preparation/startup. External execution windows
+are 10.47h and 4.97h including IO/archival overhead, not isolated inference or
+operational latency. Predictions remain in 46 verified Azure archives (83.14 GiB).
+
+[Current consolidated account](limburg-study-consolidation-2026-11-11.md) ·
+[Numerical receipt](reviews/limburg-validity-consolidation-2026-11-11.json) ·
 [Agreed design](limburg-chapter-sized-study-2026-11-10.md) ·
-[Data needs](data-needs.md) · [Handoff](HANDOFF.md) ·
-[Completed findings](limburg-consolidated-findings-2026-11-10.md) ·
+[Handoff](HANDOFF.md) ·
+[Historical spatial findings](limburg-consolidated-findings-2026-11-10.md) ·
 [Future ideas](../archive/future-ideas/2026-11-10-broad-spatial-programme/README.md).
-
-Latest [scientific/data/compute audit](reviews/limburg-chapter-scope-audit-2026-11-10.md)
-and [acquisition/grid audit](reviews/limburg-steps2-3-acquisition-grid-2026-11-10.md):
-keep the scope. The paired reference experiment uses one harmonized SAR chain;
-source processing differences, coverage and local-case provenance stay visible.
