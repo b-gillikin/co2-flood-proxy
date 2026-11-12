@@ -5,6 +5,9 @@ the dissertation; this is an internal research aid.
 
 ## Current continuation — 12 November 2026
 
+**Later audit:** the proposed full experiment is not recommended for launch as written. [Audit findings](reviews/limburg-response-mapping-plan-audit-2026-11-12.md) distinguish a plausible local-adaptation question from an insufficiently specified, potentially repetitive matrix. No adaptation finding, pilot or new queue exists. Revised comparator/target design remains a recommendation.
+
+
 **How much can limited local annotation improve transferred satellite flood maps, and which areas should be labelled first?** Brian selected response mapping, not early-warning prediction. Existing maps simulate limited expert annotations; evaluation must use separate ground areas and count all local supervision. Copernicus-FM, same-input U-Net and a locally recalibrated physical rule remain the comparators. The completed study below supplies the starting point, not an adaptation result.
 
 [Current plan](limburg-response-mapping-plan-2026-11-12.md) · [Literature/data review](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md). Core data are held; new February 2021 German radar/reference material is a candidate additional episode. No training launched. Local split/reference/lineage preparation is next.

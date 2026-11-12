@@ -17,6 +17,8 @@ Updated 11 November 2026. Source of truth:
 
 ## Response-mapping continuation — 12 November 2026
 
+**Later assessment:** [the plan audit](reviews/limburg-response-mapping-plan-audit-2026-11-12.md) revises the recommendation to keep the entire matrix unchanged. Acquired files and accessible papers do not establish that a full experiment is worthwhile. No training is launched; the audit recommends a finite comparator/target revision first.
+
 The previous table describes the completed reference-policy study. Brian has now chosen the [local-adaptation response-mapping plan](limburg-response-mapping-plan-2026-11-12.md); historical exclusions of target adaptation below do not apply to this continuation. No training has started.
 
 Required source/model inputs and the three July 2021 receiving cases are held. [New acquisitions and full-text review](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md) add 15 paired SAR tiles for February 2021 EMSR497, 19 public regional vector packages, eight EMSR497 map PDFs, and 4TU flood-extent/ordinance context. Total new material including literature is approximately 1.01 GiB. The Rhine candidate requires reference/support preparation; Belgian discoveries are contextual, not an expansion of the primary geography. No new default agency request or model weights are needed.

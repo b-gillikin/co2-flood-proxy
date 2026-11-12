@@ -2,6 +2,10 @@
 
 12 November 2026. Internal research plan, not dissertation prose. Brian explicitly chose response mapping rather than early-warning prediction. The completed reference-policy study and its validity corrections remain preserved. This plan specifies the next study; it does not start training or replace completed results.
 
+## Later audit — recommendation revised
+
+The [12 November plan audit](reviews/limburg-response-mapping-plan-audit-2026-11-12.md) **does not recommend launching the full matrix as written**. The response-mapping question remains plausible, but novelty, binary local supervision versus three-class source outputs, the annotation population, one-reference support, paired seed design and a missing neural-score recalibration comparator need resolution. Label-policy comparison is established prior art. The proposed contrast worth retaining is unchanged transfer versus simple local recalibration versus adaptation, with policy allocation secondary. This is an audit recommendation, not an executed redesign or another experiment. No queue or pilot has started; no favorable-result threshold is imposed. The original proposal below is retained for traceability.
+
 ## Purpose and research question
 
 An agency receives a flood image and can either use a transferred mapping model unchanged or spend local expert effort improving it. We will assess what additional map quality that work buys and whether the improvement extends beyond the labelled locations.

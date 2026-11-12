@@ -1,5 +1,9 @@
 # Limburg handoff — updated 12 November 2026
 
+## Latest plan audit — 12 November
+
+[Audit of whether the new study is worth running](reviews/limburg-response-mapping-plan-audit-2026-11-12.md): **do not launch the full adaptation/allocation matrix as written**. A finite design revision is recommended, including binary supervision semantics, a neural-score recalibration alternative, the operational annotation pool, single-reference support and paired seed design. The literature overlaps strongly with the proposed policy comparison. This does not cancel the chapter, require favorable results or introduce a new data gate. No fitting/pilot launched. The completed comparison remains intact.
+
 ## Active scope
 
 Brian accepted the [chapter-sized mapping study](limburg-chapter-sized-study-2026-11-10.md).

@@ -58,6 +58,8 @@ The only work needed before model fitting is **data preparation/design execution
 
 ## Implications for the plan
 
+**Later assessment:** [the plan audit](limburg-response-mapping-plan-audit-2026-11-12.md) revises the recommendation to keep the entire matrix unchanged. Acquired files and accessible papers do not establish that a full experiment is worthwhile. No training is launched; the audit recommends a finite comparator/target revision first.
+
 Keep the RQ and comparator set. Explicitly position this as a regional empirical evaluation of **how much receiving-agency annotation helps outside the annotated places**, with full local-supervision costs and negative transfer visible. Random/uncertainty/diversity selection, active learning and fine-tuning are established methods. Their inclusion is a comparison design, not the novelty claim. The annotation/test separation, realistic receiving context, label accounting and observed limitations need to yield useful evidence; method count alone does not do so.
 
 Retain one-shot selection unless an iterative experiment is deliberately approved later. Do not add ALFA's DEM/ForestNet, DIAL's annotation-channel model, HydroATLAS clustering, an optical branch, extra countries, or a new forecast experiment merely because these papers use them. The existing data support testing the scoped question; independent ground truth and measured operator annotation times remain limits to interpretation, not hidden promises or new mandatory acquisition gates.
