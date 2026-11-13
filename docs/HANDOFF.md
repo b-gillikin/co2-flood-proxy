@@ -1,4 +1,8 @@
-# Limburg handoff — updated 12 November 2026
+# Limburg handoff — updated 13 November 2026
+
+## Problem-first reassessment — 13 November
+
+Brian requested starting the idea again, without retaining the adaptation study as a commitment. [Three complete conceptual passes](reviews/limburg-three-pass-problem-reassessment-2026-11-13.md) consider connected cross-border observation value, flood-preserving quality control, and end-to-end satellite coverage. A is the first discussion candidate; B requires better real-fault evidence; C is presently a weaker standalone direction. These are options, not a selected RQ, experimental protocol, data request or three-path programme. No new model, run, queue or download started. Prior completed results remain intact.
 
 ## Latest plan audit — 12 November
 
