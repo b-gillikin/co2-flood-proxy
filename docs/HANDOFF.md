@@ -1,4 +1,8 @@
-# Limburg handoff — updated 13 November 2026
+# Limburg handoff — updated 14 November 2026
+
+## Short research account — 14 November
+
+[The short account](limburg-short-research-account-2026-11-14.md) synthesizes completed analogue, atmospheric/CO2, scarcity, model-specific discharge and spatial mapping work, retaining positive results and later validity corrections. It distinguishes demonstrated results from interpretations and the unresolved chapter contribution. Brian requested consolidation before selecting another research argument; no new study, pilot, run or model was chosen. This account is an internal research aid, not dissertation prose.
 
 ## Problem-first reassessment — 13 November
 

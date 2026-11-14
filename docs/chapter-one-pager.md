@@ -3,6 +3,10 @@
 Living research brief. **Scope accepted by Brian, 10 November 2026.** Brian writes
 the dissertation; this is an internal research aid.
 
+## Research status — 14 November 2026
+
+[Short account of completed research](limburg-short-research-account-2026-11-14.md). Brian has asked to develop the substantive research argument from the beginning, without retaining the adaptation experiment as a commitment. The older continuation below is historical proposal material. No replacement RQ or study has been selected; completed empirical findings remain preserved.
+
 ## Current continuation — 12 November 2026
 
 **Later audit:** the proposed full experiment is not recommended for launch as written. [Audit findings](reviews/limburg-response-mapping-plan-audit-2026-11-12.md) distinguish a plausible local-adaptation question from an insufficiently specified, potentially repetitive matrix. No adaptation finding, pilot or new queue exists. Revised comparator/target design remains a recommendation.
