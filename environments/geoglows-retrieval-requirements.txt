@@ -1,0 +1,5 @@
+# Install in .venv-geoglows, not the existing EO/model runtimes.
+# This small overlay uses the existing Python 3.11 research environment.
+zarr==2.18.7
+numcodecs==0.15.2
+s3fs==2026.9.0

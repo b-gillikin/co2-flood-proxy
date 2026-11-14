@@ -1,3 +1,24 @@
+# Current data needs — GEOGLOWS Stages 1–2, 14 November 2026
+
+[Design and interpretation](limburg-geoglows-stages12-protocol-2026-11-14.md).
+
+| Input | Status / role |
+| --- | --- |
+| NL/DE observed Q and measurement qualifications | Held; reference inputs, historical training labels and independent observed verification |
+| Meuse observations | Held; contextual channels at Sint Pieter and Venlo, not new targets |
+| Common rainfall and storm clock | Held; unchanged across stages |
+| Presto and AnySat context/raw features | Held, selected compact table hashes verified; reuse exact completed contexts |
+| GEOGLOWS RFS V2 hourly discharge | Downloaded for 2010–2025 at nine mapped input sites; interval-start labels shifted to hour end |
+| RFS V2 stream/catchment geometry | Downloaded and audited against local catchments; nine selected reaches and rejected Eys nearest reach documented |
+| Eyserbeek independent model discharge | Not represented in this network; structural coverage limitation, not a pending download. Keep channel missing, retain separate coverage case |
+| Additional core data requests | None needed for this retrospective Stages 1–2 specification |
+| As-issued forecast/reforecast inputs | Not acquired by this setup; needed for a future operational replay, not assumed present |
+| External European gauges / new imagery | Stage 3 not launched; no download committed by current setup |
+
+Earlier mapping-study inventory below is retained as historical/completed work.
+
+---
+
 # Limburg data needs — accepted chapter scope
 
 Updated 11 November 2026. Source of truth:

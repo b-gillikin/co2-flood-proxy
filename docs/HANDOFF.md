@@ -1,3 +1,24 @@
+# Current handoff — GEOGLOWS Stages 1–2, 14 November 2026
+
+Brian approved the paired observed/modelled-discharge direction and requested
+setup. [Protocol and exact run commands](limburg-geoglows-stages12-protocol-2026-11-14.md).
+Download, mapping audit, full-census preparation and input audit are complete;
+`results/limburg_geoglows_stages12_v1/readiness.json` reports ready for run.
+Full model comparison/review has not started. No cloud jobs or alert emails.
+
+Seven mapped tributary targets plus two Meuse context reaches; Eys has no
+independent reach and remains a missing local-input coverage case. All 15,392
+opportunities per stage remain in the ledger. Direct product inference uses the
+seven mapped targets. Reuse AnySat/Presto features and validated ridge heads;
+include conventional and simple-calibration baselines. GEOGLOWS retrospective
+release lag prohibits an as-issued/live-fallback claim from this replay alone.
+
+Previous work below is dated historical/completed material, not the active
+continuation. The previous one-pager is retained in
+`archive/retired-directions/2026-11-14-pre-geoglows-planning/`.
+
+---
+
 # Limburg handoff — updated 14 November 2026
 
 ## Short research account — 14 November

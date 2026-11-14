@@ -1,3 +1,21 @@
+# Limburg — high-water assessment with alternative discharge information
+
+**Current direction — approved 14 November 2026:** paired observed versus
+GEOGLOWS discharge inputs on the same NL/DE rivers, with conventional assessment,
+simple calibration and task-specific AI corrections. Stages 1–2 are prepared and
+audited; full comparisons are not launched. No new EO extraction is required.
+
+- [Current one-pager](docs/chapter-one-pager.md)
+- [Research design and execution guide](docs/limburg-geoglows-stages12-protocol-2026-11-14.md)
+- [Active configuration](config/limburg_geoglows_stages12_v1.json)
+- [Reviewed reach mappings](config/limburg_geoglows_reaches_v1.json)
+- [Handoff](docs/HANDOFF.md)
+
+**Below: preserved earlier mapping-study documentation.** It describes completed
+or superseded work; the active continuation is the design linked above.
+
+---
+
 # Limburg: pre-flood information and satellite-AI flood mapping
 
 **Active scope — accepted by Brian, 10 November 2026.**

@@ -16,6 +16,7 @@ config/local_monitor.env
 .pytest_cache/
 .ruff_cache/
 .venv-foundation/
+.venv-geoglows/
 .venvs-eo/
 .venvs-applied/
 kerkrade_data/.venv/
