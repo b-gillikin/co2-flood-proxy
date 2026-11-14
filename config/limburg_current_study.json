@@ -1,14 +1,14 @@
 {
   "date": "2026-11-14",
-  "status": "geoglows_stages12_prepared_not_fitted",
-  "scope": "config/limburg_geoglows_stages12_v1.json",
+  "status": "geoglows_stages12_v2_corrected_prepared_not_fitted",
+  "scope": "config/limburg_geoglows_stages12_v2.json",
   "acquisition": "config/limburg_geoglows_stages12_v1.json",
-  "compute": "docs/limburg-geoglows-stages12-protocol-2026-11-14.md",
+  "compute": "docs/limburg-geoglows-stages12-protocol-v2-2026-11-14.md",
   "handoff": "docs/HANDOFF.md",
   "new_queue_started": false,
   "new_bulk_download_started": false,
   "selected_series_download_complete": true,
-  "latest_audit": "results/limburg_geoglows_stages12_v1/setup_audit.json",
+  "latest_audit": "results/limburg_geoglows_stages12_v2/setup_audit.json",
   "completed_study": {
     "date": "2026-11-11",
     "status": "mapping_complete_validity_resolved_consolidated",
@@ -23,8 +23,11 @@
     "interpretation": "config/limburg_chapter_interpretation_v1.json"
   },
   "latest_design_audit": "docs/reviews/limburg-geoglows-code-design-audit-2026-11-14.md",
-  "comparison_corrections_pending": true,
+  "comparison_corrections_pending": false,
   "eys_removal_agreed": true,
-  "prepared_target_count": 8,
-  "planned_target_count": 7
+  "prepared_target_count": 7,
+  "planned_target_count": 7,
+  "eys_removal_implemented": true,
+  "audit_resolution": "docs/reviews/limburg-geoglows-audit-corrections-2026-11-14.md",
+  "superseded_setup": "config/limburg_geoglows_stages12_v1.json"
 }

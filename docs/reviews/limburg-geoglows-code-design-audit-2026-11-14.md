@@ -1,5 +1,7 @@
 # GEOGLOWS Stages 1–2: code and research-design audit
 
+**Implementation update:** all six findings are addressed in the [v2 correction record](limburg-geoglows-audit-corrections-2026-11-14.md). The original findings and pending-state wording below are retained as the audit record, not current status.
+
 14 November 2026. Audited commit `9a34d7b`. This is an audit, not an implemented
 design revision. No production code, source data, prepared inputs or fitted
 research results were changed. No full comparison was launched.

@@ -2,12 +2,13 @@
 
 **Current direction — approved 14 November 2026:** paired observed versus
 GEOGLOWS discharge inputs on the same NL/DE rivers, with conventional assessment,
-simple calibration and task-specific AI corrections. Stages 1–2 are prepared and
-audited; full comparisons are not launched. No new EO extraction is required.
+simple calibration and task-specific AI corrections. The six audit corrections
+are implemented. The seven-target Stages 1–2 are prepared and verified; full
+comparisons are not launched. No new EO extraction is required.
 
 - [Current one-pager](docs/chapter-one-pager.md)
-- [Research design and execution guide](docs/limburg-geoglows-stages12-protocol-2026-11-14.md)
-- [Active configuration](config/limburg_geoglows_stages12_v1.json)
+- [Research design and execution guide](docs/limburg-geoglows-stages12-protocol-v2-2026-11-14.md)
+- [Active configuration](config/limburg_geoglows_stages12_v2.json)
 - [Reviewed reach mappings](config/limburg_geoglows_reaches_v1.json)
 - [Handoff](docs/HANDOFF.md)
 

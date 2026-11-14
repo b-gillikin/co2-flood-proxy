@@ -1,5 +1,7 @@
 # Same rivers, different discharge information: Stages 1–2
 
+**Superseded setup:** the [corrected seven-target v2 protocol](limburg-geoglows-stages12-protocol-v2-2026-11-14.md) implements the audit repairs. The eight-target design below is retained as a dated historical record.
+
 14 November 2026. Internal research design and execution guide. Brian approved
 the three-stage direction and requested setup of the first two stages. These
 are research aids; Brian writes the dissertation. No formal preregistration or

@@ -6,7 +6,9 @@ import numpy as np
 import pandas as pd
 
 
-def paired_summary(rows, differences, years, multiplicities, transfer=False):
+def paired_summary(
+    rows, differences, years, multiplicities, transfer=False, fixed_population=False
+):
     """Equal sites, then storms, then available issue offsets on PAIRED support.
 
     Whole storms belong to their INITIAL landmark year. The same matrix of
@@ -14,6 +16,7 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
     draws are retained/countable; no retry or favourable-draw selection.
     """
     frame = rows[["gauge", "physical_river", "storm_id", "cutoff_utc"]].copy()
+    required_sites = frame[["gauge", "physical_river"]].drop_duplicates().sort_values("gauge")
     frame["difference"] = differences
     frame = frame[np.isfinite(frame.difference)]
     empty = dict(
@@ -22,9 +25,11 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
         upper=np.nan,
         assessments=0,
         storms=0,
-        sites=0,
+        sites=len(required_sites) if fixed_population else 0,
         years=0,
         bootstrap_nonfinite=len(multiplicities),
+        bootstrap_partial_sites=0,
+        point_missing_sites=len(required_sites) if fixed_population else 0,
     )
     if frame.empty:
         return empty
@@ -34,7 +39,11 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
         .difference.mean()
         .reset_index()
     )
-    sites = storms[["gauge", "physical_river"]].drop_duplicates().sort_values("gauge")
+    sites = (
+        required_sites
+        if fixed_population
+        else storms[["gauge", "physical_river"]].drop_duplicates().sort_values("gauge")
+    )
     numerator, denominator = [], []
     for site in sites.gauge:
         local = storms[storms.gauge.eq(site)]
@@ -47,6 +56,8 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
     values = np.divide(
         counts @ num.T, den, out=np.full_like(den, np.nan, dtype=float), where=den > 0
     )
+    complete = (den > 0).all(1)
+    partial = (den > 0).any(1) & ~complete
     if transfer:
         grouped = []
         for river in sites.physical_river.unique():
@@ -65,6 +76,8 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
     combined = np.divide(
         np.nansum(values, axis=1), count, out=np.full(len(values), np.nan), where=count > 0
     )
+    if fixed_population:
+        combined[~complete] = np.nan
     valid = combined[1:][np.isfinite(combined[1:])]
     interval = np.quantile(valid, [0.025, 0.975]) if len(valid) else [np.nan, np.nan]
     return dict(
@@ -76,6 +89,8 @@ def paired_summary(rows, differences, years, multiplicities, transfer=False):
         sites=len(sites),
         years=storms.year.nunique(),
         bootstrap_nonfinite=int((~np.isfinite(combined[1:])).sum()),
+        bootstrap_partial_sites=int(partial[1:].sum()),
+        point_missing_sites=int((den[0] == 0).sum()),
     )
 
 

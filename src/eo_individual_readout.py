@@ -357,6 +357,8 @@ def prequential_heads(
     alphas=ALPHAS,
     eo_weights=(0.1, 1.0),
     progress=None,
+    training_available=None,
+    raw_fallback=None,
 ):
     """Each annual grid is fitted once and reused in earlier-year validation.
 
@@ -365,13 +367,24 @@ def prequential_heads(
     policy, not a raw model tuned on that validation year's labels. This avoids
     expensive refitting of identical inner-year grids without changing chronology.
     """
-    raw_oof = baseline.copy()
-    encoded = baseline.copy()
+    # Optional paired-source policy: every arm trains on the same historical
+    # rows, while unsupported satellite queries use a causal hydrology policy.
+    # Defaults preserve the historical individual-experiment interpretation.
+    fallback = baseline if raw_fallback is None else np.asarray(raw_fallback, float)
+    if fallback.shape != baseline.shape:
+        raise ValueError("Fallback and baseline trajectories must align")
+    raw_oof = fallback.copy()
+    encoded = fallback.copy()
     grid = {}
     records = []
     years = np.asarray(years)
     raw_available = np.asarray(raw_available, bool)
     eo_available = np.asarray(eo_available, bool)
+    training_available = (
+        raw_available if training_available is None else np.asarray(training_available, bool)
+    )
+    if training_available.shape != raw_available.shape:
+        raise ValueError("Training-support mask must align with query rows")
 
     def weights(ids):
         return balanced_weights(
@@ -384,7 +397,9 @@ def prequential_heads(
         closed = np.array(train_before(int(year)), dtype=bool, copy=True)
         held_storms = np.unique(storm_ids[years == year])
         closed &= ~np.isin(storm_ids, held_storms)
-        train = np.flatnonzero(closed & label_ready & raw_available & np.isfinite(baseline).all(1))
+        train = np.flatnonzero(
+            closed & label_ready & training_available & np.isfinite(baseline).all(1)
+        )
         test = np.flatnonzero(years == year)
         if not len(train):
             records.append(
@@ -392,7 +407,7 @@ def prequential_heads(
                     year=int(year),
                     training=0,
                     status="no_closed_training",
-                    raw_parameters="baseline",
+                    raw_parameters="hydro_fallback" if raw_fallback is not None else "baseline",
                     eo_parameters="raw_only",
                 )
             )
@@ -419,7 +434,7 @@ def prequential_heads(
                     (years == previous)
                     & closed
                     & label_ready
-                    & raw_available
+                    & training_available
                     & np.isfinite(baseline).all(1)
                 )
                 if len(ids):
@@ -427,6 +442,8 @@ def prequential_heads(
             if len(validation) == 2:
                 break
         totals = {"baseline": [0.0, 0.0, -1.0, float("inf")]}
+        if raw_fallback is not None:
+            totals["hydro_fallback"] = [0.0, 0.0, -2.0, float("inf")]
         for alpha in alphas:
             totals[float(alpha)] = [0.0, 0.0, 0.0, float(alpha)]
         for previous, ids in validation:
@@ -434,17 +451,20 @@ def prequential_heads(
             positions = np.searchsorted(full, ids)
             w = weights(ids)
             for key in totals:
-                pred = (
-                    baseline[ids]
-                    if key == "baseline"
-                    else grid[previous][(0.0, float(key))][positions]
-                )
+                pred = fallback[ids].copy()
+                active = raw_available[ids]
+                if key == "baseline":
+                    pred[active] = baseline[ids][active]
+                elif key != "hydro_fallback":
+                    pred[active] = grid[previous][(0.0, float(key))][positions[active]]
                 num, den = weighted_error(y[ids], pred, w)
                 totals[key][0] += num
                 totals[key][1] += den
-        raw_parameter = choose(totals)
+        raw_parameter = choose(totals) if validation or raw_fallback is None else "hydro_fallback"
         use = raw_available[test]
-        if raw_parameter != "baseline":
+        if raw_parameter == "baseline":
+            raw_oof[test[use]] = baseline[test[use]]
+        elif raw_parameter != "hydro_fallback":
             raw_oof[test[use]] = fit[(0.0, raw_parameter)][use]
         # EO can preserve the exact tuned raw policy OR reject the entire head.
         candidates = {
@@ -454,8 +474,9 @@ def prequential_heads(
         for weight in eo_weights:
             for alpha in alphas:
                 candidates[(float(weight), float(alpha))] = [0.0, 0.0, float(weight), float(alpha)]
-        for alpha in alphas:
-            candidates[(0.0, float(alpha))] = [0.0, 0.0, 0.0, float(alpha)]
+        if raw_fallback is None:
+            for alpha in alphas:
+                candidates[(0.0, float(alpha))] = [0.0, 0.0, 0.0, float(alpha)]
         for previous, ids in validation:
             full = np.flatnonzero(years == previous)
             positions = np.searchsorted(full, ids)
@@ -463,7 +484,12 @@ def prequential_heads(
             for key in candidates:
                 pred = raw_oof[ids].copy()
                 if key == "baseline":
-                    pred = baseline[ids]
+                    active = raw_available[ids] & (
+                        eo_available[ids] if raw_fallback is not None else True
+                    )
+                    if raw_fallback is None:
+                        pred = fallback[ids].copy()
+                    pred[active] = baseline[ids][active]
                 elif key != "raw_only":
                     active = raw_available[ids] & (eo_available[ids] if key[0] else True)
                     pred[active] = grid[previous][key][positions[active]]
@@ -473,7 +499,12 @@ def prequential_heads(
         parameter = choose(candidates) if validation else "raw_only"
         encoded[test] = raw_oof[test]
         if parameter == "baseline":
-            encoded[test] = baseline[test]
+            active = raw_available[test] & (
+                eo_available[test] if raw_fallback is not None else True
+            )
+            if raw_fallback is None:
+                encoded[test] = fallback[test]
+            encoded[test[active]] = baseline[test[active]]
         elif parameter != "raw_only":
             active = raw_available[test] & (eo_available[test] if parameter[0] else True)
             encoded[test[active]] = fit[parameter][active]

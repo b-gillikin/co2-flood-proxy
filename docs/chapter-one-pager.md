@@ -1,60 +1,62 @@
-# Limburg — assessing high water with alternative discharge information
+# Limburg — high-water assessment with alternative discharge information
 
 Living research aid, updated 14 November 2026. Brian writes dissertation prose.
-
-Latest audit: [comparison corrections identified](reviews/limburg-geoglows-code-design-audit-2026-11-14.md). Brian accepts dropping Eys from inputs and targets in both stages. The revised plan has seven targets (13,468 opportunities per stage); the eight-target preparation described below is retained pending correction/regeneration. No full run has started.
 
 ## Research Question(s)
 
 When gauge observations are replaced by global modelled discharge, how well can
 we assess developing high water, and can AI improve that assessment?
 
-Compare reference versus alternative inputs on the same rivers/events, separate
-simple calibration from hydrological learning and satellite representation value,
-and consider European replication only after a specific Stage 2 conclusion.
+Compare information sources on the same rivers/events; distinguish hydrological
+learning, raw satellite context and encoder value. European replication remains
+a separate later stage, tied to a specific finding or limitation.
 
 ## Motivation
 
-Understand what high-water assessment capability requires current local gauges,
-what a global discharge service can supply, and whether AI adds enough value to
+Identify what high-water assessment capability needs current local observations,
+what a global discharge product supports, and whether AI adds enough value to
 justify its cost. This can inform monitoring resilience and agency investment;
-it does not demonstrate improved warnings or avoided losses.
+it does not establish operational warning improvement or avoided losses.
 
 ## Data
 
-Held NL/DE discharge, measurement qualifications, RADOLAN rainfall and corrected
-AnySat/Presto feature tables. GEOGLOWS hourly series for 2010–2025 are downloaded
-for seven tributary reaches and both Meuse context sites. The full stream network
-and catchment polygons were checked against our held catchments. Eys lacks an
-independent model reach: retain it as a separate coverage case, never substitute
-Geul flow. Observed future discharge remains the verification target.
+Held NL/DE discharge and provider measurement qualifications, common RADOLAN
+rainfall, and verified Presto/AnySat raw and encoded context tables. GEOGLOWS
+hourly 2010–2025 series are downloaded for seven tributary reaches and both Meuse
+context sites, with stream topology and contributing-polygon checks. Eys has
+been dropped from both targets and predictors; its original data are preserved.
+Model outlets approximate gauge sections and are not identical physical locations.
 
 ## Method
 
-Full 481-storm, eight-gauge, four-offset census: 15,392 opportunities per stage.
-Observed versus GEOGLOWS inputs; replace all ten query/donor Q channels in Stage 2,
-with Eys explicitly missing. Keep rainfall and targets unchanged. Compare
-conventional analogues, persistence, prior-only monthly quantile mapping,
-hydrology-only correction, matched raw-EO correction and encoder correction.
-AnySat and Presto are separate task-specific comparisons; no ten-model sweep.
+All 481 held regional rainfall episodes × seven gauges × four issue offsets:
+13,468 opportunities per stage. Compare observed and GEOGLOWS Q inputs, keeping
+rainfall and observed next-24h verification unchanged. Nine active Q feeds in
+both stages. Conventional analogue mean/median, persistence, local flow-duration
+calibration, hydrology-only correction, matched raw-EO correction and encoder
+correction. Core encoders: Presto and AnySat, used separately with existing data.
 
 ## Methodology
 
-Paired retrospective input substitution, chronological annual fitting/tuning and
-closed earlier-storm donors. Primary direct product comparison on seven mapped
-targets; full eight-gauge pipeline accounting retained. Evaluate next-24h observed
-Q, high-water strata, peak/timing errors, coverage and actual event selections,
-using matched support and shared whole-year uncertainty. The archive has been
-examined before: this is exploratory research, not a new blind confirmatory test.
-GEOGLOWS reanalysis release lag is not replayed: no as-issued forecast claim.
+Paired retrospective source substitution; closed earlier-storm archives,
+chronological annual fitting/tuning, identical training/validation opportunities
+across correction arms and train-only missing-feature treatment. Missing raw EO
+falls back to the causal hydrology policy; missing encoder input falls back to
+raw. Evaluate high-water MAE, the full census with fallbacks and joint high-water/
+EO-supported results, plus peaks, timing and actual analogue selections. Shared
+year bootstrap retains the declared site population and counts undefined draws.
+Historical data have informed prior work: this is exploratory, not a blind new
+confirmatory dataset. Retrospective GEOGLOWS publication delay is not replayed;
+there is no as-issued/live-fallback claim.
 
 ## Findings / current status
 
-Stages 1–2 inputs prepared and audited; full model comparison not launched.
-No new performance finding. Setup caught a wrong nearest-reach match at Eys and
-resolved the Wurm/Broicher Bach confluence. Earlier completed studies remain
-preserved as prior evidence, not scores for the new paired comparison.
+All six setup-audit corrections implemented. Seven-target inputs regenerated,
+full-input audit passed, 57 relevant tests passed, dependency checks clean.
+Full comparison fitting has not started; no new performance finding. Earlier
+research and the superseded eight-target setup remain preserved.
 
-[Protocol and run commands](limburg-geoglows-stages12-protocol-2026-11-14.md) ·
-[Active configuration](../config/limburg_geoglows_stages12_v1.json) ·
-[Short account of earlier work](limburg-short-research-account-2026-11-14.md).
+[Corrected protocol and commands](limburg-geoglows-stages12-protocol-v2-2026-11-14.md) ·
+[Active configuration](../config/limburg_geoglows_stages12_v2.json) ·
+[Audit resolution](reviews/limburg-geoglows-audit-corrections-2026-11-14.md) ·
+[Earlier research account](limburg-short-research-account-2026-11-14.md).

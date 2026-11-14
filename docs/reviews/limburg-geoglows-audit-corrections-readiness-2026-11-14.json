@@ -1,0 +1,140 @@
+{
+  "date": "2026-11-14",
+  "status": "six_audit_corrections_implemented",
+  "configuration": "config/limburg_geoglows_stages12_v2.json",
+  "original_acquisition_reused": true,
+  "tests_passed": 57,
+  "readiness": {
+    "status": "ready_for_run",
+    "data_integrity_ready": true,
+    "checks": {
+      "presto": true,
+      "anysat": true,
+      "downloaded": true,
+      "mapping_audited": true,
+      "prepared": true,
+      "full_input_audit": true
+    },
+    "disk_free_gib": 78.73691940307617,
+    "execution_status": "not_started",
+    "full_analysis_launched": false,
+    "completed_jobs": [],
+    "expected_jobs": [
+      "observed__presto",
+      "observed__anysat",
+      "geoglows__presto",
+      "geoglows__anysat"
+    ],
+    "active_jobs": [],
+    "last_error": null,
+    "attempts": 0,
+    "config_sha256": "b92a9362a0cf84aae97f6025f2cd814474919047410c073d675bd2a5ea14e67e"
+  },
+  "input_audit": {
+    "status": "passed",
+    "assessed_opportunities_per_stage": 13468,
+    "baseline_checks": 32,
+    "baseline_check_elapsed_s": 0.1551889586262405,
+    "rough_uncalibrated_baseline_projection_s": 130.63030592363793,
+    "fitted_models": 0,
+    "all_outcomes_and_rain_unchanged": true,
+    "all_ten_stage2_channels_checked": true,
+    "no_future_hour_in_inputs": true,
+    "unmapped_eys_not_substituted": true,
+    "preparation_sha256": "3f7d08e8608d07feee79641b82fd4446b49a40f6b496c8c9577ea8529261c0ea",
+    "note": "Timing check is engineering only; no held-out performance claim."
+  },
+  "preparation": {
+    "status": "prepared_not_fitted",
+    "rows": 13468,
+    "storms": 481,
+    "source_hashes": {
+      "config/limburg_geoglows_stages12_v2.json": "b92a9362a0cf84aae97f6025f2cd814474919047410c073d675bd2a5ea14e67e",
+      "scripts/261_run_geoglows_comparison.py": "2a3e523930d1808e90c7c3408be3b4e71e4f68dfded4a2b11ca8b9ea5316e0fa",
+      "scripts/260_setup_geoglows_comparison.py": "45eb3d6baf0a9da339fd04530423da3a36dab8cdea19dfb6a9fb2e1a00972cd0",
+      "src/geoglows_experiment.py": "6da1b8f914365cee393df79630bdce89362285aa879951c95efa05e726d39192",
+      "src/eo_individual_baselines.py": "4328a5ac3726f4fd871051e7fa20eec1f90ed31928032132b5da04cff4e33702",
+      "src/eo_individual_readout.py": "f125e76565c359ff0de7e8be7b98c74ef8438eb47064543288ca4f4e09854360",
+      "src/eo_individual_evaluation.py": "ce107c57abbcaa3901c8e521e1681e4bd87058d0c495408d66c2cd08e7f477a1",
+      "src/eo_individual_review.py": "9bd4c7cbf779f3dc3b4dce9e472dcbc6c98a596bed02ec01879f35f9baf7e0c1",
+      "src/scarcity.py": "c49b6b3c3d8a2bab21e8b322af8c4b0edd511616105b92b9d246c1c2dbadc82c",
+      "src/eo_event_inputs.py": "43e6ec5488ef83383fb6cdb7573a86faeb05a6f82918006ca6540983b8ce0335",
+      "scripts/162_review_scarcity.py": "1427252d101bc739b98f2a7993203342be1f7e852f8ababbbfce15c325876a18",
+      "config/limburg_geoglows_reaches_v1.json": "3d0d2ec3cdf939d4ab02aa31b79479009fcb2f7501f3d23ce97f960e83e46b83",
+      "data/raw/limburg_geoglows_stages12_v1/download_manifest.json": "c0686207ed92ef0f3831e5f1813bbb7d73a9de5292ed0ba354dcf2e18329c436",
+      "data/raw/limburg_geoglows_stages12_v1/mapping_audit.json": "e3f791e021c2407062ab6fff3e57970c44931eec3890ee4bcbd5981d3d924254",
+      "data/raw/limburg_geoglows_stages12_v1/hourly_discharge.parquet": "2e0bae5a1de86862835436d22348fce88669c9e392367a4ea00e34dd65ebc097",
+      "results/limburg_scarcity_v2_2026_10_28/preparation/bank.npz": "229278eb99d3cdc76e39c5867b84deb8e8197578a143f7d742ef74f68b564dfa",
+      "results/limburg_scarcity_v2_2026_10_28/preparation/cases.parquet": "0b29b2d31aa83dc24bdf65628debb5cc8b1c3da58abcbd26fcf6640a59714591",
+      "results/limburg_scarcity_v2_2026_10_28/preparation/source_epoch_hours.npy": "4bb6d0fb17ea880e8ce9490b0858e4aa98425f878d1189e8a084d4e2f1dd83f6",
+      "results/storm_response/hourly_discharge.parquet": "773a5e4bbd9b9e37ecc3a53daf78b99a30bf10caf1f60e24afa83a3b6fd52c7f",
+      "results/storm_response/hourly_normalizer.parquet": "ec2c1df859fa391b915af7da204ef31f27acc4ac1bcdea55ccc2d477089f6d31",
+      "results/storm_response/hourly_strict.parquet": "62a31988681e45310a84c91a434f03f385ab499fc72a1f09bbc8b54875fc21fd",
+      "results/storm_response/hourly_domain.parquet": "dae2f4ffd73fbf73c654e397ef129f6f8f4a4df85cd8dc57dd49ffb6b1ce3be9",
+      "results/flood_case_review_2026_10_27/register.parquet": "9466d3ef12ef26268971ecaad6f04c291f1b17b32d004d352efa69b6bb6c5cd5",
+      "results/meuse_context_2026_10_27/sint_pieter_hourly.parquet": "ea5b2279c9aa11fc7d4b7d22eb786088db8b8d77c85fe870bfb60baa148513c1",
+      "results/meuse_context_2026_10_27/venlo_hourly.parquet": "07ec320fa71ee4e56d783a8c8693c112630fe1538584764a38870cd3a18979a7",
+      "results/limburg_individual_experiments_v1/features/presto/manifest.json": "a48aea508730726d31e289e28b9a3f27a753776ec1479d5903a113939a8012af",
+      "results/limburg_individual_experiments_v1/features/presto/context_features.parquet": "889c3edcf774ef51808e46f9c33309bd941bd3c00478f0d22d25a8c95fe319af",
+      "results/limburg_individual_experiments_v1/features/anysat/manifest.json": "f9a2dc249d7a5ec0cd2602d9153d7843a0f0169beadc1ef2805a75d6859b7a95",
+      "results/limburg_individual_experiments_v1/features/anysat/context_features.parquet": "48c391088980b400b643575e830ed7c4de8f1001602c10749772f71ecf7da712"
+    },
+    "outputs": {
+      "observed_bank.npz": "92234d4ac86d717463eb2610b58a13d3381c580fededee9f4a0f7904b526d6db",
+      "epochs.npy": "4bb6d0fb17ea880e8ce9490b0858e4aa98425f878d1189e8a084d4e2f1dd83f6",
+      "coverage.csv": "12dadf31438dc6a2d5dddcb579a1410735215cb260ebb84cd279cd6b198ea53a",
+      "cases.parquet": "235aa6891dbe34d588b1a6eaaabbb9edfdcb32e6a01d70335c1cc2f960f61835",
+      "calibration_observed.parquet": "6df2a6223ac8c18e1cab6c1574b96feedcec78f5f65676abe952c8a5f93a64b8",
+      "geoglows_bank.npz": "b2df587f4c9e35abbdc349491508888986f3f94b1a603f7f38281fe99625a11a"
+    },
+    "git_commit": "58a1c4737422970e0a2f57b5f6fdaa533dc35311",
+    "clock": "All hydrological inputs end by issue; publication delay explicitly not simulated. EO retains existing nominal past-only clock. Observed future Q is verification only.",
+    "no_new_empirical_result": true
+  },
+  "target_gauges": [
+    "10.Q.29",
+    "13.Q.34",
+    "15.Q.41",
+    "18.Q.45",
+    "6.Q.18",
+    "2828300000200",
+    "2828900000200"
+  ],
+  "source_count_active": 9,
+  "response_targets": 7,
+  "storms": 481,
+  "opportunities_per_stage": 13468,
+  "coverage_only_bootstrap_checks": {
+    "all": {
+      "sites": 7,
+      "assessments": 13134,
+      "bootstrap_nonfinite": 0,
+      "bootstrap_partial_sites": 0,
+      "point_missing_sites": 0
+    },
+    "high_water": {
+      "sites": 7,
+      "assessments": 2482,
+      "bootstrap_nonfinite": 0,
+      "bootstrap_partial_sites": 0,
+      "point_missing_sites": 0
+    },
+    "documented_flood": {
+      "sites": 6,
+      "assessments": 183,
+      "bootstrap_nonfinite": 445,
+      "bootstrap_partial_sites": 440,
+      "point_missing_sites": 0
+    }
+  },
+  "corrections": [
+    "Eys excluded from targets, query/donor Q and source normalization in both stages",
+    "Identical closed training and validation opportunities; causal hydrology/raw fallbacks",
+    "Fixed declared site population; partial-site draws undefined and counted",
+    "Joint high-water/EO-supported summaries and conventional median contrast",
+    "Pinned acquisition identities plus explicit channel-label alignment and per-reach validation",
+    "Actual execution status, error and resume history"
+  ],
+  "production_model_fits_started": false,
+  "scientific_performance_finding": false
+}

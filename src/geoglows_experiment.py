@@ -83,6 +83,202 @@ def hour_end(series):
     return result.where(np.isfinite(result) & (result >= 0))
 
 
+def align_channels(frame, slots=10):
+    """Channel labels are identities, not arbitrary parquet column positions."""
+    if frame.columns.duplicated().any():
+        raise ValueError("Duplicate discharge channel labels")
+    expected = [str(i) for i in range(slots)]
+    labels = [str(c) for c in frame.columns]
+    if len(set(labels)) != slots or set(labels) != set(expected):
+        raise ValueError("Discharge channel labels do not match the registered slots")
+    result = frame.copy()
+    result.columns = labels
+    result = result.reindex(columns=expected)
+    result.columns = range(slots)
+    return result
+
+
+def validate_acquisition(root, plan):
+    """Verify the frozen acquisition independently of the new analysis config."""
+    root = Path(root)
+    raw = root / plan["raw"]
+    receipt = json.loads((raw / "download_manifest.json").read_text())
+    if receipt["config_sha256"] != sha(root / plan["acquisition_config"]):
+        raise ValueError("Stale acquisition configuration")
+    mapping_path = root / "config/limburg_geoglows_reaches_v1.json"
+    if receipt["mapping_sha256"] != sha(mapping_path):
+        raise ValueError("Stale acquisition reach mapping")
+    if any(sha(raw / name) != digest for name, digest in receipt["outputs"].items()):
+        raise ValueError("Acquisition output checksum mismatch")
+    mapping = json.loads(mapping_path.read_text())
+    if sorted(r["channel"] for r in mapping) != list(range(plan["legacy_input_slots"])):
+        raise ValueError("Acquisition channel registry is incomplete or duplicated")
+    by_channel = {r["channel"]: r for r in mapping}
+    for site in plan["sites"]:
+        registered = by_channel[site["channel"]]
+        if not registered["mapped"] or registered["gauge"] != site["gauge"]:
+            raise ValueError("Active gauge differs from the reviewed reach registry")
+    hourly = align_channels(
+        pd.read_parquet(raw / "hourly_discharge.parquet"), plan["legacy_input_slots"]
+    )
+    if (
+        not hourly.index.is_unique
+        or not hourly.index.is_monotonic_increasing
+        or hourly.index.tz is None
+        or (hourly.index != hourly.index.floor("h")).any()
+    ):
+        raise ValueError("Expected unique, sorted, aware UTC hourly discharge index")
+    for channel, row in by_channel.items():
+        if not row["mapped"]:
+            if hourly[channel].notna().any():
+                raise ValueError("Unmapped channel has fabricated discharge")
+            continue
+        path = raw / f"q_{channel:02d}_{row['river_id']}.parquet"
+        site_receipt = json.loads(path.with_suffix(".json").read_text())
+        if (
+            site_receipt["river_id"] != row["river_id"]
+            or site_receipt["sha256"] != sha(path)
+            or site_receipt["timestamp_shift_hours"] != 1
+        ):
+            raise ValueError("Series identity or interval alignment differs from its reach receipt")
+        piece = pd.read_parquet(path)
+        if list(piece.columns) != [str(channel)]:
+            raise ValueError("Per-reach file has the wrong channel label")
+        pd.testing.assert_series_equal(
+            hourly[channel],
+            piece.iloc[:, 0].reindex(hourly.index),
+            check_names=False,
+            check_freq=False,
+        )
+    return hourly
+
+
+def exclude_channels(bank, offsets, excluded):
+    """Keep legacy slot identities, removing all information from excluded feeds."""
+    result = dict(bank)
+    for u in offsets:
+        for prefix in ["q", "donor_q", "input_quality"]:
+            key = f"{prefix}_{u}"
+            value = np.array(bank[key], copy=True)
+            value[:, excluded, :] = False if prefix == "input_quality" else np.nan
+            result[key] = value
+        for prefix in ["q_mean", "q_pairvar"]:
+            key = f"{prefix}_{u}_0"
+            value = np.array(bank[key], copy=True)
+            value[:, excluded, :] = 0
+            result[key] = value
+    return result
+
+
+def declared_subsets(cases):
+    """Joint high-water/EO support is explicit; seven mapped targets only."""
+    mapped = cases.get("local_model_reach_mapped", pd.Series(True, index=cases.index)).to_numpy(
+        bool
+    )
+    high = cases.future_p99.eq(1).to_numpy()
+    supported = cases.get("raw_available", pd.Series(True, index=cases.index)).to_numpy(
+        bool
+    ) & cases.get("encoder_available", pd.Series(True, index=cases.index)).to_numpy(bool)
+    return {
+        "all": np.ones(len(cases), bool),
+        "mapped_targets": mapped,
+        "high_water": high,
+        "mapped_high_water": mapped & high,
+        "mapped_high_water_encoder_supported": mapped & high & supported,
+        "encoder_supported": supported,
+        "verification_clean": cases.verification_clean.eq(True).to_numpy(),
+        "documented_flood": cases.documented_flood_overlap.to_numpy(bool),
+        "NL": cases.country.eq("NL").to_numpy(),
+        "DE": cases.country.eq("DE").to_numpy(),
+    }
+
+
+def correction_modes(records, years, raw_available, eo_available):
+    """Describe the exact nested hydrology -> raw -> encoder fallback policy."""
+    years = np.asarray(years)
+    raw_available, eo_available = np.asarray(raw_available, bool), np.asarray(eo_available, bool)
+    raw = np.full(len(years), "hydro_fallback", object)
+    encoded = raw.copy()
+    count = np.zeros(len(years), int)
+    for record in records:
+        take = years == record["year"]
+        count[take] = record["training"]
+        use = take & raw_available
+        parameter = record["raw_parameters"]
+        if parameter == "baseline":
+            raw[use] = "conventional"
+        elif parameter != "hydro_fallback":
+            raw[use] = "raw_correction"
+        encoded[take] = raw[take]
+        parameter = record["eo_parameters"]
+        use &= eo_available
+        if parameter == "baseline":
+            encoded[use] = "conventional"
+        elif parameter != "raw_only":
+            encoded[use] = "encoder_correction" if parameter[0] > 0 else "raw_grid_correction"
+    return dict(training_count=count, raw_prediction_mode=raw, encoder_prediction_mode=encoded)
+
+
+def execution_status(out, plan):
+    """Report actual execution separately from input-integrity readiness."""
+    import fcntl
+
+    out = Path(out)
+    state_path = out / "run_state.json"
+    state = json.loads(state_path.read_text()) if state_path.exists() else {}
+    expected = [f"{s}__{m}" for s in plan["stages"] for m in plan["models"]]
+    complete, active = [], []
+    for job in expected:
+        path = out / "scores" / job / "manifest.json"
+        if path.exists() and json.loads(path.read_text()).get("status") == "completed":
+            complete.append(job)
+        stage, model = job.split("__")
+        lock = out / f".{stage}_{model}.lock"
+        if lock.exists():
+            with lock.open("a") as stream:
+                try:
+                    fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    fcntl.flock(stream, fcntl.LOCK_UN)
+                except BlockingIOError:
+                    active.append(job)
+    controller_active = False
+    lock = out / ".controller.lock"
+    if lock.exists():
+        with lock.open("a") as stream:
+            try:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(stream, fcntl.LOCK_UN)
+            except BlockingIOError:
+                controller_active = True
+    launched = bool(
+        state or complete or active or list((out / "baselines").glob("*/progress.json"))
+    )
+    review = out / "review/manifest.json"
+    if active or (controller_active and state.get("status") == "running"):
+        status = "running"
+    elif len(complete) == len(expected):
+        status = (
+            "reviewed"
+            if review.exists() and json.loads(review.read_text()).get("status") == "completed"
+            else "completed"
+        )
+    elif state.get("status") in ["failed", "interrupted"]:
+        status = state["status"]
+    elif launched:
+        status = "interrupted" if state.get("status") == "running" else "partial"
+    else:
+        status = "not_started"
+    return dict(
+        execution_status=status,
+        full_analysis_launched=launched,
+        completed_jobs=complete,
+        expected_jobs=expected,
+        active_jobs=active,
+        last_error=state.get("error"),
+        attempts=len(state.get("history", [])),
+    )
+
+
 def replace_histories(bank, hourly, epochs, offsets):
     """Replace query/donor histories and all Q normalization, preserve outcomes.
 
@@ -92,6 +288,7 @@ def replace_histories(bank, hourly, epochs, offsets):
     """
     from src.scarcity import coordinate_moments, forward_hold
 
+    hourly = align_channels(hourly)
     values = hourly.reindex(pd.to_datetime(epochs, unit="h", utc=True)).to_numpy(float)
     if values.shape[1] != 10:
         raise ValueError("All ten Q channels, including Meuse, must be explicit")
@@ -187,39 +384,24 @@ def paired_summary_table(cases, predictions, years, draws):
         ("raw_correction", "hydro_correction"),
         ("hydro_correction", "conventional_mean"),
         ("encoder_correction", "conventional_mean"),
+        ("encoder_correction", "conventional_median"),
         ("encoder_correction", "monthly_qm_analogue"),
         ("encoder_correction", "monthly_qm_persistence"),
         ("encoder_correction", "input_persistence"),
     ]
     records = []
     for candidate, reference in contrasts:
-        for subset, mask in [
-            ("all", np.ones(len(cases), bool)),
-            ("high_water", cases.future_p99.eq(1).to_numpy()),
-            ("verification_clean", cases.verification_clean.eq(True).to_numpy()),
-            ("documented_flood", cases.documented_flood_overlap.to_numpy(bool)),
-            ("NL", cases.country.eq("NL").to_numpy()),
-            ("DE", cases.country.eq("DE").to_numpy()),
-            (
-                "mapped_targets",
-                cases.local_model_reach_mapped.to_numpy(bool)
-                if "local_model_reach_mapped" in cases
-                else np.ones(len(cases), bool),
-            ),
-            (
-                "encoder_supported",
-                cases.encoder_available.to_numpy(bool)
-                if "encoder_available" in cases
-                else np.ones(len(cases), bool),
-            ),
-        ]:
-            difference = np.where(mask, scores[candidate] - scores[reference], np.nan)
+        for subset, mask in declared_subsets(cases).items():
+            mask = mask & cases.outcome_valid.to_numpy(bool) & np.isfinite(y).all(1)
+            difference = scores[candidate] - scores[reference]
             records.append(
                 dict(
                     candidate=candidate,
                     reference=reference,
                     subset=subset,
-                    **paired_summary(cases, difference, years, draws),
+                    **paired_summary(
+                        cases.loc[mask], difference[mask], years, draws, fixed_population=True
+                    ),
                 )
             )
     return pd.DataFrame(records)

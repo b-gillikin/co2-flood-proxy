@@ -1,9 +1,24 @@
-# Current data needs — GEOGLOWS Stages 1–2, 14 November 2026
+# Current data needs — corrected GEOGLOWS Stages 1–2
 
-[Design and interpretation](limburg-geoglows-stages12-protocol-2026-11-14.md).
+Updated 14 November 2026. [Active design](limburg-geoglows-stages12-protocol-v2-2026-11-14.md).
 
 | Input | Status / role |
 | --- | --- |
+| Seven NL/DE tributary Q records and provider qualifications | Held; observed inputs, historical training and verification |
+| Sint Pieter and Venlo Q | Held and matched to GEOGLOWS reaches; contextual inputs, not targets |
+| Common rainfall and regional event clock | Held; unchanged across stages; all 481 regional episodes retained |
+| Presto/AnySat raw and encoded context tables | Held, checksums verified; reuse without new imagery extraction |
+| GEOGLOWS hourly Q, 2010–2025 | Downloaded, pinned and verified at nine active sites; UTC hour-end aligned |
+| Full stream/catchment geometry | Held; topology, area and source identities checked |
+| Eys | Excluded as target/predictor in both stages; original data retained. Not an outstanding request |
+| New core data request | None needed for this retrospective specification |
+| As-issued forecast/reforecast and arrival records | Not acquired; needed for a later operational replay, not assumed available |
+| External European rivers / new EO campaigns | Stage 3 not launched; no new acquisition committed |
+
+Corrected preparation has 13,468 opportunities per stage. Earlier mapping-study
+inventory below is retained as historical/completed work.
+
+--- | --- |
 | NL/DE observed Q and measurement qualifications | Held; reference inputs, historical training labels and independent observed verification |
 | Meuse observations | Held; contextual channels at Sint Pieter and Venlo, not new targets |
 | Common rainfall and storm clock | Held; unchanged across stages |

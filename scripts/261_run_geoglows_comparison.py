@@ -33,22 +33,25 @@ from src.eo_individual_evaluation import (
     assessment_scores,
     common_context,
     feature_matrix,
-    prediction_status,
 )
 from src.eo_individual_readout import prequential_heads
 from src.eo_individual_review import paired_summary
 from src.geoglows_experiment import (
     closed_before,
+    correction_modes,
+    declared_subsets,
     disk_check,
+    exclude_channels,
     paired_summary_table,
     qm_apply,
     qm_fit,
     replace_histories,
     sha,
+    validate_acquisition,
     write_json,
 )
 
-CONFIG = ROOT / "config/limburg_geoglows_stages12_v1.json"
+CONFIG = ROOT / "config/limburg_geoglows_stages12_v2.json"
 
 
 def source_identity(plan):
@@ -96,6 +99,14 @@ def verify_receipt(path):
     return record
 
 
+def assert_sources_unchanged(identity):
+    for name, expected in identity.items():
+        if sha(ROOT / name) != expected:
+            raise ValueError(
+                f"Input/code changed during computation: {name}; partial outputs retained"
+            )
+
+
 def prepare(plan):
     dest = ROOT / plan["output"] / "preparation"
     dest.mkdir(parents=True, exist_ok=True)
@@ -128,8 +139,8 @@ def prepare(plan):
     names += [f"rain_{u}_1_0" for u in plan["issue_offsets_h"]]
     bank = {name: all_bank[name] for name in names}
     epochs = np.load(source / "source_epoch_hours.npy")
-    hourly = pd.read_parquet(ROOT / plan["raw"] / "hourly_discharge.parquet")
-    hourly.columns = range(10)
+    hourly = validate_acquisition(ROOT, plan)
+    bank = exclude_channels(bank, plan["issue_offsets_h"], plan["excluded_channels"])
     alternate = replace_histories(bank, hourly, epochs, plan["issue_offsets_h"])
     # Reference hourly calibration observations are never model input in Stage 2.
     observed = pd.read_parquet(ROOT / "results/storm_response/hourly_discharge.parquet")
@@ -141,6 +152,7 @@ def prepare(plan):
             ROOT / f"results/meuse_context_2026_10_27/{site}_hourly.parquet"
         ).q_strict.reindex(observed.index)
     observed.columns = range(10)
+    observed[plan["excluded_channels"]] = np.nan
     observed.to_parquet(dest / "calibration_observed.parquet")
     np.save(dest / "epochs.npy", epochs)
     for name, values in [("observed", bank), ("geoglows", alternate)]:
@@ -153,8 +165,12 @@ def prepare(plan):
     frames = []
     for u in plan["issue_offsets_h"]:
         frame = meta.copy()
-        frame["query"] = np.arange(len(frame)) // 8
-        frame["site"] = np.arange(len(frame)) % 8
+        frame["query"] = np.arange(len(frame)) // plan["legacy_target_slots"]
+        frame["site"] = np.arange(len(frame)) % plan["legacy_target_slots"]
+        for site in plan["sites"]:
+            if site["channel"] in plan["target_channels"]:
+                if not frame.loc[frame.site.eq(site["channel"]), "gauge"].eq(site["gauge"]).all():
+                    raise ValueError("Source target order differs from registered gauge identities")
         frame["offset_h"] = u
         frame["issue_utc"] = frame.cutoff_utc + pd.Timedelta(hours=u)
         frame["response_end_utc"] = frame.issue_utc + pd.Timedelta(hours=24)
@@ -167,13 +183,22 @@ def prepare(plan):
         for stage, values in [("observed", bank), ("geoglows", alternate)]:
             q = values[f"q_{u}"]
             frame[f"{stage}_local_history_fraction"] = np.isfinite(q[:, :8]).mean(2).ravel()
-            frame[f"{stage}_network_history_fraction"] = np.repeat(np.isfinite(q).mean((1, 2)), 8)
-        frames.append(frame)
+            frame[f"{stage}_network_history_fraction"] = np.repeat(
+                np.isfinite(q[:, plan["active_input_channels"]]).mean((1, 2)),
+                plan["legacy_target_slots"],
+            )
+        frames.append(frame[frame.site.isin(plan["target_channels"])].copy())
         for prefix in ["outcome", "outcome_valid", "outcome_quality", "rain"]:
             key = f"{prefix}_{u}_1_0" if prefix == "rain" else f"{prefix}_{u}"
             np.testing.assert_array_equal(bank[key], alternate[key])
     cases = pd.concat(frames, ignore_index=True)
-    if not cases.assessment_id.is_unique or len(cases) != len(meta) * 4:
+    expected = (
+        len(meta)
+        // plan["legacy_target_slots"]
+        * len(plan["target_channels"])
+        * len(plan["issue_offsets_h"])
+    )
+    if not cases.assessment_id.is_unique or len(cases) != expected:
         raise ValueError("Paired census incomplete or duplicated")
     cases.to_parquet(dest / "cases.parquet", index=False)
     cases.groupby(["gauge", "country"]).agg(
@@ -230,10 +255,21 @@ def baselines(plan, stage, prep, cases):
     if final.exists():
         verify_receipt(final)
         return
+    identity = source_identity(plan)
+    for path in [
+        prep / name
+        for name in [
+            "manifest.json",
+            "cases.parquet",
+            f"{stage}_bank.npz",
+            "epochs.npy",
+            "calibration_observed.parquet",
+        ]
+    ]:
+        identity[str(path.relative_to(ROOT))] = sha(path)
     bank = dict(np.load(prep / f"{stage}_bank.npz"))
     epochs = np.load(prep / "epochs.npy")
-    hourly = pd.read_parquet(ROOT / plan["raw"] / "hourly_discharge.parquet")
-    hourly.columns = range(10)
+    hourly = validate_acquisition(ROOT, plan)
     observed_calibration = pd.read_parquet(prep / "calibration_observed.parquet")
     observed_calibration.columns = range(10)
     n = len(cases)
@@ -279,7 +315,7 @@ def baselines(plan, stage, prep, cases):
                 )
         for u in plan["issue_offsets_h"]:
             subset = cases[cases.offset_h.eq(u)]
-            prior = closed_before(subset.iloc[::8], int(year))
+            prior = closed_before(subset.drop_duplicates("query").sort_values("query"), int(year))
             ids = cases.index[cases.issue_utc.dt.year.eq(year) & cases.offset_h.eq(u)]
             for i in ids:
                 row = cases.loc[i]
@@ -303,11 +339,12 @@ def baselines(plan, stage, prep, cases):
     np.savez_compressed(dest / "predictions.npz", **values, donors=donors)
     pd.DataFrame(kinds).to_parquet(dest / "reference_modes.parquet", index=False)
     write_json(dest / "calibration.json", calibration_log)
+    assert_sources_unchanged(identity)
     write_json(
         final,
         dict(
             status="completed",
-            source_hashes=source_identity(plan),
+            source_hashes=identity,
             outputs={
                 name: sha(dest / name)
                 for name in ["predictions.npz", "reference_modes.parquet", "calibration.json"]
@@ -326,6 +363,16 @@ def score(plan, stage, model):
     if final.exists():
         verify_receipt(final)
         return
+    identity = source_identity(plan)
+    baseline_path = ROOT / plan["output"] / "baselines" / stage
+    for path in [
+        prep / "manifest.json",
+        prep / "cases.parquet",
+        prep / f"{stage}_bank.npz",
+        baseline_path / "manifest.json",
+        baseline_path / "predictions.npz",
+    ]:
+        identity[str(path.relative_to(ROOT))] = sha(path)
     cases = pd.read_parquet(prep / "cases.parquet")
     bank = dict(np.load(prep / f"{stage}_bank.npz"))
     baseline_path = ROOT / plan["output"] / "baselines" / stage
@@ -378,7 +425,8 @@ def score(plan, stage, model):
         encoder_prediction_mode=np.full(n, "conventional", object),
     )
     began = time.monotonic()
-    for gi in range(8):
+    targets = sorted(cases.site.unique())
+    for target_number, gi in enumerate(targets):
         ids = np.flatnonzero(cases.site.eq(gi))
         local = cases.iloc[ids].reset_index(drop=True)
         zeros = np.zeros(len(ids), bool)
@@ -408,12 +456,26 @@ def score(plan, stage, model):
             eo_weights=(),
         )
         r, e, extra = prequential_heads(
-            common, raw[ids], encoded[ids], *args, raw_ok[ids], eo_ok[ids]
+            common,
+            raw[ids],
+            encoded[ids],
+            *args,
+            raw_ok[ids],
+            eo_ok[ids],
+            training_available=np.ones(len(ids), bool),
+            raw_fallback=hydro,
         )
+        for h_record, s_record in zip(records, extra, strict=True):
+            if h_record["year"] != s_record["year"] or h_record.get(
+                "training_rows", []
+            ) != s_record.get("training_rows", []):
+                raise ValueError("Correction arms have different historical training rows")
+            if h_record.get("validation_years", []) != s_record.get("validation_years", []):
+                raise ValueError("Correction arms have different validation folds")
         predictions["hydro_correction"][ids] = hydro
         predictions["raw_correction"][ids] = r
         predictions["encoder_correction"][ids] = e
-        for key, values in prediction_status(extra, years, raw_ok[ids], eo_ok[ids]).items():
+        for key, values in correction_modes(extra, years, raw_ok[ids], eo_ok[ids]).items():
             modes[key][ids] = values
         tuning.extend([dict(gauge=str(local.gauge.iloc[0]), arm="hydro", **x) for x in records])
         tuning.extend([dict(gauge=str(local.gauge.iloc[0]), arm="satellite", **x) for x in extra])
@@ -421,12 +483,12 @@ def score(plan, stage, model):
             dest / "progress.json",
             dict(
                 status="running",
-                gauges_done=gi + 1,
-                gauges_total=8,
+                gauges_done=target_number + 1,
+                gauges_total=len(targets),
                 elapsed_s=time.monotonic() - began,
             ),
         )
-        print(stage, model, gi + 1, "/8 gauges", flush=True)
+        print(stage, model, target_number + 1, "/", len(targets), "gauges", flush=True)
     cases["raw_available"] = raw_ok
     cases["encoder_available"] = eo_ok
     for key, values in modes.items():
@@ -446,9 +508,7 @@ def score(plan, stage, model):
     pd.concat(frames, ignore_index=True).to_parquet(dest / "scores.parquet", index=False)
     np.savez_compressed(dest / "predictions.npz", observed=observed, **predictions)
     write_json(dest / "tuning.json", tuning)
-    identity = source_identity(plan)
-    for path in [prep / "manifest.json", baseline_path / "manifest.json"]:
-        identity[str(path.relative_to(ROOT))] = sha(path)
+    assert_sources_unchanged(identity)
     write_json(
         final,
         dict(
@@ -468,6 +528,14 @@ def score(plan, stage, model):
 
 def review(plan):
     out = ROOT / plan["output"]
+    review_inputs = source_identity(plan)
+    for path in [out / "preparation/manifest.json", out / "preparation/cases.parquet"]:
+        review_inputs[str(path.relative_to(ROOT))] = sha(path)
+    for stage in plan["stages"]:
+        for model in plan["models"]:
+            for name in ["manifest.json", "cases.parquet", "predictions.npz"]:
+                path = out / "scores" / f"{stage}__{model}" / name
+                review_inputs[str(path.relative_to(ROOT))] = sha(path)
     cases = pd.read_parquet(out / "preparation/cases.parquet")
     years = sorted(cases.cutoff_utc.dt.year.unique())
     rng = np.random.default_rng(plan["seed"])
@@ -517,21 +585,20 @@ def review(plan):
                 f["mae_m3s"] = loss * cases.area_km2.to_numpy() / 3.6
                 event_rows.append(f)
             stage_losses[stage] = losses
+        eligible = cases.outcome_valid.to_numpy(bool) & np.isfinite(p["observed"]).all(1)
+        subsets = declared_subsets(local)
         for method in stage_losses["observed"]:
             difference = stage_losses["geoglows"][method] - stage_losses["observed"][method]
-            mapped = cases.local_model_reach_mapped.to_numpy(bool)
-            for subset, mask in [
-                ("mapped_targets_primary", mapped),
-                ("whole_network_pipeline", np.ones(len(cases), bool)),
-                ("unmapped_eys_coverage_case", ~mapped),
-                ("mapped_high_water", mapped & cases.future_p99.eq(1).to_numpy()),
-            ]:
+            for subset, mask in subsets.items():
+                mask = mask & eligible
                 changes.append(
                     dict(
                         model=model,
                         method=method,
                         subset=subset,
-                        **paired_summary(cases, np.where(mask, difference, np.nan), years, draws),
+                        **paired_summary(
+                            cases.loc[mask], difference[mask], years, draws, fixed_population=True
+                        ),
                     )
                 )
         # Compare encoder increments themselves on four-arm paired support;
@@ -541,15 +608,15 @@ def review(plan):
             for stage, losses in stage_losses.items()
         }
         delta = increment["geoglows"] - increment["observed"]
-        for subset, mask in [
-            ("mapped_targets", cases.local_model_reach_mapped.to_numpy(bool)),
-            ("whole_network_pipeline", np.ones(len(cases), bool)),
-        ]:
+        for subset, mask in subsets.items():
+            mask = mask & eligible
             interactions.append(
                 dict(
                     model=model,
                     subset=subset,
-                    **paired_summary(cases, np.where(mask, delta, np.nan), years, draws),
+                    **paired_summary(
+                        cases.loc[mask], delta[mask], years, draws, fixed_population=True
+                    ),
                 )
             )
     pd.concat(summaries, ignore_index=True).to_csv(
@@ -561,11 +628,7 @@ def review(plan):
         review_dir / "all_event_errors.parquet", index=False
     )
     np.savez_compressed(review_dir / "bootstrap.npz", years=years, multiplicities=draws)
-    review_inputs = source_identity(plan)
-    for stage in plan["stages"]:
-        for model in plan["models"]:
-            path = out / "scores" / f"{stage}__{model}" / "manifest.json"
-            review_inputs[str(path.relative_to(ROOT))] = sha(path)
+    assert_sources_unchanged(review_inputs)
     write_json(
         review_dir / "manifest.json",
         dict(
@@ -589,11 +652,16 @@ def audit(plan):
     source = dict(np.load(ROOT / plan["source"] / "bank.npz"))
     banks = {stage: dict(np.load(prep / f"{stage}_bank.npz")) for stage in plan["stages"]}
     epochs = np.load(prep / "epochs.npy")
-    hourly = pd.read_parquet(ROOT / plan["raw"] / "hourly_discharge.parquet")
-    expected = hourly.reindex(pd.to_datetime(epochs, unit="h", utc=True)).to_numpy(float)
+    expected = (
+        validate_acquisition(ROOT, plan)
+        .reindex(pd.to_datetime(epochs, unit="h", utc=True))
+        .to_numpy(float)
+    )
+    if not set(cases.site.unique()) == set(plan["target_channels"]) or cases.site.eq(0).any():
+        raise ValueError("Eys target survived the seven-target census")
     verified = 0
     for u in plan["issue_offsets_h"]:
-        local = cases[cases.offset_h.eq(u)].iloc[::8]
+        local = cases[cases.offset_h.eq(u)].drop_duplicates("query").sort_values("query")
         positions = source[f"positions_{u}"]
         issue = (
             local.issue_utc.dt.as_unit("ns").astype("int64").to_numpy()
@@ -606,8 +674,15 @@ def audit(plan):
         np.testing.assert_array_equal(
             banks["geoglows"][f"q_{u}"], expected[positions].transpose(0, 2, 1)
         )
-        np.testing.assert_array_equal(banks["observed"][f"q_{u}"], source[f"q_{u}"])
-        assert np.isnan(banks["geoglows"][f"q_{u}"][:, 0]).all(), "Eys must remain unmapped"
+        for channel in plan["active_input_channels"]:
+            np.testing.assert_array_equal(
+                banks["observed"][f"q_{u}"][:, channel], source[f"q_{u}"][:, channel]
+            )
+        for stage in plan["stages"]:
+            for key in [f"q_{u}", f"donor_q_{u}"]:
+                assert np.isnan(banks[stage][key][:, 0]).all(), "Eys predictor survived"
+            for key in [f"q_mean_{u}_0", f"q_pairvar_{u}_0"]:
+                assert (banks[stage][key][:, 0] == 0).all(), "Eys normalization survived"
         for prefix in ["outcome", "outcome_valid", "outcome_quality"]:
             np.testing.assert_array_equal(
                 banks["observed"][f"{prefix}_{u}"], banks["geoglows"][f"{prefix}_{u}"]
@@ -615,16 +690,19 @@ def audit(plan):
         np.testing.assert_array_equal(
             banks["observed"][f"rain_{u}_1_0"], banks["geoglows"][f"rain_{u}_1_0"]
         )
-        verified += len(local) * 8
+        verified += len(local) * len(plan["target_channels"])
     # Timed, deterministic engineering checks; no scores or model selection.
+    masked_source = exclude_channels(source, plan["issue_offsets_h"], plan["excluded_channels"])
     began = time.monotonic()
     checked = 0
     for i in np.linspace(0, len(cases) - 1, 16, dtype=int):
         row = cases.iloc[i]
-        subset = cases[cases.offset_h.eq(row.offset_h)].iloc[::8]
+        subset = (
+            cases[cases.offset_h.eq(row.offset_h)].drop_duplicates("query").sort_values("query")
+        )
         prior = closed_before(subset, row.issue_utc.year)
         old = same_gauge_reference(
-            source, int(row.query), int(row.site), int(row.offset_h), "rich_basin", prior
+            masked_source, int(row.query), int(row.site), int(row.offset_h), "rich_basin", prior
         )
         new = same_gauge_reference(
             banks["observed"], int(row.query), int(row.site), int(row.offset_h), "rich_basin", prior
@@ -656,6 +734,92 @@ def audit(plan):
     print("Full input audit passed:", verified, "opportunities per stage; no models fitted")
 
 
+def run_all(plan):
+    """Track attempts, failures and owned workers; never infer success from exit alone."""
+    from datetime import datetime, timezone
+
+    out = ROOT / plan["output"]
+    state_path = out / "run_state.json"
+    previous = json.loads(state_path.read_text()) if state_path.exists() else {}
+    history = previous.get("history", []) + [
+        dict(
+            started_utc=datetime.now(timezone.utc).isoformat(),
+            previous_status=previous.get("status"),
+            previous_error=previous.get("error"),
+        )
+    ]
+    state = dict(
+        status="running",
+        pid=os.getpid(),
+        history=history,
+        config_sha256=sha(CONFIG),
+        phase="verification",
+    )
+    write_json(state_path, state)
+    owned = []
+    try:
+        verify_receipt(out / "preparation/manifest.json")
+        cases = pd.read_parquet(out / "preparation/cases.parquet")
+        for stage in plan["stages"]:
+            state["phase"] = "baselines_" + stage
+            write_json(state_path, state)
+            baselines(plan, stage, out / "preparation", cases)
+        jobs = [(stage, model) for stage in plan["stages"] for model in plan["models"]]
+        log_dir = ROOT / "logs" / plan["experiment"]
+        log_dir.mkdir(parents=True, exist_ok=True)
+        state["phase"] = "scoring"
+        write_json(state_path, state)
+        for start in range(0, len(jobs), plan["max_cpu_workers"]):
+            running = []
+            for stage, model in jobs[start : start + plan["max_cpu_workers"]]:
+                stream = (log_dir / f"{stage}__{model}.log").open("a")
+                child = subprocess.Popen(
+                    [
+                        sys.executable,
+                        str(Path(__file__).resolve()),
+                        "score",
+                        "--stage",
+                        stage,
+                        "--model",
+                        model,
+                    ],
+                    cwd=ROOT,
+                    stdout=stream,
+                    stderr=subprocess.STDOUT,
+                )
+                owned.append((child, stream))
+                running.append(child)
+            codes = [child.wait() for child in running]
+            if any(codes):
+                raise RuntimeError(f"Scoring worker failed, outputs retained: {codes}")
+        state.update(
+            status="completed",
+            phase="fits_complete_review_pending",
+            ended_utc=datetime.now(timezone.utc).isoformat(),
+        )
+        write_json(state_path, state)
+    except BaseException as error:
+        for child, _ in owned:
+            if child.poll() is None:
+                child.terminate()
+                try:
+                    child.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    child.kill()
+                    child.wait()
+        state.update(
+            status="interrupted" if isinstance(error, KeyboardInterrupt) else "failed",
+            error=f"{type(error).__name__}: {error}",
+            ended_utc=datetime.now(timezone.utc).isoformat(),
+        )
+        write_json(state_path, state)
+        raise
+    finally:
+        for _, stream in owned:
+            stream.close()
+    print("All Stages 1–2 fits complete. Run review explicitly.")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("phase", choices=["prepare", "audit", "run", "review", "score"])
@@ -682,40 +846,7 @@ def main():
                 parser.error("score requires --stage and --model")
             score(plan, args.stage, args.model)
         else:
-            verify_receipt(out / "preparation/manifest.json")
-            cases = pd.read_parquet(out / "preparation/cases.parquet")
-            for stage in plan["stages"]:
-                baselines(plan, stage, out / "preparation", cases)
-            # Two CPU jobs, no GPU extraction; complete both models/stages.
-            jobs = [(stage, model) for stage in plan["stages"] for model in plan["models"]]
-            log_dir = ROOT / "logs/limburg_geoglows_stages12_v1"
-            log_dir.mkdir(parents=True, exist_ok=True)
-            for start in range(0, len(jobs), plan["max_cpu_workers"]):
-                running = []
-                for stage, model in jobs[start : start + plan["max_cpu_workers"]]:
-                    stream = (log_dir / f"{stage}__{model}.log").open("a")
-                    child = subprocess.Popen(
-                        [
-                            sys.executable,
-                            str(Path(__file__).resolve()),
-                            "score",
-                            "--stage",
-                            stage,
-                            "--model",
-                            model,
-                        ],
-                        cwd=ROOT,
-                        stdout=stream,
-                        stderr=subprocess.STDOUT,
-                    )
-                    running.append((child, stream))
-                codes = []
-                for child, stream in running:
-                    codes.append(child.wait())
-                    stream.close()
-                if any(codes):
-                    raise RuntimeError(f"Scoring worker failed, outputs retained: {codes}")
-            print("All Stages 1–2 fits complete. Run review explicitly.")
+            run_all(plan)
 
 
 if __name__ == "__main__":

@@ -130,6 +130,7 @@ def test_invalid_outcome_is_not_scored_even_if_finite():
             "raw_correction",
             "hydro_correction",
             "conventional_mean",
+            "conventional_median",
             "monthly_qm_analogue",
             "monthly_qm_persistence",
             "input_persistence",
@@ -180,7 +181,7 @@ def test_complete_scoring_path_on_synthetic_years(tmp_path, monkeypatch):
     rows, features = [], []
     for query, cutoff in enumerate(dates):
         context = context_id("monthly", completed_windows(cutoff, "monthly"))
-        for site in range(8):
+        for site in range(1, 8):
             gauge = f"g{site}"
             rows.append(
                 dict(
@@ -229,7 +230,7 @@ def test_complete_scoring_path_on_synthetic_years(tmp_path, monkeypatch):
     np.savez_compressed(
         base / "predictions.npz",
         **{
-            name: np.ones((24, 24))
+            name: np.ones((21, 24))
             for name in [
                 "conventional_mean",
                 "conventional_median",
@@ -242,8 +243,8 @@ def test_complete_scoring_path_on_synthetic_years(tmp_path, monkeypatch):
     score(plan, "observed", "presto")
     dest = tmp_path / "work/scores/observed__presto"
     receipt = json.loads((dest / "manifest.json").read_text())
-    assert receipt["status"] == "completed" and receipt["rows"] == 24
+    assert receipt["status"] == "completed" and receipt["rows"] == 21
     scores = pd.read_parquet(dest / "scores.parquet")
     assert scores.method.nunique() == 8
     assert "mae_m3s" in scores
-    assert len(scores) == 24 * 8
+    assert len(scores) == 21 * 8

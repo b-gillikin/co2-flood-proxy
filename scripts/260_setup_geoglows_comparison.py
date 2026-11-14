@@ -22,9 +22,17 @@ sys.path.insert(0, str(ROOT))
 import numpy as np
 import pandas as pd
 
-from src.geoglows_experiment import disk_check, download, hour_end, sha, write_json
+from src.geoglows_experiment import (
+    disk_check,
+    download,
+    execution_status,
+    hour_end,
+    sha,
+    validate_acquisition,
+    write_json,
+)
 
-CONFIG = ROOT / "config/limburg_geoglows_stages12_v1.json"
+CONFIG = ROOT / "config/limburg_geoglows_stages12_v2.json"
 
 
 def inventory(plan):
@@ -104,13 +112,7 @@ def retrieve(plan):
     raw.mkdir(parents=True, exist_ok=True)
     record_path = raw / "download_manifest.json"
     if record_path.exists():
-        old = json.loads(record_path.read_text())
-        if old["config_sha256"] != sha(CONFIG) or old["mapping_sha256"] != sha(
-            ROOT / "config/limburg_geoglows_reaches_v1.json"
-        ):
-            raise ValueError("Download identity changed; version instead of overwriting")
-        if any(sha(raw / p) != h for p, h in old["outputs"].items()):
-            raise ValueError("Downloaded series changed")
+        validate_acquisition(ROOT, plan)
         print("Verified existing selected-series download")
         return
     disk_check(ROOT, plan["free_space_reserve_gib"], 512 * 2**20)
@@ -181,7 +183,7 @@ def retrieve(plan):
         dict(
             status="completed",
             acquired_utc=datetime.now(timezone.utc).isoformat(),
-            config_sha256=sha(CONFIG),
+            config_sha256=sha(ROOT / plan["acquisition_config"]),
             mapping_sha256=sha(ROOT / "config/limburg_geoglows_reaches_v1.json"),
             uri=plan["geoglows"]["uri"],
             variable_attrs=dict(ds["Q"].attrs),
@@ -283,10 +285,7 @@ def readiness(plan):
     checks["prepared"] = (out / "preparation/manifest.json").exists()
     checks["full_input_audit"] = (out / "setup_audit.json").exists()
     if checks["downloaded"]:
-        receipt = json.loads((raw / "download_manifest.json").read_text())
-        checks["downloaded"] = all(
-            sha(raw / p) == digest for p, digest in receipt["outputs"].items()
-        )
+        validate_acquisition(ROOT, plan)
     if checks["prepared"]:
         import runpy
 
@@ -303,11 +302,19 @@ def readiness(plan):
             "preparation_sha256"
         ] == sha(out / "preparation/manifest.json")
     free = disk_check(ROOT, plan["free_space_reserve_gib"])
+    actual = execution_status(out, plan)
     record = dict(
-        status="ready_for_run" if all(checks.values()) else "setup_incomplete",
+        status=(
+            "ready_for_run"
+            if actual["execution_status"] == "not_started"
+            else actual["execution_status"]
+        )
+        if all(checks.values())
+        else "setup_incomplete",
+        data_integrity_ready=all(checks.values()),
         checks=checks,
         disk_free_gib=free,
-        full_analysis_launched=False,
+        **actual,
         config_sha256=sha(CONFIG),
     )
     write_json(out / "readiness.json", record)
@@ -334,9 +341,9 @@ def main():
     disk_check(ROOT, plan["free_space_reserve_gib"])
     started = time.monotonic()
     if args.phase == "inventory":
-        inventory(plan)
+        inventory(json.loads((ROOT / plan["acquisition_config"]).read_text()))
     elif args.phase == "mapping-audit":
-        audit_mapping(plan)
+        audit_mapping(json.loads((ROOT / plan["acquisition_config"]).read_text()))
     elif args.phase == "download":
         retrieve(plan)
     elif args.phase == "readiness":
