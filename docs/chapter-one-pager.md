@@ -2,6 +2,8 @@
 
 Living research aid, updated 14 November 2026. Brian writes dissertation prose.
 
+Latest audit: [comparison corrections identified](reviews/limburg-geoglows-code-design-audit-2026-11-14.md). Brian accepts dropping Eys from inputs and targets in both stages. The revised plan has seven targets (13,468 opportunities per stage); the eight-target preparation described below is retained pending correction/regeneration. No full run has started.
+
 ## Research Question(s)
 
 When gauge observations are replaced by global modelled discharge, how well can

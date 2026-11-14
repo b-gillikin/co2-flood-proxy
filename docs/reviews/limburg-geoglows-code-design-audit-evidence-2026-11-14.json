@@ -1,0 +1,107 @@
+{
+  "audited_commit": "9a34d7b",
+  "date": "2026-11-14",
+  "production_fitting_launched": false,
+  "tests_passed": 45,
+  "eys_observed_input_finite_fraction": {
+    "0": 0.9978632478632479,
+    "6": 0.9973146223146223,
+    "12": 0.9969103719103719,
+    "24": 0.9964772464772464
+  },
+  "eo_support": {
+    "presto": {
+      "supported": 9984,
+      "unsupported": 5408,
+      "total": 15392
+    },
+    "anysat": {
+      "supported": 9416,
+      "unsupported": 5976,
+      "total": 15392
+    }
+  },
+  "training_population_examples": {
+    "presto": {
+      "2017": {
+        "site": "Cottessen",
+        "hydrology_eligible": 802,
+        "satellite_eligible": 147,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      },
+      "2020": {
+        "site": "Cottessen",
+        "hydrology_eligible": 1089,
+        "satellite_eligible": 434,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      },
+      "2025": {
+        "site": "Cottessen",
+        "hydrology_eligible": 1691,
+        "satellite_eligible": 1036,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      }
+    },
+    "anysat": {
+      "2017": {
+        "site": "Cottessen",
+        "hydrology_eligible": 802,
+        "satellite_eligible": 80,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      },
+      "2020": {
+        "site": "Cottessen",
+        "hydrology_eligible": 1089,
+        "satellite_eligible": 367,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      },
+      "2025": {
+        "site": "Cottessen",
+        "hydrology_eligible": 1691,
+        "satellite_eligible": 969,
+        "note": "Before finite-baseline eligibility; not fitted-model training counts."
+      }
+    }
+  },
+  "bootstrap_coverage": {
+    "all": {
+      "sites": 8,
+      "partial_site_draws": 0,
+      "all_missing_draws": 0,
+      "draws": 999,
+      "note": "Coverage-only diagnostic, before fitted prediction support."
+    },
+    "documented_flood": {
+      "sites": 6,
+      "partial_site_draws": 440,
+      "all_missing_draws": 5,
+      "draws": 999,
+      "note": "Coverage-only diagnostic, before fitted prediction support."
+    },
+    "mapped_high_water": {
+      "sites": 7,
+      "partial_site_draws": 0,
+      "all_missing_draws": 0,
+      "draws": 999,
+      "note": "Coverage-only diagnostic, before fitted prediction support."
+    }
+  },
+  "synthetic_bootstrap_reproduction": {
+    "estimate": 50.5,
+    "lower": 3.475,
+    "upper": 97.52499999999999,
+    "assessments": 2,
+    "storms": 2,
+    "sites": 2,
+    "years": 2,
+    "bootstrap_nonfinite": 0
+  },
+  "observed_quality_counts": {
+    "(False, False, -1)": 356,
+    "(True, False, -1)": 160,
+    "(True, False, 0)": 910,
+    "(True, False, 1)": 320,
+    "(True, True, 0)": 11115,
+    "(True, True, 1)": 2531
+  }
+}

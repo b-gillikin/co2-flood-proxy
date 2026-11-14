@@ -1,5 +1,16 @@
 # Current handoff — GEOGLOWS Stages 1–2, 14 November 2026
 
+## Code and design audit — 14 November 2026
+
+[Audit findings](reviews/limburg-geoglows-code-design-audit-2026-11-14.md)
+identify two comparison corrections and four reporting/validation corrections.
+The data/input audit and 45 tests pass, but this is not yet a fully controlled
+research-run specification. Brian accepts dropping Eys: remove it from both
+responses and predictors in both stages, preserving the original data. The
+revised planned census is 13,468 opportunities per stage. Current prepared
+banks still contain the earlier eight-target census; production corrections
+and regeneration have not been applied. No full run has started.
+
 Brian approved the paired observed/modelled-discharge direction and requested
 setup. [Protocol and exact run commands](limburg-geoglows-stages12-protocol-2026-11-14.md).
 Download, mapping audit, full-census preparation and input audit are complete;
