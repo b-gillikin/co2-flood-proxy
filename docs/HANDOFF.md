@@ -19,12 +19,16 @@ Seven-target preparation and complete input audit pass. 57 tests, Ruff and the
 isolated dependency check pass. Corrected outputs are under
 `results/limburg_geoglows_stages12_v2/`; the pinned acquisition remains under
 `data/raw/limburg_geoglows_stages12_v1/`. Actual execution status is recorded in
-v2 `readiness.json`: **not started**, no active jobs, no full model fits. Roughly
+v2 `readiness.json` and `run_state.json`: **running**, launched 14 November
+2026 at 19:09 America/New_York. The controller prepares both source baselines,
+runs at most two CPU fitting workers, then automatically reviews the outputs. Roughly
 79 GiB free; preserve the 50-GiB reserve. No cloud jobs or alerts were started.
 
 ## Next action
 
-Full fitting and review remain explicit subsequent actions. From this repo:
+The full run is launched; do not start a duplicate. The detached controller log
+is `logs/limburg_geoglows_stages12_v2/controller.log`. Commands below are for
+status/recovery; the launched workflow already chains fitting and review:
 
 ```sh
 .venv-geoglows/bin/python scripts/260_setup_geoglows_comparison.py readiness

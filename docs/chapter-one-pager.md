@@ -53,7 +53,8 @@ there is no as-issued/live-fallback claim.
 
 All six setup-audit corrections implemented. Seven-target inputs regenerated,
 full-input audit passed, 57 relevant tests passed, dependency checks clean.
-Full comparison fitting has not started; no new performance finding. Earlier
+Full comparison fitting launched on 14 November 2026 at 19:09 America/New_York,
+with automatic review after fitting. No performance findings are available yet. Earlier
 research and the superseded eight-target setup remain preserved.
 
 [Corrected protocol and commands](limburg-geoglows-stages12-protocol-v2-2026-11-14.md) ·

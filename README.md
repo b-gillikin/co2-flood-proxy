@@ -4,7 +4,7 @@
 GEOGLOWS discharge inputs on the same NL/DE rivers, with conventional assessment,
 simple calibration and task-specific AI corrections. The six audit corrections
 are implemented. The seven-target Stages 1–2 are prepared and verified; full
-comparisons are not launched. No new EO extraction is required.
+comparisons launched on 14 November 2026, with automatic review after fitting. No new EO extraction is required.
 
 - [Current one-pager](docs/chapter-one-pager.md)
 - [Research design and execution guide](docs/limburg-geoglows-stages12-protocol-v2-2026-11-14.md)

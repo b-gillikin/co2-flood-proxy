@@ -1,11 +1,11 @@
 {
   "date": "2026-11-14",
-  "status": "geoglows_stages12_v2_corrected_prepared_not_fitted",
+  "status": "geoglows_stages12_v2_running",
   "scope": "config/limburg_geoglows_stages12_v2.json",
   "acquisition": "config/limburg_geoglows_stages12_v1.json",
   "compute": "docs/limburg-geoglows-stages12-protocol-v2-2026-11-14.md",
   "handoff": "docs/HANDOFF.md",
-  "new_queue_started": false,
+  "new_queue_started": true,
   "new_bulk_download_started": false,
   "selected_series_download_complete": true,
   "latest_audit": "results/limburg_geoglows_stages12_v2/setup_audit.json",
@@ -29,5 +29,8 @@
   "planned_target_count": 7,
   "eys_removal_implemented": true,
   "audit_resolution": "docs/reviews/limburg-geoglows-audit-corrections-2026-11-14.md",
-  "superseded_setup": "config/limburg_geoglows_stages12_v1.json"
+  "superseded_setup": "config/limburg_geoglows_stages12_v1.json",
+  "run_started_utc": "2026-11-15T00:09:52.837443+00:00",
+  "run_state": "results/limburg_geoglows_stages12_v2/run_state.json",
+  "auto_review_after_fits": true
 }
