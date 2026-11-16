@@ -32,5 +32,11 @@
     "new_bulk_download_started": false,
     "latest_audit": "docs/limburg-study-consolidation-2026-11-11.md",
     "interpretation": "config/limburg_chapter_interpretation_v1.json"
-  }
+  },
+  "latest_design_audit": "docs/reviews/limburg-dise-research-design-audit-2026-11-16.md",
+  "design_corrections_pending": [
+    "high_water_selection_alignment",
+    "remove_unnecessary_calendar_buffer",
+    "population_aware_scoring"
+  ]
 }

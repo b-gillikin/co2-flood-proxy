@@ -32,6 +32,12 @@ paired uncertainty/measurement reporting to the regional runner. Benchmark actua
 regional training size before scheduling the complete two-CPU-worker comparison.
 A favourable local result is not a gate.
 
+[Research-design audit](reviews/limburg-dise-research-design-audit-2026-11-16.md)
+retains the direction but identifies selection/primary-high-water alignment,
+unnecessary January 1–7 exclusion and explicit scoring-population corrections.
+These have **not** been implemented by the audit. Regional preparation can
+continue alongside them; the completed local benchmark remains preserved.
+
 ## Commands
 
 Use `.venv-dise` (XGBoost 3.1.2/scikit-learn 1.7.2); the prior environments are

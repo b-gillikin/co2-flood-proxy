@@ -1,0 +1,138 @@
+{
+  "audit_date": "2026-11-16",
+  "audited_git_commit": "7a8352e",
+  "scope": "research-design audit; no model/data alteration or new fitting",
+  "calendar_exclusions": [
+    {
+      "year": 2021,
+      "paired_gauge_days": 2425,
+      "unnecessarily_excluded_gauge_days": 48,
+      "excluded_p99_gauge_days": 0
+    },
+    {
+      "year": 2022,
+      "paired_gauge_days": 2455,
+      "unnecessarily_excluded_gauge_days": 48,
+      "excluded_p99_gauge_days": 2
+    },
+    {
+      "year": 2023,
+      "paired_gauge_days": 2388,
+      "unnecessarily_excluded_gauge_days": 47,
+      "excluded_p99_gauge_days": 0
+    },
+    {
+      "year": 2024,
+      "paired_gauge_days": 2549,
+      "unnecessarily_excluded_gauge_days": 48,
+      "excluded_p99_gauge_days": 7
+    },
+    {
+      "year": 2025,
+      "paired_gauge_days": 2545,
+      "unnecessarily_excluded_gauge_days": 49,
+      "excluded_p99_gauge_days": 9
+    }
+  ],
+  "excluded_days_total": 240,
+  "excluded_highwater_days_total": 18,
+  "timescale_diagnostic": [
+    {
+      "gauge": "10.Q.29",
+      "days": 17,
+      "threshold_hourly_max_m3s": 11.864589999999987,
+      "median_daily_mean_over_max_hourly_mean": 0.6294524897348552
+    },
+    {
+      "gauge": "13.Q.34",
+      "days": 19,
+      "threshold_hourly_max_m3s": 2.4513299999999996,
+      "median_daily_mean_over_max_hourly_mean": 0.44640241961158866
+    },
+    {
+      "gauge": "15.Q.41",
+      "days": 18,
+      "threshold_hourly_max_m3s": 1.4985800000000002,
+      "median_daily_mean_over_max_hourly_mean": 0.4940943365635079
+    },
+    {
+      "gauge": "18.Q.45",
+      "days": 19,
+      "threshold_hourly_max_m3s": 20.36870000000001,
+      "median_daily_mean_over_max_hourly_mean": 0.45244897691106706
+    },
+    {
+      "gauge": "2828300000200",
+      "days": 19,
+      "threshold_hourly_max_m3s": 19.799242499999995,
+      "median_daily_mean_over_max_hourly_mean": 0.36257373702131507
+    },
+    {
+      "gauge": "2828900000200",
+      "days": 19,
+      "threshold_hourly_max_m3s": 22.903419999999997,
+      "median_daily_mean_over_max_hourly_mean": 0.5796149064107192
+    },
+    {
+      "gauge": "6.Q.18",
+      "days": 18,
+      "threshold_hourly_max_m3s": 3.8813374999999652,
+      "median_daily_mean_over_max_hourly_mean": 0.41382849294129576
+    }
+  ],
+  "timescale_definition": "Complete daily observed means in 2021-2025; per-site top 1 percent of maximum hourly mean; descriptive threshold only, not training/tuning selection.",
+  "observational_quality_2021_wurm": [
+    {
+      "gauge": "18.Q.45",
+      "paired_days": 359,
+      "strict_clean_days": 355
+    },
+    {
+      "gauge": "2828300000200",
+      "paired_days": 365,
+      "strict_clean_days": 180
+    },
+    {
+      "gauge": "2828900000200",
+      "paired_days": 365,
+      "strict_clean_days": 180
+    }
+  ],
+  "loss_design": {
+    "fit": "squared log1p residual",
+    "early_stopping": "XGBoost default RMSE on log residual",
+    "candidate_selection": "all-day river-balanced discharge MAE",
+    "stated_primary": "high-water daily MAE"
+  },
+  "population_counterexample": {
+    "groups": [
+      "A",
+      "B"
+    ],
+    "reference": [
+      10,
+      10
+    ],
+    "predictions": [
+      11,
+      20
+    ],
+    "full_balanced_mae": 5.5,
+    "after_group_B_missing": 1.0,
+    "interpretation": "Current scorer accepts changed population without a declared estimand; not proof a current benchmark contrast actually dropped a group."
+  },
+  "pending_not_failed": [
+    "regional reach mapping",
+    "external/donor source interval and quality checks",
+    "calibration references",
+    "full scoring/uncertainty implementation"
+  ],
+  "source_hashes": {
+    "config/limburg_dise_v1.json": "e429b23562cc20124c5ce67e53bf59a962e830b7bcf43e1fff6c1a6a02f3b62e",
+    "src/dise.py": "e92e22d8d6888382d56e04eb910b2f7b1901ae4bc490ba37af3a75d94ef7bae1",
+    "scripts/262_prepare_dise.py": "86454e7e46017c27c64c14e0df9bf8a04688798590410d103771489ee8cf4893",
+    "scripts/263_benchmark_dise_fold.py": "a3a4d705485d91318cdf124bc2f67f889d095c623c63cf735d3c5c41c5463b6d",
+    "results/limburg_dise_v1/local_features.parquet": "740a269bcd8d7a3b9f032ce11544efd6e6cfb9c3c41efa7acae7bdff3fc15148",
+    "results/storm_response/hourly_discharge.parquet": "773a5e4bbd9b9e37ecc3a53daf78b99a30bf10caf1f60e24afa83a3b6fd52c7f"
+  }
+}

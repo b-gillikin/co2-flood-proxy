@@ -454,3 +454,14 @@ CAMELS byte-range/member access is now verified and its exact ZIP size is
 is superseded. Candidate counts are 286 donors, 49 external and 52 overlap-review
 cases; reach and observation checks still determine eligibility. No full
 regional fitting or external bulk time-series acquisition has launched.
+
+## Subsequent audit — 16 November 2026
+
+[Research-design audit](reviews/limburg-dise-research-design-audit-2026-11-16.md)
+retains the core study and identifies corrections to align high-water model
+selection, remove unnecessary calendar exclusions and specify the scored river
+population/uncertainty. Those corrections are recommendations, **not silently
+applied changes to the protocol or completed benchmark**. The original proposed
+buffer and selection choices above remain visible for traceability. Daily
+reconstruction remains the target; no additional model or new provider request
+was introduced by the audit.

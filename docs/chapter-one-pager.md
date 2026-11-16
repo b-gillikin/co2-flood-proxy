@@ -70,6 +70,11 @@ regional research claim. Thirty relevant tests, Ruff, dependency checks and
 input/output receipt verification pass. About 79.3 GiB remains free; no GPU job,
 full regional queue, Azure offload or other-chapter cleanup was started.
 
+The [design audit](reviews/limburg-dise-research-design-audit-2026-11-16.md)
+supports retaining this study, with pending corrections to high-water model
+selection, unnecessary calendar exclusions and population-aware scoring.
+Daily-flow improvement remains distinct from flood-peak or warning improvement.
+
 [Design](limburg-dise-research-design-2026-11-16.md) ·
 [Preparation, audit and next work](limburg-dise-preparation-2026-11-16.md) ·
 [Completed GEOGLOWS results](limburg-geoglows-first-results-2026-11-14.md).
