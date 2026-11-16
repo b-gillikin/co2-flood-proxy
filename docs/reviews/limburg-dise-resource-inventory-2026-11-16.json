@@ -1,0 +1,54 @@
+{
+  "review_date": "2026-11-16",
+  "status": "research_design_only_no_new_run",
+  "free_bytes": 85500682240,
+  "free_gib": 79.62871551513672,
+  "reserve_gib": 50,
+  "headroom_above_reserve_gib": 29.62871551513672,
+  "inventory": {
+    "data/raw/limburg_geoglows_stages12_v1": {
+      "files": 30,
+      "bytes": 546044087
+    },
+    "results/limburg_geoglows_stages12_v2": {
+      "files": 76,
+      "bytes": 287851134
+    },
+    "data/raw/foundation_assets/alphaearth": {
+      "files": 3,
+      "bytes": 211089
+    },
+    "data/raw/limburg_monitoring_land_state": {
+      "files": 618,
+      "bytes": 52298350
+    }
+  },
+  "alphaearth": {
+    "rows": 72,
+    "catchments": 9,
+    "years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ]
+  },
+  "checked_environment": ".venv-geoglows",
+  "packages": {
+    "xgboost": null,
+    "scikit-learn": "1.9.0",
+    "pandas": "3.0.3",
+    "pyarrow": "24.0.0",
+    "earthengine-api": "1.7.47"
+  },
+  "existing_geoglows_run": "reviewed",
+  "runtime_estimates": "Unbenchmarked: see linked research design; no fitting benchmark executed.",
+  "external_access": "CAMELS-DE-1h identity/period verified in primary preprint; file-level range and subset access unverified.",
+  "new_data_downloaded": false,
+  "cloud_actions": false,
+  "other_chapters_touched": false
+}

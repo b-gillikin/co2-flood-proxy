@@ -1,3 +1,25 @@
+# Current data needs — DISE-inspired reconstruction
+
+Updated 16 November 2026. [Current preparation](limburg-dise-preparation-2026-11-16.md).
+
+| Input | Current status / remaining work |
+| --- | --- |
+| Local Q/qualifications | Held; daily observed/model reference and separate clean flags assembled |
+| Local AlphaEarth | Held; fixed 2017 means selected, seven target catchments |
+| Local weather | Acquired: 2017–2025 catchment-specific ERA5-Land daily summaries |
+| Conventional local descriptors | Acquired: common terrain, 2017 land-cover fractions, surface field-capacity proxy; regulation remains unknown |
+| Regional donor/external metadata | Acquired; 286 donor candidates, 49 external candidates, 52 overlap-review cases; mapping/quality decisions still required |
+| Regional observations | Selective access verified with one predetermined donor member; full eligible cohort not acquired |
+| Regional GEOGLOWS/weather/AlphaEarth | Matched-reach and polygon inventory/acquisition still required |
+| CAMELS-DE-1h source clock/quality | File schema verified; primary UTC/hour-interval and source qualification documentation still needs checking |
+| Additional local provider emails | None required for this preparation |
+| Full imagery or new encoder weights | Not required |
+
+The prior GEOGLOWS next-24h comparison is completed. Its dated inventory below
+is historical, not the acquisition list for the current reconstruction study.
+
+---
+
 # Current data needs — corrected GEOGLOWS Stages 1–2
 
 Updated 14 November 2026. [Active design](limburg-geoglows-stages12-protocol-v2-2026-11-14.md).

@@ -609,3 +609,13 @@ Limburg collection; the historical collection name remains `Chapter 1: CO2`.
 ## Response mapping and local annotation — 12 November 2026
 
 [Focused full-text review](reviews/limburg-response-mapping-literature-and-data-2026-11-12.md), [new bibliography additions](limburg-response-mapping-literature-2026-11-12.bib), and [acquisition receipt](reviews/limburg-response-mapping-acquisition-2026-11-12.json). The November 10 abstract-only access record for Ratté-Fortin and ALFA is historical: full papers and supplements are now held. Lee/Li is direct prior art for random/uncertainty/diversity allocation; PixelPick and DIAL support sparse correction/adaptation design with explicit transfer limits. All 12 core papers accessible through publisher or open author copies. No manuscript prose or connected-library synchronization is implied by these local additions.
+
+
+## 16 November 2026 — DISE adaptation design review
+
+[Research-design review](limburg-dise-research-design-2026-11-16.md) records full-text inspection of Lin et al. (DISE), the primary Liu et al. methods/results, and supporting regionalization/bias-correction/data literature. The design separates daily reconstruction from forecasting, strengthens conventional controls and chronological/river-group evaluation, and identifies a regional donor-training requirement distinct from the reserved external test rivers. DISE's cited code URL returned 404; do not describe exact code replication as available. The primary DISE PDF and checksum receipt are retained locally under `data/raw/foundation_assets/documents/dise-review-2026-11-16/`; this ignored source-data path is not a remote-backup verification. CAMELS-DE-1h supplies a documented overlapping-period acquisition route; the older daily CAMELS-DE ends in 2020. External/donor file access and counts remain to be verified. No new fitting, bulk data acquisition, Mendeley synchronization or cloud action occurred.
+
+
+## 16 November 2026 — DISE adaptation implementation preparation
+
+[Preparation report](limburg-dise-preparation-2026-11-16.md) records accepted independent adaptation, verified CAMELS-DE-1h selective access, common-source descriptor choices and a completed local held-Wurm nested fitting benchmark. The [original design](limburg-dise-research-design-2026-11-16.md) retains its dated proposal followed by an implementation update. The unavailable DISE code is not a dependency. No regional research conclusion, full-study launch or Mendeley synchronization is claimed.

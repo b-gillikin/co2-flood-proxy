@@ -1,63 +1,75 @@
-# Limburg — high-water assessment with alternative discharge information
+# Limburg — satellite-informed discharge reconstruction
 
-Living research aid, updated 14 November 2026. Brian writes dissertation prose.
+Living research aid, updated 16 November 2026. Brian writes dissertation prose.
+Independent DISE-inspired adaptation accepted; local preparation/benchmark
+completed, full regional comparison not launched.
 
 ## Research Question(s)
 
-When gauge observations are replaced by global modelled discharge, how well can
-we assess developing high water, and can AI improve that assessment?
+Can satellite-derived catchment information make a global discharge model more
+accurate during high water, including on other rivers?
 
-Compare information sources on the same rivers/events; distinguish hydrological
-learning, raw satellite context and encoder value. European replication remains
-a separate later stage, tied to a specific finding or limitation.
+Characterize source errors; test AlphaEarth's incremental value beyond common
+weather and conventional catchment descriptors; evaluate transfer without local
+target-river calibration.
 
 ## Motivation
 
-Identify what high-water assessment capability needs current local observations,
-what a global discharge product supports, and whether AI adds enough value to
-justify its cost. This can inform monitoring resilience and agency investment;
-it does not establish operational warning improvement or avoided losses.
+Assess when globally available satellite information can supplement local
+hydrological modelling and monitoring capacity. Identify prerequisites, costs,
+severe errors and transfer limitations relevant to agency investment. This is
+daily retrospective reconstruction, not a demonstration of forecast lead time,
+operational warnings or avoided flood losses.
 
 ## Data
 
-Held NL/DE discharge and provider measurement qualifications, common RADOLAN
-rainfall, and verified Presto/AnySat raw and encoded context tables. GEOGLOWS
-hourly 2010–2025 series are downloaded for seven tributary reaches and both Meuse
-context sites, with stream topology and contributing-polygon checks. Eys has
-been dropped from both targets and predictors; its original data are preserved.
-Model outlets approximate gauge sections and are not identical physical locations.
+René/Jens observations and provider qualifications, verified GEOGLOWS discharge,
+2017 AlphaEarth catchment means, and newly acquired gauge-specific ERA5-Land
+weather for 2017–2025. Consistent conventional descriptors use SRTM terrain,
+2017 Copernicus fractional land cover and a surface field-capacity proxy;
+regulation information remains unresolved. Seven local gauges represent five
+river groups; Eys remains excluded and the Meuse is not added as a new target.
+
+CAMELS-DE-1h metadata and selective time-series access are verified. The bounded
+inventory contains 286 donor candidates, 49 reserved external candidates in
+Ahr/Erft/Sieg and 52 overlap-review cases. These are not final independent or
+quality-verified training/test populations. Regional reach matching, source-clock
+checks and selected-series/descriptor acquisition remain.
 
 ## Method
 
-All 481 held regional rainfall episodes × seven gauges × four issue offsets:
-13,468 opportunities per stage. Compare observed and GEOGLOWS Q inputs, keeping
-rainfall and observed next-24h verification unchanged. Nine active Q feeds in
-both stages. Conventional analogue mean/median, persistence, local flow-duration
-calibration, hydrology-only correction, matched raw-EO correction and encoder
-correction. Core encoders: Presto and AnySat, used separately with existing data.
+One pooled XGBoost log-residual correction of daily GEOGLOWS discharge. Compare
+weather/model history alone, plus conventional attributes, plus AlphaEarth, and
+plus both. Use observed Q as verification, never current observed Q as an input
+to reconstruct itself. Keep raw GEOGLOWS and appropriate calibration references.
+
+Stage 1 establishes the local daily reference. Stage 2 trains with permitted
+historical local/regional donor data and tests the same seven local gauges.
+Stage 3 tests reserved external rivers without their calibration labels.
 
 ## Methodology
 
-Paired retrospective source substitution; closed earlier-storm archives,
-chronological annual fitting/tuning, identical training/validation opportunities
-across correction arms and train-only missing-feature treatment. Missing raw EO
-falls back to the causal hydrology policy; missing encoder input falls back to
-raw. Evaluate high-water MAE, the full census with fallbacks and joint high-water/
-EO-supported results, plus peaks, timing and actual analogue selections. Shared
-year bootstrap retains the declared site population and counts undefined draws.
-Historical data have informed prior work: this is exploratory, not a blind new
-confirmatory dataset. Retrospective GEOGLOWS publication delay is not replayed;
-there is no as-issued/live-fallback claim.
+All eligible days; identical cohorts and tuning budgets across feature sets;
+chronological test years 2021–2025 and nested river-group withholding. All three
+Wurm gauges leave together. Prior-landscape descriptors, train-only transforms,
+common weather definitions, quality/missingness records and paired high-water
+and all-day evaluation. Report measurement/geometry limitations and river/storm
+dependence. Current local data have informed prior experiments; do not claim
+blind confirmation or historical as-issued foundation-model availability.
 
 ## Findings / current status
 
-All six setup-audit corrections implemented. Seven-target inputs regenerated,
-full-input audit passed, 57 relevant tests passed, dependency checks clean.
-Full comparison fitting launched on 14 November 2026 at 19:09 America/New_York,
-with automatic review after fitting. No performance findings are available yet. Earlier
-research and the superseded eight-target setup remain preserved.
+The completed earlier next-24h GEOGLOWS experiment found conventional correction
+value but no dependable incremental Presto/AnySat gain. Its outcome differs
+from this daily reconstruction study; results are preserved separately.
 
-[Corrected protocol and commands](limburg-geoglows-stages12-protocol-v2-2026-11-14.md) ·
-[Active configuration](../config/limburg_geoglows_stages12_v2.json) ·
-[Audit resolution](reviews/limburg-geoglows-audit-corrections-2026-11-14.md) ·
-[Earlier research account](limburg-short-research-account-2026-11-14.md).
+Current preparation has 20,454 local gauge-days for 2018–2025, including 19,538
+complete observed/model pairs. A complete local held-Wurm 2021 nested fitting
+benchmark ran 76 fits in 13.44 seconds. It verifies local feasibility, not the
+regional research claim. Thirty relevant tests, Ruff, dependency checks and
+input/output receipt verification pass. About 79.3 GiB remains free; no GPU job,
+full regional queue, Azure offload or other-chapter cleanup was started.
+
+[Design](limburg-dise-research-design-2026-11-16.md) ·
+[Preparation, audit and next work](limburg-dise-preparation-2026-11-16.md) ·
+[Completed GEOGLOWS results](limburg-geoglows-first-results-2026-11-14.md).

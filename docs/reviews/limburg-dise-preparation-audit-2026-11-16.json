@@ -1,0 +1,23 @@
+{
+  "benchmark_receipts_verified": true,
+  "preparation_sources_verified": true,
+  "local_features_rows": 20454,
+  "unique_local_gauges": 7,
+  "unique_river_groups": 5,
+  "finite_alphaearth": true,
+  "weather_rows_missing_any_current_field": 0,
+  "daily_complete_pairs_2018_2025": 19538,
+  "weather_missingness_is_not_outcome_imputation": true,
+  "all_current_forcing_band_dates_utc": true,
+  "regional_candidates_are_not_approved_training_rows": true,
+  "full_regional_comparison_started": false,
+  "camels_sample_clock_still_needs_primary_documentation": true,
+  "free_gib": 79.33820343017578,
+  "new_raw_mib": 67.15384769439697,
+  "new_output_mib": 20.987773895263672,
+  "test_count": 30,
+  "ruff": "passed",
+  "pip_check": "passed",
+  "benchmark_seconds": 13.438494625035673,
+  "benchmark_fit_count": 76
+}

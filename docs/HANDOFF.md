@@ -1,52 +1,51 @@
-# Limburg handoff — corrected GEOGLOWS Stages 1–2
+# Limburg handoff — DISE-inspired reconstruction preparation
 
-Updated 14 November 2026. Brian writes dissertation prose and sends all emails.
+Updated 16 November 2026. Brian writes dissertation prose and sends all emails.
 
-## Active design
+## Current direction and state
 
-[Corrected protocol](limburg-geoglows-stages12-protocol-v2-2026-11-14.md) and
-[configuration](../config/limburg_geoglows_stages12_v2.json): paired observed versus
-GEOGLOWS discharge on seven tributary targets and nine active Q feeds including
-two Meuse context sites. Eys is excluded from targets and predictors in both
-stages; the original data remain. Full 481-storm census, 13,468 opportunities
-per stage. Presto and AnySat features are reused, not re-extracted.
+Independent DISE-inspired adaptation accepted. [Design](limburg-dise-research-design-2026-11-16.md),
+[configuration](../config/limburg_dise_v1.json), [preparation report](limburg-dise-preparation-2026-11-16.md).
+Daily reconstruction is a deliberate outcome change from the completed next-24h
+assessment. The source authors' code returned 404; it is not a dependency.
 
-## Current state
+Local daily inputs, seven-gauge weather and common-source descriptors are ready.
+One complete local held-Wurm 2021 nested benchmark completed 76 fits/three seeds
+in 13.44 seconds. Results/receipts are under
+`results/limburg_dise_v1/benchmark_local_wurm_2021/`; progress is **completed**.
+No full regional run is queued or active. The failed initial serialization
+attempt is preserved separately, not substituted for a completed result.
 
-All six [audit findings](reviews/limburg-geoglows-code-design-audit-2026-11-14.md)
-are addressed; see [resolution](reviews/limburg-geoglows-audit-corrections-2026-11-14.md).
-Seven-target preparation and complete input audit pass. 57 tests, Ruff and the
-isolated dependency check pass. Corrected outputs are under
-`results/limburg_geoglows_stages12_v2/`; the pinned acquisition remains under
-`data/raw/limburg_geoglows_stages12_v1/`. Actual execution status is recorded in
-v2 `readiness.json` and `run_state.json`: **running**, launched 14 November
-2026 at 19:09 America/New_York. The controller prepares both source baselines,
-runs at most two CPU fitting workers, then automatically reviews the outputs. Roughly
-79 GiB free; preserve the 50-GiB reserve. No cloud jobs or alerts were started.
+Regional metadata and selective ZIP access are verified: 286 donor candidates,
+49 external candidates (Ahr/Erft/Sieg), 52 overlap-review cases. Neither observed
+quality nor model-reach correspondence is certified by these candidate counts.
+The new sources total about 67 MiB; approximately 79.3 GiB disk remains free.
+Preserve the 50-GiB reserve. No other-chapter data were changed.
 
-## Next action
+## Next work
 
-The full run is launched; do not start a duplicate. The detached controller log
-is `logs/limburg_geoglows_stages12_v2/controller.log`. Commands below are for
-status/recovery; the launched workflow already chains fitting and review:
+Regional topology/reach mapping and candidate membership; primary source clock/
+quality documentation; selected donor/external observations, matched model Q,
+common weather and landscape acquisition. Keep external labels out of training.
+Resolve regulation/descriptor limitations; add calibration references and full
+paired uncertainty/measurement reporting to the regional runner. Benchmark actual
+regional training size before scheduling the complete two-CPU-worker comparison.
+A favourable local result is not a gate.
 
-```sh
-.venv-geoglows/bin/python scripts/260_setup_geoglows_comparison.py readiness
-.venv-geoglows/bin/python scripts/260_setup_geoglows_comparison.py run
-.venv-geoglows/bin/python scripts/260_setup_geoglows_comparison.py review
-```
+## Commands
 
-Training/validation cohorts are matched; unsupported satellite rows use causal
-hydrology/raw fallbacks. High-water, full-census and EO-supported results remain
-separate; sparse bootstrap draws cannot silently drop sites. The retrospective
-GEOGLOWS replay does not establish as-issued forecasting or live warning value.
-No new dataset, encoder family or Stage 3 has been added by these repairs.
+Use `.venv-dise` (XGBoost 3.1.2/scikit-learn 1.7.2); the prior environments are
+unchanged. Explicit preparation phases are `metadata`, `regional`, `sample`,
+`weather`, `attributes`, `daily` in `scripts/262_prepare_dise.py`.
+`scripts/263_benchmark_dise_fold.py` verifies/reuses its completed local benchmark
+when identities agree; it does **not** launch a regional comparison.
 
-## Preserved history
+## Completed earlier work
 
-The superseded eight-target configuration/results remain under their original
-v1 names. Previous one-pager/handoff snapshots are in
-`archive/retired-directions/2026-11-14-geoglows-eight-target-setup/`.
-[Earlier research account](limburg-short-research-account-2026-11-14.md) retains
-completed analogue, scarcity, model-specific correction and mapping evidence.
-Older scientific findings were not recalculated or overwritten.
+GEOGLOWS seven-target v2 finished all four fits and review on 14 November 2026;
+[qualified results](limburg-geoglows-first-results-2026-11-14.md) and all source
+configurations remain. Earlier analogue, scarcity, model-specific correction and
+mapping results are retained in their original directories and dated records.
+Do not restart those queues or compare their next-24h scores directly with daily
+reconstruction. The canonical current-study pointer is
+`config/limburg_current_study.json`.

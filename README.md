@@ -1,16 +1,19 @@
-# Limburg — high-water assessment with alternative discharge information
+# Limburg — satellite-informed discharge reconstruction
 
-**Current direction — approved 14 November 2026:** paired observed versus
-GEOGLOWS discharge inputs on the same NL/DE rivers, with conventional assessment,
-simple calibration and task-specific AI corrections. The six audit corrections
-are implemented. The seven-target Stages 1–2 are prepared and verified; full
-comparisons launched on 14 November 2026, with automatic review after fitting. No new EO extraction is required.
+**Current direction — accepted 16 November 2026:** independent DISE-inspired
+pooled correction of GEOGLOWS using AlphaEarth as catchment information. This
+is daily reconstruction, distinct from the completed next-24h assessment.
+Local daily preparation and a 76-fit held-Wurm benchmark are complete; the full
+regional comparison has not launched. Regional metadata/selective access work;
+reach mapping, quality/clock checks and full eligible acquisitions remain.
 
 - [Current one-pager](docs/chapter-one-pager.md)
-- [Research design and execution guide](docs/limburg-geoglows-stages12-protocol-v2-2026-11-14.md)
-- [Active configuration](config/limburg_geoglows_stages12_v2.json)
-- [Reviewed reach mappings](config/limburg_geoglows_reaches_v1.json)
+- [Design](docs/limburg-dise-research-design-2026-11-16.md)
+- [Preparation, benchmark and next work](docs/limburg-dise-preparation-2026-11-16.md)
+- [Active configuration](config/limburg_dise_v1.json)
+- [Data needs](docs/data-needs.md)
 - [Handoff](docs/HANDOFF.md)
+- [Completed GEOGLOWS results](docs/limburg-geoglows-first-results-2026-11-14.md)
 
 **Below: preserved earlier mapping-study documentation.** It describes completed
 or superseded work; the active continuation is the design linked above.

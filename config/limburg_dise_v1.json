@@ -1,0 +1,23 @@
+{
+  "experiment": "limburg_dise_v1",
+  "status": "preparation_and_benchmark_only",
+  "design": "docs/limburg-dise-research-design-2026-11-16.md",
+  "raw": "data/raw/limburg_dise_v1",
+  "output": "results/limburg_dise_v1",
+  "source_config": "config/limburg_geoglows_stages12_v2.json",
+  "reserve_gib": 50,
+  "earth_engine_project": "limburg-511403",
+  "weather_collection": "ECMWF/ERA5_LAND/DAILY_AGGR",
+  "weather_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+  "alphaearth_primary_year": 2017,
+  "test_years": [2021, 2022, 2023, 2024, 2025],
+  "benchmark_year": 2021,
+  "benchmark_excluded_group": "Wurm",
+  "seeds": [101, 202, 303],
+  "camels_archive": "https://datapub.gfz.de/download/10.5880.FIDGEO.2026.045-Trfghbv/2026-045_Dolich-et-al_data/CAMELS-DE-1h.zip",
+  "regional_bounds": [5.5, 49, 9, 52.5],
+  "regional_area_km2": [25, 1000],
+  "external_rivers": ["Ahr", "Erft", "Sieg"],
+  "negative_weather_policy": "Negative accumulated precipitation/radiation are marked missing and counted, not clipped silently.",
+  "benchmark_scope": "Local held-Wurm fold only until regional donor mapping and acquisitions complete; not a regional-scale runtime or final research result."
+}

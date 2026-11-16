@@ -1,0 +1,127 @@
+{
+  "status": "first_interpretation_not_final_event_audit",
+  "run": "limburg_geoglows_stages12_v2",
+  "target_gauges": 7,
+  "valid_high_water_assessments": 2482,
+  "high_water_storms": 273,
+  "absolute_and_relative_losses": [
+    {
+      "stage": "observed",
+      "model": "presto",
+      "method": "conventional_mean",
+      "mae_mm_h": 0.06539980525785903,
+      "relative_to_source_conventional_pct": 0.0
+    },
+    {
+      "stage": "observed",
+      "model": "presto",
+      "method": "hydro_correction",
+      "mae_mm_h": 0.06689743952985865,
+      "relative_to_source_conventional_pct": 2.2899674794056857
+    },
+    {
+      "stage": "observed",
+      "model": "presto",
+      "method": "raw_correction",
+      "mae_mm_h": 0.08196901203920195,
+      "relative_to_source_conventional_pct": 25.3352540057477
+    },
+    {
+      "stage": "observed",
+      "model": "presto",
+      "method": "encoder_correction",
+      "mae_mm_h": 0.09034846670628773,
+      "relative_to_source_conventional_pct": 38.14791397323105
+    },
+    {
+      "stage": "observed",
+      "model": "anysat",
+      "method": "conventional_mean",
+      "mae_mm_h": 0.06539980525785903,
+      "relative_to_source_conventional_pct": 0.0
+    },
+    {
+      "stage": "observed",
+      "model": "anysat",
+      "method": "hydro_correction",
+      "mae_mm_h": 0.06689743952985865,
+      "relative_to_source_conventional_pct": 2.2899674794056857
+    },
+    {
+      "stage": "observed",
+      "model": "anysat",
+      "method": "raw_correction",
+      "mae_mm_h": 0.06932796983494532,
+      "relative_to_source_conventional_pct": 6.0063857401383425
+    },
+    {
+      "stage": "observed",
+      "model": "anysat",
+      "method": "encoder_correction",
+      "mae_mm_h": 0.0695543805628679,
+      "relative_to_source_conventional_pct": 6.352580544587516
+    },
+    {
+      "stage": "geoglows",
+      "model": "presto",
+      "method": "conventional_mean",
+      "mae_mm_h": 0.07309394280433834,
+      "relative_to_source_conventional_pct": 0.0
+    },
+    {
+      "stage": "geoglows",
+      "model": "presto",
+      "method": "hydro_correction",
+      "mae_mm_h": 0.07064510119639114,
+      "relative_to_source_conventional_pct": -3.350266128757595
+    },
+    {
+      "stage": "geoglows",
+      "model": "presto",
+      "method": "raw_correction",
+      "mae_mm_h": 0.07505990375399693,
+      "relative_to_source_conventional_pct": 2.6896359318325125
+    },
+    {
+      "stage": "geoglows",
+      "model": "presto",
+      "method": "encoder_correction",
+      "mae_mm_h": 0.0755334248633956,
+      "relative_to_source_conventional_pct": 3.337461307276035
+    },
+    {
+      "stage": "geoglows",
+      "model": "anysat",
+      "method": "conventional_mean",
+      "mae_mm_h": 0.07309394280433834,
+      "relative_to_source_conventional_pct": 0.0
+    },
+    {
+      "stage": "geoglows",
+      "model": "anysat",
+      "method": "hydro_correction",
+      "mae_mm_h": 0.07064510119639114,
+      "relative_to_source_conventional_pct": -3.350266128757595
+    },
+    {
+      "stage": "geoglows",
+      "model": "anysat",
+      "method": "raw_correction",
+      "mae_mm_h": 0.07164179722247896,
+      "relative_to_source_conventional_pct": -1.986683883980045
+    },
+    {
+      "stage": "geoglows",
+      "model": "anysat",
+      "method": "encoder_correction",
+      "mae_mm_h": 0.07198053876670649,
+      "relative_to_source_conventional_pct": -1.5232507577437326
+    }
+  ],
+  "limitations": [
+    "Exploratory conditional retrospective assessment, not as-issued forecast skill",
+    "Presto observed-input average strongly affected by 2016 Randerath correction failures",
+    "Calibration comparisons exclude initial year without previous calibration observations",
+    "No general encoder advantage established"
+  ]
+}
