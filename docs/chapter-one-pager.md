@@ -1,6 +1,6 @@
 # Limburg — satellite-informed discharge reconstruction
 
-Living research aid, updated 16 November 2026. Brian writes dissertation prose.
+Living research aid, updated 17 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; full regional comparison not launched.
 
@@ -78,7 +78,7 @@ source/daily checksums are verified. All matched regional inputs are assembled:
 1,272,069 model and weather gauge-days each, plus 387 embedding/control rows.
 No model/weather cells are missing; every spatial row has valid support. All
 acquisition workers have finished. Regional feature assembly/audit is complete
-(1,151,268 rows); the first full 152-fit regional-fold benchmark is running.
+(1,151,268 rows); the first full 152-fit regional-fold benchmark is complete.
 Its 2021 test census has 17,637 eligible days across 51 contributing gauges;
 two additional external gauges lack 2021 verification, explicitly recorded.
 No GPU job, full regional fitting queue, Azure offload or other-chapter cleanup
@@ -97,3 +97,10 @@ Daily-flow improvement remains distinct from flood-peak or warning improvement.
 [Completed spatial review and current input locations](limburg-dise-spatial-resolution-2026-11-16.md).
 
 [Regional preparation and current benchmark](limburg-dise-regional-benchmark-2026-11-16.md).
+
+
+Completion update — 17 November 2026: the first regional-fold benchmark finished
+all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
+reverify; 303 metric records and the prediction/calibration tables are available.
+No workers remain active. This is one 2021 fold; capacity/coverage and substantive
+results still need review before a full multi-year comparison.

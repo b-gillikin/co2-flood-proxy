@@ -18,7 +18,7 @@ Updated 16 November 2026. [Implemented corrections and current inventory](limbur
 Regional source snapshots use 3.66 GiB and daily tables 84 MiB; 74.8 GiB was
 free at verification. Matched regional inputs are complete and hash-verified; all workers have
 finished. Regional features are assembled and audited; the first regional-fold
-benchmark is now fitting, with no additional input request. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
+benchmark has completed, with no additional input request. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
 Current registers and assembled inputs: [completed spatial review](limburg-dise-spatial-resolution-2026-11-16.md).
 The regional verification source ends in 2024; local 2025 verification remains
 separate, and 2025 regional predictors do not supply missing labels.
@@ -140,3 +140,10 @@ compression, so use bounded tile/event streaming and verified remote preservatio
 These are array-shape estimates, not extra downloads already started. About122GiB
 was free at audit; the50GiB reserve remains. The prior9.068GiB package size must
 not be mistaken for the complete execution footprint.
+
+
+Completion update — 17 November 2026: the first regional-fold benchmark finished
+all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
+reverify; 303 metric records and the prediction/calibration tables are available.
+No workers remain active. This is one 2021 fold; capacity/coverage and substantive
+results still need review before a full multi-year comparison.

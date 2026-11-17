@@ -125,3 +125,17 @@ No additional input download, other-chapter change, full multi-year queue or
 operational-warning claim is part of this execution. After completion, review
 runtime, capacity/coverage, calibration behaviour and provisional paired results
 before planning the full chronological comparison.
+
+
+## Completion update — 17 November 2026
+
+All 152 fits, calibration and scoring completed successfully in 2,355 seconds
+(**39.3 minutes**), including 2,258 seconds of recorded fitting. Peak process
+memory was 5.74 GiB. The completed manifest and every output hash reverified
+without refitting. There are 303 metric records and saved seed models,
+predictions, thresholds, calibration and paired-effect tables. No workers remain
+active; this does not launch or complete the full multi-year comparison.
+
+The first-fold results and tree-cap/coverage diagnostics are ready for substantive
+review. Single-year intervals remain undefined, as specified. Earlier running
+status and runtime estimates above are preserved as the execution history.

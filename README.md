@@ -8,7 +8,7 @@ regional observation records are acquired and checksum-verified; source timing
 is resolved. Matched regional model/weather/embedding inputs are acquired and hash-verified;
 spatial review is complete with explicit strata and one recovered boundary case
 (387 matched gauges). Regional features are assembled and audited; the first 152-fit regional
-benchmark is running. The full multi-year comparison has not launched.
+benchmark is complete and hash-verified. The full multi-year comparison has not launched.
 
 - [Current one-pager](docs/chapter-one-pager.md)
 - [Design](docs/limburg-dise-research-design-2026-11-16.md)
@@ -64,3 +64,10 @@ relabelled as prospective findings. Start with the [completed spatial findings](
 and [completion/recovery audit](docs/reviews/limburg-completion-recovery-audit-2026-11-10.md).
 Older dated plans and scripts reproduce those studies; they do not define current
 completion requirements. Brian writes dissertation prose and sends emails.
+
+
+Completion update — 17 November 2026: the first regional-fold benchmark finished
+all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
+reverify; 303 metric records and the prediction/calibration tables are available.
+No workers remain active. This is one 2021 fold; capacity/coverage and substantive
+results still need review before a full multi-year comparison.

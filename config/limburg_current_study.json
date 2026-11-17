@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-16",
-  "status": "dise_regional_features_audited_first_fold_running",
+  "date": "2026-11-17",
+  "status": "dise_regional_first_fold_benchmark_complete",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
@@ -8,7 +8,7 @@
   "progress": "results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021/progress.json",
   "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
-  "new_queue_started": true,
+  "new_queue_started": false,
   "new_bulk_download_started": false,
   "full_regional_comparison_started": false,
   "local_benchmark_completed": true,
@@ -37,18 +37,19 @@
   "design_corrections_pending": [],
   "active_acquisition": false,
   "active_workers": {
-    "fitting": 1,
-    "threads_per_fit": 2,
+    "fitting": 0,
+    "threads_per_fit": 0,
     "gpu": 0,
     "geoglows": 0,
     "earth_engine": 0
   },
   "preparation_remaining": [
-    "complete the first regional-fold benchmark and review timing/capacity/coverage before scaling"
+    "review completed benchmark capacity, coverage and provisional paired results before full multiyear comparison"
   ],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
-    "results/limburg_dise_v2/benchmark_local_wurm_2021"
+    "results/limburg_dise_v2/benchmark_local_wurm_2021",
+    "results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021"
   ],
   "source_acquisition_completed": true,
   "latest_verification": "docs/reviews/limburg-dise-corrections-verification-2026-11-16.json",
@@ -69,6 +70,5 @@
   "regional_features": "results/limburg_dise_regional_benchmark_v1/preparation/features.parquet",
   "latest_preparation_audit": "results/limburg_dise_regional_benchmark_v1/preparation/audit.json",
   "regional_benchmark_started": true,
-  "benchmark_pid": 24764,
-  "benchmark_managed_session": 74140
+  "regional_benchmark_completed": true
 }

@@ -1,6 +1,6 @@
 # Limburg handoff — DISE-inspired reconstruction preparation
 
-Updated 16 November 2026. Brian writes dissertation prose and sends all emails.
+Updated 17 November 2026. Brian writes dissertation prose and sends all emails.
 
 ## Current direction and state
 
@@ -29,7 +29,7 @@ Twelve records have no complete daily overlap in that period; these are coverage
 cases, not transfer failures. Raw snapshots use 3.66 GiB; daily tables use 84 MiB.
 The observation-only acquisition is complete. **Matched regional model/weather/
 AlphaEarth and conventional-control inputs are complete and hash-verified**.
-All acquisition workers have finished; the first regional-fold benchmark is now running. Input-acquisition progress is
+All acquisition workers have finished; the first regional-fold benchmark is complete. Input-acquisition progress is
 `results/limburg_dise_v2/regional_inputs/progress.json`. The observation receipt
 remains under `regional_acquisition_progress.json`. Data location:
 `data/raw/limburg_dise_v2/camels_timeseries/`, daily records under
@@ -51,13 +51,13 @@ One added gauge shares an existing model reach; original matched IDs/holdout rol
 are unchanged. The resolved input tables are under
 `results/limburg_dise_v2/regional_inputs_resolved_v1/`; original 386-record receipts
 above remain historical acquisition evidence. The first regional-fold benchmark
-is now active; no full multi-year comparison has launched.
+is complete; no full multi-year comparison has launched.
 
 [Regional preparation and benchmark](limburg-dise-regional-benchmark-2026-11-16.md):
 1,151,268 feature rows, actual local-recipe parity audited, 51 tests passing.
-One worker/two CPU threads is running 152 fits for the Wurm/external 2021 fold.
+The Wurm/external 2021 fold completed 152 fits; no worker is active.
 Progress: `results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021/progress.json`.
-Do not start a duplicate worker or edit pinned fitting inputs/code during execution.
+The completed run is frozen; preserve its inputs/code identity and outputs.
 After completion, inspect capacity/tree caps, runtime, coverage and paired results
 before scaling. A favourable result is not a gate.
 
@@ -79,3 +79,10 @@ mapping results are retained in their original directories and dated records.
 Do not restart those queues or compare their next-24h scores directly with daily
 reconstruction. The canonical current-study pointer is
 `config/limburg_current_study.json`.
+
+
+Completion update — 17 November 2026: the first regional-fold benchmark finished
+all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
+reverify; 303 metric records and the prediction/calibration tables are available.
+No workers remain active. This is one 2021 fold; capacity/coverage and substantive
+results still need review before a full multi-year comparison.
