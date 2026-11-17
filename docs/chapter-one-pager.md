@@ -2,7 +2,8 @@
 
 Living research aid, updated 17 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
-completed, audit corrections implemented in v2; full regional comparison not launched.
+completed, audit corrections implemented in v2; first regional fold and capacity
+check completed. The multiyear comparison remains pending.
 
 ## Research Question(s)
 
@@ -112,5 +113,16 @@ external MAE by 2.9%; high-water gains are only 1.6%/1.7% and do not hold
 consistently under measurement/selection sensitivities. High-water RMSE is worse
 than raw GEOGLOWS. External gains persist in high-overlap views but vary by river.
 Selected primary H+A/HA+E fits are uncapped; other selected and near-tied tuning
-candidates hit the limit. A fair capacity check is recommended before full
-scaling; no new run is launched. [Full review](limburg-dise-regional-results-review-2026-11-17.md).
+candidates hit the limit. A fair capacity check was recommended before full
+scaling. [Full review](limburg-dise-regional-results-review-2026-11-17.md).
+
+Current continuation — 17 November 2026: the [four-step plan](limburg-dise-four-step-plan-2026-11-17.md)
+is saved. **Step 1 is complete** with a common 3,000-tree maximum. All 26 originally
+capped tuning jobs were refit; the reuse control matched exactly. Four selected
+specifications changed, requiring 12 new final seed fits. None of the selected
+candidate/fold fits remains capped; three unselected sensitivity fits do.
+The updated primary all-day MAE gains from AlphaEarth are **21.3% on Wurm and
+2.3% externally**. High-water MAE worsens by 2.5% on Wurm and improves by 1.7%
+externally; high-water evidence remains mixed. This is still one 2021 fold.
+[Capacity results and verification](limburg-dise-capacity-check-2026-11-17.md).
+Steps 2–4 remain pending. Original results are retained and no workers are active.

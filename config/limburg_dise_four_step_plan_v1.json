@@ -7,9 +7,13 @@
     {
       "number": 1,
       "name": "Finish the capacity check",
-      "status": "in_progress",
+      "status": "complete",
       "config": "config/limburg_dise_capacity_v1.json",
-      "action": "Uniform 3000-tree maximum; refit capped tuning jobs from scratch, validate reuse of early-stopped jobs, reselect on validation data and refit affected final ensembles. Preserve and compare the original benchmark."
+      "action": "Uniform 3000-tree maximum; refit capped tuning jobs from scratch, validate reuse of early-stopped jobs, reselect on validation data and refit affected final ensembles. Preserve and compare the original benchmark.",
+      "result": "results/limburg_dise_capacity_v1/capacity_summary.json",
+      "completed_date": "2026-11-17",
+      "report": "docs/limburg-dise-capacity-check-2026-11-17.md",
+      "verification": "docs/reviews/limburg-dise-capacity-verification-2026-11-17.json"
     },
     {
       "number": 2,

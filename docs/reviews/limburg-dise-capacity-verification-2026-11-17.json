@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-17",
+  "status": "verified",
+  "capacity_manifest_sha256": "321ce3e4722e8d9535d7e9b1b9830168b92da9d0b229a87674f8a7c82ba23f4e",
+  "original_manifest_sha256": "3624179fd65050a38bb9ece29be0dbebf0b5563aa04065e38f9c9f473adc066d",
+  "test_rows": 17637,
+  "test_gauges": 51,
+  "fixed_metadata_and_reference_predictions_exact": true,
+  "validation_selections_independently_reconstructed": 8,
+  "seed_ensembles_exact": 8,
+  "fresh_originally_capped_tuning_fits": 26,
+  "reused_tuning_model_hashes_exact": 101,
+  "independent_metric_rows_verified": 85,
+  "original_and_capacity_output_hashes_verified": true,
+  "capacity_input_and_code_hashes_verified": true,
+  "no_step2_launched": true,
+  "review_artifacts": "results/limburg_dise_capacity_review_v1",
+  "runner_commit": "5a45dd1"
+}

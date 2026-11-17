@@ -1,4 +1,4 @@
-# Limburg handoff — DISE-inspired reconstruction preparation
+# Limburg handoff — DISE-inspired reconstruction
 
 Updated 17 November 2026. Brian writes dissertation prose and sends all emails.
 
@@ -58,8 +58,8 @@ is complete; no full multi-year comparison has launched.
 The Wurm/external 2021 fold completed 152 fits; no worker is active.
 Progress: `results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021/progress.json`.
 The completed run is frozen; preserve its inputs/code identity and outputs.
-After completion, inspect capacity/tree caps, runtime, coverage and paired results
-before scaling. A favourable result is not a gate.
+The first-fold review and capacity check are now complete; see the authorized
+continuation below. A favourable result is not a gate for the saved next steps.
 
 ## Commands
 
@@ -95,6 +95,30 @@ All-day Wurm E gain is substantial (23.1%); external mean is small (2.9%) and
 Erft-driven. High-water gains are small and selection/measurement-sensitive;
 corrections worsen some severe errors relative to raw GEOGLOWS. 26/128 tuning
 fits are capped, including selected H+E/article-faithful cases and a close
-primary H+A+E runner-up. Recommend one fair 3,000-tree capacity check, then a
-locked multi-year comparison. Nothing new is running. Review artifacts are
+primary H+A+E runner-up. Recommended one fair 3,000-tree capacity check, then a
+locked multi-year comparison. Review artifacts are
 under `results/limburg_dise_regional_benchmark_v1/review_2026_11_17/`.
+
+## Authorized continuation — 17 November 2026
+
+The [four-step plan](limburg-dise-four-step-plan-2026-11-17.md) is saved in
+`config/limburg_dise_four_step_plan_v1.json`. **Step 1 is complete; Steps 2–4
+remain pending and have not launched.**
+The capacity run uses `scripts/275_run_dise_capacity_check.py` and
+`config/limburg_dise_capacity_v1.json`, with results/progress under
+`results/limburg_dise_capacity_v1/`. The fixed 3,000-tree reuse control matches
+the original stopping point and validation predictions exactly. All 26 previously
+capped jobs were refit from scratch; 101 verified early stops were reused. Four
+selected specifications changed, requiring 12 new final fits; 12 were reused.
+The original benchmark is preserved. The run finished in 22.1 minutes with one
+CPU fitting worker/two threads. **No workers remain active.** No GPU, download
+or cloud task was used. Fifty-four relevant tests and Ruff pass.
+
+The same test populations and raw/FDC controls reverify. No selected candidate/fold
+fit remains capped; three unselected sensitivity fits do. Primary AlphaEarth
+all-day MAE gains are now 21.3% Wurm/2.3% external; high-water MAE changes are
+−2.5%/+1.7% improvement, respectively. [Results and verification](limburg-dise-capacity-check-2026-11-17.md)
+explain the distinct RMSE results and continuing measurement/one-year limitations.
+Rerunning the capacity command verifies completed outputs without refitting.
+The machine-readable plan/current-study status is updated. No later step or
+further cap increase was launched.
