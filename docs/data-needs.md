@@ -1,19 +1,23 @@
 # Current data needs — DISE-inspired reconstruction
 
-Updated 16 November 2026. [Current preparation](limburg-dise-preparation-2026-11-16.md).
+Updated 16 November 2026. [Implemented corrections and current inventory](limburg-dise-audit-corrections-2026-11-16.md).
 
 | Input | Current status / remaining work |
 | --- | --- |
 | Local Q/qualifications | Held; daily observed/model reference and separate clean flags assembled |
 | Local AlphaEarth | Held; fixed 2017 means selected, seven target catchments |
 | Local weather | Acquired: 2017–2025 catchment-specific ERA5-Land daily summaries |
-| Conventional local descriptors | Acquired: common terrain, 2017 land-cover fractions, surface field-capacity proxy; regulation remains unknown |
-| Regional donor/external metadata | Acquired; 286 donor candidates, 49 external candidates, 52 overlap-review cases; mapping/quality decisions still required |
-| Regional observations | Selective access verified with one predetermined donor member; full eligible cohort not acquired |
+| Conventional local descriptors | Acquired: common terrain, 2017 land-cover fractions, surface field-capacity proxy; regulation coverage remains incomplete; exact-match no-dam evidence is not proof of no controls |
+| Regional donor/external metadata | Acquired; 336 provisional donors, 50 reserved external records, 44 geometry/coverage flags; final mapping treatment still required |
+| Regional observations | Acquired and checksum-verified: all 386 mapped nonlocal records, zero failed transfers; 821,400 complete daily observations in 2018–2024; 12 records have no complete daily overlap |
 | Regional GEOGLOWS/weather/AlphaEarth | Matched-reach and polygon inventory/acquisition still required |
-| CAMELS-DE-1h source clock/quality | File schema verified; primary UTC/hour-interval and source qualification documentation still needs checking |
+| CAMELS-DE-1h source clock/quality | Verified primary documentation: UTC, preceding-hour means; mixed provider QA and no exhaustive direct source QA. Unknown quality stays unknown; incomplete days stay missing |
 | Additional local provider emails | None required for this preparation |
 | Full imagery or new encoder weights | Not required |
+
+Regional source snapshots use 3.66 GiB and daily tables 84 MiB; 74.8 GiB was
+free at verification. No acquisition or model workers remain active. Matched
+regional GEOGLOWS/weather/embedding inputs are the next acquisition work.
 
 The prior GEOGLOWS next-24h comparison is completed. Its dated inventory below
 is historical, not the acquisition list for the current reconstruction study.

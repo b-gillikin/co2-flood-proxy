@@ -465,3 +465,26 @@ applied changes to the protocol or completed benchmark**. The original proposed
 buffer and selection choices above remain visible for traceability. Daily
 reconstruction remains the target; no additional model or new provider request
 was introduced by the audit.
+
+
+## Audit actions implemented — 16 November 2026
+
+[Versioned implementation](limburg-dise-audit-corrections-2026-11-16.md) supersedes
+the proposed calendar buffer and all-day primary model selection above. The
+primary stopping/selection criterion is river-balanced reconstructed-discharge
+RMSE (mm/day);
+log-residual fitting remains explicit and one article-faithful selection
+sensitivity is retained. All valid January days stay in the census. Conventional
+location/past-climate controls, calibration references, fixed-population scoring,
+saved evaluator thresholds and honest single-year uncertainty are implemented.
+The v2 local benchmark completed; source and regional mapping audits are retained.
+The original design and v1 benchmark remain available; no full regional fit has
+launched. Current data-acquisition state is recorded in the handoff/progress file.
+
+The completed v2 source acquisition contains all 386 mapped nonlocal records,
+with verified source/daily hashes, 821,400 complete daily observations during
+2018–2024 and twelve records without complete daily overlap. Current counts
+(336 provisional donors, 50 reserved external records, 44 geometry/coverage
+flags) supersede the earlier metadata-only counts above. Source UTC/hour-end
+semantics are verified. Regional model/weather/embedding inputs and explicit
+spatial-identity treatment remain; no full regional fitting has begun.

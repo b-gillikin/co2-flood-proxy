@@ -1,0 +1,24 @@
+{
+  "source": "https://essd.copernicus.org/preprints/essd-2026-289/essd-2026-289.pdf",
+  "pdf_sha256": "0569fd9ac497c9a1f7958c9eb2e2da67dfd727f0ae2c6d6d100e22a43f03c287",
+  "status": "primary_document_clock_verified_quality_qualified",
+  "hydrology": {
+    "timezone": "UTC+0",
+    "label": "hour end",
+    "meaning": "mean over preceding hour",
+    "daily_convention": "00:00 to next 00:00 UTC, exactly 24 complete hourly means",
+    "source_pages": "8-9"
+  },
+  "quality": {
+    "no_exhaustive_dataset_qc": true,
+    "provider_mixture": "raw and quality-controlled records",
+    "negative_values": "replaced by NaN",
+    "inherited_removed_basins": 7,
+    "source_model_performance_used_only_for_release_qc": "do not reuse benchmark skill to select our cohort",
+    "our_clean_flag": "unknown without additional provider flags, not automatically true",
+    "regulated_basins": "retained when unusual responses were attributable to management"
+  },
+  "requests_needed": false,
+  "missing_terminal_hour_policy": "No extrapolation of 2024-12-31 midnight; preserve any incomplete last daily window.",
+  "remaining_checks": "per-series finite/negative/duplicate/completeness audit, non-outcome-based topology and section correspondence"
+}

@@ -1,0 +1,49 @@
+{
+  "status": "audit_actions_implemented_local_benchmark_and_source_acquisition_complete",
+  "review_date": "2026-11-16",
+  "tests_passed": 37,
+  "ruff": "passed",
+  "pip_check": "passed",
+  "benchmark_fits": 152,
+  "benchmark_seconds": 32.19369695801288,
+  "original_benchmark_preserved_and_verified": true,
+  "corrected_benchmark_verified": true,
+  "regional_sources_acquired": 386,
+  "failed_acquisitions": 0,
+  "all_source_and_daily_hashes_reverified": true,
+  "source_records_without_2018_2024_complete_daily_overlap": [
+    "DEA11620",
+    "DEA12290",
+    "DEA12200",
+    "DEA12230",
+    "DEA12390",
+    "DEA12300",
+    "DEA12410",
+    "DEA12430",
+    "DEA12370",
+    "DEA12400",
+    "DEA12420",
+    "DEA12440"
+  ],
+  "complete_daily_observations_2018_2024": 821400,
+  "role_counts": {
+    "regional_donor": 336,
+    "reserved_external": 50,
+    "local_connected_section_excluded": 4,
+    "unmapped_source_coverage": 1
+  },
+  "geometry_review_flags": 44,
+  "raw_gib": 3.6579247945919633,
+  "daily_mib": 84.27772903442383,
+  "disk_free_gib": 74.79579544067383,
+  "reserve_gib": 50,
+  "full_regional_fit_started": false,
+  "remaining": [
+    "regional model Q/weather/embedding inputs",
+    "resolve or explicitly stratify spatial-identity flags",
+    "regional-size benchmark"
+  ],
+  "no_new_provider_email": true,
+  "no_other_chapter_data_change": true,
+  "no_azure_or_gpu_job": true
+}

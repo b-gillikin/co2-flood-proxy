@@ -2,7 +2,7 @@
 
 Living research aid, updated 16 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
-completed, full regional comparison not launched.
+completed, audit corrections implemented in v2; full regional comparison not launched.
 
 ## Research Question(s)
 
@@ -27,14 +27,17 @@ René/Jens observations and provider qualifications, verified GEOGLOWS discharge
 2017 AlphaEarth catchment means, and newly acquired gauge-specific ERA5-Land
 weather for 2017–2025. Consistent conventional descriptors use SRTM terrain,
 2017 Copernicus fractional land cover and a surface field-capacity proxy;
-regulation information remains unresolved. Seven local gauges represent five
+regulation coverage remains incomplete; a no-dam inventory entry does not rule
+out other controls or management. Seven local gauges represent five
 river groups; Eys remains excluded and the Meuse is not added as a new target.
 
-CAMELS-DE-1h metadata and selective time-series access are verified. The bounded
-inventory contains 286 donor candidates, 49 reserved external candidates in
-Ahr/Erft/Sieg and 52 overlap-review cases. These are not final independent or
-quality-verified training/test populations. Regional reach matching, source-clock
-checks and selected-series/descriptor acquisition remain.
+CAMELS-DE-1h observations are acquired for 386 mapped nonlocal records: 336
+provisional donors and 50 reserved external records in Ahr/Erft/Sieg. There are
+821,400 complete daily observations during 2018–2024; twelve records have no
+complete daily overlap. UTC hour-end timing is verified from the primary paper.
+These are not final independent or uniformly quality-verified populations.
+44 geometry/coverage flags require explicit treatment. Regional model discharge,
+weather and landscape/AlphaEarth inputs remain to be acquired.
 
 ## Method
 
@@ -50,7 +53,8 @@ Stage 3 tests reserved external rivers without their calibration labels.
 ## Methodology
 
 All eligible days; identical cohorts and tuning budgets across feature sets;
-chronological test years 2021–2025 and nested river-group withholding. All three
+chronological test years 2021–2025, nested river-group withholding and
+reconstructed-discharge RMSE (mm/day) for primary early stopping and selection. All three
 Wurm gauges leave together. Prior-landscape descriptors, train-only transforms,
 common weather definitions, quality/missingness records and paired high-water
 and all-day evaluation. Report measurement/geometry limitations and river/storm
@@ -64,15 +68,18 @@ value but no dependable incremental Presto/AnySat gain. Its outcome differs
 from this daily reconstruction study; results are preserved separately.
 
 Current preparation has 20,454 local gauge-days for 2018–2025, including 19,538
-complete observed/model pairs. A complete local held-Wurm 2021 nested fitting
-benchmark ran 76 fits in 13.44 seconds. It verifies local feasibility, not the
-regional research claim. Thirty relevant tests, Ruff, dependency checks and
-input/output receipt verification pass. About 79.3 GiB remains free; no GPU job,
-full regional queue, Azure offload or other-chapter cleanup was started.
+complete observed/model pairs. The corrected local held-Wurm 2021 nested benchmark completed
+152 fits, including one selection-policy sensitivity, in 32.19 seconds. It verifies local feasibility, not the
+regional research claim. Thirty-seven relevant tests, Ruff, dependency checks and
+input/output receipt verification pass. All regional observation transfers and
+source/daily checksums are verified. No acquisition workers remain active.
+No GPU job, full regional fitting queue, Azure offload or other-chapter cleanup
+was started; 74.8 GiB was free at verification, above the 50-GiB reserve.
 
 The [design audit](reviews/limburg-dise-research-design-audit-2026-11-16.md)
-supports retaining this study, with pending corrections to high-water model
-selection, unnecessary calendar exclusions and population-aware scoring.
+supports retaining this study. Its corrections to model selection, calendar
+exclusions, conventional references and population-aware scoring are now
+[implemented](limburg-dise-audit-corrections-2026-11-16.md).
 Daily-flow improvement remains distinct from flood-peak or warning improvement.
 
 [Design](limburg-dise-research-design-2026-11-16.md) ·

@@ -3,14 +3,16 @@
 **Current direction — accepted 16 November 2026:** independent DISE-inspired
 pooled correction of GEOGLOWS using AlphaEarth as catchment information. This
 is daily reconstruction, distinct from the completed next-24h assessment.
-Local daily preparation and a 76-fit held-Wurm benchmark are complete; the full
-regional comparison has not launched. Regional metadata/selective access work;
-reach mapping, quality/clock checks and full eligible acquisitions remain.
+Audit corrections and a 152-fit held-Wurm benchmark are complete. All 386 mapped
+regional observation records are acquired and checksum-verified; source timing
+is resolved. Regional model/weather/embedding inputs and explicit treatment of
+spatial-identity flags remain. The full regional comparison has not launched.
 
 - [Current one-pager](docs/chapter-one-pager.md)
 - [Design](docs/limburg-dise-research-design-2026-11-16.md)
 - [Preparation, benchmark and next work](docs/limburg-dise-preparation-2026-11-16.md)
-- [Active configuration](config/limburg_dise_v1.json)
+- [Active configuration](config/limburg_dise_v2.json)
+- [Implemented audit corrections](docs/limburg-dise-audit-corrections-2026-11-16.md)
 - [Data needs](docs/data-needs.md)
 - [Handoff](docs/HANDOFF.md)
 - [Completed GEOGLOWS results](docs/limburg-geoglows-first-results-2026-11-14.md)

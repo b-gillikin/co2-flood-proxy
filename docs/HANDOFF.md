@@ -4,47 +4,51 @@ Updated 16 November 2026. Brian writes dissertation prose and sends all emails.
 
 ## Current direction and state
 
-Independent DISE-inspired adaptation accepted. [Design](limburg-dise-research-design-2026-11-16.md),
-[configuration](../config/limburg_dise_v1.json), [preparation report](limburg-dise-preparation-2026-11-16.md).
+Independent DISE-inspired adaptation accepted; audit corrections implemented in v2. [Design](limburg-dise-research-design-2026-11-16.md),
+[configuration](../config/limburg_dise_v2.json), [preparation report](limburg-dise-preparation-2026-11-16.md).
 Daily reconstruction is a deliberate outcome change from the completed next-24h
 assessment. The source authors' code returned 404; it is not a dependency.
 
 Local daily inputs, seven-gauge weather and common-source descriptors are ready.
-One complete local held-Wurm 2021 nested benchmark completed 76 fits/three seeds
-in 13.44 seconds. Results/receipts are under
-`results/limburg_dise_v1/benchmark_local_wurm_2021/`; progress is **completed**.
-No full regional run is queued or active. The failed initial serialization
-attempt is preserved separately, not substituted for a completed result.
+The corrected local held-Wurm 2021 benchmark completed **152 fits in 32.19 s**,
+including the article-faithful sensitivity. All valid January days are restored;
+reconstructed-discharge RMSE (mm/day) drives primary early stopping/selection. Fixed scoring
+populations, saved p99 flags/thresholds and local/donor calibration are implemented.
+The original benchmark remains under v1. See the
+[implementation record](limburg-dise-audit-corrections-2026-11-16.md).
 
-Regional metadata and selective ZIP access are verified: 286 donor candidates,
-49 external candidates (Ahr/Erft/Sieg), 52 overlap-review cases. Neither observed
-quality nor model-reach correspondence is certified by these candidate counts.
-The new sources total about 67 MiB; approximately 79.3 GiB disk remains free.
-Preserve the 50-GiB reserve. No other-chapter data were changed.
+Regional topology screening yields 336 provisional donors, 50 reserved external
+records, four local connected-section exclusions and one source-network gap.
+44 geometry/coverage flags remain explicit; proximity alone does not approve a
+model identity. Source clock is verified from the primary paper: UTC hour-end
+means. Provider quality remains qualified, not inferred from finite values.
+
+All **386 mapped nonlocal source records are acquired and checksum-verified**,
+with zero failed transfers and 821,400 complete daily observations in 2018–2024.
+Twelve records have no complete daily overlap in that period; these are coverage
+cases, not transfer failures. Raw snapshots use 3.66 GiB; daily tables use 84 MiB.
+**No acquisition or fitting workers remain active.** Acquisition progress is
+`results/limburg_dise_v2/regional_acquisition_progress.json`. Data location:
+`data/raw/limburg_dise_v2/camels_timeseries/`, daily records under
+`results/limburg_dise_v2/regional_observations/`. Disk reserve remains 50 GiB;
+74.8 GiB was free at verification; no other-chapter data were changed or Azure
+job started. See the [verification receipt](reviews/limburg-dise-corrections-verification-2026-11-16.json).
 
 ## Next work
 
-Regional topology/reach mapping and candidate membership; primary source clock/
-quality documentation; selected donor/external observations, matched model Q,
-common weather and landscape acquisition. Keep external labels out of training.
-Resolve regulation/descriptor limitations; add calibration references and full
-paired uncertainty/measurement reporting to the regional runner. Benchmark actual
-regional training size before scheduling the complete two-CPU-worker comparison.
-A favourable local result is not a gate.
-
-[Research-design audit](reviews/limburg-dise-research-design-audit-2026-11-16.md)
-retains the direction but identifies selection/primary-high-water alignment,
-unnecessary January 1–7 exclusion and explicit scoring-population corrections.
-These have **not** been implemented by the audit. Regional preparation can
-continue alongside them; the completed local benchmark remains preserved.
+Resolve or explicitly stratify mapping-identity flags and obtain the matched regional model Q, common weather/landscape/AlphaEarth inputs.
+Then benchmark the actual regional training size before the full comparison.
+A favourable local result is not a gate. Preserve adverse calibration cases
+and the separate clean/unknown-quality strata.
 
 ## Commands
 
-Use `.venv-dise` (XGBoost 3.1.2/scikit-learn 1.7.2); the prior environments are
-unchanged. Explicit preparation phases are `metadata`, `regional`, `sample`,
-`weather`, `attributes`, `daily` in `scripts/262_prepare_dise.py`.
-`scripts/263_benchmark_dise_fold.py` verifies/reuses its completed local benchmark
-when identities agree; it does **not** launch a regional comparison.
+Use `.venv-dise` (XGBoost 3.1.2/scikit-learn 1.7.2); prior environments are
+unchanged. `scripts/264_prepare_dise_corrections.py` handles corrected features
+and regional physical screening; `scripts/265_benchmark_dise_corrected.py`
+verifies/reuses its corrected benchmark; `scripts/266_acquire_dise_observations.py`
+handles resumable source acquisition; completed records are verified and reused.
+The old scripts 262/263 retain their v1 roles and are not the active continuation.
 
 ## Completed earlier work
 

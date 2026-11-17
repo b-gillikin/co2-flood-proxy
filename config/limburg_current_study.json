@@ -1,12 +1,12 @@
 {
   "date": "2026-11-16",
-  "status": "dise_local_preparation_and_benchmark_complete_regional_pending",
-  "scope": "config/limburg_dise_v1.json",
-  "acquisition": "config/limburg_dise_v1.json",
+  "status": "dise_v2_corrections_local_benchmark_and_regional_observations_complete",
+  "scope": "config/limburg_dise_v2.json",
+  "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
   "handoff": "docs/HANDOFF.md",
-  "progress": "results/limburg_dise_v1/benchmark_local_wurm_2021/progress.json",
-  "latest_audit": "docs/reviews/limburg-dise-preparation-audit-2026-11-16.json",
+  "progress": "results/limburg_dise_v2/regional_acquisition_progress.json",
+  "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
   "new_queue_started": false,
   "new_bulk_download_started": false,
@@ -34,9 +34,22 @@
     "interpretation": "config/limburg_chapter_interpretation_v1.json"
   },
   "latest_design_audit": "docs/reviews/limburg-dise-research-design-audit-2026-11-16.md",
-  "design_corrections_pending": [
-    "high_water_selection_alignment",
-    "remove_unnecessary_calendar_buffer",
-    "population_aware_scoring"
-  ]
+  "design_corrections_pending": [],
+  "active_acquisition": false,
+  "active_workers": {
+    "acquisition": 0,
+    "fitting": 0,
+    "gpu": 0
+  },
+  "preparation_remaining": [
+    "resolve spatial-identity review flags without outcome-based selection",
+    "regional matched global-model/forcing/embedding inputs",
+    "regional-scale first-fold benchmark"
+  ],
+  "completed_benchmarks": [
+    "results/limburg_dise_v1/benchmark_local_wurm_2021",
+    "results/limburg_dise_v2/benchmark_local_wurm_2021"
+  ],
+  "source_acquisition_completed": true,
+  "latest_verification": "docs/reviews/limburg-dise-corrections-verification-2026-11-16.json"
 }

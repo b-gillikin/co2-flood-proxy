@@ -619,3 +619,8 @@ Limburg collection; the historical collection name remains `Chapter 1: CO2`.
 ## 16 November 2026 — DISE adaptation implementation preparation
 
 [Preparation report](limburg-dise-preparation-2026-11-16.md) records accepted independent adaptation, verified CAMELS-DE-1h selective access, common-source descriptor choices and a completed local held-Wurm nested fitting benchmark. The [original design](limburg-dise-research-design-2026-11-16.md) retains its dated proposal followed by an implementation update. The unavailable DISE code is not a dependency. No regional research conclusion, full-study launch or Mendeley synchronization is claimed.
+
+
+## 16 November 2026 — CAMELS-DE-1h primary timing and QA resolution
+
+The primary [CAMELS-DE-1h manuscript](https://essd.copernicus.org/preprints/essd-2026-289/essd-2026-289.pdf), §4–4.1 (pp. 8–9), specifies UTC preceding-hour means; do not apply a second CET conversion. It documents mixed raw/provider-checked hydrology and no exhaustive direct dataset QA. Regulated/karst responses were not automatically discarded. The PDF and hash are held locally, and the [source audit](reviews/limburg-dise-source-qa-2026-11-16.json) records implementation implications. All 386 mapped nonlocal source records are now acquired and checksum-verified; source access is distinct from measurement or spatial validity. The [correction record](limburg-dise-audit-corrections-2026-11-16.md) and verification receipt supersede the earlier pending access/clock status. No Mendeley synchronization is claimed.

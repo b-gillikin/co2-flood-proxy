@@ -4,6 +4,12 @@
 adaptation accepted by Brian. The source authors' unavailable code is not a
 dependency. No full regional comparison has launched.
 
+**Historical v1 preparation record.** The [v2 implementation](limburg-dise-audit-corrections-2026-11-16.md)
+supersedes the counts, clock/access status and local benchmark below. The
+[current handoff](HANDOFF.md) records the completed regional observation
+acquisition and remaining model/forcing/embedding work. This record is preserved
+to explain the original preparation decisions.
+
 ## Completed
 
 - Verified HTTP byte-range access to the **15,149,654,797-byte** CAMELS-DE-1h
