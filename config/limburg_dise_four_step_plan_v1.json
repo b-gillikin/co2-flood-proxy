@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-17",
+  "plan": "limburg_dise_four_step_plan_v1",
+  "document": "docs/limburg-dise-four-step-plan-2026-11-17.md",
+  "scientific_scope": "Existing DISE-inspired daily reconstruction question, datasets, learner, four feature arms and spatial/quality strata. Brian writes dissertation prose.",
+  "steps": [
+    {
+      "number": 1,
+      "name": "Finish the capacity check",
+      "status": "in_progress",
+      "config": "config/limburg_dise_capacity_v1.json",
+      "action": "Uniform 3000-tree maximum; refit capped tuning jobs from scratch, validate reuse of early-stopped jobs, reselect on validation data and refit affected final ensembles. Preserve and compare the original benchmark."
+    },
+    {
+      "number": 2,
+      "name": "Run the agreed multi-year and river-group tests",
+      "status": "pending",
+      "action": "Local verification 2021-2025 and external verification 2021-2024, full eligible census, fixed spatial strata and common comparison models; retain grouped withholding and chronology."
+    },
+    {
+      "number": 3,
+      "name": "Establish whether the finding repeats",
+      "status": "pending",
+      "action": "Assess gains and harms across years, rivers and largest flows, with paired uncertainty that respects shared storms and nested gauges. Distinguish all-day from high-water evidence."
+    },
+    {
+      "number": 4,
+      "name": "Consolidate the chapter evidence",
+      "status": "pending",
+      "action": "Prepare tables, figures, event examples and limitations for Brian's writing; keep year-round reconstruction distinct from high-water assessment or operational warning claims."
+    }
+  ],
+  "current_authorization": "Execute Step 1 only; Steps 2-4 are saved, not launched by this instruction.",
+  "no_favourable_result_requirement": true
+}

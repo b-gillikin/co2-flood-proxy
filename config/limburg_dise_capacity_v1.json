@@ -1,0 +1,52 @@
+{
+  "experiment": "limburg_dise_capacity_v1",
+  "output": "results/limburg_dise_capacity_v1",
+  "regional_inputs": "results/limburg_dise_v2/regional_inputs_resolved_v1",
+  "spatial_register": "results/limburg_dise_v2/spatial_review_v1/resolved_spatial_correspondence_register.parquet",
+  "local_features": "results/limburg_dise_v2/local_features.parquet",
+  "local_mapping": "config/limburg_geoglows_reaches_v1.json",
+  "test_year": 2021,
+  "withheld_local_group": "Wurm",
+  "inner_folds": 4,
+  "fold_seed": "dise-regional-v1-20261116",
+  "policies": [
+    "native_rmse",
+    "article_faithful"
+  ],
+  "arms": [
+    "H+A+E",
+    "H",
+    "H+A",
+    "H+E"
+  ],
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "tree_limit": 3000,
+  "reserve_gib": 50,
+  "threads_per_fit": 2,
+  "concurrent_fits": 1,
+  "predictor_missingness": "Common finite observed/model Q eligibility; retain missing predictor values for XGBoost native missing-value handling identically across arms. Unknown verification quality is not coded clean or bad.",
+  "temporal_split": "Train 2018-2019; tune on 2020; test 2021; valid January observations retained.",
+  "spatial_split": "All Wurm gauges and all Ahr/Erft/Sieg external records excluded from every fit/tuning fold. Four deterministic topology-group inner folds, shared across arms/policies.",
+  "population": "Full eligible donor/local training census, full eligible Wurm and external 2021 test census. No event sample; report external and local results separately.",
+  "primary_selection": "Reconstructed-discharge RMSE in mm/day; aggregate inner MSE in proportion to contributing river-group counts, then square root.",
+  "calibration": "Local FDC uses extra held-local past clean labels, labelled separately. Donor FDC uses the same finite historical donor labels allowed for the learner; unknown provider QA remains explicit.",
+  "scope": "Step 1 only: one uniform fixed 3000-tree capacity check, same validation/test populations and settings. No automatic further cap increase or multi-year launch.",
+  "bootstrap_draws": 999,
+  "bootstrap_seed": 20261116,
+  "base_config": "config/limburg_dise_regional_benchmark_v1.json",
+  "base_benchmark": "results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021",
+  "preparation": "results/limburg_dise_regional_benchmark_v1/preparation",
+  "old_tree_limit": 1500,
+  "parity_control": {
+    "policy": "native_rmse",
+    "arm": "H",
+    "candidate_index": 1,
+    "fold": 0
+  },
+  "reuse_policy": "Reuse early-stopped old tuning fits only after source/runtime verification and a fresh 3000-tree parity-control fit. If control differs, refit every tuning job with the new maximum. Capped fits refit from scratch. Refit final ensembles only if parameters/tree count change.",
+  "workflow_plan": "config/limburg_dise_four_step_plan_v1.json"
+}
