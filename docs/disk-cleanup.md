@@ -185,3 +185,25 @@ After the completion/recovery audit, consolidated 3,240 additional identical his
 Removed four redundant local packing/readback archives (about 90 MiB combined), each matching its full-readback Azure receipt in size and SHA256. Actual restored test checkpoints, receipts and underlying source/result files remain local. Closure and expansion bundles remain recoverable from their exact content-addressed cloud blobs. No unique result, raw input, weights, environment, tensor cache or other chapter data was removed.
 
 Observed free space increased from 74.01 to 78.50 GiB (about **4.49 GiB**). Duplicate logical payload consolidated was 4.38 GiB; APFS/shared links and unrelated disk activity affect observed free space. See [the receipt](reviews/disk-cleanup-2026-11-10.json). A broad directory-size scan was stopped in favor of bounded known-duplicate checks; no full-directory inventory completeness is claimed.
+
+
+## 16 November: exact duplicates in completed historical outputs
+
+Recovered approximately **3.21 GiB of observed free space**, from 75.68 to
+78.89 GiB during the bounded cleanup. Consolidated **240 byte-identical files**
+in historical results/logs using hard links, retaining every path and content.
+SHA-256 and full byte comparisons preceded atomic replacement; link bindings
+and retained hashes were verified afterward. The final synthesis and newest
+two historical reporting snapshots were excluded, as were current DISE and
+GEOGLOWS directories. Historical shared files must remain immutable; any future
+edit must replace the file atomically rather than overwrite a shared inode.
+
+Removed only the disposable local test/lint caches in addition to duplicates.
+Raw data, weights, environments, unique results, current model inputs and other
+chapters were untouched. No cloud transfer or re-extraction was needed. The
+50-GiB reserve remains in place. Logical duplicate bytes and observed APFS
+free-space gains are distinct quantities. The complete inventory/procedure is
+under `results/disk-cleanup-2026-11-16/`; the [verification receipt](reviews/disk-cleanup-2026-11-16.json)
+records their hashes. Larger historical EO/tensor caches are retained for now;
+removing unique payloads would require verified recovery or a separate explicit
+retirement decision.

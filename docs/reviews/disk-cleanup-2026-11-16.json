@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "date": "2026-11-16",
+  "scope": "Limburg results/logs exact duplicates and disposable local lint/test caches only",
+  "deduplicated_files": 240,
+  "duplicate_logical_bytes": 3450474149,
+  "removed_disposable_caches": [
+    {
+      "path": ".pytest_cache",
+      "logical_bytes": 13150
+    },
+    {
+      "path": ".ruff_cache",
+      "logical_bytes": 3231
+    }
+  ],
+  "ledger_sha256": "763ac1cf872dd7123b530893d2576b7995b6bc75dc628d0dd7b43dc3bc50e9b2",
+  "free_before_gib": 75.68248748779297,
+  "free_after_gib": 78.8897819519043,
+  "seconds": 7.753535707999999,
+  "all_link_bindings_verified": true,
+  "protected_snapshots": [
+    "results/applied_study_v5/ready-v2/synthesis/final",
+    "results/applied_study_v5/ready-v2/synthesis/completed-0717-1794290172055289000",
+    "results/applied_study_v5/ready-v2/synthesis/completed-0718-1794291374190999000"
+  ],
+  "current_dise_and_geoglows_inputs_results_untouched": true,
+  "other_chapters_untouched": true,
+  "raw_data_weights_and_environments_untouched": true,
+  "immutable_note": "Historical linked files retain paths and bytes. For any future edit, replace atomically rather than writing a shared inode in place.",
+  "all_retained_content_hashes_reverified": true,
+  "procedure_sha256": "7da34ccb7f487caf246d760d487d9a9cf23d745bf212227b5fda28c0d535c5a4",
+  "free_verified_gib": 78.8609504699707
+}
