@@ -1,6 +1,6 @@
 {
   "date": "2026-11-16",
-  "status": "dise_v2_matched_regional_inputs_acquiring",
+  "status": "dise_v2_matched_regional_inputs_acquired",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
@@ -9,7 +9,7 @@
   "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
   "new_queue_started": false,
-  "new_bulk_download_started": true,
+  "new_bulk_download_started": false,
   "full_regional_comparison_started": false,
   "local_benchmark_completed": true,
   "completed_geoglows_comparison": {
@@ -35,10 +35,10 @@
   },
   "latest_design_audit": "docs/reviews/limburg-dise-research-design-audit-2026-11-16.md",
   "design_corrections_pending": [],
-  "active_acquisition": true,
+  "active_acquisition": false,
   "active_workers": {
-    "geoglows": 1,
-    "earth_engine": 2,
+    "geoglows": 0,
+    "earth_engine": 0,
     "fitting": 0,
     "gpu": 0
   },
@@ -51,11 +51,10 @@
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
     "results/limburg_dise_v2/benchmark_local_wurm_2021"
   ],
-  "source_acquisition_completed": false,
+  "source_acquisition_completed": true,
   "latest_verification": "docs/reviews/limburg-dise-corrections-verification-2026-11-16.json",
   "regional_observation_acquisition_completed": true,
   "regional_inputs_config": "config/limburg_dise_regional_inputs_v1.json",
   "acquisition_runtime": ".venv-geoglows",
-  "acquisition_session": 38318,
-  "acquisition_pid": 75127
+  "latest_input_verification": "results/limburg_dise_v2/regional_inputs/completion_audit.json"
 }

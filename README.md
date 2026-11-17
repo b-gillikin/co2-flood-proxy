@@ -5,7 +5,7 @@ pooled correction of GEOGLOWS using AlphaEarth as catchment information. This
 is daily reconstruction, distinct from the completed next-24h assessment.
 Audit corrections and a 152-fit held-Wurm benchmark are complete. All 386 mapped
 regional observation records are acquired and checksum-verified; source timing
-is resolved. Matched regional model/weather/embedding inputs are now acquiring locally;
+is resolved. Matched regional model/weather/embedding inputs are acquired and hash-verified;
 explicit treatment of spatial-identity flags remains. The full regional comparison has not launched.
 
 - [Current one-pager](docs/chapter-one-pager.md)

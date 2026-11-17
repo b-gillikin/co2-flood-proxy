@@ -1,7 +1,7 @@
 # Matched regional input acquisition
 
 16 November 2026. Internal research aid. Requested by Brian; acquisition is
-in progress, not a completed regional analysis. No dissertation prose or new
+completed and hash-verified, not a completed regional analysis. No dissertation prose or new
 model family is introduced.
 
 ## Scope and correspondence
@@ -48,7 +48,7 @@ Command (existing isolated acquisition runtime):
 .venv-geoglows/bin/python -u scripts/267_acquire_dise_regional_inputs.py all
 ```
 
-One GEOGLOWS worker and two Earth Engine workers run concurrently. No GPU,
+One GEOGLOWS worker and two Earth Engine workers ran concurrently and have finished. No GPU,
 Azure compute, full global archive or image export is required. Compact local
 raw tables and combined tables are expected to remain well below 1 GiB; source
 network traffic and decompressed working memory can be larger because global
@@ -64,7 +64,7 @@ matched tables: `results/limburg_dise_v2/regional_inputs/`.
 
 The first shell-background launch stopped early without a recorded traceback;
 its completed inputs were checksum-verified and reused. The resumed acquisition
-runs in managed execution session 38318. Do not start a duplicate process: a
+completed successfully in managed execution session 38318. Do not start a duplicate process: a
 single-run file lock protects the acquisition. Completed requests are reused
 only when source identity and checksums agree. Failed requests receive three
 attempts; unresolved failures are recorded, not replaced with fabricated data.
@@ -82,3 +82,20 @@ and benchmark actual regional training size before full regional fitting.
 The acquisition helpers pass four meaningful support/identity regression tests;
 together with the existing DISE and GEOGLOWS tests, **41 tests pass**. No new
 package was installed or fitted-model runtime changed.
+
+
+## Completed acquisition and verification
+
+All 371 distinct model reaches, 117 weather batches, 49 AlphaEarth batches and
+13 conventional-attribute batches completed successfully. All **550 raw tables**
+and four combined tables passed independent SHA-256 re-verification. Model and
+weather tables each contain **1,268,782 gauge-days**, covering all 386 gauges
+over 2017–2025 with no missing model/weather cells. AlphaEarth and conventional
+controls each contain 386 rows, all with valid spatial support. This establishes
+input coverage, not measurement quality or final spatial correspondence.
+
+Combined files occupy approximately 94 MiB; about 79 GiB remains free. The
+completion audit is `results/limburg_dise_v2/regional_inputs/completion_audit.json`.
+No workers remain active, and no full regional model fit has started. Remaining
+work is mapping-flag treatment, compatible feature assembly and a regional-size
+benchmark; external observation coverage still ends in 2024.

@@ -1,0 +1,36 @@
+{
+  "status": "completed_and_hash_verified",
+  "components": {
+    "geoglows": {
+      "rows": 1268782,
+      "gauges": 386,
+      "raw_files_verified": 371,
+      "missing_daily_values": 0
+    },
+    "weather": {
+      "rows": 1268782,
+      "gauges": 386,
+      "raw_files_verified": 117,
+      "missing_weather_values": 0
+    },
+    "alphaearth": {
+      "rows": 386,
+      "gauges": 386,
+      "raw_files_verified": 49,
+      "support": {
+        "supported": 386
+      }
+    },
+    "attributes": {
+      "rows": 386,
+      "gauges": 386,
+      "raw_files_verified": 13,
+      "support": {
+        "supported": 386
+      }
+    }
+  },
+  "raw_files_verified": 550,
+  "free_gib": 78.77260971069336,
+  "no_model_fit_started": true
+}

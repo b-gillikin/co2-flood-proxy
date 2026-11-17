@@ -10,14 +10,14 @@ Updated 16 November 2026. [Implemented corrections and current inventory](limbur
 | Conventional local descriptors | Acquired: common terrain, 2017 land-cover fractions, surface field-capacity proxy; regulation coverage remains incomplete; exact-match no-dam evidence is not proof of no controls |
 | Regional donor/external metadata | Acquired; 336 provisional donors, 50 reserved external records, 44 geometry/coverage flags; final mapping treatment still required |
 | Regional observations | Acquired and checksum-verified: all 386 mapped nonlocal records, zero failed transfers; 821,400 complete daily observations in 2018–2024; 12 records have no complete daily overlap |
-| Regional GEOGLOWS/weather/AlphaEarth | Acquiring locally for all 386 mapped records (371 distinct reaches), including explicit mapping flags; same reference polygons, hourly model source, weather bands and 2017 metric-grid AlphaEarth convention as local inputs |
+| Regional GEOGLOWS/weather/AlphaEarth | Acquired and hash-verified for all 386 mapped records (371 distinct reaches), including explicit mapping flags; same reference polygons, hourly model source, weather bands and 2017 metric-grid AlphaEarth convention as local inputs |
 | CAMELS-DE-1h source clock/quality | Verified primary documentation: UTC, preceding-hour means; mixed provider QA and no exhaustive direct source QA. Unknown quality stays unknown; incomplete days stay missing |
 | Additional local provider emails | None required for this preparation |
 | Full imagery or new encoder weights | Not required |
 
 Regional source snapshots use 3.66 GiB and daily tables 84 MiB; 74.8 GiB was
-free at verification. Matched regional inputs are now acquiring with one GEOGLOWS and two Earth
-Engine workers; no model fitting is active. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
+free at verification. Matched regional inputs are complete and hash-verified; all workers have
+finished and no regional model fitting is active. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
 The regional verification source ends in 2024; local 2025 verification remains
 separate, and 2025 regional predictors do not supply missing labels.
 
