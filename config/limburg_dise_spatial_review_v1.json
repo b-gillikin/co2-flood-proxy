@@ -1,0 +1,15 @@
+{
+  "mapping": "results/limburg_dise_v2/regional_mapping_ledger.csv",
+  "candidates": "results/limburg_dise_v2/regional_mapping_candidates.parquet",
+  "output": "results/limburg_dise_v2/spatial_review_v1",
+  "bands": {
+    "existing_high_overlap_dice_at_least": 0.8,
+    "minimal_overlap_dice_below": 0.1,
+    "directional_coverage_at_least": 0.9,
+    "near_reference_within_m": 100,
+    "large_reference_offset_above_m": 1000
+  },
+  "interpretation": "Descriptive geometric bands, not pass/fail validity rules; preserve continuous metrics and the complete acquired census. 0.8 retains the existing flag threshold. 0.1 denotes very little overlap; 0.9 denotes nearly complete directional containment. Distance bands describe station/reference disagreement without assigning error to either source.",
+  "analysis_views": ["all_mapped_census", "overlap_strata", "station_reference_location_strata", "high_overlap_sensitivity", "high_overlap_and_location_consistent_sensitivity"],
+  "selection": "Do not remap, drop sites, assign measurement quality or resolve ambiguous source identity using observed Q or prediction errors. Preserve original mapping and downloaded inputs unchanged."
+}

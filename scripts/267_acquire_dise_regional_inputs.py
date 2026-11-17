@@ -418,11 +418,16 @@ def summarize(mapping):
 
 
 def main():
+    global CONFIG, PLAN, RAW, OUT
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "phase", choices=["all", "q", "weather", "spatial", "summarize"], default="all", nargs="?"
     )
+    parser.add_argument("--config", type=Path, default=CONFIG)
     args = parser.parse_args()
+    CONFIG = args.config if args.config.is_absolute() else ROOT / args.config
+    PLAN = json.loads(CONFIG.read_text())
+    RAW, OUT = ROOT / PLAN["raw"], ROOT / PLAN["output"]
     OUT.mkdir(parents=True, exist_ok=True)
     RAW.mkdir(parents=True, exist_ok=True)
     lock = (OUT / "acquisition.lock").open("a")

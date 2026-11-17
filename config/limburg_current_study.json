@@ -1,6 +1,6 @@
 {
   "date": "2026-11-16",
-  "status": "dise_v2_matched_regional_inputs_acquired",
+  "status": "dise_v2_spatial_resolution_and_strata_ready",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
@@ -43,8 +43,7 @@
     "gpu": 0
   },
   "preparation_remaining": [
-    "resolve spatial-identity review flags without outcome-based selection",
-    "regional matched global-model/forcing/embedding inputs",
+    "assemble compatible regional features with fixed spatial strata and inherited measurement qualifications",
     "regional-scale first-fold benchmark"
   ],
   "completed_benchmarks": [
@@ -56,5 +55,14 @@
   "regional_observation_acquisition_completed": true,
   "regional_inputs_config": "config/limburg_dise_regional_inputs_v1.json",
   "acquisition_runtime": ".venv-geoglows",
-  "latest_input_verification": "results/limburg_dise_v2/regional_inputs/completion_audit.json"
+  "latest_input_verification": "docs/reviews/limburg-dise-spatial-resolution-2026-11-16.json",
+  "regional_mapping": "results/limburg_dise_v2/spatial_review_v1/resolved_mapping_ledger.csv",
+  "spatial_strata": "results/limburg_dise_v2/spatial_review_v1/resolved_spatial_correspondence_register.parquet",
+  "analysis_views": "results/limburg_dise_v2/spatial_review_v1/resolved_analysis_views.json",
+  "regional_inputs": "results/limburg_dise_v2/regional_inputs_resolved_v1",
+  "spatial_review": "docs/limburg-dise-spatial-resolution-2026-11-16.md",
+  "spatial_review_config": "config/limburg_dise_spatial_review_v1.json",
+  "spatial_supplement_config": "config/limburg_dise_spatial_supplement_v1.json",
+  "matched_regional_gauges": 387,
+  "matched_global_reaches": 371
 }

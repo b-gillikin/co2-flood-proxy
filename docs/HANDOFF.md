@@ -37,12 +37,25 @@ remains under `regional_acquisition_progress.json`. Data location:
 74.8 GiB was free at verification; no other-chapter data were changed or Azure
 job started. See the [verification receipt](reviews/limburg-dise-corrections-verification-2026-11-16.json).
 
-## Next work
+## Spatial review completed and next work
 
-Matched inputs are ready; see the [completed acquisition record](limburg-dise-regional-inputs-2026-11-16.md). Resolve or explicitly stratify mapping-identity flags and assemble compatible regional features.
-Then benchmark the actual regional training size before the full comparison.
-A favourable local result is not a gate. Preserve adverse calibration cases
-and the separate clean/unknown-quality strata.
+[Spatial resolution and strata](limburg-dise-spatial-resolution-2026-11-16.md)
+completes the original 44-flag review: 32 directional/partial cases are stratified,
+11 remain explicitly uncertain, and the search-boundary case is recovered as a
+high-overlap proxy. Eight additional station/reference-location conflicts were
+identified. All cases remain represented; uncertainty is not a blanket stop.
+
+The current resolved pool is **387 gauges** (337 provisional donors, 50 external),
+with 344 high-overlap and 331 high-overlap/location-consistent sensitivity records.
+One added gauge shares an existing model reach; original matched IDs/holdout roles
+are unchanged. The resolved input tables are under
+`results/limburg_dise_v2/regional_inputs_resolved_v1/`; original 386-record receipts
+above remain historical acquisition evidence. No workers or regional fits are active.
+
+Assemble compatible regional features using the resolved mapping and fixed
+stratum views, then benchmark actual regional training size. Keep external labels
+out of fitting, preserve grouped sections and measurement/coverage qualifications.
+A favourable result is not a gate.
 
 ## Commands
 

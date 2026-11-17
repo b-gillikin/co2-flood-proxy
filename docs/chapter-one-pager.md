@@ -31,15 +31,15 @@ regulation coverage remains incomplete; a no-dam inventory entry does not rule
 out other controls or management. Seven local gauges represent five
 river groups; Eys remains excluded and the Meuse is not added as a new target.
 
-CAMELS-DE-1h observations are acquired for 386 mapped nonlocal records: 336
-provisional donors and 50 reserved external records in Ahr/Erft/Sieg. There are
-821,400 complete daily observations during 2018–2024; twelve records have no
-complete daily overlap. UTC hour-end timing is verified from the primary paper.
-These are not final independent or uniformly quality-verified populations.
-44 geometry/coverage flags require explicit treatment. Regional model discharge,
-weather and landscape/AlphaEarth inputs are acquired and hash-verified, using the
-same product/aggregation conventions as the local study. Regional independent
-observations end in 2024; acquiring 2025 predictors does not create 2025 labels.
+CAMELS-DE-1h observations and matched predictors now cover 387 regional gauges:
+337 provisional donors and 50 reserved external records in Ahr/Erft/Sieg. There
+are 823,956 complete observed daily values in 2018–2024. UTC hour-end timing is
+verified from the primary paper. These are not independent or uniformly
+quality-verified populations. The spatial review preserves all records with
+explicit overlap/location strata; high-overlap and location-consistent
+sensitivity views contain 344 and 331 gauges. One search-boundary gauge was
+recovered; eight additional station/reference conflicts were identified.
+Regional observations end in 2024; 2025 predictors do not create 2025 labels.
 
 ## Method
 
@@ -75,7 +75,7 @@ complete observed/model pairs. The corrected local held-Wurm 2021 nested benchma
 regional research claim. Thirty-seven relevant tests, Ruff, dependency checks and
 input/output receipt verification pass. All regional observation transfers and
 source/daily checksums are verified. All matched regional inputs are assembled:
-1,268,782 model and weather gauge-days each, plus 386 embedding/control rows.
+1,272,069 model and weather gauge-days each, plus 387 embedding/control rows.
 No model/weather cells are missing; every spatial row has valid support. All
 workers have finished; no regional fitting is active.
 No GPU job, full regional fitting queue, Azure offload or other-chapter cleanup
@@ -90,3 +90,5 @@ Daily-flow improvement remains distinct from flood-peak or warning improvement.
 [Design](limburg-dise-research-design-2026-11-16.md) ·
 [Preparation, audit and next work](limburg-dise-preparation-2026-11-16.md) ·
 [Completed GEOGLOWS results](limburg-geoglows-first-results-2026-11-14.md).
+
+[Completed spatial review and current input locations](limburg-dise-spatial-resolution-2026-11-16.md).
