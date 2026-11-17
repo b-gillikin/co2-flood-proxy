@@ -29,7 +29,7 @@ Twelve records have no complete daily overlap in that period; these are coverage
 cases, not transfer failures. Raw snapshots use 3.66 GiB; daily tables use 84 MiB.
 The observation-only acquisition is complete. **Matched regional model/weather/
 AlphaEarth and conventional-control inputs are complete and hash-verified**.
-All workers have finished; fitting remains inactive. Input-acquisition progress is
+All acquisition workers have finished; the first regional-fold benchmark is now running. Input-acquisition progress is
 `results/limburg_dise_v2/regional_inputs/progress.json`. The observation receipt
 remains under `regional_acquisition_progress.json`. Data location:
 `data/raw/limburg_dise_v2/camels_timeseries/`, daily records under
@@ -50,12 +50,16 @@ with 344 high-overlap and 331 high-overlap/location-consistent sensitivity recor
 One added gauge shares an existing model reach; original matched IDs/holdout roles
 are unchanged. The resolved input tables are under
 `results/limburg_dise_v2/regional_inputs_resolved_v1/`; original 386-record receipts
-above remain historical acquisition evidence. No workers or regional fits are active.
+above remain historical acquisition evidence. The first regional-fold benchmark
+is now active; no full multi-year comparison has launched.
 
-Assemble compatible regional features using the resolved mapping and fixed
-stratum views, then benchmark actual regional training size. Keep external labels
-out of fitting, preserve grouped sections and measurement/coverage qualifications.
-A favourable result is not a gate.
+[Regional preparation and benchmark](limburg-dise-regional-benchmark-2026-11-16.md):
+1,151,268 feature rows, actual local-recipe parity audited, 51 tests passing.
+One worker/two CPU threads is running 152 fits for the Wurm/external 2021 fold.
+Progress: `results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021/progress.json`.
+Do not start a duplicate worker or edit pinned fitting inputs/code during execution.
+After completion, inspect capacity/tree caps, runtime, coverage and paired results
+before scaling. A favourable result is not a gate.
 
 ## Commands
 

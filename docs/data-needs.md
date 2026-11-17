@@ -17,7 +17,8 @@ Updated 16 November 2026. [Implemented corrections and current inventory](limbur
 
 Regional source snapshots use 3.66 GiB and daily tables 84 MiB; 74.8 GiB was
 free at verification. Matched regional inputs are complete and hash-verified; all workers have
-finished and no regional model fitting is active. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
+finished. Regional features are assembled and audited; the first regional-fold
+benchmark is now fitting, with no additional input request. [Acquisition record](limburg-dise-regional-inputs-2026-11-16.md).
 Current registers and assembled inputs: [completed spatial review](limburg-dise-spatial-resolution-2026-11-16.md).
 The regional verification source ends in 2024; local 2025 verification remains
 separate, and 2025 regional predictors do not supply missing labels.

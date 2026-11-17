@@ -77,7 +77,10 @@ input/output receipt verification pass. All regional observation transfers and
 source/daily checksums are verified. All matched regional inputs are assembled:
 1,272,069 model and weather gauge-days each, plus 387 embedding/control rows.
 No model/weather cells are missing; every spatial row has valid support. All
-workers have finished; no regional fitting is active.
+acquisition workers have finished. Regional feature assembly/audit is complete
+(1,151,268 rows); the first full 152-fit regional-fold benchmark is running.
+Its 2021 test census has 17,637 eligible days across 51 contributing gauges;
+two additional external gauges lack 2021 verification, explicitly recorded.
 No GPU job, full regional fitting queue, Azure offload or other-chapter cleanup
 was started; 74.8 GiB was free at verification, above the 50-GiB reserve.
 
@@ -92,3 +95,5 @@ Daily-flow improvement remains distinct from flood-peak or warning improvement.
 [Completed GEOGLOWS results](limburg-geoglows-first-results-2026-11-14.md).
 
 [Completed spatial review and current input locations](limburg-dise-spatial-resolution-2026-11-16.md).
+
+[Regional preparation and current benchmark](limburg-dise-regional-benchmark-2026-11-16.md).

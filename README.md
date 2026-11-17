@@ -7,7 +7,8 @@ Audit corrections and a 152-fit held-Wurm benchmark are complete. All 386 mapped
 regional observation records are acquired and checksum-verified; source timing
 is resolved. Matched regional model/weather/embedding inputs are acquired and hash-verified;
 spatial review is complete with explicit strata and one recovered boundary case
-(387 matched gauges). The full regional comparison has not launched.
+(387 matched gauges). Regional features are assembled and audited; the first 152-fit regional
+benchmark is running. The full multi-year comparison has not launched.
 
 - [Current one-pager](docs/chapter-one-pager.md)
 - [Design](docs/limburg-dise-research-design-2026-11-16.md)
@@ -15,6 +16,7 @@ spatial review is complete with explicit strata and one recovered boundary case
 - [Active configuration](config/limburg_dise_v2.json)
 - [Implemented audit corrections](docs/limburg-dise-audit-corrections-2026-11-16.md)
 - [Spatial resolution and strata](docs/limburg-dise-spatial-resolution-2026-11-16.md)
+- [Regional features and current benchmark](docs/limburg-dise-regional-benchmark-2026-11-16.md)
 - [Data needs](docs/data-needs.md)
 - [Handoff](docs/HANDOFF.md)
 - [Completed GEOGLOWS results](docs/limburg-geoglows-first-results-2026-11-14.md)

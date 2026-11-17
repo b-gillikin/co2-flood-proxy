@@ -1,14 +1,14 @@
 {
   "date": "2026-11-16",
-  "status": "dise_v2_spatial_resolution_and_strata_ready",
+  "status": "dise_regional_features_audited_first_fold_running",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
   "handoff": "docs/HANDOFF.md",
-  "progress": "results/limburg_dise_v2/regional_inputs/progress.json",
+  "progress": "results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021/progress.json",
   "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
-  "new_queue_started": false,
+  "new_queue_started": true,
   "new_bulk_download_started": false,
   "full_regional_comparison_started": false,
   "local_benchmark_completed": true,
@@ -37,14 +37,14 @@
   "design_corrections_pending": [],
   "active_acquisition": false,
   "active_workers": {
+    "fitting": 1,
+    "threads_per_fit": 2,
+    "gpu": 0,
     "geoglows": 0,
-    "earth_engine": 0,
-    "fitting": 0,
-    "gpu": 0
+    "earth_engine": 0
   },
   "preparation_remaining": [
-    "assemble compatible regional features with fixed spatial strata and inherited measurement qualifications",
-    "regional-scale first-fold benchmark"
+    "complete the first regional-fold benchmark and review timing/capacity/coverage before scaling"
   ],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
@@ -64,5 +64,11 @@
   "spatial_review_config": "config/limburg_dise_spatial_review_v1.json",
   "spatial_supplement_config": "config/limburg_dise_spatial_supplement_v1.json",
   "matched_regional_gauges": 387,
-  "matched_global_reaches": 371
+  "matched_global_reaches": 371,
+  "benchmark_config": "config/limburg_dise_regional_benchmark_v1.json",
+  "regional_features": "results/limburg_dise_regional_benchmark_v1/preparation/features.parquet",
+  "latest_preparation_audit": "results/limburg_dise_regional_benchmark_v1/preparation/audit.json",
+  "regional_benchmark_started": true,
+  "benchmark_pid": 24764,
+  "benchmark_managed_session": 74140
 }

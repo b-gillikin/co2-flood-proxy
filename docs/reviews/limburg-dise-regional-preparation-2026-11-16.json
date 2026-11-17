@@ -1,0 +1,50 @@
+{
+  "status": "regional_preparation_audit_passed",
+  "rows": 1151268,
+  "gauges": 394,
+  "predictors": 168,
+  "feature_bytes": 903717950,
+  "local_recipe_parity_gauges": 7,
+  "maximum_local_recipe_difference": 7.815970093361102e-14,
+  "past_only_climate_verified_all_regional_gauge_years": true,
+  "common_predictor_missing_cells": 0,
+  "missing_predictors": {},
+  "inner_folds": [
+    {
+      "fold": 0,
+      "train_rows": 168031,
+      "validation_rows": 32320,
+      "groups": 38
+    },
+    {
+      "fold": 1,
+      "train_rows": 177718,
+      "validation_rows": 27699,
+      "groups": 36
+    },
+    {
+      "fold": 2,
+      "train_rows": 175538,
+      "validation_rows": 28482,
+      "groups": 38
+    },
+    {
+      "fold": 3,
+      "train_rows": 177716,
+      "validation_rows": 27328,
+      "groups": 37
+    }
+  ],
+  "train_rows": 233001,
+  "validation_rows": 115829,
+  "test_rows": 17637,
+  "no_outer_target_or_external_labels_in_fitting": true,
+  "requested_test_gauges": 53,
+  "contributing_test_gauges": 51,
+  "no_verification_gauges": [
+    "DEA10140",
+    "DEA12200"
+  ],
+  "feature_sha256": "6b5b0d331a989df19c366c100eb66945b10e649768c3573e3a9ea436776b368a",
+  "executed_audit_sha256": "65ae3d8e7277520a9fc5fc9298d374745e255cf348f6e46cf9b30e883ff92d79"
+}
