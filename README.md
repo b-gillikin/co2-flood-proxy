@@ -17,6 +17,7 @@ benchmark is complete and hash-verified. The full multi-year comparison has not 
 - [Implemented audit corrections](docs/limburg-dise-audit-corrections-2026-11-16.md)
 - [Spatial resolution and strata](docs/limburg-dise-spatial-resolution-2026-11-16.md)
 - [Regional features and current benchmark](docs/limburg-dise-regional-benchmark-2026-11-16.md)
+- [Reviewed first-fold results](docs/limburg-dise-regional-results-review-2026-11-17.md)
 - [Data needs](docs/data-needs.md)
 - [Handoff](docs/HANDOFF.md)
 - [Completed GEOGLOWS results](docs/limburg-geoglows-first-results-2026-11-14.md)
@@ -69,5 +70,5 @@ completion requirements. Brian writes dissertation prose and sends emails.
 Completion update — 17 November 2026: the first regional-fold benchmark finished
 all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
 reverify; 303 metric records and the prediction/calibration tables are available.
-No workers remain active. This is one 2021 fold; capacity/coverage and substantive
-results still need review before a full multi-year comparison.
+No workers remain active. This is one 2021 fold; the results and capacity review
+is now complete, with a fair capacity extension recommended before full scaling.

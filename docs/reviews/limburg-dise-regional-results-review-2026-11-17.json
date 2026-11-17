@@ -1,0 +1,49 @@
+{
+  "status": "review_completed_without_new_fits",
+  "frozen_manifest_sha256": "3624179fd65050a38bb9ece29be0dbebf0b5563aa04065e38f9c9f473adc066d",
+  "review_code_sha256": "12f5660117c40f7b58ded11c4e9fe0445c86c8f2481396b41a6dd1b85cb68c68",
+  "independent_metric_rows_verified": 85,
+  "tuning_fits": 128,
+  "capped_tuning_fits": 26,
+  "selected_capped_fold_fits": 7,
+  "selected_fold_fits": 32,
+  "primary_pair_selected_caps": {
+    "H+A+E": 0,
+    "H+A": 0
+  },
+  "local_high_water_gauge_days": 21,
+  "local_high_water_calendar_days": 9,
+  "external_high_water_gauge_days": 274,
+  "external_high_water_calendar_days": 35,
+  "held_external_geometry_support": [
+    {
+      "overlap_stratum": "high_overlap_proxy",
+      "location_stratum": "moderate_station_reference_offset",
+      "gauges": 1
+    },
+    {
+      "overlap_stratum": "high_overlap_proxy",
+      "location_stratum": "on_or_near_reference_footprint",
+      "gauges": 46
+    },
+    {
+      "overlap_stratum": "minimal_or_disjoint_footprints",
+      "location_stratum": "large_station_reference_disagreement",
+      "gauges": 1
+    }
+  ],
+  "no_new_model_fit_or_threshold_selection": true,
+  "output_hashes": {
+    "symmetric_daily_examples.csv": "b4f0d37acf14a171b31fcf69b7f47d4a347f76886afe6ad46c04e7f73549974c",
+    "primary_effect_by_river.png": "138adf15c0c810c1b070b5f8ff68243bd2261bd084ea1539ca111aa7c7f1c804",
+    "primary_comparisons.csv": "81a5eca2d13228361476dc0e9cde217748215c0f0fd672d70dee144c76d1dde8",
+    "validation_candidate_scores.csv": "4e54466fdb815b9a16b70ff56007cb7731784ca30a22673d874438ce3fa6f261",
+    "observed_maximum_daily_flow.csv": "ec0d8acab63f5e12ecd622942dae322f9439095b4fb00160b99dd76c1ee38289",
+    "tree_limit_diagnostics.csv": "0c09e7a2d64e46573c7e4d6927a05600b58aa63a0a4fa2f5bcc52aa7bbb456d7",
+    "wurm_july_2021_daily_flows.png": "7b77b2e525cbcacc30acfbbedfd55328ba3e35d8c50bba89f9eb2840eab79bc0",
+    "selection_policy_sensitivity.csv": "5e4f91ed8a1df14710860ccf6638984b5dc6e0aedd61303a64a5dbf2508ba8fb",
+    "high_water_squared_error_contributions.csv": "04d1e280024cfb08fd7f65418ec5824745913ce744eebdc3f34de8a55e3c05b7",
+    "per_gauge_comparisons.csv": "49d4b7da41e783a77a4c91ddf3924cd54a22ae6e4bc9334c11d56e5b7f1262bb",
+    "seed_sensitivity.csv": "f3099748c27108cd2ed53a2bee9841cf10c6188cf09bd2b7ff8d40e343df94c9"
+  }
+}

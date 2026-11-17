@@ -145,5 +145,5 @@ not be mistaken for the complete execution footprint.
 Completion update — 17 November 2026: the first regional-fold benchmark finished
 all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
 reverify; 303 metric records and the prediction/calibration tables are available.
-No workers remain active. This is one 2021 fold; capacity/coverage and substantive
-results still need review before a full multi-year comparison.
+No workers remain active. This is one 2021 fold; the results and capacity review
+is now complete, with a fair capacity extension recommended before full scaling.

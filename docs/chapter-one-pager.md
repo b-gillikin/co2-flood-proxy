@@ -102,5 +102,15 @@ Daily-flow improvement remains distinct from flood-peak or warning improvement.
 Completion update — 17 November 2026: the first regional-fold benchmark finished
 all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
 reverify; 303 metric records and the prediction/calibration tables are available.
-No workers remain active. This is one 2021 fold; capacity/coverage and substantive
-results still need review before a full multi-year comparison.
+No workers remain active. This is one 2021 fold; the results and capacity review
+is now complete, with a fair capacity extension recommended before full scaling.
+
+
+Results review — 17 November 2026: in the first 2021 regional fold, adding
+AlphaEarth to the conventional model reduces all-day Wurm MAE by 23.1% and
+external MAE by 2.9%; high-water gains are only 1.6%/1.7% and do not hold
+consistently under measurement/selection sensitivities. High-water RMSE is worse
+than raw GEOGLOWS. External gains persist in high-overlap views but vary by river.
+Selected primary H+A/HA+E fits are uncapped; other selected and near-tied tuning
+candidates hit the limit. A fair capacity check is recommended before full
+scaling; no new run is launched. [Full review](limburg-dise-regional-results-review-2026-11-17.md).

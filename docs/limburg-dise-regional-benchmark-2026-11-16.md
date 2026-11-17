@@ -139,3 +139,7 @@ active; this does not launch or complete the full multi-year comparison.
 The first-fold results and tree-cap/coverage diagnostics are ready for substantive
 review. Single-year intervals remain undefined, as specified. Earlier running
 status and runtime estimates above are preserved as the execution history.
+
+The [results, spatial-stratum and tree-limit review](limburg-dise-regional-results-review-2026-11-17.md)
+was completed on 17 November 2026. The completed first-fold outputs remain
+frozen; the proposed capacity extension has not launched.

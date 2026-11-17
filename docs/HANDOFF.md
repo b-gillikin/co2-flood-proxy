@@ -84,5 +84,17 @@ reconstruction. The canonical current-study pointer is
 Completion update — 17 November 2026: the first regional-fold benchmark finished
 all **152 fits**, calibration and scoring in **39.3 minutes**. Input/output hashes
 reverify; 303 metric records and the prediction/calibration tables are available.
-No workers remain active. This is one 2021 fold; capacity/coverage and substantive
-results still need review before a full multi-year comparison.
+No workers remain active. This is one 2021 fold; the results and capacity review
+is now complete, with a fair capacity extension recommended before full scaling.
+
+
+## Reviewed first-fold results — 17 November 2026
+
+[Results, spatial strata and tree limits](limburg-dise-regional-results-review-2026-11-17.md).
+All-day Wurm E gain is substantial (23.1%); external mean is small (2.9%) and
+Erft-driven. High-water gains are small and selection/measurement-sensitive;
+corrections worsen some severe errors relative to raw GEOGLOWS. 26/128 tuning
+fits are capped, including selected H+E/article-faithful cases and a close
+primary H+A+E runner-up. Recommend one fair 3,000-tree capacity check, then a
+locked multi-year comparison. Nothing new is running. Review artifacts are
+under `results/limburg_dise_regional_benchmark_v1/review_2026_11_17/`.

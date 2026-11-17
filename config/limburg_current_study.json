@@ -1,6 +1,6 @@
 {
   "date": "2026-11-17",
-  "status": "dise_regional_first_fold_benchmark_complete",
+  "status": "dise_regional_first_fold_results_reviewed",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
@@ -44,7 +44,8 @@
     "earth_engine": 0
   },
   "preparation_remaining": [
-    "review completed benchmark capacity, coverage and provisional paired results before full multiyear comparison"
+    "fair capacity extension for capped tuning candidates, using unchanged validation/test definitions",
+    "locked multiyear comparison after capacity review"
   ],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
@@ -70,5 +71,6 @@
   "regional_features": "results/limburg_dise_regional_benchmark_v1/preparation/features.parquet",
   "latest_preparation_audit": "results/limburg_dise_regional_benchmark_v1/preparation/audit.json",
   "regional_benchmark_started": true,
-  "regional_benchmark_completed": true
+  "regional_benchmark_completed": true,
+  "latest_results_review": "docs/limburg-dise-regional-results-review-2026-11-17.md"
 }
