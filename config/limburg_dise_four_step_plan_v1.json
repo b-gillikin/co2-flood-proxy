@@ -18,8 +18,12 @@
     {
       "number": 2,
       "name": "Run the agreed multi-year and river-group tests",
-      "status": "pending",
-      "action": "Local verification 2021-2025 and external verification 2021-2024, full eligible census, fixed spatial strata and common comparison models; retain grouped withholding and chronology."
+      "status": "in_progress",
+      "action": "Local verification 2021-2025 and external verification 2021-2024, full eligible census, fixed spatial strata and common comparison models; retain grouped withholding and chronology.",
+      "config": "config/limburg_dise_multiyear_v1.json",
+      "progress": "results/limburg_dise_multiyear_v1/progress.json",
+      "report": "docs/limburg-dise-multiyear-run-2026-11-17.md",
+      "readiness": "docs/reviews/limburg-dise-multiyear-readiness-2026-11-17.json"
     },
     {
       "number": 3,
@@ -34,6 +38,6 @@
       "action": "Prepare tables, figures, event examples and limitations for Brian's writing; keep year-round reconstruction distinct from high-water assessment or operational warning claims."
     }
   ],
-  "current_authorization": "Execute Step 1 only; Steps 2-4 are saved, not launched by this instruction.",
+  "current_authorization": "Execute Steps 1-2; Steps 3-4 remain saved and unlaunched.",
   "no_favourable_result_requirement": true
 }

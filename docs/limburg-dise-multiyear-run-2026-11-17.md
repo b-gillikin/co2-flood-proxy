@@ -102,4 +102,5 @@ and `pooled_metrics.csv`, then marks Step 2 complete. It does not launch Step 3.
 
 [Readiness/reuse verification](reviews/limburg-dise-multiyear-readiness-2026-11-17.json):
 63 relevant tests and Ruff pass; complete held-Wurm 2021 reuse path verified
-before launching fresh fits.
+before launching fresh fits. Implementation commit: `ff9312c`. The two-worker
+queue launched on 17 November 2026; no fresh multiyear findings are claimed yet.

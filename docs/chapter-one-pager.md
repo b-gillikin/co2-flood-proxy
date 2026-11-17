@@ -3,7 +3,7 @@
 Living research aid, updated 17 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; first regional fold and capacity
-check completed. The multiyear comparison remains pending.
+check completed. The multiyear comparison is running.
 
 ## Research Question(s)
 
@@ -125,4 +125,15 @@ The updated primary all-day MAE gains from AlphaEarth are **21.3% on Wurm and
 2.3% externally**. High-water MAE worsens by 2.5% on Wurm and improves by 1.7%
 externally; high-water evidence remains mixed. This is still one 2021 fold.
 [Capacity results and verification](limburg-dise-capacity-check-2026-11-17.md).
-Steps 2–4 remain pending. Original results are retained and no workers are active.
+Steps 2–4 were pending at capacity completion; original results are retained.
+
+Step 2 update — 17 November 2026: the [multiyear comparison](limburg-dise-multiyear-run-2026-11-17.md)
+is running on two CPU workers/two threads each. Thirty outer jobs cover local
+2021–2025 temporal and whole-river-withheld tests, plus external 2021–2024 tests
+scored once yearly. The full census has 81,857 verification rows across the
+separate regimes; temporal and spatial local days are not pooled together.
+The 2021 Wurm capacity models/predictions are verified and reused. No acquisition
+or encoder extraction is needed. Sixty-three relevant tests and the full reuse
+path pass. These jobs do not yet establish whether the first-year result repeats;
+Steps 3–4 remain pending. Progress is
+`results/limburg_dise_multiyear_v1/progress.json`.

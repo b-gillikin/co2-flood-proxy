@@ -102,8 +102,8 @@ under `results/limburg_dise_regional_benchmark_v1/review_2026_11_17/`.
 ## Authorized continuation — 17 November 2026
 
 The [four-step plan](limburg-dise-four-step-plan-2026-11-17.md) is saved in
-`config/limburg_dise_four_step_plan_v1.json`. **Step 1 is complete; Steps 2–4
-remain pending and have not launched.**
+`config/limburg_dise_four_step_plan_v1.json`. **Step 1 is complete; Step 2 is
+running; Steps 3–4 remain pending.**
 The capacity run uses `scripts/275_run_dise_capacity_check.py` and
 `config/limburg_dise_capacity_v1.json`, with results/progress under
 `results/limburg_dise_capacity_v1/`. The fixed 3,000-tree reuse control matches
@@ -111,7 +111,7 @@ the original stopping point and validation predictions exactly. All 26 previousl
 capped jobs were refit from scratch; 101 verified early stops were reused. Four
 selected specifications changed, requiring 12 new final fits; 12 were reused.
 The original benchmark is preserved. The run finished in 22.1 minutes with one
-CPU fitting worker/two threads. **No workers remain active.** No GPU, download
+CPU fitting worker/two threads. No workers were active at that completion. No GPU, download
 or cloud task was used. Fifty-four relevant tests and Ruff pass.
 
 The same test populations and raw/FDC controls reverify. No selected candidate/fold
@@ -120,5 +120,29 @@ all-day MAE gains are now 21.3% Wurm/2.3% external; high-water MAE changes are
 −2.5%/+1.7% improvement, respectively. [Results and verification](limburg-dise-capacity-check-2026-11-17.md)
 explain the distinct RMSE results and continuing measurement/one-year limitations.
 Rerunning the capacity command verifies completed outputs without refitting.
-The machine-readable plan/current-study status is updated. No later step or
-further cap increase was launched.
+The machine-readable plan/current-study status was updated. No further cap
+increase was launched. The separately authorized Step 2 follows below.
+
+## Active Step 2 queue — 17 November 2026
+
+[Multiyear design/run record](limburg-dise-multiyear-run-2026-11-17.md).
+`scripts/276_run_dise_multiyear.py` uses `config/limburg_dise_multiyear_v1.json`.
+Two CPU workers/two threads each; no GPU or new download. The queue has 30 outer
+jobs/4,560 fit slots, including 152 verified slots reused from the 2021 Wurm
+capacity result. Sixty-three relevant tests and complete reuse verification pass.
+Fresh jobs retain the same four arms, policies, candidates, seeds and 3,000-tree
+budget. Do not change pinned code/config while they run.
+
+All 81,857 verification rows are retained across the separate regimes. External
+gauges have no fitting-label access and are evaluated once per 2021–2024 year
+using the temporal model; spatial jobs evaluate only the held local river.
+Coverage ledgers retain missing-verification gauge/years. Donor FDC explicitly
+excludes the target river in temporal jobs, preventing self-donor label leakage.
+
+Progress: `results/limburg_dise_multiyear_v1/progress.json`; individual jobs under
+`jobs/`, worker logs under `logs/`. Each fit checkpoints; job manifests preserve
+inputs/code/output hashes. The same `run` command resumes completed work after
+interruption. The coordinator aggregates point estimates and marks Step 2
+complete on success. It does not launch Step 3 or send emails. Keep the existing
+50-GiB disk reserve; estimated new output is 2–6 GiB, with about 81 GiB free at
+launch. No cleanup/offload or other-chapter changes were needed.

@@ -1,16 +1,16 @@
 {
   "date": "2026-11-17",
-  "status": "dise_capacity_check_complete",
+  "status": "dise_multiyear_running",
   "scope": "config/limburg_dise_v2.json",
   "acquisition": "config/limburg_dise_v2.json",
   "compute": "docs/limburg-dise-research-design-2026-11-16.md",
   "handoff": "docs/HANDOFF.md",
-  "progress": "results/limburg_dise_capacity_v1/progress.json",
+  "progress": "results/limburg_dise_multiyear_v1/progress.json",
   "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
   "new_queue_started": false,
   "new_bulk_download_started": false,
-  "full_regional_comparison_started": false,
+  "full_regional_comparison_started": true,
   "local_benchmark_completed": true,
   "completed_geoglows_comparison": {
     "scope": "config/limburg_geoglows_stages12_v2.json",
@@ -37,15 +37,11 @@
   "design_corrections_pending": [],
   "active_acquisition": false,
   "active_workers": {
-    "fitting": 0,
-    "threads_per_fit": 0,
-    "gpu": 0,
-    "geoglows": 0,
-    "earth_engine": 0
+    "fitting": 2,
+    "threads_per_fit": 2,
+    "gpu": 0
   },
-  "preparation_remaining": [
-    "agreed multiyear and river-group comparison (saved Step 2; not launched)"
-  ],
+  "preparation_remaining": [],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
     "results/limburg_dise_v2/benchmark_local_wurm_2021",
@@ -77,5 +73,10 @@
   "continuation_plan": "config/limburg_dise_four_step_plan_v1.json",
   "capacity_completed": true,
   "first_regional_fold_review": "docs/limburg-dise-regional-results-review-2026-11-17.md",
-  "latest_capacity_verification": "docs/reviews/limburg-dise-capacity-verification-2026-11-17.json"
+  "latest_capacity_verification": "docs/reviews/limburg-dise-capacity-verification-2026-11-17.json",
+  "multiyear_config": "config/limburg_dise_multiyear_v1.json",
+  "multiyear_completed": false,
+  "latest_execution": "docs/limburg-dise-multiyear-run-2026-11-17.md",
+  "latest_multiyear_readiness": "docs/reviews/limburg-dise-multiyear-readiness-2026-11-17.json",
+  "multiyear_started_utc": "2026-11-17T15:09:32+00:00"
 }
