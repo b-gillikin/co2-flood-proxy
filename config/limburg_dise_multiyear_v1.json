@@ -1,0 +1,87 @@
+{
+  "experiment": "limburg_dise_multiyear_v1",
+  "output": "results/limburg_dise_multiyear_v1",
+  "regional_inputs": "results/limburg_dise_v2/regional_inputs_resolved_v1",
+  "spatial_register": "results/limburg_dise_v2/spatial_review_v1/resolved_spatial_correspondence_register.parquet",
+  "local_features": "results/limburg_dise_v2/local_features.parquet",
+  "local_mapping": "config/limburg_geoglows_reaches_v1.json",
+  "inner_folds": 4,
+  "fold_seed": "dise-regional-v1-20261116",
+  "policies": [
+    "native_rmse",
+    "article_faithful"
+  ],
+  "arms": [
+    "H+A+E",
+    "H",
+    "H+A",
+    "H+E"
+  ],
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "tree_limit": 3000,
+  "reserve_gib": 50,
+  "threads_per_fit": 2,
+  "concurrent_fits": 2,
+  "predictor_missingness": "Common finite observed/model Q eligibility; retain missing predictor values for XGBoost native missing-value handling identically across arms. Unknown verification quality is not coded clean or bad.",
+  "temporal_split": "Train 2018 through Y-2, validation Y-1, test Y. Keep all eligible January days. Four fixed topology-preserving inner groups in every outer job.",
+  "spatial_split": "Five leave-one-local-river-group-out jobs per year. All Wurm gauges withheld together. All external labels excluded from every fit and validation.",
+  "population": "Full eligible local census 2021-2025 in two separate temporal/spatial regimes. External Ahr/Erft/Sieg census 2021-2024 scored once per year using the temporal model trained with all permitted local/donor history.",
+  "primary_selection": "Reconstructed-discharge RMSE in mm/day; aggregate inner MSE in proportion to contributing river-group counts, then square root.",
+  "calibration": "Local FDC uses extra held-local past clean labels, labelled separately. Donor FDC uses the same finite historical donor labels allowed for the learner; unknown provider QA remains explicit.",
+  "scope": "Step 2 only: run 30 chronological/grouped outer jobs and save point estimates/predictions. Steps 3-4 remain pending; no new model or data acquisition.",
+  "bootstrap_draws": 999,
+  "bootstrap_seed": 20261116,
+  "preparation": "results/limburg_dise_regional_benchmark_v1/preparation",
+  "workflow_plan": "config/limburg_dise_four_step_plan_v1.json",
+  "test_years": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "external_test_years": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "local_groups": [
+    "Geleenbeek",
+    "Geul",
+    "Gulp",
+    "Voer",
+    "Wurm"
+  ],
+  "capacity_source": "results/limburg_dise_capacity_v1",
+  "tuning_storage": "Keep every tuning receipt/score/feature list; retain final selected models and all seed predictions. Tuning models are not needed after recording validation scores; original completed models remain untouched.",
+  "reuse_policy": "Only the verified identical 2021 held-Wurm capacity fits are reused. Slice their test predictions to local Wurm; exclude their diagnostic external predictions from primary Step 2 evaluation.",
+  "candidates": [
+    {
+      "max_depth": 2,
+      "learning_rate": 0.03,
+      "min_child_weight": 10
+    },
+    {
+      "max_depth": 2,
+      "learning_rate": 0.1,
+      "min_child_weight": 30
+    },
+    {
+      "max_depth": 4,
+      "learning_rate": 0.03,
+      "min_child_weight": 30
+    },
+    {
+      "max_depth": 4,
+      "learning_rate": 0.1,
+      "min_child_weight": 10
+    }
+  ],
+  "checkpoint_policy": "Atomic per-fit receipts and final-model hashes; resume identical inputs/code/seed. Scientific/input failures are recorded, never silently skipped or rerolled for favourable scores.",
+  "uncertainty": "Per-year and pooled point estimates in Step 2. Dependence-aware paired uncertainty is saved Step 3, not silently replaced by independent-day intervals."
+}

@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-17",
+  "status": "ready_and_reuse_verified",
+  "relevant_tests_passed": 63,
+  "ruff": "passed",
+  "preparation": {
+    "status": "prepared",
+    "identity": {
+      "sources": {
+        "config/limburg_dise_multiyear_v1.json": "41a068b693d0ed7de523deedfe925292a073cca37946bcd057ec47fbd06a5ca1",
+        "scripts/276_run_dise_multiyear.py": "ebdfdf6a7eca7dc273969a1867d13f73b147b4eddd1a07ae28db6ca8e019e8a5",
+        "src/dise_multiyear.py": "116d7d011e9fb4e97bd2deececc66a97f92fc43aaa15e8899ed4032fe7ce66b6",
+        "src/dise.py": "e92e22d8d6888382d56e04eb910b2f7b1901ae4bc490ba37af3a75d94ef7bae1",
+        "src/dise_corrected.py": "1d226b966e01e5e4587db1601ec37d2d22af0016c9479b9af1797c8ba1be5e67",
+        "src/dise_regional.py": "93a175cfc7f64e1842ec3e9b96eae903847f39d561befbdfd79b2c3168d1860e",
+        "src/dise_capacity.py": "7674b0e12d0ccab92f71b795fad805bde78c32a1b299105d69383312290e588c",
+        "src/geoglows_experiment.py": "6da1b8f914365cee393df79630bdce89362285aa879951c95efa05e726d39192",
+        "scripts/272_benchmark_dise_regional_fold.py": "febaff4a6d8dab552d76acd21b725fc495efe6d286549e5c08d079df8e02d836",
+        "results/limburg_dise_regional_benchmark_v1/preparation/features.parquet": "6b5b0d331a989df19c366c100eb66945b10e649768c3573e3a9ea436776b368a",
+        "results/limburg_dise_regional_benchmark_v1/preparation/inner_folds.json": "440815f2294a3a8fc740ba5240f63d52d07871358b245326ec5471a56d4f325a",
+        "results/limburg_dise_regional_benchmark_v1/preparation/audit.json": "85d48e7b64df7fd575559f3c7b48a60cf2f7e6d9205a949ed5ea404ade2d01b2",
+        "results/limburg_dise_capacity_v1/manifest.json": "321ce3e4722e8d9535d7e9b1b9830168b92da9d0b229a87674f8a7c82ba23f4e",
+        "results/limburg_dise_multiyear_v1/inner_folds.json": "ea3f86022ad48b9947e3c38894e2b843456e5503ec299094b2bd3c7f600a23cb",
+        "results/limburg_dise_multiyear_v1/jobs.json": "73d7202c20a0c97e98e5883de88d4e1cd2a7fd198125637e13169332585cf41e"
+      },
+      "packages": {
+        "numpy": "2.4.6",
+        "pandas": "3.0.3",
+        "xgboost": "3.1.2",
+        "scikit-learn": "1.7.2"
+      }
+    },
+    "jobs": 30,
+    "logical_fits": 4560,
+    "reusable_fits": 152,
+    "expected_prediction_rows": 81857,
+    "original_folds_unchanged": true,
+    "added_inner_groups": [
+      "Wurm"
+    ],
+    "workers": 2,
+    "threads_per_fit": 2,
+    "free_gib": 81.43135452270508,
+    "prepared_utc": "2026-11-17T15:06:03.099692+00:00"
+  },
+  "capacity_subset_metrics_verified": 33,
+  "reused_job_manifest_sha256": "8b42c29678e4025a2ad274d55af2581d129c0c75ff77cd142667bf0a3f15ae0d",
+  "all_reused_seed_predictions_bitwise_checked": true,
+  "whole_target_river_excluded_from_donor_calibration": true,
+  "no_new_acquisitions": true,
+  "step3_not_launched": true
+}
