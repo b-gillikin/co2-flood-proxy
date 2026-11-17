@@ -37,7 +37,9 @@ provisional donors and 50 reserved external records in Ahr/Erft/Sieg. There are
 complete daily overlap. UTC hour-end timing is verified from the primary paper.
 These are not final independent or uniformly quality-verified populations.
 44 geometry/coverage flags require explicit treatment. Regional model discharge,
-weather and landscape/AlphaEarth inputs remain to be acquired.
+weather and landscape/AlphaEarth inputs are now acquiring locally, using the
+same product/aggregation conventions as the local study. Regional independent
+observations end in 2024; acquiring 2025 predictors does not create 2025 labels.
 
 ## Method
 
@@ -72,7 +74,8 @@ complete observed/model pairs. The corrected local held-Wurm 2021 nested benchma
 152 fits, including one selection-policy sensitivity, in 32.19 seconds. It verifies local feasibility, not the
 regional research claim. Thirty-seven relevant tests, Ruff, dependency checks and
 input/output receipt verification pass. All regional observation transfers and
-source/daily checksums are verified. No acquisition workers remain active.
+source/daily checksums are verified. Matched regional input acquisition now uses
+one GEOGLOWS and two Earth Engine workers; no fitting is active.
 No GPU job, full regional fitting queue, Azure offload or other-chapter cleanup
 was started; 74.8 GiB was free at verification, above the 50-GiB reserve.
 

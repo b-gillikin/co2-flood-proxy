@@ -27,8 +27,11 @@ All **386 mapped nonlocal source records are acquired and checksum-verified**,
 with zero failed transfers and 821,400 complete daily observations in 2018–2024.
 Twelve records have no complete daily overlap in that period; these are coverage
 cases, not transfer failures. Raw snapshots use 3.66 GiB; daily tables use 84 MiB.
-**No acquisition or fitting workers remain active.** Acquisition progress is
-`results/limburg_dise_v2/regional_acquisition_progress.json`. Data location:
+The observation-only acquisition is complete. **Matched regional model/weather/
+AlphaEarth inputs are now acquiring**, with one GEOGLOWS worker and two Earth
+Engine workers; fitting remains inactive. Input-acquisition progress is
+`results/limburg_dise_v2/regional_inputs/progress.json`. The observation receipt
+remains under `regional_acquisition_progress.json`. Data location:
 `data/raw/limburg_dise_v2/camels_timeseries/`, daily records under
 `results/limburg_dise_v2/regional_observations/`. Disk reserve remains 50 GiB;
 74.8 GiB was free at verification; no other-chapter data were changed or Azure
@@ -36,7 +39,7 @@ job started. See the [verification receipt](reviews/limburg-dise-corrections-ver
 
 ## Next work
 
-Resolve or explicitly stratify mapping-identity flags and obtain the matched regional model Q, common weather/landscape/AlphaEarth inputs.
+Complete and audit the matched regional inputs using the [acquisition plan](limburg-dise-regional-inputs-2026-11-16.md). Resolve or explicitly stratify mapping-identity flags.
 Then benchmark the actual regional training size before the full comparison.
 A favourable local result is not a gate. Preserve adverse calibration cases
 and the separate clean/unknown-quality strata.

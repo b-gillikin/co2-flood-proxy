@@ -1,0 +1,57 @@
+{
+  "experiment": "limburg_dise_regional_inputs_v1",
+  "mapping": "results/limburg_dise_v2/regional_mapping_ledger.csv",
+  "catchments": "data/raw/limburg_dise_v1/camels/CAMELS_DE_1h_catchments.gpkg",
+  "raw": "data/raw/limburg_dise_v2/regional_inputs",
+  "output": "results/limburg_dise_v2/regional_inputs",
+  "reserve_gib": 50,
+  "years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "roles": [
+    "regional_donor",
+    "reserved_external"
+  ],
+  "geoglows_uri": "s3://geoglows-v2/retrospective/hourly.zarr",
+  "geoglows_variable": "Q",
+  "geoglows_clock": "UTC hour start; shift +1h to hour end, then aggregate exactly 24 valid hourly means to each UTC day, matching local preparation",
+  "earth_engine_project": "limburg-511403",
+  "weather_collection": "ECMWF/ERA5_LAND/DAILY_AGGR",
+  "weather_bands": [
+    "total_precipitation_sum",
+    "temperature_2m",
+    "dewpoint_temperature_2m",
+    "surface_pressure",
+    "u_component_of_wind_10m",
+    "v_component_of_wind_10m",
+    "surface_solar_radiation_downwards_sum",
+    "surface_thermal_radiation_downwards_sum"
+  ],
+  "weather_batch_size": 32,
+  "alphaearth_collection": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+  "alphaearth_year": 2017,
+  "alphaearth_crs": "EPSG:3035",
+  "alphaearth_scale_m": 10,
+  "alphaearth_batch_size": 8,
+  "attributes_batch_size": 32,
+  "attributes_sources": [
+    "CGIAR/SRTM90_V4",
+    "COPERNICUS/Landcover/100m/Proba-V-C3/Global/2017",
+    "OpenLandMap/SOL/SOL_WATERCONTENT-33KPA_USDA-4B1C_M/v01"
+  ],
+  "attributes_crs": "EPSG:3035",
+  "attributes_scale_m": 100,
+  "concurrency": "One GEOGLOWS worker and two Earth Engine workers; no GPU",
+  "membership": "All mapped donor/external records, including spatial review flags and records without observational overlap; acquisition does not approve model matching or verification quality",
+  "aggregation": "Use reference gauge catchments for all weather, landscape and AlphaEarth means; use mapped global-model reach for Q; retain reference/model area mismatch",
+  "scope": "Acquire matched inputs and audit support only; no regional model fitting",
+  "geoglows_batch": "Group requested reaches by underlying 20-river storage chunk; one worker to bound decompression memory"
+}
