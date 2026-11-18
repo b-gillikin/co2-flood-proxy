@@ -37,8 +37,8 @@
       2023,
       2024
     ],
-    "descriptor_reference_year": 2017,
-    "descriptor_history": "Use 2017 for the matched static-descriptor comparison. Longer native climatology/history, if needed, must have a documented pre-evaluation cutoff and corresponding raw controls; do not silently use same-year or 1985-2024 averaged descriptors.",
+    "descriptor_reference_year": 2018,
+    "descriptor_history": "Use 2018 as the common annual descriptor reference for the new controlled extension because full-census TESSERA coverage is near-complete; 2018 predates every held evaluation year. Keep the completed original H+A/AlphaEarth results and their 2017 descriptor basis unchanged. For the extension, align AlphaEarth and year-specific conventional controls to 2018 before fitting.",
     "split_policy": "Reuse the frozen chronological and whole-river assignments. External observed Q remains excluded from correction fitting, tuning and representations; target-river observed Q remains excluded from every spatial predictor/calibration path.",
     "interpretation": "Four representation products with different upstream inputs/pretraining. This is not a pure architecture comparison or an operational forecast experiment. Existing test outcomes are already inspected; label the extension exploratory."
   },
@@ -79,8 +79,8 @@
       "role": "Independent satellite-based annual catchment representation",
       "variant": "v1.1-dclimate",
       "native_dimensions": 128,
-      "year": 2017,
-      "readiness": "Four-catchment pilot completed. Native reads and aggregation work; 2017 coverage ranges from 7.66% to 87.21%. Audit scale coverage across the census before extracting the comparison descriptors.",
+      "year": 2018,
+      "readiness": "Full 394-catchment 2018 scale coverage is complete at >=97.4% for every polygon. Full native descriptor extraction is running.",
       "pilot_report": "docs/limburg-tessera-pilot-2026-11-18.md",
       "pilot_snapshot": "VTS86NCZ0NT7DK59V390",
       "source": "https://github.com/ucam-eo/geotessera",
@@ -119,12 +119,12 @@
       "metadata": "Checkpoint-specific scale/shape/effective-resolution schema and frozen log/standardization parameters. Paper lists 18 fields, 3 constant zero; repository defaults differ. No naive zeroing of unknown metadata/physical channels."
     },
     "alphaearth": {
-      "role": "Completed satellite landscape anchor; retain current 2017 catchment means",
+      "role": "Satellite landscape anchor; preserve the completed 2017 result and align a new 2018 feature to the extension",
       "native_dimensions": 64,
-      "year": 2017,
+      "year": 2018,
       "source": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
       "feature_convention": "Use all 64 raw catchment-mean coordinates. Pixel unit norm does not imply unit-norm basin mean; no added L2 normalization for the tree head.",
-      "readiness": "Completed input/extraction retained; new fitting against enriched C1 remains part of extension.",
+      "readiness": "Original 2017 extraction and results remain preserved. The extension requires 2018 annual catchment means to match TESSERA and the common extension reference year; those are not yet extracted.",
       "version_note": "Catalog identifies distributed product with AlphaEarth v2.1; original paper evaluated v2.0. Preserve actual saved source-image/hash receipts."
     }
   },
@@ -151,15 +151,16 @@
     "tessera_pilot": "docs/reviews/limburg-tessera-pilot-2026-11-18.json",
     "tessera_coverage": "results/limburg_representation_extension_v1/tessera_coverage_v1",
     "bulk_acquisition_started": false,
-    "extraction_started": false,
+    "extraction_started": true,
     "fitting_started": false,
-    "current_authorization": "Include all three in the study and complete design/data/disk audit; this configuration records preparation, not a launched production run.",
+    "current_authorization": "Full TESSERA 2018 descriptor extraction across all 394 reference catchments is authorized after the completed census coverage assessment. This does not authorize fitting until other representation and C1 alignment requirements are resolved.",
     "next_work": [
-      "Inventory 2017 and candidate 2018 TESSERA scale coverage on all 394 polygons. Set matched temporal support and coverage handling before full descriptor extraction.",
+      "Complete full-census TESSERA 2018 descriptor extraction with per-zone resumable checkpoints and preserve the coverage/missingness manifest.",
+      "Extract 2018 AlphaEarth catchment descriptors and assemble year-aligned conventional C1 inputs before any extension scoring.",
       "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
-      "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
-      "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
-      "Benchmark one matched outer fold and resource usage before scheduling the complete 30-job family."
+      "Retrieve only model-required 2018 physical inputs for compact raw C1 summaries; freeze the feature list before looking at extension outcomes.",
+      "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each usable model.",
+      "Benchmark one matched outer fold and resource usage before scheduling the complete controlled model family."
     ]
   },
   "correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md"

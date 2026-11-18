@@ -112,3 +112,37 @@ OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \
   .venv-tessera/bin/python scripts/282_pilot_tessera.py \
   --snapshot VTS86NCZ0NT7DK59V390 --year 2017 --year 2018 --census-coverage
 ```
+
+The coverage census passed for 2018. All **394 of 394** polygons have at least
+97.4% embedded area. By cohort, mean coverage is 99.89% for the seven local
+gauges, 99.95% for the 337 regional donors and 99.98% for the 50 reserved
+external records. In 2017 the corresponding means were 52.5%, 44.4% and 42.5%;
+17 regional donor polygons had zero embedded area. The 2018 choice is based on
+input coverage alone, not discharge performance, and it predates all held
+evaluation years.
+
+For the new controlled extension, 2018 is now the common annual descriptor
+reference. The completed original H+A/AlphaEarth study remains on its original
+2017 basis and is not rewritten. The extension must extract 2018 AlphaEarth and
+year-aligned conventional C1 inputs before fitting any paired comparison.
+
+The full TESSERA 2018 descriptor census is a separate resumable run. It streams
+native 128-band windows, decodes each pixel with its own scale, applies
+fractional polygon weights, and checkpoints weighted sums and second moments
+by UTM zone. Only compact per-catchment descriptors and the coverage receipt
+are retained; no complete mosaics or downloaded raw tile archive are written
+locally. The census is estimated at roughly 1–2 hours from the pilot; network
+throughput may change this. The machine had 132 GiB free at launch, with a
+50 GiB reserve.
+
+```sh
+OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \
+  .venv-tessera/bin/python scripts/283_extract_tessera_census.py \
+  --snapshot VTS86NCZ0NT7DK59V390 --year 2018
+```
+
+Checkpoints and the receipt are under
+`results/limburg_representation_extension_v1/tessera_census_v1/`. The run
+identity pins the public snapshot, 394-polygon geometry, and extraction/helper
+code hashes. Rerunning the same command resumes at the last atomic zone
+checkpoint; a changed identity fails closed.
