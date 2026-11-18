@@ -39,8 +39,8 @@ def test_actual_cached_inputs_equal_legacy(task):
         .iloc[:2]
     )
     path = ROOT / "data/processed/limburg_tensor_cache_v1" / task
-    if not path.exists():
-        pytest.skip("Held raw tensor cache unavailable")
+    if not path.exists() or (path.parent / "OFFLOADED-DERIVED.json").exists():
+        pytest.skip("Held tensor cache unavailable locally; restore the recorded Azure bundle")
     fast = CachedChips(rows, task, path)
     old = w.Chips(rows, task, augment=False)
     for i in [0, len(old) - 1]:
@@ -56,8 +56,8 @@ def test_cached_augmentation_reproduces_legacy_draw_order(task):
     w = water_module()
     rows = pd.read_parquet(w.PARTITIONS / "sen1-chip-inventory.parquet").iloc[:5]
     path = ROOT / "data/processed/limburg_tensor_cache_v1" / task
-    if not path.exists():
-        pytest.skip("Held raw tensor cache unavailable")
+    if not path.exists() or (path.parent / "OFFLOADED-DERIVED.json").exists():
+        pytest.skip("Held tensor cache unavailable locally; restore the recorded Azure bundle")
     fast = CachedChips(rows, task, path, augment=True, seed=42)
     old = w.Chips(rows, task, augment=True)
     for epoch in [0, 1]:

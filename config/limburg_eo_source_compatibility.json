@@ -6,7 +6,13 @@
         "snapshot": "provenance/source-snapshots/fe26dfc20ac58f48970b78387ae19298d21c985f08e8859c7bb38c7086ff0ddb.py.txt",
         "classification": "metadata_only_compatibility",
         "reason": "Population-path and downstream validation/finalization refactor only; frozen input arrays, coherence policy, token masks and encoder numerical dependencies remain separately fingerprinted and unchanged.",
-        "replacement_sha256": "90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3"
+        "replacement_sha256": "1639a5fbeac0ebdf7baecdfa35e5aa0e2cd2c110157cb2e43488dcec424009cf"
+      },
+      "90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3": {
+        "snapshot": "provenance/source-snapshots/90ad79aed6ecb7e9c9bb8fb1119673b69dc3def77261e56b7b5c0d62eb83cdb3.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Added explicit cold-cache availability guard only; non-import AST is unchanged after removal of that guard. No numerical transformation or frozen data value changed. Original executed source retained.",
+        "replacement_sha256": "1639a5fbeac0ebdf7baecdfa35e5aa0e2cd2c110157cb2e43488dcec424009cf"
       }
     },
     "scripts/118_extract_versioned_eo_sequences.py": {
@@ -55,6 +61,22 @@
         "classification": "metadata_only_compatibility",
         "reason": "Offload-marker fail-fast guard only. Numerical processing unchanged for restored imagery; archived imagery now raises rather than silently reducing the observation census. Original executed source preserved.",
         "replacement_sha256": "b71e2a9a63b1d9c83f919aa74340f9ba2168bd8835c0716d37feab70ffd89441"
+      }
+    },
+    "src/applied_fast_data.py": {
+      "f642c7eae9bef18e8e6234d72b8d6cbf6aab365fa4308cf568c72b832a5ddcf5": {
+        "snapshot": "provenance/source-snapshots/f642c7eae9bef18e8e6234d72b8d6cbf6aab365fa4308cf568c72b832a5ddcf5.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Added explicit cold-cache availability guard only; non-import AST is unchanged after removal of that guard. No numerical transformation or frozen data value changed. Original executed source retained.",
+        "replacement_sha256": "3d0136e2a39dad2a14dfe82cbd406826f276983b0f7dc880d2ba2e7844e19f0c"
+      }
+    },
+    "scripts/218_build_spatial_tensor_cache.py": {
+      "b2c5d1d1eda1585f5b8c29f7c824a6d836684cdbc87d49e11e241a5fde6f42d4": {
+        "snapshot": "provenance/source-snapshots/b2c5d1d1eda1585f5b8c29f7c824a6d836684cdbc87d49e11e241a5fde6f42d4.py.txt",
+        "classification": "metadata_only_compatibility",
+        "reason": "Added explicit cold-cache availability guard only; non-import AST is unchanged after removal of that guard. No numerical transformation or frozen data value changed. Original executed source retained.",
+        "replacement_sha256": "02446235194a23f11d191c6a6584e89acd0c2297b38ca6b096320120ba11ef1e"
       }
     }
   }

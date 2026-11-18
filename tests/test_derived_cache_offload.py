@@ -1,7 +1,9 @@
 import hashlib
+import importlib.util
 import io
 import json
 import tarfile
+from pathlib import Path
 
 import pytest
 
@@ -166,3 +168,62 @@ def test_low_disk_space_stops_before_mutation(tmp_path, monkeypatch):
     monkeypatch.setattr(m.shutil, "disk_usage", lambda p: type("Disk", (), {"free": 49 * m.GIB})())
     with pytest.raises(RuntimeError, match="50-GiB"):
         m.reserve(tmp_path)
+
+
+@pytest.mark.parametrize("fault", [None, "corrupt_remote", "different_local"])
+def test_actual_bundle_restore_code(tmp_path, monkeypatch, fault):
+    spec = importlib.util.spec_from_file_location(
+        "restore_derived", Path(__file__).parents[1] / "scripts/280_restore_historical_derived.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    monkeypatch.setattr(module, "reserve", lambda *a, **kw: None)
+    source, row = held(tmp_path)
+    original = source.read_bytes()
+    archive = tmp_path / "saved.tar.gz"
+    m.pack(tmp_path, archive, [row])
+    payload = archive.read_bytes()
+    checksum = hashlib.sha256(payload).hexdigest()
+    receipt = dict(
+        status="remote_bytes_and_members_verified",
+        kind="tar",
+        records=[row],
+        sha256=checksum,
+        blob="object",
+    )
+    objects = {"receipt": json.dumps(receipt).encode(), "object": payload}
+    source.unlink()
+    if fault == "corrupt_remote":
+        objects["object"] = b"corrupt"
+    if fault == "different_local":
+        source.write_bytes(b"different")
+
+    class Download:
+        def __init__(self, data):
+            self.data = data
+
+        def readall(self):
+            return self.data
+
+        def readinto(self, target):
+            target.write(self.data)
+
+    class Cloud:
+        def get_blob_client(self, name):
+            return type("Blob", (), {"download_blob": lambda self, **kw: Download(objects[name])})()
+
+    out = tmp_path / "output"
+    out.mkdir()
+    entry = dict(receipt_blob="receipt", sha256=checksum, blob="object", bytes=len(payload))
+    if fault:
+        with pytest.raises((ValueError, FileExistsError)):
+            module.restore_bundle(tmp_path, out, Cloud(), entry)
+        assert (
+            not source.exists()
+            if fault == "corrupt_remote"
+            else source.read_bytes() == b"different"
+        )
+    else:
+        assert module.restore_bundle(tmp_path, out, Cloud(), entry) == 1
+        assert source.read_bytes() == original
+        assert module.restore_bundle(tmp_path, out, Cloud(), entry) == 1

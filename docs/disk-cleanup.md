@@ -227,3 +227,41 @@ logical payload; measured free space rose from 76.06 to 76.16 GiB (about 0.10
 GiB). See `results/disk-cleanup-2026-11-18/receipt.json` and
 `hardlinks.jsonl` for hashes and retained path pairs. The existing 50-GiB
 reserve remains intact.
+
+## 18 November: recoverable historical-cache offload launched
+
+Brian authorized reclaiming the first 40–60 GiB from inactive Limburg caches.
+The saved inventory contains 8 tensor NPY arrays (14.32 GiB logical) and
+1,047,898 supplemental JSON records (36.60 GiB logical before excluding the
+small retained run manifests/status/indexes). The supplemental NPZ arrays are
+only about 0.62 GiB logical and remain local. The JSON volume, rather than
+the embedding vectors alone, accounts for most of the older sequence cache.
+
+`scripts/278_offload_historical_derived.py` uses lossless streaming tar.gz,
+bounded JSON shards and one tensor per bundle. It uploads additively, reads
+back the complete blob, verifies every member, tests a real restore, rechecks
+the source bytes, preserves durable recovery mappings, then retires only the
+verified source copies. At most one bundle is processed at a time; four upload
+streams accelerate that object's transfer. Temporary scratch is bounded by
+the current bundle's measured/source size and the existing 50-GiB reserve.
+
+No current input, raw source, model weight, compact result or other chapter is
+an offload target. Run-level indexes/manifests/status and all supplemental NPZ
+arrays remain local. Two cold-cache reader guards and a builder guard prevent
+offloaded material becoming missing observations or a silently smaller census.
+Their numerical AST is unchanged after removal of the availability checks;
+original sources and explicit compatibility receipts are preserved.
+
+The initial uncompressed upload was stopped before any source retirement;
+its preparation records remain under `superseded-preupload`. Small probes
+showed material lossless compression benefits, so the resumed worker uses
+compressed archives. This changes transport only, not scientific values.
+
+Current status is **running**, not complete. Progress/log/SQLite inventory and
+per-bundle receipts are under
+`results/disk-cleanup-2026-11-18-derived/`. Script 279 is the queued closure
+audit and recovery-index backup; script 280 restores exact bundles or the
+whole cache without re-extraction. See `recovery/README.md`. A completed,
+verified closure receipt will distinguish measured reclaimed space from
+directory-size estimates. Twenty-five focused safety/restore/contract tests
+pass. Other chapters remain untouched.

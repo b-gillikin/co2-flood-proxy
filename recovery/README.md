@@ -49,3 +49,46 @@ budget. It verifies existing bytes and downloads missing files. Remove
 paths have been restored and hash-verified. Historical extraction entrypoints
 fail explicitly while this marker exists; offloading must not become missing
 observations or a smaller census. Existing completed results remain valid.
+
+## Historical derived-cache offload (18 November 2026)
+
+Brian authorized the first 40–60 GiB cleanup of inactive Limburg caches. The
+current run preserves lossless copies of the spatial tensor arrays and bulky
+supplemental per-patch JSON records in **stunumeritphdbackupbg /
+dissertation-recovery / chapter1-co2/derived-eo/2026-11-18**. It retains local
+run-level index/manifest/status files, supplemental NPZ arrays, aggregate
+representations and results. Current DISE/representation inputs, raw source
+observations/weather/landscape data, weights and other chapters are untouched.
+
+Monitor `results/disk-cleanup-2026-11-18-derived/progress.json` and `worker.log`.
+The worker verifies every remote compressed bundle and member before source
+retirement, with a full real restore pilot. A separate finalizer verifies the
+remaining files/current hashes and backs up the exact SQLite recovery map.
+`closure.json` and `docs/reviews/derived-cache-offload-2026-11-18.json` are
+created after successful closure; their absence is not evidence of completion.
+
+Resume an interrupted worker (same catalogue, no model rerun):
+
+```bash
+/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/bin/python \
+  scripts/278_offload_historical_derived.py --run
+```
+
+With the local catalogue, restore one exact file using `--restore-path` in
+script 278. After closure, restore a whole bundle or all archived files:
+
+```bash
+/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/bin/python \
+  scripts/280_restore_historical_derived.py --bundle 00000
+
+/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/bin/python \
+  scripts/280_restore_historical_derived.py --all
+```
+
+The full restorer downloads each bundle once, verifies its compressed hash and
+every uncompressed member, refuses to overwrite different local bytes and
+clears `OFFLOADED-DERIVED.json` only after the entire census is restored. On a
+replacement machine it can recover the SQLite index from the closure receipt.
+While markers exist, owning cache readers fail explicitly rather than treat
+cold data as unavailable observations. Original executed readers remain in
+Git and `provenance/source-snapshots/`; guard-only compatibility is recorded.
