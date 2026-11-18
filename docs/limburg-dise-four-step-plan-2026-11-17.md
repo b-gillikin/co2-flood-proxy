@@ -21,10 +21,11 @@ positive-result condition is introduced.
 
 Machine-readable status: `config/limburg_dise_four_step_plan_v1.json`. **Step 1
 completed on 17 November 2026**; **Steps 2 and 3 completed on 18 November 2026**.
-Step 4 remains pending.
+**Step 4 completed on 18 November 2026** as Step 1 of the representation extension.
 [Step 1 results and verification](limburg-dise-capacity-check-2026-11-17.md).
 [Step 2 design, execution and recovery](limburg-dise-multiyear-run-2026-11-17.md).
 [Step 3 repeatability and largest-flow review](limburg-dise-repeatability-2026-11-18.md).
+[Step 4 consolidated AlphaEarth evidence](limburg-dise-alphaearth-consolidation-2026-11-18.md).
 
 ## Step 1 execution specification
 

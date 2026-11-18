@@ -9,7 +9,7 @@ Brian included **TESSERA, StefaLand and Basin2Vec alongside AlphaEarth**.
 configuration: `config/limburg_representation_extension_v1.json`. Same daily
 reconstruction task, reference catchments, high-water outcomes and external
 rivers; no new geography or model family of downstream learners. Keep the
-completed AlphaEarth outputs and Step 4 consolidation. Preparation is incomplete:
+completed AlphaEarth evidence. Preparation is incomplete:
 TESSERA polygon support/I/O needs measuring; the acquired StefaLand candidate
 contains a Runoff projection and needs a verified Q-free/native masked recipe;
 Basin2Vec needs available trained weights and an explicit European input route.
@@ -19,9 +19,9 @@ snapshots and one candidate checkpoint were downloaded, about 65 MiB.
 The new physical inputs need conventional controls: retain old H+A as C0;
 prepare enriched C1 and compare C1 with each representation added separately,
 including a new AlphaEarth fit. Do not carry the old 13.86% effect into this
-different comparison. Current disk is about 78 GiB free; preserve the existing
-50-GiB reserve and stream TESSERA rather than retain complete pixel mosaics.
-No chapter data were deleted/offloaded and other chapters are untouched.
+different comparison. The subsequent
+[verified cache offload](disk-cleanup.md) reclaimed about 52 GiB.
+Stream TESSERA within the existing 50-GiB free-space reserve.
 
 The [model-specific reread](limburg-representation-correct-use-review-2026-11-18.md)
 now specifies native feature taps, sequence support, normalization and pooling.
@@ -33,10 +33,12 @@ AlphaEarth's current catchment means remain appropriate. No new run launched.
 
 ## Latest completed work — 18 November 2026
 
-**Steps 1–3 are complete; Step 4 remains pending.** The 30-job/4,560-fit multiyear
+**All four original DISE steps are complete.** The 30-job/4,560-fit multiyear
 queue finished; its output identities verify. Step 3 analyzed the full 81,857-row
 census with 999 paired whole-year and synchronized 14/30/60-day block draws.
-No worker, download, GPU or Azure job is active for this study.
+The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
+consolidates those results for Brian's writing, completing Step 4 and Step 1
+of the representation extension. The next run is the TESSERA data-access pilot.
 
 Adding AlphaEarth reduces local river-withheld all-day MAE 13.86%, repeating
 across all five test years and four of five rivers; Voer worsens. Historical-
@@ -58,10 +60,7 @@ resampled-score checks agree with explicit weighting. Sixteen relevant tests
 and Ruff pass. Output occupies about 49 MiB; roughly 77 GiB remains free.
 No source data or other chapter was changed.
 
-The remaining saved Step 4 is evidence consolidation for Brian's writing:
-final tables/figures, symmetric event examples and limitations. The dated
-preparation and launch records below document earlier states; they do not
-indicate another active queue.
+The dated preparation and launch records below document earlier states.
 
 ## Current direction and state
 

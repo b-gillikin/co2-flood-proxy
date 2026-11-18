@@ -1,6 +1,6 @@
 {
   "date": "2026-11-18",
-  "status": "dise_repeatability_complete_representation_extension_preparation",
+  "status": "dise_alphaearth_consolidated_representation_extension_preparation",
   "scope": "config/limburg_representation_extension_v1.json",
   "acquisition": "config/limburg_representation_extension_v1.json",
   "compute": "docs/limburg-representation-extension-audit-2026-11-18.md",
@@ -75,7 +75,8 @@
   "latest_preparation_audit": "results/limburg_dise_regional_benchmark_v1/preparation/audit.json",
   "regional_benchmark_started": true,
   "regional_benchmark_completed": true,
-  "latest_results_review": "docs/limburg-dise-repeatability-2026-11-18.md",
+  "latest_results_review": "docs/limburg-dise-alphaearth-consolidation-2026-11-18.md",
+  "alphaearth_evidence_consolidated": true,
   "capacity_config": "config/limburg_dise_capacity_v1.json",
   "continuation_plan": "config/limburg_dise_four_step_plan_v1.json",
   "capacity_completed": true,

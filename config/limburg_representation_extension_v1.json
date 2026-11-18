@@ -7,6 +7,7 @@
   "parent_config": "config/limburg_dise_multiyear_v1.json",
   "completed_baseline": "results/limburg_dise_multiyear_v1",
   "completed_repeatability": "results/limburg_dise_repeatability_v1",
+  "alphaearth_consolidation": "docs/limburg-dise-alphaearth-consolidation-2026-11-18.md",
   "output": "results/limburg_representation_extension_v1",
   "raw": "data/raw/limburg_representation_extension_v1",
   "catchment_inventory": "results/limburg_representation_extension_v1/catchment_inventory.csv",

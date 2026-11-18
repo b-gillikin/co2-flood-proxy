@@ -4,9 +4,10 @@ Living research aid, updated 18 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; first regional fold and capacity
 check completed. The multiyear comparison and Step 3 repeatability review are
-complete. TESSERA, StefaLand and Basin2Vec are now included alongside AlphaEarth;
-their preparation is audited, not execution-ready. No worker is active; Step 4
-evidence consolidation can continue alongside preparation.
+complete. The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
+completes Step 4 and provides comparison tables, figures and paired event
+examples. TESSERA, StefaLand and Basin2Vec remain in preparation. The next
+execution step is the TESSERA data-access pilot.
 
 ## Research Question(s)
 

@@ -1,8 +1,9 @@
 # DISE Step 3 — repeatability and largest-flow review
 
 18 November 2026. Completed internal research aid for Brian's writing. Step 3
-of the [saved plan](limburg-dise-four-step-plan-2026-11-17.md); Step 4 remains
-pending. The primary incremental contrast is **H+A+E versus H+A**: the same
+of the [saved plan](limburg-dise-four-step-plan-2026-11-17.md). The
+[completed Step 4 evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
+brings these results together for writing. The primary incremental contrast is **H+A+E versus H+A**: the same
 correction learner, adding AlphaEarth beyond model/weather history and
 conventional catchment information. Positive percentage reductions below mean
 lower river-balanced MAE. No fitting, model selection or new acquisition was
@@ -204,7 +205,5 @@ Outputs: `results/limburg_dise_repeatability_v1/manifest.json`, `paired_effects.
 `symmetric_case_review_index.csv`. The compressed arrays retain every draw,
 scope, arm and metric, alongside the common date multiplicities.
 
-**Step 3 is complete.** Step 4 is the saved consolidation into final evidence
-tables, figures, event examples and limitations for Brian's own dissertation
-writing. This step does not establish improved forecasting, flood-stage
-classification or reduced losses.
+**Step 3 is complete.** The linked evidence pack contains the Step 4 tables,
+figures, event examples and limitations for Brian's dissertation writing.

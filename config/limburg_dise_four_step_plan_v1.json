@@ -40,11 +40,14 @@
     {
       "number": 4,
       "name": "Consolidate the chapter evidence",
-      "status": "pending",
-      "action": "Prepare tables, figures, event examples and limitations for Brian's writing; keep year-round reconstruction distinct from high-water assessment or operational warning claims."
+      "status": "complete",
+      "action": "Prepare tables, figures, event examples and limitations for Brian's writing; keep year-round reconstruction distinct from high-water assessment or operational warning claims.",
+      "completed_date": "2026-11-18",
+      "report": "docs/limburg-dise-alphaearth-consolidation-2026-11-18.md",
+      "figure_script": "scripts/281_plot_dise_consolidation.py"
     }
   ],
-  "current_authorization": "Steps 1-3 complete. Step 4 remains saved and unlaunched.",
+  "current_authorization": "All four steps complete. Step 4 was executed as Step 1 of the representation extension.",
   "no_favourable_result_requirement": true,
   "updated_date": "2026-11-18"
 }
