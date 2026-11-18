@@ -257,11 +257,23 @@ its preparation records remain under `superseded-preupload`. Small probes
 showed material lossless compression benefits, so the resumed worker uses
 compressed archives. This changes transport only, not scientific values.
 
-Current status is **running**, not complete. Progress/log/SQLite inventory and
-per-bundle receipts are under
-`results/disk-cleanup-2026-11-18-derived/`. Script 279 is the queued closure
-audit and recovery-index backup; script 280 restores exact bundles or the
-whole cache without re-extraction. See `recovery/README.md`. A completed,
-verified closure receipt will distinguish measured reclaimed space from
-directory-size estimates. Twenty-five focused safety/restore/contract tests
-pass. Other chapters remain untouched.
+The offload and closure audit completed successfully. All **1,047,888 files**
+(50.91 GiB logical; 52.82 GiB allocated) were archived across 116 lossless
+bundles. Every remote bundle was read back and each member hash verified before
+its local source was retired. A full real restore pilot also passed. The
+compressed archive payload is 9.61 GiB. The verified SQLite catalogue and
+recovery map are backed up remotely.
+
+Observed free space rose from 78.12 GiB to 129.87 GiB in the closure audit, a
+51.75-GiB increase. Later `df` output showed about 134 GiB available; APFS and
+other disk activity can move this number. The exact closure record, including
+all bundle receipts and reverified hashes for six protected current-study
+files, is [`derived-cache-offload-2026-11-18.json`](reviews/derived-cache-offload-2026-11-18.json).
+The remaining cache roots contain 132,681 local files (about 843 MiB by
+directory size), including all NPZ files and run-level indexes/manifests.
+
+Recovery commands and the Azure catalogue location are in `recovery/README.md`.
+The cache readers fail explicitly while offload markers exist, so archived
+files cannot silently be interpreted as missing observations. Twenty-five
+focused safety/restore/contract tests passed before the run. No active inputs,
+raw source data, model weights, compact results or other chapter were changed.

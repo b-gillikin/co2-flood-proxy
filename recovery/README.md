@@ -61,11 +61,14 @@ representations and results. Current DISE/representation inputs, raw source
 observations/weather/landscape data, weights and other chapters are untouched.
 
 Monitor `results/disk-cleanup-2026-11-18-derived/progress.json` and `worker.log`.
-The worker verifies every remote compressed bundle and member before source
-retirement, with a full real restore pilot. A separate finalizer verifies the
-remaining files/current hashes and backs up the exact SQLite recovery map.
-`closure.json` and `docs/reviews/derived-cache-offload-2026-11-18.json` are
-created after successful closure; their absence is not evidence of completion.
+The offload is **complete**. All 1,047,888 archived files were verified against
+remote compressed bundles and member hashes before local retirement; a full
+restore pilot passed. The finalizer verified the remaining files and protected
+current-study hashes, then backed up the exact SQLite recovery map. The durable
+closure receipt is `results/disk-cleanup-2026-11-18-derived/closure.json`, with
+the detailed record at `docs/reviews/derived-cache-offload-2026-11-18.json`.
+Observed available space increased by 51.75 GiB (78.12 to 129.87 GiB during
+closure; later APFS readings can differ).
 
 Resume an interrupted worker (same catalogue, no model rerun):
 
