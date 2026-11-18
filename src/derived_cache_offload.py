@@ -150,22 +150,32 @@ def verify_tar(path, records, *, extract=None, only=None):
         raise ValueError("Incomplete archive census")
 
 
+class HashReader:
+    def __init__(self, stream):
+        self.stream = stream
+        self.hash = hashlib.sha256()
+
+    def read(self, size):
+        body = self.stream.read(size)
+        self.hash.update(body)
+        return body
+
+
 def pack(root, output, records):
-    # Each JSON is small; large native NPY tensors use direct blob upload.
+    # Stream both large NPY tensors and small JSON without full-array loading.
     with tarfile.open(output, "w:gz", compresslevel=1) as archive:
         for row in records:
             path = safe_path(root, row["path"])
             check_identity(path, row)
-            if row["size"] > 2 * 1024**2:
-                raise ValueError("Unexpected large JSON; inventory/strategy needs review")
-            body = path.read_bytes()
-            check_identity(path, row)
-            row["sha256"] = hashlib.sha256(body).hexdigest()
             info = tarfile.TarInfo(row["path"])
-            info.size = len(body)
+            info.size = row["size"]
             info.mode = stat.S_IMODE(row["mode"])
             info.mtime = row["mtime_ns"] // 10**9
-            archive.addfile(info, io.BytesIO(body))
+            with path.open("rb") as source:
+                reader = HashReader(source)
+                archive.addfile(info, reader)
+            check_identity(path, row)
+            row["sha256"] = reader.hash.hexdigest()
         body = json.dumps(records, sort_keys=True).encode()
         info = tarfile.TarInfo(MEMBER)
         info.size = len(body)
@@ -382,7 +392,7 @@ def run(root, out, protection, *, direct=False):
                 ident = f"{len(list(bundles.glob('*.json'))):05d}"
                 path = bundles / (ident + ".json")
                 bundle = dict(
-                    id=ident, kind="direct" if direct else "tar", status="planned", records=records
+                    id=ident, kind="tar", status="planned", records=records
                 )
                 atomic(path, bundle)
             records = bundle["records"]
@@ -401,7 +411,7 @@ def run(root, out, protection, *, direct=False):
                     records[0]["sha256"] = sha(data)
                     check_identity(data, records[0])
                 else:
-                    reserve(root, 2 * GIB)
+                    reserve(root, 2 * sum(r["size"] for r in records) + 512 * 1024**2)
                     data = scratch / "packed.tar.gz"
                     progress(phase="packing", force=True)
                     pack(root, data, records)
@@ -426,7 +436,7 @@ def run(root, out, protection, *, direct=False):
                             f,
                             overwrite=False,
                             length=bundle["archive_bytes"],
-                            max_concurrency=1,
+                            max_concurrency=4,
                             metadata={"sha256": bundle["sha256"]},
                             timeout=120,
                         )

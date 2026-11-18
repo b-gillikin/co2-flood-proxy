@@ -68,6 +68,16 @@ def test_full_pack_restore_preserves_every_byte_and_metadata(tmp_path):
     assert restored.stat().st_mtime_ns == p.stat().st_mtime_ns
 
 
+def test_large_tensor_is_streamed_and_losslessly_restored(tmp_path):
+    p, row = held(tmp_path, "large.npy", bytes(range(256)) * 20000)
+    archive = tmp_path / "large.tar.gz"
+    m.pack(tmp_path, archive, [row])
+    assert archive.stat().st_size < p.stat().st_size
+    dest = tmp_path / "restored"
+    m.verify_tar(archive, [row], extract=dest)
+    assert m.sha(dest / row["path"]) == m.sha(p)
+
+
 def test_corrupt_inventory_and_missing_members_rejected(tmp_path):
     _, row = held(tmp_path)
     row["sha256"] = "wrong"
