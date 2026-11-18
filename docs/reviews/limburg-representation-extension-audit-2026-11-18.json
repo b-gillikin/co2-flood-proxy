@@ -1,0 +1,526 @@
+{
+  "captured_utc": "2026-11-18T15:03:18.178446+00:00",
+  "status": "audited_preparation_incomplete_no_production_queue",
+  "configuration": "config/limburg_representation_extension_v1.json",
+  "source_repositories": [
+    {
+      "repository": "Muhammad-Talha-MT/basin2vec",
+      "commit": "63c8b448170367d915209fb113d2f839e1eb8b52",
+      "tree_truncated": false,
+      "tree_snapshot": "basin2vec-tree.json"
+    },
+    {
+      "repository": "ucam-eo/geotessera",
+      "commit": "3cef6c20eebb59608115523ecea3127aaceef86d",
+      "tree_truncated": false,
+      "tree_snapshot": "geotessera-tree.json"
+    }
+  ],
+  "small_source_receipts": [
+    {
+      "repository": "Muhammad-Talha-MT/basin2vec",
+      "commit": "63c8b448170367d915209fb113d2f839e1eb8b52",
+      "tree_truncated": false,
+      "tree_snapshot": "basin2vec-tree.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/README.md",
+      "status": 200,
+      "bytes": 23524,
+      "sha256": "82a79b091698bca2e3180a9da0613c99b594e0fa94aefb68647cda92b8567ff5",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__README.md"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/config/dataset_config.yaml",
+      "status": 200,
+      "bytes": 1285,
+      "sha256": "c2c0cc7133341523e4a5777fb9931861a22df4af34417b3cd44723b45f078563",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__config__dataset_config.yaml"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/config/training_step5/norm_stats.json",
+      "status": 200,
+      "bytes": 2264,
+      "sha256": "e63a08f32f5f3d728a1f61a9fa23c8c408751a06a56b09157f376efe3202d4c8",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__config__training_step5__norm_stats.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/attention_encoder_monthly.py",
+      "status": 200,
+      "bytes": 15695,
+      "sha256": "d815e776133d24a4d9439ca7d1dbcce7c15eb2a1eba101d693ab5cda7fd27e1a",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__attention_encoder_monthly.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/attention_encoder_monthly_ablation.py",
+      "status": 200,
+      "bytes": 17094,
+      "sha256": "5ce3991235541ac5b024f404c151045a0cbbc0ed67ce43a8e7f091ea24210e34",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__attention_encoder_monthly_ablation.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/basin2vec_dataset_monthly.py",
+      "status": 200,
+      "bytes": 22642,
+      "sha256": "37a51ebc432e4785e3c9808abc51f48bdf5c1e126b63e0bab7202f37c32b107b",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__basin2vec_dataset_monthly.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/evaluate_embeddings_monthly.py",
+      "status": 200,
+      "bytes": 62587,
+      "sha256": "0f81810c92792969efcedee9ca16dd3729c92c6425cea4270cec488fde140f66",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__evaluate_embeddings_monthly.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/pyproject.toml",
+      "status": 200,
+      "bytes": 1577,
+      "sha256": "322aa95ce6902eabefa11bed599e5835944546ff50800e4758b6db132aa166b2",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__pyproject.toml"
+    },
+    {
+      "repository": "ucam-eo/geotessera",
+      "commit": "3cef6c20eebb59608115523ecea3127aaceef86d",
+      "tree_truncated": false,
+      "tree_snapshot": "geotessera-tree.json"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/README.md",
+      "status": 200,
+      "bytes": 31023,
+      "sha256": "332c321eefd0d04881fa9639cfcb916c8035756f8ea7c2bc9175a5bc6132e21f",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__README.md"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/registry.py",
+      "status": 200,
+      "bytes": 79317,
+      "sha256": "0b8d112d867a89a913de97a217ba11604a940c4a340043b67e60255030c6a7a1",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__geotessera__registry.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/zarr.py",
+      "status": 200,
+      "bytes": 253308,
+      "sha256": "b42eb77259fc12ac38227cf3eeae459a83bc87e002bdeb48f280c1cc9d73f18d",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__geotessera__zarr.py"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/pyproject.toml",
+      "status": 200,
+      "bytes": 2258,
+      "sha256": "2bfb1aa81abcebeb7b6667fca1a997e32512d11f66e80bce5cce394cee00039f",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__pyproject.toml"
+    },
+    {
+      "url": "https://anonymous.4open.science/api/repo/StefaLand-9421",
+      "status": 401,
+      "bytes": 25,
+      "sha256": "e9635ca18a865befc8be46485fb75ee4a33030472a4baceda124dc0f4e3d67eb",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-api.txt"
+    },
+    {
+      "url": "https://anonymous.4open.science/api/repo/StefaLand-9421/files",
+      "status": 410,
+      "bytes": 30,
+      "sha256": "033373a49223cadb7f1a6d8bdc90953b66346b9b4b03f493b0248a3bbd5c4dac",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-api-files.txt"
+    },
+    {
+      "url": "https://zenodo.org/records/22001499/files/README.md?download=1",
+      "status": 200,
+      "bytes": 3151,
+      "sha256": "d982a541ae013e2787d26d9c9d2adc4b3cb36f4b493dc31fb743c66168a9598e",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/liu-readme.txt"
+    },
+    {
+      "url": "https://arxiv.org/html/2509.17942v3",
+      "status": 200,
+      "bytes": 539428,
+      "sha256": "ea18744758697593988602ffdcf626917eabb445b4e4041e118fcfec92c0fb08",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-v3.txt"
+    },
+    {
+      "url": "https://arxiv.org/html/2611.05164v1",
+      "status": 200,
+      "bytes": 683856,
+      "sha256": "6c860151c66e7dfbb6aafdb5800df98eefe3029161208529596f997fd66621be",
+      "local": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-paper.txt"
+    }
+  ],
+  "geometry_storage": {
+    "catchments": 394,
+    "local_catchments": 7,
+    "regional_catchments": 387,
+    "summed_area_km2": 69502.19834637555,
+    "union_area_km2": 38667.47640258275,
+    "lon_lat_union_bounds": [
+      5.735833333333336,
+      48.962080000000036,
+      9.239580000000007,
+      52.38875000000007
+    ],
+    "nominal_10m_pixels_union": 386674764.0258276,
+    "nominal_10m_pixels_sum": 695021983.4637555,
+    "tessera_128_float32_union_gib": 184.38089562693958,
+    "tessera_128_int8_union_gib": 46.095223906734894,
+    "tessera_128_float32_separate_catchments_gib": 331.4123074835565,
+    "tessera_394_mean_vectors_float32_mib": 0.1923828125,
+    "boundary_files": {
+      "data/raw/limburg_dise_v1/camels/CAMELS_DE_1h_catchments.gpkg": "240cb7941509bfbf70a6d4b4cffc0397391d81fc15d5b3240068104efd423a04",
+      "data/interim/foundation_model_catchments.gpkg": "ced1703aefe38ac36957939485a470c70abbd0df1b8773149873ff547f7b075f",
+      "results/limburg_dise_v2/spatial_review_v1/resolved_mapping_ledger.csv": "c5ec65d3af20ac24ed8a7a930bf7a6e4480b7653556b0f55990cd759cbb6d6fd"
+    },
+    "note": "Payload arithmetic only: exact projected polygon areas; no claim of raster-aligned cell count or compressed transfer bytes. Chunks/bounds, masks, scales and overlap determine real I/O. All 394 reference polygons retained."
+  },
+  "geometry_repairs": {
+    "status": "completed",
+    "scope": "New extension processing copy only; original source geometries, AlphaEarth inputs and completed models unchanged.",
+    "repairs": [
+      {
+        "gauge": "DE710420",
+        "reason": "Ring Self-intersection[4248026.46203443 2984540.62785836]",
+        "original_area_m2": 477241720.32339954,
+        "repaired_area_m2": 477241720.32339966,
+        "area_delta_m2": 1.1920928955078125e-07,
+        "topologically_equal": true,
+        "original_sha256": "0cee17ef236219cd14e4e9ac9e37f1a208373ca1542dbb40ec0afdccb96c92ee",
+        "repaired_sha256": "234cf534fefeb247c68e86dae3bb0b49599dea6de069e9e653717ec30bbe0370"
+      },
+      {
+        "gauge": "DEA10640",
+        "reason": "Ring Self-intersection[4200572.21720746 3111792.96681002]",
+        "original_area_m2": 186526816.09510008,
+        "repaired_area_m2": 186526816.09510034,
+        "area_delta_m2": 2.682209014892578e-07,
+        "topologically_equal": true,
+        "original_sha256": "a4269e094750c4a8c09fa6ebba79915932211a8474934f048e85b0a0431debac",
+        "repaired_sha256": "964a9c256d6f0d5f76ff491d110e424445c14543fcf95ca26d6beb423cf383f9"
+      },
+      {
+        "gauge": "DEA11950",
+        "reason": "Ring Self-intersection[4249947.87821678 3210365.13802396]",
+        "original_area_m2": 59124964.68147313,
+        "repaired_area_m2": 59124964.68147309,
+        "area_delta_m2": -3.725290298461914e-08,
+        "topologically_equal": true,
+        "original_sha256": "9ed5e456f50b939f5b576fe37b7142a2ed46591d52d6253b4bd362bcd57b5a1e",
+        "repaired_sha256": "48a4316faaa20beb3f40deaab3487f59e48a60f6b6e8bd7809f6e460c98c5718"
+      }
+    ]
+  },
+  "census_check": {
+    "catchments": 394,
+    "distinct_ids": 394,
+    "roles": {
+      "local": 7,
+      "regional_donor": 337,
+      "reserved_external": 50
+    },
+    "all_processing_geometries_valid": true,
+    "original_boundary_hashes_reverified": true
+  },
+  "storage": {
+    "total_gib": 926.3517189025879,
+    "used_gib": 848.5217094421387,
+    "free_gib": 77.83000946044922,
+    "reserve_gib": 50,
+    "headroom_gib": 27.83000946044922,
+    "new_audit_source_and_processing_bytes": 67771663,
+    "chapter_allocated_gib_from_du": 546.2893905639648,
+    "processed_allocated_gib_from_du": 398.2021942138672,
+    "du_note": "Allocated size, not exclusive APFS reclaimable size. Measurements taken during this audit; not a deletion plan."
+  },
+  "possible_offload_review_only": {
+    "data/processed/limburg_eo_coherent_census_v1": {
+      "allocated_gib": 296.32128524780273,
+      "status": "No offload or deletion; check dependency/recovery before any retirement"
+    },
+    "data/processed/eo_expansion_sequences": {
+      "allocated_gib": 39.32637023925781,
+      "status": "No offload or deletion; check dependency/recovery before any retirement"
+    }
+  },
+  "readiness": {
+    "tessera": "Provider global-store metadata and public object access verified; actual 394-polygon pixel support/read benchmark pending.",
+    "stefaland": "A 46,914,220-byte candidate checkpoint is acquired and statically inspected; exact intended encoder, source normalizers, input history and runoff-free inference remain unresolved.",
+    "basin2vec": "Public code/normalization examples inspected. No encoder weight file found in the captured git tree; release API returned an empty release list and the advertised v1.0.0 embedding archive returned 404."
+  },
+  "checks": {
+    "logical_fit_slots": 5700,
+    "completed_step2_status": "completed",
+    "completed_step3_verification": "passed",
+    "completed_results_modified": false,
+    "unsafe_checkpoint_loaded": false,
+    "other_chapters_modified": false,
+    "production_extraction_or_fitting_started": false
+  },
+  "file_receipts": [
+    {
+      "path": "data/raw/limburg_representation_extension_v1/candidate_weights/StefaLandA.pt",
+      "bytes": 46914220,
+      "sha256": "b00c94d7499ee190b2c52a444a5b781632d5b3c16b3dfaa4bab8ba8e67aeb6b3"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/candidate_weights/StefaLandA.receipt.json",
+      "bytes": 530,
+      "sha256": "27953c0389d1341a93bddf09b4d733e8632385f6310aefbfc19ee57af145ab7d"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-archive-probe.json",
+      "bytes": 319,
+      "sha256": "cbe4e6db2ec6d8630a8cc458974be32bdc23f8225bf753f49df1a55d47eb4c59"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-paper.txt",
+      "bytes": 683856,
+      "sha256": "6c860151c66e7dfbb6aafdb5800df98eefe3029161208529596f997fd66621be"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-paper.txt.plain",
+      "bytes": 107900,
+      "sha256": "b53440b4b706ed427dea10554067d6593795ddaac980be2ab5aa4248c13d7da5"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-releases.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec-tree.json",
+      "bytes": 1518860,
+      "sha256": "a6ada99333339a1dee3e971a3ac73d1ef6512360778b7c93b299854fdac2d9da"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__README.md",
+      "bytes": 23524,
+      "sha256": "82a79b091698bca2e3180a9da0613c99b594e0fa94aefb68647cda92b8567ff5"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__config__dataset_config.yaml",
+      "bytes": 1285,
+      "sha256": "c2c0cc7133341523e4a5777fb9931861a22df4af34417b3cd44723b45f078563"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__config__training_step5__norm_stats.json",
+      "bytes": 2264,
+      "sha256": "e63a08f32f5f3d728a1f61a9fa23c8c408751a06a56b09157f376efe3202d4c8"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__attention_encoder_monthly.py",
+      "bytes": 15695,
+      "sha256": "d815e776133d24a4d9439ca7d1dbcce7c15eb2a1eba101d693ab5cda7fd27e1a"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__attention_encoder_monthly_ablation.py",
+      "bytes": 17094,
+      "sha256": "5ce3991235541ac5b024f404c151045a0cbbc0ed67ce43a8e7f091ea24210e34"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__basin2vec_dataset_grouped.py",
+      "bytes": 9770,
+      "sha256": "84d0ba3d63867d5b3934d893da2a8c6f02330a227bfa24d19b1ab8c5f441093d"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__basin2vec_dataset_monthly.py",
+      "bytes": 22642,
+      "sha256": "37a51ebc432e4785e3c9808abc51f48bdf5c1e126b63e0bab7202f37c32b107b"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__emb__src__evaluate_embeddings_monthly.py",
+      "bytes": 62587,
+      "sha256": "0f81810c92792969efcedee9ca16dd3729c92c6425cea4270cec488fde140f66"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__pyproject.toml",
+      "bytes": 1577,
+      "sha256": "322aa95ce6902eabefa11bed599e5835944546ff50800e4758b6db132aa166b2"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/basin2vec__sample_index_meta.json",
+      "bytes": 622,
+      "sha256": "375b43fdc1457c177e7e153ef4967ecdb4f3045ed9d0d69f253ec544c12061f8"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geometry_storage_audit.json",
+      "bytes": 1273,
+      "sha256": "3bfb5b06e90bcd47be5fca99d7a9fe6441b2bbd36b01077cc321e641bbf3874f"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geotessera-tree.json",
+      "bytes": 24153,
+      "sha256": "baf2205f21936db69899ca1a34639aea3a6908040b337d0d72e48334b3257071"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__README.md",
+      "bytes": 31023,
+      "sha256": "332c321eefd0d04881fa9639cfcb916c8035756f8ea7c2bc9175a5bc6132e21f"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__geotessera__registry.py",
+      "bytes": 79317,
+      "sha256": "0b8d112d867a89a913de97a217ba11604a940c4a340043b67e60255030c6a7a1"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__geotessera__zarr.py",
+      "bytes": 253308,
+      "sha256": "b42eb77259fc12ac38227cf3eeae459a83bc87e002bdeb48f280c1cc9d73f18d"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/geotessera__pyproject.toml",
+      "bytes": 2258,
+      "sha256": "2bfb1aa81abcebeb7b6667fca1a997e32512d11f66e80bce5cce394cee00039f"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/jaxonson25-hash__StefaLandRelease-tree.json",
+      "bytes": 71141,
+      "sha256": "222ca7e149c5fe0d1a4ca35b47ac9a6f524dbca64fe9d0906afded8cb425b40f"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/jaxonson25-hash__StefaLandRelease__README.md",
+      "bytes": 121,
+      "sha256": "c18ec609f0e517fcb5759a24773df7a61273d2c95de565de1710b6a49f9b0b7b"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/jaxonson25-hash__StefaLandRelease__StefaLand__README.md",
+      "bytes": 420,
+      "sha256": "53030d63c6153781076de758fab0941e9fbb26d93bc294f03df614ee785d6d21"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/liu-readme.txt",
+      "bytes": 3151,
+      "sha256": "d982a541ae013e2787d26d9c9d2adc4b3cb36f4b493dc31fb743c66168a9598e"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/nrkraabel__PaperReleaseStefalandParameterization-tree.json",
+      "bytes": 96338,
+      "sha256": "eb6094aadabac1a47e1c1d56f01fbf3cf8351d5280345e257f46ce327154cd01"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/nrkraabel__PaperReleaseStefalandParameterization__README.md",
+      "bytes": 4087,
+      "sha256": "0b285d3966647fb77d6feb0caa3a7aaf3a9d65bfd0552d138f5e25f44bbd69cc"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/nrkraabel__PaperReleaseStefalandParameterization__docs__README.md",
+      "bytes": 2682,
+      "sha256": "2c70204628a363c243c3bf226a3f5a2b53fcb27d8d6787679c812b8acd2543e3"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/nrkraabel__PaperReleaseStefalandParameterization__docs__embeddings__README.md",
+      "bytes": 6980,
+      "sha256": "725954b4acef9e40fed4df95ffae5752207936f5084c3226fb67006e091ba648"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/receipts.json",
+      "bytes": 6767,
+      "sha256": "08da639cdd44b1d025684e32ab927dd4fc488bd2cb64cd03a421bba29fe5db79"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-api-files.txt",
+      "bytes": 30,
+      "sha256": "033373a49223cadb7f1a6d8bdc90953b66346b9b4b03f493b0248a3bbd5c4dac"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-api.txt",
+      "bytes": 25,
+      "sha256": "e9635ca18a865befc8be46485fb75ee4a33030472a4baceda124dc0f4e3d67eb"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-checkpoint-archive.json",
+      "bytes": 77486,
+      "sha256": "48aa2f3333fc57d734d4efdc01648a9c9eabe1510b7a4360ab68e30b8a619054"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-checkpoint-schema-inspection.json",
+      "bytes": 4087,
+      "sha256": "dc15587ffcde5ea6e3c94c8d9e34ca3b0238b70f27af5430773a619177891bbb"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-checkpoint-strings.txt",
+      "bytes": 39341,
+      "sha256": "ecfff5f3cedaef9046436834fab171e7d0c97a5984de0d4cc54228a1456f860f"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-github-search.json",
+      "bytes": 23593,
+      "sha256": "bb7b1d1818a7b02a042699cf7f0e4f868dbb275eb3703d253fc56947400d0d8e"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-release-candidates.json",
+      "bytes": 1708,
+      "sha256": "775c90c547ec18a6b694ffa17ba3802be5b06e16a3b14035d93e73b1d1a3e788"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-v3.txt",
+      "bytes": 539428,
+      "sha256": "ea18744758697593988602ffdcf626917eabb445b4e4041e118fcfec92c0fb08"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/stefaland-v3.txt.plain",
+      "bytes": 111322,
+      "sha256": "60c0754e6d022ffb7e2f831652812f7dff6f160535fb617d1118dde2a6f9069b"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/steveforthewin12-eng__StefaLand-tree.json",
+      "bytes": 124697,
+      "sha256": "2be77fe8d576698588ab2bff44f8708f93ac660ab90b1c7f31cb8e184ad61761"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/steveforthewin12-eng__StefaLandRelease-tree.json",
+      "bytes": 522,
+      "sha256": "fe49616078240f3528424a983528f1901d84414cb42f2f5adbfffdfbdd67934a"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/steveforthewin12-eng__StefaLand__StefaLand__README.md",
+      "bytes": 420,
+      "sha256": "53030d63c6153781076de758fab0941e9fbb26d93bc294f03df614ee785d6d21"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/steveforthewin12-eng__StefaLand__StefaLand__StefaLand__datasets__shapefiles__Continents__readme.txt",
+      "bytes": 389,
+      "sha256": "3efc3307af80867019bd54fa980076a0a16bf9e95245877901edda19e87b130d"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/steveforthewin12-eng__StefaLand__StefaLand__StefaLand__datasets__shapefiles__HydroBasin__readme.txt",
+      "bytes": 2349,
+      "sha256": "f377cad251ac1743c21451dff97bda3ebe12b1db1102cb41ff5459ed38da46b9"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/tessera-cambridge-metadata.txt",
+      "bytes": 2517509,
+      "sha256": "c0b38af8c0d367b4abf9fd7f317005fc9ab0104462bd4240e27bd914b87008cb"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/tessera-global-store-list.txt",
+      "bytes": 3142,
+      "sha256": "ca2ffdc7ca9d526ffb131f1f15948be8e6f8b1e0f38cdb3d21e2323b836586f5"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/tessera-mirror-metadata.txt",
+      "bytes": 8896409,
+      "sha256": "e9686ef25d26a55bc5ddcaf308d111ef1607a252c08f72d719bd431f686d3f88"
+    },
+    {
+      "path": "data/raw/limburg_representation_extension_v1/review_sources/tessera-storage-probes.json",
+      "bytes": 1569,
+      "sha256": "c73350ca61302cedf632e8a87fd3bba45f95132643981567a8e80a9714e22e1d"
+    },
+    {
+      "path": "results/limburg_representation_extension_v1/catchment_inventory.csv",
+      "bytes": 135471,
+      "sha256": "9d0accf28a3ab7085ecb811ff6200968a276e2c9b922cc3e1245ae8c4887fefa"
+    },
+    {
+      "path": "results/limburg_representation_extension_v1/catchments.gpkg",
+      "bytes": 5324800,
+      "sha256": "f616b5d6b534380bfd6f8305d65731159b91abd9c7239f6ece5ed61c268dbf6c"
+    },
+    {
+      "path": "results/limburg_representation_extension_v1/geometry_repairs.json",
+      "bytes": 1600,
+      "sha256": "d0df06523057dcbfcf4308978587bfb30e87df6734f6655269728fd7e7fb8d54"
+    }
+  ]
+}

@@ -2,6 +2,27 @@
 
 Updated 18 November 2026. Brian writes dissertation prose and sends all emails.
 
+## Latest inclusion audit — 18 November 2026
+
+Brian included **TESSERA, StefaLand and Basin2Vec alongside AlphaEarth**.
+[Design/data/disk audit](limburg-representation-extension-audit-2026-11-18.md);
+configuration: `config/limburg_representation_extension_v1.json`. Same daily
+reconstruction task, reference catchments, high-water outcomes and external
+rivers; no new geography or model family of downstream learners. Keep the
+completed AlphaEarth outputs and Step 4 consolidation. Preparation is incomplete:
+TESSERA polygon support/I/O needs measuring; the acquired StefaLand candidate
+contains a Runoff projection and needs a verified Q-free/native masked recipe;
+Basin2Vec needs available trained weights and an explicit European input route.
+No extraction/fitting or bulk acquisition has launched. Small audited source
+snapshots and one candidate checkpoint were downloaded, about 65 MiB.
+
+The new physical inputs need conventional controls: retain old H+A as C0;
+prepare enriched C1 and compare C1 with each representation added separately,
+including a new AlphaEarth fit. Do not carry the old 13.86% effect into this
+different comparison. Current disk is about 78 GiB free; preserve the existing
+50-GiB reserve and stream TESSERA rather than retain complete pixel mosaics.
+No chapter data were deleted/offloaded and other chapters are untouched.
+
 ## Latest completed work — 18 November 2026
 
 **Steps 1–3 are complete; Step 4 remains pending.** The 30-job/4,560-fit multiyear

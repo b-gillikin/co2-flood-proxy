@@ -1,19 +1,21 @@
-# Limburg — satellite-informed discharge reconstruction
+# Limburg — learned catchment information for discharge reconstruction
 
 Living research aid, updated 18 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; first regional fold and capacity
 check completed. The multiyear comparison and Step 3 repeatability review are
-complete. No worker is active; Step 4 evidence consolidation remains pending.
+complete. TESSERA, StefaLand and Basin2Vec are now included alongside AlphaEarth;
+their preparation is audited, not execution-ready. No worker is active; Step 4
+evidence consolidation can continue alongside preparation.
 
 ## Research Question(s)
 
-Can satellite-derived catchment information make a global discharge model more
+Can learned catchment information make a global discharge model more
 accurate during high water, including on other rivers?
 
 Characterize source errors; test AlphaEarth's incremental value beyond common
-weather and conventional catchment descriptors; evaluate transfer without local
-target-river calibration.
+weather and conventional catchment descriptors; test whether that value depends
+on the representation; evaluate transfer without local target-river calibration.
 
 ## Motivation
 
@@ -43,12 +45,25 @@ sensitivity views contain 344 and 331 gauges. One search-boundary gauge was
 recovered; eight additional station/reference conflicts were identified.
 Regional observations end in 2024; 2025 predictors do not create 2025 labels.
 
+Extension inputs: fixed-2017 TESSERA pixels/coverage; a verified runoff-free
+StefaLand descriptor recipe and trained encoder; Basin2Vec weights and precise
+European input definitions. Extra weather/physical input families must also
+enter the conventional comparator. The 394-polygon inventory is assembled;
+checkpoint and native-source questions remain. See the
+[data needs](data-needs.md) and [inclusion audit](limburg-representation-extension-audit-2026-11-18.md).
+
 ## Method
 
 One pooled XGBoost log-residual correction of daily GEOGLOWS discharge. Compare
 weather/model history alone, plus conventional attributes, plus AlphaEarth, and
 plus both. Use observed Q as verification, never current observed Q as an input
 to reconstruct itself. Keep raw GEOGLOWS and appropriate calibration references.
+
+For the extension, retain this completed baseline and fit a common enriched
+conventional control, then add each of AlphaEarth, TESSERA, StefaLand and
+Basin2Vec separately. Keep native descriptors, matched tuning budgets and the
+same outcome/splits. Different upstream sources prevent a pure architecture
+comparison; new results are exploratory because existing test outcomes are known.
 
 Stage 1 establishes the local daily reference. Stage 2 trains with permitted
 historical local/regional donor data and tests the same seven local gauges.
@@ -92,8 +107,10 @@ is undefined. [Step 3 results and limits](limburg-dise-repeatability-2026-11-18.
 an applied validation/transferability chapter with incremental empirical novelty;
 the temporal/spatial embedding contrast is established in prior work. The new
 evidence concerns chronological portability and high-water limitations of this
-particular correction. Recommendation: complete saved Step 4 and write the
-bounded study; no new model programme is introduced.
+particular correction. The original assessment recommended consolidation of
+that bounded study. Brian subsequently approved the three-representation
+extension above; it tests the same downstream question and preserves these
+completed findings rather than replacing them.
 
 ### Earlier preparation and first-fold records
 

@@ -1,0 +1,141 @@
+{
+  "experiment": "limburg_representation_extension_v1",
+  "date": "2026-11-18",
+  "authorization": "Brian included TESSERA, StefaLand and Basin2Vec and requested a chapter, data and disk audit.",
+  "status": "included_audited_preparation_required",
+  "design": "docs/limburg-representation-extension-audit-2026-11-18.md",
+  "parent_config": "config/limburg_dise_multiyear_v1.json",
+  "completed_baseline": "results/limburg_dise_multiyear_v1",
+  "completed_repeatability": "results/limburg_dise_repeatability_v1",
+  "output": "results/limburg_representation_extension_v1",
+  "raw": "data/raw/limburg_representation_extension_v1",
+  "catchment_inventory": "results/limburg_representation_extension_v1/catchment_inventory.csv",
+  "processing_catchments": "results/limburg_representation_extension_v1/catchments.gpkg",
+  "study": {
+    "task": "Daily retrospective discharge reconstruction; test incremental catchment-representation value and high-water/external-transfer limitations.",
+    "representations": [
+      "alphaearth",
+      "tessera",
+      "stefaland",
+      "basin2vec"
+    ],
+    "local_gauges": 7,
+    "regional_donors": 337,
+    "reserved_external_records": 50,
+    "reference_catchments": 394,
+    "local_test_years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "external_test_years": [
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "descriptor_reference_year": 2017,
+    "descriptor_history": "Use 2017 for the matched static-descriptor comparison. Longer native climatology/history, if needed, must have a documented pre-evaluation cutoff and corresponding raw controls; do not silently use same-year or 1985-2024 averaged descriptors.",
+    "split_policy": "Reuse the frozen chronological and whole-river assignments. External observed Q remains excluded from correction fitting, tuning and representations; target-river observed Q remains excluded from every spatial predictor/calibration path.",
+    "interpretation": "Four representation products with different upstream inputs/pretraining. This is not a pure architecture comparison or an operational forecast experiment. Existing test outcomes are already inspected; label the extension exploratory."
+  },
+  "comparison": {
+    "C0": "Existing H+A conventional correction; preserve its completed results unchanged.",
+    "C1": "H+A plus compact raw summaries and geometry metadata from the additional StefaLand/Basin2Vec input families. Final raw feature list follows the verified checkpoint schema, not test scores.",
+    "new_controlled_family": [
+      "C1",
+      "C1+AlphaEarth",
+      "C1+TESSERA",
+      "C1+StefaLand",
+      "C1+Basin2Vec"
+    ],
+    "why_refit_alphaearth": "C1 differs from the original H+A; AlphaEarth must be fitted against C1 for a fair new comparison. This does not invalidate or overwrite the original 13.86% result.",
+    "raw_controls": "Share new physical/climate/landscape/patch-metadata inputs through declared raw summaries. Match populations, histories and coverage. Retain that summaries and learned spatial/temporal encodings differ; do not claim identical upstream information processing.",
+    "estimator": "Same pooled XGBoost log1p-residual learner and native RMSE selection, with existing article-faithful policy sensitivity.",
+    "candidates": 4,
+    "inner_folds": 4,
+    "policies": [
+      "native_rmse",
+      "article_faithful"
+    ],
+    "final_seeds": [
+      101,
+      202,
+      303
+    ],
+    "tree_limit": 3000,
+    "outer_jobs": 30,
+    "logical_fit_slots_if_full_family": 5700,
+    "dimension_handling": "Retain each model's documented native descriptor initially; do not force 128/256-dimensional vectors to 64 or average different models' vectors. Any trainable preprocessing uses permitted training data only.",
+    "evaluation": "Existing high-water daily MAE primary, all-day outcomes secondary, original p99/source-QA/spatial strata, full eligible census, paired date/year multiplicities across every model, all undefined draws and coverage retained. Report all representations rather than select a winner from favourable test slices.",
+    "coverage": "Do not silently shrink the study to the intersection of available encoders. Preserve intended/available rows and paired-support estimates; define any C1 fallback explicitly before production scoring."
+  },
+  "models": {
+    "tessera": {
+      "role": "Independent satellite-based annual catchment representation",
+      "variant": "v1.1-dclimate",
+      "native_dimensions": 128,
+      "year": 2017,
+      "readiness": "Provider global-store metadata and public object access verified; actual 394-polygon pixel support/read benchmark pending.",
+      "source": "https://github.com/ucam-eo/geotessera",
+      "public_store": "s3://tessera-embeddings/v1.1/dclimate.icechunk",
+      "raster_policy": "Stream dequantized pixels and scales in bounded native-grid windows, area-weight them within the reference polygons, and persist compact means/counts/coverage/provenance. Reuse shared spatial chunks; avoid complete local mosaics or per-catchment raster duplication.",
+      "missingness": "Source scales distinguish water, no-data and finite valid pixels. Preserve status/area fractions; never turn missing embeddings into zero vectors.",
+      "runtime": "New isolated Python >=3.12 data environment. Preserve the completed Python 3.11/XGBoost environment."
+    },
+    "stefaland": {
+      "role": "Land-surface representation from physical attributes and meteorological histories",
+      "native_dimensions": 256,
+      "readiness": "A 46,914,220-byte candidate checkpoint is acquired and statically inspected; exact intended encoder, source normalizers, input history and runoff-free inference remain unresolved.",
+      "original_release_status": "Anonymous repository API returned repository_expired (HTTP 410).",
+      "candidate_checkpoint": "data/raw/limburg_representation_extension_v1/candidate_weights/StefaLandA.pt",
+      "candidate_sha256": "b00c94d7499ee190b2c52a444a5b781632d5b3c16b3dfaa4bab8ba8e67aeb6b3",
+      "candidate_caution": "Candidate state dictionary contains P/Tmax/Tmin/PET/Runoff input projections. It is not established as the runoff-free checkpoint used by Liu et al. Do not supply held target observed Q, accept partial/randomly initialized encoder loading, or silently fill a native missing channel with zero.",
+      "preparation": "Verify a runoff-free encoder or a documented native missing-Runoff route, full parameter coverage, variable/source/unit lists, normalizers and annual descriptor pooling. Seek the authors' used descriptor recipe where needed; candidate existence alone does not establish usable features."
+    },
+    "basin2vec": {
+      "role": "Basin-centred hydroclimatic/physiographic representation",
+      "native_dimensions": 64,
+      "readiness": "Public code/normalization examples inspected. No encoder weight file found in the captured git tree; release API returned an empty release list and the advertised v1.0.0 embedding archive returned 404.",
+      "source": "https://github.com/Muhammad-Talha-MT/basin2vec",
+      "geography": "Documented pretrained embedding collection is CONUS-only and cannot be looked up for European catchments.",
+      "preparation": "Obtain a trained encoder with its precise channel metadata, normalizers and source definitions. Assemble basin-aligned monthly/static patches and geometry metadata for the existing 394 European reference polygons.",
+      "source_mismatch": "Paper lists a six-variable monthly Daymet route; repository inventory/norm examples also contain tmean/wind. Actual trained monthly_variables and nonmonthly_variables must come from the checkpoint. Native NLCD and AgTile-US have no silent European substitutes.",
+      "adaptation": "Document global/European source replacements and categorical crosswalks, real source resolution, trained missingness and pretraining-domain shift. Resampling to 64x64 does not create new physical resolution."
+    }
+  },
+  "storage": {
+    "reserve_gib": 50,
+    "measured_free_gib_at_audit": 77.83000946044922,
+    "approx_working_allowance_above_reserve_gib": 27.83000946044922,
+    "one_year_tessera_float32_unique_polygon_payload_gib": 184.38089562693958,
+    "one_year_tessera_float32_duplicated_polygon_payload_gib": 331.4123074835565,
+    "one_year_tessera_int8_unique_polygon_payload_without_scales_gib": 46.095223906734894,
+    "source_byte_estimates": "Area-based payload arithmetic, not compressed transfer sizes. Actual store has scales, masks, sharding and range requests; measure actual I/O before an acquisition ETA.",
+    "stream_window_max_pixels": 262144,
+    "example_window": "512x512x128 float32 is 128 MiB, before masks/temporary arrays.",
+    "provisional_local_disk_allowance_gib": [
+      8,
+      16
+    ],
+    "allowance_note": "Planning allocation for isolated environments, bounded fetch cache, physical patch inputs, compact vectors and fitted heads. It is not a cap on scientifically required data; stream/offload if measurements exceed it.",
+    "remote_recovery": "Use existing chapter recovery storage if a retained cache actually needs offload; verify restoration before removing unique local material. No Azure VM or new cloud provisioning is needed for this audit.",
+    "other_chapters": "Do not modify, delete or offload any other chapter's data.",
+    "measured_at_utc": "2026-11-18T15:03:18.126757+00:00"
+  },
+  "execution": {
+    "bulk_acquisition_started": false,
+    "extraction_started": false,
+    "fitting_started": false,
+    "current_authorization": "Include all three in the study and complete design/data/disk audit; this configuration records preparation, not a launched production run.",
+    "next_work": [
+      "Benchmark full-support TESSERA polygon reading and aggregation with measured range transfer/cache/memory.",
+      "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
+      "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
+      "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
+      "Benchmark one matched outer fold and resource usage before scheduling the complete 30-job family."
+    ]
+  }
+}

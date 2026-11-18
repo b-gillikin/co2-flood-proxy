@@ -1,12 +1,12 @@
 {
   "date": "2026-11-18",
-  "status": "dise_repeatability_complete",
-  "scope": "config/limburg_dise_v2.json",
-  "acquisition": "config/limburg_dise_v2.json",
-  "compute": "docs/limburg-dise-research-design-2026-11-16.md",
+  "status": "dise_repeatability_complete_representation_extension_preparation",
+  "scope": "config/limburg_representation_extension_v1.json",
+  "acquisition": "config/limburg_representation_extension_v1.json",
+  "compute": "docs/limburg-representation-extension-audit-2026-11-18.md",
   "handoff": "docs/HANDOFF.md",
   "progress": "results/limburg_dise_repeatability_v1/progress.json",
-  "latest_audit": "docs/limburg-dise-audit-corrections-2026-11-16.md",
+  "latest_audit": "docs/limburg-representation-extension-audit-2026-11-18.md",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
   "new_queue_started": false,
   "new_bulk_download_started": false,
@@ -33,7 +33,7 @@
     "latest_audit": "docs/limburg-study-consolidation-2026-11-11.md",
     "interpretation": "config/limburg_chapter_interpretation_v1.json"
   },
-  "latest_design_audit": "docs/reviews/limburg-dise-research-design-audit-2026-11-16.md",
+  "latest_design_audit": "docs/limburg-representation-extension-audit-2026-11-18.md",
   "design_corrections_pending": [],
   "active_acquisition": false,
   "active_workers": {
@@ -42,7 +42,13 @@
     "gpu": 0,
     "analysis": 0
   },
-  "preparation_remaining": [],
+  "preparation_remaining": [
+    "Benchmark full-support TESSERA polygon reading and aggregation with measured range transfer/cache/memory.",
+    "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
+    "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
+    "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
+    "Benchmark one matched outer fold and resource usage before scheduling the complete 30-job family."
+  ],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
     "results/limburg_dise_v2/benchmark_local_wurm_2021",
@@ -82,5 +88,8 @@
   "multiyear_started_utc": "2026-11-17T15:09:32+00:00",
   "repeatability_config": "config/limburg_dise_repeatability_v1.json",
   "repeatability_completed": true,
-  "latest_repeatability_verification": "results/limburg_dise_repeatability_v1/verification.json"
+  "latest_repeatability_verification": "results/limburg_dise_repeatability_v1/verification.json",
+  "representation_extension_config": "config/limburg_representation_extension_v1.json",
+  "representation_extension_preparation_complete": false,
+  "source_acquisition_completed_scope": "Completed AlphaEarth-only comparison; not the new representation extension"
 }
