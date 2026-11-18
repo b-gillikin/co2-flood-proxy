@@ -88,6 +88,13 @@ high-water episodes are recorded. Sparse verification leaves some resamples
 undefined; those draws are retained and reported. External clean-only evidence
 is undefined. [Step 3 results and limits](limburg-dise-repeatability-2026-11-18.md).
 
+[Contribution assessment](reviews/limburg-dise-contribution-assessment-2026-11-18.md):
+an applied validation/transferability chapter with incremental empirical novelty;
+the temporal/spatial embedding contrast is established in prior work. The new
+evidence concerns chronological portability and high-water limitations of this
+particular correction. Recommendation: complete saved Step 4 and write the
+bounded study; no new model programme is introduced.
+
 ### Earlier preparation and first-fold records
 
 The completed earlier next-24h GEOGLOWS experiment found conventional correction
