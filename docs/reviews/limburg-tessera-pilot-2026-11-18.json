@@ -1,0 +1,419 @@
+{
+  "status": "pilot_complete_streaming_verified_2017_coverage_sparse",
+  "snapshot_id": "VTS86NCZ0NT7DK59V390",
+  "store": "s3://tessera-embeddings/v1.1/dclimate.icechunk",
+  "geometry_sha256": "f616b5d6b534380bfd6f8305d65731159b91abd9c7239f6ece5ed61c268dbf6c",
+  "packages": {
+    "geotessera": "0.11.0",
+    "icechunk": "2.3.1",
+    "zarr": "3.4.2",
+    "exactextract": "0.3.0",
+    "geopandas": "1.2.0",
+    "numpy": "2.5.5"
+  },
+  "window_pixels": 512,
+  "2017_direct": {
+    "elapsed_seconds": 79.89262283267453,
+    "peak_rss_bytes": 800489472,
+    "meter_note": "The original macOS socket counter fell when connections closed. Use HTTP body metering instead.",
+    "exact_match_to_metered_basin_records": true
+  },
+  "2017_metered": {
+    "elapsed_seconds": 59.57708879094571,
+    "peak_rss_bytes": 823377920,
+    "http_transfer": {
+      "response_body_bytes": 417575902,
+      "get_requests": 173,
+      "head_requests": 0
+    },
+    "free_before_bytes": 141277356032,
+    "free_after_bytes": 141259288576,
+    "zones": [
+      {
+        "group": "31N",
+        "transform": [
+          10.0,
+          0.0,
+          163840.0,
+          0.0,
+          -10.0,
+          9338880.0
+        ],
+        "source_run": "31N-2017-3b7a545d",
+        "embedding_chunks": [
+          1,
+          256,
+          256,
+          128
+        ],
+        "embedding_shards": [
+          1,
+          2048,
+          2048,
+          128
+        ],
+        "planned_windows": 14,
+        "shared_windows": 0,
+        "decoded_window_pixels": 3670016,
+        "local_array_bytes_read": 484442112,
+        "read_seconds": 37.833968250546604,
+        "elapsed_seconds": 38.251837166026235,
+        "basins": {
+          "6.Q.18": {
+            "area_m2": 36458627.030524604,
+            "valid_m2": 31794019.632244132,
+            "source_nodata_m2": 4664607.398280471,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 319601
+          },
+          "10.Q.29": {
+            "area_m2": 54206636.416375786,
+            "valid_m2": 48908719.05152212,
+            "source_nodata_m2": 5297917.364853665,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 491107
+          }
+        }
+      },
+      {
+        "group": "32N",
+        "transform": [
+          10.0,
+          0.0,
+          163840.0,
+          0.0,
+          -10.0,
+          9338880.0
+        ],
+        "source_run": "32N-2017-c1ef293a",
+        "embedding_chunks": [
+          1,
+          256,
+          256,
+          128
+        ],
+        "embedding_shards": [
+          1,
+          2048,
+          2048,
+          128
+        ],
+        "planned_windows": 18,
+        "shared_windows": 0,
+        "decoded_window_pixels": 4718592,
+        "local_array_bytes_read": 622854144,
+        "read_seconds": 20.00024829339236,
+        "elapsed_seconds": 20.15843641711399,
+        "basins": {
+          "10.Q.29": {
+            "area_m2": 67207819.71546362,
+            "valid_m2": 12864086.157385545,
+            "source_nodata_m2": 54343733.55807807,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 129292
+          },
+          "DEA10950": {
+            "area_m2": 24146970.08556277,
+            "valid_m2": 1848562.086100597,
+            "source_nodata_m2": 22298407.999462172,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 18551
+          },
+          "DEA13140": {
+            "area_m2": 26375204.911342565,
+            "valid_m2": 3041096.7488341033,
+            "source_nodata_m2": 23334108.16250846,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 30545
+          }
+        }
+      }
+    ],
+    "basins": {
+      "6.Q.18": {
+        "station": "Brommelen",
+        "role": "local",
+        "reference_area_km2": 36.44955122646515,
+        "zones": [
+          "31N"
+        ],
+        "area_m2": 36458627.030524604,
+        "valid_m2": 31794019.632244132,
+        "source_nodata_m2": 4664607.398280471,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 319601,
+        "coverage_fraction": 0.8720575134555923
+      },
+      "10.Q.29": {
+        "station": "Cottessen",
+        "role": "local",
+        "reference_area_km2": 121.3816536760564,
+        "zones": [
+          "31N",
+          "32N"
+        ],
+        "area_m2": 121414456.13183941,
+        "valid_m2": 61772805.208907664,
+        "source_nodata_m2": 59641650.92293174,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 620399,
+        "coverage_fraction": 0.5087763613735656
+      },
+      "DEA10950": {
+        "station": "Herbram",
+        "role": "regional_donor",
+        "reference_area_km2": 24.166289559288856,
+        "zones": [
+          "32N"
+        ],
+        "area_m2": 24146970.08556277,
+        "valid_m2": 1848562.086100597,
+        "source_nodata_m2": 22298407.999462172,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 18551,
+        "coverage_fraction": 0.07655461863539698
+      },
+      "DEA13140": {
+        "station": "Nespen",
+        "role": "reserved_external",
+        "reference_area_km2": 26.39133339845597,
+        "zones": [
+          "32N"
+        ],
+        "area_m2": 26375204.911342565,
+        "valid_m2": 3041096.7488341033,
+        "source_nodata_m2": 23334108.16250846,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 30545,
+        "coverage_fraction": 0.11530135060775548
+      }
+    }
+  },
+  "2018_metered_diagnostic": {
+    "elapsed_seconds": 99.674469999969,
+    "peak_rss_bytes": 894451712,
+    "http_transfer": {
+      "response_body_bytes": 1026218665,
+      "get_requests": 235,
+      "head_requests": 0
+    },
+    "free_before_bytes": 141260537856,
+    "free_after_bytes": 141246205952,
+    "zones": [
+      {
+        "group": "31N",
+        "transform": [
+          10.0,
+          0.0,
+          163840.0,
+          0.0,
+          -10.0,
+          9338880.0
+        ],
+        "source_run": "31N-2018-01f33634",
+        "embedding_chunks": [
+          1,
+          256,
+          256,
+          128
+        ],
+        "embedding_shards": [
+          1,
+          2048,
+          2048,
+          128
+        ],
+        "planned_windows": 14,
+        "shared_windows": 0,
+        "decoded_window_pixels": 3670016,
+        "local_array_bytes_read": 484442112,
+        "read_seconds": 43.60552141582593,
+        "elapsed_seconds": 44.217317916918546,
+        "basins": {
+          "6.Q.18": {
+            "area_m2": 36458627.030524604,
+            "valid_m2": 36458627.030524604,
+            "source_nodata_m2": 0.0,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 366707
+          },
+          "10.Q.29": {
+            "area_m2": 54206636.416375786,
+            "valid_m2": 54206636.416375786,
+            "source_nodata_m2": 0.0,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 544492
+          }
+        }
+      },
+      {
+        "group": "32N",
+        "transform": [
+          10.0,
+          0.0,
+          163840.0,
+          0.0,
+          -10.0,
+          9338880.0
+        ],
+        "source_run": "32N-2018-ba4e37bf",
+        "embedding_chunks": [
+          1,
+          256,
+          256,
+          128
+        ],
+        "embedding_shards": [
+          1,
+          2048,
+          2048,
+          128
+        ],
+        "planned_windows": 18,
+        "shared_windows": 0,
+        "decoded_window_pixels": 4718592,
+        "local_array_bytes_read": 622854144,
+        "read_seconds": 53.74564058100805,
+        "elapsed_seconds": 54.22951083397493,
+        "basins": {
+          "10.Q.29": {
+            "area_m2": 67207819.71546362,
+            "valid_m2": 67174119.71546362,
+            "source_nodata_m2": 33700.0,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 674336
+          },
+          "DEA10950": {
+            "area_m2": 24146970.08556277,
+            "valid_m2": 24146970.08556277,
+            "source_nodata_m2": 0.0,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 243228
+          },
+          "DEA13140": {
+            "area_m2": 26375204.911342565,
+            "valid_m2": 26372404.911342565,
+            "source_nodata_m2": 2800.0,
+            "other_invalid_scale_m2": 0.0,
+            "valid_pixel_count": 265333
+          }
+        }
+      }
+    ],
+    "basins": {
+      "6.Q.18": {
+        "station": "Brommelen",
+        "role": "local",
+        "reference_area_km2": 36.44955122646515,
+        "zones": [
+          "31N"
+        ],
+        "area_m2": 36458627.030524604,
+        "valid_m2": 36458627.030524604,
+        "source_nodata_m2": 0.0,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 366707,
+        "coverage_fraction": 1.0
+      },
+      "10.Q.29": {
+        "station": "Cottessen",
+        "role": "local",
+        "reference_area_km2": 121.3816536760564,
+        "zones": [
+          "31N",
+          "32N"
+        ],
+        "area_m2": 121414456.13183941,
+        "valid_m2": 121380756.13183941,
+        "source_nodata_m2": 33700.0,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 1218828,
+        "coverage_fraction": 0.9997224383234612
+      },
+      "DEA10950": {
+        "station": "Herbram",
+        "role": "regional_donor",
+        "reference_area_km2": 24.166289559288856,
+        "zones": [
+          "32N"
+        ],
+        "area_m2": 24146970.08556277,
+        "valid_m2": 24146970.08556277,
+        "source_nodata_m2": 0.0,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 243228,
+        "coverage_fraction": 1.0
+      },
+      "DEA13140": {
+        "station": "Nespen",
+        "role": "reserved_external",
+        "reference_area_km2": 26.39133339845597,
+        "zones": [
+          "32N"
+        ],
+        "area_m2": 26375204.911342565,
+        "valid_m2": 26372404.911342565,
+        "source_nodata_m2": 2800.0,
+        "other_invalid_scale_m2": 0.0,
+        "valid_pixel_count": 265333,
+        "coverage_fraction": 0.9998938396873347
+      }
+    }
+  },
+  "mirror_check": {
+    "mirror": "https://data.source.coop/tessera/tessera/zarr/v1.1-dclimate",
+    "window_pixels": 128,
+    "all_five_2017_scale_windows_exact_with_nans": true,
+    "rows_gauge_zone_window_west_top_valid_fraction_2017": [
+      [
+        "6.Q.18",
+        31,
+        706320,
+        5640250,
+        0.845093
+      ],
+      [
+        "10.Q.29",
+        31,
+        709000,
+        5621730,
+        0.947876
+      ],
+      [
+        "10.Q.29",
+        32,
+        292310,
+        5620970,
+        0.004517
+      ],
+      [
+        "DEA10950",
+        32,
+        496510,
+        5723000,
+        0.229736
+      ],
+      [
+        "DEA13140",
+        32,
+        412300,
+        5644670,
+        0.0
+      ]
+    ],
+    "finite_scale_fraction_for_each_window_2018_2019_2020": 1.0
+  },
+  "census_geometry_only": {
+    "unique_gauges": 394,
+    "zone31_pieces": 6,
+    "zone32_pieces": 391,
+    "zone31_windows": 22,
+    "zone32_windows": 2066,
+    "shared_windows": 1405
+  },
+  "receipts": {
+    "results/limburg_representation_extension_v1/tessera_pilot_v1/receipt_2017_direct.json": "33ef0bb71ed88179176c40b0c9f5d50c744be63b63384d66ea8bc05e694055b9",
+    "results/limburg_representation_extension_v1/tessera_pilot_v1/receipt_2017_metered.json": "7c8636ba235849d3d3ab43be8fa6f118057fab945b46c28e6cf3d593a50e555e",
+    "results/limburg_representation_extension_v1/tessera_pilot_v1/receipt_2018_metered.json": "872dfae3353a3f738f304e4abea2c6ac922c9c8fd6b5aed0d359f1a3fbf7abf4"
+  }
+}

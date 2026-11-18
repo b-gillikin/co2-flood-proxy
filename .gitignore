@@ -18,6 +18,7 @@ config/local_monitor.env
 .venv-foundation/
 .venv-geoglows/
 .venv-dise/
+.venv-tessera/
 .venvs-eo/
 .venvs-applied/
 kerkrade_data/.venv/

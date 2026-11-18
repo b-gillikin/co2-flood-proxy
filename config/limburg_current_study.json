@@ -43,7 +43,7 @@
     "analysis": 0
   },
   "preparation_remaining": [
-    "Benchmark full-support TESSERA polygon reading and aggregation with measured range transfer/cache/memory.",
+    "Inventory TESSERA coverage for the full census before fixing the comparison reference year and extracting descriptors.",
     "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
     "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
     "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
@@ -77,6 +77,7 @@
   "regional_benchmark_completed": true,
   "latest_results_review": "docs/limburg-dise-alphaearth-consolidation-2026-11-18.md",
   "alphaearth_evidence_consolidated": true,
+  "tessera_pilot": "docs/limburg-tessera-pilot-2026-11-18.md",
   "capacity_config": "config/limburg_dise_capacity_v1.json",
   "continuation_plan": "config/limburg_dise_four_step_plan_v1.json",
   "capacity_completed": true,

@@ -13,28 +13,27 @@ Basin2Vec needs its final projected/L2-normalized output, not an auxiliary state
 | --- | --- | --- |
 | Observed Q, qualifications, GEOGLOWS, core weather, existing conventional attributes and 2017 AlphaEarth | Held for the existing local/regional populations | Reuse audited inputs. No further René/Jens request needed for this design |
 | Common reference polygons | Held; 394 processing polygons inventoried | Seven local, 337 donor and 50 reserved external; preserve existing mapping strata. Three self-touching geometries repaired only in a new processing copy, topologically equal to their originals |
-| TESSERA 2017 descriptors and coverage | Public store/metadata accessible; actual polygon pixels not yet acquired/verified | Native 128-dimensional annual embeddings; stream pixels plus per-pixel scales into area-weighted means, coverage and source receipts. No new Sentinel campaign or TESSERA training needed |
+| TESSERA descriptors and coverage | Native reads verified on four polygons. Only 7.66–87.21% of their area had valid support in 2017. | Census of scale coverage before extracting the 128-dimensional catchment means. Check 2018 as a candidate common reference year. [Pilot and resource measurements](limburg-tessera-pilot-2026-11-18.md). |
 | Intended StefaLand encoder/descriptor recipe | Unresolved | Original anonymous release expired. A 46.9-MB candidate is held, but has a Runoff input and unconfirmed stage/provenance. Obtain verified Q-free weights or documented native masking, normalizers and pooling recipe; do not feed target observed Q |
 | Basin2Vec trained encoder and exact schema | Unresolved | Code inspected; no weights in captured tree/releases; advertised archive returned 404. Obtain encoder, channel metadata, normalizers and preprocessing definitions. CONUS descriptors cannot substitute for European basins |
 | StefaLand physical/weather inputs | Partial: existing core weather/attributes; exact additions depend on verified schema | Likely extrema/PET and richer vegetation/soil/geology. Paper and candidate schemas differ; verify units, sources and history before downloading guessed inputs |
 | Basin2Vec monthly/static gridded patches and geometry metadata | Partial source families held; native patches not assembled | Existing 394 polygons; likely monthly climate/snow plus land/soil/geology grids. Resolve paper/code differences and European alternatives to US-specific layers. Real source resolution and categorical crosswalks must be explicit |
 | Matched enriched conventional controls (C1) | Not assembled | Make additional raw input families available as declared summaries/metadata to the conventional head; refit AlphaEarth against C1 as well |
 
-Use fixed 2017 descriptors or a justified pre-evaluation native history, never
-full-record observed-flow signatures or later test-year landscape averages.
+Fix a shared pre-evaluation reference year after the TESSERA coverage census.
+Use a documented pre-evaluation history where a native encoder requires it.
+Exclude full-record observed-flow signatures and test-year landscape averages.
 The exact snow/soil files already held are not assumed to cover every regional
 polygon or satisfy either model's native definition. Retain native descriptor
 dimensions; no extra local labels, surveys, flood maps or operational replay
 logs are required for this comparison. Potential author requests concern
 StefaLand and Basin2Vec release/recipe access; Brian sends emails.
 
-Disk at audit: approximately **78 GiB free**, about **28 GiB above the existing
-50-GiB reserve**. One year of full TESSERA float32 pixels over the union of
-these catchments is roughly 184 GiB before overhead; this is payload arithmetic,
-not a measured compressed download. Stream/dequantize/pool in bounded windows
-and retain compact vectors and coverage. A provisional 8–16-GiB local working
-allocation appears feasible but needs an I/O benchmark; it is not a scientific
-data cap. Other chapters are untouched. No production extraction/fitting started.
+Disk after the pilot was approximately **132 GiB free**, about **82 GiB above
+the existing reserve**. The 2018 diagnostic peaked at 853 MiB process memory
+and transferred 979 MiB across 32 windows. Maintain bounded 512 × 512 pixel
+reads and retain compact vectors and coverage records. The full census will
+give better transfer and timing estimates.
 
 ---
 

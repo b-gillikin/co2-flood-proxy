@@ -80,7 +80,9 @@
       "variant": "v1.1-dclimate",
       "native_dimensions": 128,
       "year": 2017,
-      "readiness": "Provider global-store metadata and public object access verified; actual 394-polygon pixel support/read benchmark pending.",
+      "readiness": "Four-catchment pilot completed. Native reads and aggregation work; 2017 coverage ranges from 7.66% to 87.21%. Audit scale coverage across the census before extracting the comparison descriptors.",
+      "pilot_report": "docs/limburg-tessera-pilot-2026-11-18.md",
+      "pilot_snapshot": "VTS86NCZ0NT7DK59V390",
       "source": "https://github.com/ucam-eo/geotessera",
       "public_store": "s3://tessera-embeddings/v1.1/dclimate.icechunk",
       "raster_policy": "Stream dequantized pixels and scales in bounded native-grid windows, area-weight them within the reference polygons, and persist compact means/counts/coverage/provenance. Reuse shared spatial chunks; avoid complete local mosaics or per-catchment raster duplication.",
@@ -146,12 +148,13 @@
     "measured_at_utc": "2026-11-18T15:03:18.126757+00:00"
   },
   "execution": {
+    "tessera_pilot": "docs/reviews/limburg-tessera-pilot-2026-11-18.json",
     "bulk_acquisition_started": false,
     "extraction_started": false,
     "fitting_started": false,
     "current_authorization": "Include all three in the study and complete design/data/disk audit; this configuration records preparation, not a launched production run.",
     "next_work": [
-      "Benchmark full-support TESSERA polygon reading and aggregation with measured range transfer/cache/memory.",
+      "Inventory 2017 and candidate 2018 TESSERA scale coverage on all 394 polygons. Set matched temporal support and coverage handling before full descriptor extraction.",
       "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
       "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
       "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",

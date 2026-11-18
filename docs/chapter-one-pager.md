@@ -6,8 +6,10 @@ completed, audit corrections implemented in v2; first regional fold and capacity
 check completed. The multiyear comparison and Step 3 repeatability review are
 complete. The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
 completes Step 4 and provides comparison tables, figures and paired event
-examples. TESSERA, StefaLand and Basin2Vec remain in preparation. The next
-execution step is the TESSERA data-access pilot.
+examples. The [TESSERA pilot](limburg-tessera-pilot-2026-11-18.md) verified
+streaming and exposed sparse 2017 coverage in some basins. The next TESSERA
+task is to measure coverage throughout the census. StefaLand and Basin2Vec
+remain in preparation.
 
 ## Research Question(s)
 

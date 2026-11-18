@@ -10,10 +10,11 @@ configuration: `config/limburg_representation_extension_v1.json`. Same daily
 reconstruction task, reference catchments, high-water outcomes and external
 rivers; no new geography or model family of downstream learners. Keep the
 completed AlphaEarth evidence. Preparation is incomplete:
-TESSERA polygon support/I/O needs measuring; the acquired StefaLand candidate
+the [TESSERA pilot](limburg-tessera-pilot-2026-11-18.md) verified native reads
+and measured 7.66–87.21% pixel-area coverage in 2017. The StefaLand candidate
 contains a Runoff projection and needs a verified Q-free/native masked recipe;
 Basin2Vec needs available trained weights and an explicit European input route.
-No extraction/fitting or bulk acquisition has launched. Small audited source
+No census extraction, fitting or bulk acquisition has launched. Small audited source
 snapshots and one candidate checkpoint were downloaded, about 65 MiB.
 
 The new physical inputs need conventional controls: retain old H+A as C0;
@@ -38,7 +39,8 @@ queue finished; its output identities verify. Step 3 analyzed the full 81,857-ro
 census with 999 paired whole-year and synchronized 14/30/60-day block draws.
 The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
 consolidates those results for Brian's writing, completing Step 4 and Step 1
-of the representation extension. The next run is the TESSERA data-access pilot.
+of the representation extension. The TESSERA pilot is complete. The next
+TESSERA preparation task is to inventory support on all 394 polygons.
 
 Adding AlphaEarth reduces local river-withheld all-day MAE 13.86%, repeating
 across all five test years and four of five rivers; Voer worsens. Historical-
