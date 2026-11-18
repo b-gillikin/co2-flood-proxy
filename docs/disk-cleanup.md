@@ -207,3 +207,23 @@ under `results/disk-cleanup-2026-11-16/`; the [verification receipt](reviews/dis
 records their hashes. Larger historical EO/tensor caches are retained for now;
 removing unique payloads would require verified recovery or a separate explicit
 retirement decision.
+
+## 18 November: deduplicate completed DISE capacity artifacts
+
+Hard-linked **128 same-name, byte-identical model/prediction files** between the
+completed 1,500-tree regional benchmark and completed 3,000-tree capacity run.
+Every candidate matched both completed manifests, SHA-256, full byte comparison,
+and file size before linking; all manifest hashes and inode bindings were
+verified afterward. Every path and content remains accessible. The immutable
+source files are the original completed benchmark; the duplicate names are in
+the capacity directory. Future modifications must replace linked files
+atomically rather than write in place.
+
+The active multiyear queue and its outputs were excluded. Also removed the
+chapter-local `.pytest_cache` and `.ruff_cache` (44 KiB combined). No unique
+data, raw inputs, installed environments, other chapters or active files were
+changed. The cleanup consolidated 104,361,086 bytes (0.097 GiB) of duplicate
+logical payload; measured free space rose from 76.06 to 76.16 GiB (about 0.10
+GiB). See `results/disk-cleanup-2026-11-18/receipt.json` and
+`hardlinks.jsonl` for hashes and retained path pairs. The existing 50-GiB
+reserve remains intact.
