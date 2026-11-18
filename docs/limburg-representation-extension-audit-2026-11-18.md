@@ -8,6 +8,10 @@ inputs, predictions and results are preserved. No new extraction or fitting
 queue has launched. Small source snapshots and one candidate checkpoint were
 acquired to investigate the actual release, rather than assuming readiness.
 
+Follow-up: the [model-specific correct-use review](limburg-representation-correct-use-review-2026-11-18.md)
+checks native extraction, normalization and pooling and corrects the TESSERA
+Icechunk coverage interpretation below. Its refinements govern preparation.
+
 ## Assessment of the chapter with all three included
 
 **The inclusion is scientifically coherent and remains one comparative chapter.**
@@ -151,10 +155,14 @@ and completed AlphaEarth means are unchanged. All 394 processing geometries
 are valid. Receipts: `geometry_repairs.json`; inventory and processing GPKG are
 under `results/limburg_representation_extension_v1/`.
 
-TESSERA's source encodes `NaN` scales as water, `+inf` as unfilled land, and
-finite scales as valid. Dequantize **each pixel before averaging**; averaging
-integer codes and an average scale is not equivalent. Count valid, water and
-unavailable areas separately. Aggregate native-grid pixels over the same
+For the selected TESSERA Icechunk store, `NaN` scales mean unembedded/source
+nodata; they are not sufficient evidence of water. The earlier generic
+NaN-as-water statement was corrected after inspecting the native Icechunk
+adapter and reader. Retain source completion/missingness, check scale quality
+and use independently justified masks if separating water. Dequantize **each
+pixel before averaging**; averaging integer codes and an average scale is not
+equivalent. Save weighted sums, weights, second moments and coverage, with
+mean pooling retained as primary. Aggregate native-grid pixels over the same
 reference polygons, including correct treatment of the UTM 31/32 boundary and
 overlapping catchments. Record masking/support differences from AlphaEarth.
 

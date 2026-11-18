@@ -3,6 +3,11 @@
 Updated 18 November 2026. TESSERA, StefaLand and Basin2Vec are included alongside
 AlphaEarth. [Full audit](limburg-representation-extension-audit-2026-11-18.md),
 configuration: `config/limburg_representation_extension_v1.json`.
+[Native-use review](limburg-representation-correct-use-review-2026-11-18.md)
+specifies each encoder's input/output conventions. For TESSERA's selected
+Icechunk store, NaN scales are source nodata, not verified water. StefaLand
+also needs a verified normalization, sequence and missing-channel recipe;
+Basin2Vec needs its final projected/L2-normalized output, not an auxiliary state.
 
 | Required input | Held / outstanding | Acquisition route and purpose |
 | --- | --- | --- |

@@ -70,7 +70,8 @@
     "logical_fit_slots_if_full_family": 5700,
     "dimension_handling": "Retain each model's documented native descriptor initially; do not force 128/256-dimensional vectors to 64 or average different models' vectors. Any trainable preprocessing uses permitted training data only.",
     "evaluation": "Existing high-water daily MAE primary, all-day outcomes secondary, original p99/source-QA/spatial strata, full eligible census, paired date/year multiplicities across every model, all undefined draws and coverage retained. Report all representations rather than select a winner from favourable test slices.",
-    "coverage": "Do not silently shrink the study to the intersection of available encoders. Preserve intended/available rows and paired-support estimates; define any C1 fallback explicitly before production scoring."
+    "coverage": "Do not silently shrink the study to the intersection of available encoders. Preserve intended/available rows and paired-support estimates; define any C1 fallback explicitly before production scoring.",
+    "inference_scope": "Frozen descriptor utility under one shared correction head. Not a replication of every native LSTM/residual pipeline or an upper bound on each model."
   },
   "models": {
     "tessera": {
@@ -82,8 +83,10 @@
       "source": "https://github.com/ucam-eo/geotessera",
       "public_store": "s3://tessera-embeddings/v1.1/dclimate.icechunk",
       "raster_policy": "Stream dequantized pixels and scales in bounded native-grid windows, area-weight them within the reference polygons, and persist compact means/counts/coverage/provenance. Reuse shared spatial chunks; avoid complete local mosaics or per-catchment raster duplication.",
-      "missingness": "Source scales distinguish water, no-data and finite valid pixels. Preserve status/area fractions; never turn missing embeddings into zero vectors.",
-      "runtime": "New isolated Python >=3.12 data environment. Preserve the completed Python 3.11/XGBoost environment."
+      "missingness": "Selected Icechunk adapter marks NaN scales as source_nodata, not verified water. Respect store completion and source-specific validity; preserve unknown coverage, do not fill zero or infer water from NaN. Any water fraction requires separately justified mask evidence.",
+      "runtime": "New isolated Python >=3.12 data environment. Preserve the completed Python 3.11/XGBoost environment.",
+      "aggregation": "Dequantize each pixel first; stream fractional-area weighted sums, weights and second moments on the reference polygons. Keep raw 128-coordinate mean primary. Preserve coverage and support; no PCA/RGB or arbitrary prefix truncation.",
+      "normalization": "Native raw dequantized v1.1 features; no imposed L2 normalization or fit-to-held-population whitening."
     },
     "stefaland": {
       "role": "Land-surface representation from physical attributes and meteorological histories",
@@ -93,7 +96,11 @@
       "candidate_checkpoint": "data/raw/limburg_representation_extension_v1/candidate_weights/StefaLandA.pt",
       "candidate_sha256": "b00c94d7499ee190b2c52a444a5b781632d5b3c16b3dfaa4bab8ba8e67aeb6b3",
       "candidate_caution": "Candidate state dictionary contains P/Tmax/Tmin/PET/Runoff input projections. It is not established as the runoff-free checkpoint used by Liu et al. Do not supply held target observed Q, accept partial/randomly initialized encoder loading, or silently fill a native missing channel with zero.",
-      "preparation": "Verify a runoff-free encoder or a documented native missing-Runoff route, full parameter coverage, variable/source/unit lists, normalizers and annual descriptor pooling. Seek the authors' used descriptor recipe where needed; candidate existence alone does not establish usable features."
+      "preparation": "Verify a runoff-free encoder or a documented native missing-Runoff route, full parameter coverage, variable/source/unit lists, normalizers and annual descriptor pooling. Seek the authors' used descriptor recipe where needed; candidate existence alone does not establish usable features.",
+      "feature_tap": "Verify artifact-specific pre-reconstruction-decoder features. Inspected author helper uses dynamic hidden state plus contextual static hidden state, then period mean; not reconstructed variables or predicted runoff.",
+      "normalization": "Obtain verified native statistics or prescribed adaptation rule. Generic helper can calculate statistics from supplied arrays; no silent fitting to held/test data.",
+      "sequence": "Freeze artifact-compatible 2017 input/context and annual pooling. Paper uses 365-day pretraining; generic generator defaults to 3650-day windows. Do not assume equivalent or let later-year context enter the descriptor.",
+      "missingness": "Inspected encode_with_pretrained sets all-false masks and is_mask=False. NaN Runoff is not a verified omission route. Verify native masked inference or use Q-free artifact; never supply target observed Q."
     },
     "basin2vec": {
       "role": "Basin-centred hydroclimatic/physiographic representation",
@@ -103,7 +110,19 @@
       "geography": "Documented pretrained embedding collection is CONUS-only and cannot be looked up for European catchments.",
       "preparation": "Obtain a trained encoder with its precise channel metadata, normalizers and source definitions. Assemble basin-aligned monthly/static patches and geometry metadata for the existing 394 European reference polygons.",
       "source_mismatch": "Paper lists a six-variable monthly Daymet route; repository inventory/norm examples also contain tmean/wind. Actual trained monthly_variables and nonmonthly_variables must come from the checkpoint. Native NLCD and AgTile-US have no silent European substitutes.",
-      "adaptation": "Document global/European source replacements and categorical crosswalks, real source resolution, trained missingness and pretraining-domain shift. Resampling to 64x64 does not create new physical resolution."
+      "adaptation": "Document global/European source replacements and categorical crosswalks, real source resolution, trained missingness and pretraining-domain shift. Resampling to 64x64 does not create new physical resolution.",
+      "feature_tap": "Final projected L2-normalized z from unaugmented inputs under eval/no-grad. Do not substitute h, branch vectors, area prediction or pre-projection states.",
+      "aggregation": "For one-year 2017 comparison, normalized 2017 z. If longer pre-evaluation support is justified, average annual z then L2 normalize (paper Eq.14); do not use all-years US lookup vectors.",
+      "metadata": "Checkpoint-specific scale/shape/effective-resolution schema and frozen log/standardization parameters. Paper lists 18 fields, 3 constant zero; repository defaults differ. No naive zeroing of unknown metadata/physical channels."
+    },
+    "alphaearth": {
+      "role": "Completed satellite landscape anchor; retain current 2017 catchment means",
+      "native_dimensions": 64,
+      "year": 2017,
+      "source": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "feature_convention": "Use all 64 raw catchment-mean coordinates. Pixel unit norm does not imply unit-norm basin mean; no added L2 normalization for the tree head.",
+      "readiness": "Completed input/extraction retained; new fitting against enriched C1 remains part of extension.",
+      "version_note": "Catalog identifies distributed product with AlphaEarth v2.1; original paper evaluated v2.0. Preserve actual saved source-image/hash receipts."
     }
   },
   "storage": {
@@ -137,5 +156,6 @@
       "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
       "Benchmark one matched outer fold and resource usage before scheduling the complete 30-job family."
     ]
-  }
+  },
+  "correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md"
 }

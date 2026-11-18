@@ -23,6 +23,14 @@ different comparison. Current disk is about 78 GiB free; preserve the existing
 50-GiB reserve and stream TESSERA rather than retain complete pixel mosaics.
 No chapter data were deleted/offloaded and other chapters are untouched.
 
+The [model-specific reread](limburg-representation-correct-use-review-2026-11-18.md)
+now specifies native feature taps, sequence support, normalization and pooling.
+Important correction: the selected TESSERA Icechunk NaNs are source nodata,
+not water labels. StefaLand's generic helper does not verify NaN Runoff masking
+and may calculate normalization on supplied data. Basin2Vec needs final
+projected/L2-normalized `z`, with normalization after any annual averaging.
+AlphaEarth's current catchment means remain appropriate. No new run launched.
+
 ## Latest completed work — 18 November 2026
 
 **Steps 1–3 are complete; Step 4 remains pending.** The 30-job/4,560-fit multiyear

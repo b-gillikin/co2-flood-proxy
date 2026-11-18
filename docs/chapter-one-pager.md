@@ -51,6 +51,9 @@ European input definitions. Extra weather/physical input families must also
 enter the conventional comparator. The 394-polygon inventory is assembled;
 checkpoint and native-source questions remain. See the
 [data needs](data-needs.md) and [inclusion audit](limburg-representation-extension-audit-2026-11-18.md).
+The [native-use review](limburg-representation-correct-use-review-2026-11-18.md)
+retains AlphaEarth's current extraction and specifies model-specific decoding,
+feature taps, normalization and pooling for the additions.
 
 ## Method
 

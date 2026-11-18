@@ -1,0 +1,173 @@
+{
+  "date_utc": "2026-11-18T15:39:58.161003+00:00",
+  "status": "review_complete_native_adapters_not_yet_executed",
+  "review": "docs/limburg-representation-correct-use-review-2026-11-18.md",
+  "configuration": "config/limburg_representation_extension_v1.json",
+  "source_receipts": {
+    "captured_utc": "2026-11-18T15:33:08.330092+00:00",
+    "sources": [
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/stefaland-generate.py",
+        "url": "https://raw.githubusercontent.com/nrkraabel/PaperReleaseStefalandParameterization/132e2dfb5f4a74a8051a491e94efdc987854c911/scripts/generate_embeddings.py",
+        "status": 200,
+        "bytes": 21079,
+        "sha256": "1627716838d50f9a5e7667b3b8c440271aa04c93b2820ddf8843815bf19d3766"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/stefaland-arch.yaml",
+        "url": "https://raw.githubusercontent.com/nrkraabel/PaperReleaseStefalandParameterization/132e2dfb5f4a74a8051a491e94efdc987854c911/conf/templates/_encoder_arch_template.yaml",
+        "status": 200,
+        "bytes": 1926,
+        "sha256": "fab1603e9be879daaa3e76c4d8466dac49c216b0cf31c7f1877f943f947199ff"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/basin2vec-extract-tessera.py",
+        "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/evaluation/extract_tessera.py",
+        "status": 200,
+        "bytes": 44070,
+        "sha256": "4f478269729dcc42c979e238cbeb05f5acf0507fe897a87e2e02890cebac907f"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/basin2vec-extract-alphaearth.py",
+        "url": "https://raw.githubusercontent.com/Muhammad-Talha-MT/basin2vec/63c8b448170367d915209fb113d2f839e1eb8b52/emb/evaluation/extract_alphaearth.py",
+        "status": 200,
+        "bytes": 18570,
+        "sha256": "20277c09b842e88bc3483e1674ab4e18cba6fe8d5f7f328ed81e16a7866a3ef1"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/tessera-paper-v7.html",
+        "url": "https://arxiv.org/html/2506.20380v7",
+        "status": 200,
+        "bytes": 654196,
+        "sha256": "3f5ef682dac2d9497a20b8db2e33110df34d6f2fdc0e2ff15b2597a78a907f40"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/pooling-paper-v1.html",
+        "url": "https://arxiv.org/html/2603.02080v1",
+        "status": 200,
+        "bytes": 128481,
+        "sha256": "a489d953891a50c9e244a0d7494868f3a0e03a37dca166be46f1f6294ffc4b47"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/alphaearth-catalog.html",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "status": 200,
+        "bytes": 129833,
+        "sha256": "93020d4cad955eef312b5de7433f4ccc2cdad3cb343e03a2a48281779d9972bd"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/alphaearth-paper.html",
+        "url": "https://arxiv.org/html/2507.22291v1",
+        "status": 200,
+        "bytes": 807642,
+        "sha256": "01258518458bc918f1f7325bb2492485e0b0f55f657c0105b1e14f44e74d8ebf"
+      },
+      {
+        "file": "liu-descriptors.html",
+        "url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2026GL122814",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/tessera-repo-readme.md",
+        "url": "https://raw.githubusercontent.com/ucam-eo/tessera/main/README.md",
+        "status": 200,
+        "bytes": 20320,
+        "sha256": "83a8105d60c4b1131efb1db724e0a4f759518a8f4747bb3a7c81748c9edca3e6"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/geotessera-icechunk.py",
+        "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/icechunk.py",
+        "status": 200,
+        "bytes": 23906,
+        "sha256": "4f54c832bd28740aaa8b0a3bd5051e54e1bfa477a61f7500a15f69741462b252"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/stefaland-direct.py",
+        "url": "https://raw.githubusercontent.com/nrkraabel/PaperReleaseStefalandParameterization/132e2dfb5f4a74a8051a491e94efdc987854c911/src/dmg/models/neural_networks/direct_finetuneing.py",
+        "status": 200,
+        "bytes": 17747,
+        "sha256": "88330bb0460570d81173588a4a04780f04222011fcffc5d4dd48c9559c351aaf"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/stefaland-normalize.py",
+        "url": "https://raw.githubusercontent.com/nrkraabel/PaperReleaseStefalandParameterization/132e2dfb5f4a74a8051a491e94efdc987854c911/src/dmg/core/data/loader_utils.py",
+        "status": 200,
+        "bytes": 15229,
+        "sha256": "1f24b070753e1420f0ce0fa9c93dd7e00c96d8fb1ff2210345ab100f74cc7503"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/stefaland-model.py",
+        "url": "https://raw.githubusercontent.com/nrkraabel/PaperReleaseStefalandParameterization/132e2dfb5f4a74a8051a491e94efdc987854c911/src/dmg/models/neural_networks/transformer/StefaLandDecLSTM.py",
+        "status": 200,
+        "bytes": 9327,
+        "sha256": "aa70b9ecded7facf5e68188a3ca3c908ed0bf641024c3f3063c483edf9688cb4"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/geotessera-__init__.py",
+        "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/__init__.py",
+        "status": 200,
+        "bytes": 2858,
+        "sha256": "82ab69b9cb7a270665d3b57e05f2627cd7355ca1a0c9ea15f28fa8a853707286"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/geotessera-core.py",
+        "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/core.py",
+        "status": 200,
+        "bytes": 67075,
+        "sha256": "2a97bee01e96c1144a7df51333aa1bc3b02480c2570b33ed6af99cd2bab8781c"
+      },
+      {
+        "file": "data/raw/limburg_representation_extension_v1/review_sources/model_use_review_v1/geotessera-store.py",
+        "url": "https://raw.githubusercontent.com/ucam-eo/geotessera/3cef6c20eebb59608115523ecea3127aaceef86d/geotessera/store.py",
+        "status": 200,
+        "bytes": 64305,
+        "sha256": "0b171f5800aa30dbd0aa642d75626cab3e3a76c0c5452d1963bd11652f527d1b"
+      }
+    ]
+  },
+  "static_checks": {
+    "stefaland_feature_tap_and_unmasked_call_confirmed": true,
+    "selected_tessera_icechunk_nodata_semantics_confirmed": true,
+    "source_download_hashes_reverified": true,
+    "neural_inference_or_pickle_execution": false,
+    "numerical_native_adapter_parity_test": "Not run; requires intended trained artifacts and inputs"
+  },
+  "findings": [
+    {
+      "model": "alphaearth",
+      "decision": "retain",
+      "change": "No extraction rerun or new vector renormalization; document distributed product version and retain original receipts."
+    },
+    {
+      "model": "tessera",
+      "decision": "retain_correct_coverage",
+      "change": "Icechunk NaN means source nodata, not water. Native 128 raw dequantized features, primary area mean, retain streaming second moments."
+    },
+    {
+      "model": "stefaland",
+      "decision": "retain_resolve_artifact_and_recipe",
+      "change": "Q-free/native masked route unresolved; exact pre-decoder feature tap, normalization, sequence support and complete weight loading must be verified."
+    },
+    {
+      "model": "basin2vec",
+      "decision": "retain_explicit_european_adaptation",
+      "change": "Final projected normalized z; normalized pre-evaluation annual average if multi-year. Native patch/mask/metadata/schema; weights still outstanding."
+    }
+  ],
+  "not_claimed": [
+    "Full fresh Liu supplement verification",
+    "Native adapter numerical parity",
+    "Operational warning skill",
+    "Model performance beyond the chosen frozen descriptor correction task"
+  ],
+  "access_gap": {
+    "document": "Liu et al. 2026 Supporting Information / detailed StefaLand extraction recipe",
+    "publisher_full_text": "Fresh retrieval timed out/403; indexed primary abstract/introduction accessible",
+    "mendeley_document": "729ac278-dc7a-3dc7-9b4c-5cbc78f2810b",
+    "mendeley_has_pdf": false
+  },
+  "no_production_run_started": true,
+  "completed_results_modified": false,
+  "other_chapters_modified": false,
+  "additional_source_bytes": 2444733
+}

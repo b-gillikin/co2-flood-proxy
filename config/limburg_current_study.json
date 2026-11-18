@@ -91,5 +91,6 @@
   "latest_repeatability_verification": "results/limburg_dise_repeatability_v1/verification.json",
   "representation_extension_config": "config/limburg_representation_extension_v1.json",
   "representation_extension_preparation_complete": false,
-  "source_acquisition_completed_scope": "Completed AlphaEarth-only comparison; not the new representation extension"
+  "source_acquisition_completed_scope": "Completed AlphaEarth-only comparison; not the new representation extension",
+  "latest_correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md"
 }
