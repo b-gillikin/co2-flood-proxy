@@ -149,6 +149,7 @@
   },
   "execution": {
     "tessera_pilot": "docs/reviews/limburg-tessera-pilot-2026-11-18.json",
+    "tessera_coverage": "results/limburg_representation_extension_v1/tessera_coverage_v1",
     "bulk_acquisition_started": false,
     "extraction_started": false,
     "fitting_started": false,

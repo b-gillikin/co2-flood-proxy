@@ -90,5 +90,25 @@ different landscape from a mean based on almost its full area. Use spatial
 coverage and the shared input design to decide on the reference year, before
 comparing discharge scores. If 2018 coverage holds across the census, align
 AlphaEarth and the year-specific conventional descriptors to 2018 for that
-comparison. The completed 2017 AlphaEarth study remains the reference for
-its original experiment. The pilot itself measures data availability.
+comparison. The pilot itself measures data availability.
+
+## Step 3 coverage run
+
+Launched at 2:12 p.m. Eastern on 18 November. The coverage pass uses a single
+local worker, 1,024 × 1,024 scale windows, and the same 10 m source grid and
+fractional intersection weights as the pilot. Each year has 637 distinct
+windows across the 394 catchments. Overlapping polygons share the reads.
+Scale-only coverage measures eligible area without reading the embedding bands.
+The completed receipts retain both valid and unembedded areas for every
+catchment, plus area accounting by UTM zone.
+
+Progress is in `results/limburg_representation_extension_v1/tessera_coverage_v1/`,
+with a worker log and checkpoints for each year and zone. Rerun the same command
+after an interruption to resume from the last written checkpoint. Run identity
+includes the pinned snapshot, the geometry hash and the runner hash.
+
+```sh
+OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \
+  .venv-tessera/bin/python scripts/282_pilot_tessera.py \
+  --snapshot VTS86NCZ0NT7DK59V390 --year 2017 --year 2018 --census-coverage
+```
