@@ -1,6 +1,38 @@
 # Limburg handoff — DISE-inspired reconstruction
 
-Updated 17 November 2026. Brian writes dissertation prose and sends all emails.
+Updated 18 November 2026. Brian writes dissertation prose and sends all emails.
+
+## Latest completed work — 18 November 2026
+
+**Steps 1–3 are complete; Step 4 remains pending.** The 30-job/4,560-fit multiyear
+queue finished; its output identities verify. Step 3 analyzed the full 81,857-row
+census with 999 paired whole-year and synchronized 14/30/60-day block draws.
+No worker, download, GPU or Azure job is active for this study.
+
+Adding AlphaEarth reduces local river-withheld all-day MAE 13.86%, repeating
+across all five test years and four of five rivers; Voer worsens. Historical-
+target-label temporal all-day performance worsens 1.44%. External all-day gains
+are 4.67% and Erft-driven. **Added high-water benefit remains unestablished**:
+the primary MAE contrast slightly worsens in all three regimes, with intervals
+spanning gains and losses. Keep this outcome distinct from the secondary
+all-day finding. Provider QA, sparse verification, nested gauges and shared
+rolling training histories limit claims.
+
+[Step 3 readout](limburg-dise-repeatability-2026-11-18.md). Configuration:
+`config/limburg_dise_repeatability_v1.json`; runner:
+`scripts/277_assess_dise_repeatability.py`. Outputs:
+`results/limburg_dise_repeatability_v1/`, including `manifest.json`,
+`verification.json`, paired/annual/river/gauge/influence tables, every gauge-year
+maximum, episode/documentary ledgers and compressed complete draw arrays.
+All 576 nonempty Step 2 metric records reproduce independently; 72 real-data
+resampled-score checks agree with explicit weighting. Sixteen relevant tests
+and Ruff pass. Output occupies about 49 MiB; roughly 77 GiB remains free.
+No source data or other chapter was changed.
+
+The remaining saved Step 4 is evidence consolidation for Brian's writing:
+final tables/figures, symmetric event examples and limitations. The dated
+preparation and launch records below document earlier states; they do not
+indicate another active queue.
 
 ## Current direction and state
 

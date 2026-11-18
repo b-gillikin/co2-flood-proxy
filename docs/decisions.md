@@ -2779,3 +2779,23 @@ one-pager are also preserved. Live README, handoff, data needs, one-pager and
 config pointer now agree on this scope. Completed results, data, literature,
 code and provenance stay intact. No fitting/download was launched; no other
 chapter's data or dissertation prose was changed.
+# 2026-11-18 — DISE repeatability completed (Step 3)
+
+Brian authorized Step 3 after the 30-job multiyear queue completed. Keep the
+frozen predictions, four feature arms, both selection policies and full census.
+Add synchronized whole-year and 14/30/60-day time-block uncertainty, with fixed
+gauge populations and all undefined draws retained. Whole-river/nested-gauge
+observations share date weights; these are calendar blocks, not independently
+identified meteorological storms. Missing-population year omissions are
+undefined; descriptive annual populations stay explicit.
+
+Added AlphaEarth all-day MAE reduction is 13.86% for local river withholding,
+repeating across all five years/four of five rivers; Voer worsens. It is −1.44%
+with historical local target-label access and +4.67% externally, largely Erft.
+Primary added high-water benefit remains unestablished (−2.15%, −1.06%, −0.72%).
+Do not promote the secondary all-day finding into a demonstrated flood-warning
+benefit. Every available gauge-year maximum and inherited daily high-water
+episode remains in the result ledger. Sixteen relevant tests, 576 independent
+metric reproductions and 72 real-data draw checks pass. See the
+[readout](limburg-dise-repeatability-2026-11-18.md). Steps 1–3 are complete;
+Step 4 evidence consolidation remains pending. Brian writes dissertation prose.

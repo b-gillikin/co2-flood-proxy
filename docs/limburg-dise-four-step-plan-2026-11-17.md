@@ -1,7 +1,7 @@
 # Limburg: saved four-step continuation plan
 
 17 November 2026. Brian approved saving all four steps, completing **Step 1**,
-and subsequently executing **Step 2**.
+and subsequently executing **Steps 2 and 3**.
 This remains the current DISE-inspired daily-reconstruction direction. Brian
 writes dissertation prose. No new model family, dataset requirement or mandatory
 positive-result condition is introduced.
@@ -20,9 +20,11 @@ positive-result condition is introduced.
    gains into untested high-water or operational-warning claims.
 
 Machine-readable status: `config/limburg_dise_four_step_plan_v1.json`. **Step 1
-completed on 17 November 2026**; **Step 2 is running**. Steps 3–4 remain pending.
+completed on 17 November 2026**; **Steps 2 and 3 completed on 18 November 2026**.
+Step 4 remains pending.
 [Step 1 results and verification](limburg-dise-capacity-check-2026-11-17.md).
 [Step 2 design, execution and recovery](limburg-dise-multiyear-run-2026-11-17.md).
+[Step 3 repeatability and largest-flow review](limburg-dise-repeatability-2026-11-18.md).
 
 ## Step 1 execution specification
 

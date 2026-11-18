@@ -1,0 +1,19 @@
+{
+  "experiment": "limburg_dise_repeatability_v1",
+  "source": "results/limburg_dise_multiyear_v1",
+  "output": "results/limburg_dise_repeatability_v1",
+  "draws": 999,
+  "seed": 20261118,
+  "block_days": [30, 14, 60],
+  "event_gap_days": 7,
+  "event_padding_days": 3,
+  "reserve_gib": 50,
+  "scope": "Step 3: fixed-prediction repeatability, paired uncertainty, year/river influence and complete largest-flow accounting. No refitting or test-selected changes.",
+  "estimand": "Mean within gauge, then mean gauges within river group, then mean river groups, matching the Step 2 scorer. Keep temporal local, spatial local and external results separate.",
+  "whole_year": "Jointly resample complete test years across every gauge and model. Five local and four external years; fixed evaluation gauge population, with missing-population draws retained as undefined.",
+  "time_blocks": "Circular moving blocks within each fixed calendar year, synchronized across gauges/models/river systems. 30 days primary conditional time-block sensitivity, with 14/60-day sensitivity. Fixed-year composition; intervals do not estimate uncertainty for unseen rivers or model retraining.",
+  "intervals": "Paired marginal 2.5/97.5 percentile ranges, exploratory with few years/river systems and overlapping rolling training histories. Never independent-day bootstrap or simultaneous winner claims. Save defined/undefined draws and missing populations.",
+  "events": "All inherited daily-p99 exceedances, clustered separately by river with up to seven days between exceedance dates; descriptive episodes, not certified independent storms. Save all gauge/episode windows and each gauge-year maximum, plus a symmetric helped/harmed index.",
+  "policy": "native_rmse primary; article_faithful selection-policy sensitivity. H+A+E versus H+A remains primary incremental AlphaEarth contrast. H+E substitution and raw/FDC references retained.",
+  "claims": "Daily retrospective reconstruction and fixed-archive uncertainty. Daily p99 is not a flood stage, provisional/unknown QA remains explicit, seed variation is not predictive uncertainty. Brian writes dissertation prose. Step 4 remains pending."
+}

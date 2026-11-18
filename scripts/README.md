@@ -1,10 +1,18 @@
 # Live scripts
 
-## Current entry points — 28 October 2026
+## Current DISE continuation — 18 November 2026
+
+`277_assess_dise_repeatability.py` implements completed Step 3 using the frozen
+`276_run_dise_multiyear.py` predictions. It checks paired uncertainty, year/river
+influence and all available largest-flow windows without refitting. See
+`docs/limburg-dise-repeatability-2026-11-18.md` and
+`config/limburg_dise_repeatability_v1.json`. Step 4 remains pending.
+
+## Historical entry points — 28 October 2026
 
 The [monitoring-loss implementation plan](../docs/limburg-monitoring-implementation-plan-2026-10-28.md)
-governs the next analysis. Its simulation/scoring runner is not implemented yet.
-Acquisition is independent of the completed historical analyses below.
+governed the next analysis at that date. The statuses below are historical;
+the current DISE continuation is listed above.
 
 | Role | Entry points | Status/contract |
 | --- | --- | --- |

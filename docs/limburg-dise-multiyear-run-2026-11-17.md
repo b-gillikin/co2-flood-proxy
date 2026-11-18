@@ -4,6 +4,12 @@
 [saved plan](limburg-dise-four-step-plan-2026-11-17.md). Internal research aid;
 Brian writes dissertation prose. Steps 3–4 remain pending.
 
+**Completion update — 18 November 2026:** Step 2 finished all 30 jobs/4,560 fit
+slots, with the full 81,857-row census and no active fitting worker. Step 3 is
+also complete: [repeatability and largest-flow review](limburg-dise-repeatability-2026-11-18.md).
+The execution specification below is the dated Step 2 record; Step 4 remains
+pending.
+
 ## Executable comparison
 
 - **Local test years:** 2021–2025, all seven gauges/five river groups.

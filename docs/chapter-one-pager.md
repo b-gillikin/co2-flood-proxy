@@ -1,9 +1,10 @@
 # Limburg — satellite-informed discharge reconstruction
 
-Living research aid, updated 17 November 2026. Brian writes dissertation prose.
+Living research aid, updated 18 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; first regional fold and capacity
-check completed. The multiyear comparison is running.
+check completed. The multiyear comparison and Step 3 repeatability review are
+complete. No worker is active; Step 4 evidence consolidation remains pending.
 
 ## Research Question(s)
 
@@ -65,6 +66,29 @@ dependence. Current local data have informed prior experiments; do not claim
 blind confirmation or historical as-issued foundation-model availability.
 
 ## Findings / current status
+
+Across 2021–2025, adding AlphaEarth beyond the same conventional correction
+reduces **all-day MAE by 13.86% when a local river is withheld**. This repeats in
+all five test years and four of five rivers; Voer worsens 8.31%. The joint-year
+percentile range is 11.90–16.64%, conditional on these tested rivers and fixed
+model predictions. With historical target-river labels permitted, the local
+all-day result instead worsens 1.44%. Reserved external all-day MAE improves
+4.67%, largely due to Erft; Ahr improves slightly and Sieg worsens slightly.
+
+**The primary added high-water benefit is not established.** High-water MAE
+with AlphaEarth is 2.15% worse in local temporal tests, 1.06% worse in local
+spatial tests and 0.72% worse externally; uncertainty spans gains and losses.
+Clean-only local high-water results also worsen. Both corrections have severe
+large-flow misses, and external high-water RMSE is worse than raw GEOGLOWS.
+Daily reconstruction gains do not demonstrate forecasting or warning skill.
+
+All 81,857 Step 2 rows remain; synchronized year/time-block uncertainty,
+per-year/per-river results, every available gauge-year maximum and all inherited
+high-water episodes are recorded. Sparse verification leaves some resamples
+undefined; those draws are retained and reported. External clean-only evidence
+is undefined. [Step 3 results and limits](limburg-dise-repeatability-2026-11-18.md).
+
+### Earlier preparation and first-fold records
 
 The completed earlier next-24h GEOGLOWS experiment found conventional correction
 value but no dependable incremental Presto/AnySat gain. Its outcome differs
