@@ -5,7 +5,6 @@ Prithvi stays512px so rotations/flips precede its224px interpolation exactly.
 """
 
 import argparse
-import hashlib
 import importlib.util
 import json
 import os
@@ -25,6 +24,7 @@ import torch
 from applied_execution import atomic, sha
 from applied_io_cache import galileo_source
 from applied_water import PRITHVI_S2, valid_labels
+from cache_recovery_guard import require_local_cache
 
 
 def main():
@@ -34,6 +34,7 @@ def main():
     )
     a = p.parse_args()
     out = ROOT / "data/processed/limburg_tensor_cache_v1" / a.task
+    require_local_cache(out)
     out.mkdir(parents=True, exist_ok=True)
     progress = ROOT / "results/applied_optimization_2026_11_02" / f"{a.task}-tensor-cache.json"
     spec = importlib.util.spec_from_file_location(

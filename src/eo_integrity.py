@@ -10,6 +10,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
+from src.cache_recovery_guard import require_local_cache
 from src.eo_inputs import sha256
 
 # Public compatibility import; future extractors fingerprint the small builder only.
@@ -63,6 +64,7 @@ def validate_run(
 ):
     """A finite patch or successful aggregator cannot certify a whole extraction."""
     root, run = Path(root).resolve(), Path(run).resolve()
+    require_local_cache(run)
     saved = json.loads((run / "manifest.json").read_text())
     status = json.loads((run / "status.json").read_text())
     if model is not None and saved["model"] != model:

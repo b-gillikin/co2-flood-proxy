@@ -16,6 +16,7 @@ from torch.nn import functional as F
 from torch.utils.data import Dataset
 
 from applied_evaluation import CompleteBatches
+from cache_recovery_guard import require_local_cache
 
 
 @lru_cache(maxsize=32)
@@ -36,6 +37,7 @@ class CachedChips(Dataset):
     def __init__(self, rows, task, cache, feature_cache=None, augment=False, seed=42):
         self.task = task
         self.cache = Path(cache)
+        require_local_cache(self.cache)
         self.feature_cache = Path(feature_cache) if feature_cache else None
         index = json.loads((self.cache / "index.json").read_text())
         if index["status"] != "complete":
