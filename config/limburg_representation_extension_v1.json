@@ -80,7 +80,7 @@
       "variant": "v1.1-dclimate",
       "native_dimensions": 128,
       "year": 2018,
-      "readiness": "Full 394-catchment 2018 scale coverage is complete at >=97.4% for every polygon. Full native descriptor extraction is running.",
+      "readiness": "Full 2018 native 128-dimensional descriptor extraction is complete for all 394 catchments. Coverage matches the scale-only census; all descriptor vectors are finite. Full provenance and validation are documented.",
       "pilot_report": "docs/limburg-tessera-pilot-2026-11-18.md",
       "pilot_snapshot": "VTS86NCZ0NT7DK59V390",
       "source": "https://github.com/ucam-eo/geotessera",
@@ -89,7 +89,8 @@
       "missingness": "Selected Icechunk adapter marks NaN scales as source_nodata, not verified water. Respect store completion and source-specific validity; preserve unknown coverage, do not fill zero or infer water from NaN. Any water fraction requires separately justified mask evidence.",
       "runtime": "New isolated Python >=3.12 data environment. Preserve the completed Python 3.11/XGBoost environment.",
       "aggregation": "Dequantize each pixel first; stream fractional-area weighted sums, weights and second moments on the reference polygons. Keep raw 128-coordinate mean primary. Preserve coverage and support; no PCA/RGB or arbitrary prefix truncation.",
-      "normalization": "Native raw dequantized v1.1 features; no imposed L2 normalization or fit-to-held-population whitening."
+      "normalization": "Native raw dequantized v1.1 features; no imposed L2 normalization or fit-to-held-population whitening.",
+      "census_report": "docs/limburg-tessera-census-2026-11-18.md"
     },
     "stefaland": {
       "role": "Land-surface representation from physical attributes and meteorological histories",
@@ -155,13 +156,13 @@
     "fitting_started": false,
     "current_authorization": "Full TESSERA 2018 descriptor extraction across all 394 reference catchments is authorized after the completed census coverage assessment. This does not authorize fitting until other representation and C1 alignment requirements are resolved.",
     "next_work": [
-      "Complete full-census TESSERA 2018 descriptor extraction with per-zone resumable checkpoints and preserve the coverage/missingness manifest.",
       "Extract 2018 AlphaEarth catchment descriptors and assemble year-aligned conventional C1 inputs before any extension scoring.",
       "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
       "Retrieve only model-required 2018 physical inputs for compact raw C1 summaries; freeze the feature list before looking at extension outcomes.",
       "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each usable model.",
       "Benchmark one matched outer fold and resource usage before scheduling the complete controlled model family."
-    ]
+    ],
+    "tessera_census": "results/limburg_representation_extension_v1/tessera_census_v1/receipt_2018_direct.json"
   },
   "correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md"
 }

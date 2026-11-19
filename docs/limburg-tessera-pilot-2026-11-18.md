@@ -139,6 +139,7 @@ throughput may change this. The machine had 132 GiB free at launch, with a
 OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \
   .venv-tessera/bin/python scripts/283_extract_tessera_census.py \
   --snapshot VTS86NCZ0NT7DK59V390 --year 2018
+.venv-tessera/bin/python scripts/284_validate_tessera_descriptors.py
 ```
 
 Checkpoints and the receipt are under

@@ -7,9 +7,9 @@ check completed. The multiyear comparison and Step 3 repeatability review are
 complete. The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
 completes Step 4 and provides comparison tables, figures and paired event
 examples. The [TESSERA pilot](limburg-tessera-pilot-2026-11-18.md) verified
-streaming and exposed sparse 2017 coverage in some basins. The next TESSERA
-task is to measure coverage throughout the census. StefaLand and Basin2Vec
-remain in preparation.
+streaming and exposed sparse 2017 coverage in some basins. The full 2018
+TESSERA census is extracted and validated for all 394 reference catchments.
+StefaLand and Basin2Vec remain in preparation.
 
 ## Research Question(s)
 
@@ -48,11 +48,13 @@ sensitivity views contain 344 and 331 gauges. One search-boundary gauge was
 recovered; eight additional station/reference conflicts were identified.
 Regional observations end in 2024; 2025 predictors do not create 2025 labels.
 
-Extension inputs: fixed-2017 TESSERA pixels/coverage; a verified runoff-free
-StefaLand descriptor recipe and trained encoder; Basin2Vec weights and precise
-European input definitions. Extra weather/physical input families must also
-enter the conventional comparator. The 394-polygon inventory is assembled;
-checkpoint and native-source questions remain. See the
+Extension inputs: fixed-2018 TESSERA descriptors are now held; 2018 AlphaEarth
+means and year-aligned conventional C1 inputs remain to be assembled. Also
+needed are a verified runoff-free StefaLand descriptor recipe and trained
+encoder, plus Basin2Vec weights and precise European input definitions. Extra
+weather/physical input families must also enter the conventional comparator.
+The 394-polygon inventory is assembled; checkpoint and native-source questions
+remain. See the
 [data needs](data-needs.md) and [inclusion audit](limburg-representation-extension-audit-2026-11-18.md).
 The [native-use review](limburg-representation-correct-use-review-2026-11-18.md)
 retains AlphaEarth's current extraction and specifies model-specific decoding,
@@ -191,3 +193,12 @@ or encoder extraction is needed. Sixty-three relevant tests and the full reuse
 path pass. These jobs do not yet establish whether the first-year result repeats;
 Steps 3–4 remain pending. Progress is
 `results/limburg_dise_multiyear_v1/progress.json`.
+
+TESSERA extension update — 18 November 2026: the scale-only 2017/2018 scan
+favoured 2018 on coverage alone. The full native 128-dimensional 2018
+TESSERA extraction then completed for all 394 polygons. Descriptor coverage
+matches the scan to machine precision; every mean is finite. Runtime was 3 h
+25 min, peak RSS 2.08 GiB, and free disk remained about 132 GiB. The original
+2017 H+A/AlphaEarth analysis is unchanged. The extension still needs matching
+2018 AlphaEarth and conventional C1 inputs before model fitting.
+[Extraction and validation record](limburg-tessera-census-2026-11-18.md).
