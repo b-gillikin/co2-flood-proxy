@@ -151,7 +151,7 @@ Three implementation cautions follow from the source code:
    source population and evaluate it as an explicit adaptation.
 2. Its generic generator defaults to 3,650-day windows with 365-day context;
    the paper reports 365-day pretraining sequences. Do not assume those
-   settings are equivalent. Use an artifact-compatible bounded 2017 sequence
+   settings are equivalent. Use an artifact-compatible bounded 2020 sequence
    and documented context/pooling, without later-year inputs. Attention can
    use every day within the supplied window; annual labels do not remove
    future information from a longer window.
@@ -193,10 +193,10 @@ because a helper applies `nan_to_num`.
 Use the encoder's **final projected, L2-normalized `z`**, not auxiliary `h`,
 `z_multisource`, area prediction, or a branch vector. Run unaugmented inputs
 in evaluation/no-gradient mode. Equation 14 normalizes the average of annual
-`z` vectors again. For the declared one-year 2017 comparison this is the
-2017 normalized `z`; any longer descriptor must average only the declared
+`z` vectors again. For the one-year 2020 comparison this is the
+2020 normalized `z`; any longer descriptor must average only the declared
 pre-evaluation years, then normalize. Whole-1985–2024 averages would change
-temporal support and cannot stand in for our fixed-2017 descriptor.
+temporal support and cannot stand in for our fixed-2020 descriptor.
 
 The original paper's broader multi-year climatological descriptor is not
 identical to this controlled one-year adaptation. A result here concerns that
@@ -214,6 +214,161 @@ rather than import those approximations unintentionally.
 
 Sources: [Basin2Vec, sections 3.2/3.4 and appendix A](https://arxiv.org/html/2611.05164v1),
 [code and known gaps](https://github.com/Muhammad-Talha-MT/basin2vec).
+
+## Release check — 20 November 2026
+
+**StefaLand.** Liu et al. describe a 256-dimensional representation pretrained
+without runoff. The checksum-verified Zenodo v2 archive contains 38 substantive
+files (provider MD5 `196c82ef00c3c6ed5a32ea70743235c9`). Its one NetCDF contains
+671 CAMELS stations and the 64-dimensional
+AlphaEarth variable. It has no StefaLand variables or weights. The prior
+Zenodo version contains a short README. The only candidate weights found in
+the checked public repositories remain the 46.9-MB `StefaLandA.pt`, with a
+Runoff projection and unconfirmed training provenance. Even a valid
+masking path for that artifact would test its own masked representation. It
+would not establish equivalence to runoff-free pretraining. [GRL paper](https://doi.org/10.1029/2026GL122814),
+[reproduction archive](https://zenodo.org/records/22001499),
+[first version](https://zenodo.org/records/19157885),
+[candidate checkpoint](https://github.com/jaxonson25-hash/StefaLandRelease/tree/1cec7ce402373f283d2329f6a0d48178755f0565/modelFiles).
+
+The separate *StefaLand Global Embeddings* record contains a 218-byte draft
+README describing a planned 64-dimensional, 0.1° annual grid. Three of the
+seven local catchments and 151 of 394 gauge records have polygon areas smaller
+than one 0.1° cell at their latitude. These are area comparisons, independent
+of the eventual cell alignment, grid mask or effective support. If released,
+the grid would provide a distinct representation at coarser support. The
+runoff-free catchment encoder or a catchment-level export remains the more
+direct fit. [Draft dataset record](https://zenodo.org/records/21049369),
+[author's publication list](https://www.depts.ttu.edu/geosciences/people/atmo/LiuCV.php).
+
+**Basin2Vec.** The checksum-verified PyPI 0.1.0 wheel contains a lookup class and
+downloader for precomputed USGS vectors. The `v1.0.0` git tag exists. The
+advertised embedding archive returned HTTP 404 and the releases API listed no
+releases. The public `main`, `round2-ablations`, `gh-pages` and tagged trees
+had no encoder checkpoint. The repository has example normalization files
+and the training code. It documents missing preprocessing steps for raw
+patches, basin masks, metadata and the sample index. The linked BASINGRID
+archive covers U.S. basin inputs and can serve as a native reference if the
+encoder becomes available. No model or dataset record was returned by the
+exact-name Hugging Face catalog searches for either product.
+[PyPI package](https://pypi.org/project/basin2vec/0.1.0/),
+[repository and preprocessing gaps](https://github.com/Muhammad-Talha-MT/basin2vec#known-gaps),
+[BASINGRID](https://gdex.ucar.edu/datasets/d629000/).
+
+**Basin2Vec European input options.** Candidate sources are E-OBS or ERA5-Land
+for meteorology and CORINE as a starting point for the NLCD crosswalk. Handle
+AgTile with a separate sensitivity if the checkpoint requires it. That input measures subsurface
+agricultural drainage. Generic cropland cover measures a different quantity.
+Any sensitivity needs a replacement with comparable meaning or a documented
+way to handle the missing channel. The weather data already held are
+catchment summaries. Native extraction would use aligned input grids.
+
+A fresh public check found the source tag and evaluator. The tagged release
+endpoint and advertised asset returned HTTP 404. The evaluator reads trained
+weights, channel lists and basin metadata from its checkpoint. The exact
+checkpoint and normalization are needed to prepare new patches.
+[Tagged source](https://github.com/Muhammad-Talha-MT/basin2vec/tree/v1.0.0),
+[evaluator](https://github.com/Muhammad-Talha-MT/basin2vec/blob/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/evaluate_embeddings_monthly.py).
+
+**Tagged source archive inspected.** Brian supplied `basin2vec-1.0.0.tar.gz`
+(275,678,709 bytes, SHA-256
+`9e00b1c49519362d2336b433748b0c2055365025502d5de24e4f2ab5b92cea59`). Its tar
+header matches tag `v1.0.0` at `0e1749564242b9efe83724827cb31e778007c167`.
+The 1,315 files include code, evaluation tables and arrays, and baseline
+embeddings. The archive contains no trained checkpoint, no copy of the
+advertised `basin2vec-pretrained-v1.0.0.tar.gz`, and no
+`basin_embeddings_full.npz` referenced by its app. The advertised data asset
+still returned HTTP 404 on recheck.
+
+Brian also supplied `basin2vec-1.0.0.zip` (276,699,504 bytes, SHA-256
+`ac6a8ed402fa2ebd90e7dbf318d4338c1db76003acdcac51370ee84983af0bb7`). Its
+embedded commit is the same as the tarball's. All 1,315 regular file paths,
+lengths and SHA-256 digests match between archives. GitHub's tagged commit
+describes the source snapshot as code without generated embeddings.
+[Tagged commit](https://github.com/Muhammad-Talha-MT/basin2vec/commit/0e1749564242b9efe83724827cb31e778007c167).
+
+**Atlas branch and available reference vector.** GitHub reports that
+`round2-ablations` is one commit ahead and one behind `main`. The branch-only
+commit adds the atlas and a README section. The main-only commit is the
+Round-2 merge. Comparing the full trees shows the same model and preprocessing
+code. The atlas exports from an existing embedding archive and the branch
+ignores `dist/data/`. The deployed `gh-pages` branch, however, serves the U.S.
+annual vectors in both representation spaces. I fetched the public 2018
+projected vectors and verified the 9,067 × 64 array and unit norms. For USGS
+`04101500`, the first five values agree with the package README to a maximum
+absolute difference of `2.11e-9`. The complete reference vector and source
+hashes are retained in `data/raw/limburg_representation_extension_v1/review_sources/release_resolution_2026_11_20/basin2vec_atlas_us_reference.json`.
+The atlas supplies expected outputs for a reproduction case. The remaining
+request is for the exact checkpoint and preprocessing recipe, including
+prepared inputs for the reference case if available. AgTile still needs
+confirmation for the exact checkpoint.
+[Branch diff](https://github.com/Muhammad-Talha-MT/basin2vec/compare/main...round2-ablations),
+[atlas provenance](https://muhammad-talha-mt.github.io/basin2vec/data/provenance.json).
+
+The main archived `attention_arrays.npz` is byte-identical to the
+corresponding file on the checked `main` branch and records an evaluated
+variant's channel order. The monthly branch lists `prcp`, `tmax`, `tmin`,
+`vp`, `swe`. The nonmonthly branch lists `bdod`, `clay`, `dem`,
+`hydraulic_conductivity`, `land_cover`, `permeability`, `pet`, `population`,
+`sand`, `slit`, `soc`, `wind`. This differs from the paper's source
+description, including shortwave radiation and AgTile. Treat these arrays as
+evidence about that evaluated variant. Confirm the channel order, agricultural
+drainage requirement and normalization against the delivered checkpoint
+before specifying European patches.
+[Pinned evaluation outputs](https://github.com/Muhammad-Talha-MT/basin2vec/tree/0e1749564242b9efe83724827cb31e778007c167/emb/src/evaluation_outputs/HCLV4_grouped_monthly_static_meta_areaaux_64d),
+[paper appendix](https://arxiv.org/html/2611.05164v1).
+
+**Inference code and design recheck.** The tagged and current encoder source
+files match. The evaluator in the tag defaults to the no-temporal ablation.
+Current `main` defaults to the main-model run and accepts an explicit
+checkpoint. Those defaults do not establish which weights generated the
+released vectors. The current evaluator logs the expected and supplied channel
+lists, then checks only their dimensions. The grouped-data builder consumes
+preprocessed spatial patches, and the example normalization file describes a
+different variable list from the archived evaluation. Verify the ordered
+channel slices, units, mask, and normalized metadata against the actual
+artifact. A prepared U.S. basin-year input and expected final 64-dimensional
+vector can check inference independently of the European input substitutions.
+[Tagged evaluator](https://github.com/Muhammad-Talha-MT/basin2vec/blob/0e1749564242b9efe83724827cb31e778007c167/emb/src/evaluate_embddings_monthly.py),
+[current evaluator](https://github.com/Muhammad-Talha-MT/basin2vec/blob/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/evaluate_embeddings_monthly.py),
+[preprocessing gaps](https://github.com/Muhammad-Talha-MT/basin2vec#known-gaps).
+
+**Full main-branch archive recheck.** The supplied `basin2vec-main.zip`
+contains commit `63c8b448170367d915209fb113d2f839e1eb8b52`. All 3,078
+files match the Git tree by path and blob hash. The ZIP contains the encoder,
+training and export code and published evaluation outputs. It contains
+neither the trained checkpoint nor the final Basin2Vec vectors. The main
+trainer's checkpoint format records channel names, slices and metadata columns,
+but leaves raster scaling and metadata preparation in the upstream inputs.
+The shipped `norm_stats.json` nests its entries under `stats`, while the
+loader looks up variables at the top level and skips statistical scaling
+on a lookup miss. An isolated check using the archived lookup found no
+matches for the five monthly variables. Unwrapping `stats` recovered only
+`vp` and `swe`. These findings describe the supplied defaults and do not
+establish which transformations were used in the original run. Ask for
+the checkpoint's actual scaling and metadata recipe, plus the prepared
+rasters, mask and metadata for USGS `04101500` in 2018 if available.
+[Pinned source tree](https://github.com/Muhammad-Talha-MT/basin2vec/tree/63c8b448170367d915209fb113d2f839e1eb8b52),
+[normalization lookup](https://github.com/Muhammad-Talha-MT/basin2vec/blob/63c8b448170367d915209fb113d2f839e1eb8b52/emb/src/basin2vec_dataset_monthly.py#L396-L452).
+
+For Limburg, one fixed 2020 `z` per basin is supported by the per-year
+encoder path. Validate the native U.S. reference first, then pilot the
+European inputs and log any substitutions and coverage. Compare C1 and
+C1+Basin2Vec on the same rows and folds, with conventional summaries of the
+verified raw inputs in both arms. The resulting estimate concerns added
+descriptor value in the retrospective GEOGLOWS correction. Any longer
+pre-evaluation pooling would be a separate sensitivity with a corresponding
+control window. The existing study design is sufficient for the annual test.
+
+**Artifact verification.** Check encoder pretraining dates separately from
+the 2020 feature cutoff.
+Basin2Vec's published pretraining covers U.S. data through 2024, so a 2020
+input to those weights would be a retrospective comparison. Confirm the
+corresponding StefaLand dates and footprint from the artifact provider.
+On receipt, reproduce one reference vector and extract a 2020 European
+example before building the census. Use the documented input families to
+finish C1 and log any European source substitutions. No production fitting
+or new empirical result arose from the release check.
 
 ## What changes now
 

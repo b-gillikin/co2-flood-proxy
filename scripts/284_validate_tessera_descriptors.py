@@ -1,5 +1,6 @@
 """Export and validate the full TESSERA descriptor receipt as a quoted CSV."""
 
+import argparse
 import csv
 import hashlib
 import json
@@ -9,11 +10,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "results/limburg_representation_extension_v1/tessera_census_v1"
-RECEIPT = OUTPUT / "receipt_2018_direct.json"
-COVERAGE = ROOT / "results/limburg_representation_extension_v1/tessera_coverage_v1/receipt_2018_direct.json"
-CSV_PATH = OUTPUT / "descriptors_2018.csv"
-MANIFEST_PATH = OUTPUT / "validation_2018.json"
+BASE = ROOT / "results/limburg_representation_extension_v1"
 BANDS = 128
 
 
@@ -26,18 +23,27 @@ def sha256(path):
 
 
 def main():
-    receipt = json.loads(RECEIPT.read_text())
-    coverage = json.loads(COVERAGE.read_text())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--year", type=int, choices=(2018, 2020), default=2018)
+    year = parser.parse_args().year
+    output = BASE / ("tessera_census_v1" if year == 2018 else f"tessera_census_{year}")
+    receipt_path = output / f"receipt_{year}_direct.json"
+    coverage_path = BASE / "tessera_coverage_v1" / f"receipt_{year}_direct.json"
+    csv_path = output / f"descriptors_{year}.csv"
+    manifest_path = output / f"validation_{year}.json"
+
+    receipt = json.loads(receipt_path.read_text())
+    coverage = json.loads(coverage_path.read_text())
     basins = receipt["basins"]
     if receipt["status"] != "complete" or receipt["coverage_only"]:
         raise ValueError("The descriptor extraction receipt is not complete")
-    if receipt["snapshot_id"] != coverage["snapshot_id"] or receipt["year"] != 2018:
+    if receipt["snapshot_id"] != coverage["snapshot_id"] or receipt["year"] != year or coverage["year"] != year:
         raise ValueError("Coverage and descriptor receipts do not share the frozen source/year")
     if len(basins) != 394 or len(coverage["basins"]) != 394:
         raise ValueError("Expected the complete 394-catchment census")
 
     columns = [f"tessera_{index:03d}" for index in range(BANDS)]
-    temporary = CSV_PATH.with_suffix(".tmp")
+    temporary = csv_path.with_suffix(".tmp")
     with temporary.open("w", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(["gauge", "station", "role", "coverage_fraction", "valid_pixel_count", *columns])
@@ -57,10 +63,10 @@ def main():
                     *(format(float(value), ".17g") for value in vector),
                 ]
             )
-    temporary.replace(CSV_PATH)
+    temporary.replace(csv_path)
 
     max_abs_delta = 0.0
-    with CSV_PATH.open(newline="") as handle:
+    with csv_path.open(newline="") as handle:
         rows = list(csv.DictReader(handle))
     if len(rows) != 394 or len({row["gauge"] for row in rows}) != 394:
         raise ValueError("CSV row count or gauge uniqueness failed")
@@ -77,13 +83,13 @@ def main():
         "rows": len(rows),
         "feature_dimensions": BANDS,
         "max_abs_delta_csv_vs_receipt": max_abs_delta,
-        "receipt_sha256": sha256(RECEIPT),
-        "coverage_receipt_sha256": sha256(COVERAGE),
-        "csv_sha256": sha256(CSV_PATH),
+        "receipt_sha256": sha256(receipt_path),
+        "coverage_receipt_sha256": sha256(coverage_path),
+        "csv_sha256": sha256(csv_path),
         "exporter_sha256": sha256(Path(__file__)),
         "station_names_csv_quoted": True,
     }
-    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n")
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     print(json.dumps(manifest, indent=2))
 
 

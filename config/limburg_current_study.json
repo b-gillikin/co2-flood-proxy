@@ -1,14 +1,18 @@
 {
-  "date": "2026-11-18",
-  "status": "dise_alphaearth_consolidated_representation_extension_preparation",
+  "date": "2026-11-23",
+  "status": "matched_c0_c1_c2_complete",
   "scope": "config/limburg_representation_extension_v1.json",
   "acquisition": "config/limburg_representation_extension_v1.json",
   "compute": "docs/limburg-representation-extension-audit-2026-11-18.md",
   "handoff": "docs/HANDOFF.md",
-  "progress": "results/limburg_dise_repeatability_v1/progress.json",
-  "latest_audit": "docs/limburg-representation-extension-audit-2026-11-18.md",
+  "progress": "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/progress.json",
+  "latest_audit": "docs/reviews/limburg-c2-findings-2026-11-23.md#whole-chapter-audit",
+  "c1_review": "results/limburg_representation_extension_v1/c1_held_multiyear_v1/completion_review.json",
+  "c2_review": "results/limburg_representation_extension_v1/c2_multiyear_v1/completion_review.json",
+  "c2_2017_sensitivity_review": "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/completion_review.json",
+  "c2_high_water_attribution": "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/high_water_attribution/manifest.json",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
-  "new_queue_started": false,
+  "new_queue_started": true,
   "new_bulk_download_started": false,
   "full_regional_comparison_started": true,
   "local_benchmark_completed": true,
@@ -38,22 +42,21 @@
   "active_acquisition": false,
   "active_workers": {
     "fitting": 0,
-    "threads_per_fit": 0,
+    "threads_per_fit": 2,
     "gpu": 0,
     "analysis": 0
   },
   "preparation_remaining": [
-    "Inventory TESSERA coverage for the full census before fixing the comparison reference year and extracting descriptors.",
-    "Resolve the exact StefaLand encoder/normalizer and Basin2Vec encoder/input-schema assets.",
-    "Retrieve missing model-required 2017 physical inputs as clipped grids/tables, preserve their provenance and freeze C1 controls.",
-    "Verify native input transforms, parameter coverage, label exclusion, date/polygon alignment and one CPU/available-MPS extraction path for each model.",
-    "Benchmark one matched outer fold and resource usage before scheduling the complete 30-job family."
+    "Prepare a recovery copy of the completed discharge evidence and check readback before any local retirement.",
+    "When a compatible StefaLand or Basin2Vec artifact becomes available, verify provenance, catchment coverage and label exclusion before a matched pilot."
   ],
   "completed_benchmarks": [
     "results/limburg_dise_v1/benchmark_local_wurm_2021",
     "results/limburg_dise_v2/benchmark_local_wurm_2021",
     "results/limburg_dise_regional_benchmark_v1/benchmark_wurm_external_2021",
-    "results/limburg_dise_capacity_v1"
+    "results/limburg_dise_capacity_v1",
+    "results/limburg_representation_extension_v1/satellite_c0_benchmark_2020/jobs/held_Geul_2021",
+    "results/limburg_representation_extension_v1/c1_held_benchmark_v1/fit/jobs/held_Wurm_2021_c1_held"
   ],
   "source_acquisition_completed": true,
   "latest_verification": "docs/reviews/limburg-dise-corrections-verification-2026-11-16.json",
@@ -75,7 +78,7 @@
   "latest_preparation_audit": "results/limburg_dise_regional_benchmark_v1/preparation/audit.json",
   "regional_benchmark_started": true,
   "regional_benchmark_completed": true,
-  "latest_results_review": "docs/limburg-dise-alphaearth-consolidation-2026-11-18.md",
+  "latest_results_review": "docs/reviews/limburg-c2-findings-2026-11-23.md",
   "alphaearth_evidence_consolidated": true,
   "tessera_pilot": "docs/limburg-tessera-pilot-2026-11-18.md",
   "capacity_config": "config/limburg_dise_capacity_v1.json",
@@ -94,5 +97,11 @@
   "representation_extension_config": "config/limburg_representation_extension_v1.json",
   "representation_extension_preparation_complete": false,
   "source_acquisition_completed_scope": "Completed AlphaEarth-only comparison; not the new representation extension",
-  "latest_correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md"
+  "latest_correct_use_review": "docs/limburg-representation-correct-use-review-2026-11-18.md",
+  "latest_2020_descriptor_quality": "results/limburg_representation_extension_v1/alphaearth_2020/quality_2020.json",
+  "alphaearth_vintage_progress": "results/limburg_representation_extension_v1/alphaearth_vintage_c0/progress.json",
+  "alphaearth_vintage_review": "results/limburg_representation_extension_v1/alphaearth_vintage_c0/completion_review.json",
+  "matched_2020_satellite_c0_progress": "results/limburg_representation_extension_v1/satellite_c0_multiyear_2020/progress.json",
+  "matched_2020_satellite_c0_review": "results/limburg_representation_extension_v1/satellite_c0_multiyear_2020/completion_review.json",
+  "matched_2020_satellite_c0_readout": "docs/reviews/limburg-alphaearth-vintage-readiness-2026-11-19.md"
 }

@@ -377,7 +377,7 @@ def run(snapshot, year, meter=None, *, coverage_only=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--snapshot", required=True, help="Use this Icechunk snapshot")
-    parser.add_argument("--year", type=int, choices=(2017, 2018), action="append")
+    parser.add_argument("--year", type=int, choices=tuple(range(2017, 2026)), action="append")
     parser.add_argument("--meter-http", action="store_true", help="Count public S3 body bytes")
     parser.add_argument(
         "--census-coverage", action="store_true", help="Read scales for all 394 basins"

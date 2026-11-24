@@ -13,6 +13,7 @@ import sys
 import time
 from importlib.metadata import version
 from pathlib import Path
+from subprocess import run
 
 import geopandas as gpd
 import numpy as np
@@ -32,8 +33,7 @@ window_index, zone_basins = HELPER.window_index, HELPER.zone_basins
 
 
 SNAPSHOT = "VTS86NCZ0NT7DK59V390"
-YEAR = 2018
-OUTPUT = ROOT / "results/limburg_representation_extension_v1/tessera_census_v1"
+BASE = ROOT / "results/limburg_representation_extension_v1"
 GEOMETRY = ROOT / "results/limburg_representation_extension_v1/catchments.gpkg"
 CHECKPOINT_EVERY = 50
 
@@ -44,14 +44,14 @@ def atomic_npz(path, **arrays):
     os.replace(temporary, path)
 
 
-def extract_zone(group, basins, checkpoint, identity):
+def extract_zone(group, basins, checkpoint, identity, year):
     attrs = group.attrs
     pixel, x_skew, west, y_skew, neg_pixel, top = attrs["spatial:transform"]
     if (pixel, x_skew, y_skew, neg_pixel) != (PIXEL_M, 0, 0, -PIXEL_M):
         raise ValueError("Expected the published north-up 10 m zone grid")
-    if attrs["proj:code"] != basins.crs.to_string() or YEAR not in attrs["years_complete"]:
-        raise ValueError(f"Expected a complete {YEAR} group in the catchment piece CRS")
-    year_index = _years(group["time"]).index(YEAR)
+    if attrs["proj:code"] != basins.crs.to_string() or year not in attrs["years_complete"]:
+        raise ValueError(f"Expected a complete {year} group in the catchment piece CRS")
+    year_index = _years(group["time"]).index(year)
     embeddings, scales = group["embeddings"], group["scales"]
     if (
         embeddings.metadata.dimension_names != ("time", "northing", "easting", "band")
@@ -157,7 +157,7 @@ def extract_zone(group, basins, checkpoint, identity):
                 elapsed_seconds=np.asarray(elapsed_before + time.monotonic() - started),
             )
             print(
-                f"{YEAR} {group.basename}: {completed}/{len(ordered_windows)} windows",
+                f"{year} {group.basename}: {completed}/{len(ordered_windows)} windows",
                 flush=True,
             )
 
@@ -184,7 +184,7 @@ def extract_zone(group, basins, checkpoint, identity):
         }
     return {
         "group": group.basename,
-        "source_run": attrs["runs"][str(YEAR)]["run_id"],
+        "source_run": attrs["runs"][str(year)]["run_id"],
         "planned_windows": len(ordered_windows),
         "completed_windows": len(ordered_windows),
         "shared_windows": int(shared_windows),
@@ -199,13 +199,15 @@ def extract_zone(group, basins, checkpoint, identity):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--snapshot", default=SNAPSHOT)
-    parser.add_argument("--year", type=int, choices=(YEAR,), default=YEAR)
+    parser.add_argument("--year", type=int, choices=(2018, 2020), default=2018)
     args = parser.parse_args()
-    if args.snapshot != SNAPSHOT or args.year != YEAR:
+    if args.snapshot != SNAPSHOT:
         raise ValueError("This frozen descriptor run is pinned to its reviewed source and year")
 
-    OUTPUT.mkdir(parents=True, exist_ok=True)
-    with (OUTPUT / "worker.lock").open("a") as lock:
+    year = args.year
+    output = BASE / ("tessera_census_v1" if year == 2018 else f"tessera_census_{year}")
+    output.mkdir(parents=True, exist_ok=True)
+    with (output / "worker.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         config = json.loads(CONFIG.read_text())
         geometry_hash = hashlib.sha256(GEOMETRY.read_bytes()).hexdigest()
@@ -233,9 +235,9 @@ def main():
         zones = []
         with zarr.config.set({"async.concurrency": 8}):
             for zone in (31, 32):
-                checkpoint = OUTPUT / f"checkpoint_{YEAR}_{zone}N.npz"
+                checkpoint = output / f"checkpoint_{year}_{zone}N.npz"
                 zones.append(
-                    extract_zone(root[f"{zone}N"], zone_basins(basins, zone), checkpoint, identity)
+                    extract_zone(root[f"{zone}N"], zone_basins(basins, zone), checkpoint, identity, year)
                 )
 
         census = {}
@@ -267,7 +269,7 @@ def main():
         receipt = {
             "status": "complete",
             **identity,
-            "coverage_scan_reference": "results/limburg_representation_extension_v1/tessera_coverage_v1/receipt_2018_direct.json",
+            "coverage_scan_reference": f"results/limburg_representation_extension_v1/tessera_coverage_v1/receipt_{year}_direct.json",
             "coverage_only": False,
             "packages": {
                 package: version(package)
@@ -282,18 +284,16 @@ def main():
             "zones": zones,
             "basins": census,
         }
-        receipt_path = OUTPUT / f"receipt_{YEAR}_direct.json"
+        receipt_path = output / f"receipt_{year}_direct.json"
         temporary = receipt_path.with_suffix(".tmp")
         temporary.write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
         temporary.replace(receipt_path)
 
-        feature_path = OUTPUT / f"descriptors_{YEAR}.csv"
-        columns = [f"tessera_{index:03d}" for index in range(BANDS)]
-        with feature_path.open("w") as handle:
-            handle.write("gauge,station,role,coverage_fraction,valid_pixel_count," + ",".join(columns) + "\n")
-            for gauge, row in census.items():
-                metadata = [gauge, row["station"], row["role"], row["coverage_fraction"], row["valid_pixel_count"]]
-                handle.write(",".join(map(str, metadata + row["mean"])) + "\n")
+        run(
+            [sys.executable, str(Path(__file__).with_name("284_validate_tessera_descriptors.py")),
+             "--year", str(year)],
+            check=True,
+        )
         print(f"Full TESSERA census complete: {receipt_path}", flush=True)
 
 

@@ -1,15 +1,40 @@
 # Limburg — learned catchment information for discharge reconstruction
 
-Living research aid, updated 18 November 2026. Brian writes dissertation prose.
+Living research aid, updated 23 November 2026. Brian writes dissertation prose.
 Independent DISE-inspired adaptation accepted; local preparation/benchmark
 completed, audit corrections implemented in v2; first regional fold and capacity
 check completed. The multiyear comparison and Step 3 repeatability review are
 complete. The [AlphaEarth evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md)
 completes Step 4 and provides comparison tables, figures and paired event
-examples. The [TESSERA pilot](limburg-tessera-pilot-2026-11-18.md) verified
-streaming and exposed sparse 2017 coverage in some basins. The full 2018
-TESSERA census is extracted and validated for all 394 reference catchments.
-StefaLand and Basin2Vec remain in preparation.
+examples. The matched 2020 AlphaEarth and TESSERA descriptors are validated
+for all 394 gauge records. The held Geul 2021 benchmark with the existing C0
+controls and the held-Wurm 2021 C1 benchmark are complete. The full C1 and C2
+comparisons and C2 imagery-year sensitivity are also complete. StefaLand and
+Basin2Vec remain conditional on compatible artifacts.
+
+| Comparison | Satellite reference year | Discharge evaluation | Conventional controls |
+| --- | --- | --- | --- |
+| Completed AlphaEarth multiyear study | 2017 AlphaEarth | Local 2021–2025; external 2021–2024 | C0, includes 2017 land-cover fractions |
+| Completed satellite benchmark | 2020 AlphaEarth and 2020 TESSERA | Geul, 2021 | Same C0 |
+| Completed matched satellite comparison | 2020 AlphaEarth and 2020 TESSERA | All 30 original temporal and river-held folds | Same C0 |
+| Completed held-data C1 benchmark | 2020 AlphaEarth and 2020 TESSERA | Held Wurm, 2021 | C0 plus prior-year weather and catchment shape |
+| Completed C1 comparison | 2020 AlphaEarth and TESSERA | Same 30 folds | C0 plus prior-year weather and catchment shape |
+| Completed C2 comparison and imagery-year sensitivity | 2020 AlphaEarth and TESSERA, plus 2017 AlphaEarth sensitivity | Same 30 folds | C1 plus WorldCover, elevation relief, clay, prior-day soil moisture and snow |
+
+The matched 2020 run verified 81,857 paired gauge-days across 30 folds.
+On held local rivers, all-day MAE fell 2.58% with AlphaEarth and 0.56% with
+TESSERA relative to C0. High-water MAE rose 2.11% and 6.47%, respectively.
+The [matched readout](reviews/limburg-alphaearth-vintage-readiness-2026-11-19.md#matched-2020-satellite-comparison--completed-20-november-2026)
+records the uncertainty, river differences and case examples.
+
+On the [matched held-Wurm C1 fold](data-needs.md#matched-results-and-chapter-implications),
+the additional conventional features raised MAE versus C0. AlphaEarth improved
+all-day MAE by 12.38% versus C1 and raised high-water MAE by 3.22%. TESSERA
+raised both. The high-water subset has 21 gauge-days across nine dates.
+
+The 2018 TESSERA extraction served as an intermediate coverage and extraction
+check. The fixed 2020 landscape snapshot predates held discharge evaluation and
+is also assigned to earlier fitting rows in the retrospective benchmark.
 
 ## Research Question(s)
 
@@ -48,17 +73,10 @@ sensitivity views contain 344 and 331 gauges. One search-boundary gauge was
 recovered; eight additional station/reference conflicts were identified.
 Regional observations end in 2024; 2025 predictors do not create 2025 labels.
 
-Extension inputs: fixed-2018 TESSERA descriptors are now held; 2018 AlphaEarth
-means and year-aligned conventional C1 inputs remain to be assembled. Also
-needed are a verified runoff-free StefaLand descriptor recipe and trained
-encoder, plus Basin2Vec weights and precise European input definitions. Extra
-weather/physical input families must also enter the conventional comparator.
-The 394-polygon inventory is assembled; checkpoint and native-source questions
-remain. See the
-[data needs](data-needs.md) and [inclusion audit](limburg-representation-extension-audit-2026-11-18.md).
-The [native-use review](limburg-representation-correct-use-review-2026-11-18.md)
-retains AlphaEarth's current extraction and specifies model-specific decoding,
-feature taps, normalization and pooling for the additions.
+Extension inputs: the matched 2020 satellite descriptors and C2 inputs are held.
+A 2020 runoff-free StefaLand catchment product and a Basin2Vec checkpoint with
+an inference recipe compatible with European inputs are outstanding. See
+[data needs](data-needs.md) and the [release audit](limburg-representation-correct-use-review-2026-11-18.md#release-check--20-november-2026).
 
 ## Method
 
@@ -90,35 +108,51 @@ blind confirmation or historical as-issued foundation-model availability.
 
 ## Findings / current status
 
-Across 2021–2025, adding AlphaEarth beyond the same conventional correction
-reduces **all-day MAE by 13.86% when a local river is withheld**. This repeats in
-all five test years and four of five rivers; Voer worsens 8.31%. The joint-year
-percentile range is 11.90–16.64%, conditional on these tested rivers and fixed
-model predictions. With historical target-river labels permitted, the local
-all-day result instead worsens 1.44%. Reserved external all-day MAE improves
-4.67%, largely due to Erft; Ahr improves slightly and Sieg worsens slightly.
+The contribution is a matched comparison of when catchment embeddings
+add value to daily discharge correction. On known rivers, C2 cut all-day
+MAE by 8.25% versus C1 and 5.49% versus C0. C0 had slightly lower high-water
+MAE than C2 there. Neither embedding gave a clear additional gain under
+30-day paired resampling. On held-out local rivers, C2 alone performed worse
+on all days than C1. Adding 2020 AlphaEarth to C2 still improved on C1 by
+about 3.5%. The same was not true for TESSERA.
 
-**The primary added high-water benefit is not established.** High-water MAE
-with AlphaEarth is 2.15% worse in local temporal tests, 1.06% worse in local
-spatial tests and 0.72% worse externally; uncertainty spans gains and losses.
-Clean-only local high-water results also worsen. Both corrections have severe
-large-flow misses, and external high-water RMSE is worse than raw GEOGLOWS.
-Daily reconstruction gains do not demonstrate forecasting or warning skill.
+For held-out local high water, 2020 AlphaEarth cut MAE by 2.86% versus C2 and
+TESSERA raised it by 4.58%. Neither direction depends on a single river or
+episode. Geul and Gulp drove the AlphaEarth improvement and Geleenbeek drove
+most of the TESSERA harm. Some gains come from observations with measurement
+caveats. On the strict-clean subset, the AlphaEarth gain shrank to 1.71%
+and its 30-day range crossed zero. On external high water, the C2 arms
+reduced MAE versus raw GEOGLOWS. Raw GEOGLOWS had the lowest RMSE.
 
-All 81,857 Step 2 rows remain; synchronized year/time-block uncertainty,
-per-year/per-river results, every available gauge-year maximum and all inherited
-high-water episodes are recorded. Sparse verification leaves some resamples
-undefined; those draws are retained and reported. External clean-only evidence
-is undefined. [Step 3 results and limits](limburg-dise-repeatability-2026-11-18.md).
+AlphaEarth 2017 beats 2020 on all days in held-out local rivers and loses on
+high water. This shows why average discharge performance alone is an inadequate
+selection criterion for high-water use. The result concerns this reconstruction
+and evaluation design. Operational delivery, warning thresholds and decisions
+require further evidence.
 
-[Contribution assessment](reviews/limburg-dise-contribution-assessment-2026-11-18.md):
-an applied validation/transferability chapter with incremental empirical novelty;
-the temporal/spatial embedding contrast is established in prior work. The new
-evidence concerns chronological portability and high-water limitations of this
-particular correction. The original assessment recommended consolidation of
-that bounded study. Brian subsequently approved the three-representation
-extension above; it tests the same downstream question and preserves these
-completed findings rather than replacing them.
+[Consolidated evidence and event review](reviews/limburg-c2-findings-2026-11-23.md)
+includes the baseline contrasts, full high-water attribution and literature,
+data, split and reproducibility audit.
+Earlier C0 findings and gauge-year maxima remain in the
+[original evidence pack](limburg-dise-alphaearth-consolidation-2026-11-18.md).
+
+The [seasonality check](reviews/limburg-c2-findings-2026-11-23.md#seasonal-pulse-and-high-water-sensitivity)
+retains the all-season daily p99. It puts 134 of 226 high-water gauge-days in
+November–April and 92 in May–October. Another 143 gauge-days were unusually
+high for their half-year alone, with 104 in 2024. On the seasonal-p99 subset
+with clean verification, adding 2020 AlphaEarth to C2 gave about the same
+error as C2 alone, while TESSERA increased it. The seasonal ranks describe
+how unusual flows were for the time of year.
+
+The closing analysis, [From tributary high water to the Meuse](HANDOFF.md#completed-rimburg-and-venlo-checks--23-november-2026),
+adapts the published Borgharen timing comparison to two quality-supported
+2024 events. In both river chains the smaller tributary peaked first and the
+Meuse last. The November Roer was near its maximum both before and after the
+Borgharen crest. At Venlo the Meuse crested later and about 221 m³/s lower
+in both cases. The measured figure has a daily Google comparison as supporting
+context. A separate Rimburg comparison found smaller daily high-water MAE with
+Google than with raw GEOGLOWS, 5.44 versus 8.58 m³/s on 25 matched days. Both
+substantially underestimated the largest observed daily flow.
 
 ### Earlier preparation and first-fold records
 
@@ -199,6 +233,6 @@ favoured 2018 on coverage alone. The full native 128-dimensional 2018
 TESSERA extraction then completed for all 394 polygons. Descriptor coverage
 matches the scan to machine precision; every mean is finite. Runtime was 3 h
 25 min, peak RSS 2.08 GiB, and free disk remained about 132 GiB. The original
-2017 H+A/AlphaEarth analysis is unchanged. The extension still needs matching
-2018 AlphaEarth and conventional C1 inputs before model fitting.
+2017 H+A/AlphaEarth analysis is unchanged. The later coverage scan selected 2020 for the matched extension. See the
+current year table above.
 [Extraction and validation record](limburg-tessera-census-2026-11-18.md).

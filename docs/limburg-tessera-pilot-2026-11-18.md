@@ -117,23 +117,54 @@ The coverage census passed for 2018. All **394 of 394** polygons have at least
 97.4% embedded area. By cohort, mean coverage is 99.89% for the seven local
 gauges, 99.95% for the 337 regional donors and 99.98% for the 50 reserved
 external records. In 2017 the corresponding means were 52.5%, 44.4% and 42.5%;
-17 regional donor polygons had zero embedded area. The 2018 choice is based on
-input coverage alone, not discharge performance, and it predates all held
-evaluation years.
+17 regional donor polygons had zero embedded area. The initial 2018 choice was
+based on input coverage alone, not discharge performance, and it predates all
+held evaluation years. A subsequent check of 2019 and 2020 showed that 2018 was
+not the latest adequately covered candidate.
 
-For the new controlled extension, 2018 is now the common annual descriptor
-reference. The completed original H+A/AlphaEarth study remains on its original
-2017 basis and is not rewritten. The extension must extract 2018 AlphaEarth and
-year-aligned conventional C1 inputs before fitting any paired comparison.
+## Later pre-evaluation year coverage
 
-The full TESSERA 2018 descriptor census is a separate resumable run. It streams
-native 128-band windows, decodes each pixel with its own scale, applies
-fractional polygon weights, and checkpoints weighted sums and second moments
-by UTM zone. Only compact per-catchment descriptors and the coverage receipt
-are retained; no complete mosaics or downloaded raw tile archive are written
-locally. The census is estimated at roughly 1–2 hours from the pilot; network
-throughput may change this. The machine had 132 GiB free at launch, with a
-50 GiB reserve.
+The pinned store contains complete annual groups through 2025 in both UTM
+zones. Since the first held evaluation year is 2021, 2020 is the latest
+strictly pre-evaluation candidate. Full-census scale-only coverage was checked
+for 2019 and 2020 before changing the reference-year recommendation.
+
+| Year | Cohort | n | Minimum coverage | Mean coverage | At least 95% |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 2018 | Local | 7 | 99.74% | 99.89% | 7 |
+| 2018 | Regional donor | 337 | 97.43% | 99.95% | 337 |
+| 2018 | Reserved external | 50 | 99.46% | 99.98% | 50 |
+| 2019 | Local | 7 | 99.94% | 99.98% | 7 |
+| 2019 | Regional donor | 337 | 99.44% | 99.99% | 337 |
+| 2019 | Reserved external | 50 | 99.69% | 99.99% | 50 |
+| 2020 | Local | 7 | 99.92% | 99.97% | 7 |
+| 2020 | Regional donor | 337 | 99.67% | 99.99% | 337 |
+| 2020 | Reserved external | 50 | 99.84% | 99.99% | 50 |
+
+Recommend **2020** as the extension's fixed pre-evaluation descriptor year:
+it is the latest complete year before evaluation and all 394 polygons exceed
+99.6% embedded area. The 2018 descriptors are complete and preserved, but are
+provisional rather than the extension's primary features. The original
+2017 H+A/AlphaEarth analysis remains unchanged. A 2020 descriptor is a fixed
+pretest catchment snapshot, not an operational as-of-each-day predictor; this
+retrospective design does not establish real-time availability during the
+earlier training years.
+
+For the new controlled extension, 2020 is the recommended common annual
+descriptor reference. The completed original H+A/AlphaEarth study remains on
+its original 2017 basis and is not rewritten. The extension needs 2020
+AlphaEarth, TESSERA and year-aligned conventional C1 inputs before fitting any
+paired comparison. The full 2020 TESSERA and AlphaEarth extractions completed
+on 19 November. Both inputs were used in the held Geul 2021 benchmark with
+C0. The completed 2018 extraction is retained as a verified alternate.
+
+The full TESSERA 2018 descriptor census is a resumable run. It streams native
+128-band windows, decodes each pixel with its own scale, applies fractional
+polygon weights, and checkpoints weighted sums and second moments by UTM zone.
+Only compact per-catchment descriptors and the coverage receipt are retained;
+no complete mosaics or downloaded raw tile archive are written locally. The
+completed run took 3 hours 25 minutes, with a peak RSS of 2.08 GiB. The machine
+had 132.36 GiB free before and after; no large raster cache was retained.
 
 ```sh
 OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \

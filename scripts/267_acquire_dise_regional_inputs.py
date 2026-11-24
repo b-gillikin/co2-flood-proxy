@@ -279,8 +279,8 @@ def acquire_weather(ee, mapping, geometries):
     update("weather_batches", done, total, status="completed")
 
 
-def acquire_spatial(ee, mapping, geometries):
-    for kind in ["alphaearth", "attributes"]:
+def acquire_spatial(ee, mapping, geometries, kinds=("alphaearth", "attributes")):
+    for kind in kinds:
         size = PLAN[f"{kind}_batch_size"]
         done = 0
         batches = [mapping.iloc[i : i + size] for i in range(0, len(mapping), size)]

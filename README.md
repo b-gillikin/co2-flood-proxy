@@ -1,19 +1,18 @@
 # Limburg — satellite-informed discharge reconstruction
 
-**Current direction — accepted 16 November 2026:** independent DISE-inspired
-pooled correction of GEOGLOWS using AlphaEarth as catchment information. This
-is daily reconstruction, distinct from the completed next-24h assessment.
-Audit corrections and a 152-fit held-Wurm benchmark are complete. All 386 mapped
-regional observation records are acquired and checksum-verified; source timing
-is resolved. Matched regional model/weather/embedding inputs are acquired and hash-verified;
-spatial review is complete with explicit strata and one recovered boundary case
-(387 matched gauges). Regional features are assembled and audited; the first 152-fit regional
-benchmark is complete and hash-verified. The full multi-year comparison has not launched.
+**Current study — updated 23 November 2026.** Independent DISE-inspired
+daily reconstruction of GEOGLOWS discharge using conventional and learned
+catchment descriptors. The matched C0, C1 and C2 comparisons, AlphaEarth
+imagery-year sensitivity and high-water episode review are complete. Each
+matched comparison contains 81,857 verification rows across 30 folds.
+The live question is whether catchment embeddings help during high water
+and when a correction is transferred to a held-out river.
 
 - [Current one-pager](docs/chapter-one-pager.md)
 - [Design](docs/limburg-dise-research-design-2026-11-16.md)
 - [Preparation, benchmark and next work](docs/limburg-dise-preparation-2026-11-16.md)
-- [Active configuration](config/limburg_dise_v2.json)
+- [Active study and output pointers](config/limburg_current_study.json)
+- [Consolidated findings and audit](docs/reviews/limburg-c2-findings-2026-11-23.md)
 - [Implemented audit corrections](docs/limburg-dise-audit-corrections-2026-11-16.md)
 - [Spatial resolution and strata](docs/limburg-dise-spatial-resolution-2026-11-16.md)
 - [Regional features and current benchmark](docs/limburg-dise-regional-benchmark-2026-11-16.md)
@@ -29,7 +28,7 @@ or superseded work; the active continuation is the design linked above.
 
 # Limburg: pre-flood information and satellite-AI flood mapping
 
-**Active scope — accepted by Brian, 10 November 2026.**
+**Historical scope accepted on 10 November 2026.**
 
 > How do satellite AI and conventional methods compare in mapping new flood
 > events, and how does the choice of pre-flood reference affect their performance?
