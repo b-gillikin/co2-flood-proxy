@@ -7,14 +7,13 @@ No extraction, scientific selection or modification of other chapter data.
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import hashlib
 import json
-from pathlib import Path
 import shutil
 import subprocess
 import time
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/limburg_chapter_sized_geoid_acquisition_v1.json"
@@ -33,7 +32,11 @@ def fetch(item: dict, root: Path, reserve_gib: int) -> dict:
     target = root / item["path"]
     target.parent.mkdir(parents=True, exist_ok=True)
     receipt = target.with_suffix(target.suffix + ".receipt.json")
-    if target.exists() and target.stat().st_size == item["bytes"] and sha256(target) == item["sha256"]:
+    if (
+        target.exists()
+        and target.stat().st_size == item["bytes"]
+        and sha256(target) == item["sha256"]
+    ):
         status = "reused_verified"
     else:
         partial = target.with_suffix(target.suffix + ".partial")
@@ -41,8 +44,21 @@ def fetch(item: dict, root: Path, reserve_gib: int) -> dict:
         if shutil.disk_usage(root).free < needed + reserve_gib * 1024**3:
             raise RuntimeError(f"Disk reserve would be breached while fetching {item['path']}")
         subprocess.run(
-            ["curl", "--fail", "--location", "--retry", "5", "--retry-all-errors",
-             "--retry-delay", "5", "--continue-at", "-", "--output", str(partial), item["url"]],
+            [
+                "curl",
+                "--fail",
+                "--location",
+                "--retry",
+                "5",
+                "--retry-all-errors",
+                "--retry-delay",
+                "5",
+                "--continue-at",
+                "-",
+                "--output",
+                str(partial),
+                item["url"],
+            ],
             check=True,
         )
         if partial.stat().st_size != item["bytes"] or sha256(partial) != item["sha256"]:
@@ -50,8 +66,11 @@ def fetch(item: dict, root: Path, reserve_gib: int) -> dict:
         partial.replace(target)
         status = "downloaded_verified"
     record = {
-        "path": item["path"], "bytes": item["bytes"], "sha256": item["sha256"],
-        "status": status, "manifest": str(MANIFEST.relative_to(ROOT)),
+        "path": item["path"],
+        "bytes": item["bytes"],
+        "sha256": item["sha256"],
+        "status": status,
+        "manifest": str(MANIFEST.relative_to(ROOT)),
         "verified_unix": time.time(),
     }
     tmp = receipt.with_suffix(receipt.suffix + ".tmp")
@@ -71,7 +90,9 @@ def main() -> None:
     items = json.loads(MANIFEST.read_text())["shards"]
     args.output.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
-        futures = {executor.submit(fetch, item, args.output, args.reserve_gib): item for item in items}
+        futures = {
+            executor.submit(fetch, item, args.output, args.reserve_gib): item for item in items
+        }
         for future in as_completed(futures):
             result = future.result()
             print(json.dumps(result), flush=True)

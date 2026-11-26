@@ -94,6 +94,49 @@ policy. It refits only the 2017 AlphaEarth arm and pairs its predictions with
 the saved C2 and C2 + 2020 AlphaEarth predictions. All 30 folds completed.
 The [consolidated results and episode attribution](reviews/limburg-c2-findings-2026-11-23.md)
 are the current evidence summary for C0, C1, C2 and the imagery-year comparison.
+The [geospatial audit](reviews/limburg-geospatial-audit-2026-11-24.md) records
+the full overlap check, native raster support and outlet-scale limits. The
+external holdout includes one reference catchment that substantially overlaps
+a donor polygon. Excluding that target from the saved scores leaves the
+high-water interpretation unchanged.
+
+- When writing up the external comparison, disclose the Kaarst–Weckhoven
+  overlap. Use Brommelen to illustrate how outlet placement and coarse
+  weather grids affect river-level interpretation.
+- If the pending EO comparisons already require a refit, add one sensitivity
+  with Kaarst omitted from the donor pool. Keep the same external verification
+  gauges so the comparison isolates the influence of Kaarst on fitting.
+
+### Full audit follow-up — 24 November 2026
+
+On held-out local high water, the primary-policy MAEs for raw GEOGLOWS,
+the simplest conventional correction (C0), the enriched correction (C2),
+and C2 with 2020 AlphaEarth are 3.135, 2.802, 2.823 and 2.743 mm/day.
+Against C0, the AlphaEarth configuration lowers MAE by 2.10%, with a paired
+30-day range of −1.77% to +6.40%. On the 172 quality-screened high-water
+gauge-days, C0 and C2 with AlphaEarth score 2.468 and 2.507 mm/day,
+respectively. The paired comparison then favors C0 by 1.59% on the C0 error
+scale, with a range spanning zero. The alternate tuning policy preserves
+both point-estimate directions. Carry the absolute scores, plain conventional
+baseline and quality-screened comparison into the main evidence table.
+
+The four paired archives match on all 81,857 keys, observations, high-water
+cutoffs and quality flags. The 30 split memberships and antecedent-day join
+reproduced. Verification covers seven local and 49 external gauges.
+The held-out receiving-gauge observations are used to score the corrections
+and define historical p99, while withheld from fitting that correction.
+
+The configured Azure recovery manifest still dates to 31 August. A read-only
+check found the older derived-EO archive and no current DISE inputs or C0–C2
+outputs under the configured recovery paths checked. A private recovery copy
+with readback verification remains the practical outstanding task. Preserve
+the local evidence and follow provider terms for any material shared publicly.
+This audit added no fits or data requests.
+
+**Recovery closed later on 24 November.** The private Azure discharge
+package passed full archive readback and a clean-folder sample restore.
+See the [recovery receipt](../recovery/limburg-discharge-2026-11-24.json)
+and [restore instructions](../recovery/README.md#completed-discharge-study--verified-24-november-2026).
 
 ## Discussion plan — 24 November 2026
 

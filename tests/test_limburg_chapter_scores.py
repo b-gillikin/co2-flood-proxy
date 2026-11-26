@@ -19,4 +19,6 @@ def test_no_flood_iou_is_undefined_unless_false_alarm():
     label = np.array([[0, 1]], dtype=np.uint8)
     assert score_tile(label, label, np.array([[True, True]]))["flood_iou"] is None
     assert score_tile(label, np.array([[2, 1]]), np.array([[True, True]]))["flood_iou"] == 0.0
-    assert paired_support(label, np.array([[True, True]]), np.array([[False, True]])).tolist() == [[False, True]]
+    assert paired_support(label, np.array([[True, True]]), np.array([[False, True]])).tolist() == [
+        [False, True]
+    ]

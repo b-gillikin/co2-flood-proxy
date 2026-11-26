@@ -6,9 +6,9 @@ from __future__ import annotations
 import fcntl
 import importlib.util
 import json
-from pathlib import Path
 import subprocess
 import time
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results/limburg_chapter_sized_v1"
@@ -16,7 +16,9 @@ PYTHON = ROOT / ".venvs-applied/copernicus/bin/python"
 
 
 def source_queue():
-    spec = importlib.util.spec_from_file_location("final_source_queue", ROOT / "scripts/236_run_chapter_final_queue.py")
+    spec = importlib.util.spec_from_file_location(
+        "final_source_queue", ROOT / "scripts/236_run_chapter_final_queue.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -36,10 +38,15 @@ def mapping_complete(kind, source):
     if not path.exists():
         return False
     record = json.loads(path.read_text())
-    expected = {str(seed): source.sha256(OUT / "final_source" / f"{kind}-{seed}" / "model.pt")
-                for seed in (42, 1729, 31415)}
-    return (record.get("status") == "full_external_predictions_complete"
-            and record.get("jobs") == 2214 and record.get("checkpoints") == expected)
+    expected = {
+        str(seed): source.sha256(OUT / "final_source" / f"{kind}-{seed}" / "model.pt")
+        for seed in (42, 1729, 31415)
+    }
+    return (
+        record.get("status") == "full_external_predictions_complete"
+        and record.get("jobs") == 2214
+        and record.get("checkpoints") == expected
+    )
 
 
 def main():
@@ -65,14 +72,28 @@ def main():
             log = OUT / "engineering" / f"external-{kind}.log"
             log.parent.mkdir(parents=True, exist_ok=True)
             with log.open("a") as stream:
-                result = subprocess.run([str(PYTHON), str(ROOT / "scripts/237_run_chapter_external.py"),
-                                         "--model", kind, "--device", "mps"], cwd=ROOT,
-                                        stdout=stream, stderr=subprocess.STDOUT)
+                result = subprocess.run(
+                    [
+                        str(PYTHON),
+                        str(ROOT / "scripts/237_run_chapter_external.py"),
+                        "--model",
+                        kind,
+                        "--device",
+                        "mps",
+                    ],
+                    cwd=ROOT,
+                    stdout=stream,
+                    stderr=subprocess.STDOUT,
+                )
             if result.returncode == 0 and mapping_complete(kind, source):
                 status("completed", model=kind)
                 break
-            status("retrying" if attempt < 3 else "failed", model=kind,
-                   attempt=attempt, exit_code=result.returncode)
+            status(
+                "retrying" if attempt < 3 else "failed",
+                model=kind,
+                attempt=attempt,
+                exit_code=result.returncode,
+            )
             if attempt == 3:
                 return
             time.sleep(60)

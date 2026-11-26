@@ -5,8 +5,13 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
+
+proj_data = Path(sys.base_prefix) / "share" / "proj"
+if (proj_data / "proj.db").is_file():
+    os.environ.setdefault("PROJ_DATA", str(proj_data))
 
 import geopandas as gpd
 import pandas as pd
@@ -132,15 +137,20 @@ def daily_comparison(google):
                 frame.rename_axis("day").reset_index().assign(event=event.event, station=station)
             )
             paired = frame.dropna()
-            google_peak = frame.google_m3s.idxmax()
+            modeled = frame.google_m3s.dropna()
+            google_peak = modeled.idxmax() if not modeled.empty else None
             peaks.append(
                 {
                     "event": event.event,
                     "station": station,
                     "full_utc_days": len(dates),
                     "common_complete_days": len(paired),
-                    "observed_max_day_on_common_days": paired.observed_m3s.idxmax(),
-                    "google_peak_day_on_common_days": paired.google_m3s.idxmax(),
+                    "observed_max_day_on_common_days": (
+                        paired.observed_m3s.idxmax() if not paired.empty else None
+                    ),
+                    "google_peak_day_on_common_days": (
+                        paired.google_m3s.idxmax() if not paired.empty else None
+                    ),
                     "observed_max_daily_mean_on_common_days_m3s": paired.observed_m3s.max(),
                     "google_max_daily_mean_on_common_days_m3s": paired.google_m3s.max(),
                     "google_max_day_in_window": google_peak,

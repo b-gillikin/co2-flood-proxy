@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pytest
 
-
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/224_emit_limburg_monitor_event.py"
 SPEC = importlib.util.spec_from_file_location("limburg_monitor_event", SCRIPT)
 MODULE = importlib.util.module_from_spec(SPEC)

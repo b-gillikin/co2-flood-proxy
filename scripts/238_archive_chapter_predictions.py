@@ -6,17 +6,18 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from pathlib import Path
 import shutil
 import subprocess
 import tarfile
 import time
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results/limburg_chapter_sized_v1/external"
 ACCOUNT = "stkerkradeprod01bg"
 CONTAINER = "limburg-compact-eo"
 PREFIX = "limburg-chapter-v1/predictions"
+EVALUATION = OUT.parent / "evaluation"
 
 
 def sha256(path: Path) -> str:
@@ -28,18 +29,53 @@ def sha256(path: Path) -> str:
 
 
 def run_az(*arguments: str) -> None:
-    subprocess.run(["az", "storage", "blob", *arguments,
-                    "--account-name", ACCOUNT, "--container-name", CONTAINER,
-                    "--auth-mode", "login", "--only-show-errors", "--output", "none"],
-                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    subprocess.run(
+        [
+            "az",
+            "storage",
+            "blob",
+            *arguments,
+            "--account-name",
+            ACCOUNT,
+            "--container-name",
+            CONTAINER,
+            "--auth-mode",
+            "login",
+            "--only-show-errors",
+            "--output",
+            "none",
+        ],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
 
 
 def blob_exists(name: str) -> bool:
-    result = subprocess.run(["az", "storage", "blob", "exists", "--name", name,
-                             "--account-name", ACCOUNT, "--container-name", CONTAINER,
-                             "--auth-mode", "login", "--query", "exists", "--output", "tsv",
-                             "--only-show-errors"], check=True, text=True,
-                            capture_output=True)
+    result = subprocess.run(
+        [
+            "az",
+            "storage",
+            "blob",
+            "exists",
+            "--name",
+            name,
+            "--account-name",
+            ACCOUNT,
+            "--container-name",
+            CONTAINER,
+            "--auth-mode",
+            "login",
+            "--query",
+            "exists",
+            "--output",
+            "tsv",
+            "--only-show-errors",
+        ],
+        check=True,
+        text=True,
+        capture_output=True,
+    )
     return result.stdout.strip().lower() == "true"
 
 
@@ -73,11 +109,31 @@ def choose_groups(output: Path, max_groups: int) -> dict[str, dict]:
     return chosen
 
 
+def stage_scoring_inputs(tar: tarfile.TarFile, members: dict, destination: Path) -> dict:
+    """Keep just the arrays the scorer uses from the verified Azure readback."""
+    import numpy as np
+
+    compact = {}
+    for name in sorted(members):
+        target = destination / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        partial = target.with_suffix(".partial.npz")
+        with tar.extractfile(name) as stream, np.load(stream, allow_pickle=False) as data:
+            np.savez_compressed(
+                partial, prediction=data["prediction"], radar_valid=data["radar_valid"]
+            )
+        partial.replace(target)
+        compact[name] = sha256(target)
+    return compact
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--max-groups", type=int, default=50)
     parser.add_argument("--root", type=Path, default=OUT)
-    parser.add_argument("--keep-local", action="store_true", help="Verify remote but retain local files")
+    parser.add_argument(
+        "--keep-local", action="store_true", help="Verify remote but retain local files"
+    )
     args = parser.parse_args()
     if args.max_groups < 1:
         parser.error("max-groups must be positive")
@@ -107,29 +163,52 @@ def main() -> None:
         if not blob_exists(blob):
             run_az("upload", "--name", blob, "--file", str(bundle), "--overwrite", "false")
         run_az("download", "--name", blob, "--file", str(readback))
-        if readback.stat().st_size != bundle.stat().st_size or sha256(readback) != digest:
+        archive_bytes = bundle.stat().st_size
+        if readback.stat().st_size != archive_bytes or sha256(readback) != digest:
             raise ValueError("Azure readback differs from local prediction archive")
+        # Reuse the upload tar's space for staging. The original maps are still local.
+        bundle.unlink()
         with tarfile.open(readback) as tar:
             names = {entry.name for entry in tar if entry.isfile()}
-        if names != set(bundle_members):
-            raise ValueError("Azure readback member census differs")
+            if names != set(bundle_members):
+                raise ValueError("Azure readback member census differs")
+            scoring_inputs = (
+                stage_scoring_inputs(tar, members, EVALUATION / "compact") if output == OUT else {}
+            )
         ledger = output / "archives" / f"{digest}.json"
         ledger.parent.mkdir(parents=True, exist_ok=True)
-        record = {"status": "remote_readback_verified", "account": ACCOUNT,
-                  "container": CONTAINER, "blob": blob, "sha256": digest,
-                  "archive_bytes": bundle.stat().st_size, "members": members,
-                  "receipt_sha256": receipt_hashes,
-                  "receipt_groups": list(groups), "verified_unix": time.time(),
-                  "local_deleted": not args.keep_local}
+        record = {
+            "status": "remote_readback_verified",
+            "account": ACCOUNT,
+            "container": CONTAINER,
+            "blob": blob,
+            "sha256": digest,
+            "archive_bytes": archive_bytes,
+            "members": members,
+            "scoring_inputs_sha256": scoring_inputs,
+            "receipt_sha256": receipt_hashes,
+            "receipt_groups": list(groups),
+            "verified_unix": time.time(),
+            "local_deleted": not args.keep_local,
+        }
         partial = ledger.with_suffix(".partial")
         partial.write_text(json.dumps(record, indent=2) + "\n")
         partial.replace(ledger)
         if not args.keep_local:
             for name in members:
                 (output / name).unlink()
-        print(json.dumps({"status": "remote_readback_verified", "groups": len(groups),
-                          "files": len(members), "bytes": bundle.stat().st_size,
-                          "blob": blob, "local_deleted": not args.keep_local}))
+        print(
+            json.dumps(
+                {
+                    "status": "remote_readback_verified",
+                    "groups": len(groups),
+                    "files": len(members),
+                    "bytes": archive_bytes,
+                    "blob": blob,
+                    "local_deleted": not args.keep_local,
+                }
+            )
+        )
     finally:
         bundle.unlink(missing_ok=True)
         readback.unlink(missing_ok=True)

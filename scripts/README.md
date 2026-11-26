@@ -1,6 +1,31 @@
 # Live scripts
 
-## Current DISE continuation — 18 November 2026
+## Current discharge reconstruction — 24 November 2026
+
+| Work | Entry point |
+| --- | --- |
+| C1 and C2 preparation and fitting | `292_run_c1_multiyear.py` and `294_run_c2_multiyear.py` |
+| C2 with 2017 AlphaEarth | `295_run_c2_alphaearth_2017.py` |
+| High-water attribution and seasonality | `296_attribute_c2_high_water.py` and `300_review_dise_seasonality.py` |
+| Rimburg and Meuse context | `297_meuse_peak_timing.py` (audit, then run), `298_compare_rimburg_discharge_products.py` and `299_check_meuse_grrr_context.py` |
+| Geospatial verification | `301_audit_dise_geospatial.py` |
+
+The [handoff](../docs/HANDOFF.md) gives the evidence status and input paths.
+Launch each fitting runner in its own process with `.venv-dise/bin/python`.
+Each runner configures its copy of the shared worker for its own output and
+feature set. The review scripts accept `--output` for a separate
+reproduction directory.
+
+Run the focused discharge tests from the chapter root. Older EO tests use
+the foundation environment and include imports from `src` on `PYTHONPATH`.
+
+```bash
+export PROJ_DATA="$(.venv-dise/bin/python -c 'import pathlib, sys; print(pathlib.Path(sys.base_prefix) / "share/proj")')"
+.venv-dise/bin/python -m pytest -q tests/test_dise*.py tests/test_alphaearth*.py \
+  tests/test_geoglows*.py tests/test_meuse_context.py tests/test_grrr_reanalysis.py
+```
+
+## Earlier DISE continuation — 18 November 2026
 
 `277_assess_dise_repeatability.py` implements completed Step 3 using the frozen
 `276_run_dise_multiyear.py` predictions. It checks paired uncertainty, year/river
@@ -12,7 +37,7 @@ influence and all available largest-flow windows without refitting. See
 
 The [monitoring-loss implementation plan](../docs/limburg-monitoring-implementation-plan-2026-10-28.md)
 governed the next analysis at that date. The statuses below are historical;
-the current DISE continuation is listed above.
+the current discharge analysis is listed above.
 
 | Role | Entry points | Status/contract |
 | --- | --- | --- |
@@ -22,16 +47,18 @@ the current DISE continuation is listed above.
 | Latest completed scientific pass | `146_run_limburg_assessment.py`, `149_resample_limburg_assessment.py`, `147_review_limburg_assessment.py`, `148_audit_limburg_assessment.py` | Full-information synthesis, archive decomposition and Meuse comparison; preserve their source/input hashes. |
 | Flood-case evidence | `143_review_flood_cases.py`, `144_audit_flood_case_review.py` | Retrospective source-bounded case review, not operational flood classification. |
 
-Run the whole active-code checks from the chapter root with
-`make -j2 check PYTHON=.venv-foundation/bin/python`. This overlaps local lint/tests;
-it does not parallelize CDS submissions. The Makefile finds the existing runtime's
-PROJ data unless explicitly supplied. No dataset, model or environment upgrade is
-performed by these checks.
-
 Completed-run source files are preserved when formatting affects their hash;
 the compatibility registry and source snapshots record the exact old version and
 AST-equivalence proof. Generated scientific outputs and original receipts are
 not rewritten as a cleanup operation.
+
+For earlier external flood-map reproductions, `238_archive_chapter_predictions.py`
+checks each Azure readback against the upload and retains the small prediction
+and radar-valid arrays used by `242_score_chapter_archives.py`. Keep the
+`evaluation/compact` files until scoring finishes. Their hashes are recorded
+in the archive ledger, so scoring can use them without downloading the large
+tar again. If the compact inputs are absent or the ledger predates this
+workflow, the scorer can still restore the archive.
 
 ## Evidence and execution roles
 

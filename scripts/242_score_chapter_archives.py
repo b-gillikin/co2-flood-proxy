@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Restore two verified archives at a time, score maps, retain compact classes."""
+"""Score verified compact inputs, restoring older archives when needed."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ import tarfile
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import nullcontext
 from pathlib import Path
 
 import numpy as np
@@ -26,19 +27,7 @@ EXTERNAL = ROOT / "results/limburg_chapter_sized_v1/external"
 PRINT_LOCK = threading.Lock()
 
 
-def score_archive(ledger_path):
-    ledger = json.loads(ledger_path.read_text())
-    digest = ledger["sha256"]
-    target = OUT / "archive_scores" / f"{digest}.parquet"
-    finish = target.with_suffix(".complete.json")
-    support_hash = sha256(OUT / "support/manifest.json")
-    if finish.exists():
-        record = json.loads(finish.read_text())
-        if record["support_manifest_sha256"] != support_hash or record["score_sha256"] != sha256(
-            target
-        ):
-            raise ValueError("Completed scores differ from support specification/output hash")
-        return {"status": "reused", "archive": digest, "predictions": record["predictions"]}
+def restore_archive(ledger, digest):
     cache = OUT / "restore_work"
     cache.mkdir(parents=True, exist_ok=True)
     bundle = cache / f"{digest}.tar"
@@ -76,6 +65,7 @@ def score_archive(ledger_path):
             )
             if (
                 result.returncode == 0
+                and partial.is_file()
                 and partial.stat().st_size == ledger["archive_bytes"]
                 and sha256(partial) == digest
             ):
@@ -98,31 +88,65 @@ def score_archive(ledger_path):
             if attempt == 3:
                 raise RuntimeError(f"Unable to restore verified archive {digest}")
             time.sleep(10)
+        return bundle
     if bundle.stat().st_size != ledger["archive_bytes"] or sha256(bundle) != digest:
         raise ValueError(f"Restored archive hash differs: {digest}")
+    return bundle
+
+
+def compact_path(name):
+    return OUT / "compact" / name
+
+
+def read_scoring_arrays(name, entries, tar, expected_hash):
+    if tar is None:
+        path = compact_path(name)
+        if sha256(path) != expected_hash:
+            raise ValueError(f"Verified scoring input hash differs: {name}")
+        with np.load(path, allow_pickle=False) as data:
+            return data["prediction"], data["radar_valid"]
+    with tar.extractfile(entries[name]) as stream, np.load(stream, allow_pickle=False) as data:
+        return data["prediction"], data["radar_valid"]
+
+
+def score_archive(ledger_path):
+    ledger = json.loads(ledger_path.read_text())
+    digest = ledger["sha256"]
+    target = OUT / "archive_scores" / f"{digest}.parquet"
+    finish = target.with_suffix(".complete.json")
+    support_hash = sha256(OUT / "support/manifest.json")
+    if finish.exists():
+        record = json.loads(finish.read_text())
+        if record["support_manifest_sha256"] != support_hash or record["score_sha256"] != sha256(
+            target
+        ):
+            raise ValueError("Completed scores differ from support specification/output hash")
+        return {"status": "reused", "archive": digest, "predictions": record["predictions"]}
+    staged = ledger.get("scoring_inputs_sha256", {})
+    if staged and set(staged) != set(ledger["members"]):
+        raise ValueError("Staged scoring inputs differ from archive member census")
+    use_staged = bool(staged) and all(compact_path(name).is_file() for name in staged)
+    bundle = None if use_staged else restore_archive(ledger, digest)
     rows = []
     compact = {}
-    with tarfile.open(bundle, "r:") as tar:
-        entries = {entry.name: entry for entry in tar if entry.isfile()}
+    with tarfile.open(bundle, "r:") if bundle else nullcontext() as tar:
+        entries = {entry.name: entry for entry in tar if entry.isfile()} if tar else {}
         expected_names = set(ledger["members"]) | set(ledger["receipt_sha256"])
-        if set(entries) != expected_names:
+        if tar and set(entries) != expected_names:
             raise ValueError("Archive members differ from verified ledger")
         for name in sorted(ledger["members"]):
-            parts = Path(name).parts
-            _, kind, dataset, event, filename = parts
-            stem = Path(filename).stem
-            key, reference, seed_text = stem.rsplit("-", 2)
+            _, kind, dataset, event, filename = Path(name).parts
+            key, reference, seed_text = Path(filename).stem.rsplit("-", 2)
             if key.split("-")[0] != event:
                 raise ValueError("Archive event/path mismatch")
-            with (
-                tar.extractfile(entries[name]) as stream,
-                np.load(stream, allow_pickle=False) as data,
-            ):
-                prediction, valid = data["prediction"], data["radar_valid"]
+            prediction, valid = read_scoring_arrays(name, entries, tar, staged.get(name))
             rows.extend(
                 score_prediction(key, dataset, reference, kind, int(seed_text), prediction, valid)
             )
-            compact_target = OUT / "compact" / name
+            if use_staged:
+                compact[name] = staged[name]
+                continue
+            compact_target = compact_path(name)
             compact_target.parent.mkdir(parents=True, exist_ok=True)
             compact_partial = compact_target.with_suffix(".partial.npz")
             np.savez_compressed(compact_partial, prediction=prediction, radar_valid=valid)
@@ -137,6 +161,7 @@ def score_archive(ledger_path):
         {
             "status": "archive_scored",
             "archive_sha256": digest,
+            "scoring_input_source": "verified_readback_cache" if use_staged else "restored_archive",
             "support_manifest_sha256": support_hash,
             "score_sha256": sha256(target),
             "runner_sha256": sha256(Path(__file__)),
@@ -147,7 +172,8 @@ def score_archive(ledger_path):
             "completed_unix": time.time(),
         },
     )
-    bundle.unlink()
+    if bundle is not None:
+        bundle.unlink()
     return {"status": "scored", "archive": digest, "predictions": len(compact), "rows": len(rows)}
 
 

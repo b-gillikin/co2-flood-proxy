@@ -13,9 +13,12 @@ def scene(name, day, *, orbit=20, process="sigma0-grd-v1", platform="S1A", cover
 def test_updated_reference_uses_metadata_and_preserves_delivered_fallback():
     delivered = scene("p0", 1)
     candidates = [
-        scene("old", 2), scene("new", 5), scene("wrong-orbit", 6, orbit=21),
+        scene("old", 2),
+        scene("new", 5),
+        scene("wrong-orbit", 6, orbit=21),
         scene("wrong-processing", 7, process="sigma0-rtc-v1"),
-        scene("partial", 8, coverage=False), scene("after", 10),
+        scene("partial", 8, coverage=False),
+        scene("after", 10),
     ]
     assert updated_reference(delivered, candidates, datetime(2026, 1, 9)).scene_id == "new"
     assert updated_reference(delivered, [], datetime(2026, 1, 9)) == delivered

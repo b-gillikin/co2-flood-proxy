@@ -58,7 +58,9 @@ class HTTPRangeFile(io.RawIOBase):
         return self.position
 
     def seek(self, offset, whence=0):
-        target = offset if whence == 0 else self.position + offset if whence == 1 else self.size + offset
+        target = (
+            offset if whence == 0 else self.position + offset if whence == 1 else self.size + offset
+        )
         if whence not in (0, 1, 2) or target < 0:
             raise ValueError("Invalid seek")
         self.position = target
@@ -77,7 +79,7 @@ class HTTPRangeFile(io.RawIOBase):
             self.cache_start = self.position
             last = min(self.size, max(end, self.position + self.block_size)) - 1
             self.cache = self._fetch(self.position, last)
-        result = self.cache[self.position - self.cache_start:end - self.cache_start]
+        result = self.cache[self.position - self.cache_start : end - self.cache_start]
         self.position = end
         return result
 

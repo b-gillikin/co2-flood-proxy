@@ -35,9 +35,16 @@ def test_true_zeros_retain_identity_under_specific_q_and_log_correction():
 
 
 def test_all_wurm_sites_are_absent_from_training_and_early_stopping():
-    x = pd.DataFrame({"day": pd.to_datetime(["2018-06-01", "2019-06-01", "2020-06-01", "2021-07-14"] * 2, utc=True),
-                      "river_group": ["Geul"] * 4 + ["Wurm"] * 4,
-                      "q_observed": 1.0, "q_model": 1.0})
+    x = pd.DataFrame(
+        {
+            "day": pd.to_datetime(
+                ["2018-06-01", "2019-06-01", "2020-06-01", "2021-07-14"] * 2, utc=True
+            ),
+            "river_group": ["Geul"] * 4 + ["Wurm"] * 4,
+            "q_observed": 1.0,
+            "q_model": 1.0,
+        }
+    )
     tr, va, te = split_masks(x, 2021, "Wurm")
     assert tr.sum() == 2 and va.sum() == 1 and te.sum() == 1
     assert not x.loc[tr | va, "river_group"].eq("Wurm").any()
@@ -48,8 +55,12 @@ def test_all_wurm_sites_are_absent_from_training_and_early_stopping():
 
 
 def test_river_weights_do_not_triple_count_three_nested_wurm_gauges():
-    x = pd.DataFrame({"river_group": ["Wurm"] * 6 + ["Geul"] * 2,
-                      "gauge": ["a", "a", "b", "b", "c", "c", "d", "d"]})
+    x = pd.DataFrame(
+        {
+            "river_group": ["Wurm"] * 6 + ["Geul"] * 2,
+            "gauge": ["a", "a", "b", "b", "c", "c", "d", "d"],
+        }
+    )
     x["weight"] = weights(x)
     total = x.groupby("river_group").weight.sum()
     assert total.Wurm == pytest.approx(total.Geul)
@@ -57,6 +68,7 @@ def test_river_weights_do_not_triple_count_three_nested_wurm_gauges():
 
 def test_fitted_model_survives_save_reload_in_pinned_environment(tmp_path):
     from xgboost import XGBRegressor
+
     x = np.arange(20, dtype=float).reshape(-1, 1)
     model = XGBRegressor(n_estimators=3, max_depth=2, n_jobs=1).fit(x, x[:, 0] / 10)
     path = tmp_path / "model.json"

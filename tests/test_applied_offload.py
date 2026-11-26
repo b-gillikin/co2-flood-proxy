@@ -57,7 +57,10 @@ def test_remote_pair_requires_verified_bytes_and_linkage():
 def test_compact_override_uses_exact_base_and_products(tmp_path, monkeypatch):
     monkeypatch.setattr(mod, "BASE", tmp_path)
     monkeypatch.setattr(mod, "PRODUCTS", {"hls", "s1_ascending", "s2_10m", "s2_20m"})
-    assert mod.candidate({"relative_path": "images/w/hls/a.tif", "product": "hls"}) == tmp_path / "images/w/hls/a.tif"
+    assert (
+        mod.candidate({"relative_path": "images/w/hls/a.tif", "product": "hls"})
+        == tmp_path / "images/w/hls/a.tif"
+    )
     with pytest.raises(ValueError):
         mod.candidate({"relative_path": "images/w/hls/a.tif", "product": "s2_10m"})
 
@@ -69,8 +72,15 @@ def test_restore_only_exact_allowlisted_roots(tmp_path):
     restore = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(restore)
     for name in ("limburg_compact_eo", "limburg_eo_expansion"):
-        assert restore.destination(f"data/raw/{name}/images/a.tif", tmp_path) == tmp_path / f"data/raw/{name}/images/a.tif"
-    for path in ("data/raw/limburg_applied_tasks/a.tif", "../Peja/a.tif", "data/raw/limburg_compact_eo/../a.tif"):
+        assert (
+            restore.destination(f"data/raw/{name}/images/a.tif", tmp_path)
+            == tmp_path / f"data/raw/{name}/images/a.tif"
+        )
+    for path in (
+        "data/raw/limburg_applied_tasks/a.tif",
+        "../Peja/a.tif",
+        "data/raw/limburg_compact_eo/../a.tif",
+    ):
         with pytest.raises(ValueError):
             restore.destination(path, tmp_path)
 

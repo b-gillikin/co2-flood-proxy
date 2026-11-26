@@ -11,6 +11,7 @@
   "c2_review": "results/limburg_representation_extension_v1/c2_multiyear_v1/completion_review.json",
   "c2_2017_sensitivity_review": "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/completion_review.json",
   "c2_high_water_attribution": "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/high_water_attribution/manifest.json",
+  "discharge_recovery_receipt": "recovery/limburg-discharge-2026-11-24.json",
   "preparation_report": "docs/limburg-dise-preparation-2026-11-16.md",
   "new_queue_started": true,
   "new_bulk_download_started": false,
@@ -47,7 +48,6 @@
     "analysis": 0
   },
   "preparation_remaining": [
-    "Prepare a recovery copy of the completed discharge evidence and check readback before any local retirement.",
     "When a compatible StefaLand or Basin2Vec artifact becomes available, verify provenance, catchment coverage and label exclusion before a matched pilot."
   ],
   "completed_benchmarks": [

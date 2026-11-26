@@ -18,12 +18,21 @@ def inactive_check():
     # applied work has independent imagery and feature caches.
     for line in commands.splitlines():
         if ("python" in line.lower()) and any(
-            name in line for name in (
-                "96_acquire_limburg_compact_eo.py", "100_extract_limburg",
-                "103_stage_limburg", "105_run_limburg_eo", "110_extract_token",
-                "118_extract_versioned", "122_run_coherent", "130_extract_eo",
-                "131_run_eo", "133_extract_supported", "152_download_monitoring",
-                "160_run_individual", "165_run_individual",
+            name in line
+            for name in (
+                "96_acquire_limburg_compact_eo.py",
+                "100_extract_limburg",
+                "103_stage_limburg",
+                "105_run_limburg_eo",
+                "110_extract_token",
+                "118_extract_versioned",
+                "122_run_coherent",
+                "130_extract_eo",
+                "131_run_eo",
+                "133_extract_supported",
+                "152_download_monitoring",
+                "160_run_individual",
+                "165_run_individual",
             )
         ):
             raise RuntimeError("Historical archive is active: " + line)
@@ -49,15 +58,19 @@ def main():
     if "--run" in sys.argv:
         OUT.mkdir(parents=True, exist_ok=True)
         marker = module.BASE / "OFFLOADED-2026-11-10.json"
-        module.atomic(marker, {
-            "status": "retirement_in_progress_or_partial",
-            "ledger": str((OUT / "removed.jsonl").relative_to(ROOT)),
-            "account": "stkerkradeprod01bg",
-            "container": "limburg-compact-eo", "prefix": "v1",
-            "restore": "python scripts/182_restore_offloaded_expansion.py --ledger results/disk-cleanup-2026-11-10/compact/removed.jsonl --path EXACT_PROJECT_RELATIVE_PATH --restore",
-            "full_restage": "python scripts/103_stage_limburg_eo_archive.py --run --reserve-gib 50 --max-local-gb 150",
-            "reader_note": "Restore required historical inputs before rerunning extraction. Remove this marker only after all retired paths have been restored and hash-verified. Absence is not no-observation.",
-        })
+        module.atomic(
+            marker,
+            {
+                "status": "retirement_in_progress_or_partial",
+                "ledger": str((OUT / "removed.jsonl").relative_to(ROOT)),
+                "account": "stkerkradeprod01bg",
+                "container": "limburg-compact-eo",
+                "prefix": "v1",
+                "restore": "python scripts/182_restore_offloaded_expansion.py --ledger results/disk-cleanup-2026-11-10/compact/removed.jsonl --path EXACT_PROJECT_RELATIVE_PATH --restore",
+                "full_restage": "python scripts/103_stage_limburg_eo_archive.py --run --reserve-gib 50 --max-local-gb 150",
+                "reader_note": "Restore required historical inputs before rerunning extraction. Remove this marker only after all retired paths have been restored and hash-verified. Absence is not no-observation.",
+            },
+        )
     module.main()
 
 

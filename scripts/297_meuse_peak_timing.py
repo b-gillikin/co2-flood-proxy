@@ -197,8 +197,10 @@ def timing(series, anchor, gauge, event):
     peak = at_peak.index[0]
     span = q.index.to_series().diff().max()
     edge = min(peak - q.index[0], q.index[-1] - at_peak.index[-1]) <= HOUR
-    neighbourhood = q.loc[peak - HOUR : at_peak.index[-1] + HOUR]
-    complete_neighbourhood = neighbourhood.index.to_series().diff().dropna().eq(delta).all()
+    # Check expected timestamps so an empty slice or a missing endpoint
+    # cannot pass a test based only on gaps between returned records.
+    neighbourhood = pd.date_range(peak - HOUR, at_peak.index[-1] + HOUR, freq=delta)
+    complete_neighbourhood = neighbourhood.isin(q.index).all()
     status = (
         "window_edge"
         if edge
@@ -247,6 +249,10 @@ def mainstem_comparison(series, events, table):
         paired_hours = hourly_up.index.intersection(hourly_down.index)
         hourly_up = hourly_up.loc[paired_hours]
         hourly_down = hourly_down.loc[paired_hours]
+        hourly_offset = (
+            (hourly_down.idxmax() - hourly_up.idxmax()) / HOUR if len(paired_hours) else None
+        )
+        hourly_difference = hourly_down.max() - hourly_up.max() if len(paired_hours) else None
         records.append(
             {
                 "event": event.event,
@@ -260,8 +266,8 @@ def mainstem_comparison(series, events, table):
                     downstream.observed_max_q_m3s - upstream.observed_max_q_m3s
                 ),
                 "complete_paired_hours": len(paired_hours),
-                "hourly_peak_offset_hours": (hourly_down.idxmax() - hourly_up.idxmax()) / HOUR,
-                "hourly_peak_difference_m3s": hourly_down.max() - hourly_up.max(),
+                "hourly_peak_offset_hours": hourly_offset,
+                "hourly_peak_difference_m3s": hourly_difference,
             }
         )
     return pd.DataFrame(records)
@@ -361,8 +367,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stage", choices=["audit", "run"])
     parser.add_argument("--include-venlo", action="store_true")
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    out = EXTENDED_OUT if args.include_venlo else OUT
+    out = args.output or (EXTENDED_OUT if args.include_venlo else OUT)
     series, mainstem, hashes = load_inputs(args.include_venlo)
     events = audit_events(series, mainstem)
     selected = events.loc[events.included].copy()

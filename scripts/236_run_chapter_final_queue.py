@@ -6,10 +6,10 @@ from __future__ import annotations
 import fcntl
 import hashlib
 import json
-from pathlib import Path
 import shutil
 import subprocess
 import time
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON = ROOT / ".venvs-applied/copernicus/bin/python"
@@ -29,7 +29,9 @@ def sha256(path: Path) -> str:
 
 def completed(kind: str, seed: int) -> bool:
     folder = OUT / "final_source" / f"{kind}-{seed}"
-    finish, model, manifest = (folder / name for name in ("complete.json", "model.pt", "manifest.json"))
+    finish, model, manifest = (
+        folder / name for name in ("complete.json", "model.pt", "manifest.json")
+    )
     if not all(path.exists() for path in (finish, model, manifest)):
         return False
     record = json.loads(finish.read_text())
@@ -40,9 +42,19 @@ def status(state: str, job=None, detail=None) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / "final_queue_status.json"
     temporary = path.with_suffix(".partial")
-    temporary.write_text(json.dumps({"status": state, "job": job, "detail": detail,
-                                     "unix_time": time.time(),
-                                     "complete_jobs": [f"{k}-{s}" for k, s in JOBS if completed(k, s)]}, indent=2) + "\n")
+    temporary.write_text(
+        json.dumps(
+            {
+                "status": state,
+                "job": job,
+                "detail": detail,
+                "unix_time": time.time(),
+                "complete_jobs": [f"{k}-{s}" for k, s in JOBS if completed(k, s)],
+            },
+            indent=2,
+        )
+        + "\n"
+    )
     temporary.replace(path)
     print(json.dumps({"status": state, "job": job, "detail": detail}), flush=True)
 
@@ -78,16 +90,29 @@ def main() -> None:
             status("running", job)
             log = OUT / "engineering" / f"final-{kind}-{seed}.log"
             log.parent.mkdir(parents=True, exist_ok=True)
-            command = [str(PYTHON), str(FIT), "--model", kind, "--seed", str(seed),
-                       "--device", "mps", "--workers", "2"]
+            command = [
+                str(PYTHON),
+                str(FIT),
+                "--model",
+                kind,
+                "--seed",
+                str(seed),
+                "--device",
+                "mps",
+                "--workers",
+                "2",
+            ]
             with log.open("a") as stream:
                 result = subprocess.run(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
             if result.returncode == 0 and completed(kind, seed):
                 status("completed", job)
                 break
             failures += 1
-            status("retrying" if failures < 3 else "failed", job,
-                   {"exit_code": result.returncode, "attempt": failures})
+            status(
+                "retrying" if failures < 3 else "failed",
+                job,
+                {"exit_code": result.returncode, "attempt": failures},
+            )
             if failures >= 3:
                 return
             time.sleep(60)

@@ -10,11 +10,10 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from pathlib import Path
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from urllib import request
-
 
 DEFAULT_PRIVATE_FILE = Path(__file__).resolve().parents[1] / "config/local_monitor.env"
 ALLOWED_STATES = ("running", "planned_pause", "failed", "completed")

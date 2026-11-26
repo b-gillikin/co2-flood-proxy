@@ -1,8 +1,23 @@
+import runpy
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
 
 from src.meuse_context import hourly_context, source_rows, state_at_cutoff
+
+
+def test_peak_window_flags_a_missing_neighbourhood_endpoint():
+    script = Path(__file__).resolve().parents[1] / "scripts/297_meuse_peak_timing.py"
+    timing = runpy.run_path(str(script))["timing"]
+    peak = pd.Timestamp("2024-10-11T08:50Z")
+    dates = pd.date_range(peak - pd.Timedelta(hours=2), periods=25, freq="10min")
+    flow = pd.Series(1.0, index=dates)
+    flow.loc[peak] = 10.0
+    assert timing(flow, peak, "Meuse · Borgharen Dorp", "example")["peak_status"] == "interior_peak"
+    flow = flow.drop(peak - pd.Timedelta(hours=1))
+    assert timing(flow, peak, "Meuse · Borgharen Dorp", "example")["peak_status"] == "gap_near_peak"
 
 
 def observations(code="00"):

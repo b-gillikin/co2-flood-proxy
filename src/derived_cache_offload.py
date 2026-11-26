@@ -391,9 +391,7 @@ def run(root, out, protection, *, direct=False):
                     break
                 ident = f"{len(list(bundles.glob('*.json'))):05d}"
                 path = bundles / (ident + ".json")
-                bundle = dict(
-                    id=ident, kind="tar", status="planned", records=records
-                )
+                bundle = dict(id=ident, kind="tar", status="planned", records=records)
                 atomic(path, bundle)
             records = bundle["records"]
             is_direct = bundle["kind"] == "direct"

@@ -5,8 +5,9 @@ from __future__ import annotations
 import numpy as np
 
 
-def score_tile(label: np.ndarray, prediction: np.ndarray, radar_valid: np.ndarray,
-               pixel_area_m2: float = 100.0) -> dict:
+def score_tile(
+    label: np.ndarray, prediction: np.ndarray, radar_valid: np.ndarray, pixel_area_m2: float = 100.0
+) -> dict:
     """Score flooded/permanent/background classes; 255 and invalid are unknown."""
     y = np.asarray(label)
     p = np.asarray(prediction)
@@ -16,7 +17,9 @@ def score_tile(label: np.ndarray, prediction: np.ndarray, radar_valid: np.ndarra
     if pixel_area_m2 <= 0:
         raise ValueError("Pixel area must be positive")
     known = v & (y != 255)
-    if not set(np.unique(y[known]).tolist()) <= {0, 1, 2} or not set(np.unique(p[known]).tolist()) <= {0, 1, 2}:
+    if not set(np.unique(y[known]).tolist()) <= {0, 1, 2} or not set(
+        np.unique(p[known]).tolist()
+    ) <= {0, 1, 2}:
         raise ValueError("Unexpected class on scored support")
     counts = np.bincount((3 * y[known] + p[known]).astype(np.int64), minlength=9).reshape(3, 3)
     true_flood = counts[2].sum()
@@ -26,8 +29,10 @@ def score_tile(label: np.ndarray, prediction: np.ndarray, radar_valid: np.ndarra
     false_negative = true_flood - true_positive
     union = true_positive + false_positive + false_negative
     return {
-        "confusion": counts.tolist(), "known_pixels": int(known.sum()),
-        "target_flood_pixels": int(true_flood), "predicted_flood_pixels": int(predicted_flood),
+        "confusion": counts.tolist(),
+        "known_pixels": int(known.sum()),
+        "target_flood_pixels": int(true_flood),
+        "predicted_flood_pixels": int(predicted_flood),
         "flood_iou": float(true_positive / union) if union else None,
         "permanent_as_flood_pixels": int(counts[1, 2]),
         "flood_as_permanent_pixels": int(counts[2, 1]),

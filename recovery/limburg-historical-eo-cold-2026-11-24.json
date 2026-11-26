@@ -1,0 +1,105 @@
+{
+  "date": "2026-11-24",
+  "scope": "Historical Limburg EO objects only",
+  "objects": 208396,
+  "bytes": 297195984813,
+  "verification": "Compared Azure listings before and after changing tiers in place. Checked object membership, sizes, ETags and resulting tier. No payload transfers.",
+  "prefixes": [
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "limburg-chapter-v1/predictions/",
+      "objects": 46,
+      "retiered": 46,
+      "bytes": 89272309760,
+      "bytes_at_128_kib_minimum": 89272309760,
+      "tier": "Cold",
+      "inventory_sha256": "7d2429a05ca2c8a21173ba52dfb177ed8d207d4cf8fb3957bca3e333eb5c5e97",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "applied-v2/results/",
+      "objects": 738,
+      "retiered": 738,
+      "bytes": 24932412455,
+      "bytes_at_128_kib_minimum": 24932658704,
+      "tier": "Cold",
+      "inventory_sha256": "ee9e588f34173e6e93cb2412cdb2c0c7334223979fbf010d713f65916ec7dc60",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "v1/results/",
+      "objects": 1,
+      "retiered": 1,
+      "bytes": 5357062,
+      "bytes_at_128_kib_minimum": 5357062,
+      "tier": "Cold",
+      "inventory_sha256": "ff1e13259e2ee4a9843082e637eafbaa1c21a5a692def5f0cc48fee4266780a4",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "applied-v1/sources/copernicus-bench/",
+      "objects": 1,
+      "retiered": 1,
+      "bytes": 6025208085,
+      "bytes_at_128_kib_minimum": 6025208085,
+      "tier": "Cold",
+      "inventory_sha256": "d00b75488aee9518b8e93bda7df3762df2d6ae338b8a006f82d62405750645e3",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "applied-v1/local-scenes/",
+      "objects": 1060,
+      "retiered": 1060,
+      "bytes": 513450586,
+      "bytes_at_128_kib_minimum": 591151179,
+      "tier": "Cold",
+      "inventory_sha256": "e0943bc5bf6c5dac06b4d14b83c39a8266c055eea3a7aef681e90e5edb7bcbf1",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stunumeritphdbackupbg",
+      "container": "dissertation-recovery",
+      "prefix": "chapter1-co2/derived-eo/2026-11-18/objects/",
+      "objects": 116,
+      "retiered": 116,
+      "bytes": 10317818640,
+      "bytes_at_128_kib_minimum": 10317818640,
+      "tier": "Cold",
+      "inventory_sha256": "a253642503c9d82692a584281fd64a4440745ee5c32fee2ca8e9b949b71546ee",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "v1/images/",
+      "objects": 72608,
+      "retiered": 72608,
+      "bytes": 58982933540,
+      "bytes_at_128_kib_minimum": 64650434177,
+      "tier": "Cold",
+      "inventory_sha256": "5863f6404f0b4efe210dc30341c719d8cef7e5140774163966efbdce121b375a",
+      "verified_same_members_sizes_and_etags": true
+    },
+    {
+      "account": "stkerkradeprod01bg",
+      "container": "limburg-compact-eo",
+      "prefix": "expansion-v1/images/",
+      "objects": 133826,
+      "retiered": 133826,
+      "bytes": 107146494685,
+      "bytes_at_128_kib_minimum": 118305756437,
+      "tier": "Cold",
+      "inventory_sha256": "d958f87af813e6525a42182cfaa5b7088ea7ea76fb30bc3b128ae5737d185f84",
+      "verified_same_members_sizes_and_etags": true
+    }
+  ]
+}

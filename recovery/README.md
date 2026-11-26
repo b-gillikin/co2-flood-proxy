@@ -21,6 +21,47 @@ The manifest is evidence of the exact bytes backed up. A checksum alone is not
 a backup; successful `data-backup` and a periodic clean restore test are the
 recovery controls.
 
+## Completed discharge study — verified 24 November 2026
+
+The private discharge backup contains 5,915 files in 24 archives (1.46 GiB).
+It covers the prepared analysis inputs, gauge deliveries, final fits, paired
+predictions, supporting figures and code. The scope is recovery of the
+completed comparison. Intermediate tuning weights and duplicate prepared
+tables were omitted.
+
+The [recovery receipt](limburg-discharge-2026-11-24.json) identifies the
+separate Azure manifest and restore receipt. Every archive was downloaded
+after upload and checked against its archive and member SHA-256 hashes.
+A clean-folder restore recovered six representative files. The restored
+prediction table opened with 81,857 rows, and the restored XGBoost model
+loaded successfully.
+
+For a restore, find the required relative path in the Azure manifest's
+`archives[].records` list. Download its `blob` from the configured private
+container using Microsoft Entra authentication. Verify the archive hash,
+extract only the requested regular files into a clean folder, then verify
+each file against its member hash. The general chapter recovery manifest
+applies to its own scope and is separate from this package.
+
+## Azure Cold tier for historical EO materials
+
+The earlier original and expansion Sentinel collections, applied EO input
+copies and result bundles, external flood-mapping predictions, and the
+November 18 derived-cache bundle payloads are kept in Azure Cold storage.
+The download paths and checksums in the original recovery records still
+apply. The discharge recovery package, EO control files, and derived-cache
+catalogue and receipts use Hot storage.
+
+The [24 November inventory receipt](limburg-historical-eo-cold-2026-11-24.json)
+records 208,396 objects (276.79 GiB) and the exact prefixes, verified after
+tiering by matching blob names, sizes and ETags to the original listing.
+
+Use the recovery catalogue or original archive ledger to select the specific
+files needed. Cold supports direct reads at the existing paths. Azure
+charges for bytes read, in addition to any transactions or outbound traffic.
+Its 90-day minimum applies if the blobs are erased, overwritten, or moved
+out of Cold early.
+
 ## Historical compact imagery offload (10 November 2026)
 
 The inactive `data/raw/limburg_compact_eo` imagery can be retired locally using

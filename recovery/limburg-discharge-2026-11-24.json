@@ -1,0 +1,52 @@
+{
+  "manifest": "chapter1-co2/discharge-recovery/2026-11-24/manifest-2e07745497e800b8e240af924ce22de579e73858797fabe24122550b3e2b77b3.json",
+  "created_utc": "2026-11-24T17:00:52.985206+00:00",
+  "status": "uploaded_and_verified",
+  "scope": "Essential completed Limburg discharge evidence, final fits, and supporting context, private copy",
+  "excluded": [
+    "provider correspondence (.eml)",
+    "partial and lock files",
+    "discardable tuning weights and duplicate prepared training tables",
+    "other chapter source assets"
+  ],
+  "relative_to": "chapter1-co2 checkout",
+  "git_head": "29cd881a6c770212e851bf09c640755414acd0b9",
+  "verification": "Full Azure byte readback and checksums for every archive and its regular-file members",
+  "files": 5915,
+  "uncompressed_bytes": 3317032842,
+  "archive_bytes": 1572781269,
+  "bundles": 24,
+  "restore_test": {
+    "status": "verified",
+    "checked_at_utc": "2026-11-24T17:01:11.099722+00:00",
+    "files": {
+      "config/limburg_current_study.json": {
+        "sha256": "2f978cc7297513a8ccef67d7b0dca5b7fd51723e2b9eebf6382ca9493e7b3a56",
+        "size": 6812
+      },
+      "results/meuse_peak_timing_with_venlo_2026_11_23/mainstem_peak_comparison.csv": {
+        "sha256": "cd74cb499fb3fd8c81055e906759fb024eefa750d8fa1128eeb8952864d34d56",
+        "size": 485
+      },
+      "results/limburg_representation_extension_v1/c2_alphaearth_2017_v1/paired_predictions.parquet": {
+        "sha256": "3548873f95eeeea1e8f3772091793705e8310dd62a3de49ca8b9071c34b3ddf1",
+        "size": 23350715
+      },
+      "results/limburg_representation_extension_v1/c2_multiyear_v1/jobs/held_Geul_2021_c2/final_native_rmse__C2_AlphaEarth_101.ubj": {
+        "sha256": "a3de8d9e834a2473782cc1c7abb77fcbedac23721e5af86993874a8c224dd2ef",
+        "size": 1817113
+      },
+      "data/raw/external_deliveries/lanuk_nrw/2026-09-23/herzogenrath1/2828300000200_Herzogenrath1_wasserstand_mit_cm_csv_export_mittelwerte_15minuten__20260922_0819_rechts.csv": {
+        "sha256": "cc4b337b9244d9f82e8cccf76cf66d926eeca5290bbf8e75680b0a90bbaba6ad",
+        "size": 17950336
+      },
+      "results/limburg_representation_extension_v1/c2_multiyear_v1/inputs/landscape.parquet": {
+        "sha256": "90027a95a03333267f26b0a9c95703b5d9c6a99d223116cbceefb2a3586d525e",
+        "size": 61264
+      }
+    },
+    "prediction_rows_read": 81857,
+    "model_rounds_loaded": 1069
+  },
+  "remote_restore_receipt": "chapter1-co2/discharge-recovery/2026-11-24/restore-verification-0e9bec053f2f892813be13743f09a3ed5fdff1de8586bb7b9d9fd563d32bd1c1.json"
+}
